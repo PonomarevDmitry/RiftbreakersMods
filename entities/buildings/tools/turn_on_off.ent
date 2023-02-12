@@ -1,0 +1,114 @@
+EntityBlueprint
+{
+	name  "buildings/tools/turn_1_on"
+
+	BuildingDesc
+	{
+		name 				"turn_1_on"
+		bp   				"buildings/tools/turn_1_on"
+		ghost_bp   			"buildings/tools/turn_1_on_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/turn_on_tool"
+		description			"gui/hud/building_description/turn_on_tool"
+		menu_icon			"gui/hud/buttons/action_menu_turn_on_neutral"
+		order				"1.1"
+		type 				"switch"
+		building_group		"switch"
+		buildable 			"0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/turn_1_on_ghost"
+
+	BuildingDesc
+	{
+		name		"turn_1_on_ghost"
+		buildable 	"0"
+		type 		"switch"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/turn_on_off_tool.lua"
+		database
+		{
+			action		string:"turn_on"
+			set_power 	int:"1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_violet"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/turn_2_off"
+
+	BuildingDesc
+	{
+		name 				"turn_2_off"
+		bp   				"buildings/tools/turn_2_off"
+		ghost_bp   			"buildings/tools/turn_2_off_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/turn_off_tool"
+		description			"gui/hud/building_description/turn_off_tool"
+		menu_icon			"gui/hud/buttons/action_menu_turn_off_neutral"
+		order				"1.2"
+		type 				"switch"
+		building_group		"switch"
+		buildable 			"0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/turn_2_off_ghost"
+
+	BuildingDesc
+	{
+		name		"turn_2_off_ghost"
+		buildable 	"0"
+		type 		"switch"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/turn_on_off_tool.lua"
+		database
+		{
+			action		string:"turn_off"
+			set_power 	int:"0"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_violet"
+		flags       "2"
+	}
+}
+
