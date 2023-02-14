@@ -1,31 +1,20 @@
+
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-class 'turn_on_ff_tool' ( tool )
+class 'switch_tool' ( tool )
 
-function turn_on_ff_tool:__init()
+function switch_tool:__init()
     tool.__init(self,self)
 end
 
-function turn_on_ff_tool:OnInit()
-
-    local setPower = ( self.data:GetIntOrDefault("set_power", 0) == 1 )
-
-    self.setPower = setPower
-    
-    if ( setPower ) then 
-        self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_turn_on", self.entity)
-    else
-        self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_turn_off", self.entity)
-    end   
-    
+function switch_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_switch", self.entity)
     self.popupShown = false
 end
 
-function turn_on_ff_tool:AddedToSelection( entity )
-
+function switch_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned(entity)
-    
     if ( skinned ) then
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
     else
@@ -33,20 +22,20 @@ function turn_on_ff_tool:AddedToSelection( entity )
     end
 end
 
-function turn_on_ff_tool:SpawnCornerBlueprint()
+function switch_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_violet", self.entity )
     end
 end
 
-function turn_on_ff_tool:RemovedFromSelection( entity )
+function switch_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function turn_on_ff_tool:FilterSelectedEntities( selectedEntities ) 
+function switch_tool:FilterSelectedEntities( selectedEntities ) 
 
     local entities = {}
-    
+
     for ent in Iter(selectedEntities ) do
 
         if ( EntityService:GetComponent(ent, "ResourceConverterComponent") ~= nil ) then
@@ -61,7 +50,7 @@ function turn_on_ff_tool:FilterSelectedEntities( selectedEntities )
     return entities
 end
 
-function turn_on_ff_tool:CanChangePower( ent )
+function switch_tool:CanChangePower( ent )
 
     local blueprintName = EntityService:GetBlueprintName( ent )
 
@@ -80,7 +69,7 @@ function turn_on_ff_tool:CanChangePower( ent )
     return switch_turn_on_off_toolCache[blueprintName]
 end
 
-function turn_on_ff_tool:CalcCanChangePower( blueprintName )
+function switch_tool:CalcCanChangePower( blueprintName )
 
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
@@ -114,12 +103,32 @@ function turn_on_ff_tool:CalcCanChangePower( blueprintName )
     return false
 end
 
-function turn_on_ff_tool:OnActivateEntity( entity )
+function switch_tool:OnActivateSelectorRequest()
 
-    if( BuildingService:IsPlayerWorking( entity ) ~= self.setPower )  then
-        QueueEvent("ChangeBuildingStatusRequest", entity, self.setPower )
+    local haveOff = false
+    local haveOn = false
+
+    for entity in Iter( self.selectedEntities ) do
+        if( BuildingService:IsPlayerWorking( entity )) then
+            haveOn = true
+        else
+            haveOff = true
+        end
+    end
+
+    if ( haveOn ~= haveOff ) then
+        for entity in Iter( self.selectedEntities ) do
+            QueueEvent("ChangeBuildingStatusRequest", entity, haveOff )
+        end
+    else
+        for entity in Iter( self.selectedEntities ) do
+            if( not BuildingService:IsPlayerWorking( entity )) then
+                QueueEvent("ChangeBuildingStatusRequest", entity, true )
+            end
+        end
     end
 end
 
-return turn_on_ff_tool
+
+return switch_tool
  
