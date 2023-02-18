@@ -1,0 +1,292 @@
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_ice
+
+	base_blueprints 
+	{
+		effects/no_lifetime
+		lights/point/fire_blue_very_small
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_ice_trail"	
+		mode 		  "1"
+		extend  		"3"
+		
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_dash_ice"
+	}
+
+	SoundDesc
+	{
+		name "items/skills/dash_cryo"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_ice_advanced
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/mech_trail_ice
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_ice_trail_advanced"	
+		mode 		  "1"
+		extend  		"3"
+		
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_ice_superior
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/mech_trail_ice
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_ice_trail_superior"	
+		mode 		  "1"
+		extend  		"3"
+		
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_ice_extreme
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/mech_trail_ice
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_ice_trail_extreme"	
+		mode 		  "1"
+		extend  		"3"
+		
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_cryo_effects"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"50"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "1000"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "1000"
+				}
+                
+				Vector2
+				{
+					x "0.5"
+					y "-1000"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_cryo_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_cryo"
+		cooldown	"0.05"
+		item_bp		"items/skills/dash_cryo_effects"
+		icon		"gui/hud/items_icons/skills/dash"
+        bigger_icon "gui/menu/items_icons/skills/dash"		
+		description 	"gui/menu/inventory/skill_description/dash_cryo"	
+		rarity			"STANDARD"	
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_ice"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_ice"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_cryo_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_cryo"
+		cooldown	"0.05"
+		item_bp		"items/skills/dash_cryo_effects"
+		icon		"gui/hud/items_icons/skills/dash"
+        bigger_icon "gui/menu/items_icons/skills/dash"		
+		description 	"gui/menu/inventory/skill_description/dash_cryo"	
+		rarity			"ADVANCED"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_ice_advanced"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_ice_advanced"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_cryo_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_cryo"
+		cooldown	"0.05"
+		item_bp		"items/skills/dash_cryo_effects"
+		icon		"gui/hud/items_icons/skills/dash"
+        bigger_icon "gui/menu/items_icons/skills/dash"		
+		description 	"gui/menu/inventory/skill_description/dash_cryo"	
+		rarity			"SUPERIOR"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_ice_superior"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_ice_superior"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_cryo_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_cryo"
+		cooldown	"0.05"
+		item_bp		"items/skills/dash_cryo_effects"
+		icon		"gui/hud/items_icons/skills/dash"
+        bigger_icon "gui/menu/items_icons/skills/dash"		
+		description 	"gui/menu/inventory/skill_description/dash_cryo"	
+		rarity			"EXTREME"	
+		replace_lower_quality		"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_ice_extreme"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_ice_extreme"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+

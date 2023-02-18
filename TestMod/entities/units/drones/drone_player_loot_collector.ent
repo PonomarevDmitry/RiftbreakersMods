@@ -1,0 +1,127 @@
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_loot_collector_picker"
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"loot"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_loot_collector_standard"
+	base_blueprint 	"units/drones/drone_base"
+
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement							string:"follow"
+			owner_movement_speed_near       		float:"0.75"
+			owner_movement_speed_far          	 	float:"1.5"
+			owner_movement_trigger_distance 		float:"12.0"
+			
+			target_movement							string:"hover"
+			target_search_mode  					string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/loot_collector_drone.lua"
+
+		database
+		{
+			search_radius 		float:"30.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			pickup_radius		float:"5.0"
+			min_scale			float:"1"
+			max_scale			float:"1"			
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_crystal_collector.mesh"
+		material "units/drones/drone_crystal_collector"
+	}
+
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"50"
+		}		
+		
+		max_speed
+		{
+			base 	"250"
+		}
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail_defensive"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "working"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_gather_resources"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_loot_collector_advanced"
+	base_blueprint		"units/drones/drone_player_loot_collector_standard"
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_loot_collector_superior"
+	base_blueprint		"units/drones/drone_player_loot_collector_standard"
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_loot_collector_extreme"
+	base_blueprint		"units/drones/drone_player_loot_collector_standard"
+}
