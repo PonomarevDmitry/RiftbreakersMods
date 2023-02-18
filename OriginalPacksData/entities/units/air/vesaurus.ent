@@ -1,0 +1,215 @@
+EntityBlueprint
+{
+	name "units/air/vesaurus"
+
+	base_blueprint "units/air/vesaurus_base"
+
+	StateMachineDesc
+	{
+		template_name "vesaurus"
+		params
+		{
+			speed							float:"10"
+			acceleration					float:"10"
+			max_search_origin_radius		float:"200"	
+			rotate_speed					float:"150"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/vesaurus.lua"
+		database
+		{
+			min_scale	float:"0.7"
+			max_scale	float:"0.85"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"120"
+		unit_soft_radius				"2.6"
+		dominance_group					"10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/vesaurus.mesh"
+		material 	"units/air/vesaurus"
+	}
+}
+
+EntityBlueprint
+{
+    name "units/air/vesaurus_base"
+
+	NeutralUnitDesc
+	{
+		life_time_out_of_screen			"10"
+	}
+
+//	HighlightComponent
+//	{
+//	}
+
+	TypeDesc
+	{
+		type "air_unit"
+	}
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/air/vesaurus"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "vesaurus"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/air/vesaurus_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"4000"
+		explosion_min_power 	"2000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	AirNavigationComponent
+	{
+		keep_height_speed	"3.0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"3000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/enemies_canoptrix/death"
+					part_prefix 			"meshes/units/air/vesaurus"
+					part_effect 			"effects/enemies_generic/blood_trail_red_small"
+					part_physics_material	"gibs_light"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/vesaurus_death"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "idle_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/vesaurus_idle"
+				}
+			}
+		}
+
+		//EffectGroup
+		//{
+		//	group "move_random"
+		//	enabled "0"
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/enemies_neutral/vesaurus_?"
+		//		}
+		//	}
+		//}
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/burning_creature_small"
+				}
+			}
+		}
+	}
+}

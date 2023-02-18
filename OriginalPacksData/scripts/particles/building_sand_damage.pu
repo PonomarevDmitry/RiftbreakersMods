@@ -1,0 +1,78 @@
+system rift/building_sand_damage
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 2
+    technique smoke1
+    {
+        visual_particle_quota                   40
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            angle                               60
+            time_to_live                        dyn_random
+            {
+                min                             1.4
+                max                             1.8
+            }
+            velocity                            dyn_random
+            {
+                min                             25
+                max                             50
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            position                            0 50 0
+            box_width                           60
+            box_height                          5
+            box_depth                           60
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.6 0.47451 0.384314 0
+            time_colour                         0.13913  0.6 0.47451 0.384314 0.4
+            time_colour                         0.706522  0.6 0.47451 0.384314 0.4
+            time_colour                         1    0.6 0.47451 0.384314 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+        affector                                LinearForce Affector223
+        {
+            force_vector                        0 -50 0
+        }
+    }
+}

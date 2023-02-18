@@ -1,0 +1,82 @@
+system rift/kafferroceros_charge_smoke
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.2
+    scale                                       0.2 0.2 0.2
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 8
+    technique smoke
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            angle                               7
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            position                            0 9 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           15
+            box_height                          5
+            box_depth                           15
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.611765 0.580392 0.4 0
+            time_colour                         0.202174  0.6 0.576471 0.4 0.4
+            time_colour                         0.806522  0.6 0.576471 0.403922 0.4
+            time_colour                         1    0.6 0.576471 0.4 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                Scale Affector31
+        {
+            xyz_scale                           10
+        }
+    }
+}

@@ -1,0 +1,77 @@
+material bloom_mask
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+
+			vertex_program_ref downsample_vp
+			{
+			}
+			
+			fragment_program_ref bloom_mask_fp 
+			{
+			}
+			
+			texture_unit main
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material bloom_final
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			scene_blend add
+
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref bloom_final_fp 
+			{
+			}
+			
+			texture_unit a0
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			
+			texture_unit b0
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			
+			texture_unit c0
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+					
+			texture_unit d0
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}

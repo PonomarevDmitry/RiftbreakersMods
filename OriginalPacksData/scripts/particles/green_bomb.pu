@@ -1,0 +1,197 @@
+system player/green/green_bomb
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0050 0.0050 0.0050
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 8
+    technique fire
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_alien_muzzleflash_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            1
+            particle_width                      dyn_random
+            {
+                min                             25
+                max                             400
+            }
+            particle_height                     dyn_random
+            {
+                min                             50
+                max                             400
+            }
+            position                            -150 0 0
+            keep_local                          true
+            direction                           -1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Scale 
+        {
+            y_scale                             dyn_random
+            {
+                min                             2000
+                max                             7000
+            }
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.2 0.2 0.2 1
+            time_colour                         1    0.2 0.2 0.2 0
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   120
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       100
+            angle                               1
+            time_to_live                        1.2
+            velocity                            20
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             30
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.2 0.2 0.2 1
+            time_colour                         0.504348  0.2 0.2 0.2 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+        }
+    }
+    technique sparks2
+    {
+        visual_particle_quota                   120
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       100
+            angle                               1
+            time_to_live                        1.2
+            velocity                            20
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             30
+            }
+            direction                           0 -1 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.2 0.2 0.2 1
+            time_colour                         0.508696  0.2 0.2 0.2 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+        }
+    }
+    technique ribbon
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/green_alien_bomb_ribbon
+        renderer                                RibbonTrail
+        {
+            render_queue_group                  65
+            max_elements                        10
+            ribbontrail_length                  9000
+            ribbontrail_width                   300
+            ribbontrail_width_change            4
+            random_initial_colour               false
+            colour_change                       0 0 0 0.784314
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        4
+            velocity                            0.0001
+            position                            -350 0 0
+            direction                           1 0 0
+            force_emission                      true
+        }
+    }
+}

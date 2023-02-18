@@ -1,0 +1,68 @@
+EntityBlueprint
+{
+	name "props/mushrooms/spikybulb_very_small_02_skin2"
+
+	base_blueprints
+	{
+		"props/mushrooms/spikybulb_very_small_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/spikybulb_very_small_02.mesh"
+		material "props/mushrooms/spikybulb_small_03_skin2"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "1.6"
+						z "1.6"
+
+						position
+						{
+							x "0.0"
+							y "0.8"
+							z "-0.2"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_small_orange"
+
+					part_material	 		"props/mushrooms/spikybulb_small_03_skin2"
+					part_prefix 			"meshes/props/mushrooms/spikybulb_very_small_02"
+					part_effect 			"effects/destructibles/mushroom_part_trail"
+
+				}
+			}
+		}
+	}
+}
+

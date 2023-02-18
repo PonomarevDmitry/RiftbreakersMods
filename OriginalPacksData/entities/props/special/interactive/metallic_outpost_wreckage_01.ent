@@ -1,0 +1,116 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/metallic_outpost_wreckage_01"
+
+	HealthDesc
+	{ 
+		max_health 				"50"
+		health 					"50"
+	}
+
+	MeshDesc
+	{
+		material "props/special/hitech_structure_medium_03"
+		mesh "meshes/props/special/alien_structures/hitech_structure_medium_03.mesh"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/alien_structures/hitech_structure_medium_03_c1.nxs"
+
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "3"
+				y "3"
+				z "3"
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_blue"	
+					
+					part_material	 		"props/crystals/pure_set"
+					part_prefix 			"meshes/props/crystals/pure_medium_01"
+					part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}	
+		}		
+	}
+
+	InteractiveComponent 
+	{
+		slot 			"EXTRACTOR"
+		item 			"items/loot/resources/shard_uranium_item"
+		item_count 		"99"
+		radius 			"6"
+		remove_entity 	"0"
+	}
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+			group 	"light"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/destructibles/unique_crystal"
+                    offset "0 3.5 0"
+                }
+				Effect
+				{
+					blueprint "effects/destructibles/unique_crystal_shadow_caster"		
+					offset "0 12 0"
+				}				
+            }
+        }		
+    }
+}
+

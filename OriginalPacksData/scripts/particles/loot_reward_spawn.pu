@@ -1,0 +1,54 @@
+system rift/loot_reward_spawn
+{
+    fixed_timeout                               1.5
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.12
+    scale                                       0.12 0.12 0.12
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique 
+    {
+        visual_particle_quota                   1000
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_orange_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1000
+            angle                               90
+            time_to_live                        dyn_random
+            {
+                min                             0.7
+                max                             1.2
+            }
+            velocity                            1000
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.3  1 1 1 1
+            time_colour                         0.7  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                ScaleVelocity Affector26
+        {
+            velocity_scale                      -100
+        }
+    }
+}

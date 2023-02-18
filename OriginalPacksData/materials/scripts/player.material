@@ -1,0 +1,618 @@
+import * from "materials/scripts/pbr.material"
+
+material player/mech/destructible
+{
+	render_group 55
+
+	feature "gbuffer|shadow|velocity"
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			glow 6
+
+			vertex_program_ref deferred_gbuffer_vp
+			{
+			}
+
+			fragment_program_ref deferred_damage_buildings_fp
+			{
+
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit albedo_2
+			{
+				texture materials/textures/player/destroyed_player_albedo.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal
+			{
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal_2
+			{
+				texture materials/textures/player/destroyed_player_normal.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed_2
+			{
+				texture materials/textures/player/destroyed_player_packed.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive
+			{
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive_2
+			{
+				texture materials/textures/player/destroyed_player_emissive.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit gradient_damage
+			{
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 6
+			}
+			texture_unit dissolve
+			{
+				texture materials/textures/noise_tiled_03.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+
+
+material player/mech : player/mech/destructible
+{
+	//render_group 29
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_emissive.dds
+
+
+
+	glow 7
+}
+
+material player/mech_distortion
+{
+	render_group 160
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend add
+
+			vertex_program_ref distortion_skinned_fresnel_VP
+			{
+			}
+
+			fragment_program_ref distortion_fresnel_inverted_dissolve_FP
+			{
+				param_named cDistortionPower float 0.1
+				param_named cFresnelBias  float 0.6
+				param_named cFresnelScale float 1.0
+				param_named cFresnelPower float 2.5
+				param_named cNoiseParams  float2 0.05 0.05
+			}
+
+			texture_unit distortion
+			{
+				texture         	materials/textures/items/skills/rift_distortion.dds
+				filtering 			bilinear
+				tex_address_mode 	wrap
+			}
+		}
+	}
+}
+
+material player/item_distortion
+{
+	render_group 160
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend add
+
+			vertex_program_ref distortion_fresnel_VP
+			{
+			}
+
+			fragment_program_ref distortion_fresnel_inverted_dissolve_FP
+			{
+				param_named cDistortionPower float 0.1
+				param_named cFresnelBias  float 0.0
+				param_named cFresnelScale float 4.0
+				param_named cFresnelPower float 0.5
+				param_named cNoiseParams  float2 0.05 0.05
+			}
+
+			texture_unit distortion
+			{
+				texture         	materials/textures/items/skills/rift_distortion.dds
+				filtering 			bilinear
+				tex_address_mode 	wrap
+			}
+		}
+	}
+}
+
+material player/item_distortion_skinned
+{
+	render_group 160
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend add
+
+			vertex_program_ref distortion_skinned_fresnel_VP
+			{
+			}
+
+			fragment_program_ref distortion_fresnel_FP
+			{
+				param_named cDistortionPower float 0.1
+				param_named cFresnelBias  float 0.0
+				param_named cFresnelScale float 4.0
+				param_named cFresnelPower float 0.5
+				param_named cNoiseParams  float2 0.05 0.05
+			}
+
+			texture_unit distortion
+			{
+				texture         	materials/textures/items/skills/rift_distortion.dds
+				filtering 			bilinear
+				tex_address_mode 	wrap
+			}
+		}
+	}
+}
+material player/mech_parts : player/mech/destructible
+{
+	set_texture_alias albedo			materials/textures/player/mech_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_emissive.dds
+}
+
+material player/cube_builder : pbr/default
+{
+	set_texture_alias albedo			materials/textures/player/cube_builder_albedo.dds
+	set_texture_alias normal			materials/textures/player/cube_builder_normal.dds
+	set_texture_alias packed			materials/textures/player/cube_builder_packed.dds
+	set_texture_alias emissive			materials/textures/player/cube_builder_emissive.dds
+}
+
+material player/cube_builder_arm : pbr/default
+{
+	set_texture_alias albedo			materials/textures/player/cube_builder_arm_albedo.dds
+	set_texture_alias normal			materials/textures/player/cube_builder_arm_normal.dds
+	set_texture_alias packed			materials/textures/player/cube_builder_arm_packed.dds
+	set_texture_alias emissive			materials/textures/player/cube_builder_arm_emissive.dds
+}
+
+material player/mech_skin1 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin1_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin1_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin1_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin1_emissive.dds
+
+	glow 10
+}
+
+material player/mech_skin2 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin2_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin2_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin2_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin2_emissive.dds
+
+	glow 7
+}
+
+
+
+material player/mech_skin3 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin3_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin3_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin3_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin3_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin4 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin4_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin4_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin4_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin4_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin5 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin5_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin5_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin5_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin5_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin6 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin6_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin6_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin6_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin6_emissive.dds
+
+	glow 7
+}
+
+
+material player/mech_skin7 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin7_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin7_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin7_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin7_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin8 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin8_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin8_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin8_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin8_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin9 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin9_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin9_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin9_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin9_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin10 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin10_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin10_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin10_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin10_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin11 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin11_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin11_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin11_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin11_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin12 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin12_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin12_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin12_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin12_emissive.dds
+
+	glow 10
+}
+
+material player/mech_skin13 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin13_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin13_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin13_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin13_emissive.dds
+
+	glow 10
+}
+
+material player/mech_skin14 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin14_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin14_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin14_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin14_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin15 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin15_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin15_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin15_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin15_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin16 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin16_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin16_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin16_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin16_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin17 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin17_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin17_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin17_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin17_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin18 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin18_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin18_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin18_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin18_emissive.dds
+
+	glow 7
+}
+
+material player/mech_skin19 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin19_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin19_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin19_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin19_emissive.dds
+
+	glow 7
+}
+
+
+material player/mech_skin20 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin20_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin20_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin20_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin20_emissive.dds
+
+	glow 4
+}
+
+material player/mech_skin21 : player/mech/destructible
+{
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/player/mech_skin21_albedo.dds
+	set_texture_alias normal			materials/textures/player/mech_skin21_normal.dds
+	set_texture_alias packed			materials/textures/player/mech_skin21_packed.dds
+	set_texture_alias emissive			materials/textures/player/mech_skin21_emissive.dds
+
+	glow 4
+}

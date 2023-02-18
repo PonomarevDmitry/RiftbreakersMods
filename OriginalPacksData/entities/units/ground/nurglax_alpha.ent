@@ -1,0 +1,235 @@
+EntityBlueprint
+{
+	name "units/ground/nurglax_alpha"
+
+	base_blueprint "units/ground/nurglax_base"
+	
+	StateMachineDesc
+	{
+		template_name "nurglax"
+		params
+		{
+			aggressive_speed					float:"7"
+			aggressive_acceleration				float:"14"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"55"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			artillery_projectile				string:"units/ground/nurglax/bomb_fly_alpha"
+			artillery_projectile_grow_speed		float:"3.5"
+			artillery_fake_projectile			string:"units/ground/nurglax/bomb_grow_alpha"
+			range_attack_cooldown				float:"3.5"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/nurglax.lua"
+		database
+		{
+			min_scale	float:"1.05"
+			max_scale	float:"1.15"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"1400"
+		health 						"1400"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nurglax.mesh"
+		material 	"units/ground/nurglax_alpha"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/nurglax_alpha"
+		can_activate 0
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/nurglax_alpha/attack"
+
+			AttachmentDesc
+			{
+				attachment "Head"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_nurglax/attack_start"
+						attack_start_time			"0.50"
+						attack_end_time				"0.75"
+						attack_duration 			"1.60"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"80.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "3.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/nurglax/bomb_fly_alpha"
+
+	base_blueprint "units/ground/nurglax/bomb_fly_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/nurglax_bomb_fly.lua"
+		
+		database
+		{
+			egg_spawn_on_destroy			string:"units/ground/egg_nurglax_drone_alpha"
+			egg_spawn_count					int:"20"	
+		}	
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nurglax_bomb_fly.mesh"
+		material    "units/ground/nurglax_alpha"
+	}
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/enemies_nurglax/artillery_explosion"
+		on_world_hit_effect 	"effects/enemies_nurglax/artillery_explosion"	
+		on_shield_hit_effect 	"effects/enemies_nurglax/artillery_explosion"
+		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small"
+		
+		delay_update_time		"0.3"
+		manual_remove			"1"
+		diameter				"4.0"
+
+		DamagePattern
+		{
+			area_damage_radius 	"7"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"100"
+					type 	"area"
+				}
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_nurglax/artillery_explosion"	
+					part_prefix 			"meshes/units/ground/nurglax_bomb_fly"
+					part_material 			"units/ground/nurglax_alpha"
+					part_effect 			"effects/enemies_generic/blood_trail_black"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/nurglax/bomb_grow_alpha"
+
+	base_blueprint "units/ground/nurglax/bomb_grow_base"
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nurglax_bomb_grow.mesh"
+		material    "units/ground/nurglax_alpha"
+	}
+}
+

@@ -1,0 +1,62 @@
+system rift/mech_invisibility
+{
+    fixed_timeout                               0.6
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.013
+    scale                                       0.013 0.013 0.013
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 10
+    technique refract
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Box flash2
+        {
+            emission_rate                       100
+            time_to_live                        0.5
+            velocity                            0
+            all_particle_dimensions             100
+            position                            0 50 0
+            force_emission                      true
+            box_width                           200
+            box_height                          200
+            box_depth                           200
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           2000
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector16
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.4
+            }
+        }
+    }
+}

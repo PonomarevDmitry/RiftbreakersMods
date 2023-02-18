@@ -1,0 +1,1565 @@
+EntityBlueprint 
+{	
+	name 			"misc/marker_build"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_build"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_repair"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_repair"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_repair_unavailable"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_repair_unavailable"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_select"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_select"
+	}
+}
+
+EntityBlueprint
+{
+	name			"misc/selector_base"
+
+	LuaDesc
+	{
+		script "lua/misc/selector.lua"
+	}
+	
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}
+
+	NetAlwaysRevelantComponent
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/marker_selector.mesh"
+		material 	"selector/marker_active"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0"
+				z "1"
+			}	
+		}
+	}
+
+	AffectorDesc
+	{
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformScaleAffector
+			{
+				min    	"0.98"
+				max   	"1.00"
+				speed 	"1.5"
+				timer	"0.5"
+			}
+		}
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_corner"
+
+	AffectorDesc
+	{
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformScaleAffector
+			{
+				min    	"0.98"
+				max   	"1.00"
+				speed 	"1.5"
+				timer	"0.5"
+			}
+		}
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_lt"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_lt_outline"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_lb"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_lb_outline"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_rt"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_rt_outline"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_rb"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/marker_selector_corner_rb_outline"
+
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_corner_tool"
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}
+	
+	GuiDesc
+	{
+		def_name 					"gui/hud/building_info"
+		alignment					"top_left"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			GuiDesc
+			{
+				def_name 					"gui/hud/building_info"
+				alignment					"top_left"
+			}
+	
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_corner_tool_green"
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}
+	
+	GuiDesc
+	{
+		def_name 					"gui/hud/building_info"
+		alignment					"top_left"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green"
+			}
+
+			GuiDesc
+			{
+				def_name 					"gui/hud/building_info"
+				alignment					"top_left"
+			}
+	
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_green_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_corner_tool_gold"
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}
+	
+	GuiDesc
+	{
+		def_name 					"gui/hud/building_info"
+		alignment					"top_left"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold"
+			}
+
+			GuiDesc
+			{
+				def_name 					"gui/hud/building_info"
+				alignment					"top_left"
+			}
+	
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_gold_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_corner_tool_violet"
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}
+	
+	GuiDesc
+	{
+		def_name 					"gui/hud/building_info"
+		alignment					"top_left"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "-1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "1"
+					y "0"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet"
+			}
+
+			GuiDesc
+			{
+				def_name 					"gui/hud/building_info"
+				alignment					"top_left"
+			}
+	
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+		
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet_outline"
+			}
+	
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "1"
+				}
+
+				orientation
+				{
+					w "0"
+					y "-1"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    MeshDesc
+			{
+				mesh		"meshes/misc/selector_corner.mesh"
+				material 	"selector/marker_corner_violet_outline"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "0"
+					x "1"
+					z "-1"
+				}
+
+				orientation
+				{
+					w "0.707106769"
+					y "-0.707106769"
+					x "0"
+					z "0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprint "misc/marker_selector_corner"
+
+	name "misc/marker_selector_corner_repair"
+}
+
+EntityBlueprint
+{
+	base_blueprint "misc/marker_selector_corner"
+
+	name "misc/marker_selector_corner_sell"
+}
+
+EntityBlueprint
+{
+	base_blueprint "misc/marker_selector_corner"
+
+	name "misc/marker_selector_corner_upgrade"
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_grid"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/selector_corner.mesh"
+		material 	"selector/marker_grid"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_repair"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/marker_selector.mesh"
+		material 	"selector/marker_repair"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_sell"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/marker_selector.mesh"
+		material 	"selector/marker_sell"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_picker"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/marker_selector.mesh"
+		material 	"selector/marker_picker"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_eraser"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/marker_selector.mesh"
+		material 	"selector/marker_eraser"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_upgrade"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/marker_selector.mesh"
+		material 	"selector/marker_upgrade"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_selector_switch"
+
+	MeshDesc
+	{
+		mesh		"meshes/misc/marker_selector.mesh"
+		material 	"selector/marker_switch"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_sell"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_sell"
+	}
+}
+
+EntityBlueprint 
+{	
+		name 			"misc/marker_x"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_x"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_sell_unavailable"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_sell_unavailable"
+	}
+}
+
+EntityBlueprint 
+{	
+	name 			"misc/marker_upgrade"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_upgrade"
+	}
+}
+
+EntityBlueprint 
+{	
+		name 			"misc/marker_upgrade_unavailable"
+
+	GuiDesc
+	{
+		def_name 	"gui/hud/marker_upgrade_unavailable"
+	}
+}
+
+EntityBlueprint
+{
+	name "misc/marker_selector/building_info"
+	GuiDesc
+	{
+		def_name 					"gui/hud/building_info"
+		alignment					"top_left"
+	}
+}

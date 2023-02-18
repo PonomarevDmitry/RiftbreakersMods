@@ -1,0 +1,288 @@
+EntityBlueprint
+{
+	name "units/ground/nerilian_boss_cryo"
+
+	base_blueprint "units/ground/nerilian_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/nerilian.lua"
+		database
+		{
+			min_scale	float:"1.75"
+			max_scale	float:"1.75"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"1800"
+		health 						"1800"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+			}
+		}		
+	}
+	
+	HealthBarDesc
+	{
+		type "2"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+	
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"8.0"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"0.0"
+		area			"1.5"	
+	}
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.08"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nerilian.mesh"
+		material 	"units/ground/nerilian_boss_cryo"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/units/ground/nerilian"
+	}	
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"		
+	}	
+
+	SelectableDesc
+	{
+		content "monster_name/nerilian_ultra"
+		can_activate 0
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_nerilian/death_cryo"
+					part_prefix 			"meshes/units/ground/nerilian"
+					part_material 			"units/ground/nerilian_boss_cryo"
+					part_effect 			"effects/enemies_generic/blood_trail_cryo"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}
+		}
+	}	
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/nerilian_base"
+		}		
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_nerilian/death_long_cryo"
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "att_death"
+					scale "0.8 0.8 0.8"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "Tail_3"
+					scale "0.8 0.8 0.8"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_cryo"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_cryo"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_cryo"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}		
+	}		
+
+	children
+	{
+		EntityBlueprint
+		{
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_nerilian/attack_start"
+						attack_start_time			"0.34"
+						attack_end_time				"0.41"
+						attack_duration 			"0.90"
+					}
+
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_nerilian/attack_start"
+						attack_start_time			"0.34"
+						attack_end_time				"0.46"
+						attack_duration 			"0.86"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"89.0"
+										type 	"cryo"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.0"
+						y "4.0"
+						z "2.5"
+					}	
+				}
+			}
+		}
+	}
+}
+

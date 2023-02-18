@@ -1,0 +1,202 @@
+EntityBlueprint
+{
+	name "units/air/idapian"
+
+	base_blueprint "units/air/idapian_base"
+
+	StateMachineDesc
+	{
+		template_name "idapian"
+		params
+		{
+			speed							float:"8"
+			acceleration					float:"8"
+			max_search_origin_radius		float:"200"	
+			rotate_speed					float:"60"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/idapian.lua"
+		database
+		{
+			min_scale	float:"1.0"
+			max_scale	float:"1.05"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+			}
+		}
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"60"
+		unit_soft_radius				"3.0"
+		dominance_group					"10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/idapian.mesh"
+		material 	"units/air/idapian"
+	}
+}
+
+EntityBlueprint
+{
+    name "units/air/idapian_base"
+
+	NeutralUnitDesc
+	{
+		life_time_out_of_screen			"10"
+	}
+
+//	HighlightComponent
+//	{
+//	}
+
+	TypeDesc
+	{
+		type "air_unit"
+	}
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/air/idapian"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "idapian"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/air/idapian_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"4000"
+		explosion_min_power 	"2000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	AirNavigationComponent
+	{
+		keep_height_speed	"3.0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"7000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_neutral/idapian_death"
+					part_prefix 			"meshes/units/air/idapian"
+					part_material 			"units/air/idapian"
+					part_effect 			"effects/enemies_generic/blood_trail_red"
+					part_physics_material	"gibs_light"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/idapian_death"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "idle_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/idapian_idle"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/burning_creature_small"
+				}
+			}
+		}
+	}
+}

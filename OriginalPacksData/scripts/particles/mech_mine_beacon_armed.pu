@@ -1,0 +1,86 @@
+system rift/mech_mine_beacon_armed
+{
+    nonvisible_update_timeout                   1
+    scale                                       0.1 0.1 0.1
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 15
+    technique flare
+    {
+        keep_local                              true
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_red_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       1
+            angle                               0
+            time_to_live                        0.5
+            velocity                            0.0001
+            all_particle_dimensions             25
+            position                            0 5 0
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  0.501961 0.501961 0.501961 0.498039
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique rings_alpha_3
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_marker_ring_red_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       0.5
+            angle                               0
+            time_to_live                        1
+            velocity                            0.01
+            all_particle_dimensions             1
+            position                            0 5 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.05  0.501961 0.501961 0.501961 0.2
+            time_colour                         0.756522  0.501961 0.501961 0.501961 0.2
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             1
+                max                             -1
+            }
+            rotation_speed                      1
+        }
+        affector                                Scale Affector110
+        {
+            xyz_scale                           75
+        }
+    }
+}

@@ -1,0 +1,45 @@
+EntityBlueprint 
+{	
+	name 				"volumes/air_path_blocker"
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/volume.mesh"
+		material 	"volumes/volume_air_path_blocker"
+
+		initial_scale
+		{
+			x "4"
+			y "2"
+			z "4"
+		}
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"nav_blocker"
+				Shapes
+				{
+   					PhysicsBoxShape
+   					{
+    					x	1.0
+    					y	1.0
+    					z	1.0
+   					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type 	"1"
+		cost_type 			"height_path_blocker"
+		flow_field_size		"0.7"
+	}
+}

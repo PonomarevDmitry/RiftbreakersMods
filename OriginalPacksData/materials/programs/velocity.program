@@ -1,0 +1,247 @@
+vertex_program velocity_vp hlsl
+{
+    source materials/programs/velocity_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    default_params
+    {        
+        param_named_auto cWorld world_matrix 
+        param_named_auto cPrevWorld prev_world_matrix 
+        param_named_auto cViewProj viewproj_matrix 
+        param_named_auto cPrevViewProj prev_viewproj_matrix 
+    }
+}
+
+vertex_program velocity_texcoord_vp hlsl
+{
+    source materials/programs/velocity_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    preprocessor_defines USE_TEXCOORD=1
+
+    default_params
+    {
+        param_named_auto cWorld world_matrix 
+        param_named_auto cPrevWorld prev_world_matrix 
+        param_named_auto cViewProj viewproj_matrix 
+        param_named_auto cPrevViewProj prev_viewproj_matrix 
+    }
+}
+
+vertex_program velocity_skinned_vp hlsl
+{
+    source materials/programs/velocity_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_skeletal_animation true
+    preprocessor_defines USE_HW_SKINNING=1
+    
+    default_params
+    {
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+        param_named_auto cPrevWorld3x4Array prev_world_matrix_array_3x4
+        param_named_auto cViewProj viewproj_matrix 
+        param_named_auto cPrevViewProj prev_viewproj_matrix
+    }
+}
+
+vertex_program velocity_texcoord_skinned_vp hlsl
+{
+    source materials/programs/velocity_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_skeletal_animation true
+    preprocessor_defines USE_HW_SKINNING=1,USE_TEXCOORD=1
+    
+    default_params
+    {
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+        param_named_auto cPrevWorld3x4Array prev_world_matrix_array_3x4
+        param_named_auto cViewProj viewproj_matrix 
+        param_named_auto cPrevViewProj prev_viewproj_matrix
+    }
+}
+
+vertex_program velocity_vegetation_vp hlsl
+{
+    source materials/programs/velocity_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    preprocessor_defines USE_VEGETATION=1,USE_TEXCOORD=1
+
+    default_params
+    {
+        param_named_auto cWorld                      world_matrix 
+        param_named_auto cPrevWorld                  prev_world_matrix 
+        param_named_auto cViewProj                   viewproj_matrix 
+        param_named_auto cPrevViewProj               prev_viewproj_matrix
+        param_named      cBendingInfo                float4 0 0 0 0
+        param_named_auto cPrevBendingInfo            prev_velocity_data
+    }
+}
+
+vertex_program velocity_vegetation_tree_vp hlsl
+{
+    source materials/programs/velocity_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    preprocessor_defines USE_VEGETATION_TREE=1,USE_TEXCOORD=1
+    
+    default_params
+    {
+        param_named_auto cWorld                      world_matrix 
+        param_named_auto cPrevWorld                  prev_world_matrix 
+        param_named_auto cViewProj                   viewproj_matrix 
+        param_named_auto cPrevViewProj               prev_viewproj_matrix
+        param_named      cTreeInfo                   float4 0 0 0 100
+        param_named_auto cPrevTreeInfo               prev_velocity_data
+    }
+}
+
+//vertex_program velocity_vegetation_instanced_vp hlsl
+//{
+//    source materials/programs/deferred_vegetation_vp.hlsl
+//    entry_point mainVP
+//    target vs_5_0
+//    includes_instance_data true
+//    preprocessor_defines SHADOW_ONLY=1,USE_GRASS_BRANCH=1,USE_INSTANCING=1
+//
+//    default_params
+//    {
+//        param_named_auto cViewProj              viewproj_matrix 
+//        param_named_auto cView                  view_matrix 
+//        param_named_auto cTime                  time
+//        param_named_auto cInstanceInfo          instance_info
+//
+//        instanced_param_named     cBendingInfo                float4  0 0 0 0
+//    }
+//}
+//vertex_program velocity_instanced_vp hlsl
+//{
+//    source materials/programs/velocity_vp.hlsl
+//    entry_point mainVP
+//    target vs_5_0
+//    column_major_matrices false
+//    includes_instance_data true
+//    preprocessor_defines USE_INSTANCING=1
+//    
+//    default_params
+//    {
+//        param_named_auto cViewProj      viewproj_matrix
+//        param_named_auto cInstanceInfo  instance_info
+//    }
+//}
+//
+//vertex_program velocity_texcoord_instanced_vp hlsl
+//{
+//    source materials/programs/velocity_vp.hlsl
+//    entry_point mainVP
+//    target vs_5_0
+//    column_major_matrices false
+//    includes_instance_data true
+//    preprocessor_defines USE_INSTANCING=1,USE_TEXCOORD=1
+//    
+//    default_params
+//    {
+//        param_named_auto cViewProj      viewproj_matrix
+//        param_named_auto cInstanceInfo  instance_info
+//    }
+//}
+//
+//vertex_program velocity_skinned_instanced_vp hlsl
+//{
+//    source materials/programs/velocity_vp.hlsl
+//    entry_point mainVP
+//    target vs_5_0
+//    column_major_matrices false
+//    includes_instance_data          true
+//    includes_skeletal_animation     true
+//    uses_vertex_texture_fetch       true
+//    preprocessor_defines USE_HW_SKINNING=1,USE_INSTANCING=1
+//    
+//    default_params
+//    {
+//        param_named_auto cViewProj      viewproj_matrix
+//        param_named_auto cInstanceInfo  instance_info
+//    }
+//}
+//
+//vertex_program velocity_texcoord_skinned_instanced_vp hlsl
+//{
+//    source materials/programs/velocity_vp.hlsl
+//    entry_point mainVP
+//    target vs_5_0
+//    column_major_matrices false
+//    includes_instance_data          true
+//    includes_skeletal_animation     true
+//    uses_vertex_texture_fetch       true
+//    preprocessor_defines USE_HW_SKINNING=1,USE_INSTANCING=1,USE_TEXCOORD=1
+//    
+//    default_params
+//    {
+//        param_named_auto cViewProj      viewproj_matrix
+//        param_named_auto cInstanceInfo  instance_info
+//    }
+//}
+
+fragment_program velocity_fp hlsl
+{
+    source materials/programs/velocity_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+
+    default_params
+    {
+
+    }
+}
+
+fragment_program velocity_alpha_test_fp hlsl
+{
+    source materials/programs/velocity_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines ALPHA_TEST=1
+}
+
+fragment_program velocity_dissolve_fp hlsl
+{
+    source materials/programs/velocity_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines DISSOLVE=1
+    default_params
+    {
+        param_named     cDissolveAmount        float     0.0
+    }
+}
+
+fragment_program velocity_dissolve_alpha_test_fp hlsl
+{
+    source materials/programs/velocity_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines DISSOLVE=1,ALPHA_TEST=1
+    default_params
+    {
+        param_named     cDissolveAmount        float     0.0
+    }
+}
+
+fragment_program velocity_vegetation_fp hlsl
+{
+    source materials/programs/velocity_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines BURNING=1,DISSOLVE=1
+    default_params
+    {
+        param_named     cDissolveAmount        float     0.0
+        param_named     cBurningAmount         float2    0.0 0.0
+    }
+}

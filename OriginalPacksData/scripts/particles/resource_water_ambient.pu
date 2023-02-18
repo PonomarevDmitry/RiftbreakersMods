@@ -1,0 +1,66 @@
+system rift/resource_water_ambient
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.05
+    scale                                       0.05 0.05 0.05
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    technique dust
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box dust
+        {
+            emission_rate                       250
+            angle                               dyn_random
+            {
+                min                             180
+                max                             0
+            }
+            time_to_live                        dyn_random
+            {
+                min                             3
+                max                             4
+            }
+            velocity                            dyn_random
+            {
+                min                             0
+                max                             10
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            position                            0 50 0
+            direction                           -1 0 0
+            box_width                           700
+            box_height                          200
+            box_depth                           700
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  1 1 0.501961 0.74902
+            time_colour                         0.2  0.501961 0.501961 0.501961 1
+            time_colour                         0.3  1 1 0.501961 0.74902
+            time_colour                         0.426087  0.501961 0.501961 0.501961 1
+            time_colour                         0.502174  1 1 0.501961 0.4
+            time_colour                         0.632609  0.501961 0.501961 0.501961 1
+            time_colour                         0.708696  1 1 0.501961 0.756863
+            time_colour                         0.828261  0.501961 0.501961 0.501961 1
+            time_colour                         0.91087  1 1 0.501961 0.756863
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

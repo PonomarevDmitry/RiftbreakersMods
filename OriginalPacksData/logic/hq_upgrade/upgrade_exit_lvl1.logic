@@ -1,0 +1,212 @@
+//editor "offset(254.383,420.560)|zoom(0.499)"
+FlowGraphTemplate
+{
+	version "5"
+	editor "3017"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(152,425)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1824,456)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(616,407)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/mech_upgrade_hq_04"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1183,386)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/ashley"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/ashley_upgrade_hq_04"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(362,418)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_adaptive_music_system_0 "interface_dialogue_show_4"
+		interface_dialogue_show_4 "interface_dialogue_show_5"
+		interface_dialogue_show_5 "event_end_0"
+		default "audio_adaptive_music_system_0"
+	}
+
+}
+

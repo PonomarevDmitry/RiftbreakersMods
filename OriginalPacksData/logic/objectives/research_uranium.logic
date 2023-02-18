@@ -1,0 +1,579 @@
+//editor "offset(1478.570,808.560)|zoom(0.707)"
+FlowGraphTemplate
+{
+	version "6"
+	editor "3103"
+	GraphNodes
+	{
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(3140,60)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(2737,35)"
+			script "lua/graph/logic/logic_event_send.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "UraniumResearchObjectiveEnd"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_event_send_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(1072,-198)"
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/nuclear_energy_lvl1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_reseach_finished_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-799,72)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(158,55)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(1092,200)"
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/resource_handling_uranium"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_reseach_finished_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-458,31)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/download_tech_uranium_tech"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_uranium_tech"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(452,-224)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/download_tech_uranium_tech.nuclear_energy_tech"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_nuclear_energy_tech"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.research_uranium_tech"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(474,175)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/download_tech_uranium_tech.uranium_handling_tech"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_uranium_handling_tech"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.research_uranium_tech"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(1590,-215)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_nuclear_energy_tech"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(1614,185)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_uranium_handling_tech"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(2192,38)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_uranium_tech"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1066,-353)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/nuclear_energy_lvl1"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1590,-359)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/nuclear_energy_lvl1"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1615,37)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/resource_handling_uranium"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1090,43)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/resource_handling_uranium"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_3"
+		}
+
+	}
+
+	GraphConnections
+	{
+		campaign_objective_finish_2 "logic_event_send_1"
+		campaign_objective_generic_2 "logic_wait_on_reseach_finished_1|mission_highlight_research_3"
+		campaign_objective_generic_1 "logic_wait_on_reseach_finished_3|mission_highlight_research_0"
+		campaign_objective_generic_0 "logic_wait_0"
+		logic_wait_on_reseach_finished_1 "campaign_objective_finish_1|mission_highlight_research_2"
+		logic_wait_0 "campaign_objective_generic_1|campaign_objective_generic_2"
+		default "campaign_objective_generic_0"
+		campaign_objective_finish_1 "campaign_objective_finish_2"
+		logic_wait_on_reseach_finished_3 "campaign_objective_finish_0|mission_highlight_research_1"
+		campaign_objective_finish_0 "campaign_objective_finish_2"
+		logic_event_send_1 "event_end_1"
+	}
+
+}
+

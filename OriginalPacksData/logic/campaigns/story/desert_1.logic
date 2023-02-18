@@ -1,0 +1,258 @@
+//editor "offset(-825.476,273.316)|zoom(0.743)"
+FlowGraphTemplate
+{
+	version "8"
+	editor "3103"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(421,528)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(665,515)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(891,477)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/desert_find_new_resource"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.desert_find_new_resource"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(2411,584)"
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "UraniumResearchObjectiveStart"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_event_3"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(1922,479)"
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "desert_find_new_resource"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "in_progress"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_mission_status_3"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_mission_status.xml)"
+					value "logic_if_mission_status_3###in_progress"
+					key "in_progress"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(1518,501)"
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "desert_find_new_resource"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/story/desert_find_new_resource"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_mission_unlock_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(1937,656)"
+			self_id "logic_if_mission_status_3###in_progress"
+			value "logic_if_mission_status_3###in_progress"
+			key "in_progress"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(2821,610)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_if_mission_status_3###in_progress "logic_wait_on_event_3"
+		logic_if_mission_status_3 "logic_if_mission_status_3###in_progress"
+		logic_wait_on_event_3 "event_end_0"
+		objective_generic_1 "campaign_mission_unlock_3"
+		logic_wait_4 "objective_generic_1"
+		campaign_mission_unlock_3 "logic_if_mission_status_3"
+		default "logic_wait_4"
+	}
+
+}
+

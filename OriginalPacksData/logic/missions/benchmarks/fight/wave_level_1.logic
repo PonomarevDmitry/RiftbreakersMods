@@ -1,0 +1,252 @@
+FlowGraphTemplate
+{
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-108,635)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(496,374)"
+			self_id "wave_ground_0"
+			group_name "universal"
+			spawn_point "logic/spawn_enemy_1"
+			delay "0"
+			percentage_units_to_end_wave "100"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/canoptrix"
+					delay_group "0"
+					delay "0.20"
+					count "30"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(190,625)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			initial_state "wait"
+			self_id "logic_wait_0"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1434,516)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(494,222)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(1076,502)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/building"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_hud_show_debug.xml)|pos(488,65)"
+			script "lua/graph/interface/interface_hud_show_debug.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "text"
+						value "Enemies incoming!"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5.00"
+					}
+
+				}
+
+			}
+
+			self_id "interface_hud_show_debug_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(495,-127)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "15.10"
+					}
+
+				}
+
+			}
+
+			initial_state "wait"
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(758,-169)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/ashley"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/generic/ashley_base_getting_overwhelmed"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_wait_1 "interface_dialogue_show_0"
+		audio_music_change_playlist_1 "event_end_0"
+		logic_wait_0 "audio_music_change_playlist_0|interface_hud_show_debug_0|logic_wait_1|wave_ground_0"
+		wave_ground_0 "audio_music_change_playlist_1"
+		default "logic_wait_0"
+	}
+
+}
+

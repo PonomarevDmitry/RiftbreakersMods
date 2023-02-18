@@ -1,0 +1,15 @@
+,melee_weapon,range_weapon,movement,aiming,interactive,consumable,skill,shield,move_dir,dash_skill,equipment,enemy_range_weapon,barrier,movement_skill
+melee_weapon,melee_weapon|BLOCK,melee_weapon|INTERRUPT,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,melee_weapon|INTERRUPT,|ALL,|ALL,|BLOCK,melee_weapon|INTERRUPT,|ALL,melee_weapon|INTERRUPT
+range_weapon,melee_weapon|INTERRUPT,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,skill|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,range_weapon|INTERRUPT
+movement,|ALL,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+aiming,|ALL,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+interactive,interactive|INTERRUPT,interactive|INTERRUPT,interactive|INTERRUPT,interactive|INTERRUPT,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,interactive|INTERRUPT,interactive|INTERRUPT,interactive|INTERRUPT,|ALL,interactive|INTERRUPT
+consumable,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,movement_skill|INTERRUPT
+skill,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,movement_skill|INTERRUPT
+shield,melee_weapon|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+move_dir,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+dash_skill,|ALL,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|BLOCK
+equipment,|BLOCK,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+enemy_range_weapon,melee_weapon|INTERRUPT,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+barrier,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+movement_skill,melee_weapon|INTERRUPT,range_weapon|INTERRUPT,|ALL,|ALL,interactive|INTERRUPT,movement_skill|INTERRUPT,movement_skill|INTERRUPT,|ALL,|ALL,|BLOCK,|ALL,|ALL,|ALL,|ALL

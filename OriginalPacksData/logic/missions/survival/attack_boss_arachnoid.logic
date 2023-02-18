@@ -1,0 +1,109 @@
+//editor "offset(-117.600,-214.400)|zoom(1.000)"
+FlowGraphTemplate
+{
+	version "1"
+	editor "2848"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(515,274)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+				}
+
+			}
+
+			self_id "wave_ground_0"
+			group_name "universal"
+			delay "0"
+			percentage_units_to_end_wave "100"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/arachnoid_boss"
+					delay_group "0"
+					delay "1"
+					count "1"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1146,535)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		wave_ground_0 "event_end_0"
+		default "wave_ground_0"
+	}
+
+}
+

@@ -1,0 +1,428 @@
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_effects"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"0"
+		max_time    	"20"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "0"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 		"dash_trail_long"
+		param_name					"is_jumping"
+		//block_aiming_dir			"1"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_explosion"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				100
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			WeaponStatData
+			{
+				value 				8
+				type	 			DAMAGE_SPLASH
+			}			
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/power_jump_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"8"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_explosion_advanced"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				150
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			WeaponStatData
+			{
+				value 				8
+				type	 			DAMAGE_SPLASH
+			}			
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/power_jump_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"8"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"150"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_explosion_superior"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				200
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			WeaponStatData
+			{
+				value 				8
+				type	 			DAMAGE_SPLASH
+			}			
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/power_jump_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"8"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"200"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_explosion_extreme"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				250
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			WeaponStatData
+			{
+				value 				8
+				type	 			DAMAGE_SPLASH
+			}			
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/power_jump_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"8"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"250"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"jump"
+		name 		"gui/menu/inventory/skill_name/jump_acid"
+		cooldown	"3"
+		item_bp		"items/skills/jump_acid_effects"
+		icon			"gui/hud/items_icons/skills/jump_splash"
+        bigger_icon 	"gui/menu/items_icons/skills/jump_splash"		
+		description 	"gui/menu/inventory/skill_description/jump_acid"	
+		rarity			"STANDARD"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/barbaric_jump.lua"
+		database
+		{
+			bp			string:"items/skills/jump_acid_explosion"
+			stat_bp		string:"items/skills/jump_acid_explosion"
+            trigger     string:"items/skills/jump_acid_trigger"
+            radius_bp   string:"items/skills/jump_acid_trail"
+            radius_size float:"5"
+            radius_lifetime float:"2"
+			att			string:"be_body_lower"
+			jump_speed 	float:"2"
+			jump_distance float:"20"
+			min_distance  float:"5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"jump"
+		name 		"gui/menu/inventory/skill_name/jump_acid"
+		cooldown	"3"
+		item_bp		"items/skills/jump_acid_effects"
+		icon			"gui/hud/items_icons/skills/jump_splash"
+        bigger_icon 	"gui/menu/items_icons/skills/jump_splash"		
+		description 	"gui/menu/inventory/skill_description/jump_acid"	
+		rarity			"ADVANCED"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/barbaric_jump.lua"
+		database
+		{
+			bp			string:"items/skills/jump_acid_explosion_advanced"
+			stat_bp		string:"items/skills/jump_acid_explosion_advanced"
+            trigger     string:"items/skills/jump_acid_trigger"
+            radius_bp   string:"items/skills/jump_acid_trail"
+            radius_size float:"5"
+            radius_lifetime float:"2"
+			att			string:"be_body_lower"
+			jump_speed 	float:"2"
+			jump_distance float:"20"
+			min_distance  float:"5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"jump"
+		name 		"gui/menu/inventory/skill_name/jump_acid"
+		cooldown	"3"
+		item_bp		"items/skills/jump_acid_effects"
+		icon			"gui/hud/items_icons/skills/jump_splash"
+        bigger_icon 	"gui/menu/items_icons/skills/jump_splash"		
+		description 	"gui/menu/inventory/skill_description/jump_acid"
+		rarity			"SUPERIOR"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/barbaric_jump.lua"
+		database
+		{
+			bp			string:"items/skills/jump_acid_explosion_superior"
+			stat_bp		string:"items/skills/jump_acid_explosion_superior"
+            trigger     string:"items/skills/jump_acid_trigger"
+            radius_bp   string:"items/skills/jump_acid_trail"
+            radius_size float:"5"
+            radius_lifetime float:"2"
+			att			string:"be_body_lower"
+			jump_speed 	float:"2"
+			jump_distance float:"20"
+			min_distance  float:"5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/jump_acid_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"jump"
+		name 		"gui/menu/inventory/skill_name/jump_acid"
+		cooldown	"3"
+		item_bp		"items/skills/jump_acid_effects"
+		icon			"gui/hud/items_icons/skills/jump_splash"
+        bigger_icon 	"gui/menu/items_icons/skills/jump_splash"			
+		description 	"gui/menu/inventory/skill_description/jump_acid"	
+		rarity			"EXTREME"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/barbaric_jump.lua"
+		database
+		{
+			bp			string:"items/skills/jump_acid_explosion_extreme"
+			stat_bp		string:"items/skills/jump_acid_explosion_extreme"
+            trigger     string:"items/skills/jump_acid_trigger"
+            radius_bp   string:"items/skills/jump_acid_trail"
+            radius_size float:"5"
+            radius_lifetime float:"2"
+			att			string:"be_body_lower"
+			jump_speed 	float:"2"
+			jump_distance float:"20"
+			min_distance  float:"5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{
+	name items/skills/jump_acid_trail
+
+	base_blueprints 
+	{
+		lights/point/fire_green_small
+		effects/no_lifetime
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_acid_trail"	
+		mode 		  "1"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_dash_acid"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/skills/jump_acid_trigger"
+
+	DamageTriggerComponent
+	{
+		damage_amount	10
+		always_kill		1
+		collision 		"destructible"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "3"
+			}	
+		}
+		
+	}
+}
+

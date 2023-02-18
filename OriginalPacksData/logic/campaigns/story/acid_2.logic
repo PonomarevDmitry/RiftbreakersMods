@@ -1,0 +1,258 @@
+//editor "offset(-53.063,381.392)|zoom(0.641)"
+FlowGraphTemplate
+{
+	version "5"
+	editor "3151"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(313,531)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(2196,587)"
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "PalladiumResearchObjectiveStart"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_event_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(1780,473)"
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "acid_find_new_resource"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "in_progress"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_mission_status_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_mission_status.xml)"
+					value "logic_if_mission_status_1###in_progress"
+					key "in_progress"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(1421,497)"
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "acid_find_new_resource"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/story/acid_find_new_resource"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_mission_unlock_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1218,512)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(600,477)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/find_palladium"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.find_palladium"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(1795,650)"
+			self_id "logic_if_mission_status_1###in_progress"
+			value "logic_if_mission_status_1###in_progress"
+			key "in_progress"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(2542,612)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_if_mission_status_1###in_progress "logic_wait_on_event_1"
+		objective_generic_0 "logic_wait_2"
+		logic_wait_2 "campaign_mission_unlock_1"
+		logic_if_mission_status_1 "logic_if_mission_status_1###in_progress"
+		logic_wait_on_event_1 "event_end_0"
+		campaign_mission_unlock_1 "logic_if_mission_status_1"
+		default "objective_generic_0"
+	}
+
+}
+

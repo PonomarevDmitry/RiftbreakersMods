@@ -1,0 +1,211 @@
+system player/green/green_emp_field_lvl1
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0250
+    scale                                       0.0250 0.0250 0.0250
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 1	
+    technique firealpha
+    {
+        keep_local                              true
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle 
+        {
+            emission_rate                       20
+            angle                               1
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             200
+                max                             500
+            }
+            particle_width                      3
+            particle_height                     12
+            auto_direction                      true
+            radius                              60
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           -1
+        }
+        affector                                Colour Affector68
+        {
+            time_colour                         0    1 1 1 0.498039
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique shockwave1
+    {
+        keep_local                              true
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/shockwave_02_add
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_type                      perpendicular_common
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash1
+        {
+            time_to_live                        1
+            velocity                            0
+            duration                            1
+            all_particle_dimensions             40
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           600
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0.2
+            time_colour                         0.502174  0 0.25098 0 0.109804
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique shockwave2
+    {
+        keep_local                              true
+        visual_particle_quota                   4
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/shockwave_02_add
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_type                      perpendicular_common
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            emission_rate                       2
+            time_to_live                        1
+            velocity                            0
+            duration                            2
+            all_particle_dimensions             40
+            enabled                             false
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           600
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0.2
+            time_colour                         0.502174  0 0.25098 0 0.109804
+            time_colour                         1    0 0 0 0
+        }
+        observer                                OnTime Observer1
+        {
+            observe_until_event                 true
+            handler                             DoEnableComponent Handler1
+            {
+                enable_component                emitter_component flash2 true
+            }
+            since_start_system                  true
+            on_time                             equals 1
+        }
+    }
+    technique shockwave3
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/shockwave_02_add
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_type                      perpendicular_common
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash3
+        {
+            emission_rate                       3
+            time_to_live                        1
+            velocity                            0
+            all_particle_dimensions             40
+            enabled                             false
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           600
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0.2
+            time_colour                         0.502174  0 0.25098 0 0.109804
+            time_colour                         1    0 0 0 0
+        }
+        observer                                OnTime Observer2
+        {
+            observe_until_event                 true
+            handler                             DoEnableComponent Handler2
+            {
+                enable_component                emitter_component flash3 true
+            }
+            since_start_system                  true
+            on_time                             equals 2.5
+        }
+    }
+    technique refract
+    {
+        keep_local                              true
+        visual_particle_quota                   2
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_02
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      perpendicular_common
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            emission_rate                       2
+            time_to_live                        0.5
+            velocity                            0
+            all_particle_dimensions             400
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           600
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0.4
+            time_colour                         0.506522  1 1 1 0.4
+            time_colour                         1    1 1 1 0
+        }
+    }
+}

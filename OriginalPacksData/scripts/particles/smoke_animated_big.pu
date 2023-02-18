@@ -1,0 +1,85 @@
+system exor/smoke_animated_big
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1500
+    scale                                       0.1500 0.1500 0.1500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    technique 
+    {
+        position                                0 10 0
+        visual_particle_quota                   45
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       15
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             2.5
+                max                             3.5
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            particle_width                      dyn_random
+            {
+                min                             40
+                max                             50
+            }
+            particle_height                     dyn_random
+            {
+                min                             50
+                max                             60
+            }
+            direction                           0.4 1 0
+            start_colour_range                  0.392157 0.745098 0 1
+            end_colour_range                    0.235294 0.501961 0 1
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.270588 0.270588 0.270588 0
+            time_colour                         0.11087  0.27451 0.27451 0.27451 0.486275
+            time_colour                         1    0.403922 0.403922 0.403922 0
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                TextureRotator Affector7
+        {
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                LinearForce Affector90
+        {
+            force_vector                        15 35 0
+            force_application                   average
+        }
+    }
+}

@@ -1,0 +1,313 @@
+//editor "offset(-460.65,216.50)|zoom(1.00)"
+FlowGraphTemplate
+{
+	version "2"
+	editor "5029"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_timer.xml)|pos(589,169)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "time_max"
+						value "45"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_timer.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/attack_incoming"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "attack_incoming"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "objective_state"
+						value "silent_remove"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_timer_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(574,470)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/generic/mech_attack_incoming_01"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_0"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1693,260)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(583,31)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(1007,29)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting_metallic"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(1256,245)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_comet_silent.xml)|pos(580,-184)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "weather/comet_silent_energy"
+					}
+
+					StringData
+					{
+						key "comet_flying_blueprint"
+						value "weather/comet_energy"
+					}
+
+					StringData
+					StringData
+					StringData
+					StringData
+					{
+						key "find_mode"
+						value "resource"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/comet.lua"
+			self_id "weather_comet_silent_3"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_adaptive_music_system_0 "audio_music_change_playlist_0"
+		audio_adaptive_music_system_1 "event_end_0"
+		default "audio_adaptive_music_system_0|interface_dialogue_show_0|objective_generic_timer_0|weather_comet_silent_3"
+		objective_generic_timer_0 "audio_adaptive_music_system_1"
+	}
+
+	GraphComments
+}
+

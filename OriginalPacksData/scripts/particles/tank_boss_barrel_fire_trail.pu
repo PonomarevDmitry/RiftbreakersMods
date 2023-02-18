@@ -1,0 +1,68 @@
+system exor/tank_boss_barrel_fire_trail
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique fire_alpha
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/explosion_and_smoke_anim_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       25
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             75
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             14
+                max                             20
+            }
+            direction                           1 0 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.1 0.1 0.1 0
+            time_colour                         0.25  0.1 0.1 0.1 0.8
+            time_colour                         0.806522  0.1 0.1 0.1 0.537255
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      1
+        }
+    }
+}

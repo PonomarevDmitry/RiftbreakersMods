@@ -1,0 +1,91 @@
+EntityBlueprint
+{
+	name "resources/resource_geothermal"
+
+    //MeshDesc
+	//{
+	//	mesh 		"meshes/props/vegetation/jungle/trunk_medium_02.mesh"
+	//	material 	"props/crystals"
+	//}	
+	
+	TypeDesc
+	{
+		type "resource"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"resource"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 2
+						y 1
+						z 2
+					}
+				}
+			}
+		}
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  	"resource"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/geothermal_vent"
+
+		visibility 			"discovered|radar"
+	}
+
+	SelectableDesc
+	{
+		content "resource_name/geothermal_vent"
+		can_activate "0"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/geothermal_vent"
+		scale
+		{
+			x		7.0
+			y		7.0
+			z		7.0
+		
+		}
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "steam"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/steam_big"								
+				}
+				Effect
+				{
+					blueprint "effects/world/geothermal_vent"								
+				}				
+			}
+		}	
+	}		
+}
+

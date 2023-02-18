@@ -1,0 +1,173 @@
+//editor "offset(-105.333,145.333)|zoom(1.000)"
+FlowGraphTemplate
+{
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1691,538)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_timer.xml)|pos(613,443)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_timer.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/attack_incoming"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "attack_incoming"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "objective_state"
+						value "silent_remove"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "true"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "time_max"
+						value "40"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_timer_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(660,221)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(1067,219)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(1302,524)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_adaptive_music_system_1 "event_end_0"
+		audio_adaptive_music_system_0 "audio_music_change_playlist_0"
+		objective_generic_timer_0 "audio_adaptive_music_system_1"
+		default "audio_adaptive_music_system_0|objective_generic_timer_0"
+	}
+
+}
+

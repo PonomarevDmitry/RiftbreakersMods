@@ -1,0 +1,78 @@
+system exor/light_blue_and_red_police
+{
+    nonvisible_update_timeout                   1
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 0
+    technique flare
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        0.4
+            velocity                            0.0001
+            all_particle_dimensions             2
+            position                            0 0 -0.7
+            keep_local                          true
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique flare
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_red_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        0.4
+            velocity                            0.0001
+            all_particle_dimensions             2
+            enabled                             false
+            position                            0 0 0.7
+            keep_local                          true
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        observer                                OnTime Observer0
+        {
+            observe_until_event                 true
+            handler                             DoEnableComponent Handler0
+            {
+                enable_component                emitter_component flare true
+            }
+            since_start_system                  true
+            on_time                             greater_than 0.2
+        }
+    }
+}

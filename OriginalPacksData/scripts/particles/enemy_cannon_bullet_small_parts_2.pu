@@ -1,0 +1,138 @@
+system exor/enemy_cannon_bullet_small_parts_2
+{
+    fixed_timeout                               2.5
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0150
+    scale                                       0.0150 0.0150 0.0150
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique smoketrail1
+    {
+        keep_local                              true
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/enemy_bullet_big_front_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point smoketrail1
+        {
+            emission_rate                       80
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
+            velocity                            0.001
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             35
+            }
+        }
+        affector                                Colour Affector23
+        {
+            time_colour                         0    1 1 1 0.74902
+            time_colour                         1    1 1 1 0.2
+        }
+    }
+    technique flash2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lensflare_depth_off
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.25
+            velocity                            0
+            all_particle_dimensions             1
+            colour                              0.776471 0.388235 0 1
+            force_emission                      true
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           2500
+        }
+        affector                                Colour Affector112
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+    }
+    technique refract
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_02
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.25
+            velocity                            0
+            all_particle_dimensions             1
+            force_emission                      true
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           1499
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0.607843
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique ribbon
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/ribbon_enemy_rocket_medium
+        renderer                                RibbonTrail
+        {
+            render_queue_group                  65
+            max_elements                        20
+            ribbontrail_length                  1250
+            ribbontrail_width                   100
+            ribbontrail_width_change            0.5
+            random_initial_colour               false
+            initial_colour                      1 1 1 0.501961
+            colour_change                       0 0 0 0.501961
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        250
+            velocity                            0.0001
+            direction                           1 0 0
+            force_emission                      true
+        }
+    }
+}

@@ -1,0 +1,88 @@
+EntityBlueprint
+{ 
+	name "items/skills/dash"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash"
+		cooldown	"2"
+		item_bp		"items/skills/dash_effects"
+		icon		"gui/hud/items_icons/skills/dash"
+        bigger_icon "gui/menu/items_icons/skills/dash"		
+		description 	"gui/menu/inventory/skill_description/dash"		
+		add_quality "0"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/dash.lua"		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+
+	
+		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_effects"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"50"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "500"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "500"
+				}
+                
+				Vector2
+				{
+					x "0.5"
+					y "-500"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+

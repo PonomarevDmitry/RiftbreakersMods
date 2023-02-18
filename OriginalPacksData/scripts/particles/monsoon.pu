@@ -1,0 +1,158 @@
+system rift/monsoon
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.025
+    scale                                       0.025 0.025 0.025
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    technique 
+    {
+        visual_particle_quota                   1500
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/blood_splat_nocolor_atlas
+        default_particle_width                  4
+        default_particle_height                 100
+        renderer                                Billboard
+        {
+            texture_coords_columns              8
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       1500
+            angle                               3
+            time_to_live                        1
+            velocity                            2500
+            particle_width                      dyn_random
+            {
+                min                             4
+                max                             8
+            }
+            particle_height                     dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            position                            500 100 0
+            direction                           0.2 -1 0
+            end_texture_coords_range            5
+            colour                              1 1 1 0.392157
+            box_width                           2500
+            box_height                          1
+            box_depth                           2500
+        }
+    }
+    technique 
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/blood_splat_nocolor_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              8
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       200
+            time_to_live                        dyn_random
+            {
+                min                             3
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             175
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             7
+                max                             14
+            }
+            position                            500 -800 0
+            direction                           0.2 -1 0
+            end_texture_coords_range            5
+            colour                              0.188235 0.188235 0.188235 1
+            box_width                           2500
+            box_height                          300
+            box_depth                           2500
+        }
+        affector                                Colour Affector11
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.102174  1 1 1 0.7
+            time_colour                         0.906522  1 1 1 0.7
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+        affector                                SineForce Affector17
+        {
+            force_vector                        500 50 500
+            max_frequency                       5
+        }
+        affector                                ForceField Affector26
+        {
+        }
+    }
+    technique 
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/blood_splat_nocolor_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              8
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       200
+            time_to_live                        dyn_random
+            {
+                min                             3
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             175
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             7
+                max                             14
+            }
+            position                            500 -800 0
+            direction                           0.2 -1 0
+            end_texture_coords_range            5
+            colour                              0.188235 0.188235 0.188235 1
+            box_width                           2500
+            box_height                          300
+            box_depth                           2500
+        }
+        affector                                Colour Affector11
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.102174  1 1 1 0.7
+            time_colour                         0.906522  1 1 1 0.7
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+        affector                                SineForce Affector17
+        {
+            force_vector                        -400 50 500
+            max_frequency                       5
+        }
+        affector                                ForceField Affector26
+        {
+        }
+    }
+}

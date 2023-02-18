@@ -1,0 +1,69 @@
+EntityBlueprint
+{
+	name "units/air/vesaurus_alpha"
+
+	base_blueprint "units/air/vesaurus_base"
+
+	StateMachineDesc
+	{
+		template_name "vesaurus"
+		params
+		{
+			speed							float:"9"
+			acceleration					float:"9"
+			max_search_origin_radius		float:"200"	
+			rotate_speed					float:"150"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/vesaurus.lua"
+		database
+		{
+			min_scale	float:"0.85"
+			max_scale	float:"1"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"120"
+		unit_soft_radius				"2.6"
+		dominance_group					"10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/vesaurus.mesh"
+		material 	"units/air/vesaurus_alpha"
+	}
+}

@@ -1,0 +1,245 @@
+PhysicsMaterials
+{
+// --- STATIC FRICTION MEANS HOW HARD IS TO MOVE THE OBECT - VALUE: 0-1 -----------------------------------------------//
+// --- DYNAMIC FRICTION MEANS HOW MUCH FRICTION IT HAS DURING MOTION - VALUE: 0-1 -------------------------------------//
+// --- RESTITUTION MEANS BOUNCING, IF SET TO 1 THEN BOUNCES OFF WITH FULL FORCE, IF SET TO 0 THEN DOES NOT BOUNCE -----//
+// --- DENSTIY IS A DEFAULT DENSITY FOR AN OBJECT IN KG PER CUBIC METER - STEEL: 7850 KG/M3; CONCRETE: 2400 KG/M3; GRANITE: 2700 KG/M3; WOOD: 700 KG/M3 --//
+// --- AFTER TWEAKING DENSITY IS NOT USED - WE ARE USING MASS OVERRIDES FOR OBJECTS --//
+// --- combine mode priorities from low to high: avg, min, mul, max
+
+	PhysicsMaterial
+	{
+		name 						"default"
+		
+		static_friction   			"0.001"
+		dynamic_friction  			"0.5"
+		restitution       			"0.2"
+		
+		friction_combine_mode		"max"
+		restitution_combine_mode	"min"		
+		
+	}
+	
+// ------------- MATERIAL FOR GIBS FROM ENEMIES ----------- //	
+	PhysicsMaterial
+	{
+		name 						"gibs_super_heavy"
+		
+		static_friction   			"1"
+		dynamic_friction  			"1"
+		restitution       			"0.01"
+		friction_combine_mode		"max"
+		restitution_combine_mode	"min"			
+	}	
+
+	PhysicsMaterial
+	{
+		name 						"gibs_heavy"
+		
+		static_friction   			"0.9"
+		dynamic_friction  			"0.9"
+		restitution       			"0.2"
+		friction_combine_mode		"max"
+		restitution_combine_mode	"min"			
+	}	
+	
+	PhysicsMaterial
+	{
+		name 						"gibs_light"
+		
+		static_friction   			"0.001"
+		dynamic_friction  			"0.5"
+		restitution       			"0.3"
+		friction_combine_mode		"min"
+		restitution_combine_mode	"min"		
+	}	
+	
+// ------------- MATERIAL FOR THE GROUND COLLISION ----------- //
+	PhysicsMaterial
+	{
+		name 						"floor"
+		
+		static_friction   			"0.001"
+		dynamic_friction  			"0.5"
+		restitution       			"0.3"
+		
+		friction_combine_mode		"avg"
+		restitution_combine_mode	"avg"
+	}
+	
+// ------------- MATERIAL FOR THE CHUNKS _chunk1, _chunk2 ...----------- //
+	PhysicsMaterial
+	{
+		name 						"destructible"
+		
+		static_friction   			"0.5"
+		dynamic_friction  			"0.5"
+		restitution       			"0.2"
+		
+		friction_combine_mode		"min"
+		restitution_combine_mode	"min"
+		
+		density 					"2400"
+	}
+// ------------- MATERIAL FOR THE SMALLEST PARTS _p1, _p2 ... ----------- //	
+	PhysicsMaterial
+	{
+		name 						"debris"
+		
+		static_friction   			"0.5"
+		dynamic_friction  			"0.5"
+		restitution       			"0.2"
+		
+		friction_combine_mode		"min"
+		restitution_combine_mode	"max"
+		
+		density 					"2400"
+	}
+
+    PhysicsMaterial
+	{
+		name 						"debris_floating"
+		
+		static_friction   			"0.5"
+		dynamic_friction  			"0.5"
+		restitution       			"0.1"
+		
+		friction_combine_mode		"min"
+		restitution_combine_mode	"max"
+		
+		density 					"2400"
+        buoyancy                    "1.0"
+	}
+
+// ------------- MATERIAL FOR THE BIGGER PARTS _p1, _p2 ... FROM BUILDING CHUNKS ETC. ----------- //	
+	PhysicsMaterial
+	{
+		name 						"debris_heavy"
+		
+		static_friction   			"1.0"
+		dynamic_friction  			"1.0"
+		restitution       			"0.2"
+		
+		friction_combine_mode		"max"
+		restitution_combine_mode	"min"
+	}	
+	
+// ------------- MATERIAL FOR BUILDING PARS ----------- //	
+	PhysicsMaterial
+	{
+		name 						"chunk"
+		
+		static_friction   			"1.0"
+		dynamic_friction  			"1.0"
+		restitution       			"0.0"
+		
+		friction_combine_mode		"max"
+		restitution_combine_mode	"min"
+
+		density 					"2400"
+		buoyancy                    "0.0"
+	}
+	
+// ------------- MATERIAL FOR FALLING TREE TRUNK --------- //	
+	PhysicsMaterial
+	{
+		name 						"tree"
+		
+		static_friction   			"1.0"
+		dynamic_friction  			"1.0"
+		restitution       			"0.3"
+		
+		friction_combine_mode		"max"
+		restitution_combine_mode	"min"
+
+		density 					"2400"
+        buoyancy                    "1"
+	}
+
+// ------------- MATERIAL FOR THE WRECKS  ----------- //	
+	PhysicsMaterial
+	{
+		name 						"wreck_small"
+		
+		static_friction   			"1.0"
+		dynamic_friction  			"0.15"
+		restitution       			"0.0"
+		
+		friction_combine_mode		"min"
+		restitution_combine_mode	"min"
+
+		density 					"2400"
+		buoyancy                    "0.5"
+	}
+
+	PhysicsMaterial
+	{
+		name 						"wreck_big"
+		
+		static_friction   			"1.0"
+		dynamic_friction  			"0.10"
+		restitution       			"0.0"
+		
+		friction_combine_mode		"min"
+		restitution_combine_mode	"min"
+
+		density 					"2400"
+		buoyancy                    "0.5"
+	}
+
+	PhysicsMaterial
+	{
+		name 						"wreck_air"
+		
+		static_friction   			"1.0"
+		dynamic_friction  			"1.0"
+		restitution       			"0.0"
+		
+		friction_combine_mode		"min"
+		restitution_combine_mode	"min"
+
+		density 					"2400.0"
+		buoyancy                    "0.5"
+	}
+
+// ------------- MATERIAL FOR THE WRECKS : FALLING DOWN  ----------- //	
+	PhysicsMaterial
+	{
+		name 						"wreck_falling_down"
+		
+		static_friction   			"0.15"
+		dynamic_friction  			"0.15"
+		restitution       			"0.05"
+		
+		friction_combine_mode		"min"
+		restitution_combine_mode	"min"
+
+		density 					"2400"
+		buoyancy                    "0.5"
+	}
+	
+// ------------- MATERIAL FOR THE GRENADES ----------- //	
+	PhysicsMaterial
+	{
+		name 						"grenade_light"
+		
+		static_friction   			"0.0"
+		dynamic_friction  			"0.0"
+		restitution       			"1.0"
+		
+		friction_combine_mode		"avg"
+		restitution_combine_mode	"max"
+	}
+	
+	PhysicsMaterial
+	{
+		name 						"grenade_heavy"
+		
+		static_friction   			"0.0"
+		dynamic_friction  			"0.25"
+		restitution       			"0.7"
+		
+		friction_combine_mode		"max"
+		restitution_combine_mode	"min"
+	}
+}

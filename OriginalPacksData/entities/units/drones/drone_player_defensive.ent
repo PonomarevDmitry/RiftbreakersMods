@@ -1,0 +1,119 @@
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_defensive_standard"
+    base_blueprint  "units/drones/drone_base"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement			string:"follow"
+			owner_movement_speed_near       	 float:"0.75"
+			owner_movement_speed_far          	 float:"1.5"
+			owner_movement_trigger_distance 	float:"8.0"
+
+			target_movement			string:"follow"
+			target_search_mode  	string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone.lua"
+
+		database
+		{
+			search_interval  float:"0.35"
+			search_radius	 float:"10.0"
+			min_scale			float:"0.8"
+			max_scale			float:"0.8"			
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_crystal_collector.mesh"
+		material "units/drones/drone_crystal_collector"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/drones/drone_crystal_collector"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail_defensive"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_defensive_advanced"
+	base_blueprint		"units/drones/drone_player_defensive_standard"
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone.lua"
+
+		database
+		{
+			search_interval  float:"0.3"
+			search_radius	 float:"11.0"
+			min_scale			float:"0.7"
+			max_scale			float:"0.7"					
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_defensive_superior"
+	base_blueprint		"units/drones/drone_player_defensive_standard"
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone.lua"
+
+		database
+		{
+			search_interval  float:"0.25"
+			search_radius	 float:"12.0"
+			min_scale			float:"0.7"
+			max_scale			float:"0.7"					
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_defensive_extreme"
+	base_blueprint		"units/drones/drone_player_defensive_standard"
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone.lua"
+
+		database
+		{
+			search_interval  float:"0.2"
+			search_radius	 float:"13.0"
+			min_scale			float:"0.7"
+			max_scale			float:"0.7"					
+		}
+	}	
+}

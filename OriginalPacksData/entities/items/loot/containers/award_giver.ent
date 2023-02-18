@@ -1,0 +1,113 @@
+EntityBlueprint
+{ 
+	name "items/loot/containers/award_giver_item"
+
+	InventoryItemDesc
+	{
+		type 			"award"
+		name 			"new_award"
+		item_bp			"items/loot/containers/award_giver"
+		icon			gui/hud/resource_icons/specimen
+		bigger_icon 	gui/hud/resource_icons/specimen_bigger
+	}
+
+	LuaDesc
+	{
+		script "lua/items/misc/award_giver.lua"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"loot"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 	"2"
+						y 	"2"
+						z 	"2"
+						
+						position 
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}							
+					}			
+				}	
+				mass 		"300"			
+				inertia
+				{
+					x   0
+					y   1
+					z   0
+				}					
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/loot/containers/award_giver"
+
+	MeshDesc
+	{
+		mesh 		"meshes/loot/mods/mod_advanced.mesh"
+		material 	"loot/resources/specimen"
+	}
+
+	EffectDesc
+	{			
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/treasure_reward_idle"							
+				}
+				Effect
+				{
+					blueprint "effects/loot/treasure_reward_spawn"						
+				}
+			}			
+		}		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/treasure_reward_collect"							
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_max"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_max"							
+				}
+			}
+		}
+	}		
+}	

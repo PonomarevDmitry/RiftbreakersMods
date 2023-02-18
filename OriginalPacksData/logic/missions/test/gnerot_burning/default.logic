@@ -1,0 +1,1138 @@
+//editor "offset(-437.035,700.355)|zoom(1.000)"
+FlowGraphTemplate
+{
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-2294,109)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player.xml)|pos(-1796,309)"
+			script "lua/graph/entity/entity_spawn_player.lua"
+			self_id "entity_spawn_player_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_resource.xml)|pos(-1364,351)"
+			script "lua/graph/entity/entity_add_resource.lua"
+			self_id "entity_add_resource_0"
+			database
+			{
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "steel"
+						value "250.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "carbonium"
+						value "300.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_low_caliber"
+						value "200.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_liquid"
+						value "500.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_explosive"
+						value "10.00"
+					}
+
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-1354,192)"
+			self_id "event_graph_1"
+			graph "logic/loadout/player_loadout_debug.logic"
+			start_point "default"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(-625,-160)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+					}
+
+				}
+
+			}
+
+			self_id "wave_ground_14"
+			spawn_point "logic/spawn_gnerot"
+			group_name "gnerot"
+			delay "0"
+			percentage_units_to_end_wave "100"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/gnerot_burning"
+					delay_group "0"
+					delay "0.00"
+					count "1"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-971,88)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_23"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-537,569)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "25.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_24"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(-142,339)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+					}
+
+				}
+
+			}
+
+			self_id "wave_ground_15"
+			spawn_point "logic/spawn_canoptrix"
+			group_name "canoptrix"
+			delay "0"
+			percentage_units_to_end_wave "100"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/canoptrix_alpha"
+					delay_group "0"
+					delay "0.10"
+					count "64"
+					units_in_one_spawn "4"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_hud_show_debug.xml)|pos(-961,-478)"
+			script "lua/graph/interface/interface_hud_show_debug.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "text"
+						value "Enemies incoming!"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5.00"
+					}
+
+				}
+
+			}
+
+			self_id "interface_hud_show_debug_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(-282,-412)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(camera_move_at_target.xml)|pos(-639,-684)"
+			script "lua/graph/camera/camera_move_at_target.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "logic/camera_marker_gnerot"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "speed"
+						value "200.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "lock_camera"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "camera_move_at_target_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-960,-612)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(camera_move_at_target.xml)|pos(-7,-675)"
+			script "lua/graph/camera/camera_move_at_target.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "gnerot"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "speed"
+						value "50.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "lock_camera"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "camera_move_at_target_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-226,-613)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.50"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_set_console_var.xml)|pos(-1885,-985)"
+			script "lua/graph/logic/logic_set_console_var.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "console_var"
+						value "time_of_day_hour"
+					}
+
+					StringData
+					{
+						key "value"
+						value "2"
+					}
+
+				}
+
+			}
+
+			self_id "logic_set_console_var_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_set_console_var.xml)|pos(-1890,-863)"
+			script "lua/graph/logic/logic_set_console_var.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "console_var"
+						value "time_of_day_duration"
+					}
+
+					StringData
+					{
+						key "value"
+						value "9999"
+					}
+
+				}
+
+			}
+
+			self_id "logic_set_console_var_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(camera_teleport.xml)|pos(-886,-957)"
+			script "lua/graph/camera/camera_teleport.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "logic/camera_marker_gnerot"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+				}
+
+			}
+
+			self_id "camera_teleport_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(camera_move_at_target.xml)|pos(-266,-975)"
+			script "lua/graph/camera/camera_move_at_target.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "gnerot"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "speed"
+						value "10.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "lock_camera"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "camera_move_at_target_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-506,-920)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-1605,-414)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_fade.xml)|pos(-1899,-729)"
+			script "lua/graph/interface/interface_fade.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+					FloatData
+					{
+						key "fade_in"
+						value "1.00"
+					}
+
+					FloatData
+					{
+						key "fade_out"
+						value "0.00"
+					}
+
+				}
+
+			}
+
+			self_id "interface_fade_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_immortal.xml)|pos(142,-36)"
+			script "lua/graph/entity/entity_immortal.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "canoptrix"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "state"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_immortal_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-126,217)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_immortal.xml)|pos(138,-308)"
+			script "lua/graph/entity/entity_immortal.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "player"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "state"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_immortal_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_immortal.xml)|pos(374,-596)"
+			script "lua/graph/entity/entity_immortal.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "building"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "state"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_immortal_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(568,50)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_immortal.xml)|pos(808,-23)"
+			script "lua/graph/entity/entity_immortal.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "canoptrix"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "state"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_immortal_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_immortal.xml)|pos(1453,-14)"
+			script "lua/graph/entity/entity_immortal.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "canoptrix"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "state"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_immortal_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1212,58)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1902,68)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_immortal.xml)|pos(2142,-4)"
+			script "lua/graph/entity/entity_immortal.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "canoptrix"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "state"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_immortal_5"
+		}
+
+	}
+
+	GraphConnections
+	{
+		entity_immortal_3 "logic_wait_6"
+		logic_wait_5 "entity_immortal_3"
+		logic_wait_4 "entity_immortal_0|entity_immortal_1|entity_immortal_2"
+		logic_wait_6 "entity_immortal_4"
+		entity_immortal_0 "logic_wait_5"
+		logic_wait_1 "camera_move_at_target_2"
+		camera_move_at_target_0 "logic_wait_2"
+		logic_wait_3 "camera_teleport_0"
+		logic_wait_2 "camera_move_at_target_1"
+		logic_wait_23 "audio_music_change_playlist_0|logic_wait_2|logic_wait_24|wave_ground_14"
+		entity_immortal_4 "logic_wait_7"
+		logic_wait_24 "logic_wait_4|wave_ground_15"
+		camera_teleport_0 "logic_wait_1"
+		logic_wait_7 "entity_immortal_5"
+		logic_wait_0 "camera_move_at_target_0"
+		entity_spawn_player_0 "entity_add_resource_0|event_graph_1"
+		default "entity_spawn_player_0|logic_set_console_var_0|logic_set_console_var_1|logic_wait_23|logic_wait_3"
+	}
+
+}
+

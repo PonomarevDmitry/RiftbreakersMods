@@ -1,0 +1,99 @@
+EntityBlueprint
+{
+	name "units/ground/carnicinth_ultra"
+
+	base_blueprint "units/ground/carnicinth_base"
+
+	StateMachineDesc
+	{
+		template_name "carnicinth"
+		params
+		{
+
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/carnicinth.lua"
+		database
+		{
+			min_scale	float:"1.15"
+			max_scale	float:"1.20"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		current_speed					"0"
+		max_speed						"0"
+		angle_turn_speed				"240"
+		unit_soft_radius				"0.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/carnicinth.mesh"
+		material 	"units/ground/carnicinth_ultra"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/carnicinth_ultra"
+		can_activate 0
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+
+		ammo_blueprint 				"units/ground/zorant/attack_range"
+
+		muzzle_flash_effect 		"effects/enemies_carnicinth/muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	
+}
+

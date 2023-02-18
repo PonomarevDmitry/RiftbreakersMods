@@ -1,0 +1,141 @@
+EntityBlueprint
+{
+	name  "buildings/energy/wind_turbine_lvl_2"
+
+	base_blueprint buildings/energy/wind_turbine
+
+	BuildingDesc
+	{
+		buildable			"0"
+		name 				"wind_turbine_lvl_2"
+		bp   				"buildings/energy/wind_turbine_lvl_2"
+		category 			"energy"
+		localization_id		"gui/hud/building_name/wind_turbine"
+		description			"gui/hud/building_description/wind_turbine"
+		menu_icon			"gui/hud/building_icons/wind_turbine_lvl2"
+		require 			"headquarters"
+		order				"3"
+		upgrade				"buildings/energy/wind_turbine_lvl_3"
+		type				"wind"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		going_green_state	"2"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 10
+				building_cost
+				{
+					carbonium 	"80"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc
+	{
+		in
+		{
+
+		}
+
+		out
+		{
+			GameplayResource
+			{
+				resource 			"energy"
+				value			 	"24"
+			}
+		}
+	}
+
+	ResourceStorageDesc
+	{
+		Storages
+		{
+			Storage
+			{
+				resource "energy"
+				max 	 "24"
+			}
+
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 					"330"
+		health 						"330"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/energy/wind_turbine_lvl_2.mesh"
+		material "buildings/energy/wind_turbine_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/energy/wind_turbine_lvl_2"
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		EffectGroup
+		{
+			group "level"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/level_2"
+					bone "att_level"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "working"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_energy/wind_turbine_working"	
+					delay "0.5"					
+				}				
+			}
+		}
+	}
+}

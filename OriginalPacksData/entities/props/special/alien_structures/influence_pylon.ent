@@ -1,0 +1,125 @@
+EntityBlueprint
+{
+	name  "props/special/alien_structures/influence_pylon"
+
+	MeshDesc
+	{
+		mesh 		"meshes/props/special/alien_structures/influence_pylon.mesh"
+		material 	"props/special/influence_pylon"
+	}
+		
+	LuaDesc
+	{
+		script "lua/props/special/influence_pylon.lua"
+		
+		database
+		{
+			dissolve_time float:"10"
+		}
+	}
+
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/alien_structures/influence_pylon_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	InfluenceComponent
+	{
+		radius "14"		
+		energy_radius "0"
+		emissive_radius "9"		
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/enemies_alien_tower/influence_pylon_dissolve"	
+					
+					part_material	 		"props/crystals/pure_set"
+					part_prefix 			"meshes/props/crystals/pure_medium_01"
+					part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}	
+		}		
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "0.82"
+			y "0.39"
+			z "0.89"
+			w "1"
+		}
+		size
+		{
+			x "5"
+			y "5"
+		}
+
+		visibility "discovered"
+	}	
+
+	InteractiveComponent 
+	{
+		slot 			"HARVESTER"
+		radius 			"6"
+		remove_entity	"0"
+	}
+	
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+	}	
+	
+	SoundDesc
+	{
+		name "ambient/magnetic_rock"
+	}		
+	
+	EffectDesc
+	{	
+		EffectGroup
+		{
+			group "treasure"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_alien_tower/influence_pylon_dissolve"
+					offset 0 1 0
+				}
+			}
+		}		
+	}		
+}

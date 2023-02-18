@@ -1,0 +1,50 @@
+material outline
+{
+    render_group 130
+    
+    technique
+    {
+        pass
+        {
+            depth_write off
+            depth_check off
+            cull_hardware none
+            scene_blend alpha_blend
+
+            check       on
+            comp_func   less
+            ref_value   200
+            pass_op     keep
+            two_sided   on
+
+            vertex_program_ref post_quad_vp
+            {
+            }
+
+            fragment_program_ref outline_fp
+            {
+                param_named cOutlineColor float4 1 0.0 0 1
+            }
+
+            texture_unit depth
+            {
+                content_type compositor any gbuffer 5
+                tex_address_mode clamp
+                filtering none
+            }
+
+            texture_unit normal
+            {
+                content_type compositor any gbuffer 2
+                tex_address_mode clamp
+                filtering none
+            }
+
+            texture_unit noise
+            {
+                anim_texture materials/textures/gradient/hologram_gradient.dds 15 0.75
+                filtering bilinear
+            }
+        }
+    }
+}

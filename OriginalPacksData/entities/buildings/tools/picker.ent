@@ -1,0 +1,55 @@
+EntityBlueprint
+{
+	name  "buildings/tools/picker"
+
+	BuildingDesc
+	{
+		name 				"picker"
+		bp   				"buildings/tools/picker"
+		ghost_bp   			"buildings/tools/picker_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/picker_tool"
+		description			"gui/hud/building_description/picker_tool"
+		menu_icon			"gui/hud/tools_icons/picker_tool"
+		order				"1"
+		type 				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/picker_ghost"
+
+	BuildingDesc
+	{
+		name		"picker_ghost"
+		buildable 	"0"
+		type 		"picker"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/picker_tool.lua"
+		database
+		{
+			action	string:"picker"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_violet"
+		flags       "2"
+	}
+
+}
+

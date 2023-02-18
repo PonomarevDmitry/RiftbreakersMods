@@ -1,0 +1,27 @@
+material downsample
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			
+			vertex_program_ref downsample_vp
+			{
+			}
+			
+			fragment_program_ref downsample_fp 
+			{
+			}
+			
+			texture_unit source
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}

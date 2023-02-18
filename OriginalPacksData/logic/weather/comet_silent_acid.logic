@@ -1,0 +1,81 @@
+//editor "offset(-7.204,-1485.923)|zoom(1.000)"
+FlowGraphTemplate
+{
+	version "1"
+	editor "2450"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(238,2123)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1236,2132)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_comet_silent.xml)|pos(623,2105)"
+			script "lua/graph/weather/comet.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "weather/comet_silent_acid"
+					}
+
+					StringData
+					{
+						key "comet_flying_blueprint"
+						value "weather/comet_acid"
+					}
+
+					StringData
+					StringData
+					StringData
+					StringData
+					{
+						key "find_mode"
+						value "resource"
+					}
+
+				}
+
+			}
+
+			self_id "weather_comet_silent_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		weather_comet_silent_0 "event_end_2"
+		default "weather_comet_silent_0"
+	}
+
+}
+

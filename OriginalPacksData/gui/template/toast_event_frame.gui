@@ -1,0 +1,128 @@
+GuiRootGroupDef
+{
+	full_screen "0"
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "frame"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bg"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/event_info_bg"
+							alignment "center"
+							anchor "center"
+							id "bg"
+							z_order "1.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "content"
+						value "GuiTextBoxDef"
+						{
+							max_size
+							{
+								x "400.000"
+								y "100.000"
+							}
+
+							content "gui/menu/main_menu/upsell_dlc_available"
+							style_name "active_25"
+							translate "1"
+							alignment "left"
+							anchor "left"
+							bindings
+							{
+								content
+								{
+									model_field "event_type"
+									converter "GuiModelMapConverter"
+									{
+										map
+										{
+											seasonal_event "gui/menu/main_menu/seasonal_events"
+											content_installed "gui/menu/main_menu/upsell_dlc_installed"
+											content_available "gui/menu/main_menu/upsell_dlc_available"
+										}
+
+									}
+
+								}
+
+							}
+
+							id "content"
+							margin
+							{
+								x "100.000"
+							}
+
+							z_order "2.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "icon"
+						value "GuiImageDef"
+						{
+							error_material "gui/menu/inventory/missing_icon"
+							material "gui/menu/inventory/missing_icon"
+							alignment "center"
+							anchor "left"
+							bindings
+							{
+								material
+								{
+									model_field "event_icon"
+								}
+
+							}
+
+							id "icon"
+							offset
+							{
+								x "50.000"
+							}
+
+							z_order "3.000"
+						}
+
+					}
+
+				}
+
+				container_type "3"
+				size
+				{
+					x "525.000"
+					y "100.000"
+				}
+
+				id "frame"
+			}
+
+		}
+
+	}
+
+	size
+	{
+		x "516.000"
+		y "93.000"
+	}
+
+	id "gui/template/toast_event_frame"
+}
+

@@ -1,0 +1,750 @@
+//editor "offset(-3602.958,307.927)|zoom(0.572)"
+FlowGraphTemplate
+{
+	version "8"
+	editor "3151"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(759,751)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(4776,594)"
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "magma_find_samples"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_mission_status_2"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_mission_status.xml)"
+					value "logic_if_mission_status_2###win"
+					key "win"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3475,638)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(4365,617)"
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "magma_find_samples"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/story/magma_find_samples"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_mission_unlock_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3290,490)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(2708,353)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_radar"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(1601,344)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/research_radar"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_radar"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_research_finished.xml)|pos(1169,368)"
+			script "lua/graph/logic/logic_if_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/auxiliary_buildings_lvl1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_research_finished_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_research_finished_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_research_finished_0###true"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(2230,368)"
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/auxiliary_buildings_lvl1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_reseach_finished_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(3688,609)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/magma_gather_samples"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.magma_gather_samples"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(4791,771)"
+			self_id "logic_if_mission_status_2###win"
+			value "logic_if_mission_status_2###win"
+			key "win"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1184,470)"
+			self_id "logic_if_research_finished_0###false"
+			key "false"
+			value "logic_if_research_finished_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1184,497)"
+			self_id "logic_if_research_finished_0###true"
+			key "true"
+			value "logic_if_research_finished_0###true"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(5226,732)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(2242,879)"
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/cryo_technology"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_reseach_finished_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_research_finished.xml)|pos(1179,942)"
+			script "lua/graph/logic/logic_if_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/cryo_technology"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_research_finished_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_research_finished_1###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_research_finished_1###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1194,1044)"
+			self_id "logic_if_research_finished_1###false"
+			key "false"
+			value "logic_if_research_finished_1###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1194,1071)"
+			self_id "logic_if_research_finished_1###true"
+			key "true"
+			value "logic_if_research_finished_1###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(1600,856)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/research_cryo_tech"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_cryo_tech"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(2718,868)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_cryo_tech"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2997,1047)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3291,784)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(2235,160)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/auxiliary_buildings_lvl1"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(2709,153)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/auxiliary_buildings_lvl1"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(2716,662)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/cryo_technology"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(2242,669)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/cryo_technology"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_3"
+		}
+
+	}
+
+	GraphConnections
+	{
+		campaign_objective_generic_0 "logic_wait_on_reseach_finished_1|mission_highlight_research_3"
+		campaign_objective_finish_1 "logic_or_1"
+		logic_if_research_finished_1###true "logic_wait_0"
+		logic_or_1 "logic_wait_4"
+		logic_if_research_finished_1###false "campaign_objective_generic_0"
+		logic_wait_on_reseach_finished_1 "campaign_objective_finish_1|mission_highlight_research_2"
+		logic_if_research_finished_0###true "logic_or_0"
+		logic_if_research_finished_0###false "campaign_objective_generic_2"
+		logic_if_mission_status_2###win "event_end_0"
+		campaign_objective_generic_3 "campaign_mission_unlock_2"
+		campaign_objective_generic_2 "logic_wait_on_reseach_finished_0|mission_highlight_research_0"
+		campaign_objective_finish_0 "logic_or_0"
+		logic_or_0 "logic_wait_4"
+		logic_if_research_finished_0 "logic_if_research_finished_0###false|logic_if_research_finished_0###true"
+		logic_wait_0 "logic_or_1"
+		campaign_mission_unlock_2 "logic_if_mission_status_2"
+		logic_wait_on_reseach_finished_0 "campaign_objective_finish_0|mission_highlight_research_1"
+		logic_if_research_finished_1 "logic_if_research_finished_1###false|logic_if_research_finished_1###true"
+		logic_wait_4 "campaign_objective_generic_3"
+		logic_if_mission_status_2 "logic_if_mission_status_2###win"
+		default "logic_if_research_finished_0|logic_if_research_finished_1"
+	}
+
+}
+

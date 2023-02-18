@@ -1,0 +1,133 @@
+EntityBlueprint
+{
+	name "props/trees/flos_medium_01"
+
+	base_blueprints
+	{
+		props/base/flammable_medium
+		props/base/resistant_small
+	}
+
+	HealthDesc
+	{ 
+		max_health 				"50"
+		health 					"50"
+		is_manual 				"1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/trees/flos_medium_01.mesh"
+		material "props/trees/flos_big_01"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/trees/flos_medium_01_c1.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/trees/flos_medium_01_c2.nxs"
+					}
+		
+				}
+			}
+		}
+	}
+
+	TreeDesc
+	{
+		fake_tip_mass 					"150"
+		spring_constant 				"750"
+		damping_constant 				"200"
+		falling_force 					"20000"
+		falling_mass 					"5000"
+		burned_spring_scaler 			"2"
+	
+		fall_impulse_scale 				"1.5"
+		bend_break_threshold 			"15"
+		
+		mesh_prefix 					"meshes/props/trees/flos_medium_01"
+		material_prefix 				"props/trees/flos_big_01"
+		bird_effect 					"effects/world/birds_from_tree" 
+ 		fall_tree_effect 				"effects/destructibles/destructible_tree_broken"
+		bird_emission_probability 		"0.01"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_leafs_destruction_medium"	
+					
+					part_material	 		"props/trees/flos_big_01"
+					part_prefix 			"meshes/props/trees/flos_medium_01"
+					part_effect 			"effects/destructibles/tree_leafs_part_trail"
+					
+					//part_linear_damping		"1"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+					
+					part_material 			"props/trees/flos_big_01"
+					part_prefix 			"meshes/props/trees/flos_medium_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+					
+					//part_linear_damping		"1"
+				}
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_medium"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+
+	
+}
+

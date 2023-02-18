@@ -1,0 +1,91 @@
+EntityBlueprint 
+{	
+		name "weather/alien_comet_flying"
+
+	MeshDesc
+	{
+		mesh "meshes/props/rocks/metallic_mineral/metallic_mineral_small_03.mesh"
+		material "props/rocks/metallic_mineral/metallic_mineral_small_01_03"
+		render_group 29 // no point light cast shadow
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/comet"
+		visibility		"always"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		time_of_day 							"scripts/scene_params/solar_eclipse.td"
+		effect_intesity_distance				"50"
+		size									"as_radius"
+		radius									"120"
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "0.0"
+			w "800.0"
+		}
+
+		light_range "120"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"60"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"60"
+		frequency 		"20"
+		group			"special"
+	}
+
+	SoundDesc
+	{
+		name 		"ambient/earthquake"
+	}
+
+	LifeTimeDesc
+	{
+		time 		"999"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/comet_trail_energy"
+				}
+			}
+		}
+	}
+
+	PointWindDesc
+	{
+		power_frequency		"1.5"
+		power_max			"-15000"
+		power_min			"-8000"
+		radius				"70"
+	}
+}
+

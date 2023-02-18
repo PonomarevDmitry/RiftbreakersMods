@@ -1,0 +1,93 @@
+EntityBlueprint
+{
+	name  "items/interactive/detector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/interactive/detector.mesh"
+		material 	"items/interactive/detector"
+	}
+
+	SkeletonDesc
+	{
+        name "meshes/items/interactive/detector"
+	}
+
+	EffectDesc
+	{
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_drill_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_activated_once"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/treasure_finder_idle"
+					bone "att_detector"
+				}
+			}
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/interactive/detector_item"
+
+	InventoryItemDesc
+	{
+		type 		 "equipment"
+		name 		 "gui/menu/inventory/equipment_name/detector"
+		holding_pose "hanging"
+		item_bp		 "items/interactive/detector"
+		cooldown	 "0.05"
+		continuous   "1"
+		icon			"gui/hud/items_icons/interactive/detector"
+		bigger_icon 	"gui/menu/items_icons/interactive/detector"
+		add_quality "0"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/detector.lua"
+
+		database
+		{
+			enemy_radius	float:"35"
+			radius			float:"50"
+			lvl				int:"1"
+		}
+
+	}
+
+	CostDesc
+}
+
+EntityBlueprint 
+{	
+	name "items/interactive/detector_scanner"
+
+	MeshDesc
+	{
+		mesh			"meshes/quad.mesh"
+		material 		"items/interactive/detector_scanner"
+	}
+}
+

@@ -1,0 +1,78 @@
+
+material highlight/shield
+{
+	render_group 61
+	
+	technique
+	{
+		pass
+		{
+
+			scene_blend alpha_blend
+			depth_bias -10 0
+			glow 5.5
+            emissive 0 4 10 10
+			
+			vertex_program_ref barrier_vp 
+			{
+			}
+
+			fragment_program_ref barrier_emissive_gradient_fp
+			{		
+				param_named cBarrier float 0	
+			}
+			
+			texture_unit emissive
+			{	
+				texture materials/textures/noise_tiled.dds
+				filtering bilinear
+			}		
+			
+			texture_unit gradient
+			{	
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 6
+                tex_address_mode wrap
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material highlight/shield_skinned
+{
+	render_group 61
+
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+			depth_bias -10 0
+			glow 5.5
+            emissive 0 4 10 10
+
+			vertex_program_ref barrier_skinned_vp 
+			{
+			}
+
+			fragment_program_ref barrier_emissive_gradient_fp
+			{
+				param_named cBarrier float 0
+			}
+			
+			texture_unit emissive
+			{	
+				texture materials/textures/noise_tiled.dds
+				filtering bilinear
+			}	
+			
+			texture_unit gradient
+			{	
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 6
+                tex_address_mode wrap
+				filtering bilinear
+			}
+		}
+	}
+}

@@ -1,0 +1,212 @@
+EntityBlueprint
+{
+	name "units/ground/octabit_ultra"
+
+	base_blueprint "units/ground/octabit_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/octabit.lua"
+		database
+		{
+			min_scale	    float:"1.8"
+			max_scale	    float:"1.8"
+			clones_number	int:"4"
+			clone_bp		string:"units/ground/octabit_ultra_clone_1"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"300"
+		health 						"300"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/octabit.mesh"
+		material 	"units/ground/octabit_ultra"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/octabit_ultra"
+		can_activate 0
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_octabit/death"
+					part_prefix 			"meshes/units/ground/octabit"
+					part_material 			"units/ground/octabit"
+					part_effect 			"effects/enemies_generic/blood_trail_black"
+					part_physics_material   "gibs_heavy"				
+				}
+
+				key "default"
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_octabit/suicide_explosion_ultra"
+					part_prefix 			"meshes/units/ground/octabit"
+					part_material 			"units/ground/octabit"
+					part_effect 			"effects/enemies_generic/blood_trail_black"
+					part_physics_material   "gibs_heavy"				
+				}
+
+				key "suicide"
+			}			
+		}		
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/octabit_ultra_clone_1"
+
+	base_blueprint "units/ground/octabit_ultra"
+
+	LuaDesc
+	{
+		script "lua/units/ground/octabit.lua"
+		database
+		{
+			clones_number	int:"3"
+			clone_bp		string:"units/ground/octabit_ultra_clone_2"
+		}			
+	}
+
+	MeshDesc
+	{
+		material "units/ground/octabit_ultra_medium"
+		mesh "meshes/units/ground/octabit.mesh"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/octabit_ultra_clone_2"
+
+	base_blueprint "units/ground/octabit_ultra"
+
+	MeshDesc
+	{
+		material "units/ground/octabit_ultra_small"
+		mesh "meshes/units/ground/octabit.mesh"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/octabit.lua"
+		database
+		{
+			clones_number	int:"0"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	name "effects/enemies_octabit/suicide_explosion_ultra"
+
+	ParticleDesc
+	{
+		name    "rift/octabit_suicide_explosion"
+	}
+
+	SoundDesc
+	{
+		name "enemies/octabit/attack"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}	
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"6.5"
+			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane			
+
+			Damages
+			{
+				Damage
+				{
+					value 			"65"
+					type			"area"
+				}
+			}
+		}
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"50"
+		radius 	"50"
+	}	
+	
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.35"
+		falloff_radius 	"25"
+		radius   		"35"
+		frequency 		"20"
+		group			"explosion_small"
+	}	
+	
+	TeamInheritanceComponent
+	{
+
+	}	
+	
+}

@@ -1,0 +1,175 @@
+EntityBlueprint
+{
+	name "props/mushrooms/pearls_big_03_skin2"
+
+	base_blueprints
+	{
+		props/base/flammable_big
+		props/base/resistant_medium
+	}
+
+	HealthDesc
+	{
+		max_health 					"200"
+		health 						"200"
+		is_manual					"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 							"50"
+				destroy_comp_event 				"50_destroy"
+				destroyed_state_mesh 				"meshes/props/mushrooms/pearls_big_03_dest_50.mesh"
+				destroyed_state_material 			"props/mushrooms/pearls_big_skin2"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/pearls_big_03.mesh"
+		material "props/mushrooms/pearls_big_skin2"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     			"static"
+				group_id    		"destructible"
+				physics_material  	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/pearls_big_03_c1.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/pearls_big_03_c2.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/pearls_big_03_c3.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/pearls_big_03_c4.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/pearls_big_03_c5.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/pearls_big_03_c6.nxs"
+					}
+
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.012"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.012"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"10.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"0.1"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/mushrooms/pearls_big_03_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type "centered"
+					explosion_max_power "6000"
+					explosion_min_power "2000"
+					explosion_effect "effects/destructibles/mushroom_medium"
+
+					part_material	 		"props/mushrooms/pearls_big_parts_skin2"
+					part_prefix 			"meshes/props/mushrooms/pearls_big_03_dest_50" // II etap rozwalania - części
+					part_effect "effects/destructibles/mushroom_part_trail"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type "centered"
+					explosion_max_power "6000"
+					explosion_min_power "2000"
+					explosion_effect "effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/mushrooms/pearls_big_parts_skin2"
+					part_prefix 			"meshes/props/mushrooms/pearls_big_03"
+					part_effect "effects/destructibles/tree_burned_part_trail"
+				}
+			}
+			Pair
+			{
+				key "50_destroy"
+				value
+				{
+					explosion_type "centered"
+					explosion_max_power "6000"
+					explosion_min_power "2000"
+					//explosion_effect "effects/destructibles/mushroom_medium"
+
+					part_material	 		"props/mushrooms/pearls_big_parts_skin2"
+					part_prefix 			"meshes/props/mushrooms/pearls_big_03" // I etap rozwalania - części
+					//part_effect "effects/destructibles/mushroom_part_trail"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_medium"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}
+

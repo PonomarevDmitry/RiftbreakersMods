@@ -1,0 +1,1237 @@
+//editor "offset(-2205.925,-161.060)|zoom(0.622)"
+FlowGraphTemplate
+{
+	version "2"
+	editor "3151"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-1631,258)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(-692,186)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/build_power_plant"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "build_power_plant.source"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "build_power_plant"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_0"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(4977,668)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(4422,623)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build_power_plant"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(17,406)"
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/energy/solar_panels"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_building_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_building_0###true"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(20,681)"
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/energy/wind_turbine"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_building_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_building_1###true"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(22,949)"
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/energy/carbonium_powerplant"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_building_2"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_building_2###true"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(22,1203)"
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/energy/plant_biomass_powerplant"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_building_3"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_building_3###true"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(607,819)"
+			self_id "logic_or_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(32,618)"
+			self_id "logic_if_exist_building_0###true"
+			key "true"
+			value "logic_if_exist_building_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(35,893)"
+			self_id "logic_if_exist_building_1###true"
+			key "true"
+			value "logic_if_exist_building_1###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(37,1161)"
+			self_id "logic_if_exist_building_2###true"
+			key "true"
+			value "logic_if_exist_building_2###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(37,1415)"
+			self_id "logic_if_exist_building_3###true"
+			key "true"
+			value "logic_if_exist_building_3###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(1062,803)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "energy|carbonium_powerplant"
+					}
+
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(1063,937)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "energy|solar_panels"
+					}
+
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(1061,1078)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "energy|wind_turbine"
+					}
+
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(5,21)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "energy|wind_turbine"
+					}
+
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(7,-119)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "energy|solar_panels"
+					}
+
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(6,-253)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "energy|carbonium_powerplant"
+					}
+
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_6"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_building_power.xml)|pos(2057,837)"
+			script "lua/graph/logic/logic_if_building_power.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/resources/carbonium_factory"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_building_power_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_building_power_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_building_power_0###true"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(1720,434)"
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/resources/carbonium_factory"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_building_4"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_exist_building_4###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_building_4###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1735,673)"
+			self_id "logic_if_exist_building_4###true"
+			key "true"
+			value "logic_if_exist_building_4###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2072,1106)"
+			self_id "logic_if_building_power_0###true"
+			key "true"
+			value "logic_if_building_power_0###true"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2536,636)"
+			self_id "logic_or_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1735,646)"
+			self_id "logic_if_exist_building_4###false"
+			key "false"
+			value "logic_if_exist_building_4###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2072,1079)"
+			self_id "logic_if_building_power_0###false"
+			key "false"
+			value "logic_if_building_power_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(3366,981)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/mech_build_power_plant_03"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(2501,979)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/connect_to_power"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "build_power_plant.connect"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "build_power_plant"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3129,1020)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_building_power.xml)|pos(3124,1186)"
+			script "lua/graph/logic/logic_if_building_power.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/resources/carbonium_factory"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_building_power_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_building_power_1###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_building_power_1###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3139,1428)"
+			self_id "logic_if_building_power_1###false"
+			key "false"
+			value "logic_if_building_power_1###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3139,1455)"
+			self_id "logic_if_building_power_1###true"
+			key "true"
+			value "logic_if_building_power_1###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(3655,1407)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build_power_plant.connect"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(4221,653)"
+			self_id "logic_or_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(-1304,185)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/build_power_supply"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "build_power_plant"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(1059,600)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build_power_plant.source"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_2"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(461,60)"
+			global "0"
+			self_id "interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_build_power_plant_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/objective/ashley_build_power_plant_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_build_power_plant_02"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_or_2 "objective_finish_0"
+		objective_generic_2 "objective_generic_0"
+		objective_finish_1 "logic_or_2"
+		logic_if_building_power_1 "logic_if_building_power_1###false|logic_if_building_power_1###true"
+		objective_generic_1 "logic_if_building_power_1|logic_wait_0"
+		logic_if_building_power_0###false "objective_generic_1"
+		logic_or_1 "logic_or_2"
+		logic_if_building_power_0###true "logic_or_1"
+		logic_if_exist_building_4 "logic_if_exist_building_4###false|logic_if_exist_building_4###true"
+		logic_if_building_power_0 "logic_if_building_power_0###false|logic_if_building_power_0###true"
+		logic_if_exist_building_1###true "logic_or_0"
+		logic_if_exist_building_0###true "logic_or_0"
+		logic_wait_0 "interface_dialogue_show_0"
+		logic_or_0 "interface_highlight_build_menu_1|interface_highlight_build_menu_2|interface_highlight_build_menu_3|objective_finish_2"
+		logic_if_exist_building_1 "logic_if_exist_building_1###true"
+		logic_if_exist_building_2###true "logic_or_0"
+		logic_if_building_power_1###true "objective_finish_1"
+		logic_if_exist_building_4###true "logic_if_building_power_0"
+		logic_if_exist_building_0 "logic_if_exist_building_0###true"
+		logic_if_exist_building_4###false "logic_or_1"
+		logic_if_exist_building_3 "logic_if_exist_building_3###true"
+		logic_if_exist_building_2 "logic_if_exist_building_2###true"
+		objective_finish_0 "event_end_0"
+		objective_finish_2 "logic_if_exist_building_4"
+		logic_if_exist_building_3###true "logic_or_0"
+		objective_generic_0 "interface_dialogue_show_group_0|interface_highlight_build_menu_4|interface_highlight_build_menu_5|interface_highlight_build_menu_6|logic_if_exist_building_0|logic_if_exist_building_1|logic_if_exist_building_2|logic_if_exist_building_3"
+		default "objective_generic_2"
+	}
+
+}
+

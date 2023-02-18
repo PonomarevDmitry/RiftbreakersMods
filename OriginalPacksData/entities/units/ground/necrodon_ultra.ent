@@ -1,0 +1,203 @@
+EntityBlueprint
+{
+	name "units/ground/necrodon_ultra"
+
+	base_blueprint "units/ground/necrodon_base"
+
+	StateMachineDesc
+	{
+		template_name "necrodon"
+		params
+		{
+			aggressive_speed					float:"6"
+			aggressive_acceleration				float:"12"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			evade_speed							float:"10"
+			evade_acceleration					float:"10"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|player|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			search_corpses_distance				float:"100.0"
+			start_to_resurrect_distance			float:"30.0"
+			evade_from							string:"player"
+			evade_check_distance				float:"15.0"
+			evade_escape_distance				float:"35.0"
+			leech_damage						float:"10.0"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/necrodon.lua"
+		database
+		{
+			min_scale	float:"1.50"
+			max_scale	float:"1.50"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"850"
+		health 						"850"
+		regeneration 				"200"
+		regeneration_cooldown 		"1"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"340"
+		unit_soft_radius				"1.4"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/necrodon.mesh"
+		material 	"units/ground/necrodon_ultra"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/necrodon_ultra"
+		can_activate 0
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "building"
+		target_ignore "wall|invisible|player"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "8"
+			range_max "18"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	ResurrectUnitDesc
+	{
+		pool					"2500"
+		pool_regeneration		"750"
+		resurrect_time			"2.0"
+		resurrect_radius		"30"
+		body_ressurect_effect	"effects/enemies_necrodon/resurrect_body"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/necrodon_ultra/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_necrodon/attack_start"
+						attack_start_time			"0.35"
+						attack_end_time				"0.83"
+						attack_duration 			"1.43"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_necrodon/attack_start"
+						attack_start_time			"0.44"
+						attack_end_time				"0.96"
+						attack_duration 			"1.39"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"65"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.5"
+						y "4.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

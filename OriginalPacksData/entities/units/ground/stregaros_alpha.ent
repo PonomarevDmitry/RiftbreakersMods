@@ -1,0 +1,194 @@
+EntityBlueprint
+{
+	name  "units/ground/stregaros_alpha"
+
+	base_blueprint "units/ground/stregaros_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/stregaros.lua"
+		database
+		{
+			min_scale	float:"0.82"
+			max_scale	float:"0.87"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"800"
+		health 						"800"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.15"
+		stagger_health_threshold		"0.04"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+		
+		stun_cooldown					"10"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"2.8"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/stregaros.mesh"
+		material 	"units/ground/stregaros_alpha"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/stregaros_alpha"
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_stregaros/death"	
+					part_prefix 			"meshes/units/ground/stregaros"
+					part_material 			"units/ground/stregaros_alpha"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/stregaros_alpha/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						attack_start_time			"0.63"
+						attack_end_time				"0.85"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						attack_start_time			"0.54"
+						attack_end_time				"0.63"
+						attack_duration 			"1.88"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						attack_start_time			"0.70"
+						attack_end_time				"1.08"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"75"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "6.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

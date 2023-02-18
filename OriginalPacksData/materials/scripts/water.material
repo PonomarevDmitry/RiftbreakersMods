@@ -1,0 +1,109 @@
+
+import * from "materials/scripts/pbr.material"
+
+material water/stencil
+{
+    render_group 110
+
+    technique
+	{
+		pass
+		{
+			depth_check			true
+			depth_write			false
+
+			colour_write_r		off
+			colour_write_g		off
+			colour_write_b		on
+			colour_write_a		off
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            ref_value   		5
+            pass_op     		replace
+            two_sided   		on
+
+			vertex_program_ref water_stencil_vp
+			{
+			}
+
+			fragment_program_ref water_stencil_fp
+			{
+			}
+		}
+	}
+}
+
+material water/projected_grid
+{
+	render_group 111
+
+    technique
+	{
+		pass
+		{
+			depth_write 		off
+			depth_check 		off
+
+			// Stencil
+            check       		on
+            comp_func   		equal
+            ref_value   		5
+            pass_op     		keep
+            two_sided   		on
+
+			vertex_program_ref water_vp
+			{
+			}
+
+			fragment_program_ref water_fp
+			{
+			}
+
+			texture_unit noise
+            {
+                texture materials/textures/water/water_noise.dds
+            }
+
+			texture_unit illuminance
+			{
+				content_type compositor any illuminance 0
+				tex_address_mode clamp
+				filtering none
+			}
+
+			texture_unit depth
+			{
+				content_type compositor any gbuffer 5
+				tex_address_mode clamp
+				filtering none
+			}
+
+			texture_unit skybox_brdf
+            {
+                content_type shared skybox_brdf
+                filtering linear linear none
+            }
+
+			texture_unit skybox_diffuse
+            {
+                content_type shared skybox_diffuse
+                filtering linear linear none
+                cubic_texture materials/textures/error_cube.dds combinedUVW
+            }
+
+			texture_unit skybox_specular
+            {
+                content_type shared skybox_specular
+                filtering linear linear none
+                cubic_texture materials/textures/error_cube.dds combinedUVW
+            }
+
+			texture_unit foam
+            {
+                texture materials/textures/water/water_foam.dds
+            }
+		}
+	}
+}

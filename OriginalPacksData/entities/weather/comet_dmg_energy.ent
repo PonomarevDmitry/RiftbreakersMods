@@ -1,0 +1,72 @@
+EntityBlueprint 
+{	
+		name "weather/comet_dmg_energy"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/granite_rock_small.mesh"
+		material 	"units/ground/krocoon_boss_energy"
+		render_group 29 // no point light cast shadow
+	}
+
+	//MinimapItemDesc
+	//{
+	//	type			"image"
+	//	icon_material 	"effects/messages_and_markers/objective_marker"
+	//	visibility		"radar"
+	//}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_atomic_blue_big"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_atomic_blue_big"
+		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
+		
+		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
+
+		DamagePattern
+		{
+			area_damage_radius 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"2000.0"
+					type 	"meteor"
+				}
+			}
+		}
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"60"
+		power   		"4.7"
+		falloff_radius 	"400"
+		radius   		"300"
+		frequency 		"20"
+		group			"special"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/comet_trail_energy"
+				}
+			}
+		}
+	}
+}
+

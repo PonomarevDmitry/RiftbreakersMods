@@ -1,0 +1,129 @@
+//editor "offset(-271.600,-390.667)|zoom(1.000)"
+FlowGraphTemplate
+{
+	version "2"
+	editor "3103"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(178,633)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1080,628)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(497,280)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+				}
+
+			}
+
+			self_id "wave_ground_0"
+			group_name "universal"
+			delay "0"
+			percentage_units_to_end_wave "90"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/arachnoid_sentinel_alpha"
+					delay_group "0"
+					delay "1.00"
+					count "1"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/granan"
+					delay_group "5.00"
+					delay "1"
+					count "3"
+					units_in_one_spawn "30"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/granan"
+					delay_group "0"
+					delay "5.00"
+					count "2"
+					units_in_one_spawn "30"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		wave_ground_0 "event_end_0"
+		default "wave_ground_0"
+	}
+
+}
+

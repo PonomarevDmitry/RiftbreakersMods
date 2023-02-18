@@ -1,0 +1,216 @@
+//editor "offset(-559.219,-795.357)|zoom(0.821)"
+FlowGraphTemplate
+{
+	version "3"
+	editor "3103"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(148,605)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(557,255)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+				}
+
+			}
+
+			self_id "wave_ground_0"
+			group_name "universal"
+			delay "0"
+			percentage_units_to_end_wave "90"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/morirot"
+					delay_group "3.00"
+					delay "1"
+					count "2"
+					units_in_one_spawn "35"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/magmoth"
+					delay_group "3.00"
+					delay "3.00"
+					count "3"
+					units_in_one_spawn "3"
+				}
+
+			}
+
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1494,1213)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(605,1147)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "15.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(986,968)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+				}
+
+			}
+
+			self_id "wave_ground_1"
+			group_name "universal"
+			delay "0"
+			percentage_units_to_end_wave "90"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/morirot"
+					delay_group "5.00"
+					delay "5.00"
+					count "2"
+					units_in_one_spawn "35"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/magmoth"
+					delay_group "0.00"
+					delay "3.00"
+					count "3"
+					units_in_one_spawn "3"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		wave_ground_1 "event_end_0"
+		logic_wait_0 "wave_ground_1"
+		wave_ground_0 "event_end_0"
+		default "logic_wait_0|wave_ground_0"
+	}
+
+}
+

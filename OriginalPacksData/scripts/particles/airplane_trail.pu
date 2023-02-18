@@ -1,0 +1,39 @@
+system exor/airplane_trail
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0075
+    scale                                       0.0075 0.0075 0.0075
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 0
+    technique ribbon
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/ribbon_wing_trail
+        renderer                                RibbonTrail
+        {
+            render_queue_group                  65
+            max_elements                        10
+            ribbontrail_length                  1250
+            ribbontrail_width                   25
+            ribbontrail_width_change            0.5
+            random_initial_colour               false
+            initial_colour                      1 1 1 0.784314
+            colour_change                       0 0 0 0.501961
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        250
+            velocity                            0.0001
+            position                            5 0 0
+            direction                           1 0 0
+            force_emission                      true
+        }
+    }
+}

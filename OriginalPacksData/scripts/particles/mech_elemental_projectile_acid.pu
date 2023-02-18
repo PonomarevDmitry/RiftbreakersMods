@@ -1,0 +1,71 @@
+system rift/mech_elemental_projectile_acid
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.01 0.01 0.01
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 75
+    technique debris
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_explosion_fire_02_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box debris
+        {
+            emission_rate                       100
+            angle                               10
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             60
+            }
+            direction                           1 0 0
+            end_texture_coords_range            31
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.22
+                max                             0.22
+            }
+        }
+        affector                                Colour Affector68
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureAnimator Affector17
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+    }
+}

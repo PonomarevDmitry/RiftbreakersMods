@@ -1,0 +1,135 @@
+//editor "offset(2423.62,1892.65)|zoom(1.00)"
+FlowGraphTemplate
+{
+	version "10"
+	editor "5091"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-3178,603)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-2888,589)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_3"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(-1456,48)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_0"
+			spawn_group "spawn_enemy_border_west"
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/wingmite_alpha"
+					count "1"
+					delay "1.00"
+					delay_group "0"
+					units_in_one_spawn "2"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_wait_3"
+		logic_wait_3 "wave_ground_0"
+	}
+
+	GraphComments
+}
+

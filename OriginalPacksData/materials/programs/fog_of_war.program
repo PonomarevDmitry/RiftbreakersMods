@@ -1,0 +1,33 @@
+vertex_program fog_of_war_vp hlsl
+{
+    source materials/programs/fog_of_war_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    export_shader true
+}
+
+
+fragment_program fog_of_war_fp hlsl
+{
+    source materials/programs/fog_of_war_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+
+    default_params
+    {
+        param_named cAlpha float 1.0
+    }
+}
+
+geometry_program fog_of_war_gp hlsl
+{
+    source materials/programs/fog_of_war_gs.hlsl
+    entry_point mainGP
+    target gs_5_0
+
+    default_params
+    {
+		param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named cQuadHalfSize float2 1 1
+    }
+}

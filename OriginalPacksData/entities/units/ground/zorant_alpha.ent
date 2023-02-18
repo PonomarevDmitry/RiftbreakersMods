@@ -1,0 +1,154 @@
+EntityBlueprint
+{
+	name "units/ground/zorant_alpha"
+	base_blueprint "units/ground/zorant_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/zorant.lua"
+		database
+		{
+			min_scale	       float:"1.15"
+			max_scale	       float:"1.20"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"450"
+		health 						"450"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/zorant.mesh"
+		material 	"units/ground/zorant_alpha"
+	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/zorant_alpha"
+		can_activate 0
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_zorant/death"	
+					part_prefix 			"meshes/units/ground/kafferroceros"
+					part_material 			"units/ground/zorant_alpha"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_heavy"					
+				}
+				key "default"
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/zorant_alpha/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_zorant/attack_start"
+						//attack_start_time			"0.54"
+						//attack_end_time			"0.70"
+						//attack_duration 			"1.37"
+						attack_start_time			"0.41"
+						attack_end_time				"0.53"
+						attack_duration 			"1.03"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"30"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.0"
+						y "4.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

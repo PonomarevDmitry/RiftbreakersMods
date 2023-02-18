@@ -1,0 +1,184 @@
+vertex_program distortion_VP hlsl
+{
+    source 							materials/programs/distortion_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+
+    default_params
+    {
+        param_named_auto cWorld		world_matrix
+        param_named_auto cViewProj  viewproj_matrix
+    }
+}
+
+vertex_program distortion_color_VP hlsl
+{
+    source 							materials/programs/distortion_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_COLOR=1
+
+    default_params
+    {
+        param_named_auto cWorld		world_matrix
+        param_named_auto cViewProj  viewproj_matrix
+    }
+}
+
+vertex_program distortion_fresnel_VP hlsl
+{
+    source 							materials/programs/distortion_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines            USE_FRESNEL=1
+
+    default_params
+    {
+        param_named_auto cWorld		world_matrix
+        param_named_auto cViewProj  viewproj_matrix
+        param_named_auto cWorldEyePosition      camera_position
+    }
+}
+
+vertex_program distortion_skinned_VP hlsl
+{
+    source                          materials/programs/distortion_vp.hlsl
+    entry_point                     mainVP
+    target                          vs_5_0
+    column_major_matrices           false
+    includes_skeletal_animation     true
+    preprocessor_defines            USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+    }
+}
+
+vertex_program distortion_skinned_color_VP hlsl
+{
+    source 							materials/programs/distortion_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    column_major_matrices           false
+    includes_skeletal_animation     true
+    preprocessor_defines            USE_COLOR=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+    }
+}
+
+vertex_program distortion_skinned_fresnel_VP hlsl
+{
+    source                          materials/programs/distortion_vp.hlsl
+    entry_point                     mainVP
+    target                          vs_5_0
+    column_major_matrices           false
+    includes_skeletal_animation     true
+    preprocessor_defines            USE_FRESNEL=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix
+        param_named_auto cWorld3x4Array         world_matrix_array_3x4 
+        param_named_auto cWorldEyePosition      camera_position
+    }
+}
+
+fragment_program distortion_FP hlsl
+{
+    source 							materials/programs/distortion_fp.hlsl
+    entry_point						mainFP
+    target 							ps_5_0
+
+    default_params
+    {
+        param_named 				cDistortionPower 	float 0.05
+        param_named_auto            cViewportWidth      viewport_width
+        param_named_auto            cViewportHeight     viewport_height
+    }
+}
+
+fragment_program distortion_color_FP hlsl
+{
+    source 							materials/programs/distortion_fp.hlsl
+    entry_point						mainFP
+    target 							ps_5_0
+    preprocessor_defines			USE_COLOR=1
+
+    default_params
+    {
+        param_named 				cDistortionPower 	float 0.05
+        param_named_auto            cViewportWidth      viewport_width
+        param_named_auto            cViewportHeight     viewport_height
+    }
+}
+
+fragment_program distortion_fresnel_FP hlsl
+{
+    source                          materials/programs/distortion_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_FRESNEL=1,USE_TIMER=1
+
+    default_params
+    {
+        param_named                 cDistortionPower    float 0.05
+        param_named_auto            cViewportWidth      viewport_width
+        param_named_auto            cViewportHeight     viewport_height
+        param_named                 cFresnelBias  float 0
+        param_named                 cFresnelScale float 0
+        param_named                 cFresnelPower float 0
+        param_named_auto            cTimer              time
+        param_named                 cNoiseParams        float2 0.1 0.1  
+    }
+}
+
+fragment_program distortion_fresnel_inverted_dissolve_FP hlsl
+{
+    source                          materials/programs/distortion_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_FRESNEL=1,USE_TIMER=1,USE_DISSOLVE=1,USE_INVERTED_DISSOLVE=1
+
+    default_params
+    {
+        param_named                 cDissolveAmount     float 0
+        param_named                 cDistortionPower    float 0.05
+        param_named_auto            cViewportWidth      viewport_width
+        param_named_auto            cViewportHeight     viewport_height
+        param_named                 cFresnelBias  float 0
+        param_named                 cFresnelScale float 0
+        param_named                 cFresnelPower float 0
+        param_named_auto            cTimer              time
+        param_named                 cNoiseParams        float2 0.1 0.1  
+    }
+}
+
+fragment_program distortion_noise_FP hlsl
+{
+    source                          materials/programs/distortion_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_TIMER=1
+
+    default_params
+    {
+        param_named                 cDistortionPower    float 0.05
+        param_named_auto            cViewportWidth      viewport_width
+        param_named_auto            cViewportHeight     viewport_height
+        param_named_auto            cTimer              time
+        param_named                 cNoiseParams        float2 0.1 0.1  
+    }
+}
+
+fragment_program distortion_final_fp hlsl
+{
+    source materials/programs/distortion_final_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+}

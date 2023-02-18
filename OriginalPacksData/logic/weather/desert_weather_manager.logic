@@ -1,0 +1,910 @@
+//editor "offset(193.044,-1022.292)|zoom(0.731)"
+FlowGraphTemplate
+{
+	version "1"
+	editor "3103"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-425,1942)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3890,1756)"
+			self_id "logic_or_0"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(1488,2121)"
+			self_id "event_graph_0"
+			graph "logic/weather/solar_burn.logic"
+			start_point "default"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_time_of_day.xml)|pos(-138,1889)"
+			script "lua/graph/logic/logic_if_time_of_day.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "comparison_time"
+						value "10"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_time_of_day_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_time_of_day_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_time_of_day_0###true"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_time_of_day.xml)|pos(501,1999)"
+			script "lua/graph/logic/logic_if_time_of_day.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "comparison_time"
+						value "16"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_time_of_day_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_time_of_day_1###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_time_of_day_1###true"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3668,1749)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "90.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3668,1630)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_random_output.xml)|pos(3153,1556)"
+			script "lua/graph/logic/logic_random_output.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "outputs"
+						value "3"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "0"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "1"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "2"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_random_output_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###0"
+					key "0"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###1"
+					key "1"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###2"
+					key "2"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(4108,269)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_reactivate_or.xml)|pos(1083,-357)"
+			script "lua/graph/logic/logic_reactivate_or.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_or_0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_reactivate_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_reactivate_or.xml)|pos(1087,-213)"
+			script "lua/graph/logic/logic_reactivate_or.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_or_1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_reactivate_or_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2997,1630)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3667,1854)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "120.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-123,2046)"
+			self_id "logic_if_time_of_day_0###false"
+			key "false"
+			value "logic_if_time_of_day_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-123,2073)"
+			self_id "logic_if_time_of_day_0###true"
+			key "true"
+			value "logic_if_time_of_day_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(516,2156)"
+			self_id "logic_if_time_of_day_1###false"
+			key "false"
+			value "logic_if_time_of_day_1###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(516,2183)"
+			self_id "logic_if_time_of_day_1###true"
+			key "true"
+			value "logic_if_time_of_day_1###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3168,1756)"
+			self_id "logic_random_output_0###0"
+			value "logic_random_output_0###0"
+			key "0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3168,1783)"
+			self_id "logic_random_output_0###1"
+			value "logic_random_output_0###1"
+			key "1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3168,1810)"
+			self_id "logic_random_output_0###2"
+			value "logic_random_output_0###2"
+			key "2"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2157,119)"
+			self_id "event_graph_1"
+			graph "logic/weather/dust_storm.logic"
+			start_point "default"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_time_of_day.xml)|pos(879,1455)"
+			script "lua/graph/logic/logic_if_time_of_day.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "comparison_time"
+						value "8"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_time_of_day_3"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_time_of_day_3###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_time_of_day_3###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(894,1612)"
+			self_id "logic_if_time_of_day_3###false"
+			key "false"
+			value "logic_if_time_of_day_3###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(894,1639)"
+			self_id "logic_if_time_of_day_3###true"
+			key "true"
+			value "logic_if_time_of_day_3###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_time_of_day.xml)|pos(877,1726)"
+			script "lua/graph/logic/logic_if_time_of_day.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "comparison_time"
+						value "21"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_time_of_day_2"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_time_of_day_2###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_time_of_day_2###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(892,1883)"
+			self_id "logic_if_time_of_day_2###false"
+			key "false"
+			value "logic_if_time_of_day_2###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(892,1910)"
+			self_id "logic_if_time_of_day_2###true"
+			key "true"
+			value "logic_if_time_of_day_2###true"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1281,1282)"
+			self_id "logic_or_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_reactivate_or.xml)|pos(1083,-89)"
+			script "lua/graph/logic/logic_reactivate_or.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_or_2"
+					}
+
+				}
+
+			}
+
+			self_id "logic_reactivate_or_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_random_output.xml)|pos(1565,384)"
+			script "lua/graph/logic/logic_random_output.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "outputs"
+						value "8"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "0"
+						value "2.00"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "1"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "2"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "3"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "4"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "5"
+						value "2.00"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "6"
+						value "1.00"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "7"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_random_output_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###0"
+					key "0"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###1"
+					key "1"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###2"
+					key "2"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###3"
+					key "3"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###4"
+					key "4"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###5"
+					key "5"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###6"
+					key "6"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_1###7"
+					key "7"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,729)"
+			self_id "logic_random_output_1###0"
+			value "logic_random_output_1###0"
+			key "0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,756)"
+			self_id "logic_random_output_1###1"
+			value "logic_random_output_1###1"
+			key "1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,783)"
+			self_id "logic_random_output_1###2"
+			value "logic_random_output_1###2"
+			key "2"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2155,282)"
+			self_id "event_graph_2"
+			graph "logic/weather/blood_moon.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2157,447)"
+			self_id "event_graph_3"
+			graph "logic/weather/blue_moon.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2159,610)"
+			self_id "event_graph_4"
+			graph "logic/weather/earthquake.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2161,768)"
+			self_id "event_graph_5"
+			graph "logic/weather/ion_storm.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2163,930)"
+			self_id "event_graph_6"
+			graph "logic/weather/comet_silent.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2162,1114)"
+			self_id "event_graph_7"
+			graph "logic/weather/meteor_shower.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2166,1291)"
+			self_id "event_graph_8"
+			graph "logic/weather/super_moon.logic"
+			start_point "default"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,810)"
+			self_id "logic_random_output_1###3"
+			value "logic_random_output_1###3"
+			key "3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,837)"
+			self_id "logic_random_output_1###4"
+			value "logic_random_output_1###4"
+			key "4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,864)"
+			self_id "logic_random_output_1###5"
+			value "logic_random_output_1###5"
+			key "5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,891)"
+			self_id "logic_random_output_1###6"
+			value "logic_random_output_1###6"
+			key "6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1580,918)"
+			self_id "logic_random_output_1###7"
+			value "logic_random_output_1###7"
+			key "7"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_random_output_1###6 "event_graph_7"
+		logic_random_output_1###3 "event_graph_4"
+		event_graph_7 "logic_or_1"
+		event_graph_2 "logic_or_1"
+		event_graph_8 "logic_or_1"
+		logic_random_output_1###2 "event_graph_3"
+		logic_random_output_1###1 "event_graph_2"
+		event_graph_5 "logic_or_1"
+		logic_random_output_1###0 "event_graph_1"
+		logic_random_output_1 "logic_random_output_1###0|logic_random_output_1###1|logic_random_output_1###2|logic_random_output_1###3|logic_random_output_1###4|logic_random_output_1###5|logic_random_output_1###6|logic_random_output_1###7"
+		event_graph_4 "logic_or_1"
+		logic_if_time_of_day_2###true "logic_or_2"
+		event_graph_6 "logic_or_1"
+		logic_if_time_of_day_2###false "logic_or_1"
+		logic_if_time_of_day_3###true "logic_or_2"
+		logic_if_time_of_day_3###false "logic_or_1"
+		logic_if_time_of_day_3 "logic_if_time_of_day_3###false|logic_if_time_of_day_3###true"
+		event_graph_1 "logic_or_1"
+		logic_random_output_0###0 "logic_wait_1"
+		logic_if_time_of_day_0###true "logic_if_time_of_day_1"
+		logic_reactivate_or_2 "logic_if_time_of_day_0"
+		logic_if_time_of_day_0###false "logic_if_time_of_day_3"
+		logic_or_2 "logic_random_output_1"
+		logic_if_time_of_day_1###true "event_graph_0"
+		logic_or_1 "logic_random_output_0"
+		logic_reactivate_or_0 "logic_reactivate_or_1"
+		logic_reactivate_or_1 "logic_reactivate_or_2"
+		logic_wait_2 "logic_reactivate_or_0"
+		logic_random_output_1###5 "event_graph_6"
+		logic_wait_3 "logic_or_0"
+		logic_random_output_0 "logic_random_output_0###0|logic_random_output_0###1|logic_random_output_0###2"
+		logic_wait_1 "logic_or_0"
+		logic_if_time_of_day_1 "logic_if_time_of_day_1###false|logic_if_time_of_day_1###true"
+		logic_if_time_of_day_0 "logic_if_time_of_day_0###false|logic_if_time_of_day_0###true"
+		logic_random_output_0###2 "logic_wait_3"
+		logic_random_output_0###1 "logic_wait_0"
+		logic_random_output_1###7 "event_graph_8"
+		logic_if_time_of_day_1###false "logic_if_time_of_day_2"
+		logic_wait_0 "logic_or_0"
+		logic_if_time_of_day_2 "logic_if_time_of_day_2###false|logic_if_time_of_day_2###true"
+		logic_random_output_1###4 "event_graph_5"
+		logic_or_0 "logic_wait_2"
+		event_graph_3 "logic_or_1"
+		event_graph_0 "logic_or_1"
+		default "logic_if_time_of_day_0"
+	}
+
+}
+

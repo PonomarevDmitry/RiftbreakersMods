@@ -1,0 +1,63 @@
+system exor/debris_light
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0300
+    scale                                       0.0300 0.0300 0.0300
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 0
+    technique pillar_sharp
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_muzzleflash_atlas_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_type                      oriented_common
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+        }
+        emitter                                 Point 
+        {
+            time_to_live                        100
+            particle_width                      40
+            particle_height                     40
+            position                            0 6 0
+            direction                           0 0 0
+            end_texture_coords_range            3
+            colour                              0.247059 0.247059 0.247059 0.501961
+        }
+    }
+    technique 
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            angle                               0
+            time_to_live                        100
+            velocity                            0.0001
+            all_particle_dimensions             75
+            position                            0 5 0
+            colour                              0 0.501961 1 1
+        }
+    }
+}

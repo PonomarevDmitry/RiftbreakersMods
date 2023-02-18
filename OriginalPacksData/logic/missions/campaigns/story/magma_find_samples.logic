@@ -1,0 +1,1636 @@
+//editor "offset(-2656.948,-464.772)|zoom(0.551)"
+FlowGraphTemplate
+{
+	version "12"
+	editor "3304"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player.xml)|pos(420,525)"
+			script "lua/graph/entity/entity_spawn_player.lua"
+			self_id "entity_spawn_player_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_radar_coverage.xml)|pos(2907,489)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/radar_coverage.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/magma_find_samples/find_titanium.radar_coverage"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "find_titanium.radar_coverage"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "find_titanium"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "50"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_radar_coverage_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_end.xml)|pos(5039,824)"
+			script "lua/graph/mission_state/mission_end.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			self_id "mission_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(988,-272)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "240.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(1363,-42)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.magma_gather_samples"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(992,-109)"
+			script "lua/graph/objective/objective_exist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.magma_gather_samples"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_exist_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "objective_exist_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1007,-2)"
+			self_id "objective_exist_0###true"
+			key "true"
+			value "objective_exist_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(2196,495)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/magma_find_samples/find_titanium"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "find_titanium"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(4527,547)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "find_titanium"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(5851,412)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/mission_complete"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "mission_completed"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(5040,914)"
+			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "value"
+						value "0.25"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "mode"
+						value "increment"
+					}
+
+				}
+
+			}
+
+			self_id "mission_change_creature_difficulty_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_world_random.xml)|pos(3371,782)"
+			script "lua/graph/entity/entity_spawn_world_random.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "items/loot/treasures/treasure_titanium_medium_lvl1"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "titanium_treasure"
+					}
+
+					StringData
+					{
+						key "entity_group"
+					}
+
+					StringData
+					{
+						key "spawn_target"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "min_spawn_radius"
+						value "300.00"
+					}
+
+					FloatData
+					{
+						key "max_spawn_radius"
+						value "1000000.00"
+					}
+
+					FloatData
+					{
+						key "min_border_distance"
+						value "200.00"
+					}
+
+					FloatData
+					{
+						key "max_border_distance"
+						value "0.00"
+					}
+
+				}
+
+			}
+
+			self_id "entity_spawn_world_random_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_show_zone.xml)|pos(3883,853)"
+			script "lua/graph/interface/interface_minimap_show_zone.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "titanium_treasure"
+					}
+
+					StringData
+					{
+						key "marker_name"
+						value "titanium_treasure_marker"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "marker_radius"
+						value "100.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "marker_randomize_position"
+						value "1"
+					}
+
+					IntData
+					{
+						key "marker_color_r"
+						value "255"
+					}
+
+					IntData
+					{
+						key "marker_color_g"
+						value "255"
+					}
+
+					IntData
+					{
+						key "marker_color_b"
+						value "0"
+					}
+
+					IntData
+					{
+						key "marker_color_a"
+						value "50"
+					}
+
+				}
+
+			}
+
+			self_id "interface_minimap_show_zone_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(3347,523)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/magma_find_samples/find_titanium.excavate"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "find_titanium.excavate"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "find_titanium"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_gather_resource.xml)|pos(3346,257)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/gather_resource.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/magma_find_samples/find_titanium.gather_titanium"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "find_titanium.gather_titanium"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "find_titanium"
+					}
+
+					StringData
+					{
+						key "resource_name"
+						value "titanium"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_additional"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_gather_resource_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(3943,551)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "find_titanium.excavate"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(3945,422)"
+			script "lua/graph/interface/interface_minimap_hide_zone.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "marker_name"
+						value "titanium_treasure_marker"
+					}
+
+				}
+
+			}
+
+			self_id "interface_minimap_hide_zone_0"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(980,-491)"
+			self_id "event_graph_2"
+			graph "logic/utility/music_adventure.logic"
+			start_point "default"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1317,725)"
+			global "0"
+			self_id "interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/magma/mech_find_samples_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/magma/ashley_find_samples_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/magma/mech_find_samples_02"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/magma/ashley_find_samples_02"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/magma/mech_find_samples_03"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/magma/ashley_find_samples_03"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3366,1407)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/defense/short_range_radar"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3381,1699)"
+			self_id "logic_if_exist_entity_new_0###true"
+			key "true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3364,1756)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/defense/short_range_radar_lvl_2"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_1###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3379,2048)"
+			self_id "logic_if_exist_entity_new_1###true"
+			key "true"
+			value "logic_if_exist_entity_new_1###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3365,2095)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/defense/short_range_radar_lvl_3"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_2"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_2###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3380,2387)"
+			self_id "logic_if_exist_entity_new_2###true"
+			key "true"
+			value "logic_if_exist_entity_new_2###true"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(4001,1916)"
+			self_id "logic_or_0"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(4186,1787)"
+			global "0"
+			self_id "interface_dialogue_show_group_1"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/magma/ashley_find_samples_04"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/magma/mech_find_samples_04"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_disable_node.xml)|pos(4181,1461)"
+			script "lua/graph/logic/logic_disable_node.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_if_exist_entity_new_0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_disable_node_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_disable_node.xml)|pos(4181,1570)"
+			script "lua/graph/logic/logic_disable_node.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_if_exist_entity_new_1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_disable_node_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_disable_node.xml)|pos(4183,1671)"
+			script "lua/graph/logic/logic_disable_node.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_if_exist_entity_new_2"
+					}
+
+				}
+
+			}
+
+			self_id "logic_disable_node_2"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(3340,-86)"
+			global "0"
+			self_id "interface_dialogue_show_group_2"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/magma/mech_find_samples_05"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/magma/ashley_find_samples_05"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(5061,224)"
+			global "0"
+			self_id "interface_dialogue_show_group_3"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/magma/ashley_find_samples_06"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/magma/mech_find_samples_06"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/magma/ashley_find_samples_07"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/campaign/mech_orbital_scanning_magma_01"
+					extended_duration "2.00"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/campaign/mech_orbital_scanning_magma_02"
+					extended_duration "0.00"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(840,500)"
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "InitialSpawnEnded"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_event_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1323,512)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "8.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2970,1808)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_dom_resume.xml)|pos(1234,-256)"
+			script "lua/graph/logic/logic_event_send.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "ResumeDOM"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "0"
+					}
+
+				}
+
+			}
+
+			self_id "mission_dom_resume_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(6972,440)"
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "GoToNextMapEvent"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_event_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(7320,437)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "mission_completed"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_status_change.xml)|pos(6487,437)"
+			script "lua/graph/objective/objective_change_status.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "mission_completed"
+					}
+
+					StringData
+					{
+						key "status"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_status_change_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(2904,761)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "defense|short_range_radar"
+					}
+
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(3371,1122)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "defense|short_range_radar"
+					}
+
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_wait_on_event_1 "objective_finish_2"
+		logic_wait_0 "logic_if_exist_entity_new_0|logic_if_exist_entity_new_1|logic_if_exist_entity_new_2"
+		logic_wait_2 "objective_generic_0"
+		interface_dialogue_show_group_3 "objective_generic_1"
+		logic_or_0 "interface_dialogue_show_group_1|logic_disable_node_0|logic_disable_node_1|logic_disable_node_2"
+		logic_if_exist_entity_new_2 "logic_if_exist_entity_new_2###true"
+		logic_if_exist_entity_new_1 "logic_if_exist_entity_new_1###true"
+		logic_if_exist_entity_new_0###true "logic_or_0"
+		logic_wait_on_event_0 "interface_dialogue_show_group_0|logic_wait_2"
+		objective_gather_resource_0 "interface_minimap_hide_zone_0|objective_finish_1"
+		entity_spawn_world_random_0 "interface_minimap_show_zone_0"
+		logic_if_exist_entity_new_1###true "logic_or_0"
+		objective_generic_1 "objective_status_change_0"
+		objective_finish_0 "interface_dialogue_show_group_3|mission_change_creature_difficulty_0|mission_end_0"
+		objective_generic_0 "interface_highlight_build_menu_0|logic_wait_0|objective_radar_coverage_0"
+		objective_exist_0###true "campaign_objective_finish_0"
+		logic_wait_1 "mission_dom_resume_0"
+		objective_exist_0 "objective_exist_0###true"
+		objective_radar_coverage_0 "entity_spawn_world_random_0|interface_dialogue_show_group_2|interface_highlight_build_menu_1|objective_gather_resource_0|objective_generic_2"
+		objective_finish_1 "objective_finish_0"
+		logic_if_exist_entity_new_2###true "logic_or_0"
+		objective_status_change_0 "logic_wait_on_event_1"
+		entity_spawn_player_0 "event_graph_2|logic_wait_1|logic_wait_on_event_0|objective_exist_0"
+		logic_if_exist_entity_new_0 "logic_if_exist_entity_new_0###true"
+		default "entity_spawn_player_0"
+	}
+
+}
+

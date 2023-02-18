@@ -1,0 +1,78 @@
+system exor/desert_sand
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1000
+    scale                                       0.1000 0.1000 0.1000
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 0
+    technique s2
+    {
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box s2
+        {
+            emission_rate                       100
+            angle                               dyn_random
+            {
+                min                             2
+                max                             6
+            }
+            time_to_live                        dyn_random
+            {
+                min                             2
+                max                             3
+            }
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             750
+            }
+            duration                            dyn_random
+            {
+                min                             1
+                max                             5
+            }
+            repeat_delay                        dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             60
+                max                             300
+            }
+            position                            0 150 0
+            direction                           1 0 0.3
+            end_texture_coords_range            3
+            start_colour_range                  0.333333 0.333333 0.333333 1
+            end_colour_range                    0.207843 0.207843 0.207843 1
+            colour                              0 0 0 1
+            box_width                           1000
+            box_height                          5
+            box_depth                           1000
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 0.937255 0.686275 0
+            time_colour                         0.15  1 0.937255 0.686275 0.0901961
+            time_colour                         0.86087  1 0.886275 0.666667 0.0901961
+            time_colour                         1    1 0.921569 0.701961 0
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           20
+        }
+    }
+}

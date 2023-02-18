@@ -1,0 +1,67 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/winding_small_02"
+
+	base_blueprints
+	{
+		"props/mushrooms/winding_small_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/winding_small_02.mesh"
+		material "props/mushrooms/winding_small_01"
+	}
+
+	PhysicsDesc
+   	{
+  		objects
+  		{
+  			PhysicsObjectDesc
+  			{
+  				type 				"static"
+  				group_id 			"vegetation"
+  				physics_material 	"default"
+  				Shapes
+  				{
+  					PhysicsBoxShape
+  					{
+  						x "2.2"
+  						y "2.8"
+  						z "2.6"
+
+  						position
+  						{
+  							x "0"
+  							y "0.8"
+  							z "0.2"
+  						}
+  					}
+  				}
+  			}
+  		}
+  	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_medium"
+
+					part_material	 		"props/mushrooms/winding_small_01"
+					part_prefix 			"meshes/props/mushrooms/winding_small_02"
+					//part_effect 			"effects/destructibles/mushroom_part_trail"
+				}
+			}
+		}
+	}
+}
+

@@ -1,0 +1,875 @@
+//editor "offset(-3069.913,726.407)|zoom(0.831)"
+FlowGraphTemplate
+{
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(879,667)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/demo/mech_steel_factory_towers"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress.xml)|pos(1082,270)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_progress.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/demo/steel_factory_towers"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "build.steel_factory.towers"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "4"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_progress_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_increase.xml)|pos(1896,366)"
+			script "lua/graph/objective/objective_generic_progress_increase.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build.steel_factory.towers"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "amount"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_progress_increase_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(1500,229)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/defense/tower_basic"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/position_marker_steel_vein"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "60.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_1###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1515,546)"
+			self_id "logic_if_exist_entity_new_1###true"
+			key "true"
+			value "logic_if_exist_entity_new_1###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(1509,609)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "defense|tower_basic"
+					}
+
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(2313,212)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/defense/tower_basic"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/position_marker_steel_vein"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "2"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "60.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_2"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_2###true"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_increase.xml)|pos(2709,349)"
+			script "lua/graph/objective/objective_generic_progress_increase.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build.steel_factory.towers"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "amount"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_progress_increase_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2328,529)"
+			self_id "logic_if_exist_entity_new_2###true"
+			key "true"
+			value "logic_if_exist_entity_new_2###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3128,196)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/defense/tower_basic"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/position_marker_steel_vein"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "3"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "60.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_3"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_3###true"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_increase.xml)|pos(3524,333)"
+			script "lua/graph/objective/objective_generic_progress_increase.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build.steel_factory.towers"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "amount"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_progress_increase_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3143,513)"
+			self_id "logic_if_exist_entity_new_3###true"
+			key "true"
+			value "logic_if_exist_entity_new_3###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3945,173)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/defense/tower_basic"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/position_marker_steel_vein"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "4"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "60.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_4"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_4###true"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_increase.xml)|pos(4341,310)"
+			script "lua/graph/objective/objective_generic_progress_increase.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build.steel_factory.towers"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "amount"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_progress_increase_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3960,490)"
+			self_id "logic_if_exist_entity_new_4###true"
+			key "true"
+			value "logic_if_exist_entity_new_4###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(4357,656)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "tower_basic"
+					}
+
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(5019,277)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/ashley"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/demo/ashley_steel_factory_towers"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_2"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(5758,342)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(4767,317)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(3113,-48)"
+			self_id "event_graph_0"
+			graph "logic/weather/comet_silent.logic"
+			start_point "default"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_if_exist_entity_new_4###true "interface_highlight_build_menu_3|objective_generic_progress_increase_3"
+		interface_dialogue_show_2 "event_end_0"
+		objective_generic_progress_increase_3 "logic_wait_0"
+		logic_if_exist_entity_new_2###true "objective_generic_progress_increase_1"
+		logic_if_exist_entity_new_3 "logic_if_exist_entity_new_3###true"
+		logic_wait_0 "interface_dialogue_show_2"
+		objective_generic_progress_increase_1 "event_graph_0|logic_if_exist_entity_new_3"
+		logic_if_exist_entity_new_2 "logic_if_exist_entity_new_2###true"
+		logic_if_exist_entity_new_3###true "objective_generic_progress_increase_2"
+		logic_if_exist_entity_new_4 "logic_if_exist_entity_new_4###true"
+		logic_if_exist_entity_new_1###true "objective_generic_progress_increase_0"
+		logic_if_exist_entity_new_1 "logic_if_exist_entity_new_1###true"
+		objective_generic_progress_increase_0 "logic_if_exist_entity_new_2"
+		objective_generic_progress_increase_2 "logic_if_exist_entity_new_4"
+		objective_generic_progress_0 "interface_highlight_build_menu_2|logic_if_exist_entity_new_1"
+		default "interface_dialogue_show_0|objective_generic_progress_0"
+	}
+
+}
+

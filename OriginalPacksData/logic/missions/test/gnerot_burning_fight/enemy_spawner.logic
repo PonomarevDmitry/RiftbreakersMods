@@ -1,0 +1,223 @@
+//editor "offset(647.842,357.166)|zoom(0.630)"
+FlowGraphTemplate
+{
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-108,635)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(495,374)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+					}
+
+				}
+
+			}
+
+			self_id "wave_ground_0"
+			spawn_point "logic/spawn_enemy_1"
+			group_name "universal"
+			delay "0"
+			percentage_units_to_end_wave "100"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/canoptrix"
+					delay_group "0"
+					delay "0.20"
+					count "10"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/arachnoid_sentinel"
+					delay_group "0"
+					delay "0.20"
+					count "3"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/canoptrix"
+					delay_group "0"
+					delay "0.20"
+					count "10"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)"
+					blueprint "units/ground/arachnoid_sentinel"
+					delay_group "0"
+					delay "0.20"
+					count "3"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(190,625)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1434,516)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(494,222)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(1076,502)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/building"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_hud_show_debug.xml)|pos(488,65)"
+			script "lua/graph/interface/interface_hud_show_debug.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "text"
+						value "Enemies incoming!"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5.00"
+					}
+
+				}
+
+			}
+
+			self_id "interface_hud_show_debug_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_music_change_playlist_1 "event_end_0"
+		logic_wait_0 "audio_music_change_playlist_0|interface_hud_show_debug_0|wave_ground_0"
+		wave_ground_0 "audio_music_change_playlist_1"
+		default "logic_wait_0"
+	}
+
+}
+

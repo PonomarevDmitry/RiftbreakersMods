@@ -1,0 +1,387 @@
+//editor "offset(415.959,52.946)|zoom(1.000)"
+FlowGraphTemplate
+{
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-207,538)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_trigger.xml)|pos(87,417)"
+			script "lua/graph/logic/logic_wait_on_trigger.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "trigger_name"
+						value "volumes/trigger_unit_boss_1"
+					}
+
+					StringData
+					{
+						key "filter_type"
+					}
+
+					StringData
+					{
+						key "filter_team"
+						value "player"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_trigger_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(869,867)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/unusual_creature_kill_creature"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "creature_encounter"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive.xml)|pos(1484,815)"
+			script "lua/graph/logic/logic_if_alive.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value "units/ground/arachnoid_boss_easy"
+					}
+
+					StringData
+					{
+						key "wait_until_dead"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_alive_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_alive_0###false"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(1929,1065)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "creature_encounter"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_0"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(3239,1094)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1499,1082)"
+			self_id "logic_if_alive_0###false"
+			key "false"
+			value "logic_if_alive_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(828,519)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1191,408)"
+			global "0"
+			self_id "interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_kill_boss_encounter_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/objective/ashley_kill_boss_encounter_01"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(2574,974)"
+			global "0"
+			self_id "interface_dialogue_show_group_1"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_kill_boss_end_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/objective/ashley_kill_boss_end_01"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(531,538)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_trigger.xml)|pos(87,597)"
+			script "lua/graph/logic/logic_wait_on_trigger.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "trigger_name"
+						value "volumes/trigger_unit_boss_2"
+					}
+
+					StringData
+					{
+						key "filter_type"
+					}
+
+					StringData
+					{
+						key "filter_team"
+						value "player"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_trigger_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		interface_dialogue_show_group_1 "event_end_0"
+		logic_or_0 "logic_wait_0|objective_generic_0"
+		logic_wait_0 "interface_dialogue_show_group_0"
+		logic_wait_on_trigger_1 "logic_or_0"
+		logic_if_alive_0###false "objective_finish_0"
+		objective_finish_0 "interface_dialogue_show_group_1"
+		objective_generic_0 "logic_if_alive_0"
+		logic_wait_on_trigger_0 "logic_or_0"
+		logic_if_alive_0 "logic_if_alive_0###false"
+		default "logic_wait_on_trigger_0|logic_wait_on_trigger_1"
+	}
+
+}
+

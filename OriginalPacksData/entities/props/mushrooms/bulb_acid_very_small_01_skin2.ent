@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/bulb_acid_very_small_01_skin2"
+
+	base_blueprints
+	{
+		 "props/mushrooms/bulb_acid_very_small_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_very_small_01.mesh"
+		material "props/mushrooms/bulb_acid_skin2"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_red_very_small"	
+					
+					part_material	 		"props/mushrooms/bulb_acid_skin2_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_very_small_01"
+					//part_effect 			"effects/destructibles/mushroom_part_trail"
+					
+				}
+			}
+			
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					part_material	 		"props/mushrooms/bulb_acid_skin2_parts"					
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_very_small_01"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}	
+		}		
+	}
+
+	
+}
+

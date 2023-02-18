@@ -1,0 +1,258 @@
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/artillery_explosion"
+
+	base_blueprints
+	{
+		 lights/point/explosion_green_medium
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "bomogan"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_bulb_explosion_green_medium"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/artillery_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/artillery_launch"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_sentinel_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/artillery_launch"
+	}
+}
+
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_bomogan/attack_start"
+
+	SoundDesc
+	{
+		name "enemies/bomogan/attack"
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+	name effects/enemies_bomogan/death
+
+	ParticleDesc
+	{
+		name    "rift/death_red_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_red_random"
+		scale
+		{
+			x		1.7
+			y		1.7
+			z		1.7
+		}
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/death_artillery_explosion"
+
+	base_blueprints
+	{
+		 lights/point/explosion_green_medium
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "bomogan"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"5"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"66"
+					type			"acid"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_bulb_explosion_green_medium"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/artillery_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+	name "effects/enemies_bomogan/death_long"
+
+	ParticleDesc
+	{
+		name    "rift/death_red_medium_long"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/death"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_red_random"
+		scale
+		{
+			x		1.7
+			y		1.7
+			z		1.7
+		
+		}
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/idle"
+
+	base_blueprint "effects/default"
+
+	SoundDesc
+	{
+		name "enemies/bomogan/idle"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/run"
+
+	base_blueprint "effects/no_lifetime"
+
+	SoundDesc
+	{
+		name "enemies/bomogan/run"
+	}
+}
+

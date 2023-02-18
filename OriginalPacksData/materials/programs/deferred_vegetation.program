@@ -1,0 +1,357 @@
+vertex_program deferred_vegetation_vp hlsl
+{
+    source materials/programs/deferred_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    preprocessor_defines USE_GRASS_BRANCH=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cWorld                 world_matrix
+        param_named     cBendingInfo            float4  0 0 0 0
+    }
+}
+
+vertex_program deferred_vegetation_instanced_vp hlsl
+{
+    source materials/programs/deferred_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    includes_instance_data true
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cInstanceInfo          instance_info
+
+        instanced_param_named cBendingInfo      float4  0 0 0 0
+    }
+}
+
+vertex_program deferred_vegetation_skinned_instanced_vp hlsl
+{
+    source materials/programs/deferred_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    includes_instance_data true
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cTime                  time
+        param_named_auto cInstanceInfo          instance_info
+
+        instanced_param_named cBendingInfo      float4  0 0 0 0
+    }
+}
+
+vertex_program deferred_vegetation_tree_vp hlsl
+{
+    source materials/programs/deferred_vegetation_tree_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cWorld                 world_matrix
+        param_named      cTreeInfo              float4 0 0 0 100
+    }
+}
+
+vertex_program deferred_vegetation_tree_instanced_vp hlsl
+{
+    source materials/programs/deferred_vegetation_tree_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    includes_instance_data true
+    preprocessor_defines USE_INSTANCING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cInstanceInfo          instance_info
+
+        instanced_param_named cTreeInfo         float4  0 0 0 100
+    }
+}
+
+vertex_program deferred_vegetation_deform_vp hlsl
+{
+    source materials/programs/deferred_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_DEFORM=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cView                  view_matrix 
+        param_named_auto cWorld                 world_matrix
+        param_named_auto cTime                  time
+        param_named_auto cDeform                surface_deform
+
+        param_named      cBendingInfo           float4  0 0 0 0
+    }
+}
+
+vertex_program deferred_vegetation_deform_instanced_vp hlsl
+{
+    source materials/programs/deferred_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    includes_instance_data true
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_DEFORM=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cView                  view_matrix 
+        param_named_auto cTime                  time
+        param_named_auto cInstanceInfo          instance_info
+        param_named_auto cDeform                surface_deform
+
+        instanced_param_named cBendingInfo          float4  0 0 0 0
+    }
+}
+
+fragment_program deferred_vegetation_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=0,USE_SUBSURFACE=1,USE_BURNED_MAP=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_alpha_test_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=0,USE_SUBSURFACE=1,USE_BURNED_MAP=1,USE_ALPHA_TEST=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_twosided_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=1,USE_SUBSURFACE=1,USE_BURNED_MAP=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_twosided_alpha_test_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=1,USE_SUBSURFACE=1,USE_BURNED_MAP=1,USE_ALPHA_TEST=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_metalness_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=0,USE_SUBSURFACE_MAP=1,USE_BURNED_MAP=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_metalness_alpha_test_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=0,USE_SUBSURFACE_MAP=1,USE_BURNED_MAP=1,USE_ALPHA_TEST=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_metalness_twosided_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=1,USE_SUBSURFACE_MAP=1,USE_BURNED_MAP=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_metalness_alpha_test_twosided_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=1,USE_SUBSURFACE_MAP=1,USE_BURNED_MAP=1,USE_ALPHA_TEST=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_snow_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=0,USE_SUBSURFACE=1,USE_BURNED_MAP=1,USE_SNOW=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_alpha_test_snow_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=0,USE_SUBSURFACE=1,USE_BURNED_MAP=1,USE_ALPHA_TEST=1,USE_SNOW=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_twosided_alpha_test_snow_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=1,USE_SUBSURFACE=1,USE_BURNED_MAP=1,USE_ALPHA_TEST=1,USE_SNOW=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}
+
+fragment_program deferred_vegetation_twosided_snow_fp hlsl
+{
+    source materials/programs/deferred_vegetation_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_TWOSIDEDSIGN=1,USE_SUBSURFACE=1,USE_BURNED_MAP=1,USE_SNOW=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cSubSurfaceColor    surface_subsurface_colour
+        param_named      cBurningAmount      float4         0.0 0.0 0.0 0.0
+        param_named      cBurningColor       float4         1.0 0.5 0.0 0.0
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+    }
+}

@@ -1,0 +1,68 @@
+EntityBlueprint
+{
+	name "units/air/idapian_metallic"
+
+	base_blueprint "units/air/idapian_base"
+
+	StateMachineDesc
+	{
+		template_name "idapian"
+		params
+		{
+			speed							float:"8"
+			acceleration					float:"8"
+			max_search_origin_radius		float:"200"	
+			rotate_speed					float:"60"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/idapian.lua"
+		database
+		{
+			min_scale	float:"1.0"
+			max_scale	float:"1.05"
+		}
+	}
+	
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+			}
+		}
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"60"
+		unit_soft_radius				"3.0"
+		dominance_group					"10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}
+
+	MeshDesc
+	{
+		material "units/air/idapian_metallic"
+		mesh "meshes/units/air/idapian_metallic.mesh"
+	}
+}
+

@@ -1,0 +1,97 @@
+EntityBlueprint
+{
+	name "props/special/alien_structures/hitech_structure_big_02"
+
+	base_blueprint "props/base/resistant_big"
+
+	MeshDesc
+	{
+		material "props/special/hitech_structure_big_02"
+		mesh "meshes/props/special/alien_structures/hitech_structure_big_02.mesh"
+	}
+
+	TypeDesc
+	{
+		type "prop_alien"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/alien_structures/hitech_structure_big_02_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop_big"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/props/special/alien_structures/hitech_structure_big_02_c1.nxs"
+			}
+		}
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "0.02"
+			y "0.09"
+			z "0.15"
+			w "1"
+		}
+		size
+		{
+			x "4"
+			y "4"
+		}
+					
+		visibility			"discovered"
+	}		
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.8"
+		max "1.2"
+	}
+	
+	EffectDesc
+	{	
+		EffectGroup
+		{
+			group "influence_dissolve"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_alien_tower/hi_tech_structure_dissolve"
+					offset 0 1 0
+				}
+			}
+		}		
+	}		
+}

@@ -1,0 +1,34 @@
+system player/green/green_spaceship_ghost_glow
+{
+    scale_velocity                              0.0100
+    scale                                       0.0100 0.0100 0.0100
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 15
+    technique glow
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_nodepth_02
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       15000
+            angle                               0
+            time_to_live                        100
+            velocity                            0.01
+            particle_width                      300
+            particle_height                     300
+            keep_local                          true
+            direction                           -1 0 0
+            colour                              0 0.12549 0 1
+        }
+    }
+}

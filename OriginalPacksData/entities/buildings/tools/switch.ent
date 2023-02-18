@@ -1,0 +1,55 @@
+EntityBlueprint
+{
+	name  "buildings/tools/switch"
+
+	BuildingDesc
+	{
+		name 				"switch"
+		bp   				"buildings/tools/switch"
+		ghost_bp   			"buildings/tools/switch_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/switch_tool"
+		description			"gui/hud/building_description/switch_tool"
+		menu_icon			"gui/hud/buttons/action_menu_switch_neutral"
+		order				"1"
+		type 				"switch"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/switch_ghost"
+
+	BuildingDesc
+	{
+		name		"switch_ghost"
+		buildable 	"0"
+		type 		"switch"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/switch_tool.lua"
+		database
+		{
+			action	string:"switch"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_violet"
+		flags       "2"
+	}
+
+}
+

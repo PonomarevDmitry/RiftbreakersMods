@@ -1,0 +1,53 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/bioluminescence_small_01"
+
+	base_blueprints
+	{
+		props/mushrooms/standard_small_01
+	}
+
+	MeshDesc
+	{
+	mesh 		"meshes/props/mushrooms/bioluminescence_small_01.mesh"
+	material 	"props/mushrooms/bioluminescence"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_medium"
+
+					part_material	 		"props/mushrooms/standard_small_01_skin1"
+					part_prefix 			"meshes/props/mushrooms/standard_small_01"
+					//part_effect 			"effects/destructibles/mushroom_part_trail"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					part_material	 		"props/mushrooms/standard_small_01"
+					part_prefix 			"meshes/props/mushrooms/standard_small_01"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}
+	}
+
+
+}

@@ -1,0 +1,57 @@
+material fxaa
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			depth_check off
+			depth_write off
+			
+			vertex_program_ref fxaa_vp
+			{
+			}
+			
+			fragment_program_ref fxaa_fp
+			{
+			}
+			
+			texture_unit input
+			{
+                content_type compositor
+				tex_address_mode clamp
+				filtering bilinear
+			}
+			
+		}
+	}
+}
+
+material fxaa_luma
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			depth_check off
+			depth_write off
+			
+			vertex_program_ref fxaa_vp
+			{
+			}
+			
+			fragment_program_ref fxaa_luma_fp
+			{
+			}
+			
+			texture_unit input
+			{
+                content_type compositor
+				tex_address_mode clamp
+				filtering bilinear
+			}
+			
+		}
+	}
+}

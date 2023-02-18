@@ -1,0 +1,55 @@
+system rift/building_cube_launch
+{
+    keep_local                                  true
+    fixed_timeout                               0.2
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.004
+    scale                                       0.004 0.004 0.004
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 20
+    technique 1
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_muzzleflash_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter1
+        {
+            emission_rate                       20
+            angle                               45
+            time_to_live                        0.2
+            velocity                            1
+            particle_width                      5
+            particle_height                     101
+            direction                           1 0 0
+            end_texture_coords_range            3
+            colour                              0.188235 0.188235 0.188235 1
+            force_emission                      true
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Scale Affector9
+        {
+            x_scale                             1500
+            y_scale                             5000
+        }
+        affector                                Colour Affector24
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.256522  1 1 1 1
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+    }
+}

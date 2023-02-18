@@ -1,0 +1,179 @@
+import * from "materials/scripts/distortion.material"
+
+material particles/default
+{
+	render_group 60
+
+	feature "particle|upscale_mask"
+
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend alpha_blend
+			
+			vertex_program_ref unlit_tex_color_fog_VP
+			{
+			}
+
+			fragment_program_ref unlit_tex_color_fog_FP
+			{
+
+			}
+
+			texture_unit diffuse
+			{
+				texture         	materials/textures/error.dds
+				tex_address_mode 	clamp
+                filtering 			anisotropic
+			}
+		}
+	}
+}
+
+material particles/default_no_depth : particles/default
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+		}
+	}
+}
+
+material particles/emissive
+{
+    render_group 60
+
+	feature "particle|upscale_mask"
+
+    technique
+    {
+        pass
+        {
+            lighting off
+            depth_write off
+            scene_blend alpha_blend
+			glow 255
+			
+            vertex_program_ref unlit_emissive_color_fog_vp 
+            {
+            }
+            
+            fragment_program_ref unlit_emissive_color_fog_fp
+            {
+            }
+            
+            texture_unit diffuse
+            {
+                texture             materials/textures/error.dds
+                tex_address_mode    clamp
+                filtering anisotropic
+            }
+            
+            texture_unit emissive
+            {
+                texture             materials/textures/error.dds
+                tex_address_mode    clamp
+                filtering anisotropic
+            }
+        }
+    }
+}
+
+material particles/emissive_no_depth : particles/emissive
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+		}
+	}
+}
+
+material particles/distortion : distortion/color
+{
+	feature "particle"
+
+	technique
+	{
+		pass
+		{
+			scene_blend add
+		}
+	}
+}
+
+material particles/add : particles/default
+{
+	technique
+	{
+		pass
+		{
+			scene_blend add
+			
+			fragment_program_ref unlit_tex_color_FP
+			{
+			}
+		}
+	}
+}
+
+material particles/add_no_depth : particles/default
+{
+	technique
+	{
+		pass
+		{
+			scene_blend add
+			depth_check off
+			
+			fragment_program_ref unlit_tex_color_FP
+			{
+			}
+		}
+	}
+}
+
+material particles/ribbon : particles/default
+{
+	technique
+	{
+		pass
+		{
+            texture_unit diffuse
+            {
+                texture             materials/textures/error.dds
+                tex_address_mode    wrap
+                filtering anisotropic
+            }
+		}
+	}
+}
+
+material particles/ribbon_emissive : particles/emissive
+{
+	technique
+	{
+		pass
+		{
+            texture_unit diffuse
+            {
+                texture             materials/textures/error.dds
+                tex_address_mode    wrap
+                filtering anisotropic
+            }
+            
+            texture_unit emissive
+            {
+                texture             materials/textures/error.dds
+                tex_address_mode    wrap
+                filtering anisotropic
+            }
+		}
+	}
+}

@@ -1,0 +1,205 @@
+EntityBlueprint
+{
+	name "units/ground/phirian_ultra"
+
+	base_blueprint "units/ground/phirian_base"
+
+	StateMachineDesc
+	{
+		template_name "phirian"
+		params
+		{
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			dash_min_distance					float:"10.0"
+			dash_max_distance					float:"25.0"
+			dash_cooldown						float:"3.0"
+			dash_ignore_type					string:"ground_unit_small"
+			dash_space_behind_target			float:"15"
+			dash_speed							float:"150"
+			dash_damage							float:"90"
+			dash_damage_size					float:"5.5"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/phirian.lua"
+		database
+		{
+			min_scale	float:"1.30"
+			max_scale	float:"1.37"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"2800"
+		health 						"2800"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/phirian.mesh"
+		material 	"units/ground/phirian_ultra"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/phirian_ultra"
+		can_activate 0
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/phirian"
+		}	
+		EffectGroup
+		{
+			group "death_splash"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_phirian/death_splash_alpha"
+					bone "Hip_1"
+					always_up "1"
+				}
+			}
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/phirian_ultra/attack"
+
+			AttachmentDesc
+			{
+				attachment "Hand_R"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_phirian/attack_start"
+						slash_effect 				"effects/enemies_phirian/sword_slash"
+						attack_start_time			"0.49"
+						attack_end_time				"0.79"
+						attack_duration 			"1.60"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_phirian/attack_start"
+						slash_effect 				"effects/enemies_phirian/sword_slash"
+						attack_start_time			"0.42"
+						attack_end_time				"0.72"
+						attack_duration 			"1.43"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_phirian/attack_start"
+						slash_effect 				"effects/enemies_phirian/sword_slash"
+						attack_start_time			"0.51"
+						attack_end_time				"0.75"
+						attack_duration 			"1.63"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_phirian/sword_hit_world"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|vegetation|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"120"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.75"
+						y "2.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

@@ -1,0 +1,340 @@
+EntityBlueprint
+{
+	name  "items/weapons/cryogenic_atomizer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/cryogenic_atomizer.mesh"
+		material 	"items/weapons/cryogenic_atomizer"
+	}
+
+	SkeletonDesc
+  {
+  	name "meshes/items/weapons/cryogenic_atomizer"
+  }
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "3"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 			"items/weapons/cryogenic_atomizer_beam"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_fluid/flamer_fire"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_fluid/equipped_fluid_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_end"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/weapons/fluid/flamer_stop"
+				}
+			}
+		}
+        EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_fluid/empty_fluid_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cryogenic_atomizer_advanced"
+
+	base_blueprint "items/weapons/cryogenic_atomizer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/cryogenic_atomizer.mesh"
+		material 	"items/weapons/cryogenic_atomizer_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cryogenic_atomizer_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		 	"range_weapon"
+		subtype			"liquid"
+		name 			"gui/menu/inventory/weapon_name/cryogenic_atomizer"
+		holding_pose 	"range"
+		item_bp		 	"items/weapons/cryogenic_atomizer_advanced"
+		icon		"gui/hud/items_icons/weapons/cryogenic_atomizer_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/cryogenic_atomizer_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,1,60"
+		}	
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cryogenic_atomizer_beam"
+
+	base_blueprints
+	{
+		lights/point/fire_blue_big
+		effects/no_lifetime
+	}
+
+	FlameBeamComponent
+	{
+        max_hits					"16"
+        box_count					"3"
+        angle_speed					"180"
+        range_speed					"1.5"
+        particle_velocity_scale 	"0.0125"
+        particle_reference_range	"16"
+		burning_chance_override 	"0"
+
+		collision_3d 				"world_blocker|world|ground_unit|hitbox|building|destructible"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_cryogenic_atomizer"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "items/weapons/cryogenic_atomizer_extreme"
+
+	base_blueprint "items/weapons/cryogenic_atomizer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/cryogenic_atomizer.mesh"
+		material 	"items/weapons/cryogenic_atomizer_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cryogenic_atomizer_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		 	"range_weapon"
+		subtype			"liquid"
+		name 			"gui/menu/inventory/weapon_name/cryogenic_atomizer"
+		holding_pose 	"range"
+		item_bp		 	"items/weapons/cryogenic_atomizer_extreme"
+		icon		"gui/hud/items_icons/weapons/cryogenic_atomizer_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/cryogenic_atomizer_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,1,60"
+		}	
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cryogenic_atomizer_item"
+
+	InventoryItemDesc
+	{
+		type 		 	"range_weapon"
+		subtype			"liquid"
+		name 			"gui/menu/inventory/weapon_name/cryogenic_atomizer"
+		holding_pose 	"range"
+		item_bp		 	"items/weapons/cryogenic_atomizer"
+		icon		"gui/hud/items_icons/weapons/cryogenic_atomizer"
+		bigger_icon "gui/menu/items_icons/weapons/cryogenic_atomizer"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,1,60"
+		}	
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cryogenic_atomizer_superior"
+
+	base_blueprint "items/weapons/cryogenic_atomizer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/cryogenic_atomizer.mesh"
+		material 	"items/weapons/cryogenic_atomizer_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cryogenic_atomizer_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		 	"range_weapon"
+		subtype			"liquid"
+		name 			"gui/menu/inventory/weapon_name/cryogenic_atomizer"
+		holding_pose 	"range"
+		item_bp		 	"items/weapons/cryogenic_atomizer_superior"
+		icon		"gui/hud/items_icons/weapons/cryogenic_atomizer_superior"
+		bigger_icon "gui/menu/items_icons/weapons/cryogenic_atomizer_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,1,60"
+		}	
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

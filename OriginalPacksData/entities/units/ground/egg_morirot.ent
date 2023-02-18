@@ -1,0 +1,220 @@
+EntityBlueprint
+{
+	name "units/ground/egg_morirot"
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		database
+		{
+			min_scale	float:"0.8"
+			max_scale	float:"1.2"
+		}		
+	}
+
+	HealthDesc
+	{
+		max_health 					"3"
+		health 						"3"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/spawner_morirot_eggs_01.mesh"
+		material "units/ground/spawner_morirot"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "canoptrix"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+						
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_morirot/death"
+					part_prefix 			"meshes/units/ground/spawner_morirot_eggs_01"
+					part_material 			"units/ground/spawner_morirot"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+	}
+
+	EggDesc
+	{
+		blueprint				"units/ground/morirot"
+		time_to_hatch			"90"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_morirot_alpha"
+
+	base_blueprint "units/ground/egg_morirot"
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/spawner_morirot_eggs_02.mesh"
+		material "units/ground/spawner_morirot"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_morirot/death"
+					part_prefix 			"meshes/units/ground/spawner_morirot_eggs_02"
+					part_material 			"units/ground/spawner_morirot"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+	}
+
+
+	EggDesc
+	{
+		blueprint				"units/ground/morirot_alpha"
+		time_to_hatch			"90"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_morirot_ultra"
+
+	base_blueprint "units/ground/egg_morirot"
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/spawner_morirot_eggs_03.mesh"
+		material "units/ground/spawner_morirot"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_morirot/death"
+					part_prefix 			"meshes/units/ground/spawner_morirot_eggs_03"
+					part_material 			"units/ground/spawner_morirot"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+	}
+
+
+	EggDesc
+	{
+		blueprint				"units/ground/morirot_ultra"
+		time_to_hatch			"90"
+		unit_state_spawn		"1" // do not touch
+	}
+}

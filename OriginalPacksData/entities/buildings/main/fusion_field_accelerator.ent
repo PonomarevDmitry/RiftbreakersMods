@@ -1,0 +1,181 @@
+EntityBlueprint
+{
+	name  "buildings/main/fusion_field_accelerator"
+
+	IdDesc
+	{
+		name "fusion_field_accelerator"
+	}
+
+	BuildingDesc
+	{
+		name 				"fusion_field_accelerator"
+		bp   				"buildings/main/fusion_field_accelerator"
+		category 			"main"
+		localization_id		"gui/hud/building_name/fusion_field_accelerator"
+		description			"gui/hud/building_description/fusion_field_accelerator"
+		menu_icon			"gui/hud/building_icons/fusion_field_accelerator"
+		buildable			"0"
+		type				"addon"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 300
+				building_cost
+				{
+					carbonium 	"10000"
+					steel 		"10000"
+					uranium		"10000"
+				}
+			}		
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/main/fusion_field_accelerator.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/main/fusion_field_accelerator.mesh"
+		material 	"buildings/main/fusion_field_accelerator"
+	}
+
+	TypeDesc
+	{
+		type "building|main"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/main/fusion_field_accelerator"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "buildings/fusion_field_accelerator"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.45"
+						half_height "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "idle"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_under_ball_energy"
+					bone "att_working"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_ball"
+					bone "ball"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_energy"
+					bone "att_arm_1"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_energy"
+					bone "att_arm_2"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_energy"
+					bone "att_arm_3"
+				}				
+			}
+		}		
+		EffectGroup
+		{
+			group "portal_active"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_under_ball_energy"
+					bone "att_working"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_ball_bottom_rotor"
+					bone "att_bottom_rotor"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_ball"
+					bone "ball"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_energy"
+					bone "att_arm_1"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_energy"
+					bone "att_arm_2"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_energy"
+					bone "att_arm_3"
+				}	
+			}
+		}
+	}
+}

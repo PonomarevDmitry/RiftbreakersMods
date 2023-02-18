@@ -1,0 +1,256 @@
+system exor/tower_air_energy
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0150
+    scale                                       0.0150 0.0150 0.0150
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique fire_add
+    {
+        visual_particle_quota                   6
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_explosion_cloud_01_add
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point fire_add1
+        {
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             400
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             125
+            }
+            direction                           0 -1 0
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.501961 0.74902 1 1
+            time_colour                         1    0 0 0 1
+        }
+        affector                                Scale Affector30
+        {
+            xyz_scale                           -10
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   8
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle sparks
+        {
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             250
+                max                             350
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             8
+                max                             14
+            }
+            direction                           0 -1 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              50
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.11087  1 1 1 1
+            time_colour                         0.886957  0 0.501961 1 1
+            time_colour                         1    0 0 0 1
+        }
+    }
+    technique rings_alpha
+    {
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_ring_add_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       2
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.2
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             140
+                max                             155
+            }
+            direction                           0 -1 0
+            colour                              1 0.501961 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.3  0 0.666667 1 1
+            time_colour                         0.5  0 0.666667 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+    }
+    technique rings_alpha_2
+    {
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_ring_add_02
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       2
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.2
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             175
+                max                             200
+            }
+            direction                           0 -1 0
+            colour                              1 0.501961 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.3  0 0.666667 1 1
+            time_colour                         0.5  0 0.666667 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             1
+                max                             -1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+        }
+    }
+    technique rings_ground
+    {
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/pump_bubble_blurred
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       2
+            angle                               0
+            time_to_live                        1.5
+            velocity                            1e-006
+            all_particle_dimensions             1
+            position                            0 -160 0
+            colour                              1 0.501961 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0.666667 1 1
+            time_colour                         0.804348  0 0.666667 1 1
+            time_colour                         1    0 0.501961 1 0
+        }
+        affector                                Scale Affector37
+        {
+            xyz_scale                           250
+        }
+    }
+}

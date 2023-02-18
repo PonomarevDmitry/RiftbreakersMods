@@ -1,0 +1,345 @@
+EntityBlueprint
+{
+	name "items/weapons/minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/minigun"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "weapon"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.35"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "3"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"mech/minigun_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_bullet/minigun_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/minigun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/minigun_fire_loop"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_big_bullet_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_deactivated"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/minigun_fire_stop"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/minigun_advanced"
+
+	base_blueprint "items/weapons/minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/minigun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/minigun"
+		holding_pose "range"
+		item_bp		"items/weapons/minigun_advanced"
+		icon		"gui/hud/items_icons/weapons/minigun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/minigun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/minigun_extreme"
+
+	base_blueprint "items/weapons/minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/minigun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/minigun"
+		holding_pose "range"
+		item_bp		"items/weapons/minigun_extreme"
+		icon		"gui/hud/items_icons/weapons/minigun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/minigun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/minigun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/minigun"
+		holding_pose "range"
+		item_bp		"items/weapons/minigun"
+		icon		"gui/hud/items_icons/weapons/minigun"
+		bigger_icon "gui/menu/items_icons/weapons/minigun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/minigun_superior"
+
+	base_blueprint "items/weapons/minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/minigun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/minigun"
+		holding_pose "range"
+		item_bp		"items/weapons/minigun_superior"
+		icon		"gui/hud/items_icons/weapons/minigun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/minigun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "mech/minigun_projectile"
+
+	base_blueprint "effects/weapons_bullet/minigun_bullet"
+
+	ProjectileAmmoComponent
+	{
+		distribution 			"dissipation"
+
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+		//friendly_fire			"damage"
+		collision_3d 			"world_blocker|world|ground_unit|building|destructible|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.2
+		type 		"camera"
+	}
+}
+

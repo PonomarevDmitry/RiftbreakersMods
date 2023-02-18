@@ -1,0 +1,176 @@
+EntityBlueprint
+{
+	name  "buildings/main/quantum_gate_stabilizer"
+
+	IdDesc
+	{
+		name "quantum_gate_stabilizer"
+	}
+
+	BuildingDesc
+	{
+		name 				"quantum_gate_stabilizer"
+		bp   				"buildings/main/quantum_gate_stabilizer"
+		category 			"main"
+		localization_id		"gui/hud/building_name/quantum_gate_stabilizer"
+		description			"gui/hud/building_description/quantum_gate_stabilizer"
+		menu_icon			"gui/hud/building_icons/quantum_gate_stabilizer"
+		buildable			"0"
+		type				"addon"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 300
+				building_cost
+				{
+					carbonium 	"10000"
+					steel 		"10000"
+					titanium	"10000"
+				}
+			}		
+		}	
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/main/quantum_gate_stabilizer.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/main/quantum_gate_stabilizer.mesh"
+		material 	"buildings/main/quantum_gate_stabilizer"
+	}
+
+	TypeDesc
+	{
+		type "building|main"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/main/quantum_gate_stabilizer"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "buildings/quantum_gate_stabilizer"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.45"
+						half_height "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "idle"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_cube_trail"
+					bone "att_working"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_small_rotor"
+					bone "att_small_rotor_1"
+				}		
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_small_rotor"
+					bone "att_small_rotor_2"
+				}	
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_small_rotor"
+					bone "att_small_rotor_3"
+				}					
+			}
+		}		
+		EffectGroup
+		{
+			group "portal_active"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_cube_trail"
+					bone "att_working"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_big_rotor"
+					bone "att_big_rotor_1"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_big_rotor"
+					bone "att_big_rotor_2"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_small_rotor"
+					bone "att_small_rotor_1"
+				}		
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_small_rotor"
+					bone "att_small_rotor_2"
+				}	
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_small_rotor"
+					bone "att_small_rotor_3"
+				}
+			}
+		}
+	}
+}

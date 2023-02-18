@@ -1,0 +1,175 @@
+EntityBlueprint
+{
+	name  "props/special/magnetic_rocks/magnetic_medium_01"
+	
+	LuaDesc
+	{
+		script "lua/misc/magnetic_boulder.lua"
+	}	
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/magnetic_rocks/magnetic_rock_medium_01.mesh"
+		material "props/special/magnetic_medium_01"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/special/magnetic_rocks/magnetic_rock_medium_01"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "idle"
+	}
+
+	StateMachineDesc
+	{
+		template_name "animation_visible"
+	}
+	
+	HealthDesc
+	{ 
+		max_health 				"200"
+		health 					"200"
+		is_manual 				"1"
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.0"
+		fire			"0.0"
+		acid			"1.0"
+		energy			"0.0"
+		cryo			"0.0"
+		area			"0.0"	
+	}		
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/magnetic_rocks/magnetic_rock_medium_01_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "12"
+			}
+		}
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"origin"
+		terrain_type  	"magnetic_rock"	
+		extend  		"12"
+	}	
+	
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}	
+
+	TriggerDesc
+	{	
+		owner 		"self"
+		collision 	"ground_unit"
+
+		Filters
+		{
+			TeamTriggerFilter 
+			{
+				team		"player"
+			}
+		}
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "12"
+			}				
+		}
+	}
+	
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/magnetic_rock_small"	
+					
+					part_material	 		"props/special/magnetic_medium_01"
+					part_prefix 			"meshes/props/special/magnetic_rocks/magnetic_rock_medium_01"
+					part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}	
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/magnetic_rock_energy"
+					offset "0 4 0"
+					scale "0.6 0.6 0.6"
+				}
+				Effect
+				{
+					blueprint "effects/destructibles/magnetic_rock_radius"
+					offset "0 0 0"
+					scale "0.6 0.6 0.6"
+				}
+				Effect
+				{
+					blueprint "props/special/magnetic_rocks/magnetic_medium_base_01"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "wreck"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "props/special/magnetic_rocks/magnetic_medium_base_01_wreck"
+				}
+			}
+		}	
+	}
+}
+

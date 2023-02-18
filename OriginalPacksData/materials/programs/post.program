@@ -1,0 +1,23 @@
+vertex_program post_quad_vp hlsl
+{
+    source materials/programs/post_quad_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+}
+
+fragment_program post_final_fp hlsl
+{
+    source materials/programs/post_final_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+
+    preprocessor_defines FOG=1,SSAO=1,POSTPROCESS=1
+
+    default_params
+    {
+		param_named_auto    cInvProjMatrix texture_inverse_projection_matrix 0
+        param_named_auto    cFogParams     fog_params
+        param_named_auto    cFogColour     fog_colour
+        param_named_auto    cPostParams    postprocess_shared_params
+    }
+}

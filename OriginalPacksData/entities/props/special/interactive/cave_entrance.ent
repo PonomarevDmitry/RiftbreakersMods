@@ -1,0 +1,44 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/cave_entrance"
+
+	MeshDesc
+	{
+		mesh "meshes/props/rocks/ovoid_acid/ovoid_acid_big_01.mesh"
+		material "props/rocks/ovoid_acid/ovoid_acid_big_01"
+	}
+	
+	LuaDesc
+	{
+		script "lua/props/special/cave_entrance.lua"	
+	}
+
+	PhysicsDesc
+  	{
+        objects
+      	{
+           PhysicsObjectDesc
+           {
+    	        type     "static"
+    	        group_id    "world_blocker"
+    	        physics_material  "default"
+                
+                Shapes
+                {
+                    PhysicsMeshShape
+                    {
+                       	mesh "meshes/props/rocks/ovoid_acid/ovoid_acid_big_01_c1.nxs"
+                    }
+                }
+            }
+        }
+    }
+
+	InteractiveComponent 
+	{
+		slot 			"HARVESTER"
+		radius 			"10"
+		remove_entity	"0"
+	}
+}
+

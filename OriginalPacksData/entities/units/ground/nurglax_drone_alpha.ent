@@ -1,0 +1,100 @@
+EntityBlueprint
+{
+	name "units/ground/nurglax_drone_alpha"
+
+	base_blueprint "units/ground/nurglax_drone_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/nurglax_drone.lua"
+		database
+		{
+			min_scale	float:"0.54"
+			max_scale	float:"0.54"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nurglax_drone.mesh"
+		material 	"units/ground/nurglax"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/nurglax_drone_alpha/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_nurglax/drone_attack"
+						attack_start_time			"0.60"
+						attack_end_time				"0.75"
+						attack_duration 			"1.63"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_small"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"4"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.0"
+						y "1.0"
+						z "1.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

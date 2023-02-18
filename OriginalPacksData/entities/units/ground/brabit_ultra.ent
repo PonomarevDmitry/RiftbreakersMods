@@ -1,0 +1,66 @@
+EntityBlueprint
+{
+	name "units/ground/brabit_ultra"
+
+	base_blueprint "units/ground/brabit_base"
+
+	StateMachineDesc
+	{
+		template_name "brabit"
+		params
+		{
+			run_speed						float:"2"
+			run_acceleration				float:"0.5"
+			walk_speed						float:"2"
+			walk_acceleration				float:"0.5"
+			evade_distance					float:"20"
+			random_move_distance			float:"25"	
+			run_away_evade_distance			float:"45"
+			run_away_move_distance			float:"110"
+		}			
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/brabit.lua"
+		database
+		{
+			min_scale	float:"1.10"
+			max_scale	float:"1.15"
+		}		
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"150"
+		health 						"150"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"		
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/brabit.mesh"
+		material 	"units/ground/brabit"
+	}
+
+	
+
+}

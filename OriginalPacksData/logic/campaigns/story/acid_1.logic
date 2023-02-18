@@ -1,0 +1,793 @@
+//editor "offset(-1190.379,95.260)|zoom(0.787)"
+FlowGraphTemplate
+{
+	version "10"
+	editor "3151"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-676,691)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(3204,940)"
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "acid_find_samples"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_mission_status_2"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_mission_status.xml)"
+					value "logic_if_mission_status_2###win"
+					key "win"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(2651,972)"
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "acid_find_samples"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/story/acid_find_samples"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_mission_unlock_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1782,407)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(1209,246)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_station"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(715,252)"
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/research_station"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_reseach_finished_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(78,227)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/research_station"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_station"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_research_finished.xml)|pos(-334,313)"
+			script "lua/graph/logic/logic_if_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/research_station"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_research_finished_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_research_finished_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_research_finished_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(3219,1117)"
+			self_id "logic_if_mission_status_2###win"
+			value "logic_if_mission_status_2###win"
+			key "win"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-319,415)"
+			self_id "logic_if_research_finished_0###false"
+			key "false"
+			value "logic_if_research_finished_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-319,442)"
+			self_id "logic_if_research_finished_0###true"
+			key "true"
+			value "logic_if_research_finished_0###true"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(3642,1103)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(779,738)"
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/floor_acid"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_reseach_finished_1"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(2375,465)"
+			global "1"
+			self_id "campaign_interface_dialogue_show_group_1"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/campaign/mech_orbital_scanning_acid_02"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(59,711)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/acid_floor_research"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.acid_floor_research"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_research_finished.xml)|pos(-313,843)"
+			script "lua/graph/logic/logic_if_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/floor_acid"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_research_finished_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_research_finished_1###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_research_finished_1###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-298,945)"
+			self_id "logic_if_research_finished_1###false"
+			key "false"
+			value "logic_if_research_finished_1###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-298,972)"
+			self_id "logic_if_research_finished_1###true"
+			key "true"
+			value "logic_if_research_finished_1###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(1223,728)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.acid_floor_research"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1509,944)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(2646,722)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/acid_creeper_gather_samples"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.acid_creeper_gather_samples"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2388,750)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1800,817)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2154,719)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(718,62)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/research_station"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1202,61)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/research_station"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1262,556)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/floor_acid"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(778,557)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/floor_acid"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_3"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_wait_1 "campaign_mission_unlock_2|campaign_objective_generic_1"
+		campaign_objective_finish_1 "logic_or_1"
+		logic_if_research_finished_1###true "logic_wait_0"
+		campaign_objective_generic_0 "logic_wait_on_reseach_finished_1|mission_highlight_research_3"
+		logic_or_1 "logic_wait_2"
+		logic_if_research_finished_1###false "campaign_objective_generic_0"
+		logic_wait_on_reseach_finished_1 "campaign_objective_finish_1|mission_highlight_research_2"
+		logic_if_research_finished_0###true "logic_or_0"
+		logic_if_research_finished_0###false "campaign_objective_generic_2"
+		logic_wait_2 "campaign_interface_dialogue_show_group_1|logic_wait_1"
+		logic_if_mission_status_2###win "event_end_0"
+		campaign_objective_generic_2 "logic_wait_on_reseach_finished_0|mission_highlight_research_0"
+		logic_wait_on_reseach_finished_0 "campaign_objective_finish_0|mission_highlight_research_1"
+		logic_if_research_finished_1 "logic_if_research_finished_1###false|logic_if_research_finished_1###true"
+		campaign_objective_finish_0 "logic_or_0"
+		logic_or_0 "logic_wait_2"
+		logic_if_research_finished_0 "logic_if_research_finished_0###false|logic_if_research_finished_0###true"
+		logic_wait_0 "logic_or_1"
+		campaign_mission_unlock_2 "logic_if_mission_status_2"
+		logic_if_mission_status_2 "logic_if_mission_status_2###win"
+		default "logic_if_research_finished_0|logic_if_research_finished_1"
+	}
+
+}
+

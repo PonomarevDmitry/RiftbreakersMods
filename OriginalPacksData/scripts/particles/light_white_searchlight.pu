@@ -1,0 +1,68 @@
+system exor/light_white_searchlight
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.025
+    scale                                       0.025 0.025 0.025
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 0
+    technique flare
+    {
+        keep_local                              true
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_white_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        10
+            velocity                            0.0001
+            all_particle_dimensions             60
+            colour                              0.25098 0.25098 0.25098 0.501961
+        }
+    }
+    technique searchlight
+    {
+        keep_local                              true
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_explosion_trail_02_add
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.4
+            }
+            velocity                            0.0001
+            particle_width                      500
+            particle_height                     200
+            direction                           -1 0 0
+        }
+        affector                                Colour Affector9
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.506522  0.12549 0.12549 0.12549 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

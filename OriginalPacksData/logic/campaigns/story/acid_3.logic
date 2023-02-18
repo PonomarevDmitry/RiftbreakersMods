@@ -1,0 +1,373 @@
+//editor "offset(-878.053,562.839)|zoom(0.653)"
+FlowGraphTemplate
+{
+	version "7"
+	editor "3151"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(614,519)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(3445,419)"
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "acid_resource_outpost"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_mission_status_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_mission_status.xml)"
+					value "logic_if_mission_status_0###win"
+					key "win"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(3074,454)"
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "acid_resource_outpost"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/story/acid_resource_outpost"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_mission_unlock_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2852,467)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(2197,441)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/acid_build_outpost"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.acid_build_outpost"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1982,465)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(941,490)"
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "PalladiumResearchObjectiveEnd"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_event_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(1469,445)"
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.RareElementMining"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_global_variable_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_global_variable_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(3460,596)"
+			self_id "logic_if_mission_status_0###win"
+			value "logic_if_mission_status_0###win"
+			key "win"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1484,652)"
+			self_id "logic_if_global_variable_0###true"
+			key "true"
+			value "logic_if_global_variable_0###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(2194,71)"
+			global "1"
+			self_id "campaign_interface_dialogue_show_group_1"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/campaign/mech_orbital_scanning_acid_08"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/campaign/ashley_orbital_scanning_acid_07"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_if_global_variable_0###true "logic_wait_1"
+		logic_if_global_variable_0 "logic_if_global_variable_0###true"
+		campaign_objective_generic_0 "logic_wait_0"
+		logic_wait_0 "campaign_mission_unlock_0"
+		logic_wait_on_event_0 "logic_if_global_variable_0"
+		campaign_mission_unlock_0 "logic_if_mission_status_0"
+		logic_wait_1 "campaign_interface_dialogue_show_group_1|campaign_objective_generic_0"
+		logic_if_mission_status_0 "logic_if_mission_status_0###win"
+		default "logic_wait_on_event_0"
+	}
+
+}
+

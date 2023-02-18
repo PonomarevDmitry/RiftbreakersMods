@@ -1,0 +1,30 @@
+vertex_program skybox_procedural_VP hlsl
+{
+    source 							materials/programs/skybox_procedural_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_ENVIRONMENT=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cWorld world_matrix
+    }
+}
+
+fragment_program skybox_procedural_FP hlsl
+{
+    source 							materials/programs/skybox_procedural_fp.hlsl
+    entry_point 					mainFP
+    target 							ps_5_0
+    preprocessor_defines			USE_ENVIRONMENT=1
+
+    default_params
+    {      
+        param_named_auto    cSkyboxParams    skybox_procedural_shared_params
+        param_named_auto    cSkyboxColor     skybox_procedural_color_shared_params
+        param_named_auto    cWorldCameraPos  camera_position
+        param_named_auto    cLightDirection  light_direction 0
+        param_named_auto    cLightColor      pbrlight_params 0
+    }
+}

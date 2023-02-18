@@ -1,0 +1,75 @@
+EntityBlueprint
+{
+	name "props/crystals/pure_medium_05_skin3"
+
+	base_blueprints
+	{
+		props/crystals/pure_medium_01
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/crystals/pure_medium_05.mesh"
+		material "props/crystals/pure_set_skin3"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/crystals/pure_medium_05_c1.nxs"
+					}
+
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/crystals/pure_medium_05_c2.nxs"
+					}
+
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/crystals/pure_medium_05_c3.nxs"
+					}
+
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/crystals/pure_medium_05_c4.nxs"
+					}
+
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_red"
+					explosion_effect_scale 	"0.5"
+					part_material	 		"props/crystals/pure_set_skin3"
+					part_prefix 			"meshes/props/crystals/pure_medium_05"
+					part_effect 			"effects/destructibles/crystal_red_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}
+		}
+	}
+}
+

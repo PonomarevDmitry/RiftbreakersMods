@@ -1,0 +1,188 @@
+EntityBlueprint
+{
+	name  "test/test_portal"
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/portal.lua"
+		
+		database
+		{
+
+			building_time		float:"0.5"
+		}
+
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/skills/rift_base.mesh"
+		material 	"items/skills/rift_base"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "1.6"
+					}	
+				}
+			}
+		}
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-2"
+				y "0"
+				z "-2"
+			}
+			max
+			{
+				x "2"
+				y "1"
+				z "2"
+			}	
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	4
+    				y	4
+    				z	4
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/portal"
+		visibility		"discovered"		
+	}
+}
+
+EntityBlueprint
+{
+	name "test/test_rift_portal"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/skills/rift_energy.mesh"
+
+        SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "items/skills/rift_portal_energy"
+			}
+			SubMesh
+			{
+				id "0"
+				material "items/skills/rift_portal_barrier"
+			}
+			SubMesh
+			{
+				id "2"
+				material "items/skills/rift_portal_energy_2"
+			}
+		}		
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/skills/rift_portal"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "rift_portal"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/portal"
+		visibility		"discovered"		
+	}
+
+	SoundDesc
+	{
+		name "items/portal/mech_portal_idle"
+	}
+
+	
+
+	//TriggerDesc
+	//{
+	//	owner 		"parent"
+	//	
+	//	collision 	"character"
+	//	Shapes
+	//	{
+	//		PhysicsSphereShape
+	//		{
+	//			r "1"
+	//		}
+	//	}
+	//}
+	
+		EffectDesc
+	{
+		EffectGroup
+		{						
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/blue_big"								
+					offset "0 4 0"
+				}
+			}
+		}			
+	}
+
+	RiftPointDesc
+	{
+		name 	"rift"
+		type 	"main"
+		active 	"1"
+	}
+
+		
+}
+

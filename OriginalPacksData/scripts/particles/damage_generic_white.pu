@@ -1,0 +1,208 @@
+system rift/damage_generic_white
+{
+    fixed_timeout                               2
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique blood
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fluid_glowing_white_anim_8x4
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       50
+            angle                               90
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             150
+                max                             250
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             60
+            }
+            position                            0 5 0
+            end_texture_coords_range            15
+            force_emission                      true
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+        affector                                LinearForce Affector30
+        {
+            force_vector                        0 -300 0
+        }
+        affector                                Colour Affector79
+        {
+            time_colour                         0    0.3 0.3 0.3 0.7
+            time_colour                         0.7  0.1 0.1 0.3 0.7
+            time_colour                         1    0.3 0.3 0.3 0
+            colour_operation                    multiply
+        }
+        affector                                TextureAnimator Affector81
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+    }
+    technique blood_trail
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fluid_glowing_white_anim_8x4
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       dyn_curved_spline
+            {
+                control_point                   0 100.161
+                control_point                   0.191882 57.518
+                control_point                   0.476015 16.3629
+                control_point                   0.6 0
+            }
+            angle                               30
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             40
+                max                             50
+            }
+            position                            0 5 0
+            end_texture_coords_range            15
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -400 0
+        }
+        affector                                Colour Affector79
+        {
+            time_colour                         0    0.3 0.3 0.3 0.7
+            time_colour                         0.7  0.1 0.1 0.3 0.7
+            time_colour                         1    0.3 0.3 0.3 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector81
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0
+                max                             0
+            }
+        }
+    }
+    technique debris_blood
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fluid_glowing_white_anim_8x4
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point debris_blood
+        {
+            emission_rate                       100
+            angle                               45
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             150
+                max                             220
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             20
+                max                             25
+            }
+            position                            0 1 0
+            end_texture_coords_range            15
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.3 0.3 0.3 0.7
+            time_colour                         0.7  0.1 0.1 0.3 0.7
+            time_colour                         1    0.3 0.3 0.3 0
+            colour_operation                    multiply
+        }
+        affector                                LinearForce Affector50
+        {
+            force_vector                        0 -400 0
+        }
+        affector                                TextureRotator Affector192
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -10
+                max                             10
+            }
+        }
+    }
+}

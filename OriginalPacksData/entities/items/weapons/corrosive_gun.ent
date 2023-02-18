@@ -1,0 +1,348 @@
+EntityBlueprint
+{
+	name  "items/weapons/corrosive_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
+		material 	"items/weapons/corrosive_gun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/corrosive_gun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+        recoil_bone   "be_recoil"
+        recoil_time   	"0.1"
+        recoil_offset   "0.3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}
+
+		ammo_blueprint 				"items/weapons/corrosive_gun_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_fluid/acid_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_fluid/corrosive_gun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/corrosive_gun_advanced"
+
+	base_blueprint "items/weapons/corrosive_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
+		material 	"items/weapons/corrosive_gun_advanced"
+	}
+
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/corrosive_gun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/corrosive_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/corrosive_gun_advanced"
+		icon		"gui/hud/items_icons/weapons/corrosive_gun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/corrosive_gun_superior"
+
+	base_blueprint "items/weapons/corrosive_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
+		material 	"items/weapons/corrosive_gun_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/corrosive_gun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/corrosive_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/corrosive_gun_superior"
+		icon		"gui/hud/items_icons/weapons/corrosive_gun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+
+EntityBlueprint
+{
+	name "items/weapons/corrosive_gun_extreme"
+
+	base_blueprint "items/weapons/corrosive_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
+		material 	"items/weapons/corrosive_gun_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/corrosive_gun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/corrosive_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/corrosive_gun_extreme"
+		icon		"gui/hud/items_icons/weapons/corrosive_gun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/corrosive_gun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/corrosive_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/corrosive_gun"
+		icon		"gui/hud/items_icons/weapons/corrosive_gun"
+		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/corrosive_gun_projectile"
+
+	base_blueprint "effects/weapons_fluid/corrosive_gun_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
+		on_world_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
+		on_resisted_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
+
+		collision_3d 			"world_blocker|world|ground_unit|building|destructible|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.2
+		type 		"camera"
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
+		material    "projectiles/corrosive_gun"
+	}		
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/acid_green
+				update_bounds 		1
+				fade_out_time		0.2
+				uv_scroll			"0 -0.5"
+				tiling_distance     "4"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+					}
+				}
+			}
+		}
+	}
+}

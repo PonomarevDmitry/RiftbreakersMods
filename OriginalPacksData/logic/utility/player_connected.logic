@@ -1,0 +1,173 @@
+//editor "offset(2423.62,1892.65)|zoom(1.00)"
+FlowGraphTemplate
+{
+	version "17"
+	editor "5091"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-2832,706)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-1008,1113)"
+			graph "logic/loadout/player_loadout_full.logic"
+			self_id "event_graph_3"
+			start_point "default"
+			validate_graph_resource "0"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(-174,859)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-367,852)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player_pawn.xml)|pos(-2462,704)"
+			script "lua/graph/entity/entity_spawn_player_pawn.lua"
+			self_id "entity_spawn_player_pawn_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(-1605,611)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "1"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "spawn_logic"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-1605,880)"
+			key "true"
+			self_id "logic_if_global_variable_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-1605,910)"
+			key "false"
+			self_id "logic_if_global_variable_1###false"
+			value
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "entity_spawn_player_pawn_1"
+		entity_spawn_player_pawn_1 "logic_if_global_variable_1"
+		event_graph_3 "logic_or_1"
+		logic_if_global_variable_1 "logic_if_global_variable_1###false|logic_if_global_variable_1###true"
+		logic_if_global_variable_1###false "event_graph_3"
+		logic_if_global_variable_1###true "logic_or_1"
+		logic_or_1 "event_end_1"
+	}
+
+	GraphComments
+}
+

@@ -1,0 +1,251 @@
+MissionDef
+{
+    logic           "logic/missions/benchmarks/world/default.logic"
+	script          "lua/missions/benchmarks/world.lua"
+
+    map_size        "12"
+    biomes          "jungle"
+
+    // We need explicit tiles list for benchmarks so they stay deterministic for selected seed
+	source_tiles
+    {
+        biomes/jungle/tiles/jungle_canyons_01/jungle_canyons_01.tile
+        biomes/jungle/tiles/jungle_nest_01/jungle_nest_01.tile
+        biomes/jungle/tiles/jungle_nest_02/jungle_nest_02.tile
+        biomes/jungle/tiles/jungle_nest_03/jungle_nest_03.tile
+        biomes/jungle/tiles/jungle_plains_01/jungle_plains_01.tile
+        biomes/jungle/tiles/jungle_plains_02/jungle_plains_02.tile
+        biomes/jungle/tiles/jungle_plains_03/jungle_plains_03.tile
+        biomes/jungle/tiles/jungle_plains_04/jungle_plains_04.tile
+        biomes/jungle/tiles/jungle_starting_01/jungle_starting_01.tile
+        biomes/jungle/tiles/jungle_trees_01/jungle_trees_01.tile
+    }
+	
+    random_resources
+    {
+        ResourceVolume
+        {
+            resource        "carbon_vein"
+
+            min_resources   "3000"
+            max_resources   "10000"
+
+            min_spawned_volumes "10"
+            max_spawned_volumes "15"
+        }
+		
+        ResourceVolume
+        {
+            resource        "carbon_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "4000"
+            max_resources   "10000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }		
+
+        ResourceVolume
+        {
+            resource        "iron_vein"
+
+            min_resources   "2000"
+            max_resources   "8000"
+
+            min_spawned_volumes "5"
+            max_spawned_volumes "15"
+        }
+		
+        ResourceVolume
+        {
+            resource        "iron_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "3000"
+            max_resources   "8000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }		
+		
+        ResourceVolume
+        {
+            resource        "geothermal_vent"
+
+            min_resources   "6000"
+            max_resources   "10000"
+
+            is_infinite     "1"
+
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+        }	
+		
+        ResourceVolume
+        {
+            resource        "geothermal_vent"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "6000"
+            max_resources   "10000"
+            
+            is_infinite     "1"
+
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+        }		
+
+        ResourceVolume
+        {
+            resource        "uranium_ore_vein"
+			
+            min_resources   "1500"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }	
+
+        ResourceVolume
+        {
+            resource        "uranium_ore_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "2000"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }			
+		
+    }
+
+    min_starting_distance "16.0"
+    max_starting_distance "96.0"
+
+    starting_resources
+    {
+        ResourceVolume
+        {
+            resource        "carbon_vein"
+
+            min_resources   "5000"
+            max_resources   "10000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "2"
+        }
+
+        ResourceVolume
+        {
+            resource        "iron_vein"
+
+            min_resources   "4000"
+            max_resources   "8000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "2"
+        }
+    }
+
+    creature_volumes_min_distance   "128.0"
+	creature_volumes_density        "1.0"
+  
+    ambient_creature_species
+    {
+        ground
+        {               
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "quelver"
+                }
+            }
+        }
+
+        air
+        {
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "vesaurus"
+                }
+            }
+        }
+    } 
+
+    creature_volumes_species
+    {
+        neutral_units
+        {
+            CreatureVolume
+            {
+                creature_species    "jurvine"
+            }
+        }
+
+        regular_units
+        {
+            CreatureVolume
+            {
+                creature_species    "canoptrix"
+                volume_spawn_ratio  "2"
+            }
+            
+            CreatureVolume
+            {
+                creature_species    "arachnoid_sentinel"
+                volume_spawn_ratio  "1.25"
+            }
+
+            CreatureVolume
+            {
+                creature_species    "kafferroceros"
+                volume_spawn_ratio  "1.0"
+            }
+
+            //CreatureVolume
+            //{
+            //    creature_species    "stregaros"
+            //    volume_spawn_ratio  "1"
+            //}
+            
+            //CreatureVolume
+            //{
+            //    creature_species    "phirian"
+            //    volume_spawn_ratio  "-1"
+            //}
+            //CreatureVolume
+            //{
+            //    creature_species    "krocoon"
+            //    volume_spawn_ratio  "-1"
+            //}
+            //CreatureVolume
+            //{
+            //    creature_species    "baxmoth"
+            //    volume_spawn_ratio  "-1"
+            //}
+            //CreatureVolume
+            //{
+            //    creature_species    "kermon"
+            //    volume_spawn_ratio  "4"
+            //}
+        }
+
+        resource_units
+        {
+            CreatureVolume
+            {
+                creature_species    "gnerot_jungle"
+                volume_spawn_ratio  "0.5"
+            }
+        }
+    }
+}

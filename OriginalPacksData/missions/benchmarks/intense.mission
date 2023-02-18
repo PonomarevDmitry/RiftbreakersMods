@@ -1,0 +1,128 @@
+MissionDef
+{
+    logic           "logic/missions/benchmarks/intense/default.logic"
+
+    map_size        "5"
+    biomes          "legacy_maps"
+
+    // We need explicit tiles list for benchmarks so they stay deterministic for selected seed
+	source_tiles
+    {
+        biomes/jungle/tiles/jungle_canyons_01/jungle_canyons_01.tile
+        biomes/jungle/tiles/jungle_nest_01/jungle_nest_01.tile
+        biomes/jungle/tiles/jungle_nest_02/jungle_nest_02.tile
+        biomes/jungle/tiles/jungle_nest_03/jungle_nest_03.tile
+        biomes/jungle/tiles/jungle_plains_01/jungle_plains_01.tile
+        biomes/jungle/tiles/jungle_plains_02/jungle_plains_02.tile
+        biomes/jungle/tiles/jungle_plains_03/jungle_plains_03.tile
+        biomes/jungle/tiles/jungle_plains_04/jungle_plains_04.tile
+        biomes/jungle/tiles/jungle_starting_01/jungle_starting_01.tile
+        biomes/jungle/tiles/jungle_trees_01/jungle_trees_01.tile
+    }
+
+    tile_spawn_rules
+	{
+		biomes/legacy_maps/tiles/benchmark_intense/benchmark_intense.tile
+		{
+			min_instances 1
+			max_instances 1
+		}
+	}
+
+    creature_volumes_min_distance   "128.0"
+	creature_volumes_density        "1.0"
+   
+    ambient_creature_species
+    {
+        ground
+        {               
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "quelver"
+                }
+            }
+        }
+
+        air
+        {
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "vesaurus"
+                }
+            }
+        }
+    } 
+
+    creature_volumes_species
+    {
+        neutral_units
+        {
+            CreatureVolume
+            {
+                creature_species    "jurvine"
+            }
+        }
+
+        regular_units
+        {
+            CreatureVolume
+            {
+                creature_species    "canoptrix"
+                volume_spawn_ratio  "2"
+            }
+            
+            CreatureVolume
+            {
+                creature_species    "arachnoid_sentinel"
+                volume_spawn_ratio  "1.25"
+            }
+
+            CreatureVolume
+            {
+                creature_species    "kafferroceros"
+                volume_spawn_ratio  "1.0"
+            }
+
+            //CreatureVolume
+            //{
+            //    creature_species    "stregaros"
+            //    volume_spawn_ratio  "1"
+            //}
+            
+            //CreatureVolume
+            //{
+            //    creature_species    "phirian"
+            //    volume_spawn_ratio  "-1"
+            //}
+            //CreatureVolume
+            //{
+            //    creature_species    "krocoon"
+            //    volume_spawn_ratio  "-1"
+            //}
+            //CreatureVolume
+            //{
+            //    creature_species    "baxmoth"
+            //    volume_spawn_ratio  "-1"
+            //}
+            //CreatureVolume
+            //{
+            //    creature_species    "kermon"
+            //    volume_spawn_ratio  "4"
+            //}
+        }
+
+        resource_units
+        {
+            CreatureVolume
+            {
+                creature_species    "gnerot_jungle"
+                volume_spawn_ratio  "0.5"
+            }
+        }
+    }
+
+}

@@ -1,0 +1,204 @@
+EntityBlueprint
+{
+	name  "units/air/vathamite"
+
+	base_blueprint "units/air/vathamite_base"
+
+	StateMachineDesc
+	{
+		template_name "vathamite"
+		params
+		{
+			speed							float:"1"
+			acceleration					float:"1"
+			max_search_origin_radius		float:"100"	
+			rotate_speed					float:"50"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/vathamite.lua"
+		database
+		{
+			min_scale	float:"0.6"
+			max_scale	float:"0.9"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/vathamite.mesh"
+		material 	"units/air/vathamite"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/air/vathamite_base"
+
+	NeutralUnitDesc
+	{
+		life_time_out_of_screen			"10"
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+			}
+		}
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"10"
+		unit_soft_radius				"0.7"
+		dominance_group					"10"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}
+
+
+
+//	HighlightComponent
+//	{
+//	}
+
+	//AnimationGraphDesc
+	//{
+	//	animation_graph_name "vesaurus"
+	//}
+
+		TypeDesc
+	{
+		type "air_unit"
+	}
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/air/vathamite"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/air/vathamite_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"4000"
+		explosion_min_power 	"2000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	AirNavigationComponent
+	{
+		keep_height_speed	"3.0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"3000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/enemies_canoptrix/death"
+					part_prefix 			"meshes/units/air/vathamite"
+					part_material 			"units/air/vathamite_parts"
+					part_effect 			"effects/enemies_generic/blood_trail_red_small"
+					part_physics_material	"gibs_light"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/vathamite_death"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "idle_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/vathamite_idle"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/burning_creature_small"
+				}
+			}
+		}
+	}
+}
+

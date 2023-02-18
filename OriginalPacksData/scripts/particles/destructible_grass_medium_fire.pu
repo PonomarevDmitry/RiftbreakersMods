@@ -1,0 +1,230 @@
+system rift/destructible_grass_medium_fire
+{
+    fixed_timeout                               9
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 45
+    technique fire_alpha2
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fire_anim_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box fire_alpha1
+        {
+            emission_rate                       5
+            angle                               dyn_random
+            {
+                min                             5
+                max                             30
+            }
+            time_to_live                        dyn_random
+            {
+                min                             1.5
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             40
+            }
+            duration                            7
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            position                            0 20 0
+            box_width                           40
+            box_height                          40
+            box_depth                           40
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  0.3 0.3 0.3 1
+            time_colour                         0.806522  0.3 0.3 0.3 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector15
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.4
+                max                             0.4
+            }
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                Scale Affector148
+        {
+            xyz_scale                           75
+        }
+        affector                                LinearForce Affector34
+        {
+            force_vector                        0 75 0
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box sparks1
+        {
+            emission_rate                       15
+            angle                               60
+            time_to_live                        dyn_random
+            {
+                min                             0.7
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            duration                            6
+            all_particle_dimensions             dyn_random
+            {
+                min                             3
+                max                             4
+            }
+            position                            0 20 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           40
+            box_height                          40
+            box_depth                           40
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.11087  0.298039 0.298039 0.298039 1
+            time_colour                         0.708696  0.298039 0.298039 0.298039 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector23
+        {
+            force_vector                        0 300 0
+        }
+    }
+    technique fire_alpha2
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fire_anim_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box fire_alpha2
+        {
+            emission_rate                       8
+            angle                               dyn_random
+            {
+                min                             5
+                max                             30
+            }
+            time_to_live                        dyn_random
+            {
+                min                             1.5
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             40
+            }
+            duration                            2.5
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            enabled                             false
+            position                            0 20 0
+            box_width                           75
+            box_height                          40
+            box_depth                           75
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  0.3 0.3 0.3 1
+            time_colour                         0.806522  0.3 0.3 0.3 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector15
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.4
+                max                             0.4
+            }
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                Scale Affector95
+        {
+            xyz_scale                           100
+        }
+        affector                                LinearForce Affector21
+        {
+            force_vector                        0 75 0
+        }
+        observer                                OnTime Observer2
+        {
+            handler                             DoEnableComponent Handler2
+            {
+                enable_component                emitter_component fire_alpha2 true
+            }
+            since_start_system                  true
+            on_time                             equals 1
+        }
+    }
+}

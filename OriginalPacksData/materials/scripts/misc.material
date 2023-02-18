@@ -1,0 +1,174 @@
+import * from "materials/scripts/pbr.material"
+
+material misc/building_parts_generic : pbr/default
+{
+	set_texture_alias albedo				materials/textures/misc/building_parts_generic_albedo.dds
+	set_texture_alias normal			materials/textures/misc/building_parts_generic_normal.dds
+	set_texture_alias packed			materials/textures/misc/building_parts_generic_packed.dds
+	set_texture_alias emissive			materials/textures/misc/building_parts_generic_emissive.dds
+}
+
+material misc/building_parts_alien_generic : pbr/default
+{
+	set_texture_alias albedo			materials/textures/misc/building_parts_generic_alien_albedo.dds
+	set_texture_alias normal			materials/textures/misc/building_parts_generic_alien_normal.dds
+	set_texture_alias packed			materials/textures/misc/building_parts_generic_alien_packed.dds
+	set_texture_alias emissive			materials/textures/misc/building_parts_generic_alien_emissive.dds
+}
+
+material misc/building_level : pbr/default
+{
+	set_texture_alias albedo				materials/textures/misc/building_level_albedo.dds
+	set_texture_alias normal			materials/textures/misc/building_level_normal.dds
+	set_texture_alias packed			materials/textures/misc/building_level_packed.dds
+	set_texture_alias emissive			materials/textures/misc/building_level_emissive.dds
+
+	glow 10
+}
+
+
+material misc/building_arrow
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 100
+            emissive 0 10 0 1
+
+            vertex_program_ref  shield_vp
+            {
+            }
+
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor 	float4 0 4 0 4
+                param_named cFresnelBias    float .1
+                param_named cFresnelScale   float 1.5
+                param_named cFresnelPower   float 1.5
+                param_named cShield         float .6
+                param_named cAlpha          float .6
+            }
+
+            texture_unit diffuse
+            {
+                texture 		materials/textures/misc/building_arrow_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture			materials/textures/misc/building_arrow_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture    materials/textures/items/shields/shield_grad.dds 59 4
+                filtering       bilinear
+            }
+
+            texture_unit dissolve 
+            {   
+                texture materials/textures/noise_tiled_01.dds
+                filtering bilinear
+            }
+        }
+    }
+}
+
+material misc/influence
+{  
+    render_group 50
+    feature "gbuffer|shadow|velocity"
+    
+    technique
+    {
+        pass
+        {
+            depth_write on
+            depth_check on
+
+            glow 15
+
+            vertex_program_ref deferred_gbuffer_vp 
+            {
+            }
+
+            fragment_program_ref deferred_influence_fp
+            {
+            }
+            
+            texture_unit albedo 
+            {
+                texture materials/textures/misc/influence_area_albedo.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit normal 
+            {   
+                texture materials/textures/misc/influence_area_normal.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit packed
+            {   
+                texture materials/textures/misc/influence_area_packed.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit emissive 
+            {   
+                texture materials/textures/misc/influence_area_emissive.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit gradient 
+            {   
+                anim_texture materials/textures/gradient/selector_gradient.dds 190 8
+                tex_address_mode wrap
+                filtering bilinear
+            }
+            texture_unit dissolve 
+            {   
+                texture materials/textures/noise.dds
+                tex_address_mode wrap
+                filtering bilinear
+            }
+        }
+    }
+}
+
+material misc/tile_light_mask
+{ 
+	render_group 211
+	
+	technique
+	{
+		pass
+		{
+			vertex_program_ref unlit_VP 
+			{
+			}
+
+			fragment_program_ref unlit_FP
+			{
+			}
+			
+			texture_unit light_mask 
+			{	
+				texture materials/textures/error.dds
+                filtering bilinear
+			}
+		}	
+	}
+}

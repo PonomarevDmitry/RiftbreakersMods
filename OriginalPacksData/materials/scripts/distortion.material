@@ -1,0 +1,150 @@
+material distortion/default
+{
+	render_group 160
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend add
+
+			vertex_program_ref distortion_VP
+			{
+			}
+
+			fragment_program_ref distortion_FP
+			{
+				param_named cDistortionPower float 0.05
+			}
+
+			texture_unit distortion
+			{
+				texture         	materials/textures/error.dds
+				filtering 			bilinear
+				tex_address_mode 	wrap				
+			}
+		}
+	}
+}
+
+material distortion/default_skinned
+{
+	render_group 160
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend add
+
+			vertex_program_ref distortion_skinned_VP
+			{
+			}
+
+			fragment_program_ref distortion_FP
+			{
+				param_named cDistortionPower float 0.05
+			}
+
+			texture_unit distortion
+			{
+				texture         	materials/textures/error.dds
+				filtering 			bilinear
+				tex_address_mode 	clamp				
+			}
+		}
+	}
+}
+
+
+material distortion/color : distortion/default
+{
+	render_group 160
+	technique
+	{
+		pass
+		{		
+			vertex_program_ref distortion_color_VP
+			{
+			}
+
+			fragment_program_ref distortion_color_FP
+			{
+				param_named cDistortionPower float 0.025
+			}
+		}
+	}
+}
+
+material distortion/skinned_color : distortion/default_skinned
+{
+	render_group 160
+	technique
+	{
+		pass
+		{		
+			vertex_program_ref distortion_skinned_color_VP
+			{
+			}
+
+			fragment_program_ref distortion_color_FP
+			{
+				param_named cDistortionPower float 0.025
+			}
+		}
+	}
+}
+
+material distortion/skinned_fresnel : distortion/default_skinned
+{
+	render_group 160
+	technique
+	{
+		pass
+		{		
+			vertex_program_ref distortion_skinned_fresnel_VP
+			{
+			}
+
+			fragment_program_ref distortion_fresnel_FP
+			{
+				param_named cDistortionPower float 0.025
+			}
+		}
+	}
+}
+
+material distortion/final
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref distortion_final_fp 
+			{
+			}
+			
+			texture_unit main
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+			
+			texture_unit distortion
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}

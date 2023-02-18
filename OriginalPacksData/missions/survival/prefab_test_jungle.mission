@@ -1,0 +1,139 @@
+MissionDef
+{
+    script          "lua/missions/survival/survival_jungle.lua"
+    //logic         "logic/missions/survival/default.logic"
+	map_size        "5"
+    player_spawn_logic  "logic/loadout/player_loadout_survival.logic"
+
+    biomes          "jungle"
+    
+	source_tiles
+ 	{
+        biomes/desert/tiles/canyon_01/canyon_01.tile
+        biomes/desert/tiles/canyon_01/canyon_01.tile
+        biomes/desert/tiles/canyon_02/canyon_03.tile
+    }
+
+    creature_volumes_min_distance   "128.0"
+
+    ambient_creature_species
+    {
+        ground
+        {               
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "quelver"
+                }
+            }
+        }
+    }
+
+    random_resources
+    {
+        ResourceVolume
+        {
+            resource        "carbon_vein"
+
+            min_resources   "3000"
+            max_resources   "10000"
+
+            min_spawned_volumes "10"
+            max_spawned_volumes "15"
+        }
+		
+        ResourceVolume
+        {
+            resource        "carbon_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "3000"
+            max_resources   "10000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }		
+
+        ResourceVolume
+        {
+            resource        "iron_vein"
+
+            min_resources   "2000"
+            max_resources   "8000"
+
+            min_spawned_volumes "5"
+            max_spawned_volumes "15"
+        }
+		
+        ResourceVolume
+        {
+            resource        "iron_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "2000"
+            max_resources   "8000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }		
+		
+        ResourceVolume
+        {
+            resource        "geothermal_vent"
+
+            min_resources   "6000"
+            max_resources   "10000"
+            
+            is_infinite     "1"
+
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+        }	
+
+        ResourceVolume
+        {
+            resource        "geothermal_vent"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "6000"
+            max_resources   "10000"
+            
+            is_infinite     "1"
+
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+        }
+    }
+
+    min_starting_distance "16.0"
+    max_starting_distance "96.0"
+
+    starting_resources
+    {
+        ResourceVolume
+        {
+            resource        "carbon_vein"
+
+            min_resources   "5000"
+            max_resources   "10000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "2"
+        }
+
+        ResourceVolume
+        {
+            resource        "iron_vein"
+
+            min_resources   "4000"
+            max_resources   "8000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "2"
+        }
+    }
+}

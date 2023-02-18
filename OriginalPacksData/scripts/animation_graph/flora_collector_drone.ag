@@ -1,0 +1,397 @@
+AnimationGraph
+{
+	name "flora_collector_drone"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "0_tilt"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "turn_on"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "work"
+						position
+						{
+							x "676.000"
+							y "198.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "turn_off"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "land"
+						position
+						{
+							x "676.000"
+							y "422.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "1"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationFloatParamTransitionCondition"
+					{
+						compare_value "0.000"
+						param "is_working"
+						cmp "1"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationFloatParamTransitionCondition"
+					{
+						compare_value "0.000"
+						param "is_working"
+						cmp "2"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+		AnimationGraphLayer
+		{
+			name "storage"
+			blend_type "1"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "2"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationGetFloatParamNode"
+						{
+							param_name "storage"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "275.000"
+									y "694.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationBlendTwoPoseNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "6"
+								}
+
+								EvalNodeDependency
+								{
+									dst_slot "1"
+									src_slot "0"
+									src_node_idx "4"
+								}
+
+								EvalNodeDependency
+								{
+									dst_slot "2"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "892.000"
+									y "538.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "1"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1383.000"
+									y "534.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationConstFloatNode"
+						{
+							const_value "0.000"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "-161.000"
+									y "358.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationPlayAnimNode"
+						{
+							mirror "0"
+							anim_name "filling"
+							looped "1"
+							normalize "0"
+							blend_funtion
+							{
+								funtion_type "0"
+							}
+
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "3"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "309.000"
+									y "358.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationConstFloatNode"
+						{
+							const_value "0.000"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "-129.000"
+									y "566.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationPlayAnimNode"
+						{
+							mirror "0"
+							anim_name "emptying"
+							looped "1"
+							normalize "0"
+							blend_funtion
+							{
+								funtion_type "0"
+							}
+
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "5"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "303.000"
+									y "566.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "storage"
+						position
+						{
+							x "594.000"
+							y "635.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "0"
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "FloatParamDecl"
+		{
+			max "1.000"
+			min "0.000"
+			default "0.000"
+			param_name "storage"
+			data_type "2"
+			is_const "0"
+		}
+
+		ParamDecl "FloatParamDecl"
+		{
+			max "1.000"
+			min "0.000"
+			default "0.000"
+			param_name "is_working"
+			data_type "2"
+			is_const "0"
+		}
+
+	}
+
+}
+

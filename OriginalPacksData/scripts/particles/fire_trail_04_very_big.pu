@@ -1,0 +1,76 @@
+system exor/fire_trail_04_very_big
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.3500
+    scale                                       0.3500 0.3500 0.3500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique fire_alpha
+    {
+        visual_particle_quota                   400
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/explosion_and_smoke_anim_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       120
+            angle                               15
+            time_to_live                        2.5
+            velocity                            dyn_random
+            {
+                min                             20
+                max                             30
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.104348  0.0784314 0.0784314 0.0784314 0.894118
+            time_colour                         0.708696  0 0 0 0.694118
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                Scale Affector19
+        {
+            xyz_scale                           10
+        }
+    }
+}

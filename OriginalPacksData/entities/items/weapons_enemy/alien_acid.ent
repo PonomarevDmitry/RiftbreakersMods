@@ -1,0 +1,128 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/empty_weapon"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_acid_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/acid_spit"
+
+		burst_column_spacing 		"0"
+		burst_rows_rate 			"0.2"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"alien_acid"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/alien_acid"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+		name						"alien_acid"
+		damage_type					"acid"
+		
+		stat_def_vec
+		{
+			WeaponStatDef
+			{
+				min_value 			15
+				max_value 			15		
+				stat_type 			DAMAGE_VALUE
+				stat_features		BASE
+			}
+			
+			WeaponStatDef
+			{
+				min_value 			1
+				max_value 			1		
+				stat_type 			FIRE_RATE
+				stat_features		BASE
+			}
+			WeaponStatDef
+			{
+				min_value 			1
+				max_value 			1		
+				stat_type 			FIRE_PER_BURST
+				stat_features		BASE
+			}	
+			
+			WeaponStatDef
+			{
+				min_value 			1
+				max_value 			1		
+				stat_type 			FIRE_PER_SHOT
+				stat_features		BASE
+			}	
+			
+			WeaponStatDef
+			{
+				min_value 			12
+				max_value 			12		
+				stat_type 			AMMO_SPEED
+				stat_features		BASE
+			}
+			
+			WeaponStatDef
+			{
+				min_value 			0
+				max_value 			0	
+				stat_type 			DAMAGE_PENETRATION
+				stat_features		BASE
+			}
+												
+		}
+	}
+
+		
+	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons_enemy/alien_acid_projectile"
+
+	base_blueprint "effects/enemies_arachnoid/acid_projectile"
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 		"effects/enemies_arachnoid/acid_hit"
+		on_world_hit_effect 		"effects/enemies_arachnoid/acid_hit"
+		on_shield_hit_effect		"effects/enemies_generic/shield_hit"
+
+		friendly_fire				"pass"
+
+		collision_3d 				"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+	}
+}
+

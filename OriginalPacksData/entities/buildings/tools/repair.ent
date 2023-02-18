@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name  "buildings/tools/repair"
+
+	BuildingDesc
+	{
+		name 				"repair"
+		bp   				"buildings/tools/repair"
+		ghost_bp   			"buildings/tools/repair_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/repair_tool"
+		description			"gui/hud/building_description/repair_tool"
+		menu_icon			"gui/hud/buttons/action_menu_repair_neutral"
+		order				"0"
+		type				"repair"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/repair_ghost"
+
+	BuildingDesc
+	{
+		name		"repair_ghost"
+		buildable 	"0"
+		type		"repair"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/repair_tool.lua"
+		
+		database
+		{
+			action	string:"repair"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_pass"
+		flags       "2"
+	}
+
+}
+

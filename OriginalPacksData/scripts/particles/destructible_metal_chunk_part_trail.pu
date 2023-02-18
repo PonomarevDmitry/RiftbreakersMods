@@ -1,0 +1,136 @@
+system exor/destructible_metal_chunk_part_trail
+{
+    fixed_timeout                               3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1500
+    scale                                       0.1500 0.1500 0.1500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique smoke
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            angle                               15
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            duration                            dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             6
+                max                             10
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            colour                              1 1 1 0
+            box_width                           2
+            box_height                          2
+            box_depth                           2
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.584314 0.564706 0.411765 0
+            time_colour                         0.134783  0.576471 0.541176 0.419608 0.286275
+            time_colour                         0.332609  0.576471 0.568627 0.419608 0.294118
+            time_colour                         1    0.584314 0.556863 0.411765 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+    }
+    technique falling_sparks
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       5
+            angle                               45
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            duration                            dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            particle_width                      dyn_random
+            {
+                min                             0.25
+                max                             0.5
+            }
+            particle_height                     dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.117647 0.117647 0.117647 0
+            time_colour                         0.302174  0.117647 0.117647 0.117647 0.709804
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector17
+        {
+            force_vector                        0 -50 0
+        }
+    }
+}

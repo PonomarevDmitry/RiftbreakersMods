@@ -1,0 +1,21 @@
+import * from "materials/scripts/ground_resources.material"
+
+material fog_of_war/darken : ground/resources/default
+{
+	feature "gbuffer|shadow|velocity"
+	
+	render_group 2
+
+	set_texture_alias albedo materials/textures/color_black.dds
+
+    technique
+	{
+		pass
+		{
+			fragment_program_ref ground_resources_fp
+			{
+                param_named cAlpha float 1.0
+			}
+        }
+    }
+}

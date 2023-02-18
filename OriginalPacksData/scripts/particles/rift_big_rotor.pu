@@ -1,0 +1,47 @@
+system rift/rift_big_rotor
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.015
+    scale                                       0.015 0.015 0.015
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    technique sparks
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle sparks
+        {
+            emission_rate                       250
+            angle                               90
+            time_to_live                        2
+            velocity                            30
+            all_particle_dimensions             dyn_random
+            {
+                min                             3
+                max                             6
+            }
+            direction                           0 0 1
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            auto_direction                      true
+            radius                              110
+            normal                              0 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         0.606522  0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

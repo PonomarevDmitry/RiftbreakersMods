@@ -1,0 +1,747 @@
+//editor "offset(-265.552,-190.446)|zoom(0.631)"
+FlowGraphTemplate
+{
+	version "3"
+	editor "3143"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1691,538)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_timer.xml)|pos(613,443)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_timer.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/attack_incoming"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "attack_incoming"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "objective_state"
+						value "silent_remove"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "true"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "time_max"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_timer_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(660,221)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(1067,219)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(1302,524)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(600,995)"
+			script "lua/graph/logic/logic_if_biome.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "jungle"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_biome_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_biome_0###false"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(615,1102)"
+			self_id "logic_if_biome_0###false"
+			key "false"
+			value "logic_if_biome_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1824,814)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/generic/mech_attack_start_01"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1822,1022)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/generic/mech_attack_start_02"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1816,1234)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/generic/mech_attack_start_03"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1812,1443)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/generic/mech_attack_start_04"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1814,1647)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/generic/mech_attack_start_05"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_5"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_random_output.xml)|pos(1283,979)"
+			script "lua/graph/logic/logic_random_output.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "outputs"
+						value "5"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "0"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "1"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "2"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "3"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)"
+						key "4"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_random_output_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###0"
+					key "0"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###1"
+					key "1"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###2"
+					key "2"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###3"
+					key "3"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_int.xml)"
+					value "logic_random_output_0###4"
+					key "4"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1298,1237)"
+			self_id "logic_random_output_0###0"
+			value "logic_random_output_0###0"
+			key "0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1298,1264)"
+			self_id "logic_random_output_0###1"
+			value "logic_random_output_0###1"
+			key "1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1298,1291)"
+			self_id "logic_random_output_0###2"
+			value "logic_random_output_0###2"
+			key "2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1298,1318)"
+			self_id "logic_random_output_0###3"
+			value "logic_random_output_0###3"
+			key "3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1298,1345)"
+			self_id "logic_random_output_0###4"
+			value "logic_random_output_0###4"
+			key "4"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_random_output_0###4 "interface_dialogue_show_5"
+		logic_random_output_0###2 "interface_dialogue_show_3"
+		logic_random_output_0###1 "interface_dialogue_show_2"
+		logic_random_output_0###0 "interface_dialogue_show_1"
+		logic_random_output_0###3 "interface_dialogue_show_4"
+		logic_if_biome_0###false "logic_random_output_0"
+		logic_if_biome_0 "logic_if_biome_0###false"
+		audio_adaptive_music_system_1 "event_end_0"
+		audio_adaptive_music_system_0 "audio_music_change_playlist_0"
+		objective_generic_timer_0 "audio_adaptive_music_system_1"
+		logic_random_output_0 "logic_random_output_0###0|logic_random_output_0###1|logic_random_output_0###2|logic_random_output_0###3|logic_random_output_0###4"
+		default "audio_adaptive_music_system_0|logic_if_biome_0|objective_generic_timer_0"
+	}
+
+}
+

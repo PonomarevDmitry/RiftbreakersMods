@@ -1,0 +1,333 @@
+vertex_program particle_ribbon_vp hlsl
+{
+    source 						materials/programs/particle_ribbon_vp.hlsl
+    entry_point					mainVP
+    target						vs_5_0
+    export_shader               true
+}
+
+geometry_program particle_ribbon_gp hlsl
+{
+    source 						materials/programs/particle_ribbon_gp.hlsl
+    entry_point					mainGP
+    target						gs_5_0
+    uses_adjacency_information   on
+    preprocessor_defines			USE_FOG=1,USE_COLOR=1,USE_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position_object_space
+    }
+}
+
+vertex_program particle_billboard_vp hlsl
+{
+    source 						materials/programs/particle_billboard_vp.hlsl
+    entry_point					mainVP
+    target						vs_5_0
+    export_shader               true
+}
+
+geometry_program particle_billboard_aprv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_POINT=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_aprt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_POINT=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_aocrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_ORIENTED_COMMON=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_aocrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_ORIENTED_COMMON=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_aosrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_ORIENTED_SELF=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_aosrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_ORIENTED_SELF=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_apcrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_PERPENDICULAR_COMMON=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_apcrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_PERPENDICULAR_COMMON=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_apsrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_PERPENDICULAR_SELF=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_apsrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,ACCURATE_FACING=1,BBT_PERPENDICULAR_SELF=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_prv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_POINT=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_prt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_POINT=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_ocrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_ORIENTED_COMMON=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraDir     view_direction
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_ocrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_ORIENTED_COMMON=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraDir     view_direction
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_osrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_ORIENTED_SELF=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraDir     view_direction
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_osrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_ORIENTED_SELF=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraDir     view_direction
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_pcrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_PERPENDICULAR_COMMON=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_pcrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_PERPENDICULAR_COMMON=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_psrv_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_PERPENDICULAR_SELF=1,BBR_VERTEX=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}
+
+geometry_program particle_billboard_psrt_gp hlsl
+{
+    source                          materials/programs/particle_billboard_gp.hlsl
+    entry_point                     mainGP
+    target                          gs_5_0
+    preprocessor_defines            USE_FOG=1,BBT_PERPENDICULAR_SELF=1,BBR_TEXCOORD=1
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cCameraPos     camera_position
+        param_named_auto cCameraRight   view_side_vector
+        param_named_auto cCameraUp      view_up_vector
+    }
+}

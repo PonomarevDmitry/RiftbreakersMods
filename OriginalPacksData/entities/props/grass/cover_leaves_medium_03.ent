@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name  "props/grass/cover_leaves_medium_03"
+
+	base_blueprints
+	{
+		"props/grass/cover_leaves_medium_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/grass/cover_leaves_medium_03.mesh"
+		material "props/grass/cover_leaves_big_01"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/grass_medium"
+
+					part_material	 		"props/grass/cover_leaves_big_01"
+					part_prefix 			"meshes/props/grass/cover_leaves_medium_03"
+					part_effect 			"effects/destructibles/grass_part_trail"
+
+				}
+			}
+
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+
+					part_material 			"props/grass/standard_medium_01"
+					part_prefix 			"meshes/props/grass/cover_leaves_medium_03"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+
+				}
+			}
+		}
+	}
+}
+

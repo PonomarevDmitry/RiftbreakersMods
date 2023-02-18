@@ -1,0 +1,187 @@
+system player/blue/blue_plasma_ball_trail
+{
+    scale_velocity                              0.0250
+    scale                                       0.0250 0.0250 0.0250
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 2
+    technique trail
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp2_debris_d
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       50
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            1
+            all_particle_dimensions             300
+            direction                           -1 0 0
+        }
+        affector                                Scale 
+        {
+            x_scale                             -1000
+            y_scale                             500
+            since_start_system                  true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0.50196 1 0.48627
+            time_colour                         0.504348  0.2 0.6 1 0.494118
+            time_colour                         1    0 0.501961 1 0
+        }
+    }
+    technique trail2
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp2_debris_d
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       50
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            1
+            all_particle_dimensions             200
+            direction                           -1 0 0
+        }
+        affector                                Scale 
+        {
+            x_scale                             -1000
+            y_scale                             300
+            since_start_system                  true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 1 1 0.486275
+            time_colour                         0.508696  0.917647 0.956863 1 0.494118
+            time_colour                         1    0 0.501961 1 0
+        }
+    }
+    technique directional_refract2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_trail_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point refract
+        {
+            emission_rate                       30
+            angle                               0
+            time_to_live                        0.8
+            velocity                            0.001
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             75
+            }
+            keep_local                          true
+            direction                           1 0 0
+            force_emission                      true
+        }
+        affector                                Scale Affector9
+        {
+            x_scale                             dyn_curved_linear
+            {
+                control_point                   0 0
+                control_point                   0.2 3000
+                control_point                   0.6 0
+            }
+            y_scale                             dyn_curved_linear
+            {
+                control_point                   0 0
+                control_point                   0.3 5000
+                control_point                   0.6 0
+            }
+            since_start_system                  true
+        }
+        affector                                Colour Affector37
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.3  1 1 1 0.698039
+            time_colour                         0.6  1 1 1 0.698039
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique trail
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       125
+            angle                               10
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             500
+                max                             1000
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             5
+            }
+            direction                           1 0 0
+            box_width                           30
+            box_height                          30
+            box_depth                           30
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.334783  0.752941 0.752941 0.752941 1
+            time_colour                         0.604348  0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

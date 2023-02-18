@@ -1,0 +1,221 @@
+AnimationGraph
+{
+	name "repair_drone"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "0_tilt"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "2"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationPlayAnimNode"
+						{
+							mirror "0"
+							anim_name "working"
+							looped "1"
+							normalize "0"
+							blend_funtion
+							{
+								funtion_type "0"
+							}
+
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "1"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "719.000"
+									y "470.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetFloatParamNode"
+						{
+							param_name "is_working"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "275.000"
+									y "470.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1148.000"
+									y "454.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "working"
+						position
+						{
+							x "527.000"
+							y "358.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "-1"
+					eval_node_vec
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "idle"
+						position
+						{
+							x "527.000"
+							y "646.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "1"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationFloatParamTransitionCondition"
+					{
+						compare_value "0.000"
+						param "is_working"
+						cmp "1"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationFloatParamTransitionCondition"
+					{
+						compare_value "0.000"
+						param "is_working"
+						cmp "2"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "FloatParamDecl"
+		{
+			max "1.000"
+			min "0.000"
+			default "0.000"
+			param_name "storage"
+			data_type "2"
+			is_const "0"
+		}
+
+		ParamDecl "FloatParamDecl"
+		{
+			max "1.000"
+			min "0.000"
+			default "0.000"
+			param_name "is_working"
+			data_type "2"
+			is_const "0"
+		}
+
+	}
+
+}
+

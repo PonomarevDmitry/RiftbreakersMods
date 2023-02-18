@@ -1,0 +1,244 @@
+EntityBlueprint
+{
+	name "units/ground/flurian_ultra"
+
+	base_blueprint "units/ground/flurian_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/flurian.lua"
+		database
+		{
+			min_scale	float:"1.25"
+			max_scale	float:"1.35"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"2500"
+		health 						"2500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/flurian.mesh"
+		material 	"units/ground/flurian_ultra"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_artillery"
+			}
+		}
+
+		ammo_blueprint 				"units/ground/flurian/granade_projectile_ultra"
+
+		muzzle_flash_effect 		"effects/enemies_flurian/muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/flurian_ultra"
+		can_activate 0
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/flurian_ultra/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_flurian/attack_start"
+						attack_start_time			"0.85"
+						attack_end_time				"0.95"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_flurian/attack_start"
+						attack_start_time			"0.89"
+						attack_end_time				"0.99"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+				}
+				
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"74"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "3.0"
+						z "3.0"
+					}			
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/flurian/granade_projectile_ultra"
+
+	base_blueprint effects/weapons_explosive/grenade_projectile_red
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material 	"projectiles/laser_red"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_50_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/enemies_flurian/projectile_hit"
+		on_world_hit_effect 		"effects/enemies_flurian/projectile_hit"
+		on_resisted_hit_effect 		"effects/enemies_flurian/projectile_hit"
+		on_shield_hit_effect		"effects/enemies_flurian/projectile_hit"
+		hit_effect_direction		"up"  //inverse, normal, up	
+		on_world_explosion_delay	 "1.5"
+		on_enemy_explosion_delay	 "0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"ground_unit|world|world_blocker|hitbox|building|destructible|shield"
+
+		diameter					"1"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"60"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/melee_slash_red
+				update_bounds 		1
+				fade_out_time		0.40
+				uv_scroll			"0 -0.01"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.4 0"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.4 0"
+					}
+				}
+			}
+		}
+	}
+}

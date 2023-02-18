@@ -1,0 +1,395 @@
+material gui/default
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/error
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/lanczos
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_fp_lanczos
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/unsharp
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_fp_unsharp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+
+material gui/default_masked
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_fp_masked
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+
+			texture_unit			mask
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/default_disabled
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_disabled_vp
+			{
+			}
+
+			fragment_program_ref	gui_disabled_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/default_mipmap
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds
+				filtering			linear linear linear
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/default_aa
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_aa_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/colour_blend : gui/default
+{
+	technique
+	{
+		pass
+		{
+			scene_blend				colour_blend
+		}
+	}
+}
+
+material gui/blend_2_tex
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_blend2tex_vp
+			{
+			}
+
+			fragment_program_ref	gui_blend2tex_fp
+			{
+			}
+
+			texture_unit			diffuse_1
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+
+			texture_unit			diffuse_2
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/no_texture
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_no_texture_vp
+			{
+			}
+
+			fragment_program_ref	gui_no_texture_fp
+			{
+			}
+		}
+	}
+}
+
+material gui/stencil
+{
+	render_group					210
+	technique
+	{
+		pass
+		{
+			depth_check				off
+			depth_write				off
+			colour_write			off
+			cull_hardware			none
+
+			vertex_program_ref		gui_vp
+			{
+			}
+
+			fragment_program_ref	gui_stencil_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material gui/stencil_no_texture
+{
+	render_group					210
+	technique
+	{
+		pass
+		{
+			depth_check				off
+			depth_write				off
+			colour_write			off
+			cull_hardware			none
+
+			vertex_program_ref		gui_no_texture_vp
+			{
+			}
+
+			fragment_program_ref	gui_stencil_no_texture_fp
+			{
+			}
+		}
+	}
+}
+
+material gui/TheoraVideo
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		gui_theora_vp
+			{
+			}
+
+			fragment_program_ref	gui_theora_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/black_yuv.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material default_bar_1x2 : gui/default
+{
+	set_texture_alias diffuse       materials/textures/gui/hud/default_bar_1x2.dds
+}

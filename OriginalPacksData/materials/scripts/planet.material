@@ -1,0 +1,218 @@
+import * from "materials/scripts/unlit.material"
+import * from "materials/scripts/pbr.material"
+
+material planet/default
+{ 
+	render_group 50
+	feature "gbuffer|shadow|velocity"
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			glow 6
+
+			vertex_program_ref deferred_gbuffer_vp 
+			{
+			}
+
+			fragment_program_ref deferred_gbuffer_fp
+			{
+
+			}
+			
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+		}	
+	}
+}
+
+material planet/planet : planet/default
+{
+	set_texture_alias albedo			materials/textures/planet/planet_albedo.dds
+	set_texture_alias packed 			materials/textures/planet/planet_packed.dds
+	set_texture_alias normal 			materials/textures/planet/planet_normal.dds
+	set_texture_alias emissive 			materials/textures/planet/planet_emissive.dds
+	set_texture_alias gradient 			materials/textures/gradient/cloudy_gradient.dds 174 18
+
+	glow 10
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref planet_surface_fp
+			{
+			}
+		}
+	}
+}
+
+material planet/planet_clouds
+{	
+	render_group 108
+
+	technique
+	{
+		pass
+		{
+			depth_check off
+		    depth_write off
+            scene_blend alpha_blend
+
+			vertex_program_ref planet_vp
+			{
+			}
+
+			fragment_program_ref planet_cloud_fp
+			{
+			}
+            
+			texture_unit diffuse
+			{	
+				texture materials/textures/planet/planet_clouds_4k.dds
+				filtering anisotropic
+			}
+		}
+	}	      
+}
+
+material planet/planet_inner_glow
+{
+	render_group 109
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			scene_blend alpha_blend
+
+			vertex_program_ref planet_vp 
+			{
+			}
+
+			fragment_program_ref planet_inner_glow_fp
+			{
+
+			}
+		}
+	}
+}
+
+material planet/planet_scatter
+{
+	render_group 109
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			scene_blend alpha_blend
+
+			vertex_program_ref planet_vp 
+			{
+			}
+
+			fragment_program_ref planet_scatter_fp
+			{
+
+			}
+		}
+	}
+}
+
+material planet/planet_outer_glow
+{
+	render_group 109
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			scene_blend alpha_blend
+
+			vertex_program_ref planet_vp 
+			{
+			}
+
+			fragment_program_ref planet_outer_glow_fp
+			{
+
+			}
+		}
+	}
+}
+
+material planet/planet_atmosphere
+{
+	render_group 109
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			scene_blend alpha_blend
+
+			vertex_program_ref planet_vp 
+			{
+			}
+
+			fragment_program_ref planet_atmosphere_fp
+			{
+
+			}
+		}
+	}
+}
+
+material planet/planet_bg : unlit/default_srgb
+{
+	render_group 107
+	set_texture_alias diffuse materials/textures/planet/planet_bg.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check on
+		}
+	}
+}

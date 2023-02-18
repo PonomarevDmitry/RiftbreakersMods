@@ -1,0 +1,53 @@
+fragment_program wall_energy_fp hlsl
+{
+    source 			materials/programs/wall_energy_fp.hlsl
+    entry_point 	mainFP
+	target 			ps_5_0
+
+    preprocessor_defines	USE_FRESNEL=1,USE_WORLD_POS=1,USE_FOG=1
+	
+	default_params
+    {
+		param_named_auto  cEmissiveColor surface_emissive_colour
+
+        param_named_auto  cFogParams fog_params
+        param_named_auto  cFogColour fog_colour
+
+        param_named_auto  cGlowAmount   surface_glow
+        param_named       cGlowFactor   float 1
+		
+		param_named  	  cFresnelBias  float 0
+		param_named 	  cFresnelScale float 0
+		param_named 	  cFresnelPower float 0
+		param_named 	  cFresnelColor float4 0 0 0 0
+
+        param_named_auto  cTime    time
+    }
+}
+
+fragment_program wall_energy_inverted_fp hlsl
+{
+    source 			materials/programs/wall_energy_fp.hlsl
+    entry_point 	mainFP
+	target 			ps_5_0
+
+    preprocessor_defines	USE_FRESNEL=1,USE_FRESNEL_INVERT=1,USE_WORLD_POS=1,USE_FOG=1
+	
+	default_params
+    {
+		param_named_auto  cEmissiveColor surface_emissive_colour
+
+        param_named_auto  cFogParams fog_params
+        param_named_auto  cFogColour fog_colour
+
+        param_named_auto  cGlowAmount   surface_glow
+        param_named       cGlowFactor   float 1
+		
+		param_named  	  cFresnelBias  float 0
+		param_named 	  cFresnelScale float 0
+		param_named 	  cFresnelPower float 0
+		param_named 	  cFresnelColor float4 0 0 0 0
+
+        param_named_auto  cTime    time
+    }
+}

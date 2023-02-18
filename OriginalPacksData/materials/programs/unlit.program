@@ -1,0 +1,277 @@
+vertex_program unlit_VP hlsl
+{
+    source 							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_skinned_VP hlsl
+{
+    source							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    column_major_matrices 			false
+    preprocessor_defines			USE_HW_SKINNING=1,USE_TEXTURE=1
+    includes_skeletal_animation 	true
+
+    default_params
+    {
+        param_named_auto cWorld3x4Array 	world_matrix_array_3x4 
+        param_named_auto cViewProj 			viewproj_matrix
+    }
+}
+
+vertex_program unlit_fog_VP hlsl
+{
+    source                          materials/programs/unlit_vp.hlsl
+    entry_point                     mainVP
+    target                          vs_5_0
+    preprocessor_defines            USE_TEXTURE=1,USE_FOG=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_dummy_VP hlsl
+{
+    source                          materials/programs/unlit_vp.hlsl
+    entry_point                     mainVP
+    target                          vs_5_0
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_no_tex_VP hlsl
+{
+    source 							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_COLOR=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_uniform_VP hlsl
+{
+    source 							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_UNIFORM=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cColor surface_emissive_colour
+    }
+}
+
+vertex_program unlit_uniform_skinned_VP hlsl
+{
+    source 							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_HW_SKINNING=1,USE_UNIFORM=1
+    column_major_matrices 			false
+    includes_skeletal_animation 	true
+
+    default_params
+    {
+        param_named_auto cWorld3x4Array     world_matrix_array_3x4 
+        param_named_auto cViewProj          viewproj_matrix
+        param_named_auto cColor             surface_emissive_colour
+    }
+}
+
+vertex_program unlit_environment_VP hlsl
+{
+    source 							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_ENVIRONMENT=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cWorld world_matrix
+    }
+}
+
+vertex_program unlit_tex_color_VP hlsl
+{
+    source 							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_COLOR=1,USE_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_tex_color_fog_VP hlsl
+{
+    source 							materials/programs/unlit_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    preprocessor_defines			USE_COLOR=1,USE_TEXTURE=1,USE_FOG=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_blend_2_tex_VP hlsl
+{
+    source 			materials/programs/unlit_vp.hlsl
+    entry_point 	mainVP
+    target 			vs_5_0
+    
+    preprocessor_defines		USE_2_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program unlit_FP hlsl
+{
+    source 							materials/programs/unlit_fp.hlsl
+    entry_point						mainFP
+    target 							ps_5_0
+    preprocessor_defines			USE_TEXTURE=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program unlit_srgb_FP hlsl
+{
+    source                          materials/programs/unlit_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_TEXTURE=1,USE_SRGB=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program unlit_environment_FP hlsl
+{
+    source 							materials/programs/unlit_fp.hlsl
+    entry_point 					mainFP
+    target 							ps_5_0
+    preprocessor_defines			USE_ENVIRONMENT=1
+
+    default_params
+    {
+        param_named_auto cWorldCameraPos camera_position
+    }
+}
+
+fragment_program unlit_dummy_FP hlsl
+{
+    source                          materials/programs/unlit_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+
+    default_params
+    {
+    }
+}
+
+fragment_program unlit_no_tex_FP hlsl
+{
+    source 							materials/programs/unlit_fp.hlsl
+    entry_point 					mainFP
+    target 							ps_5_0
+    preprocessor_defines			USE_COLOR=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program unlit_tex_color_FP hlsl
+{
+    source 							materials/programs/unlit_fp.hlsl
+    entry_point 					mainFP
+    target 							ps_5_0
+    preprocessor_defines			USE_COLOR=1,USE_TEXTURE=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program unlit_tex_color_upscale_mask_fp hlsl
+{
+    source                          materials/programs/unlit_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_COLOR=1,USE_TEXTURE=1,USE_UPSCALE_MASK=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program unlit_tex_color_fog_FP hlsl
+{
+    source 							materials/programs/unlit_fp.hlsl
+    entry_point 					mainFP
+    target 							ps_5_0
+    preprocessor_defines			USE_COLOR=1,USE_TEXTURE=1,USE_FOG=1
+
+    default_params
+    {
+        param_named_auto cFogParams fog_params
+        param_named_auto cFogColour fog_colour
+    }
+}
+
+fragment_program unlit_tex_color_fog_upscale_mask_fp hlsl
+{
+    source                          materials/programs/unlit_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_COLOR=1,USE_TEXTURE=1,USE_FOG=1,USE_UPSCALE_MASK=1
+
+    default_params
+    {
+        param_named_auto cFogParams fog_params
+        param_named_auto cFogColour fog_colour
+    }
+}
+
+fragment_program unlit_blend_2_tex_FP hlsl
+{
+    source 			materials/programs/unlit_fp.hlsl
+    entry_point 	mainFP
+    target          ps_5_0
+    
+    preprocessor_defines		USE_2_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cChange sintime_0_1 1
+    }
+}

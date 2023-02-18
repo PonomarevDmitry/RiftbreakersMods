@@ -1,0 +1,367 @@
+system rift/morphium_splash_small
+{
+    fixed_timeout                               3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.01 0.01 0.01
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 200
+    technique debris
+    {
+        position                                0 5 0
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/water_splash_atlas_01_morphium
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 2
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box DebrisEmitter
+        {
+            emission_rate                       500
+            angle                               70
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             500
+                max                             700
+            }
+            particle_width                      dyn_random
+            {
+                min                             70
+                max                             100
+            }
+            particle_height                     dyn_random
+            {
+                min                             70
+                max                             100
+            }
+            position                            0 40 0
+            end_texture_coords_range            7
+            force_emission                      true
+            box_width                           50
+            box_height                          50
+            box_depth                           50
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.804348  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -1000 0
+        }
+    }
+    technique water_up
+    {
+        position                                0 5 0
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/water_splash_atlas_01_morphium
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 2
+            texture_coords_columns              4
+            billboard_type                      oriented_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+        }
+        emitter                                 Box water
+        {
+            emission_rate                       500
+            angle                               3
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             125
+            }
+            position                            0 50 0
+            end_texture_coords_range            7
+            colour                              0.992157 0.992157 0.984314 1
+            force_emission                      true
+            box_width                           50
+            box_height                          1
+            box_depth                           50
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.1
+                max                             0.1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.1
+                max                             0.1
+            }
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.81087  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                ScaleVelocity 
+        {
+            velocity_scale                      dyn_curved_linear
+            {
+                control_point                   0 -356.665
+                control_point                   2 -0.983379
+            }
+            since_start_system                  true
+        }
+        affector                                Scale 
+        {
+            x_scale                             dyn_random
+            {
+                min                             50
+                max                             150
+            }
+            y_scale                             dyn_random
+            {
+                min                             50
+                max                             150
+            }
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -250 0
+        }
+    }
+    technique water_up2
+    {
+        position                                0 5 0
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/water_splash_atlas_01_morphium
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 2
+            texture_coords_columns              4
+            billboard_type                      oriented_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+        }
+        emitter                                 Box water
+        {
+            emission_rate                       500
+            angle                               3
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             125
+            }
+            position                            0 50 0
+            end_texture_coords_range            7
+            colour                              0.992157 0.992157 0.984314 1
+            force_emission                      true
+            box_width                           150
+            box_height                          1
+            box_depth                           150
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             3
+                max                             3.2
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.1
+                max                             0.1
+            }
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.81087  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                ScaleVelocity 
+        {
+            velocity_scale                      dyn_curved_linear
+            {
+                control_point                   0 -356.665
+                control_point                   2 -0.983379
+            }
+            since_start_system                  true
+        }
+        affector                                Scale 
+        {
+            x_scale                             dyn_random
+            {
+                min                             25
+                max                             100
+            }
+            y_scale                             dyn_random
+            {
+                min                             25
+                max                             100
+            }
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -250 0
+        }
+    }
+    technique ring2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/water_vortex_02_morphium
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point ring
+        {
+            time_to_live                        dyn_random
+            {
+                min                             2
+                max                             2.8
+            }
+            velocity                            0
+            all_particle_dimensions             100
+            position                            0 10 0
+            colour                              0.0627451 0.0627451 0.0627451 1
+            force_emission                      true
+        }
+        affector                                Scale Affector20
+        {
+            xyz_scale                           200
+        }
+        affector                                TextureRotator Affector120
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -5
+                max                             5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.1
+                max                             0.1
+            }
+        }
+        affector                                TextureAnimator Affector23
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector23
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.86087  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique refract
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_03
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point ring
+        {
+            time_to_live                        dyn_random
+            {
+                min                             2
+                max                             2.8
+            }
+            velocity                            0
+            all_particle_dimensions             100
+            position                            0 11 0
+            colour                              0.0627451 0.0627451 0.0627451 1
+            force_emission                      true
+        }
+        affector                                Scale Affector20
+        {
+            xyz_scale                           250
+        }
+        affector                                TextureRotator Affector120
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -5
+                max                             5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.1
+                max                             0.1
+            }
+        }
+        affector                                Colour Affector23
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

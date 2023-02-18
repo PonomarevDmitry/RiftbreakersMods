@@ -1,0 +1,96 @@
+//editor "offset(0.000,0.000)|zoom(1.000)"
+FlowGraphTemplate
+{
+	version "2"
+	editor "4988"
+	GraphNodes
+	{
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1349,572)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_01"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_comet_target.xml)|pos(776,519)"
+			script "lua/graph/weather/comet.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "weather/comet_target"
+					}
+
+					StringData
+					{
+						key "comet_flying_blueprint"
+						value "weather/alien_comet_flying"
+					}
+
+					StringData
+					{
+						key "comet_dmg_blueprint"
+						value "weather/alien_comet_dmg"
+					}
+
+					StringData
+					{
+						key "comet_impact_place_blueprint"
+						value "weather/alien_comet_impact_place"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "logic/comet_impact"
+					}
+
+					StringData
+					{
+						key "find_mode"
+						value "target"
+					}
+
+				}
+
+			}
+
+			self_id "weather_comet_target_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(439,571)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "weather_comet_target_0"
+		weather_comet_target_0 "event_end_01"
+	}
+
+}
+

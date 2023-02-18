@@ -1,0 +1,725 @@
+//editor "offset(-10684.425,-4790.707)|zoom(0.848)"
+FlowGraphTemplate
+{
+	version "8"
+	editor "4926"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(7354,5851)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(11929,5592)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(7707,5668)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(8221,5832)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_1"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(8948,5869)"
+			global "0"
+			self_id "interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/survival/mech_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/survival/ashley_final_wave_finished_02"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/houston"
+					sound_name "voice_over/survival/houston_final_wave_finished_02"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(8466,5784)"
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			self_id "logic_check_difficulty_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_check_difficulty_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_check_difficulty_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(8481,5891)"
+			self_id "logic_check_difficulty_0###false"
+			key "false"
+			value "logic_check_difficulty_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(8481,5918)"
+			self_id "logic_check_difficulty_0###true"
+			key "true"
+			value "logic_check_difficulty_0###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(9010,5301)"
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			self_id "logic_check_difficulty_1"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_check_difficulty_1###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_check_difficulty_1###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(9025,5408)"
+			self_id "logic_check_difficulty_1###false"
+			key "false"
+			value "logic_check_difficulty_1###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(9025,5435)"
+			self_id "logic_check_difficulty_1###true"
+			key "true"
+			value "logic_check_difficulty_1###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(9471,5399)"
+			global "0"
+			self_id "interface_dialogue_show_group_1"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/survival/mech_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/survival/ashley_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/houston"
+					sound_name "voice_over/survival/houston_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(9487,5056)"
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			self_id "logic_check_difficulty_2"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_check_difficulty_2###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_check_difficulty_2###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(9502,5163)"
+			self_id "logic_check_difficulty_2###false"
+			key "false"
+			value "logic_check_difficulty_2###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(9502,5190)"
+			self_id "logic_check_difficulty_2###true"
+			key "true"
+			value "logic_check_difficulty_2###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(10035,5010)"
+			global "0"
+			self_id "interface_dialogue_show_group_2"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/survival/mech_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/survival/ashley_final_wave_finished_03"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/houston"
+					sound_name "voice_over/survival/houston_final_wave_finished_03"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(10038,4524)"
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			self_id "logic_check_difficulty_3"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_check_difficulty_3###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_check_difficulty_3###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(10053,4631)"
+			self_id "logic_check_difficulty_3###false"
+			key "false"
+			value "logic_check_difficulty_3###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(10053,4658)"
+			self_id "logic_check_difficulty_3###true"
+			key "true"
+			value "logic_check_difficulty_3###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(10607,4490)"
+			global "0"
+			self_id "interface_dialogue_show_group_3"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/survival/mech_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/survival/ashley_final_wave_finished_04"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/houston"
+					sound_name "voice_over/survival/houston_final_wave_finished_04"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(10609,4026)"
+			global "0"
+			self_id "interface_dialogue_show_group_4"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/survival/mech_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/survival/ashley_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/houston"
+					sound_name "voice_over/survival/houston_final_wave_finished_01"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(11653,5593)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(8505,6440)"
+			script "lua/graph/entity/entity_remove.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "hq_rift_effect_mild"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "entity_remove_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(8943,6328)"
+			script "lua/graph/entity/entity_spawn_single.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "effects/buildings_main/HQ_rift_weather_strong"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "hq_rift_effect_strong"
+					}
+
+					StringData
+					{
+						key "entity_group"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "headquarters"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "1"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_spawn_single_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(11929,5679)"
+			script "lua/graph/entity/entity_remove.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "hq_rift_effect_strong"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "entity_remove_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		entity_remove_0 "entity_spawn_single_0"
+		logic_or_0 "entity_remove_1|event_end_0"
+		interface_dialogue_show_group_4 "logic_or_0"
+		interface_dialogue_show_group_3 "logic_or_0"
+		logic_check_difficulty_3###false "interface_dialogue_show_group_4"
+		logic_check_difficulty_3 "logic_check_difficulty_3###false|logic_check_difficulty_3###true"
+		logic_check_difficulty_2 "logic_check_difficulty_2###false|logic_check_difficulty_2###true"
+		logic_check_difficulty_1###true "interface_dialogue_show_group_1"
+		logic_check_difficulty_2###true "interface_dialogue_show_group_2"
+		logic_check_difficulty_1 "logic_check_difficulty_1###false|logic_check_difficulty_1###true"
+		logic_check_difficulty_0###false "logic_check_difficulty_1"
+		logic_check_difficulty_1###false "logic_check_difficulty_2"
+		logic_check_difficulty_2###false "logic_check_difficulty_3"
+		logic_check_difficulty_0 "logic_check_difficulty_0###false|logic_check_difficulty_0###true"
+		interface_dialogue_show_group_0 "logic_or_0"
+		logic_check_difficulty_0###true "interface_dialogue_show_group_0"
+		interface_dialogue_show_group_1 "logic_or_0"
+		logic_wait_1 "logic_check_difficulty_0"
+		interface_dialogue_show_group_2 "logic_or_0"
+		logic_check_difficulty_3###true "interface_dialogue_show_group_3"
+		default "audio_adaptive_music_system_1|entity_remove_0|logic_wait_1"
+	}
+
+}
+

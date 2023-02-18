@@ -1,0 +1,101 @@
+vertex_program deferred_decal_vp hlsl
+{
+    source 							materials/programs/deferred_decal_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+
+    default_params
+    {
+        param_named_auto cWorld                  world_matrix
+        param_named_auto cViewProj               viewproj_matrix 
+    }
+}
+
+//vertex_program deferred_decal_instanced_vp hlsl
+//{
+//    source                          materials/programs/deferred_decal_vp.hlsl
+//    entry_point                     mainVP
+//    target                          vs_5_0
+//    includes_instance_data          true
+//    preprocessor_defines            USE_INSTANCING=1
+//
+//    default_params
+//    {
+//        param_named_auto cViewProj             viewproj_matrix 
+//        param_named_auto cInstanceInfo         instance_info
+//    }
+//}
+
+fragment_program deferred_decal_fp hlsl
+{
+    source                          materials/programs/deferred_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+
+    preprocessor_defines USE_DXT5NM=1,USE_PROJECTED_POS=1
+    
+    default_params
+    {
+        param_named_auto cInvProjMatrix         inverse_projection_matrix
+        param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+        param_named_auto cGlowAmount            surface_glow
+        param_named      cGlowFactor            float 1.0
+		param_named      cAlpha                 float 1.0
+        param_named_auto cMIPBias               mip_bias
+    }
+}
+
+fragment_program deferred_decal_atlas_fp hlsl
+{
+    source                          materials/programs/deferred_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+
+    preprocessor_defines USE_DXT5NM=1,USE_TEXTURE_ATLAS=1,USE_PROJECTED_POS=1
+    
+    default_params
+    {
+        param_named_auto cInvProjMatrix         inverse_projection_matrix
+        param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+        param_named      cTextureAtlas          float4 0.0 0.0 1.0 0.0
+        param_named_auto cGlowAmount            surface_glow
+        param_named      cGlowFactor            float 1.0
+		param_named      cAlpha                 float 1.0
+        param_named_auto cMIPBias               mip_bias
+    }
+}
+
+fragment_program deferred_decal_static_fp hlsl
+{
+    source                          materials/programs/deferred_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+
+    preprocessor_defines USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount            surface_glow
+        param_named      cGlowFactor            float 1.0
+		param_named      cAlpha                 float 1.0
+        param_named_auto cMIPBias               mip_bias
+    }
+}
+
+fragment_program deferred_decal_static_atlas_fp hlsl
+{
+    source                          materials/programs/deferred_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+
+    preprocessor_defines USE_DXT5NM=1,USE_TEXTURE_ATLAS=1
+    
+    default_params
+    {
+        param_named      cTextureAtlas          float4 0.0 0.0 1.0 0.0
+        param_named_auto cGlowAmount            surface_glow
+        param_named      cGlowFactor            float 1.0
+		param_named      cAlpha                 float 1.0
+        param_named_auto cMIPBias               mip_bias
+    }
+}

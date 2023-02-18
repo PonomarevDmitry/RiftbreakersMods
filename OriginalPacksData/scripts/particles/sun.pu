@@ -1,0 +1,208 @@
+system rift/sun
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.08
+    scale                                       0.08 0.08 0.08
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 5
+    technique 
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/flare_sun_add_01_nodepth
+        default_particle_width                  300
+        default_particle_height                 300
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       10000
+            time_to_live                        10000
+            velocity                            0.0001
+        }
+        affector                                TextureRotator Affector2
+        {
+            use_own_rotation                    true
+            rotation                            1
+            rotation_speed                      0
+        }
+    }
+    technique 
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       10000
+            time_to_live                        10000
+            velocity                            0.0001
+            all_particle_dimensions             100
+            position                            -65 25 0
+        }
+    }
+    technique dust
+    {
+        position                                -65 25 0
+        visual_particle_quota                   2
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_nodepth_02
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point dust
+        {
+            emission_rate                       250
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             4
+                max                             6
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            direction                           -1 0 0
+            colour                              1 0.85098 0 1
+            simple                              true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.2  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.3  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.426087  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.502174  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.632609  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.708696  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.828261  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.91087  0.0509804 0.0509804 0.0509804 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+    }
+    technique glow
+    {
+        position                                -65 25 0
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_nodepth_02
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point dust
+        {
+            emission_rate                       250
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             4
+                max                             6
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            direction                           -1 0 0
+            simple                              true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.2  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.3  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.426087  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.502174  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.632609  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.708696  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.828261  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.91087  0.0509804 0.0509804 0.0509804 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+    }
+    technique glowsmall
+    {
+        position                                -65 25 0
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_nodepth_02
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            render_queue_group                  66
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point dust
+        {
+            emission_rate                       250
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             4
+                max                             6
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             40
+            }
+            direction                           -1 0 0
+            simple                              true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.2  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.3  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.426087  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.502174  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.632609  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.708696  0.0509804 0.0509804 0.0509804 1
+            time_colour                         0.828261  0.0156863 0.0156863 0.0156863 1
+            time_colour                         0.91087  0.0509804 0.0509804 0.0509804 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+    }
+}

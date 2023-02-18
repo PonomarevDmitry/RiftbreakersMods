@@ -1,0 +1,46 @@
+fragment_program ssao_horizon_based_fp hlsl
+{
+	source materials/programs/ssao_horizon_based_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+	
+	default_params
+    {
+		param_named_auto cFocalParams texture_focal_params 0
+		param_named_auto cViewportSize viewport_size
+		param_named_auto cFov fov
+		param_named_auto cView view_matrix
+	}
+}
+
+fragment_program ssao_normal_fp hlsl
+{
+	source materials/programs/ssao_normal_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+}
+
+fragment_program ssao_bilateral_filter_x_fp hlsl
+{
+	source materials/programs/ssao_bilateral_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+	
+	preprocessor_defines STEP_X=1
+}
+
+fragment_program ssao_bilateral_filter_y_fp hlsl
+{
+	source materials/programs/ssao_bilateral_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+	
+	preprocessor_defines STEP_Y=1
+}
+
+fragment_program ssao_raytracing_fp hlsl
+{
+	source materials/programs/ssao_raytracing_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+}

@@ -1,0 +1,259 @@
+//editor "offset(51.77,-382.35)|zoom(1.00)"
+FlowGraphTemplate
+{
+	version "7"
+	editor "5074"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-511,486)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1311,669)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(436,747)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_4"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/octabit_ultra"
+					count "3"
+					delay "5.00"
+					delay_group "10.00"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/bradron_ultra"
+					count "4"
+					delay "5.00"
+					delay_group "10.00"
+					units_in_one_spawn "5"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(-178,68)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_3"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/octabit_ultra"
+					count "3"
+					delay "3.00"
+					delay_group "0"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/octabit_ultra"
+					count "4"
+					delay "5.00"
+					delay_group "10.00"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/octabit_ultra"
+					count "3"
+					delay "5.00"
+					delay_group "10.00"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/bradron_ultra"
+					count "4"
+					delay "5.00"
+					delay_group "10.00"
+					units_in_one_spawn "4"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-160,1046)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "15.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_wait_1|wave_ground_3"
+		logic_wait_1 "wave_ground_4"
+		wave_ground_3 "event_end_0"
+		wave_ground_4 "event_end_0"
+	}
+
+	GraphComments
+}
+

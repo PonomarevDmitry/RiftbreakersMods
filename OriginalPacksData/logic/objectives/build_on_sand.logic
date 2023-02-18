@@ -1,0 +1,372 @@
+//editor "offset(-1908.231,704.683)|zoom(0.468)"
+FlowGraphTemplate
+{
+	version "4"
+	editor "3075"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-158,100)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(3423,143)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_research_finished.xml)|pos(547,68)"
+			script "lua/graph/logic/logic_if_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/floor_desert"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_research_finished_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_research_finished_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_research_finished_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(562,170)"
+			self_id "logic_if_research_finished_0###false"
+			key "false"
+			value "logic_if_research_finished_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(562,197)"
+			self_id "logic_if_research_finished_0###true"
+			key "true"
+			value "logic_if_research_finished_0###true"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1616,456)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(2850,115)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.desert_floor_research"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(1719,100)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/desert_floor_research"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.desert_floor_research"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "campaign_objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(2391,128)"
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/floor_desert"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_reseach_finished_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(1011,-137)"
+			script "lua/graph/logic/logic_event_send.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "OnBuildOnSand"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_event_send_0"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(1011,55)"
+			global "1"
+			self_id "campaign_interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/desert/mech_build_on_sand_02"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(1011,371)"
+			global "1"
+			self_id "campaign_interface_dialogue_show_group_1"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/desert/mech_build_on_sand_01"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(2386,-45)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/floor_desert"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(2852,-48)"
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/floor_desert"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "mission_highlight_research_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		campaign_interface_dialogue_show_group_1 "event_end_3"
+		campaign_interface_dialogue_show_group_0 "campaign_objective_generic_0"
+		logic_wait_on_reseach_finished_1 "campaign_objective_finish_0|mission_highlight_research_1"
+		campaign_objective_generic_0 "logic_wait_on_reseach_finished_1|mission_highlight_research_0"
+		campaign_objective_finish_0 "event_end_1"
+		logic_if_research_finished_0###false "campaign_interface_dialogue_show_group_0|logic_event_send_0"
+		logic_if_research_finished_0 "logic_if_research_finished_0###false|logic_if_research_finished_0###true"
+		logic_if_research_finished_0###true "campaign_interface_dialogue_show_group_1"
+		default "logic_if_research_finished_0"
+	}
+
+}
+

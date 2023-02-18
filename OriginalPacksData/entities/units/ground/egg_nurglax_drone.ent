@@ -1,0 +1,181 @@
+EntityBlueprint
+{
+	name "units/ground/egg_nurglax_drone"
+
+	base_blueprint "units/ground/egg_nurglax_drone_base"
+
+	EggDesc
+	{
+		blueprint				"units/ground/nurglax_drone"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"state_aggressive"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_nurglax_drone_alpha"
+
+	base_blueprint "units/ground/egg_nurglax_drone_base"
+
+	EggDesc
+	{
+		blueprint				"units/ground/nurglax_drone_alpha"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"state_aggressive"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_nurglax_drone_ultra"
+
+	base_blueprint "units/ground/egg_nurglax_drone_base"
+
+	EggDesc
+	{
+		blueprint				"units/ground/nurglax_drone_ultra"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"state_aggressive"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_nurglax_drone_base"
+	
+	HealthDesc
+	{
+		max_health 					"3"
+		health 						"3"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/egg_nurglax.mesh"
+		material    "units/ground/egg_nurglax"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "nurglax"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"wreck"
+				physics_material 	"gibs_light"
+				dominance			"1"
+				sleep_threshold     "5"
+
+				Shapes
+				{
+					//PhysicsSphereShape
+					//{
+					//	r "0.5"
+					//}
+					
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/egg_nurglax_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+						
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1"
+					explosion_effect 		"effects/enemies_nurglax/drone_spawn"
+					part_prefix 			"meshes/units/ground/egg_nurglax"
+					part_material 			"units/ground/egg_nurglax_open"
+					part_effect 			"effects/enemies_generic/blood_trail_black_small"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}					
+		}
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1"
+					explosion_effect 		"effects/enemies_nurglax/drone_spawn"
+					part_prefix 			"meshes/units/ground/egg_nurglax"
+					part_material 			"units/ground/egg_nurglax_open"
+					part_effect 			"effects/enemies_generic/blood_trail_black_small"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "spawn"
+			}					
+		}		
+	}
+}
+
+
+

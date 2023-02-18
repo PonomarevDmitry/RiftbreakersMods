@@ -1,0 +1,259 @@
+//editor "offset(106.07,37.85)|zoom(1.00)"
+FlowGraphTemplate
+{
+	version "5"
+	editor "5090"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-144,504)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1684,501)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(435,1023)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "15.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_0"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(375,109)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_0"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/hedroner_morphium"
+					count "2"
+					delay "1"
+					delay_group "0"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/bradron"
+					count "3"
+					delay "3.00"
+					delay_group "5.00"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/wingmite"
+					count "4"
+					delay "3.00"
+					delay_group "10.00"
+					units_in_one_spawn "30"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/wingmite"
+					count "4"
+					delay "3.00"
+					delay_group "10.00"
+					units_in_one_spawn "30"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(885,781)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_1"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/bradron"
+					count "3"
+					delay "3.00"
+					delay_group "0.00"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/wingmite"
+					count "2"
+					delay "5.00"
+					delay_group "5.00"
+					units_in_one_spawn "50"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_wait_0|wave_ground_0"
+		logic_wait_0 "wave_ground_1"
+		wave_ground_0 "event_end_1"
+		wave_ground_1 "event_end_1"
+	}
+
+	GraphComments
+}
+

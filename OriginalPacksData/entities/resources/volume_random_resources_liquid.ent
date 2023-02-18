@@ -1,0 +1,99 @@
+EntityBlueprint
+{
+	name  "resources/volume_random_liquids"
+
+	SceneEditorDesc
+    {
+        mesh        "meshes/volume.mesh"
+        material    "resources/volume_resource_random_liquid"
+
+        initial_scale
+        {
+            x "10.0"
+            y "4.0"
+            z "10.0"
+        }
+    }
+
+	PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                group_id    "water"
+                type        "static"
+
+                Shapes
+                {
+                    PhysicsBoxShape
+                    {
+                        x "1"
+                        y "1"
+                        z "1"
+                    }
+                }
+            }
+        }
+    }
+
+	VolumeResourcesSpawnerComponent
+    {
+        resources "mud_vein,sludge_vein"
+    }
+
+
+}
+
+EntityBlueprint
+{
+	name  "resources/volume_random_resources_liquid"
+
+	SceneEditorDesc
+    {
+        mesh        "meshes/volume.mesh"
+        material    "resources/volume_resource_random_liquid"
+
+        initial_scale
+        {
+            x "10.0"
+            y "4.0"
+            z "10.0"
+        }
+    }
+
+	PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                group_id    "water"
+                type        "static"
+
+                Shapes
+                {
+                    PhysicsBoxShape
+                    {
+                        x "1"
+                        y "1"
+                        z "1"
+                    }
+                }
+            }
+        }
+    }
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "resources/volume_resource_mud"
+		}			
+		Blueprint
+		{
+			blueprint "resources/volume_resource_sludge"
+		}
+	}
+}
+

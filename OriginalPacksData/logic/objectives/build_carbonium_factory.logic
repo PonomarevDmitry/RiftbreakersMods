@@ -1,0 +1,718 @@
+//editor "offset(-646.151,34.697)|zoom(0.551)"
+FlowGraphTemplate
+{
+	version "2"
+	editor "3151"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-453,417)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(4200,872)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(980,722)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/build_carbonium_factory"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "build_carbonium_factory"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(3083,1212)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "build_carbonium_factory"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(1704,1028)"
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/resources/carbonium_factory"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_building_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_building_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1719,1240)"
+			self_id "logic_if_exist_building_0###true"
+			key "true"
+			value "logic_if_exist_building_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1702,1346)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "45.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(2474,1392)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/mech_build_carbonium_factory_02"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0.00"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_if_exist_entity.xml)|pos(2042,1326)"
+			script "lua/graph/logic/logic_if_exist_entity.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less"
+					}
+
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value "buildings/resources/carbonium_factory"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_wait_on_build_menu.xml)|pos(1698,771)"
+			script "lua/graph/interface/interface_wait_on_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "text"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+					}
+
+				}
+
+			}
+
+			self_id "interface_wait_on_build_menu_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_hud_show_text.xml)|pos(1697,633)"
+			script "lua/graph/interface/interface_hud_show_text.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "id"
+						value "build_menu_hint"
+					}
+
+					StringData
+					{
+						key "content"
+						value "gui/hud/tooltip/open_build_menu"
+					}
+
+				}
+
+			}
+
+			self_id "interface_hud_show_text_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_hud_hide_text.xml)|pos(2144,760)"
+			script "lua/graph/interface/interface_hud_hide_text.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "id"
+						value "build_menu_hint"
+					}
+
+				}
+
+			}
+
+			self_id "interface_hud_hide_text_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(1702,865)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "resources|carbonium_factory"
+					}
+
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(3067,1038)"
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "resources|carbonium_factory"
+					}
+
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "interface_highlight_build_menu_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_hud_hide_text.xml)|pos(3073,932)"
+			script "lua/graph/interface/interface_hud_hide_text.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "id"
+						value "build_menu_hint"
+					}
+
+				}
+
+			}
+
+			self_id "interface_hud_hide_text_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1965,-171)"
+			self_id "logic_or_0"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3987,870)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3684,852)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_2"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(973,384)"
+			global "0"
+			self_id "interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_build_carbonium_factory_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/objective/ashley_build_carbonium_factory_01"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(-47,303)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/resources/carbonium_factory"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "0"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_exist_entity_new_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-32,595)"
+			self_id "logic_if_exist_entity_new_0###false"
+			key "false"
+			value "logic_if_exist_entity_new_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-32,622)"
+			self_id "logic_if_exist_entity_new_0###true"
+			key "true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_if_exist_entity_new_0###true "interface_dialogue_show_group_0|objective_generic_0"
+		logic_if_exist_entity_new_0###false "logic_or_0"
+		logic_wait_2 "logic_or_1"
+		logic_or_1 "event_end_0"
+		logic_if_exist_entity_0 "interface_dialogue_show_2"
+		logic_wait_1 "logic_if_exist_entity_0"
+		logic_or_0 "logic_or_1"
+		logic_if_exist_building_0###true "interface_highlight_build_menu_1|interface_hud_hide_text_1|objective_finish_0"
+		interface_dialogue_show_group_0 "logic_wait_2"
+		logic_if_exist_building_0 "logic_if_exist_building_0###true"
+		objective_finish_0 "logic_wait_2"
+		objective_generic_0 "interface_highlight_build_menu_0|interface_hud_show_text_0|interface_wait_on_build_menu_0|logic_if_exist_building_0|logic_wait_1"
+		interface_wait_on_build_menu_0 "interface_hud_hide_text_0"
+		logic_if_exist_entity_new_0 "logic_if_exist_entity_new_0###false|logic_if_exist_entity_new_0###true"
+		default "logic_if_exist_entity_new_0"
+	}
+
+}
+

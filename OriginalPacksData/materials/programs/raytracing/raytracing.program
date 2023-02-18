@@ -1,0 +1,259 @@
+compute_program raytracing_resolve_soft_shadows_directional_dxr_rp hlsl
+{
+    source                  materials/programs/raytracing/resolve_soft_shadows_d3d12.hlsl
+    target                  lib_6_3
+    required_capabilities   RSC_RAYTRACING,RSC_DXR
+    preprocessor_defines    Z_LIGHT_TYPE=0
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         InstanceInclusionMask   int 255
+        param_named         RayPushoffAmount        float 0.25
+        param_named_auto    LightSize               light_size 0.01
+        param_named_auto    LightDirection          light_direction 0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+		param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program raytracing_resolve_soft_shadows_point_dxr_rp hlsl
+{
+    source                  materials/programs/raytracing/resolve_soft_shadows_d3d12.hlsl
+    target                  lib_6_3
+    required_capabilities   RSC_RAYTRACING,RSC_DXR
+    preprocessor_defines    Z_LIGHT_TYPE=1
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         InstanceInclusionMask   int 32
+        param_named         RayPushoffAmount        float 0.1
+        param_named_auto    LightSize               light_size 0
+        param_named_auto    LightRadius             light_range 0
+        param_named_auto    LightPosition           light_position 0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+        param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program raytracing_resolve_soft_shadows_spotlight_dxr_rp hlsl
+{
+    source                  materials/programs/raytracing/resolve_soft_shadows_d3d12.hlsl
+    target                  lib_6_3
+    required_capabilities   RSC_RAYTRACING,RSC_DXR
+    preprocessor_defines    Z_LIGHT_TYPE=2
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         InstanceInclusionMask   int 32
+        param_named         RayPushoffAmount        float 0.1
+        param_named_auto    LightSize               light_size 0
+        param_named_auto    LightRange              light_range 0
+        param_named_auto    LightAngle              spotlight_angle 0
+        param_named_auto    LightPosition           light_position 0
+        param_named_auto    LightDirection          light_direction 0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+        param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program raytracing_resolve_ambient_dxr_rp hlsl
+{
+    source                  materials/programs/raytracing/resolve_ambient_d3d12.hlsl
+    required_capabilities   RSC_RAYTRACING,RSC_DXR
+    target                  lib_6_3
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         RayPushoffAmount        float 0.1
+        param_named         AORadius                float 4.0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+        param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program raytracing_resolve_soft_shadows_directional_psr_cp hlsl
+{
+    source                  materials/programs/raytracing/resolve_soft_shadows_psr.hlsl
+    entry_point             main
+    target                  cs_6_0
+    required_capabilities   RSC_RAYTRACING,RSC_PSR
+    preprocessor_defines    Z_LIGHT_TYPE=0
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         InstanceInclusionMask   int 255
+        param_named         RayPushoffAmount        float 0.25
+        param_named_auto    LightSize               light_size 0.01
+        param_named_auto    LightDirection          light_direction 0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+		param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program raytracing_resolve_soft_shadows_point_psr_cp hlsl
+{
+    source                  materials/programs/raytracing/resolve_soft_shadows_psr.hlsl
+    entry_point             main
+    target                  cs_6_0
+    required_capabilities   RSC_RAYTRACING,RSC_PSR
+    preprocessor_defines    Z_LIGHT_TYPE=1
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         InstanceInclusionMask   int 32
+        param_named         RayPushoffAmount        float 0.1
+        param_named_auto    LightSize               light_size 0
+        param_named_auto    LightRadius             light_range 0
+        param_named_auto    LightPosition           light_position 0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+        param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program raytracing_resolve_soft_shadows_spotlight_psr_cp hlsl
+{
+    source                  materials/programs/raytracing/resolve_soft_shadows_psr.hlsl
+    entry_point             main
+    target                  cs_6_0
+    required_capabilities   RSC_RAYTRACING,RSC_PSR
+    preprocessor_defines    Z_LIGHT_TYPE=2
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         InstanceInclusionMask   int 32
+        param_named         RayPushoffAmount        float 0.1
+        param_named_auto    LightSize               light_size 0
+        param_named_auto    LightRange              light_range 0
+        param_named_auto    LightAngle              spotlight_angle 0
+        param_named_auto    LightPosition           light_position 0
+        param_named_auto    LightDirection          light_direction 0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+        param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program raytracing_resolve_ambient_psr_cp hlsl
+{
+    source                  materials/programs/raytracing/resolve_ambient_psr.hlsl
+    entry_point             main
+    required_capabilities   RSC_RAYTRACING,RSC_PSR
+    target                  cs_6_0
+
+    default_params
+    {
+        param_named_auto    FrameIndex              frame_index
+        param_named         RayPushoffAmount        float 0.1
+        param_named         AORadius                float 4.0
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    GBufferDimensions       texture_size 0
+        param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+    }
+}
+
+compute_program upscale_shadow_mask_cs hlsl
+{
+    source                  materials/programs/raytracing/prepare_shadow_mask_d3d12.hlsl
+    entry_point             main
+    required_capabilities   RSC_RAYTRACING
+    target                  cs_6_0
+    preprocessor_defines    UPSCALE=1
+
+    default_params
+    {
+        param_named_auto    BufferDimensions        viewport_size
+        param_named_auto    InputDimensions         texture_size 0
+    }
+}
+
+compute_program prepare_shadow_mask_cs hlsl
+{
+    source                  materials/programs/raytracing/prepare_shadow_mask_d3d12.hlsl
+    entry_point             main
+    required_capabilities   RSC_RAYTRACING
+    target                  cs_6_0
+
+    default_params
+    {
+        param_named_auto    BufferDimensions        viewport_size
+    }
+}
+
+compute_program raytracing_tile_classification_cs hlsl
+{
+    source                  materials/programs/raytracing/tile_classification_d3d12.hlsl
+    entry_point             main
+    required_capabilities   RSC_RAYTRACING
+    target                  cs_6_0
+
+    default_params
+    {
+        param_named_auto    ProjectionInverse       inverse_projection_matrix
+        param_named_auto    ReprojectionMatrix      reprojection_matrix
+        param_named_auto    ViewProjectionInverse   inverse_viewproj_matrix
+        param_named_auto    Eye                     camera_position
+        param_named_auto    BufferDimensions        viewport_size_int
+        param_named_auto    FrameIndex              frame_index
+    }
+}
+
+compute_program raytracing_filter_soft_shadows_0_cs hlsl
+{
+    source                  materials/programs/raytracing/filter_soft_shadows_d3d12.hlsl
+    entry_point             main
+    required_capabilities   RSC_RAYTRACING
+    target                  cs_6_0
+    preprocessor_defines    PASS_INDEX=0,STEP_SIZE=1
+
+    default_params
+    {
+        param_named_auto    ProjectionInverse       inverse_projection_matrix
+        param_named_auto    BufferDimensions        viewport_size_int
+        param_named_auto    OutputChannel           shadow_channel
+    }
+}
+
+compute_program raytracing_filter_soft_shadows_1_cs hlsl
+{
+    source                  materials/programs/raytracing/filter_soft_shadows_d3d12.hlsl
+    entry_point             main
+    required_capabilities   RSC_RAYTRACING
+    target                  cs_6_0
+    preprocessor_defines    PASS_INDEX=1,STEP_SIZE=2
+
+    default_params
+    {
+        param_named_auto    ProjectionInverse       inverse_projection_matrix
+        param_named_auto    BufferDimensions        viewport_size_int
+        param_named_auto    OutputChannel           shadow_channel
+    }
+}
+
+compute_program raytracing_filter_soft_shadows_2_cs hlsl
+{
+    source                  materials/programs/raytracing/filter_soft_shadows_d3d12.hlsl
+    entry_point             main
+    required_capabilities   RSC_RAYTRACING
+    target                  cs_6_0
+    preprocessor_defines    PASS_INDEX=2,STEP_SIZE=4
+
+    default_params
+    {
+        param_named_auto    ProjectionInverse       inverse_projection_matrix
+        param_named_auto    BufferDimensions        viewport_size_int
+        param_named_auto    OutputChannel           shadow_channel
+    }
+}

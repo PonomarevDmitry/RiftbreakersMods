@@ -1,0 +1,135 @@
+#include "materials/programs/utils.hlsl"
+#include "materials/programs/pack_ops.hlsl"
+
+cbuffer FPConstantBuffer : register(b0)
+{
+    float4      cInfluenceData;
+#if USE_DISSOLVE_MAP  
+    float4      cDissolveColor;
+    float       cDissolveAmount;
+    float       cDissolveSize;
+#endif
+    float       cGlowAmount;
+    float       cGlowFactor;
+#if USE_REFLECTION_MAP
+    float2      cReflectionParams;
+    float3      cWorldCameraPos;
+#endif
+    float       cMIPBias;
+};
+
+struct VS_OUTPUT
+{
+    float4      Position      : SV_POSITION;
+    float2      UV0           : TEXCOORD0;
+    float3      Normal        : TEXCOORD1;
+    float3      Tangent       : TEXCOORD2;
+    float3      BiNormal      : TEXCOORD3;
+    float3      WorldPos      : TEXCOORD4;
+};
+
+struct PS_OUTPUT
+{
+    float4      GBuffer0      : SV_TARGET0; // Albedo (xyz), 
+    float4      GBuffer1      : SV_TARGET1; // World Space Normal (xyz)
+    float4      GBuffer2      : SV_TARGET2; // Occlusion (x), Roughness (y), Metalness (z)
+    float4      GBuffer3      : SV_TARGET3; // Emissive (xyz)
+    float4      GBuffer4      : SV_TARGET4; // SubsurfaceScattering (xyz)
+};
+
+Texture2D       tAlbedoTex;
+SamplerState    sAlbedoTex;
+Texture2D       tNormalTex;
+SamplerState    sNormalTex;
+Texture2D       tPackedTex;
+SamplerState    sPackedTex;
+Texture2D       tEmissiveTex;
+SamplerState    sEmissiveTex;
+Texture2D       tGradientTex;
+SamplerState    sGradientTex;
+#if USE_DISSOLVE_MAP
+Texture2D       tDissolveTex;
+SamplerState    sDissolveTex;
+#endif
+#if USE_REFLECTION_MAP
+TextureCube     tReflectionTex;
+SamplerState    sReflectionTex;
+#endif
+#if USE_MIPMAP_CHECKER
+Texture2D       tMipMapCheckerTex;
+SamplerState    sMipMapCheckerTex;
+#endif
+
+PS_OUTPUT mainFP( VS_OUTPUT In )
+{
+    PS_OUTPUT Out;
+
+    float2 texCoord = In.UV0;
+    texCoord.y += ( 1.0f/10.0f ) * cInfluenceData.x;
+    texCoord.x += ( 1.0f/10.0f ) * cInfluenceData.y;
+
+    float4 albedo = tAlbedoTex.SampleBias( sAlbedoTex, texCoord, cMIPBias ).xyzw;
+
+#if USE_MIPMAP_CHECKER
+    float lod = max( 0.0, tAlbedoTex.CalculateLevelOfDetail( sAlbedoTex,texCoord ) + cMIPBias );
+
+    float4 mipmapChecker = tMipMapCheckerTex.SampleLevel( sMipMapCheckerTex, texCoord, lod ).xyzw;
+    albedo.xyz = lerp( albedo.xyz, mipmapChecker.rgb, mipmapChecker.a );
+#endif
+
+#if USE_ALPHA_TEST
+    clip ( albedo.a > 0.5f ? 1:-1 );
+#endif
+
+    Out.GBuffer0.xyzw = float4( albedo.xyz, 1.0f );
+    Out.GBuffer2.xyzw = tPackedTex.SampleBias( sPackedTex, texCoord, cMIPBias );
+
+    float3 texNormal = texNormal2D( tNormalTex, sNormalTex, texCoord);
+    float3x3 normalRotation = float3x3( In.Tangent, In.BiNormal, In.Normal );
+    float3 normal = mul( texNormal, normalRotation );
+    Out.GBuffer1.xyz = encodeNormal( normal );
+
+    float gradient = tGradientTex.SampleBias( sGradientTex, texCoord, cMIPBias ).x;
+
+    float firstEmissiveScale = 0.8f * cInfluenceData.z;
+    float secondEmissiveScale = 1.0f * cInfluenceData.w;
+    gradient += ( firstEmissiveScale > 0.0f ) ? 0.3f : 0.0f;
+    float2 emissiveBlend = tEmissiveTex.SampleBias( sEmissiveTex, texCoord, cMIPBias).yz * saturate( gradient );
+    float emissivePower = max( emissiveBlend.x, emissiveBlend.y * secondEmissiveScale );
+    float3 emissiveColor = float3( 0.0f, 0.5f, 1.0f );
+    emissiveColor += emissivePower * emissivePower;
+    emissiveColor *= cGlowAmount * cGlowFactor * emissivePower;
+    emissiveColor *= max( firstEmissiveScale, secondEmissiveScale );
+    float3 emissive = float4( emissiveColor, ( length( emissiveColor.rgb ) > 0.3f ) ? emissivePower : 0.0f );
+
+#if USE_REFLECTION_MAP
+    float roughness = Out.GBuffer2.y;
+    if ( roughness < cReflectionParams.x )
+    {
+        float3 reflectRay = reflect( normalize( In.WorldPos - cWorldCameraPos ), normal );
+        float mipLevel = roughness * 8.0f;
+        float3 reflection = tReflectionTex.SampleLevel( sReflectionTex, reflectRay, mipLevel ).xyz;
+        emissive.xyz += reflection * cReflectionParams.y;
+    }
+#endif
+
+#if USE_DISSOLVE_MAP
+    float dissolve = tDissolveTex.SampleBias( sDissolveTex, texCoord, cMIPBias).x;
+    clip( dissolve >= cDissolveAmount ? 1:-1 );
+
+    float dissolveDiff = dissolve - cDissolveAmount;
+    if ( dissolveDiff < cDissolveSize && cDissolveAmount > 0 && cDissolveAmount < 1 )
+    {
+        float dissolvePower = saturate( dissolveDiff / cDissolveSize );
+        float3 dissolveColor = cDissolveColor.rgb;
+        dissolveColor += cDissolveColor.a * dissolvePower * dissolvePower;
+        dissolveColor *= cDissolveAmount * dissolvePower;
+        emissive.xyz = dissolveColor;
+    }
+#endif
+
+    Out.GBuffer3 = float4( emissive.xyz, 1.0f );
+    Out.GBuffer4 = 0.0f;
+
+    return Out;
+}

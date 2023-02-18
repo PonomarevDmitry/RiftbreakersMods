@@ -1,0 +1,155 @@
+EntityBlueprint
+{
+	name "units/ground/wingmite_alpha"
+
+	base_blueprint "units/ground/wingmite_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/wingmite.lua"
+		database
+		{
+			min_scale	float:"1.1"
+			max_scale	float:"1.2"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"30"
+		health 						"30"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/wingmite.mesh"
+		material 	"units/ground/wingmite_alpha"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1.7"
+				y "1.0"
+				z "-1.9"
+			}
+			max
+			{
+				x "0.85"
+				y "4.15"
+				z "1.89"
+			}	
+		}
+	}
+	
+	SelectableDesc
+	{
+		content "monster_name/wingmite_alpha"
+		can_activate 0
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/wingmite_alpha/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_wingmite/attack_start"
+						attack_start_time			"0.28"
+						attack_end_time				"0.40"
+						attack_duration 			"0.90"
+					}
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_wingmite/attack_start"
+						attack_start_time			"0.23"
+						attack_end_time				"0.40"
+						attack_duration 			"0.93"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"12"
+										type 	"energy"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "2.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

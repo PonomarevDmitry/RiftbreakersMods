@@ -1,0 +1,68 @@
+import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/distortion.material"
+
+material items/shields/shield_container: pbr/default
+{ 
+    render_group 30
+    
+    set_texture_alias albedo    materials/textures/items/shields/shield_container_albedo.dds
+    set_texture_alias normal    materials/textures/items/shields/shield_container_normal.dds
+    set_texture_alias packed    materials/textures/items/shields/shield_container_packed.dds
+	set_texture_alias emissive  materials/textures/items/shields/shield_container_emissive.dds
+
+    glow 10
+}
+
+
+material items/shields/shield_energy
+{
+    render_group 61
+    
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            
+            glow 100
+            emissive 0 4 10 10
+            
+            vertex_program_ref  shield_vp
+            {
+            }
+            
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor float4 0 2 5 5
+                param_named cFresnelBias    float 0
+                param_named cFresnelScale   float 1
+                param_named cFresnelPower   float 2
+            }
+            
+            texture_unit diffuse
+            {
+                texture 		materials/textures/items/shields/shield_energy_albedo.dds
+                filtering 		anisotropic
+            }
+            
+            texture_unit emissive
+            {
+                texture         materials/textures/items/shields/shield_energy_albedo.dds
+                filtering 		anisotropic
+            }
+            
+            texture_unit gradient
+            {
+                anim_texture    materials/textures/items/shields/shield_grad.dds 59 4
+                filtering bilinear
+            }
+
+            texture_unit dissolve 
+            {   
+                texture materials/textures/noise_tiled_01.dds
+                filtering bilinear
+            }
+        }
+    }
+}

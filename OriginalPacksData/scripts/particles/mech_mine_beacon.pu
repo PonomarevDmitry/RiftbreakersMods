@@ -1,0 +1,37 @@
+system rift/mech_mine_beacon
+{
+    nonvisible_update_timeout                   1
+    scale                                       0.1 0.1 0.1
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 50
+    technique flare
+    {
+        keep_local                              true
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       1
+            angle                               0
+            time_to_live                        0.5
+            velocity                            0.0001
+            all_particle_dimensions             25
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  0.501961 0.501961 0.501961 0.498039
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

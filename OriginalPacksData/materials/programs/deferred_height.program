@@ -1,0 +1,49 @@
+vertex_program deferred_height_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    preprocessor_defines USE_HW_SKINNING=0,USE_LOCAL_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld         world_matrix 
+        param_named_auto cViewProj      viewproj_matrix 
+    }
+}
+
+vertex_program deferred_height_skinned_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_skeletal_animation true
+    preprocessor_defines USE_HW_SKINNING=1,USE_LOCAL_POS=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix
+        param_named_auto cWorld3x4Array         world_matrix_array_3x4 
+    }
+}
+
+fragment_program deferred_height_dissolve_fp hlsl
+{
+    source materials/programs/deferred_height_dissolve_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.1
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cMaxHeight          float          10.0
+        param_named_auto cTime               time
+        param_named      cHealthAmount       float          1.0
+    }
+}

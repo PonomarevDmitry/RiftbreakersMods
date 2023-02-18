@@ -1,0 +1,55 @@
+EntityBlueprint
+{
+	name  "buildings/tools/eraser_1x1"
+
+	BuildingDesc
+	{
+		name 				"eraser_1x1"
+		bp   				"buildings/tools/eraser_1x1"
+		ghost_bp   			"buildings/tools/eraser_1x1_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/eraser_tool"
+		description			"gui/hud/building_description/eraser_tool"
+		menu_icon			"gui/hud/tools_icons/eraser_tool"
+		order				"3"
+		type				"floor"
+		erase_type 			"floor"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/eraser_1x1_ghost"
+
+	BuildingDesc
+	{
+		name		"eraser_1x1_ghost"
+		buildable 	"0"
+		type		"floor"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/floor_eraser_tool.lua"
+		
+		database
+		{
+			action	string:"floor_erase"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_active"
+		flags       "2"
+	}
+}

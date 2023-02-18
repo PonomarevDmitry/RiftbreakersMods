@@ -1,0 +1,75 @@
+EntityBlueprint
+{
+	name "props/crystals/pure_small_06_skin1"
+
+	base_blueprints
+	{
+		props/crystals/pure_small_01
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/crystals/pure_small_06.mesh"
+		material "props/crystals/pure_set_skin1"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.8"
+						y "2"
+						z "1.8"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "-0.1"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"uranium"	
+		extend  		"2"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_green"
+					explosion_effect_scale 	"0.4"
+					part_material	 		"props/crystals/pure_set_skin1"
+					part_prefix 			"meshes/props/crystals/pure_small_06"
+					//part_effect 			"effects/destructibles/crystal_green_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}
+		}
+	}
+}
+

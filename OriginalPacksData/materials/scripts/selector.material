@@ -1,0 +1,887 @@
+material selector/grid
+{
+	render_group 107
+	
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+			depth_bias -30 0
+			
+			vertex_program_ref selector_VP 
+			{
+			}
+
+			fragment_program_ref selector_FP
+			{
+				param_named 	 cEmissiveColor       float4 0 0.5 1 1
+			}
+			
+			texture_unit square
+			{	
+				texture materials/textures/selector/square_all.dds
+                tex_address_mode wrap
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{	
+				texture materials/textures/selector/square_all_emissive.dds
+                tex_address_mode wrap
+				filtering anisotropic
+			}
+			
+			texture_unit gradient
+			{	
+				anim_texture materials/textures/gradient/selector_gradient.dds 190 8
+                tex_address_mode wrap
+				filtering bilinear
+			}
+						
+			texture_unit icon
+			{	
+				texture materials/textures/selector/grid_status_atlas.dds
+                tex_address_mode wrap
+				filtering anisotropic
+			}
+		}
+	}
+}
+
+material selector/marker_base
+{
+	render_group 109
+	technique
+	{
+		pass
+		{
+			depth_write 	off
+			scene_blend 	alpha_blend
+			glow 			50
+			emissive 		0 0.5 1 1
+			depth_bias 		-300 0
+			
+            vertex_program_ref unlit_emissive_vp 
+            {
+            }
+            
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+			
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_black.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+			
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material selector/marker_grid : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_corner.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient 			materials/textures/selector/marker_corner_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_active : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_active.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_active_emissive.dds
+
+    technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_repair : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_repair.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_repair_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_sell : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_sell.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_sell_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_eraser : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_eraser.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_eraser_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_upgrade : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_upgrade.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_upgrade_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_switch : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_switch.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_switch_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_picker : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_picker.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_picker_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write			off
+		}
+	}
+}
+
+material selector/marker_corner : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_corner.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient 			materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 			0 0.5 1 1
+}
+
+material selector/marker_corner_gold : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_corner_orange.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient 			materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 			3 1.5 0 1
+}
+
+material selector/marker_corner_green : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_corner_green.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient 			materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 			0 1 0 1
+}
+
+material selector/marker_corner_violet : selector/marker_base
+{
+    set_texture_alias diffuse 			materials/textures/selector/marker_corner_violet.dds
+    set_texture_alias emissive 			materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient 			materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 			0.05 0 0.419 1
+}
+
+material selector/marker_base_outline
+{
+	render_group 109
+	technique
+	{
+		pass
+		{
+			depth_write 		off
+			depth_func 			greater
+			scene_blend 		alpha_blend
+			glow 				50
+			emissive 			0 0.5 1 1
+			depth_bias 			-300 0
+
+            vertex_program_ref unlit_emissive_vp 
+            {
+            }
+            
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+			
+			texture_unit diffuse_outline
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive_outline
+			{
+				texture materials/textures/color_black.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+			
+			texture_unit gradient_outline
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material selector/marker_corner_outline : selector/marker_base_outline
+{
+	set_texture_alias diffuse_outline 	materials/textures/selector/marker_corner_outline.dds
+    set_texture_alias emissive_outline 	materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient_outline 	materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 		0 0.5 1 1
+}
+
+material selector/marker_corner_gold_outline : selector/marker_base_outline
+{
+	set_texture_alias diffuse_outline 	materials/textures/selector/marker_corner_outline_orange.dds
+    set_texture_alias emissive_outline 	materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient_outline 	materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 		3 1.5 0 1
+}
+
+material selector/marker_corner_green_outline : selector/marker_base_outline
+{
+	set_texture_alias diffuse_outline 	materials/textures/selector/marker_corner_outline_green.dds
+    set_texture_alias emissive_outline 	materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient_outline 	materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 		0 1 0 1
+}
+
+material selector/marker_corner_violet_outline : selector/marker_base_outline
+{
+	set_texture_alias diffuse_outline 	materials/textures/selector/marker_corner_outline_violet.dds
+    set_texture_alias emissive_outline 	materials/textures/selector/marker_corner_emissive.dds
+	set_texture_alias gradient_outline 	materials/textures/selector/marker_corner_emissive.dds
+
+	glow 250
+	emissive 		0.05 0 0.419 1
+}
+
+material selector/hologram
+{
+	render_group 108
+	technique
+	{
+		pass
+		{
+			depth_check			off
+			depth_write 		off
+			//depth_func 			less_equal
+			//depth_bias 			-6 0
+
+            scene_blend 		alpha_blend
+
+            vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+			}
+		}
+	}
+}
+
+material selector/hologram_skinned : selector/hologram
+{
+	technique
+	{
+		pass
+		{
+            vertex_program_ref unlit_fresnel_skinned_vp 
+			{
+			}
+		}
+	}
+}
+
+material selector/hologram_blue_depth
+{
+	render_group 108
+	technique
+	{
+		pass
+		{
+			depth_check			on
+			depth_write			on
+			depth_bias 			20 0
+			scene_blend 		alpha_blend
+
+            vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 0.9
+				
+				param_named cBlendColor1 float4 0.0744 0.5056 1.0488 0.5
+				param_named cBlendColor2 float4 1 1.75 2.5 0.5
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+material selector/hologram_blue_depth_dissolve : selector/hologram_blue_depth
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_dissolve_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 0.9
+				
+				param_named cBlendColor1 float4 0.0744 0.5056 1.0488 0.5
+				param_named cBlendColor2 float4 1 1.75 2.5 0.5
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material selector/hologram_blue : selector/hologram
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 0.9
+				
+				param_named cBlendColor1 float4 0.0744 0.5056 1.0488 0.5
+				param_named cBlendColor2 float4 1 1.75 2.5 0.5
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_blue_dissolve : selector/hologram_blue
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_dissolve_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 0.9
+				
+				param_named cBlendColor1 float4 0.0744 0.5056 1.0488 0.5
+				param_named cBlendColor2 float4 1 1.75 2.5 0.5
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material selector/hologram_red : selector/hologram
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 2
+				param_named cFresnelPower float 0.4
+				
+				param_named cBlendColor2 float4 1 0.1 0 0.6
+				param_named cBlendColor1 float4 1.5 1.3 1.5 1
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_red_skinned : selector/hologram_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 2
+				param_named cFresnelPower float 0.4
+				
+				param_named cBlendColor2 float4 1 0.1 0 0.6
+				param_named cBlendColor1 float4 1.5 1.3 1.5 1
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_skinned_blue : selector/hologram_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 0.9
+				
+				param_named cBlendColor1 float4 0.0744 0.5056 1.0488 0.5
+				param_named cBlendColor2 float4 1 1.75 2.5 0.5
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_skinned_red : selector/hologram_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 2
+				param_named cFresnelPower float 0.4
+				
+				param_named cBlendColor2 float4 1 0.1 0 0.6
+				param_named cBlendColor1 float4 1.5 1.3 1.5 1
+
+				param_named_auto cTime    time
+        		param_named cFlarePower   float 0.05
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_grey_skinned : selector/hologram_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1.5
+				param_named cFresnelPower float 5
+				
+				param_named cBlendColor1 float4 0 0 0 0.2
+				param_named cBlendColor2 float4 1 1 1 0.5
+
+				param_named_auto cTime    time_0_1 1
+        		param_named cFlarePower   float 0.3
+        		param_named cFlareSpeed   float 7
+			}
+		}
+	}
+}
+
+material selector/hologram_grey : selector/hologram
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1.5
+				param_named cFresnelPower float 5
+				
+				param_named cBlendColor1 float4 0 0 0 0.2
+				param_named cBlendColor2 float4 1 1 1 0.5
+
+				param_named_auto cTime    time_0_1 1
+        		param_named cFlarePower   float 0.3
+        		param_named cFlareSpeed   float 7
+			}
+		}
+	}
+}
+
+material selector/hologram_build
+{
+	render_group 108
+	technique
+	{
+		pass
+		{	
+			depth_check			off
+			depth_write 		off
+			//depth_func 			less_equal
+			//depth_bias 			-3 0
+            scene_blend 		alpha_blend
+
+            vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+			}
+		}
+	}
+}
+
+material selector/hologram_build_skinned : selector/hologram_build
+{
+	technique
+	{
+		pass
+		{
+            vertex_program_ref unlit_fresnel_skinned_vp 
+			{
+			}
+		}
+	}
+}
+
+material selector/hologram_current : selector/hologram_build
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+				
+				param_named cBlendColor1 float4 0 0 0 0
+				param_named cBlendColor2 float4 1 2 3 1
+
+				param_named cBlendColor1 float4 1 2 3 0.1
+				param_named cBlendColor2 float4 1 2 3 1
+			}
+		}
+	}
+}
+
+material selector/hologram_current_skinned : selector/hologram_build_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+				
+				param_named cBlendColor1 float4 1 2 3 0.1
+				param_named cBlendColor2 float4 1 2 3 0.9
+			}
+		}
+	}
+}
+
+material selector/hologram_active : selector/hologram_build
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+				
+				param_named cBlendColor1 float4 4 1.5 0 0.1
+				param_named cBlendColor2 float4 4 1.5 0 0.7
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_active_dissolve : selector/hologram_active
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_dissolve_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+				
+				param_named cBlendColor1 float4 4 1.5 0 0.1
+				param_named cBlendColor2 float4 4 1.5 0 0.7
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 5
+			}
+
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material selector/hologram_active_skinned : selector/hologram_build_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.2
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 1
+				
+				param_named cBlendColor1 float4 4 1.5 0 0.05
+				param_named cBlendColor2 float4 4 1.5 0 0.5
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_pass : selector/hologram_build
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+				
+				param_named cBlendColor1 float4 0 4 0 0.1
+				param_named cBlendColor2 float4 0 4 0 0.7
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_violet : selector/hologram_build
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+				
+				param_named cBlendColor1 float4 0.05 0 0.419 0.5
+				param_named cBlendColor2 float4 0.05 0 0.419 1
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_skinned_pass : selector/hologram_build_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.2
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 1
+				
+				param_named cBlendColor1 float4 0 4 0 0.05
+				param_named cBlendColor2 float4 0 4 0 0.5
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/hologram_deny : selector/hologram_build
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_fp
+			{
+        		param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 2
+				param_named cFresnelPower float 0.4
+				
+				param_named cBlendColor2  float4 1 0.1 0 0.6
+				param_named cBlendColor1  float4 1.5 1.3 1.5 1
+			}
+		}
+	}
+}
+
+material selector/hologram_skinned_deny : selector/hologram_build_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_fp
+			{
+        		param_named cFresnelBias  float -0.1
+				param_named cFresnelScale float 2
+				param_named cFresnelPower float 0.4
+				
+				param_named cBlendColor2  float4 1 0.1 0 0.6
+				param_named cBlendColor1  float4 1.5 1.3 1.5 1
+			}
+		}
+	}
+}
+

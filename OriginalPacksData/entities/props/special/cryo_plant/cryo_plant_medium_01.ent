@@ -1,0 +1,182 @@
+EntityBlueprint
+{
+	name "props/special/cryo_plant/cryo_plant_medium_01"
+
+	
+
+	//DisplayRadiusDesc
+	//{
+	//	max_radius 10
+	//}	
+	
+		HealthDesc
+	{ 
+		max_health 				"100"
+		health 					"100"
+		is_manual               "1"
+
+	}
+
+	ResistanceComponent
+	{
+		meteor "0.0"
+	}
+
+	MeshDesc
+	{
+		material "props/special/cryo_plant_medium_set"
+		mesh "meshes/props/special/cryo_plant/cryo_plant_medium_01.mesh"
+	}
+
+	TypeDesc
+	{
+		type "flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+					Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/cryo_plant/cryo_plant_medium_01_c1.nxs"
+						
+					}
+					
+
+				}
+			}
+
+		}
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/props/mushrooms/spikybulb_medium"
+	}	
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "1"
+				y "1"
+				z "1"
+			}
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode			"origin"
+		terrain_type  	"cryo_ground"	
+		extend  		"11"
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/special/cryo_plant/cryo_plant_medium_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.8"
+		max "1.2"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_small_blue"	
+					
+					part_material	 		"props/special/cryo_plant_medium_set"
+					part_prefix 			"meshes/props/special/cryo_plant/cryo_plant_medium_01"
+					part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}	
+		}		
+	}
+
+	EffectDesc
+    {
+       
+		EffectGroup
+		{
+			enabled "1"
+			group 	"light"
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/spikybulb_blue_medium"
+					bone "att_light"
+				}
+			}
+		}	   
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/cryo_plant_energy"
+					offset "0 0.1 0"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_big"
+					offset "0 0.5 0"
+				}
+			}
+		}		
+    }	
+}
+

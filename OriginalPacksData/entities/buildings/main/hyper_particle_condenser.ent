@@ -1,0 +1,181 @@
+EntityBlueprint
+{
+	name  "buildings/main/hyper_particle_condenser"
+
+	IdDesc
+	{
+		name "hyper_particle_condenser"
+	}
+
+	BuildingDesc
+	{
+		name 				"hyper_particle_condenser"
+		bp   				"buildings/main/hyper_particle_condenser"
+		category 			"main"
+		localization_id		"gui/hud/building_name/hyper_particle_condenser"
+		description			"gui/hud/building_description/hyper_particle_condenser"
+		menu_icon			"gui/hud/building_icons/hyper_particle_condenser"
+		buildable			"0"
+		type				"addon"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 300
+				building_cost
+				{
+					carbonium 	"10000"
+					steel 		"10000"
+					palladium	"10000"
+				}
+			}		
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/main/hyper_particle_condenser.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+	}
+
+	MeshDesc
+  {
+    mesh "meshes/buildings/main/hyper_particle_condenser.mesh"
+
+    SubMeshes
+    {
+
+      SubMesh
+      {
+        id "0"
+        material "buildings/main/hyper_particle_condenser"
+      }
+
+      SubMesh
+      {
+        id "1"
+        material "buildings/main/hyper_particle_condenser_screen_off"
+      }
+
+      SubMesh
+      {
+        id "2"
+        material "buildings/main/hyper_particle_condenser_screen_back_off"
+      }
+    }
+  }
+
+	TypeDesc
+	{
+		type "building|main"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/main/hyper_particle_condenser"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "buildings/hyper_particle_condenser"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.45"
+						half_height "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "idle"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_capacitors"
+					bone "att_working"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_capacitors"
+					bone "att_capacitors_1"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_capacitors"
+					bone "att_capacitors_2"
+				}		
+			}
+		}		
+		EffectGroup
+		{
+			group "portal_active"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_capacitors"
+					bone "att_working"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_capacitors"
+					bone "att_capacitors_1"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_capacitors"
+					bone "att_capacitors_2"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_rotor"
+					bone "att_rotor"
+				}	
+			}
+		}
+	}	
+}

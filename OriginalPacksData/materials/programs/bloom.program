@@ -1,0 +1,20 @@
+fragment_program bloom_mask_fp hlsl
+{
+	source materials/programs/bloom_mask_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+	preprocessor_defines			BLOOMSCALE=1
+
+	default_params
+    {
+		param_named_auto cBloomCenterScale bloom_scale
+		param_named_auto cBloomParams bloom_shared_params
+	}
+}
+
+fragment_program bloom_final_fp hlsl
+{
+	source materials/programs/bloom_final_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+}

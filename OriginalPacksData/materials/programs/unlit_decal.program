@@ -1,0 +1,54 @@
+vertex_program unlit_decal_vp hlsl
+{
+    source 							materials/programs/unlit_decal_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+
+    default_params
+    {
+		param_named_auto cWorldViewProj         worldviewproj_matrix
+    }
+}
+
+fragment_program unlit_decal_fp hlsl
+{
+    source 							materials/programs/unlit_decal_fp.hlsl
+    entry_point						mainFP
+    target 							ps_5_0
+    preprocessor_defines            USE_PROJECTED_POS=1
+
+	default_params
+    {
+		param_named_auto cInvProjMatrix         inverse_projection_matrix
+		param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+    }
+}
+
+fragment_program unlit_decal_static_fp hlsl
+{
+    source                          materials/programs/unlit_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+
+    default_params
+    {
+        param_named_auto cInvProjMatrix         inverse_projection_matrix
+        param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+    }
+}
+
+fragment_program unlit_decal_alpha_fp hlsl
+{
+    source                          materials/programs/unlit_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_ALPHA=1,USE_PROJECTED_POS=1
+
+    default_params
+    {
+        param_named_auto cInvProjMatrix         inverse_projection_matrix
+        param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+        param_named      cAlpha                 float 1.0
+    }
+}
+

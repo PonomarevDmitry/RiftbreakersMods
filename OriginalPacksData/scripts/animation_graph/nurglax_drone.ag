@@ -1,0 +1,529 @@
+AnimationGraph
+{
+	name "nurglax_drone"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "default"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationStateMachineNode"
+				{
+					animation_node_vec
+					{
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "move_entry"
+								position
+								{
+									x "146.000"
+									y "353.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationBlendTreeNode"
+						{
+							end_node_idx "4"
+							eval_node_vec
+							{
+								AnimationEvalNode "AnimationGetFloatParamNode"
+								{
+									param_name "speed"
+									dependency_vec
+									id "0"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "35.000"
+											y "374.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationGetFloatParamNode"
+								{
+									param_name "walk_cycles_per_meter"
+									dependency_vec
+									id "1"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "-29.000"
+											y "566.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationFloat2FunctionNode"
+								{
+									function "2"
+									dependency_vec
+									{
+										EvalNodeDependency
+										{
+											dst_slot "0"
+											src_slot "0"
+											src_node_idx "0"
+										}
+
+										EvalNodeDependency
+										{
+											dst_slot "1"
+											src_slot "0"
+											src_node_idx "1"
+										}
+
+									}
+
+									id "2"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "623.000"
+											y "454.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationPlayAnimNode"
+								{
+									mirror "0"
+									anim_name "_walk"
+									looped "1"
+									normalize "1"
+									blend_funtion
+									{
+										funtion_type "0"
+									}
+
+									dependency_vec
+									{
+										EvalNodeDependency
+										{
+											dst_slot "0"
+											src_slot "0"
+											src_node_idx "2"
+										}
+
+									}
+
+									id "3"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "1093.000"
+											y "470.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationEndNode"
+								{
+									dependency_vec
+									{
+										EvalNodeDependency
+										{
+											dst_slot "0"
+											src_slot "0"
+											src_node_idx "3"
+										}
+
+									}
+
+									id "4"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "1511.000"
+											y "486.000"
+										}
+
+									}
+
+								}
+
+							}
+
+							dependency_vec
+							id "65535"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "walk"
+								position
+								{
+									x "687.000"
+									y "337.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					start_node_idx "0"
+					transition_vec
+					{
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationTrueTransitionCondition"
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+					}
+
+					metadata
+					{
+						name "move"
+						position
+						{
+							x "-868.000"
+							y "656.000"
+						}
+
+					}
+
+					emit_progress_event "0"
+				}
+
+				AnimationStateNode "AnimationStateMachineNode"
+				{
+					animation_node_vec
+					{
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "attack_melee_entry"
+								position
+								{
+									x "66.000"
+									y "321.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationBlendTreeNode"
+						{
+							end_node_idx "2"
+							eval_node_vec
+							{
+								AnimationEvalNode "AnimationGetFloatParamNode"
+								{
+									param_name "attack_speed"
+									dependency_vec
+									id "0"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "8.000"
+											y "305.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationPlayAnimNode"
+								{
+									mirror "0"
+									anim_name "_attack"
+									looped "0"
+									normalize "1"
+									blend_funtion
+									{
+										funtion_type "0"
+									}
+
+									dependency_vec
+									{
+										EvalNodeDependency
+										{
+											dst_slot "0"
+											src_slot "0"
+											src_node_idx "0"
+										}
+
+									}
+
+									id "1"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "518.000"
+											y "305.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationEndNode"
+								{
+									dependency_vec
+									{
+										EvalNodeDependency
+										{
+											dst_slot "0"
+											src_slot "0"
+											src_node_idx "1"
+										}
+
+									}
+
+									id "2"
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "1048.000"
+											y "304.000"
+										}
+
+									}
+
+								}
+
+							}
+
+							dependency_vec
+							id "65535"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "attack_1"
+								position
+								{
+									x "594.000"
+									y "161.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					start_node_idx "0"
+					transition_vec
+					{
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "attack_1"
+								param "attack_name"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.100"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "1"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+							authoritative "0"
+							dst_idx "0"
+							blend_function_type "0"
+							duration "0.100"
+						}
+
+					}
+
+					metadata
+					{
+						name "attack_melee"
+						position
+						{
+							x "-335.000"
+							y "532.000"
+						}
+
+					}
+
+					emit_progress_event "0"
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_attacking_melee"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_attacking_melee"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "FloatParamDecl"
+		{
+			max "10.000"
+			min "0.000"
+			default "0.000"
+			param_name "speed"
+			data_type "2"
+			is_const "0"
+		}
+
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "is_attacking_melee"
+			data_type "0"
+			is_const "0"
+		}
+
+		ParamDecl "FloatParamDecl"
+		{
+			max "10.000"
+			min "0.000"
+			default "1.000"
+			param_name "attack_speed"
+			data_type "2"
+			is_const "0"
+		}
+
+		ParamDecl "StringParamDecl"
+		{
+			items
+			{
+				String "attack_1"
+			}
+
+			default "attack_1"
+			param_name "attack_name"
+			data_type "3"
+			is_const "0"
+		}
+
+		ParamDecl "FloatParamDecl"
+		{
+			max "2.000"
+			min "0.000"
+			default "0.300"
+			param_name "walk_cycles_per_meter"
+			data_type "2"
+			is_const "1"
+		}
+
+	}
+
+}
+

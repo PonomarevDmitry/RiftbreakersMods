@@ -1,0 +1,36 @@
+system player/green/green_rocket_small_ribbon
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 75
+    technique ribbon
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/green_rocket_ribbon
+        renderer                                RibbonTrail
+        {
+            render_queue_group                  65
+            max_elements                        10
+            ribbontrail_width                   25
+            random_initial_colour               false
+            colour_change                       0 0 0 4
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1000
+            angle                               0
+            time_to_live                        4
+            velocity                            0.0001
+            direction                           1 0 0
+            force_emission                      true
+        }
+    }
+}

@@ -1,0 +1,78 @@
+system rift/destructible_grass_part_trail
+{
+    fixed_timeout                               4
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1
+    scale                                       0.1 0.1 0.1
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 125
+    technique smoke
+    {
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/tree_parts_palm
+        renderer                                Billboard
+        {
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       2
+            angle                               90
+            time_to_live                        2
+            velocity                            dyn_random
+            {
+                min                             0
+                max                             50
+            }
+            duration                            dyn_random
+            {
+                min                             1.5
+                max                             2
+            }
+            particle_width                      6
+            particle_height                     dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            end_texture_coords_range            3
+            start_colour_range                  0.501961 0.501961 0.501961 1
+            end_colour_range                    0.25098 0.25098 0.25098 1
+            box_width                           2
+            box_height                          2
+            box_depth                           2
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.134783  1 1 1 1
+            time_colour                         0.754348  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -2
+                max                             2
+            }
+        }
+        affector                                LinearForce Affector25
+        {
+            force_vector                        0 -75 0
+        }
+    }
+}

@@ -1,0 +1,401 @@
+import * from "materials/scripts/pbr.material"
+
+material loot/resources : pbr/default
+{ 
+	technique
+	{
+		pass
+		{
+			glow 1.0
+			
+			fragment_program_ref deferred_loot_fp
+			{
+        		param_named      cFresnelScale       float          0.6
+        		param_named      cFresnelPower       float          2
+			}
+		}
+	}
+}
+
+material loot/mods/mod_standard : pbr/reflections
+{
+	set_texture_alias albedo			materials/textures/loot/mods/mod_standard_albedo.dds
+	set_texture_alias normal			materials/textures/loot/mods/mod_standard_normal.dds
+	set_texture_alias packed			materials/textures/loot/mods/mod_standard_packed.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
+
+	technique
+	{
+		pass
+		{
+			glow 0
+
+			fragment_program_ref deferred_gbuffer_reflection_fp
+			{
+        		param_named      cReflectionParams   float2         0.8 0.8
+			}
+
+		}
+	}
+}
+
+material loot/mods/mod_advanced : pbr/reflections
+{
+	set_texture_alias albedo			materials/textures/loot/mods/mod_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/loot/mods/mod_standard_normal.dds
+	set_texture_alias packed			materials/textures/loot/mods/mod_standard_packed.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
+
+	technique
+	{
+		pass
+		{
+			glow 0
+
+			fragment_program_ref deferred_gbuffer_reflection_fp
+			{
+        		param_named      cReflectionParams   float2         0.8 0.8
+			}
+
+		}
+	}
+}
+
+material loot/mods/mod_superior : pbr/reflections
+{
+	set_texture_alias albedo			materials/textures/loot/mods/mod_superior_albedo.dds
+	set_texture_alias normal			materials/textures/loot/mods/mod_standard_normal.dds
+	set_texture_alias packed			materials/textures/loot/mods/mod_standard_packed.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
+
+	technique
+	{
+		pass
+		{
+			glow 0
+
+			fragment_program_ref deferred_gbuffer_reflection_fp
+			{
+        		param_named      cReflectionParams   float2         0.8 0.8
+			}
+
+		}
+	}
+}
+
+material loot/mods/mod_extreme : pbr/reflections
+{
+	set_texture_alias albedo			materials/textures/loot/mods/mod_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/loot/mods/mod_standard_normal.dds
+	set_texture_alias packed			materials/textures/loot/mods/mod_standard_packed.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
+
+	technique
+	{
+		pass
+		{
+			glow 0
+
+			fragment_program_ref deferred_gbuffer_reflection_fp
+			{
+        		param_named      cReflectionParams   float2         0.8 0.8
+			}
+
+		}
+	}
+}
+
+material loot/resources/specimen : pbr/reflections
+{
+	set_texture_alias albedo			materials/textures/loot/resources/specimen_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/specimen_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/specimen_packed.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
+
+	technique
+	{
+		pass
+		{
+			glow 0
+
+			fragment_program_ref deferred_gbuffer_reflection_fp
+			{
+        		param_named      cReflectionParams   float2         10.1 10.1
+			}
+
+		}
+	}
+}
+
+material loot/resources/shard_carbonium : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_carbonium_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_carbonium_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_carbonium_packed.dds
+	set_texture_alias emissive			materials/textures/loot/resources/shard_carbonium_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named 		cFresnelColor 	float4 0.5 1 1.5 1
+			}
+		}
+	}
+}
+
+material loot/resources/shard_steel : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_steel_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_steel_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_steel_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 1.25 0.468 0.187 1
+			}
+		}
+	}
+}
+
+
+material loot/resources/shard_uranium : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_uranium_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_uranium_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_uranium_packed.dds
+	set_texture_alias emissive			materials/textures/loot/resources/shard_uranium_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor float4 0.20 0.75 0.20 1
+			}
+		}
+	}
+}
+
+material loot/resources/shard_titanium : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_titanium_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_titanium_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_titanium_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 0.07 0 2 1
+			}
+		}
+	}
+}
+
+material loot/resources/shard_palladium : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_palladium_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_palladium_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_palladium_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 0.875 0.875 0.25 1
+			}
+		}
+	}
+}
+
+material loot/resources/shard_tanzanite : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_tanzanite_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_tanzanite_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_tanzanite_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 3 1 3 1
+			}
+		}
+	}
+}
+
+material loot/resources/shard_ferdonite : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_ferdonite_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_ferdonite_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_ferdonite_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 0 1 2 2.5
+			}
+		}
+	}
+}
+
+material loot/resources/shard_rhodonite : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_rhodonite_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_rhodonite_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_rhodonite_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 3 1 1 1
+			}
+		}
+	}
+}
+
+material loot/resources/shard_cobalt : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_cobalt_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_cobalt_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_cobalt_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 0 1 4 1
+			}
+		}
+	}
+}
+
+material loot/resources/shard_hazenite : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_hazenite_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_hazenite_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_hazenite_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 2.5 2.2 1 1
+			}
+		}
+	}
+}
+
+material loot/resources/biomass_animal : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/biomass_animal_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/biomass_animal_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/biomass_animal_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 1 0 0 1
+			}
+		}
+	}
+}
+
+material loot/resources/biomass_plant : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/biomass_plant_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/biomass_plant_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/biomass_plant_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 0 2 0 1
+			}
+		}
+	}
+}
+
+material loot/resources/specimen_canoptrix : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/specimen_canoptrix_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/specimen_canoptrix_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/specimen_canoptrix_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 2 1 1 1
+			}
+		}
+	}
+}
+
+material loot/resources/specimen_hammeroceros : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/specimen_hammeroceros_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/specimen_hammeroceros_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/specimen_hammeroceros_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 2 1 1 1
+			}
+		}
+	}
+}
+
+material loot/resources/specimen_arachnoid : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/specimen_arachnoid_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/specimen_arachnoid_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/specimen_arachnoid_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 2 1 1 1
+			}
+		}
+	}
+}

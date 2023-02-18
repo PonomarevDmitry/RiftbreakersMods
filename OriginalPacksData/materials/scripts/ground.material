@@ -1,0 +1,150 @@
+import * from "materials/scripts/pbr.material"
+
+material pbr/ground_template
+{
+	render_group 1
+	feature "gbuffer|shadow|velocity"
+	
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			glow 6
+			
+			vertex_program_ref deferred_gbuffer_terrain_vp
+			{
+				param_named cTilingFactor float 16
+			}
+
+			fragment_program_ref deferred_gbuffer_terrain_3_fp
+			{
+
+			}
+
+			texture_unit albedo_1
+			{
+				texture materials/textures/ground/misc/grid_albedo.dds
+				filtering anisotropic
+			}
+
+			texture_unit normal_1
+			{
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+			}
+
+			texture_unit packed_1
+			{
+				texture materials/textures/ground/misc/grid_packed.dds
+				filtering anisotropic
+			}
+			texture_unit emissive_1
+			{
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+			}
+
+			texture_unit albedo_2
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+			}
+			texture_unit normal_2
+			{
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+			}
+			texture_unit packed_2
+			{
+				texture materials/textures/ground/misc/grid_packed.dds
+				filtering anisotropic
+			}
+			texture_unit emissive_2
+			{
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+			}
+
+			texture_unit albedo_3
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+			}
+			texture_unit normal_3
+			{
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+			}
+			texture_unit packed_3
+			{
+				texture materials/textures/ground/misc/grid_packed.dds
+				filtering anisotropic
+			}
+			texture_unit emissive_3
+			{
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+			}
+		}
+	}
+}
+
+material ground/misc/biome_material_0 : pbr/default
+{
+	render_group 1
+
+	set_texture_alias albedo			materials/textures/ground/misc/biome_texture_0.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias packed 			materials/textures/ground/misc/grid_packed.dds
+}
+
+material ground/misc/biome_material_1 : pbr/default
+{
+	render_group 1
+
+	set_texture_alias albedo			materials/textures/ground/misc/biome_texture_1.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias packed 			materials/textures/ground/misc/grid_packed.dds
+}
+
+material ground/misc/biome_material_2 : pbr/default
+{
+	render_group 1
+
+	set_texture_alias albedo			materials/textures/ground/misc/biome_texture_2.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias packed 			materials/textures/ground/misc/grid_packed.dds
+}
+
+material ground/misc/prefab : pbr/default
+{
+	render_group 1
+
+	set_texture_alias albedo			materials/textures/ground/misc/grid_prefab.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias packed 			materials/textures/ground/misc/grid_packed.dds
+}
+
+material ground/misc/no_draw : pbr/default
+{
+	render_group 1
+
+	terrain_type "hole"
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			colour_write off
+		}
+	}
+
+	set_texture_alias albedo			materials/textures/ground/misc/grid_no_draw.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias packed 			materials/textures/ground/misc/grid_packed.dds
+}

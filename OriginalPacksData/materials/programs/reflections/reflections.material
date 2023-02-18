@@ -1,0 +1,659 @@
+material reflections_depth_downsample
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_depth_downsample_cp
+			{
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering bilinear
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering bilinear
+			}
+
+			texture_unit scattering
+			{
+				content_type compositor
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material reflections_inputs_downsample
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+
+			vertex_program_ref downsample_vp
+			{
+			}
+			
+			fragment_program_ref reflections_inputs_downsample_fp 
+			{
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}
+		}
+	}
+}
+
+material reflections_classify_tiles
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_classify_tiles_cp
+			{
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit variance_history
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit env
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+		}
+	}
+}
+
+material reflections_classify_tiles_downsampled
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_classify_tiles_downsampled_cp
+			{
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit variance_history
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit env
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+		}
+	}
+}
+
+material reflections_prepare_blue_noise_texture
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_prepare_blue_noise_texture_cp
+			{
+			}
+		}
+	}
+}
+
+material reflections_prepare_indirect_args
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_prepare_indirect_args_cp
+			{
+			}
+		}
+	}
+}
+
+material reflections_intersect
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_intersect_cp
+			{
+			}
+
+			texture_unit scene
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit env
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit noise
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+		}
+	}
+}
+
+material reflections_intersect_downsampled
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_intersect_downsampled_cp
+			{
+			}
+
+			texture_unit scene
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit env
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+
+			texture_unit noise
+			{
+				content_type compositor
+				filtering linear linear linear
+				tex_address_mode clamp clamp wrap
+			}
+		}
+	}
+}
+
+material reflections_reproject
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_reproject_cp
+			{
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit depth_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit roughness_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit normal_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit radiance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit radiance_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit motion_vector
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit variance_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit sample_count_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+		}
+	}
+}
+
+
+material reflections_reproject_downsampled
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_reproject_downsampled_cp
+			{
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit depth_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit roughness_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit normal_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit radiance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit radiance_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit motion_vector
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit variance_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit sample_count_history
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+		}
+	}
+}
+
+material reflections_prefilter
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_prefilter_cp
+			{
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit average_radiance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit radiance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit variance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+		}
+	}
+}
+
+material reflections_resolve_temporal
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref reflections_resolve_temporal_cp
+			{
+			}
+
+			texture_unit roughness
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit average_radiance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit radiance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit reprojected_radiance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit variance
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit sample_count
+			{
+				content_type compositor
+				filtering linear linear point
+				tex_address_mode clamp clamp clamp
+			}
+		}
+	}
+}
+
+material reflections_apply
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			scene_blend add
+
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref reflections_apply_fp 
+			{
+			}
+
+			texture_unit albedo
+			{
+				content_type compositor
+				filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}
+			
+			texture_unit normal
+			{
+				content_type compositor
+				filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}
+			
+			texture_unit packed
+			{
+				content_type compositor
+				filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}	
+
+			texture_unit depth
+			{
+				content_type compositor
+				filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}
+	
+			texture_unit brdf
+			{
+                content_type shared skybox_brdf
+                filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit diffuse
+			{
+                content_type shared skybox_diffuse
+                filtering linear linear linear
+				tex_address_mode clamp clamp clamp
+			}
+
+			texture_unit reflection
+			{
+				content_type compositor
+				filtering linear linear none
+				tex_address_mode clamp clamp clamp
+			}
+		}
+	}
+}

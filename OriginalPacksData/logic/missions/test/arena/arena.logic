@@ -1,0 +1,156 @@
+//editor "offset(1204.221,258.986)|zoom(0.822)"
+FlowGraphTemplate
+{
+	version "1"
+	editor "2522"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-1573,-299)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player.xml)|pos(-960,-295)"
+			script "lua/graph/entity/entity_spawn_player.lua"
+			self_id "entity_spawn_player_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-1283,-313)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_resource.xml)|pos(-103,-396)"
+			script "lua/graph/entity/entity_add_resource.lua"
+			self_id "entity_add_resource_0"
+			database
+			{
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_low_caliber"
+						value "200.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_liquid"
+						value "500.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_explosive"
+						value "30.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_high_caliber"
+						value "100.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "ammo_mech_energy_cell"
+						value "500.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "steel"
+						value "3000.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)"
+						key "carbonium"
+						value "3000.00"
+					}
+
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-345,121)"
+			self_id "event_graph_1"
+			graph "logic/loadout/player_loadout_weapons_1.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-419,349)"
+			self_id "event_graph_2"
+			graph "logic/loadout/player_loadout_arena_basic.logic"
+			start_point "default"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-422,637)"
+			self_id "event_graph_3"
+			graph "logic/loadout/player_loadout_survival.logic"
+			start_point "default"
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_wait_3 "entity_spawn_player_0"
+		entity_spawn_player_0 "entity_add_resource_0|event_graph_2"
+		default "logic_wait_3"
+	}
+
+}
+

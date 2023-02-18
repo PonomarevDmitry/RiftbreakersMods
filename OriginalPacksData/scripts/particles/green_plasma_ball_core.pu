@@ -1,0 +1,136 @@
+system player/green/green_plasma_ball_core
+{
+    scale_velocity                              0.0150
+    scale                                       0.0150 0.0150 0.0150
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 3
+    technique 
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_mp_flare_ring
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       40
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.8
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             25
+                max                             150
+            }
+            particle_width                      dyn_random
+            {
+                min                             30
+                max                             175
+            }
+            keep_local                          true
+            colour                              0.262745 0.937255 0.870588 1
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.502174  0.752941 0.752941 0.752941 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                TextureRotator Affector331
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -2
+                max                             2
+            }
+        }
+    }
+    technique add
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp2_debris_g_add
+        renderer                                Billboard
+        {
+            render_queue_group                  66
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       40
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.8
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             25
+                max                             150
+            }
+            particle_width                      dyn_random
+            {
+                min                             30
+                max                             175
+            }
+            keep_local                          true
+            colour                              0.262745 0.937255 0.870588 1
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  0 0.25098 0 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector331
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -2
+                max                             2
+            }
+        }
+    }
+}

@@ -1,0 +1,100 @@
+system exor/death_human
+{
+    fixed_timeout                               1
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.025
+    scale                                       0.025 0.025 0.025
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique fire
+    {
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/blood_splat_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter1
+        {
+            emission_rate                       100
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             0.8
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             0
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            position                            0 50 0
+            end_texture_coords_range            7
+            colour                              1 0.501961 0 1
+            force_emission                      true
+        }
+        affector                                Colour Affector35
+        {
+            time_colour                         0    1 1 1 0.74902
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique lines
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/blood_splat_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              8
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point LinesEmitter
+        {
+            emission_rate                       100
+            angle                               100
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      20
+            particle_height                     dyn_random
+            {
+                min                             150
+                max                             200
+            }
+            position                            0 50 0
+            end_texture_coords_range            7
+            start_colour_range                  1 1 1 1
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0.729412
+            time_colour                         1    1 1 1 0
+        }
+    }
+}

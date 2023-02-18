@@ -1,0 +1,316 @@
+compute_program reflections_depth_downsample_cp hlsl
+{
+    source                  materials/programs/reflections/depth_downsample.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+
+    }
+}
+
+fragment_program reflections_inputs_downsample_fp hlsl
+{
+    source materials/programs/reflections/inputs_downsample.hlsl
+    entry_point mainFP
+    target ps_5_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+
+    }
+}
+
+
+compute_program reflections_classify_tiles_cp hlsl
+{
+    source                  materials/programs/reflections/classify_tiles.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_classify_tiles_downsampled_cp hlsl
+{
+    source                  materials/programs/reflections/classify_tiles.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+    preprocessor_defines    DOWNSAMPLED=1
+
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_prepare_blue_noise_texture_cp hlsl
+{
+    source                  materials/programs/reflections/prepare_blue_noise_texture.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_prepare_indirect_args_cp hlsl
+{
+    source                  materials/programs/reflections/prepare_indirect_args.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+    
+    default_params
+    {
+
+    }
+}
+
+compute_program reflections_intersect_cp hlsl
+{
+    source                  materials/programs/reflections/intersect.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_intersect_downsampled_cp hlsl
+{
+    source                  materials/programs/reflections/intersect.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+    preprocessor_defines    DOWNSAMPLED=1
+
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_reproject_cp hlsl
+{
+    source                  materials/programs/reflections/reproject.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_reproject_downsampled_cp hlsl
+{
+    source                  materials/programs/reflections/reproject.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+    preprocessor_defines    DOWNSAMPLED=1
+    
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_prefilter_cp hlsl
+{
+    source                  materials/programs/reflections/prefilter.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+compute_program reflections_resolve_temporal_cp hlsl
+{
+    source                  materials/programs/reflections/resolve_temporal.hlsl
+    target                  cs_6_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+        param_named_auto    g_inv_view_proj                             inverse_viewproj_matrix
+        param_named_auto    g_proj                                      projection_matrix
+        param_named_auto    g_inv_proj                                  inverse_projection_matrix
+        param_named_auto    g_view                                      view_matrix
+        param_named_auto    g_inv_view                                  inverse_view_matrix
+        param_named_auto    g_prev_view_proj                            prev_viewproj_matrix
+        param_named_auto    g_buffer_dimensions                         viewport_size_int
+        param_named_auto    g_inv_buffer_dimensions                     inverse_viewport_size
+        param_named         g_temporal_stability_factor                 float 0.7
+        param_named         g_depth_buffer_thickness                    float 1.0
+        param_named         g_roughness_threshold                       float 0.4
+        param_named         g_temporal_variance_threshold               float 0
+        param_named_auto    g_frame_index                               frame_index
+        param_named         g_max_traversal_intersections               int 128
+        param_named         g_min_traversal_occupancy                   int 4
+        param_named         g_most_detailed_mip                         int 0
+        param_named         g_samples_per_quad                          int 1
+        param_named         g_temporal_variance_guided_tracing_enabled  int 1
+    }
+}
+
+fragment_program reflections_apply_fp hlsl
+{
+    source 					materials/programs/reflections/apply_reflections.hlsl
+    entry_point 			mainFP
+    target 					ps_5_0
+    required_capabilities   RSC_DX12
+    
+    default_params
+    {
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cFocalParams                   texture_focal_params        0
+        param_named_auto    cInvView                       inverse_view_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+    }
+}

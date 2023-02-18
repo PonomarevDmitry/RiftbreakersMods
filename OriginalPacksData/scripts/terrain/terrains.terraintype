@@ -1,0 +1,1124 @@
+ TerrainType
+{
+	name "default"
+	priority 1
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_default_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_default_right.wav"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_left"
+				footstep_right	"footstep_right"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "hole"
+}
+
+TerrainType
+{
+	name "foliage"
+	priority 1
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_foliage_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_foliage_right.wav"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_foliage_left"
+				footstep_right	"footstep_foliage_right"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "pebbles"
+	priority 1
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_pebbles_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_pebbles_right.wav"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_pebbles_left"
+				footstep_right	"footstep_pebbles_right"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "rocks"
+	priority 1
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_rock_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_rock_right.wav"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_rocks_left"
+				footstep_right	"footstep_rocks_right"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "wet_ground"
+	priority 10
+	
+	speed "1"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_wet_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_wet_right.wav"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_wet_ground_left"
+				footstep_right	"footstep_wet_ground_right"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "quicksand"
+	priority 30
+	
+	speed "0.8"
+	acceleration "1.0"
+	deacceleration "1.0"
+	icon "quicksand"
+	resources_allowed "0"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+
+			speed "0.75"
+			effects_on_marker
+			{
+				footstep_left	"footstep_sand_left"
+				footstep_right	"footstep_sand_right"
+			}
+		}	
+		
+		type "building"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"5"
+				type 		"quicksand"
+			}
+		}		
+
+		type "mine"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"1"
+				type 		"quicksand"
+			}
+		}	
+	}
+
+	override_material "ground/quicksand/small_dunes_01"
+}
+
+TerrainType
+{
+	name "magnetic_rock"
+	priority 60
+	override "1"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 	"interference"
+		}	
+	}	
+}
+
+TerrainType
+{
+	name "magma"
+	priority 50
+	
+	speed "0.5"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"				
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_very_hot_ground_left"
+				footstep_right	"footstep_very_hot_ground_right"
+			}
+			
+			damage
+			{
+				interval 	"0.3"
+				value		"20"
+				type 		"fire"
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"0"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "magma_very_hot_ground"
+	priority 30		
+	icon "magma"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_rock_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_rock_right.wav"			
+			
+			damage
+			{
+				value		"2"
+				interval 	"0.3"
+				//type 		"magma"
+			}	
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_very_hot_ground_left"
+				footstep_right	"footstep_very_hot_ground_right"
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"40"
+				type 		"magma"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "magma_hot_ground"
+	priority 1		
+	icon "magma"	
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_rock_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_rock_right.wav"			
+			
+			damage
+			{
+				value		"1"
+				interval 	"0.5"
+				type 		"heat"
+			}	
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_hot_ground_left"
+				footstep_right	"footstep_hot_ground_right"
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"20"
+				type 		"magma"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "cryo_ground"
+	priority 20
+	speed "0.8"				
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_cryo_left"
+				footstep_right	"footstep_cryo_right"
+			}
+		}		
+	}
+}
+
+TerrainType
+{
+	name "creeper_area"
+	priority 30
+	
+	speed "0.5"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effects_on_marker
+			{
+				footstep_left	"footstep_left"
+				footstep_right	"footstep_right"
+			}
+			
+			damage
+			{
+				interval 	"0.3"
+				value		"33"
+				type 		"acid"
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"33"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "acid_stain"
+	priority 30
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effects_on_marker
+			{
+				footstep_left	"footstep_wet_ground_left"
+				footstep_right	"footstep_wet_ground_right"
+			}
+
+			//speed "0.5"			
+			damage
+			{
+				interval 	"0.3"
+				value		"5"
+				type 		"acid"
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"5"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "acid_stain_friendly"
+	priority 30
+	
+	damage
+	{
+		interval 	"1"
+		value		"5"
+		type 		"acid"
+	}	
+	
+	type_overrides
+	{
+		type "mech"
+		{		
+			damage
+			{
+				value		"0"
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"0"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "sludge"
+	priority 11
+	
+	speed "0.5"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"	
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+			
+			damage
+			{
+				interval 	"0.3"
+				value		"10"
+				type 		"acid"
+			}
+		}	
+		
+		type "building"
+		{
+			damage
+			{
+				value		"0"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "morphium"
+	priority 11
+	
+	speed "0.8"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+		}
+	}
+}
+
+TerrainType
+{
+	name "liquid"
+	priority 11
+	
+	speed "0.5"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+		}
+	}
+}
+
+TerrainType
+{
+	name "resource"
+	priority 31
+	
+	speed "0.9"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_rock_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_rock_right.wav"			
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_left"
+				footstep_right	"footstep_right"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "uranium"
+	priority 31
+	
+	speed "0.9"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_rock_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_rock_right.wav"			
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_left"
+				footstep_right	"footstep_right"
+			}
+			
+			damage
+			{
+				interval 	"0.3"
+				value		"2"
+				type 		"radiation"
+			}
+		}	
+		
+		type "building"
+		{
+			damage
+			{
+				value		"0"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "radioactive_fallout"
+	priority 30
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effects_on_marker
+			{
+				footstep_left	"footstep_left"
+				footstep_right	"footstep_right"
+			}
+			
+			damage
+			{
+				interval 	"0.3"
+				value		"0.1"
+				type 		"radiation"
+			}
+		}		
+	}
+}
+
+TerrainType
+{
+	name "floor"
+	priority "20"
+	
+	speed "1.0"	
+
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_metal_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_metal_right.wav"
+			
+			speed "1.2"
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
+			}
+			
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+		}	
+
+		type "unit"
+		{
+			speed "0.9"	
+		}
+	}
+}
+
+TerrainType
+{
+	name "desert_floor"
+	priority "40"
+	
+	speed "1.0"	
+
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_metal_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_metal_right.wav"
+			
+			speed "1.2"
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
+			}
+			
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+		}	
+
+		type "unit"
+		{
+			speed "0.9"	
+		}
+	}
+}
+
+TerrainType
+{
+	name "magma_floor"
+	priority "40"
+	
+	speed "1.0"	
+
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_metal_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_metal_right.wav"			
+			
+			speed "1.2"
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
+			}
+			
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+		}	
+
+		type "unit"
+		{
+			speed "0.9"	
+		}
+	}
+}
+
+TerrainType
+{
+	name "acid_floor"
+	priority "40"
+	
+	speed "1.0"	
+
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_metal_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_metal_right.wav"			
+			
+			speed "1.2"
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
+			}
+			
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+		}	
+
+		type "unit"
+		{
+			speed "0.9"	
+		}
+	}
+}
+
+TerrainType
+{
+	name "mech_fire_trail"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"50"
+				type 		"fire"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_fire_trail_advanced"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"75"
+				type 		"fire"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_fire_trail_superior"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"100"
+				type 		"fire"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_fire_trail_extreme"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"125"
+				type 		"fire"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_acid_trail"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"50"
+				type 		"acid"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_acid_trail_advanced"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"75"
+				type 		"acid"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_acid_trail_superior"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"100"
+				type 		"acid"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_acid_trail_extreme"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"125"
+				type 		"acid"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_ice_trail"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			//speed "0.3"
+
+			damage
+			{
+				interval 	"1"
+				value		"50"
+				type 		"cryo"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_ice_trail_advanced"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			//speed "0.3"
+
+			damage
+			{
+				interval 	"1"
+				value		"75"
+				type 		"cryo"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_ice_trail_superior"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			//speed "0.3"
+
+			damage
+			{
+				interval 	"1"
+				value		"100"
+				type 		"cryo"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_ice_trail_extreme"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			//speed "0.3"
+
+			damage
+			{
+				interval 	"1"
+				value		"125"
+				type 		"cryo"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_energy_trail"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"50"
+				stun_value	"3"
+				type 		"energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_energy_trail_advanced"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"75"
+				stun_value	"3"
+				type 		"energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_energy_trail_superior"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"100"
+				stun_value	"3"
+				type 		"energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "mech_energy_trail_extreme"
+	priority 50
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	override "1"
+	
+	type_overrides
+	{	
+		type "unit"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"125"
+				stun_value	"3"
+				type 		"energy"
+			}
+		}	
+	}
+}

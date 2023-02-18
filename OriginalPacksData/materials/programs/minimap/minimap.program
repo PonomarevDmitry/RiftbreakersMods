@@ -1,0 +1,54 @@
+vertex_program minimap_vp hlsl
+{
+    source materials/programs/minimap/minimap_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    export_shader true
+}
+
+geometry_program minimap_quad_gp hlsl
+{
+    source materials/programs/minimap/minimap_quad_gp.hlsl
+    entry_point mainGP
+
+    target gs_5_0
+
+    default_params
+    {
+        param_named_auto cViewProj viewproj_matrix
+    }
+}
+
+geometry_program minimap_circle_gp hlsl
+{
+    source materials/programs/minimap/minimap_circle_gp.hlsl
+    entry_point mainGP
+
+    target gs_5_0
+
+    default_params
+    {
+        param_named_auto cViewProj viewproj_matrix
+    }
+}
+
+fragment_program minimap_fp hlsl
+{
+    source materials/programs/minimap/minimap_fp.hlsl
+    entry_point mainFP
+
+    target ps_5_0
+}
+
+fragment_program minimap_color_fp hlsl
+{
+    source materials/programs/minimap/minimap_color_fp.hlsl
+    entry_point mainFP
+
+    target ps_5_0
+
+    default_params
+    {
+        param_named cColor float4 1.0 0.0 0.0 0.0
+    }
+}

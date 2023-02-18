@@ -1,0 +1,87 @@
+system rift/mech_teleport_marker
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.015
+    scale                                       0.015 0.015 0.015
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 10
+    technique glow
+    {
+        visual_particle_quota                   4
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       3
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            position                            0 15 0
+            colour                              1 0.501961 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique refract_shockwave
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_02
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            emission_rate                       4
+            angle                               1
+            time_to_live                        2
+            velocity                            0
+            all_particle_dimensions             100
+            position                            0 15 0
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           200
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

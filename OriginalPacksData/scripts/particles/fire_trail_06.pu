@@ -1,0 +1,70 @@
+system rift/fire_trail_06
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.08
+    scale                                       0.08 0.08 0.08
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 6
+    technique fire_alpha6
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/rep_explosion6
+        renderer                                Billboard
+        {
+            texture_coords_rows                 7
+            texture_coords_columns              12
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             6
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             14
+                max                             20
+            }
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            83
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.1 0.1 0.1 0
+            time_colour                         0.104348  0.1 0.1 0.1 0.894118
+            time_colour                         0.708696  0.1 0.1 0.1 0.694118
+            time_colour                         1    0.1 0.1 0.1 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      0.5
+        }
+        affector                                LinearForce Affector122
+        {
+            force_vector                        0 30 0
+            force_application                   average
+        }
+    }
+}

@@ -1,0 +1,55 @@
+EntityBlueprint
+{
+	name  "buildings/tools/upgrade"
+
+	BuildingDesc
+	{
+		name 				"upgrade"
+		bp   				"buildings/tools/upgrade"
+		ghost_bp   			"buildings/tools/upgrade_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/upgrade_tool"
+		description			"gui/hud/building_description/upgrade_tool"
+		menu_icon			"gui/hud/buttons/action_menu_upgrade_neutral"
+		order				"1"
+		type 				"upgrade"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/upgrade_ghost"
+
+	BuildingDesc
+	{
+		name		"upgrade_ghost"
+		buildable 	"0"
+		type 		"upgrade"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/upgrade_tool.lua"
+		database
+		{
+			action	string:"upgrade"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_blue"
+		flags       "2"
+	}
+
+}
+

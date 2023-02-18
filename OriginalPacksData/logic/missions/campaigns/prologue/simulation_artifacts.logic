@@ -1,0 +1,320 @@
+//editor "offset(210.444,413.118)|zoom(0.572)"
+FlowGraphTemplate
+{
+	version "1"
+	editor "2450"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_trigger.xml)|pos(504,453)"
+			script "lua/graph/logic/logic_wait_on_trigger.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "trigger_name"
+						value "volumes/trigger_unit_6"
+					}
+
+					StringData
+					{
+						key "filter_type"
+					}
+
+					StringData
+					{
+						key "filter_team"
+						value "player"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_trigger_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(600,847)"
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "GlitchFound"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_event_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(1000,367)"
+			script "lua/graph/logic/logic_event_send.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "GlitchFound"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_event_send_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(962,1007)"
+			script "lua/graph/entity/entity_remove.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "glitch"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "true"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "20.00"
+					}
+
+				}
+
+			}
+
+			self_id "entity_remove_0"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(2045,874)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(801,390)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_trigger.xml)|pos(508,269)"
+			script "lua/graph/logic/logic_wait_on_trigger.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "trigger_name"
+						value "volumes/trigger_unit_7"
+					}
+
+					StringData
+					{
+						key "filter_type"
+					}
+
+					StringData
+					{
+						key "filter_team"
+						value "player"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_trigger_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_trigger.xml)|pos(506,87)"
+			script "lua/graph/logic/logic_wait_on_trigger.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "trigger_name"
+						value "volumes/trigger_unit_8"
+					}
+
+					StringData
+					{
+						key "filter_type"
+					}
+
+					StringData
+					{
+						key "filter_team"
+						value "player"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_trigger_2"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1388,632)"
+			global "0"
+			self_id "interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/demo/ashley_simulation_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/demo/mech_simulation_01"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/demo/ashley_simulation_02"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/demo/mech_simulation_02"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/demo/ashley_simulation_03"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		logic_wait_on_trigger_2 "logic_or_0"
+		logic_wait_on_trigger_0 "logic_or_0"
+		logic_or_0 "logic_event_send_0"
+		interface_dialogue_show_group_0 "event_end_0"
+		logic_wait_on_event_0 "entity_remove_0|interface_dialogue_show_group_0"
+		logic_wait_on_trigger_1 "logic_or_0"
+		default "logic_wait_on_event_0|logic_wait_on_trigger_0|logic_wait_on_trigger_1|logic_wait_on_trigger_2"
+	}
+
+}
+

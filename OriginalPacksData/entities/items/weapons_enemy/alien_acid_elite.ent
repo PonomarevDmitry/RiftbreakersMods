@@ -1,0 +1,152 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid_elite"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/alien_acid_elite"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_acid_elite_projectile"
+
+		muzzles_per_fire 			"5"
+		muzzle_flash_effect 		"effects/enemies_arachnoid/boss_acid_spit"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid_elite_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"alien_acid_elite"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/alien_acid_elite"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+		name						"alien_acid_elite"
+		damage_type					"acid"
+		
+		stat_def_vec
+		{
+			WeaponStatDef
+			{
+				min_value 			40
+				max_value 			40	
+				stat_type 			DAMAGE_VALUE
+				stat_features		BASE
+			}
+			
+			WeaponStatDef
+			{
+				min_value 			1
+				max_value 			1		
+				stat_type 			FIRE_RATE
+				stat_features		BASE
+			}
+			WeaponStatDef
+			{
+				min_value 			1
+				max_value 			1	
+				stat_type 			FIRE_PER_BURST
+				stat_features		BASE
+			}	
+			
+			WeaponStatDef
+			{
+				min_value 			1
+				max_value 			1		
+				stat_type 			FIRE_PER_SHOT
+				stat_features		BASE
+			}	
+			
+			WeaponStatDef
+			{
+				min_value 			25
+				max_value 			25		
+				stat_type 			AMMO_SPEED
+				stat_features		BASE
+			}
+			
+			WeaponStatDef
+			{
+				min_value 			0
+				max_value 			0	
+				stat_type 			DAMAGE_PENETRATION
+				stat_features		BASE
+			}
+												
+		}
+	}
+
+	
+	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons_enemy/alien_acid_elite_projectile"
+
+	base_blueprint "effects/enemies_arachnoid/acid_projectile_boss"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_boss_projectile.mesh"
+		material    "projectiles/arachnoid_boss_projectile"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 		"effects/enemies_arachnoid/acid_hit_boss"
+		on_world_hit_effect 		"effects/enemies_arachnoid/acid_hit_boss"
+		on_shield_hit_effect		"effects/enemies_generic/shield_hit"
+
+		friendly_fire				"pass"
+
+		collision_3d 				"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_2d 				"ground_unit|hitbox"
+	}
+}
+

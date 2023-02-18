@@ -1,0 +1,74 @@
+system exor/smoke_trail_wheels
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0400
+    scale                                       0.0400 0.0400 0.0400
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique smoke
+    {
+        visual_particle_quota                   11
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       6
+            time_to_live                        dyn_random
+            {
+                min                             1.4
+                max                             1.8
+            }
+            velocity                            dyn_random
+            {
+                min                             5
+                max                             8
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             40
+            }
+            position                            0 5 0
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.592157 0.513726 0.403922 0
+            time_colour                         0.141304  0.584314 0.521569 0.411765 0.4
+            time_colour                         0.706522  0.584314 0.521569 0.411765 0.4
+            time_colour                         1    0.6 0.501961 0.4 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+    }
+}

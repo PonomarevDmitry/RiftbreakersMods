@@ -1,0 +1,108 @@
+system exor/freeze_ray_beam
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0125
+    scale                                       0.0125 0.0125 0.0125
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique add_flame_blue
+    {
+        keep_local                              true
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box add_flame_blue
+        {
+            emission_rate                       500
+            angle                               1.5
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            1
+            particle_width                      dyn_random
+            {
+                min                             15
+                max                             50
+            }
+            particle_height                     dyn_random
+            {
+                min                             400
+                max                             600
+            }
+            position                            1000 0 0
+            direction                           1 0 0
+            colour                              0 0.192157 1 1
+            box_width                           2000
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0.494118
+            time_colour                         0.502174  0 0.329412 0.666667 1
+            time_colour                         1    0 0 0 0.494118
+        }
+    }
+    technique add_flame_blue_reverse
+    {
+        keep_local                              true
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box add_flame_blue
+        {
+            emission_rate                       500
+            angle                               1.5
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            1
+            particle_width                      dyn_random
+            {
+                min                             15
+                max                             50
+            }
+            particle_height                     dyn_random
+            {
+                min                             400
+                max                             600
+            }
+            position                            -1000 0 0
+            direction                           -1 0 0
+            colour                              0 0.192157 1 1
+            box_width                           2000
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0.494118
+            time_colour                         0.502174  0 0.329412 0.666667 1
+            time_colour                         1    0 0 0 0.494118
+        }
+    }
+}

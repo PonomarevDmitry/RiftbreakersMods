@@ -1,0 +1,130 @@
+EntityBlueprint
+{
+	name "props/trees/catkins_small_02"
+
+	base_blueprints
+	{
+		 props/base/flammable_small
+		 props/base/resistant_small
+	}
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"50"
+		health 					"50"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/trees/catkins_small_02.mesh"
+		material "props/trees/tree_catkins"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	PhysicsDesc
+		{
+			objects
+			{
+				PhysicsObjectDesc
+				{
+					type 				"static"
+					group_id 			"vegetation"
+					physics_material 	"default"
+					Shapes
+					{
+						PhysicsBoxShape
+						{
+							x "1"
+							y "3"
+							z "1"
+
+							position 
+							{
+								x "0.4"
+								y "2"
+								z "0.0"
+							}
+						}
+					}
+				}
+			}
+		}
+
+	TreeDesc
+	{
+		fake_tip_mass 					"150"
+		spring_constant 				"750"
+		damping_constant 				"200"
+		falling_force 					"20000"
+		falling_mass 					"1500"
+		burned_spring_scaler 			"2"
+	
+		fall_impulse_scale 				"1.5"
+		bend_break_threshold 			"15"
+		
+		mesh_prefix 					"meshes/props/trees/catkins_small_02"
+		material_prefix 				"props/trees/tree_catkins"
+		bird_effect 					"effects/world/birds_from_tree" 
+ 		fall_tree_effect 				"effects/destructibles/destructible_tree_broken"
+		bird_emission_probability 		"0.01"
+		tree_collapse					"1"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_leafs_destruction_big"	
+					part_material	 		"props/trees/tree_catkins"
+					part_prefix 			"meshes/props/trees/catkins_small_02"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/trees/tree_catkins"					
+					part_prefix 			"meshes/props/trees/catkins_small_02"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}	
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_small"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}
+

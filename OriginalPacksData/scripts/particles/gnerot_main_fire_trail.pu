@@ -1,0 +1,237 @@
+system rift/gnerot_main_fire_trail
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.007
+    scale                                       0.007 0.007 0.007
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique fire_alpha
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fire_anim_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface fire_alpha
+        {
+            emission_rate                       200
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             2.5
+            }
+            velocity                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             175
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              380
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0.7 0.7 0.7 0.34902
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector15
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -180
+                max                             180
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                LinearForce Affector2525
+        {
+            force_vector                        0 150 0
+        }
+    }
+    technique fire_alpha
+    {
+        keep_local                              true
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fire_anim_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface fire_alpha
+        {
+            emission_rate                       200
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             2.5
+            }
+            velocity                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             175
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              380
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0.7 0.7 0.7 0.34902
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector15
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -180
+                max                             180
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                LinearForce Affector2525
+        {
+            force_vector                        0 150 0
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   600
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface sparks
+        {
+            emission_rate                       400
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             2.5
+            }
+            velocity                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             6
+                max                             12
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              380
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.15  0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector2521
+        {
+            force_vector                        0 150 0
+        }
+    }
+    technique fire_refract
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface fire_add1
+        {
+            emission_rate                       40
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1.5
+            }
+            velocity                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             150
+                max                             200
+            }
+            position                            0 130 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              380
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.506522  1 1 1 0.74902
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector25258
+        {
+            force_vector                        0 150 0
+        }
+        affector                                TextureRotator Affector251
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.3
+                max                             1
+            }
+        }
+    }
+}

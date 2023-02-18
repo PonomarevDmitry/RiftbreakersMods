@@ -1,0 +1,58 @@
+vertex_program deferred_gbuffer_terrain_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_terrain_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    default_params
+    {
+        param_named_auto cWorld         world_matrix 
+        param_named_auto cViewProj      viewproj_matrix 
+        param_named      cTilingFactor  float 16
+    }
+}
+
+fragment_program deferred_gbuffer_terrain_1_fp hlsl
+{
+    source materials/programs/deferred_gbuffer_terrain_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+
+    preprocessor_defines TEXTURES_COUNT=1,USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount    surface_glow
+        param_named_auto cMIPBias       mip_bias
+    }
+}
+
+fragment_program deferred_gbuffer_terrain_2_fp hlsl
+{
+    source materials/programs/deferred_gbuffer_terrain_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+
+    preprocessor_defines TEXTURES_COUNT=2,USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount    surface_glow
+        param_named_auto cMIPBias       mip_bias
+    }
+}
+
+fragment_program deferred_gbuffer_terrain_3_fp hlsl
+{
+    source materials/programs/deferred_gbuffer_terrain_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+
+    preprocessor_defines TEXTURES_COUNT=3,USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount    surface_glow
+        param_named_auto cMIPBias       mip_bias
+    }
+}

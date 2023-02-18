@@ -1,0 +1,74 @@
+system exor/water_foam_wide
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1000
+    scale                                       0.1000 0.1000 0.1000
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    technique foam3
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_nature_water_03
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       1500
+            angle                               60
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             8
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            duration                            0.3
+            repeat_delay                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            all_particle_dimensions             40
+            box_width                           200
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.48913  1 1 1 0.737255
+            time_colour                         1    1 1 1 0
+        }
+        affector                                Scale Affector21
+        {
+            xyz_scale                           10
+        }
+        affector                                TextureRotator Affector32
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.2
+                max                             0.2
+            }
+        }
+    }
+}

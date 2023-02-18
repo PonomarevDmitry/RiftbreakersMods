@@ -1,0 +1,1134 @@
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/creeper_branch_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/creeper_branch_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/creeper_branch_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_01"
+
+	base_blueprint "units/ground/creeper_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_01.mesh"
+		material "units/ground/creeper_branch_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_02"
+
+	base_blueprint "units/ground/creeper_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_02.mesh"
+		material "units/ground/creeper_branch_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_03"
+
+	base_blueprint "units/ground/creeper_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_03.mesh"
+		material "units/ground/creeper_branch_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_inactive"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/creeper_branch_inactive_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/creeper_branch_inactive_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/creeper_branch_inactive_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_inactive_01"
+
+	base_blueprint "units/ground/creeper_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_01.mesh"
+		material "units/ground/creeper_branch_set_skin1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_inactive_02"
+
+	base_blueprint "units/ground/creeper_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_02.mesh"
+		material "units/ground/creeper_branch_set_skin1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_inactive_03"
+
+	base_blueprint "units/ground/creeper_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_03.mesh"
+		material "units/ground/creeper_branch_set_skin1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_branch_base"
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"30"
+		health 					"30"
+	}
+
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"5"
+		physical		"1.0"
+		fire			"2"
+		acid			"0.0"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"1.0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_01.mesh"
+		material "units/ground/creeper_branch_set"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position 
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"creeper_area"	
+		extend  		"0.5"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+			
+		visibility			"radar" 
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+	
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"1.5"
+		fire_spread_radius 				"1.5"
+		fire_probability 				"0.3"
+		burning_time 					"0.5"
+		burned_ember_time  			    "10.0"
+		burned_min_glow                 "0.5"
+	}	
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.07"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.1"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		//root_mesh 						"meshes/props/mushrooms/bulb_acid_small_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_green_small_no_damage"	
+					
+					part_material	 		"units/ground/creeper_branch_set_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_small_01"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_green_medium"
+					part_lifetime "3"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_green_small_no_damage"	
+					
+					part_material	 		"units/ground/creeper_branch_set_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_small_01"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_green_medium"
+					part_lifetime "3"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_creeper/spawn"
+					offset "0 1 0"
+				}
+			}
+		}		
+	}
+
+	
+
+}
+
+EntityBlueprint
+{
+	name "units/ground/creeper_cleaner"
+
+	LuaDesc
+	{
+		script "lua/spawners/spreader_cleaner.lua"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_01"
+
+	base_blueprint "units/ground/creeper_root_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
+		material "units/ground/creeper_root_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_02"
+
+	base_blueprint "units/ground/creeper_root_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_02.mesh"
+		material "units/ground/creeper_root_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_03"
+
+	base_blueprint "units/ground/creeper_root_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_03.mesh"
+		material "units/ground/creeper_root_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_acid_scout"
+
+	base_blueprint "units/ground/creeper_root_base"
+
+
+	// Comment: This is a special version of the creeper root, only meant for the first scout mission, it has a 100% chance to drop a specimen, shouldn't be used outside of this mission as the sample will be pointless
+	
+	LuaDesc
+	{
+		script "lua/spawners/spreader.lua"
+				
+		database
+		{
+			blueprint			string:"units/ground/creeper_branch_inactive"
+			root_blueprint		string:"units/ground/creeper_root_origin_acid_scout"
+			collision_detection	string:""
+			stop_component   	string:"BurningComponent"
+			spread_interval		float:"1"
+			spread_root_interval float:"30"
+			spread_child_interval_multiplier float:"2"
+			spread_radius		float:"20"
+			initial_spread		float:"2"
+			max_branch_interval float:"1.5"
+			ancestor			int:"-1"
+		}
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_02.mesh"
+		material "units/ground/creeper_root_set_skin1"
+	}		
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_acid_singular"
+
+	base_blueprint "units/ground/creeper_root_base"
+
+
+	// Comment: This is a special version of the creeper root, it is used as ambient spawn in campaign mission to create small creeper patches that don't spread
+	
+	LuaDesc
+	{
+		script "lua/spawners/spreader.lua"
+				
+		database
+		{
+			blueprint			string:"units/ground/creeper_branch_inactive"
+			root_blueprint		string:"units/ground/creeper_root_origin_acid_scout"
+			collision_detection	string:""
+			stop_component   	string:"BurningComponent"
+			spread_interval		float:"1"
+			spread_root_interval float:"30"
+			spread_child_interval_multiplier float:"2"
+			spread_radius		float:"20"
+			initial_spread		float:"2"
+			max_branch_interval float:"1.5"
+			ancestor			int:"-1"
+		}
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
+		material "units/ground/creeper_root_set_skin1"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_base"
+
+	base_blueprint "units/ground/creeper_root_origin_base"
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"250"
+		health 					"250"
+	}
+
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"5"
+		physical		"1.0"
+		fire			"2"
+		acid			"0.0"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"1.0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
+		material "units/ground/creeper_root_set"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/bulb_acid_medium_01_c1.nxs"
+					}
+			
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		
+		additional_z_order	"2"
+			
+		visibility			"radar"
+	}
+	
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}	
+	
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"1.5"
+		fire_spread_radius 				"1.5"
+		fire_probability 				"0.3"
+		burning_time 					"3.5"
+		burned_ember_time  			    "20.0"
+		burned_min_glow                 "0.5"
+	}	
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.02"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.02"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		//root_mesh 						"meshes/props/mushrooms/bulb_acid_medium_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_green_medium_no_damage"	
+					
+					part_material	 		"units/ground/creeper_root_set_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_01"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_green_medium"
+					part_lifetime "3"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_green_medium_no_damage"	
+					
+					part_material	 		"units/ground/creeper_root_set_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_01"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_green_medium"
+					part_lifetime "3"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/enemies_creeper/idle"
+                    //offset "0 4 0"
+                }
+            }
+        }		
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/point/green_small"
+                    offset "0 20 0"
+                }
+            }
+        }
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_creeper/spawn"
+					offset "0 1 0"
+				}
+			}
+		}	
+        EffectGroup
+        {           
+            enabled "0"
+			group 	"scanning"			
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/mech/scanner"
+                }
+            }
+        }			
+    }
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_origin_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_origin_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_origin_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_01"
+
+	base_blueprints
+	{ 
+		units/ground/creeper_root_origin_base
+		units/ground/creeper_root_origin_base_flammable
+	}
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_01.mesh"
+		material "units/ground/creeper_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_02"
+
+	base_blueprints
+	{ 
+		units/ground/creeper_root_origin_base
+		units/ground/creeper_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_02.mesh"
+		material "units/ground/creeper_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_03"
+
+	base_blueprints
+	{ 
+		units/ground/creeper_root_origin_base
+		units/ground/creeper_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_03.mesh"
+		material "units/ground/creeper_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_acid_scout"
+
+	base_blueprints
+	{ 
+		units/ground/creeper_root_origin_base
+		units/ground/creeper_root_origin_base_flammable
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_01.mesh"
+		material "units/ground/creeper_root_origin_set_skin1"
+	}	
+
+	LuaDesc
+	{
+		script "lua/spawners/spreader.lua"
+				
+		database
+		{
+			blueprint			string:"units/ground/creeper_branch_inactive"
+			root_blueprint		string:"units/ground/creeper_root"
+			collision_detection	string:""
+			stop_component   	string:"BurningComponent"
+			spread_interval		float:"0.25"
+			spread_root_interval float:"30"
+			spread_child_interval_multiplier float:"2"
+			spread_radius		float:"15"
+			initial_spread		float:"15"
+			max_branch_interval float:"1.5"
+		}
+	}
+
+	TypeDesc
+	{
+		type "flora"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_reserach_mission"
+
+    base_blueprint "units/ground/creeper_root_origin_base"
+	
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"7500"
+		health 					"7500"
+	}
+	
+    LuaDesc
+	{
+		script "lua/spawners/spreader_acid.lua"
+				
+		database
+		{
+			blueprint			string:"units/ground/creeper_branch"
+			root_blueprint			string:"units/ground/creeper_root"
+			collision_detection	string:""
+			stop_component   	string:"BurningComponent"
+			spread_interval		float:"0.5"
+			spread_root_interval float:"30"
+			spread_child_interval_multiplier float:"2"
+			spread_radius		float:"15"
+			initial_spread		float:"10"
+			max_branch_interval float:"1.5"
+		}
+	}
+
+	StealthComponent
+}	
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_base"
+
+
+    //base_blueprint "props/base/flammable_small"
+	
+    LuaDesc
+	{
+		script "lua/spawners/spreader.lua"
+				
+		database
+		{
+			blueprint			string:"units/ground/creeper_branch"
+			root_blueprint			string:"units/ground/creeper_root"
+			collision_detection	string:""
+			stop_component   	string:"BurningComponent"
+			spread_interval		float:"0.5"
+			spread_root_interval float:"30"
+			spread_child_interval_multiplier float:"2"
+			spread_radius		float:"15"
+			initial_spread		float:"10"
+			max_branch_interval float:"1.5"
+		}
+	}
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"2500"
+		health 					"2500"
+	}
+
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"5"
+		physical		"1.0"
+		fire			"2"
+		acid			"0.0"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"1.0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_01.mesh"
+		material "units/ground/creeper_root_origin_set"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/bulb_acid_big_01_c1.nxs"
+					}
+			
+				}
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"creeper_area"	
+		extend  		"0.5"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"		
+		//additional_z_order	"2"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"12000"
+		explosion_min_power 	"6000"
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.02"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.02"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		//root_mesh 						"meshes/units/ground/creeper_root_origin_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"11000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_green_big_no_damage"	
+					
+					part_material	 		"units/ground/creeper_root_origin_set_parts"
+					part_prefix 			"meshes/units/ground/creeper_root_origin_01"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_green_medium"
+					part_lifetime "3"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"11000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_green_big_no_damage"	
+					
+					part_material	 		"units/ground/creeper_root_origin_set_parts"
+					part_prefix 			"meshes/units/ground/creeper_root_origin_01"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_green_medium"
+					part_lifetime "3"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/enemies_creeper/idle"
+					scale "1.5 1.5 1.5"
+                }
+            }
+        }			
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/point/green_medium"
+                    offset "0 20 0"
+					//scale "2 2 2"
+                }
+            }
+        }
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_creeper/spawn"
+					offset "0 1 0"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+        EffectGroup
+        {           
+            enabled "0"
+			group 	"scanning"			
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/buildings_main/research_station_scanning"
+                }
+            }
+        }			
+    }
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_base_flammable"
+	
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"1.5"
+		fire_spread_radius 				"1.5"
+		fire_probability 				"0.3"
+		burning_time 					"4.5"
+		burned_ember_time  			    "25.0"
+		burned_min_glow                 "0.5"
+	}
+}

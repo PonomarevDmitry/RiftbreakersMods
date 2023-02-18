@@ -1,0 +1,180 @@
+//editor "scroll(-12.66,193.34)|zoom(1.00)"
+FlowGraphTemplate
+{
+	version "8"
+	editor "5250"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_engine_resource_exists.xml)|pos(514,481)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "resource_type"
+						value "MissionDef"
+					}
+
+					StringData
+					{
+						key "resource_name"
+						value "missions/campaigns/dlc_1/metallic_outpost.mission"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_engine_resource_exists.lua"
+			self_id "logic_if_engine_resource_exists_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(514,641)"
+			key "true"
+			self_id "logic_if_engine_resource_exists_0###true"
+			value "logic_if_engine_resource_exists_0###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(1074,541)"
+			graph "logic/campaigns/dlc_1/metallic_campaign_default.logic"
+			self_id "event_graph_0"
+			start_point "default"
+			validate_graph_resource "0"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_engine_resource_exists.xml)|pos(504,885)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "resource_type"
+						value "MissionDef"
+					}
+
+					StringData
+					{
+						key "resource_name"
+						value "missions/campaigns/dlc_2/caverns_outpost.mission"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_engine_resource_exists.lua"
+			self_id "logic_if_engine_resource_exists_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(504,1045)"
+			key "true"
+			self_id "logic_if_engine_resource_exists_1###true"
+			value "logic_if_engine_resource_exists_0###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(1069,953)"
+			graph "logic/campaigns/dlc_2/caverns_campaign_default.logic"
+			self_id "event_graph_1"
+			start_point "default"
+			validate_graph_resource "0"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_if_engine_resource_exists_0|logic_if_engine_resource_exists_1"
+		logic_if_engine_resource_exists_0 "logic_if_engine_resource_exists_0###true"
+		logic_if_engine_resource_exists_0###true "event_graph_0"
+		logic_if_engine_resource_exists_1 "logic_if_engine_resource_exists_1###true"
+		logic_if_engine_resource_exists_1###true "event_graph_1"
+	}
+
+	GraphComments
+}
+

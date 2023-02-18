@@ -1,0 +1,27 @@
+fragment_program gaussian_blur_x_fp hlsl
+{
+	source materials/programs/gaussian_blur_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+	
+	preprocessor_defines STEP_X=1
+	
+	default_params
+    {
+		param_named_auto cViewportSize viewport_size
+		param_named cGaussianSigma float 2
+	}
+}
+
+fragment_program gaussian_blur_y_fp hlsl
+{
+	source materials/programs/gaussian_blur_fp.hlsl
+	entry_point mainFP
+	target ps_5_0
+	
+	default_params
+    {
+		param_named_auto cViewportSize viewport_size
+		param_named cGaussianSigma float 2
+	}
+}

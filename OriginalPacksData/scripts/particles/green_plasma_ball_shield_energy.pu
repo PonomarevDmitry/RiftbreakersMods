@@ -1,0 +1,60 @@
+system player/green/green_plasma_ball_shield_energy
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0150
+    scale                                       0.0150 0.0150 0.0150
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 2
+    technique sparks
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/flare_flashy
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box DebrisEmitter
+        {
+            emission_rate                       100
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             3
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             6
+                max                             20
+            }
+            position                            -150 0 0
+            keep_local                          true
+            start_colour_range                  1 1 1 1
+            box_width                           50
+            box_height                          50
+            box_depth                           300
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0.501961 0 0
+            time_colour                         0.2  0 0.501961 0 0.8
+            time_colour                         0.66087  0 0.501961 0 0.8
+            time_colour                         1    0 0.501961 0 0
+        }
+        affector                                Gravity Affector70
+        {
+            mass_affector                       100000
+        }
+    }
+}

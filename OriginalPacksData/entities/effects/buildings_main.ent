@@ -1,0 +1,747 @@
+EntityBlueprint
+{
+	name effects/buildings_main/research_station_working
+
+	base_blueprints
+	{
+		 lights/point/blue_big
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/research_station_working"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/research_station_scanning
+
+	base_blueprints 
+	{
+		lights/point/green_big
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_scanner_very_big"
+	}
+	
+	SoundDesc
+	{
+		name "buildings_main/research_station_scanning"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/research_station_scanning_tower_wreckage
+
+	base_blueprints
+	{
+		 lights/point/fire_blue_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_wreckage_scanning"
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/research_station_scanning"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/HQ_rift_weather_mild
+
+	base_blueprints
+	{
+		 //lights/point/fire_violet_small
+		 effects/no_lifetime
+	}
+	
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			enabled "1"
+	
+			Effects
+			{	
+				//Effect
+				//{
+				//	blueprint "effects/buildings_main/rift_start_shockwave"
+				//}	
+				Effect
+				{
+					blueprint "weather/riftquake"
+				}	
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_weather_mild"
+				}				
+			}
+		}	
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/HQ_rift_weather_strong
+	
+	base_blueprints
+	{
+		 //lights/point/fire_violet_small
+		 effects/no_lifetime
+	}	
+
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			enabled "1"
+	
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_start_shockwave"
+				}					
+				Effect
+				{
+					blueprint "weather/riftquake_strong"
+				}	
+				Effect
+				{
+					blueprint "effects/weather/rift_weather_strong"
+				}				
+			}
+		}	
+	}	
+}
+
+EntityBlueprint
+{
+	name  "effects/buildings_main/rift_start_shockwave"
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius	"15"
+			area_damage_speed 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"1000"
+					type			"area"
+				}
+			}
+		}
+	}
+	
+	CameraShakeDesc
+	{
+		duration 		"5"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"60"
+		frequency 		"20"
+		group			"ambient"
+	}	
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"50"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_start_shockwave"
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/rift_power_up"
+	}
+
+	TimeWarpDesc
+	{
+		desaturation	"0.4"
+		contrast   		"1.0"
+		brightness		"1.0"
+		bloom_scale		"1.0"
+		time_factor		"0.3"
+		
+		delay			"0.1"
+		fade_in_time	"0.3"
+		fade_out_time	"1.9"
+		duration		"3.5"
+	}		
+}
+
+EntityBlueprint
+{
+	name  "effects/buildings_main/rift_interrupted"
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"50"
+	}
+	
+	CameraShakeDesc
+	{
+		duration 		"5"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"500"
+		frequency 		"20"
+		group			"ambient"
+	}		
+
+	ParticleDesc
+	{
+		name    "rift/rift_interrupted"
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/rift_power_down"
+	}
+
+	TimeWarpDesc
+	{
+		desaturation	"0.4"
+		contrast   		"1.0"
+		brightness		"1.0"
+		bloom_scale		"1.0"
+		time_factor		"0.3"
+		
+		delay			"0.1"
+		fade_in_time	"0.3"
+		fade_out_time	"1.9"
+		duration		"3.5"
+	}		
+}
+
+EntityBlueprint
+{
+	name  "effects/buildings_main/rift_entered"
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/rift_interrupted"
+	}	
+
+	SoundDesc
+	{
+		name "items/portal/mech_portal_exit"
+	}
+
+	TimeWarpDesc
+	{
+		desaturation	"0.0"
+		contrast   		"5.0"
+		brightness		"5.0"
+		bloom_scale		"5.0"
+		time_factor		"0.01"
+		
+		delay			"0.1"
+		fade_in_time	"0.3"
+		fade_out_time	"10"
+		duration		"12"
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_weather_mild
+
+	base_blueprints
+	{
+		 //lights/point/fire_violet_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_weather_mild"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_big_rotor
+
+	base_blueprints
+	{
+		 //lights/point/fire_violet_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_big_rotor"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_small_rotor
+
+	base_blueprints
+	{
+		 lights/point/fire_violet_very_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_small_rotor"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_ball
+
+	base_blueprints
+	{
+		 lights/point/fire_green_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_ball"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_arm_energy
+
+	base_blueprints
+	{
+		 //lights/point/fire_green_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_arm_energy"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_rotor
+
+	base_blueprints
+	{
+		 //lights/point/fire_green_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_rotor"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_under_ball_energy
+
+	base_blueprints
+	{
+		 //lights/point/fire_green_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_under_ball_energy"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_ball_bottom_rotor
+
+	base_blueprints
+	{
+		 //lights/point/fire_green_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_ball_bottom_rotor"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_capacitors
+
+	base_blueprints
+	{
+		 lights/point/orange_very_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_capacitors"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_ready_rings
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_ready_rings"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_cosmic_dust
+
+	base_blueprints
+	{
+		 lights/point/fire_blue_big
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_cosmic_dust"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/rift_arm_lightning
+
+	base_blueprints
+	{
+		 lights/point/fire_blue_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_arm_lightning"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "effects/buildings_main/rift_portal_opened"
+
+	base_blueprints
+	{
+		 //lights/point/rift_portal_shadow_caster
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rift_portal_opened"
+	}
+
+	SoundDesc
+	{
+		name "items/portal/mech_portal_exit"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/buildings_main/rift_light"
+
+	base_blueprints
+	{
+		 lights/point/rift_portal_shadow_caster
+		 effects/no_lifetime
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		lights/point/blue_big
+		effects/no_lifetime
+	}
+
+	name "effects/buildings_main/magnetic_stabilizer_energy"
+
+	ParticleDesc
+	{
+		name    "rift/magnetic_stabilizer_energy"
+	}
+
+	//SoundDesc
+	//{
+	//	name "ambient/magnetic_rock"
+	//}
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	name "effects/buildings_main/cryo_station_energy"
+
+	GridMarkerComponent
+	{
+		mode			"origin"
+		terrain_type  	"cryo_ground"
+		extend  		"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cryo_plant_energy"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/ice_crater_01"
+		scale
+		{
+			x		6.8
+			y		6.8
+			z		6.8
+			
+		}
+		attach "1"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/buildings_main/explosion_building_hq"
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_big
+		effects/default
+	}
+
+	TeamDesc
+	{
+		team "none"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"25"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"2500"
+					type			"area"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"20"
+		radius 	"45"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/explosion_building_hq"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"1"
+		power   		"1.5"
+		falloff_radius 	"40"
+		radius   		"60"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/explosion_building_hq"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_big_01"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+			
+		}
+	}
+
+	TimeWarpDesc
+	{
+		desaturation	"0.3"
+		contrast   		"1.0"
+		brightness		"1.0"
+		bloom_scale		"1.0"
+		time_factor		"0.3"
+		
+		delay			"0.1"
+		fade_in_time	"0.3"
+		fade_out_time	"300.0"
+		duration		"1000.0"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/buildings_main/research_lab_energy
+
+	base_blueprints
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/research_lab_energy"
+	}
+}
+
+EntityBlueprint
+{
+	name  effects/buildings_main/armory_working
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/armory_working"
+	}
+}
+
+EntityBlueprint
+{
+	name  effects/buildings_main/communications_hub_working
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/communications_hub_working"
+	}
+}
+
+EntityBlueprint
+{
+	name  effects/buildings_main/planet_scanner_working
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/planet_scanner_working"
+	}
+}
+
+EntityBlueprint
+{
+	name  effects/buildings_main/rift_magnetic_stabilizer_working
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/rift_magnetic_stabilizer_working"
+	}
+}
+
+EntityBlueprint
+{
+	name  effects/buildings_main/cryo_station_working
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name "buildings_main/cryo_station_working"
+	}
+}

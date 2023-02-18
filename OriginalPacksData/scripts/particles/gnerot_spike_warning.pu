@@ -1,0 +1,93 @@
+system rift/gnerot_spike_warning
+{
+    keep_local                                  true
+    fixed_timeout                               2
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.013
+    scale                                       0.013 0.013 0.013
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique flash2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_hit_circle_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            emission_rate                       3
+            time_to_live                        1
+            velocity                            0
+            duration                            1
+            all_particle_dimensions             1000
+            position                            0 1 0
+            colour                              0.776471 0.388235 0 1
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           -1000
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.104348  1 0 0 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector68
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      0
+        }
+    }
+    technique point
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_marker_ring_red_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            emission_rate                       3
+            time_to_live                        1
+            velocity                            0
+            duration                            1
+            all_particle_dimensions             40
+            position                            0 1 0
+        }
+        affector                                TextureRotator Affector68
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      0
+        }
+    }
+}

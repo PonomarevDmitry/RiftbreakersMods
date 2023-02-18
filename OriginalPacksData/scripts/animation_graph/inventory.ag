@@ -1,0 +1,503 @@
+AnimationGraph
+{
+	name "inventory"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "default"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationGetNeutralPoseNode"
+						{
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "566.000"
+									y "209.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1113.000"
+									y "254.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "neutral"
+						position
+						{
+							x "477.000"
+							y "313.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "1"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "inventor_melee_melee"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "melee_melee"
+						position
+						{
+							x "187.000"
+							y "529.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "1"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "inventor_ranged_ranged"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "ranged_ranged"
+						position
+						{
+							x "837.000"
+							y "524.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "1"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "inventor_ranged_melee"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "melee_ranged"
+						position
+						{
+							x "144.000"
+							y "88.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "1"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "1"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "inventor_ranged_melee"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "ranged_melee"
+						position
+						{
+							x "793.000"
+							y "94.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "2"
+					condition "AnimationOrTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "4"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "4"
+					condition "AnimationOrTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "5"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationOrTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "5"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "5"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "3"
+					condition "AnimationOrTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "5"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "4"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationAndTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "4"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationAndTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "5"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "5"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "2"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationAndTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "5"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "3"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationAndTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "LEFT_HAND_item_type"
+								cmp "5"
+							}
+
+							AnimationTransitionCondition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "melee_weapon"
+								param "RIGHT_HAND_item_type"
+								cmp "4"
+							}
+
+						}
+
+					}
+
+					authoritative "0"
+					dst_idx "4"
+					blend_function_type "2"
+					duration "0.100"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "StringParamDecl"
+		{
+			items
+			{
+				String "range_weapon"
+				String "melee_weapon"
+				String "drill"
+				String "shield"
+			}
+
+			default "melee_weapon"
+			param_name "RIGHT_HAND_item_type"
+			data_type "3"
+			is_const "0"
+		}
+
+		ParamDecl "StringParamDecl"
+		{
+			items
+			{
+				String "range_weapon"
+				String "melee_weapon"
+				String "drill"
+				String "shield"
+			}
+
+			default "melee_weapon"
+			param_name "LEFT_HAND_item_type"
+			data_type "3"
+			is_const "0"
+		}
+
+	}
+
+}
+

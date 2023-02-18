@@ -1,0 +1,173 @@
+MissionDef
+{
+    logic           "logic/missions/test/full_base/default.logic"
+
+    map_size        	"8"
+	map_generator_seed	"1625046418"	
+    biomes          	"jungle"
+	
+    creature_volumes_min_distance   "128.0"
+	creature_volumes_density        "1.0"
+	
+	source_tiles
+    {
+		biomes/legacy_maps/tiles/test_max_save_2x2/test_max_save_2x2.tile
+		biomes/legacy_maps/tiles/test_max_save_1x1/test_max_save_1x1.tile		
+	}
+	
+	tile_spawn_rules
+	{
+		biomes/legacy_maps/tiles/test_max_save_2x2/test_max_save_2x2.tile
+		{
+			min_instances 1
+		}
+		//biomes/legacy_maps/tiles/max_save_1x1/max_save_1x1.tile	
+		//{
+		//	min_instances 1
+		//}		
+	}	
+
+    ambient_creature_species
+    {
+        ground
+        {               
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "quelver"
+                }
+            }
+        }
+
+        air
+        {
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "vesaurus"
+                }
+            }
+        }
+    }
+
+    creature_volumes_species
+    {
+        neutral_units
+        {
+            CreatureVolume
+            {
+                creature_species    "jurvine"
+            }
+        }
+
+        regular_units
+        {
+            CreatureVolume
+            {
+                creature_species    "canoptrix"
+                volume_spawn_ratio  "2"
+            }
+            
+            CreatureVolume
+            {
+                creature_species    "arachnoid_sentinel"
+                volume_spawn_ratio  "1.25"
+            }
+			
+            CreatureVolume
+            {
+                creature_species    "kafferroceros"
+                volume_spawn_ratio  "1.0"
+            }
+
+            //CreatureVolume
+            //{
+            //    creature_species    "stregaros"
+            //    volume_spawn_ratio  "1"
+            //}
+            
+            //CreatureVolume
+            //{
+            //    creature_species    "phirian"
+            //    volume_spawn_ratio  "-1"
+            //}
+            //CreatureVolume
+            //{
+            //    creature_species    "krocoon"
+            //    volume_spawn_ratio  "-1"
+            //}
+            CreatureVolume
+            {
+                creature_species    "baxmoth"
+                volume_spawn_ratio  "0.25"
+            }
+            CreatureVolume
+            {
+                creature_species    "kermon"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "bomogan"
+                volume_spawn_ratio  "0.5"
+            }
+        }
+
+        resource_units
+        {
+            CreatureVolume
+            {
+                creature_species    "gnerot_jungle"
+                volume_spawn_ratio  "0.5"
+            }
+			CreatureVolume
+            {
+                creature_species    "krocoon_jungle"
+                volume_spawn_ratio  "0.4"
+            }
+        }
+    }
+
+    min_starting_distance "16.0"
+    max_starting_distance "96.0"
+
+    starting_resources
+    {
+        ResourceVolume
+        {
+            resource        "carbon_vein"
+
+            min_resources   "8000"
+            max_resources   "14000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "2"
+        }
+
+        ResourceVolume
+        {
+            resource        "iron_vein"
+
+            min_resources   "6000"
+            max_resources   "12000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "2"
+        }
+		
+		ResourceVolume
+        {
+            resource        "geothermal_vent"
+
+            min_resources   "6000"
+            max_resources   "10000"
+            
+            is_infinite     "1"
+            
+            min_spawned_volumes "1"
+            max_spawned_volumes "1"
+        }	
+    }
+}

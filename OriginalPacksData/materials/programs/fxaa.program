@@ -1,0 +1,41 @@
+vertex_program fxaa_vp hlsl
+{
+    source 							materials/programs/fxaa_vp.hlsl
+    entry_point						main_vp
+    target                          vs_5_0
+
+	default_params
+    {
+		param_named_auto cViewportSize viewport_size
+    }
+}
+
+fragment_program fxaa_fp hlsl
+{
+    source 							materials/programs/fxaa_fp.hlsl
+    entry_point						main_fp
+    target 							ps_5_0
+
+	default_params
+    {
+		param_named_auto cViewportSize viewport_size
+        param_named      cAdjDispRange          float 8.0
+        param_named      cAdjLowerThreshold     float 0.0078125
+        param_named      cAdjNormScaleFactor    float 0.125
+    }
+}
+
+fragment_program fxaa_luma_fp hlsl
+{
+    source 							materials/programs/fxaa_fp.hlsl
+    entry_point						luma_fp
+    target 							ps_5_0
+
+	default_params
+    {
+		param_named_auto cViewportSize viewport_size
+        param_named      cAdjDispRange          float 8.0
+        param_named      cAdjLowerThreshold     float 0.0078125
+        param_named      cAdjNormScaleFactor    float 0.125
+    }
+}

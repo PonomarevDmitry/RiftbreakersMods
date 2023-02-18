@@ -1,0 +1,398 @@
+AnimationGraph
+{
+	name "solar_panel"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "default"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationMotionNode"
+				{
+					anim_name "day_mode"
+					mirror "0"
+					start_time "0.0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "3.4028235e+38"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.0"
+					metadata
+					{
+						name "enabling"
+						position
+						{
+							y "593.0"
+							x "399.0"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					anim_name "night_mode"
+					mirror "0"
+					start_time "0.0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "3.4028235e+38"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.0"
+					metadata
+					{
+						name "diabling"
+						position
+						{
+							y "593.0"
+							x "1330.0"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "0"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									src_node_idx "1"
+									dst_slot "0"
+									src_slot "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.0"
+							metadata
+							{
+								name
+								position
+								{
+									y "768.0"
+									x "1512.0"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetAnimKeyFrameNode"
+						{
+							anim_name "day_mode"
+							default_key_frame "0"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.0"
+							metadata
+							{
+								name
+								position
+								{
+									y "833.0"
+									x "731.0"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.0"
+					metadata
+					{
+						name "disabled"
+						position
+						{
+							y "1057.0"
+							x "930.0"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "3"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationAnglesToDirectionVectorNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									src_node_idx "4"
+									dst_slot "0"
+									src_slot "0"
+								}
+
+								EvalNodeDependency
+								{
+									src_node_idx "1"
+									dst_slot "1"
+									src_slot "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.0"
+							metadata
+							{
+								name
+								position
+								{
+									y "386.0"
+									x "634.0"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetFloatParamNode"
+						{
+							param_name "sun_yaw"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.0"
+							metadata
+							{
+								name
+								position
+								{
+									y "529.0"
+									x "104.0"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationLookAtNode"
+						{
+							ik_bone "sun_look"
+							end_bone
+							goal_type "1"
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									src_node_idx "0"
+									dst_slot "0"
+									src_slot "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.0"
+							metadata
+							{
+								name
+								position
+								{
+									y "385.0"
+									x "1369.0"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									src_node_idx "2"
+									dst_slot "0"
+									src_slot "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.0"
+							metadata
+							{
+								name
+								position
+								{
+									y "368.0"
+									x "2040.0"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationConstFloatNode"
+						{
+							const_value "0.0"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.0"
+							metadata
+							{
+								name
+								position
+								{
+									y "193.0"
+									x "99.0"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.0"
+					metadata
+					{
+						name "enabled"
+						position
+						{
+							y "193.0"
+							x "866.0"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "3"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					duration "2.0"
+					dst_idx "1"
+					blend_function_type "2"
+					src_idx "3"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						cmp "4"
+						param "is_working"
+					}
+
+				}
+
+				AnimationStateTransitionDef
+				{
+					duration "0.1"
+					dst_idx "0"
+					blend_function_type "0"
+					src_idx "2"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						cmp "4"
+						param "is_working"
+					}
+
+				}
+
+				AnimationStateTransitionDef
+				{
+					duration "2.0"
+					dst_idx "3"
+					blend_function_type "2"
+					src_idx "0"
+					condition "AnimationStateTransitionCondition"
+					{
+						condition "1"
+						max_time "999.0"
+					}
+
+				}
+
+				AnimationStateTransitionDef
+				{
+					duration "0.0"
+					dst_idx "2"
+					blend_function_type "0"
+					src_idx "1"
+					condition "AnimationStateTransitionCondition"
+					{
+						condition "1"
+						max_time "999.0"
+					}
+
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					y "0.0"
+					x "0.0"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "BoolParamDecl"
+		{
+			default "1"
+			is_const "0"
+			data_type "0"
+			param_name "is_working"
+		}
+
+		ParamDecl "FloatParamDecl"
+		{
+			default "0.0"
+			min "0.0"
+			max "360.0"
+			is_const "0"
+			data_type "2"
+			param_name "sun_yaw"
+		}
+
+	}
+
+}
+

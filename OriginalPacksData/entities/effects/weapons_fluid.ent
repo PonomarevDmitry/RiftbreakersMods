@@ -1,0 +1,255 @@
+EntityBlueprint
+{
+	name effects/items/weapons/fluid/flamer_start
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/flamer_start"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/weapons/fluid/flamer_stop
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/flamer_stop"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/empty_fluid_weapon
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/empty_fluid_weapon"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/equipped_fluid_weapon
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/equipped_fluid_weapon"
+	}
+}
+
+EntityBlueprint 
+{
+		name effects/weapons_fluid/flamer_fire
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name 		"items/weapons/fluid/flamer_loop"
+		start_name 	"items/weapons/fluid/flamer_start"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/flamer_hit
+
+	base_blueprints
+	{
+		lights/point/fire_orange_burning_tree
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/flamer_fire_burning_infinite"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/flamer_hit"
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/acid_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_green_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_sentinel_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.1"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/corrosive_gun_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/acid_weapon_hit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_acid_projectile_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/corrosive_gun_hit"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"acid_stain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_acid_random"
+		scale
+		{
+			x		1.5
+			y		1.5
+			z		1.5
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/acid_explosion_small"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_acid_explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/corrosive_gun_hit"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"acid_stain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_acid_random"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/corrosive_gun_projectile"
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/green_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/mech_acid_projectile_big"
+	//}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/corrosive_gun_equipped
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/corrosive_gun_equipped"
+	}
+}

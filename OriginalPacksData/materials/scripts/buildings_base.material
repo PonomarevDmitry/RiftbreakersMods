@@ -1,0 +1,122 @@
+import * from "materials/scripts/pbr.material"
+
+material buildings/base : pbr/default
+{
+	set_texture_alias albedo			materials/textures/gradient_70.png
+	set_texture_alias packed 			materials/textures/pbr_100_70_packed.dds
+}
+
+material buildings/base_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/gradient_70.png
+	set_texture_alias packed 			materials/textures/pbr_100_70_packed.dds
+}
+
+material buildings/destructible
+{
+	render_group 58
+	feature "gbuffer|shadow|velocity"
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+			cull_hardware none
+
+			glow 7.5
+
+			check       	on
+            comp_func   	always_pass
+            pass_op   		increment
+            two_sided   	on
+
+			vertex_program_ref deferred_gbuffer_vp
+			{
+			}
+
+			fragment_program_ref deferred_damage_buildings_fp
+			{
+
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit albedo_2
+			{
+				texture materials/textures/buildings/main/destroyed_building_albedo.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal
+			{
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal_2
+			{
+				texture materials/textures/buildings/main/destroyed_building_normal.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed_2
+			{
+				texture materials/textures/buildings/main/destroyed_building_packed.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive
+			{
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive_2
+			{
+				texture materials/textures/buildings/main/destroyed_building_emissive.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit gradient_damage
+			{
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 6
+			}
+			texture_unit dissolve
+			{
+				texture materials/textures/noise_tiled_01.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material buildings/foundation : pbr/default
+{
+	set_texture_alias albedo materials/textures/buildings/decorations/foundation_albedo.dds
+	set_texture_alias normal materials/textures/buildings/decorations/foundation_normal.dds
+	set_texture_alias normal materials/textures/buildings/decorations/foundation_packed.dds
+}
+
+material buildings/foundation_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo materials/textures/buildings/decorations/foundation_albedo.dds
+	set_texture_alias normal materials/textures/buildings/decorations/foundation_normal.dds
+	set_texture_alias normal materials/textures/buildings/decorations/foundation_packed.dds
+}

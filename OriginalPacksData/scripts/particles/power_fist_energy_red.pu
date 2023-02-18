@@ -1,0 +1,54 @@
+system rift/power_fist_energy_red
+{
+    fixed_timeout                               1
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.006
+    scale                                       0.006 0.006 0.006
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 4
+    technique sparks
+    {
+        keep_local                              true
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_red_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+        }
+        emitter                                 SphereSurface DebrisEmitter
+        {
+            emission_rate                       500
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.8
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            duration                            0.2
+            all_particle_dimensions             dyn_random
+            {
+                min                             20
+                max                             30
+            }
+            position                            100 70 0
+            direction                           -1 0 0
+            start_colour_range                  1 1 1 1
+            radius                              100
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0.2 0.2 0.2 0
+        }
+    }
+}

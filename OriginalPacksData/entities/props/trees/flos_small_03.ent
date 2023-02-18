@@ -1,0 +1,106 @@
+EntityBlueprint
+{
+	name "props/trees/flos_small_03"
+
+	base_blueprints
+	{
+		"props/trees/flos_small_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/trees/flos_small_03.mesh"
+		material "props/trees/flos_big_01"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "2.5"
+						z "1"
+
+						position 
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	TreeDesc
+	{
+		fake_tip_mass 					"150"
+		spring_constant 				"750"
+		damping_constant 				"200"
+		falling_force 					"20000"
+		falling_mass 					"5000"
+		burned_spring_scaler 			"2"
+	
+		fall_impulse_scale 				"1.5"
+		bend_break_threshold 			"15"
+		
+		mesh_prefix 					"meshes/props/trees/flos_small_03"
+		material_prefix 				"props/trees/flos_big_01"
+		bird_effect 					"effects/world/birds_from_tree" 
+ 		fall_tree_effect 				"effects/destructibles/destructible_tree_broken"
+		bird_emission_probability 		"0.01"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_leafs_destruction_small"	
+					
+					part_material	 		"props/trees/flos_big_01"
+					part_prefix 			"meshes/props/trees/flos_small_03"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+					
+					//part_linear_damping		"1"
+				}
+			}
+			
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					
+					part_material 			"props/trees/flos_big_01"
+					part_prefix 			"meshes/props/trees/flos_small_03"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+					
+					//part_linear_damping		"1"
+				}
+			}
+		}		
+	}
+}
+

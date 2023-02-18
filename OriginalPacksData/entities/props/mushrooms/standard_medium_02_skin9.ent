@@ -1,0 +1,72 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/standard_medium_02_skin9"
+
+	base_blueprints
+	{
+		props/mushrooms/standard_medium_02
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/standard_medium_02.mesh"
+		material "props/mushrooms/standard_medium_02_skin9"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_medium"	
+					
+					part_material	 		"props/mushrooms/standard_medium_02_skin9"
+					part_prefix 			"meshes/props/mushrooms/standard_medium_02"
+					part_effect 			"effects/destructibles/mushroom_part_trail"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/mushrooms/standard_medium_02"					
+					part_prefix 			"meshes/props/mushrooms/standard_medium_02"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_small"
+					offset "0 1 0"
+				}
+			}
+		}
+		
+	}
+
+	
+}
+

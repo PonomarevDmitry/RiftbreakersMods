@@ -1,0 +1,34 @@
+material tone_mapping
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref tone_mapping_fp 
+			{
+			}
+			
+			texture_unit main
+			{
+				content_type compositor
+				tex_address_mode clamp
+                filtering none
+			}
+
+			texture_unit distortion
+			{
+				content_type compositor
+				tex_address_mode clamp
+                filtering none
+			}
+		}
+	}
+}

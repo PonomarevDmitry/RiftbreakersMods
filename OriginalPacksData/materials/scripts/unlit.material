@@ -1,0 +1,270 @@
+material unlit/default
+{
+    render_group 60
+	technique
+	{
+		pass
+		{
+			vertex_program_ref unlit_VP 
+			{
+			}
+
+			fragment_program_ref unlit_FP
+			{
+
+			}
+
+			texture_unit diffuse
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+		}
+	}
+}
+
+material unlit/default_srgb : unlit/default
+{
+    render_group 60
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_srgb_FP
+			{
+
+			}
+		}
+	}
+}
+
+material unlit/default_skinned : unlit/default
+{
+	render_group 60
+	technique
+	{
+		pass
+		{
+			vertex_program_ref unlit_skinned_VP 
+			{
+			}			
+		}
+	}
+}
+
+material unlit/additive : unlit/default
+{ 	
+	render_group 60
+
+	technique
+	{
+		pass
+		{ 		
+			depth_write off
+			scene_blend add
+		} 
+	}
+}
+
+material unlit/additive_skinned : unlit/default_skinned
+{ 	
+	render_group 60
+
+	technique
+	{
+		pass
+		{ 
+			depth_write off
+			scene_blend add
+		} 
+	}
+}
+
+material unlit/transparent : unlit/default
+{ 	
+	render_group 60
+
+	technique
+	{
+		pass
+		{ 		
+			depth_write off
+			scene_blend alpha_blend
+		} 
+	}
+}
+
+material unlit/transparent_skinned : unlit/default_skinned
+{ 	
+	render_group 60
+
+	technique
+	{
+		pass
+		{ 
+			depth_write off
+			scene_blend alpha_blend
+		}
+	}
+}
+
+material unlit/fresnel_normal
+{ 
+	render_group 61
+	
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+			scene_blend alpha_blend
+
+			vertex_program_ref unlit_fresnel_normal_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_normal_fp
+			{
+		        param_named cFresnelBias  float 0
+		        param_named cFresnelScale float 0
+		        param_named cFresnelPower float 0
+		        
+		        param_named cBlendColor1 float4 0 0 0 0
+		        param_named cBlendColor2 float4 0 0 0 0
+		    }
+
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+			}
+		}	
+	}
+}
+
+material unlit/emissive_transparent
+{
+    render_group 60
+    
+    technique
+    {
+        pass
+        {
+            depth_write off
+			scene_blend alpha_blend
+            
+            vertex_program_ref unlit_emissive_vp 
+            {
+            }
+            
+            fragment_program_ref unlit_emissive_fp
+            {
+            }
+            
+            texture_unit diffuse
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+            
+            texture_unit emissive
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+        }
+    }
+}
+
+material unlit/emissive_gradient_transparent
+{
+    render_group 60
+    
+    technique
+    {
+        pass
+        {
+            depth_write off
+			scene_blend alpha_blend
+            
+            vertex_program_ref unlit_emissive_vp 
+            {
+            }
+            
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+            
+            texture_unit diffuse
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+            
+            texture_unit emissive
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+
+            texture_unit gradient
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+        }
+    }
+}
+
+material unlit/emissive_transparent_skinned : unlit/emissive_transparent
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref unlit_emissive_skinned_vp 
+            {
+            }
+        }
+    }
+}
+
+material unlit/emissive_gradient_transparent_skinned : unlit/emissive_gradient_transparent
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref unlit_emissive_skinned_vp 
+            {
+            }
+        }
+    }
+}
+
+material unlit/null : unlit/emissive_transparent
+{ 
+	render_group 60
+
+	technique
+	{
+		pass
+		{
+            vertex_program_ref unlit_emissive_skinned_vp 
+            {
+            }
+        
+			fragment_program_ref unlit_emissive_alpha_fp
+			{
+			    param_named       cAlpha float 0
+			}
+		}
+	}
+}

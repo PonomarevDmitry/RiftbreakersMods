@@ -1,0 +1,147 @@
+EntityBlueprint
+{
+	name "props/crystals/entvined_medium_01"
+
+	base_blueprint "props/base/resistant_medium"
+
+	HealthDesc
+	{ 
+		max_health 				"100"
+		health 					"100"
+		is_manual               "1"
+
+	}
+
+	MeshDesc
+	{
+		material "props/crystals/entvined_01_set"
+		mesh "meshes/props/crystals/entvined_medium_01.mesh"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.45"
+						half_height "2"
+
+						position 
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
+				}
+			}
+
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "1"
+				y "1"
+				z "1"
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/crystals/entvined_medium_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.8"
+		max "1.2"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_blue"	
+					explosion_effect_scale 	"0.5"
+					part_material	 		"props/crystals/entvined_01_set"
+					part_prefix 			"meshes/props/crystals/entvined_medium_01"
+					part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}	
+		}		
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/point/crystal_blue_medium"
+                    offset "0 1 0"
+                }
+            }
+        }
+	
+    }
+}
+

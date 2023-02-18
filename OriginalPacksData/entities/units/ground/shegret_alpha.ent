@@ -1,0 +1,154 @@
+EntityBlueprint
+{
+	name "units/ground/shegret_alpha"
+
+	base_blueprint "units/ground/shegret_base"
+
+	StateMachineDesc
+	{
+		template_name "shegret"
+		params
+		{
+			aggressive_speed					float:"8"
+			aggressive_acceleration				float:"12"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|player|light|not_move_to_target"
+			melee_attack_name					string:"attack_1"
+			find_target_distance				float:"60"
+			leech_damage						float:"15"
+			leech_range							float:"8"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/shegret.lua"
+		database
+		{
+			min_scale	float:"1.05"
+			max_scale	float:"1.10"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"500"
+		health 						"500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.6"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/shegret.mesh"
+		material 	"units/ground/shegret_alpha"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/shegret_alpha"
+		can_activate 0
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/shegret_alpha/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_shegret/attack_start"
+						attack_start_time			"0.65"
+						attack_end_time				"0.82"
+						attack_duration 			"1.50"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"15.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "2.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

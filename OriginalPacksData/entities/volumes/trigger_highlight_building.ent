@@ -1,0 +1,77 @@
+EntityBlueprint
+{
+	name             "volumes/trigger_highlight_building"
+
+	SceneEditorDesc
+    {
+        //autogenerate_id	    "1"
+        mesh                "meshes/volume.mesh"
+        material            "volumes/trigger"
+
+        initial_scale
+        {
+            x "5.0"
+            y "1.0"
+            z "5.0"
+        }
+    }
+
+    LuaDesc
+    {
+        script "lua/volumes/trigger_highlight_building.lua"
+    }
+
+	TriggerDesc
+    {
+        collision   "character"
+
+        Shapes
+        {
+            PhysicsBoxShape
+            {
+                x "1"
+                y "1"
+                z "1"
+            }
+        }
+    }
+
+
+}
+
+EntityBlueprint
+{
+	name             "volumes/trigger_highlight_building_mining_elevator"
+    base_blueprint    "volumes/trigger_highlight_building"
+
+    DatabaseComponent
+    {
+        highlights string:"mining_elevator,main"
+    }
+}
+
+EntityBlueprint
+{
+	name             "volumes/trigger_highlight_tower_shockwave"
+    base_blueprint    "volumes/trigger_highlight_building"
+
+    DatabaseComponent
+    {
+        highlights string:"tower_shockwave,defense"
+    }
+	
+	TriggerDesc
+    {
+        collision   "character"
+
+        Shapes
+        {
+            PhysicsBoxShape
+            {
+                x "30"
+                y "5"
+                z "30"
+            }
+        }
+    }
+}

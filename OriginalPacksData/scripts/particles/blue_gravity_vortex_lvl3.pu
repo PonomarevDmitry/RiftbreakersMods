@@ -1,0 +1,135 @@
+system player/blue/blue_gravity_vortex_lvl3
+{
+    scale_velocity                              0.0150
+    scale                                       0.0150 0.0150 0.0150
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 2
+    technique dust
+    {
+        visual_particle_quota                   140
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_03_alpha_atlas
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       100
+            angle                               85
+            time_to_live                        1.3
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      dyn_random
+            {
+                min                             20
+                max                             30
+            }
+            particle_height                     dyn_random
+            {
+                min                             20
+                max                             30
+            }
+            keep_local                          true
+            end_texture_coords_range            3
+            start_colour_range                  1 1 1 1
+            radius                              1000
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.74902 0.74902 0.74902 0.309804
+            time_colour                         0.193478  0.74902 0.74902 0.74902 1
+            time_colour                         0.902174  0.74902 0.74902 0.74902 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector705
+        {
+            position                            0 -350 0
+            mass_affector                       10000
+            gravity                             100
+        }
+        affector                                Vortex Affector387
+        {
+            rotation_axis                       0 1 0
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
+        }
+    }
+    technique rocks
+    {
+        visual_particle_quota                   140
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp2_debris_atlas_e
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       100
+            angle                               85
+            time_to_live                        1.3
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      dyn_random
+            {
+                min                             5
+                max                             30
+            }
+            particle_height                     dyn_random
+            {
+                min                             5
+                max                             30
+            }
+            keep_local                          true
+            end_texture_coords_range            7
+            start_colour_range                  1 1 1 1
+            radius                              1000
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.2 0.2 0.2 0.309804
+            time_colour                         0.0478261  0.2 0.2 0.2 1
+            time_colour                         0.906522  0.2 0.2 0.2 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector705
+        {
+            position                            0 -350 0
+            mass_affector                       10000
+            gravity                             100
+        }
+        affector                                Vortex Affector387
+        {
+            rotation_axis                       0 1 0
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
+        }
+    }
+}

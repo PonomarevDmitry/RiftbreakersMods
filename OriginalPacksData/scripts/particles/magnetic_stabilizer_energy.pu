@@ -1,0 +1,119 @@
+system rift/magnetic_stabilizer_energy
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.012
+    scale                                       0.012 0.012 0.012
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 5
+    technique sparksgravity
+    {
+        visual_particle_quota                   150
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_violet_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface DebrisEmitter
+        {
+            emission_rate                       200
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      7
+            particle_height                     dyn_random
+            {
+                min                             10
+                max                             16
+            }
+            keep_local                          true
+            start_colour_range                  1 1 1 1
+            radius                              200
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.0784314 0.0784314 0.0784314 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector70
+        {
+            mass_affector                       10000
+            gravity                             5
+        }
+    }
+    technique refract
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Box flash2
+        {
+            emission_rate                       5
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             100
+            }
+            box_width                           200
+            box_height                          500
+            box_depth                           200
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  1 1 1 0.6
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector120
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+        }
+        affector                                Scale Affector121
+        {
+            xyz_scale                           dyn_random
+            {
+                min                             100
+                max                             200
+            }
+        }
+    }
+}

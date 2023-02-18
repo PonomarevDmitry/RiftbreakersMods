@@ -1,0 +1,53 @@
+system rift/mech_dash_exhaust
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.05
+    scale                                       0.05 0.05 0.05
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 6
+    technique fire_alpha_trail1
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/rep_trail3
+        renderer                                Billboard
+        {
+            texture_coords_rows                 17
+            texture_coords_columns              5
+            billboard_type                      oriented_self
+            billboard_origin                    top_left
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       30
+            angle                               2
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             6
+            }
+            particle_width                      30
+            particle_height                     10
+            direction                           1 0 0
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            84
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.1 0.1 0.1 0
+            time_colour                         0.104348  0.1 0.1 0.1 0.894118
+            time_colour                         0.708696  0.1 0.1 0.1 0.694118
+            time_colour                         1    0.1 0.1 0.1 0
+        }
+    }
+}

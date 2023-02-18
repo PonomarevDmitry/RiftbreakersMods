@@ -1,0 +1,97 @@
+EntityBlueprint
+{
+	name  "weather/tornado_big"
+
+	SceneEditorDesc
+    {
+        mesh "meshes/effect.mesh"
+    }
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/tornado"
+		visibility		"visible|radar"		
+		additional_z_order "90"
+	}
+
+	TimeOfDayEmitterComponentDesc
+	{
+		timeofday_preset
+		{
+			resource_name "scripts/scene_params/tornado.td"
+		}
+
+		timeofday_weight "1.0"
+	}
+
+	TornadoDesc
+	{
+		radius			          "15"
+		speed			          "5"
+		rotate_speed	          "6"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		damage_per_sec	          "40" 
+		type                      "target_player"		
+	}
+
+	LifeTimeDesc
+	{
+		time 		60
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}
+			}
+		}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "weather/tornado_big_local_wind"
+		    
+			PointWindDesc
+			{
+				power_max   "-15000"
+				power_min   "-15000"
+				radius      "25"
+			}    
+
+			AttachmentDesc
+			{
+				attachment "att_wind"
+			}
+		}
+
+	}
+
+	
+
+}
+

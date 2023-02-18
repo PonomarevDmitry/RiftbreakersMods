@@ -1,0 +1,80 @@
+system rift/crash_site_core_local
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique smoke_ring
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box smoke_ring
+        {
+            angle                               15
+            time_to_live                        dyn_random
+            {
+                min                             4
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             50
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             80
+            }
+            position                            0 25 0
+            start_colour_range                  0.333333 0.333333 0.333333 1
+            end_colour_range                    0.207843 0.207843 0.207843 1
+            colour                              0 0 0 1
+            auto_direction                      true
+            box_width                           600
+            box_height                          10
+            box_depth                           600
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 0
+            time_colour                         0.3  0.501961 0.501961 0.501961 0.494118
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           30
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.4
+                max                             0.4
+            }
+            rotation_speed                      0
+        }
+        affector                                ScaleVelocity Affector33
+        {
+            velocity_scale                      dyn_curved_linear
+            {
+                control_point                   0 -0.31025
+                control_point                   1 -140.9
+            }
+            stop_at_flip                        true
+        }
+    }
+}

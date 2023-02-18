@@ -1,0 +1,338 @@
+EntityBlueprint
+{
+	name  "buildings/defense/laser_projectile"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"items/skills/rift_portal_energy_2"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"50"
+
+		on_enemy_hit_effect 	"effects/weapons_energy/laser_small_hit"
+		on_world_hit_effect 	"effects/weapons_energy/laser_small_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+
+		collision_3d 			"world_blocker|world|ground_unit|building|destructible"
+		collision_block 		"world"
+
+        damage_factor_max       "9.0"
+        damage_factor_increase  "5"
+        damage_factor_decrease  "10.0"
+        damage_max_beam_scale 	"5.0"
+		damage_max_beam_glow 	"6.5"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/laser.mesh"
+		material 	"items/weapons/laser"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/laser"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+	
+	BeamWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"buildings/defense/laser_projectile"
+
+		fire_effect 				"effects/weapons_energy/laser_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}	
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/laser_small_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/laser_small_loop"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_deactivated"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/laser_small_stop"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/laser_advanced"
+
+	base_blueprint "items/weapons/laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/laser.mesh"
+		material 	"items/weapons/laser_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/laser_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/laser"
+		holding_pose "range"
+		item_bp		"items/weapons/laser_advanced"
+		icon		"gui/hud/items_icons/weapons/laser_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/laser_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/laser_extreme"
+
+	base_blueprint "items/weapons/laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/laser.mesh"
+		material 	"items/weapons/laser_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/laser_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/laser"
+		holding_pose "range"
+		item_bp		"items/weapons/laser_extreme"
+		icon		"gui/hud/items_icons/weapons/laser_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/laser_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/laser_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/laser"
+		holding_pose "range"
+		item_bp		"items/weapons/laser"
+		icon		"gui/hud/items_icons/weapons/laser"
+		bigger_icon "gui/menu/items_icons/weapons/laser"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/laser_superior"
+
+	base_blueprint "items/weapons/laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/laser.mesh"
+		material 	"items/weapons/laser_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/laser_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/laser"
+		holding_pose "range"
+		item_bp		"items/weapons/laser_superior"
+		icon		"gui/hud/items_icons/weapons/laser_superior"
+		bigger_icon "gui/menu/items_icons/weapons/laser_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+

@@ -1,0 +1,52 @@
+MissionDef
+{
+    logic           "logic/missions/test/blade/default.logic"
+    script          "lua/missions/test/blade_test.lua"
+
+    map_size        "5"
+    biomes          "legacy_maps"
+
+	tile_spawn_rules
+	{
+		biomes/legacy_maps/tiles/test_blade/test_blade.tile
+		{
+			min_instances 1
+			max_instances 1
+		}
+	}
+
+
+    ambient_creature_species
+    {
+        ground
+        {
+            max_count "50"
+            spawn_rate "2"
+            search_to_spawn_radius "10" 
+                
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "stonger"
+                }
+            }
+        }
+
+        air
+        {    
+            max_count "500"
+            spawn_rate "2"       
+            search_to_spawn_radius "10"
+
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "idapian"
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,66 @@
+EntityBlueprint 
+{	
+		name "weather/meteor_medium"
+
+	MeshDesc
+	{
+		mesh "meshes/props/rocks/sandstone/sandstone_small_03.mesh"
+		material "units/ground/gnerot_ultra_burning"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/meteor_shower"
+		visibility		"radar"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
+		
+		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
+
+		DamagePattern
+		{		
+			area_damage_radius 	"6"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"2000"
+					type 	"meteor"
+				}
+			}
+		}
+	}
+
+	SoundDesc
+	{
+		name 		"ambient/meteor"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/meteor_trail"
+				}
+			}
+		}
+	}
+}
+

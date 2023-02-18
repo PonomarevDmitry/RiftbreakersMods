@@ -1,0 +1,74 @@
+system exor/fire_trail_05_short_cheap
+{
+    fixed_timeout                               2
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0300
+    scale                                       0.0300 0.0300 0.0300
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique fire_alpha
+    {
+        visual_particle_quota                   18
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/explosion_and_darksmoke_anim_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       40
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             25
+                max                             35
+            }
+            duration                            dyn_random
+            {
+                min                             0.4
+                max                             0.5
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             14
+                max                             20
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.1 0.1 0.1 1
+            time_colour                         1    0.1 0.1 0.1 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      1
+        }
+        affector                                Scale Affector26
+        {
+            xyz_scale                           10
+        }
+    }
+}

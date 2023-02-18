@@ -1,0 +1,72 @@
+system exor/wall_hit
+{
+    fixed_timeout                               0.2
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0075
+    scale                                       0.0075 0.0075 0.0075
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 0
+    technique lines
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fire_add_05
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+        }
+        emitter                                 Point LinesEmitter
+        {
+            emission_rate                       100
+            angle                               45
+            time_to_live                        0.2
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      40
+            particle_height                     dyn_random
+            {
+                min                             200
+                max                             275
+            }
+            start_colour_range                  1 1 1 1
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 1
+        }
+    }
+    technique flash2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_glow_01_no_depth
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.1
+            velocity                            0
+            all_particle_dimensions             500
+            direction                           1 0 0
+            colour                              1 1 0.501961 1
+            force_emission                      true
+        }
+    }
+}

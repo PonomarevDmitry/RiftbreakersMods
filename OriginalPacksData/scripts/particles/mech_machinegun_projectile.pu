@@ -1,0 +1,47 @@
+system rift/mech_machinegun_projectile
+{
+    keep_local                                  true
+    fixed_timeout                               0.3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0025
+    scale                                       0.0025 0.0025 0.0025
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 75
+    technique 
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  68
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+            common_direction                    1 0 0
+            common_up_vector                    1 0 0
+            accurate_facing                     true
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       50
+            angle                               2
+            time_to_live                        0.07
+            velocity                            0.1
+            particle_width                      100
+            particle_height                     20000
+            direction                           1 0 0
+            force_emission                      true
+        }
+        affector                                Colour Affector2
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  0.501961 0.501961 0.501961 0.4
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

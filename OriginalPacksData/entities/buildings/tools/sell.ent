@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name  "buildings/tools/sell"
+
+	BuildingDesc
+	{
+		name 				"sell"
+		bp   				"buildings/tools/sell"
+		ghost_bp   			"buildings/tools/sell_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/sell_tool"
+		description			"gui/hud/building_description/sell_tool"
+		menu_icon			"gui/hud/buttons/action_menu_sell_neutral"
+		order				"2"
+		type 				"sell"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 	"buildings/metal_plate_1x1"
+		flags       "2"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/tools/sell_ghost"
+
+	BuildingDesc
+	{
+		name		"sell_ghost"
+		buildable 	"0"
+		type 		"sell"
+		category 	"tools"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/sell_tool.lua"
+		
+		database
+		{
+			action	string:"sell"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material "selector/hologram_active"
+		flags       "2"
+	}
+
+}
+

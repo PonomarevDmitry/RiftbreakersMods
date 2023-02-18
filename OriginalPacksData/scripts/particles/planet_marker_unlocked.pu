@@ -1,0 +1,139 @@
+system rift/planet_marker_unlocked
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.007
+    scale                                       0.007 0.007 0.007
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 12
+    technique 
+    {
+        position                                0 1 0
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_streak_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.3
+            }
+            particle_width                      100
+            particle_height                     dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            colour                              0 0.501961 1 1
+            box_width                           5
+            box_height                          1
+            box_depth                           5
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+    }
+    technique 
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_self
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.3
+            }
+            velocity                            0.0001
+            all_particle_dimensions             75
+            position                            0 1 0
+            colour                              0 0.501961 1 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.5  0.294118 0.294118 0.294118 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+    }
+    technique falling_sparks
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter7
+        {
+            emission_rate                       15
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             4
+                max                             5
+            }
+            position                            0 100 0
+            colour                              1 0.501961 0 1
+            box_width                           15
+            box_height                          200
+            box_depth                           15
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.206522  0.1 0.1 0.1 1
+            time_colour                         0.804348  0.1 0.1 0.1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

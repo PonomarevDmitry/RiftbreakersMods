@@ -1,0 +1,105 @@
+system exor/light_pillar
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0300
+    scale                                       0.0300 0.0300 0.0300
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique 
+    {
+        visual_particle_quota                   8
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_streak_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_type                      oriented_common
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+        }
+        emitter                                 Circle 
+        {
+            emission_rate                       5
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            particle_width                      1
+            particle_height                     dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            position                            0 -80 0
+            direction                           0 0 0
+            colour                              0 0.501961 1 1
+            radius                              15
+            step                                0.2
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.5  0.639216 0.819608 1 1
+            time_colour                         1    0 0 0 1
+        }
+        affector                                Scale 
+        {
+            x_scale                             dyn_random
+            {
+                min                             150
+                max                             300
+            }
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle sparks
+        {
+            emission_rate                       20
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             1.5
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             3
+                max                             6
+            }
+            position                            0 -80 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              35
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.147826  0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

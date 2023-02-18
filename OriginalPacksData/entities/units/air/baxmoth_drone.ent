@@ -1,0 +1,276 @@
+EntityBlueprint
+{
+	name "units/air/baxmoth_drone"
+
+	base_blueprint "units/air/baxmoth_drone_base"
+
+	LuaDesc
+	{
+		script "lua/units/air/baxmoth_drone.lua"	
+		database
+		{
+			min_scale	float:"1.0"
+			max_scale	float:"1.0"
+		}	
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/baxmoth_drone.mesh"
+		material 	"units/air/baxmoth_drone"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/air/baxmoth_drone_base"
+	
+	StateMachineDesc
+	{
+		template_name "baxmoth_drone"
+		params
+		{
+			aggressive_speed				float:"30"
+			aggressive_acceleration			float:"60"
+			not_aggressive_speed			float:"30"
+			not_aggressive_acceleration		float:"60"
+			weapon_bp						string:"units/air/baxmoth_drone_weapon"
+		}		
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"800"
+		unit_soft_radius				"1.0"
+		dominance_group				    "10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}
+
+	TypeDesc
+	{
+		type "air_unit"
+	}
+
+	TeamDesc
+	{
+		team "baxmoth"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/air/baxmoth_drone"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "flying"
+				animTime "0.0"
+			}
+		}
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+   					PhysicsSphereShape
+   					{
+    					r "1.0"
+   					}			
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+		
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"4000"
+		explosion_min_power 	"2000"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	AirNavigationComponent
+	{
+
+	}
+
+	TargetDesc
+	{
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/enemies_baxmoth/drone_death"
+					part_prefix 			"meshes/units/ground/canoptrix"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow_small"
+					part_physics_material   "gibs_light"						
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	EffectDesc
+	{		
+		EffectGroup
+		{			
+			group "move_random"
+			enabled "1"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_baxmoth/drone_run"								
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/air/baxmoth_drone_weapon"
+
+	TeamDesc
+	{
+		team "baxmoth"
+	}
+
+	TeamInheritanceDesc
+	{
+
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/air/baxmoth_drone"
+	}
+
+	WeaponItemDesc
+	{
+
+	}
+
+	TowerDesc
+	{
+	
+	}
+
+	TurretDesc
+	{
+		target "ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "20"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/drone_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_baxmoth/drone_attack"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+

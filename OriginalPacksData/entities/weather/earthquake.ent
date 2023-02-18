@@ -1,0 +1,52 @@
+EntityBlueprint
+{
+	name  "weather/earthquake"
+
+	LuaDesc
+	{
+		script "lua/weather/earthquake.lua"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"5"
+		type									"local"
+		time_of_day 							"scripts/scene_params/earthquake.td"
+		effect_intesity_distance				"30"
+		max_health_percentage_damage_threshold	"66"
+		damage_type								"earthquake"
+		size									"as_radius"
+		radius									"60"
+		local_effects							"effects/world/earthquake"
+		local_effects_random_offset				"15"
+		minimum_distance_per_local_effect		"5"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"60"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"60"
+		frequency 		"20"
+		group			"ambient"
+	}
+
+	LifeTimeDesc
+	{
+		time 		60
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name  "weather/earthquake_template"
+
+	LuaDesc
+	{
+		script "lua/weather/earthquake.lua"
+	}
+}
+

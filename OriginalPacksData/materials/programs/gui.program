@@ -1,0 +1,138 @@
+vertex_program gui_vp hlsl
+{
+    source      materials/programs/gui_vp.hlsl
+    entry_point mainVP
+    target      vs_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cTexelOffset texel_offsets
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program gui_fp hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1,USE_MASK=0,USE_AA=0,USE_LANCZOS=0,USE_UNSHARP=0
+}
+fragment_program gui_fp_masked hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1,USE_MASK=1,USE_AA=0,USE_LANCZOS=0,USE_UNSHARP=0
+}
+fragment_program gui_fp_lanczos hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1,USE_MASK=0,USE_AA=0,USE_LANCZOS=1,USE_UNSHARP=0
+
+	default_params
+    {
+        param_named_auto cInvTextureSize inverse_texture_size 0
+    }
+}
+fragment_program gui_fp_unsharp hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1,USE_MASK=0,USE_AA=0,USE_LANCZOS=0,USE_UNSHARP=1
+
+    default_params
+    {
+        param_named_auto cTextureSize texture_size 0
+    }
+}
+
+fragment_program gui_aa_fp hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1,USE_AA=1,USE_LANCZOS=0
+
+    default_params
+    {
+        param_named_auto cTextureSize texture_size 0
+    }
+}
+
+vertex_program gui_no_texture_vp hlsl
+{
+    source      materials/programs/gui_vp.hlsl
+    entry_point mainVP
+    target      vs_5_0
+
+    default_params
+    {
+        param_named_auto cTexelOffset texel_offsets
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program gui_no_texture_fp hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+}
+
+vertex_program gui_blend2tex_vp hlsl
+{
+    source      materials/programs/gui_vp.hlsl
+    entry_point mainVP
+    target      vs_5_0
+    
+    preprocessor_defines    USE_BLEND_2_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cTexelOffset texel_offsets
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program gui_blend2tex_fp hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_BLEND_2_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cChange sintime_0_2pi 1
+    }
+}
+
+fragment_program gui_stencil_fp hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1,USE_STENCIL=1
+}
+
+fragment_program gui_stencil_no_texture_fp hlsl
+{
+    source      materials/programs/gui_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_STENCIL=1
+}

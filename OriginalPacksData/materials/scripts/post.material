@@ -1,0 +1,41 @@
+material post_final
+{
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			cull_hardware none
+
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref post_final_fp 
+			{
+			}
+			
+			texture_unit illuminance
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+
+			texture_unit occlusion
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}

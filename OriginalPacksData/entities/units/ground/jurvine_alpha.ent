@@ -1,0 +1,74 @@
+EntityBlueprint
+{
+	name "units/ground/jurvine_alpha"
+
+	base_blueprint "units/ground/jurvine_base"
+
+	StateMachineDesc
+	{
+		template_name "jurvine"
+		params
+		{
+			run_speed						float:"12"
+			run_acceleration				float:"24"
+			walk_speed						float:"2"
+			walk_acceleration				float:"4"
+			evade_distance					float:"20"
+			random_move_distance			float:"25"	
+			run_away_evade_distance			float:"45"
+			run_away_move_distance			float:"110"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/jurvine.lua"
+		database
+		{
+			min_scale	float:"1.05"
+			max_scale	float:"1.2"
+		}		
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"		
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"150"
+		unit_soft_radius				"0.7"
+		ignore_cost_mask				"building|path_blocker"
+		dominance_group				    "9"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/jurvine.mesh"
+		material 	"units/ground/jurvine_alpha"
+	}
+
+	
+
+}

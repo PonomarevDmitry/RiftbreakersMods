@@ -1,0 +1,67 @@
+CompositorNode gui
+{
+	rt main 1.0 1.0 main PF_R8G8B8A8
+	
+	target main
+	{
+		pass clear
+		{
+			clear_color 0.0 0.0 0.0 0.0
+			clear_mask COLOR
+		}
+		
+	}
+	
+	out main
+}
+
+CompositorNode gui_final
+{
+	in main
+	rt_final final
+	
+	target final
+	{
+		pass clear
+		{
+			clear_color 0.0 0.0 0.0 0.0
+			clear_mask DEPTH|COLOR|STENCIL 
+		}
+		
+		pass render_gui
+		{
+		}
+
+	    pass transition
+        {
+            state common
+        }
+	}
+}
+
+CompositorSync gui_cursor
+{    
+    syncpoint cursor
+    {
+
+    }
+}
+
+CompositorSync gui_present
+{
+    syncpoint present
+    {
+
+    }
+}
+
+CompositorGraph gui
+{
+	connect gui main gui_final main
+
+    context final_context gui
+    context final_context gui_final
+
+	pre_commit  final_context   gui_cursor
+    post_commit final_context   gui_present
+}

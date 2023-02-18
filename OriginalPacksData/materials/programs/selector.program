@@ -1,0 +1,25 @@
+vertex_program selector_VP hlsl
+{
+    source 							materials/programs/selector_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+
+    default_params
+    {
+        param_named_auto cWorldViewProj worldviewproj_matrix
+        param_named_auto cWorld         world_matrix 
+    }
+}
+
+fragment_program selector_FP hlsl
+{
+    source 							materials/programs/selector_fp.hlsl
+    entry_point 					mainFP
+    target 							ps_5_0
+
+    default_params
+    {
+        param_named      cSelectorPosition     float4 0 0 0 0
+        param_named 	 cEmissiveColor        float4 0 0 0 0
+    }
+}

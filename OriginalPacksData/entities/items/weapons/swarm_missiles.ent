@@ -1,0 +1,388 @@
+EntityBlueprint
+{
+	name  "items/weapons/swarm_missiles"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
+		material 	"items/weapons/swarm_missiles"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/swarm_missiles"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.50"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+		}
+
+		ammo_blueprint 				"mech/swarm_missiles_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_explosive/rocket_fire_small"
+
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/swarm_missiles_advanced"
+
+	base_blueprint "items/weapons/swarm_missiles"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
+		material 	"items/weapons/swarm_missiles_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/swarm_missiles_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype			"explosive"
+		holding_pose "range"
+		name 		"gui/menu/inventory/weapon_name/swarm_missiles"
+		item_bp		"items/weapons/swarm_missiles_advanced"
+		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/swarm_missiles_extreme"
+
+	base_blueprint "items/weapons/swarm_missiles"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
+		material 	"items/weapons/swarm_missiles_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/swarm_missiles_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype			"explosive"
+		holding_pose "range"
+		name 		"gui/menu/inventory/weapon_name/swarm_missiles"
+		item_bp		"items/weapons/swarm_missiles_extreme"
+		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/swarm_missiles_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype			"explosive"
+		holding_pose "range"
+		name 		"gui/menu/inventory/weapon_name/swarm_missiles"
+		item_bp		"items/weapons/swarm_missiles"
+		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher"
+		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/swarm_missiles_superior"
+
+	base_blueprint "items/weapons/swarm_missiles"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
+		material 	"items/weapons/swarm_missiles_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/swarm_missiles_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype			"explosive"
+		holding_pose "range"
+		name 		"gui/menu/inventory/weapon_name/swarm_missiles"
+		item_bp		"items/weapons/swarm_missiles_superior"
+		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher_superior"
+		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "mech/swarm_missiles_projectile"
+
+	base_blueprint effects/weapons_explosive/rocket_projectile_small
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/rocket_swarm.mesh"
+		material 	"projectiles/rocket_swarm"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/rocket_small"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_small"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_small"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world_blocker|world|ground_unit|building|destructible"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+
+
+	//EffectDesc
+	//{
+	//	EffectGroup
+	//	{
+	//		Effects
+	//		{
+	//			Effect
+	//			{
+	//				blueprint "effects/weapons_explosive/rocket_projectile_small"
+	//				bone "att_exhaust"
+	//			}
+	//		}
+	//	}
+	//}
+
+		LifeTimeDesc
+	{
+		time 		0.3
+		type 		"camera"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/smoke_trail_01
+				update_bounds 		1
+				fade_out_time		0.1
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 0.2"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.2"
+					}
+				}
+			}
+		}
+	}
+}

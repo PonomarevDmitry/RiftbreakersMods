@@ -1,0 +1,82 @@
+EntityBlueprint
+{
+	name "props/special/interactive/crash_site_core"	
+
+	MeshDesc
+	{
+		material "props/special/hitech_structure_medium_03"
+		mesh "meshes/props/special/alien_structures/hitech_structure_medium_03.mesh"
+	}
+
+	BuildingDesc
+	{
+		name 				"crash_site_core"
+		bp   				"props/special/interactive/crash_site_core"		
+		buildable			"0"
+	}
+
+	SelectableDesc
+	{
+		content "gui/hud/building_name/crash_site_core"
+		can_activate 0
+	}	
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     			"static"
+				group_id    		"world_blocker"
+				physics_material  	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/alien_structures/hitech_structure_medium_03_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	ResourceStorageDesc
+	{
+		Storages
+		{				
+			Storage
+			{
+				resource "energy"
+				max 	 "0"
+			}				
+		}
+	}	
+
+	ResourceConverterDesc
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 			"energy"
+				value			 	"0"
+			}
+		}
+	}
+
+	//EffectDesc
+	//{
+	//	EffectGroup
+	//	{
+	//		Effects
+	//		{
+	//			Effect
+	//			{
+	//				blueprint "weather/crash_site_core"
+	//			}				
+	//		}
+	//	}		
+	//}
+}
+

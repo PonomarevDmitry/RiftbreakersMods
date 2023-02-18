@@ -1,0 +1,695 @@
+//editor "offset(-595.757,-80.394)|zoom(0.820)"
+FlowGraphTemplate
+{
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-272,614)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(2252,735)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "destroy.nest_2"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(1033,479)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/position_marker_canoptrix_nest_2"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "50.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_0###true"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(8,565)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/demo/destroy_canoptrix_nest_2"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "destroy.nest_2"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1914,918)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.10"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(2255,977)"
+			script "lua/graph/entity/entity_remove.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "canoptrix_marker_2"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "entity_remove_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive.xml)|pos(1471,677)"
+			script "lua/graph/logic/logic_if_alive.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "target_name"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value "units/ground/spawner_canoptrix_easy"
+					}
+
+					StringData
+					{
+						key "wait_until_dead"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+						value "logic/position_marker_canoptrix_nest_2"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "50.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_alive_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_alive_0###false"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1048,796)"
+			self_id "logic_if_exist_entity_new_0###true"
+			key "true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1486,944)"
+			self_id "logic_if_alive_0###false"
+			key "false"
+			value "logic_if_alive_0###false"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(4105,767)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1330,1752)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1540,1695)"
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/ashley"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/demo/ashley_nest_4"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "interface_dialogue_show_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_trigger.xml)|pos(1046,1557)"
+			script "lua/graph/logic/logic_wait_on_trigger.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "trigger_name"
+						value "volumes/trigger_unit_4"
+					}
+
+					StringData
+					{
+						key "filter_type"
+					}
+
+					StringData
+					{
+						key "filter_team"
+						value "player"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_trigger_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_trigger.xml)|pos(1044,1789)"
+			script "lua/graph/logic/logic_wait_on_trigger.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "trigger_name"
+						value "volumes/trigger_unit_5"
+					}
+
+					StringData
+					{
+						key "filter_type"
+					}
+
+					StringData
+					{
+						key "filter_team"
+						value "player"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_trigger_1"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(2811,599)"
+			global "0"
+			self_id "interface_dialogue_show_group_0"
+			interrupt "0"
+			priority "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/demo/mech_nest_2"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/demo/ashley_nest_5"
+					extended_duration "0"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/demo/mech_nest_3"
+					extended_duration "0"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(1049,1065)"
+			script "lua/graph/entity/entity_spawn_single.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "effects/messages_and_markers/objective_marker_spawner_red"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "canoptrix_marker_2"
+					}
+
+					StringData
+					{
+						key "entity_group"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "logic/position_marker_canoptrix_nest_2"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value ""
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value ""
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_spawn_single_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(1950,544)"
+			script "lua/graph/logic/logic_event_send.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "nest_destroyed"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_event_send_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		interface_dialogue_show_group_0 "event_end_0"
+		logic_wait_on_trigger_0 "logic_or_0"
+		logic_if_exist_entity_new_0###true "logic_if_alive_0"
+		logic_wait_on_trigger_1 "logic_or_0"
+		logic_if_alive_0###false "logic_event_send_0|logic_wait_0"
+		logic_or_0 "interface_dialogue_show_0"
+		logic_wait_0 "entity_remove_0|objective_finish_0"
+		objective_generic_0 "entity_spawn_single_1|logic_if_exist_entity_new_0|logic_wait_on_trigger_0|logic_wait_on_trigger_1"
+		objective_finish_0 "interface_dialogue_show_group_0"
+		logic_if_alive_0 "logic_if_alive_0###false"
+		default "objective_generic_0"
+		logic_if_exist_entity_new_0 "logic_if_exist_entity_new_0###true"
+	}
+
+}
+

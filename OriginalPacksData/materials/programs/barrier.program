@@ -1,0 +1,48 @@
+vertex_program barrier_vp hlsl
+{
+    source 			materials/programs/barrier_vp.hlsl
+    entry_point 	mainVP
+    target 			vs_5_0
+
+    default_params
+    {
+		param_named_auto cWorld         			world_matrix 
+		param_named_auto cWorldEyePosition 			camera_position
+		param_named_auto cWorldViewProj				worldviewproj_matrix
+    }
+}
+
+vertex_program barrier_skinned_vp hlsl
+{
+    source							materials/programs/barrier_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    column_major_matrices 			false
+    preprocessor_defines			USE_HW_SKINNING=1
+	includes_skeletal_animation 	true
+
+    default_params
+    {
+		param_named_auto cWorld3x4Array 	world_matrix_array_3x4 
+		param_named_auto cViewProj 			viewproj_matrix
+		param_named_auto cWorldEyePosition 	camera_position
+    }
+}
+
+fragment_program barrier_emissive_gradient_fp hlsl
+{
+    source          materials/programs/barrier_fp.hlsl
+    entry_point     mainFP
+    target          ps_5_0
+
+    preprocessor_defines USE_EMISSIVE_MAP=1,USE_GRADIENT_MAP=1
+
+    default_params
+    {
+		param_named cBarrier float 0
+
+		param_named_auto cGlowAmount        surface_glow
+        param_named_auto cEmissiveColor     surface_emissive_colour
+		param_named_auto cTime time
+    }
+}

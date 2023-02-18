@@ -1,0 +1,107 @@
+import * from "materials/scripts/pbr.material"
+
+material decal/default
+{ 	
+	render_group 180
+
+	feature "decal"
+
+	technique
+	{
+		pass
+		{
+			glow 4
+            
+			depth_write 		off
+			//depth_check 		off
+			depth_bias 			-30 0
+
+			colour_write_r		on
+			colour_write_g		on
+			colour_write_b		on
+			colour_write_a		off
+            
+			scene_blend 		alpha_blend
+			
+			vertex_program_ref deferred_decal_vp
+			{
+			}
+			
+			fragment_program_ref deferred_decal_fp 
+			{
+			}
+			
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/pbr_100_70_packed.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit depth
+			{
+				content_type compositor any gbuffer 5
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material decal/unlit
+{ 	
+	render_group 190
+
+	feature "decal"
+	
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+            
+			scene_blend alpha_blend	
+			
+			vertex_program_ref unlit_decal_vp
+			{
+			}
+			
+			fragment_program_ref unlit_decal_fp 
+			{
+			}
+						
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit depth
+			{
+				content_type compositor any gbuffer 5
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}

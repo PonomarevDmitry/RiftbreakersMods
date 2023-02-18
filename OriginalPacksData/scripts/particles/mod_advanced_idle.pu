@@ -1,0 +1,105 @@
+system rift/mod_advanced_idle
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.09
+    scale                                       0.09 0.09 0.09
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique 
+    {
+        visual_particle_quota                   250
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_blue_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             3
+            }
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.3  0.8 0.8 0.8 1
+            time_colour                         0.7  0.8 0.8 0.8 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector26
+        {
+            force_vector                        0 100 0
+        }
+    }
+    technique 
+    {
+        position                                0 1 0
+        visual_particle_quota                   40
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_streak_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            1
+            particle_width                      75
+            particle_height                     dyn_random
+            {
+                min                             150
+                max                             200
+            }
+            colour                              0 0.501961 1 1
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+        affector                                LinearForce Affector26
+        {
+            force_vector                        0 100 0
+        }
+    }
+}

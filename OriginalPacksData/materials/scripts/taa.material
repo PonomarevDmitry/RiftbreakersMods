@@ -1,0 +1,40 @@
+material taa
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref taa_cs
+			{
+			}
+			
+			texture_unit input
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering point point point
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering point point point
+			}
+
+			texture_unit prev
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear linear
+			}
+
+			texture_unit velocity
+			{			    
+				content_type compositor
+				tex_address_mode clamp
+				filtering point point point
+			}
+		}
+	}
+}

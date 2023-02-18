@@ -1,0 +1,77 @@
+system exor/ambient_dust
+{
+    nonvisible_update_timeout                   1
+    tight_bounding_box                          true
+    scale_velocity                              0.0250
+    scale                                       0.0250 0.0250 0.0250
+    category                                    SHOOTER
+    technique s2
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box s2
+        {
+            emission_rate                       50
+            angle                               dyn_random
+            {
+                min                             2
+                max                             6
+            }
+            time_to_live                        dyn_random
+            {
+                min                             4
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             300
+            }
+            duration                            dyn_random
+            {
+                min                             1
+                max                             5
+            }
+            repeat_delay                        dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            position                            0 50 0
+            direction                           1 0 0
+            end_texture_coords_range            3
+            start_colour_range                  0.333333 0.333333 0.333333 1
+            end_colour_range                    0.207843 0.207843 0.207843 1
+            colour                              0 0 0 1
+            box_width                           800
+            box_height                          20
+            box_depth                           800
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.882353 0.886275 0.796078 0
+            time_colour                         0.3  0.870588 0.870588 0.811765 0.109804
+            time_colour                         0.86087  0.866667 0.866667 0.8 0.109804
+            time_colour                         1    0.87451 0.87451 0.823529 0
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           20
+        }
+    }
+}

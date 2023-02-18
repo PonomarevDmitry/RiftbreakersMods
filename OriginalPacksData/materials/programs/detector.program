@@ -1,0 +1,37 @@
+vertex_program detector_vp hlsl
+{
+    source                                  materials/programs/detector_vp.hlsl
+    entry_point                             mainVP
+    target                                  vs_5_0
+    preprocessor_defines                    USE_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto  cWorld            world_matrix 
+        param_named_auto  cWorldViewProj    worldviewproj_matrix
+    }
+}
+
+fragment_program detector_fp hlsl
+{
+    source                                  materials/programs/detector_fp.hlsl
+    entry_point                             mainFP
+    target                                  ps_5_0
+                
+    preprocessor_defines                    USE_FOG=1
+
+    default_params
+    {
+        param_named_auto  cWorld            world_matrix
+        param_named_auto  cFogParams        fog_params
+        param_named_auto  cFogColour        fog_colour
+        param_named_auto  cEmissiveColor    surface_emissive_colour
+        param_named_auto  cGlowAmount       surface_glow
+        param_named       cGlowFactor       float 1       
+        param_named       cAlpha            float 1
+        param_named_auto  cTime             time
+        param_named       cTargetPos        float3 0 0 0
+        param_named       cRadius           float 50
+        param_named       cIsEnemy          float 0
+    }
+}

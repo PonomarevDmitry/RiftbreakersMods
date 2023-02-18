@@ -1,0 +1,57 @@
+system exor/flak_aiming
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 0
+    technique rings_alpha_1
+    {
+        visual_particle_quota                   4
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/shockwave_02_red
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            angle                               0
+            time_to_live                        0.25
+            velocity                            0
+            all_particle_dimensions             1
+            position                            0 5 0
+            colour                              1 0.501961 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      3
+        }
+        affector                                Scale Affector44
+        {
+            xyz_scale                           400
+        }
+    }
+}

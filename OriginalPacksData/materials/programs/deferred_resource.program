@@ -1,0 +1,190 @@
+vertex_program deferred_resource_liquid_vp hlsl
+{
+    source materials/programs/deferred_resource_liquid_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    default_params
+    {
+        param_named_auto cWorld         world_matrix 
+        param_named_auto cViewProj      viewproj_matrix 
+        param_named      cTilingFactor  float 16.0        
+    }
+}
+
+fragment_program deferred_resource_liquid_fp hlsl
+{
+    source materials/programs/deferred_resource_liquid_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount        surface_glow
+        param_named      cGlowFactor        float          1.0
+        param_named      cFlowSpeed         float          0.0
+        param_named      cFlowScale         float          2.0
+        param_named_auto cTime              time
+        param_named_auto cMIPBias           mip_bias
+    }
+}
+
+fragment_program deferred_resource_morphium_fp hlsl
+{
+    source materials/programs/deferred_resource_morphium_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1
+
+    default_params
+    {       
+        param_named      cFresnelOffset      float          0.0
+        param_named      cFresnelPower       float          1.0
+        param_named      cFresnelBias        float          0.1
+        param_named_auto cWorldCameraPos     camera_position
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cFlowSpeed          float          0.0
+        param_named      cFlowScale          float          2.0
+        param_named_auto cTime               time
+        param_named_auto cMIPBias            mip_bias
+    }
+}
+
+fragment_program deferred_resource_morphium_vein_fp hlsl
+{
+    source materials/programs/deferred_resource_morphium_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_ALPHA=1,TERRAIN_BLEND=0
+
+    default_params
+    {       
+        param_named      cFresnelOffset      float          0.0
+        param_named      cFresnelPower       float          1.0
+        param_named      cFresnelBias        float          0.1
+        param_named_auto cWorldCameraPos     camera_position
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cFlowSpeed          float          0.0
+        param_named      cFlowScale          float          2.0
+        param_named_auto cTime               time
+        param_named_auto cMIPBias            mip_bias
+    }
+}
+
+fragment_program deferred_resource_morphium_vein_blend_fp hlsl
+{
+    source materials/programs/deferred_resource_morphium_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_ALPHA=1,TERRAIN_BLEND=1
+
+    default_params
+    {       
+        param_named      cFresnelOffset      float          0.0
+        param_named      cFresnelPower       float          1.0
+        param_named      cFresnelBias        float          0.1
+        param_named_auto cWorldCameraPos     camera_position
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cFlowSpeed          float          0.0
+        param_named      cFlowScale          float          2.0
+        param_named_auto cTime               time
+        param_named_auto cMIPBias            mip_bias
+    }
+}
+
+fragment_program deferred_resource_liquid_vein_fp hlsl
+{
+    source materials/programs/deferred_resource_liquid_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_ALPHA=1,TERRAIN_BLEND=0
+
+    default_params
+    {
+        param_named_auto cGlowAmount        surface_glow
+        param_named      cGlowFactor        float          1.0
+        param_named      cFlowSpeed         float          0.2
+        param_named      cFlowScale         float          2.0
+        param_named_auto cTime              time
+        param_named_auto cMIPBias           mip_bias
+    }
+}
+
+fragment_program deferred_resource_liquid_vein_blend_fp hlsl
+{
+    source materials/programs/deferred_resource_liquid_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_ALPHA=1,TERRAIN_BLEND=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount        surface_glow
+        param_named      cGlowFactor        float          1.0
+        param_named      cFlowSpeed         float          0.2
+        param_named      cFlowScale         float          2.0
+        param_named_auto cTime              time
+        param_named_auto cMIPBias           mip_bias
+    }
+}
+
+fragment_program deferred_resource_liquid_vein_gradient_fp hlsl
+{
+    source materials/programs/deferred_resource_liquid_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_ALPHA=1,USE_GRADIENT=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount        surface_glow
+        param_named      cGlowFactor        float          1.0
+        param_named      cFlowSpeed         float          0.2
+        param_named      cFlowScale         float          2.0
+        param_named_auto cTime              time
+        param_named_auto cMIPBias           mip_bias
+    }
+}
+
+fragment_program deferred_resource_liquid_vein_gradient_blend_fp hlsl
+{
+    source materials/programs/deferred_resource_liquid_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_ALPHA=1,USE_GRADIENT=1,TERRAIN_BLEND=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount        surface_glow
+        param_named      cGlowFactor        float          1.0
+        param_named      cFlowSpeed         float          0.2
+        param_named      cFlowScale         float          2.0
+        param_named_auto cTime              time
+        param_named_auto cMIPBias           mip_bias
+    }
+}
+
+fragment_program deferred_resource_vein_fp hlsl
+{
+    source materials/programs/deferred_resource_vein_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1
+
+    default_params
+    {       
+        param_named_auto cTime               time
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          0.0
+        param_named      cFresnelBias        float          0
+        param_named      cFresnelScale       float          0
+        param_named      cFresnelPower       float          0
+        param_named      cFresnelColor       float4         0 0 0 0
+        param_named_auto cWorldCameraPos     camera_position
+        param_named_auto cMIPBias            mip_bias
+    }
+}

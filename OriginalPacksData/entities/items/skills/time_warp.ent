@@ -1,0 +1,81 @@
+EntityBlueprint
+{ 
+	name "items/skills/time_warp"
+
+	LifeTimeDesc
+	{
+		time 10
+	}
+
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/radar_pulse"								
+				}
+			}
+		}			
+	}
+
+	TimeWarpDesc
+	{
+		desaturation	"0.4"
+		contrast   		"1.0"
+		brightness		"1.0"
+		bloom_scale		"1.0"
+		time_factor		"0.3"
+		
+		delay			"0.1"
+		fade_in_time	"0.3"
+		fade_out_time	"1.9"
+		duration		"10"
+	}
+
+	
+	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/time_warp_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/time_warp"	
+		cooldown	"10"
+		icon		"gui/hud/items_icons/skills/time_warp"
+		bigger_icon "gui/menu/items_icons/skills/time_warp"		
+		description 	"gui/menu/inventory/skill_description/time_warp"	
+		add_quality "0"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+		
+		database
+		{
+			bp		string:"items/skills/time_warp"
+			att		string:"be_body_upper"
+			check_empty_spot int:"0"
+		}
+	
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+
+	
+		
+}
+

@@ -1,0 +1,323 @@
+vertex_program unlit_fresnel_vp hlsl
+{
+    source 			materials/programs/unlit_fresnel_vp.hlsl
+    entry_point 	mainVP
+    target 			vs_5_0
+
+    default_params
+    {
+		param_named_auto cWorld         			world_matrix 
+		param_named_auto cWorldEyePosition 			camera_position
+		param_named_auto cWorldViewProj				worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_fresnel_skinned_vp hlsl
+{
+    source							materials/programs/unlit_fresnel_vp.hlsl
+    entry_point 					mainVP
+    target 							vs_5_0
+    column_major_matrices 			false
+    preprocessor_defines			USE_HW_SKINNING=1
+	includes_skeletal_animation 	true
+
+    default_params
+    {
+		param_named_auto cWorld3x4Array 	world_matrix_array_3x4 
+		param_named_auto cViewProj 			viewproj_matrix
+		param_named_auto cWorldEyePosition 	camera_position
+    }
+}
+
+vertex_program unlit_fresnel_vegetation_vp hlsl
+{
+    source                  materials/programs/unlit_fresnel_vp.hlsl
+    entry_point             mainVP
+    target                  vs_5_0
+    preprocessor_defines    USE_VEGETATION=1
+    default_params
+    {
+        param_named_auto cWorldEyePosition          camera_position
+        param_named      cBendingInfo               float4  0 0 0 0
+        param_named_auto cWorld                     world_matrix 
+        param_named_auto cWorldViewProj             worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_fresnel_vegetation_deform_vp hlsl
+{
+    source                  materials/programs/unlit_fresnel_vp.hlsl
+    entry_point             mainVP
+    target                  vs_5_0
+    preprocessor_defines    USE_VEGETATION=1,USE_DEFORM=1
+    default_params
+    {
+        param_named_auto cWorldEyePosition          camera_position
+        param_named      cBendingInfo               float4  0 0 0 0
+        param_named_auto cWorld                     world_matrix 
+        param_named_auto cWorldViewProj             worldviewproj_matrix
+        param_named_auto cTime                      time
+        param_named      cDeform                    float2  2.0 1
+    }
+}
+
+vertex_program unlit_fresnel_vegetation_tree_vp hlsl
+{
+    source                  materials/programs/unlit_fresnel_vp.hlsl
+    entry_point             mainVP
+    target                  vs_5_0
+    preprocessor_defines    USE_VEGETATION_TREE=1
+    default_params
+    {
+        param_named_auto cWorldEyePosition          camera_position
+        param_named      cTreeInfo                  float4 0 0 0 100
+        param_named_auto cWorld                     world_matrix 
+        param_named_auto cWorldViewProj             worldviewproj_matrix
+    }
+}
+
+vertex_program unlit_fresnel_normal_vp hlsl
+{
+    source                  materials/programs/unlit_fresnel_vp.hlsl
+    entry_point             mainVP
+    target                  vs_5_0
+    preprocessor_defines    USE_NORMAL_MAP=1
+
+    default_params
+    {
+        param_named_auto cWorld                     world_matrix 
+        param_named_auto cWorldEyePosition          camera_position
+        param_named_auto cWorldViewProj             worldviewproj_matrix
+    }
+}
+
+fragment_program unlit_fresnel_fp hlsl
+{
+    source 			materials/programs/unlit_fresnel_fp.hlsl
+    entry_point 	mainFP
+	target 			ps_5_0
+	
+	default_params
+    {
+		param_named cFresnelBias  float 0
+		param_named cFresnelScale float 0
+		param_named cFresnelPower float 0
+		
+		param_named cBlendColor1 float4 0 0 0 0
+		param_named cBlendColor2 float4 0 0 0 0
+    }
+}
+
+fragment_program unlit_fresnel_alpha_fp hlsl
+{
+    source                  materials/programs/unlit_fresnel_fp.hlsl
+    entry_point             mainFP
+    target                  ps_5_0
+    preprocessor_defines    USE_ALPHA=1
+
+    default_params
+    {
+        param_named         cFresnelBias  float 0
+        param_named         cFresnelScale float 0
+        param_named         cFresnelPower float 0
+        
+        param_named         cBlendColor1 float4 0 0 0 0
+        param_named         cBlendColor2 float4 0 0 0 0
+
+        param_named         cAlpha              float   0.0
+    }
+}
+
+fragment_program unlit_fresnel_vegetation_fp hlsl
+{
+    source                  materials/programs/unlit_fresnel_fp.hlsl
+    entry_point             mainFP
+    target                  ps_5_0
+    preprocessor_defines    USE_BURNED_MAP=1,USE_ALPHA_TEST=1
+    
+    default_params
+    {
+        param_named         cFresnelBias        float 0
+        param_named         cFresnelScale       float 0
+        param_named         cFresnelPower       float 0
+        
+        param_named         cBlendColor1        float4 0 0 0 0
+        param_named         cBlendColor2        float4 0 0 0 0
+
+        param_named         cDissolveAmount     float          0.0
+        param_named         cBurningAmount      float4         0.0 0.0 0.0 0.0
+    }
+}
+
+fragment_program unlit_fresnel_normal_fp hlsl
+{
+    source                  materials/programs/unlit_fresnel_fp.hlsl
+    entry_point             mainFP
+    target                  ps_5_0
+    preprocessor_defines    USE_NORMAL_MAP=1
+    
+    default_params
+    {
+        param_named cFresnelBias  float 0
+        param_named cFresnelScale float 0
+        param_named cFresnelPower float 0
+        
+        param_named cBlendColor1 float4 0 0 0 0
+        param_named cBlendColor2 float4 0 0 0 0
+    }
+}
+
+fragment_program unlit_fresnel_flare_fp hlsl
+{
+    source          materials/programs/unlit_fresnel_fp.hlsl
+    entry_point     mainFP
+    target          ps_5_0
+
+    preprocessor_defines USE_FLARE=1
+
+    default_params
+    {
+        param_named cFresnelBias  float 0
+        param_named cFresnelScale float 0
+        param_named cFresnelPower float 0
+        
+        param_named cBlendColor1 float4 0 0 0 0
+        param_named cBlendColor2 float4 0 0 0 0
+
+        param_named_auto cTime    time
+        param_named cFlarePower   float 0.1
+        param_named cFlareSpeed   float 1
+    }
+}
+
+fragment_program unlit_fresnel_dissolve_fp hlsl
+{
+    source          materials/programs/unlit_fresnel_fp.hlsl
+    entry_point     mainFP
+    target          ps_5_0
+
+    preprocessor_defines USE_DISSOLVE_MAP=1
+
+    default_params
+    {
+        param_named cFresnelBias    float   0
+        param_named cFresnelScale   float   0
+        param_named cFresnelPower   float   0
+        
+        param_named cBlendColor1    float4  0 0 0 0
+        param_named cBlendColor2    float4  0 0 0 0
+
+        param_named cDissolveAmount float   0.0
+        param_named cDissolveSize   float   0.1
+        param_named cDissolveColor  float4  0 1.25 5 3
+    }
+}
+
+fragment_program unlit_fresnel_flare_dissolve_fp hlsl
+{
+    source          materials/programs/unlit_fresnel_fp.hlsl
+    entry_point     mainFP
+    target          ps_5_0
+
+    preprocessor_defines USE_FLARE=1,USE_DISSOLVE_MAP=1
+
+    default_params
+    {
+        param_named cFresnelBias    float   0
+        param_named cFresnelScale   float   0
+        param_named cFresnelPower   float   0
+        
+        param_named cBlendColor1    float4  0 0 0 0
+        param_named cBlendColor2    float4  0 0 0 0
+
+        param_named cDissolveAmount float   0.0
+        param_named cDissolveSize   float   0.2
+        param_named cDissolveColor  float4  0 2.5 10 6
+
+        param_named_auto cTime      time
+        param_named cFlarePower     float 0.1
+        param_named cFlareSpeed     float 1
+    }
+}
+
+fragment_program unlit_fresnel_normal_dissolve_fp hlsl
+{
+    source          materials/programs/unlit_fresnel_fp.hlsl
+    entry_point     mainFP
+    target          ps_5_0
+
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_NORMAL_MAP=1
+
+    default_params
+    {
+        param_named cFresnelBias    float   0
+        param_named cFresnelScale   float   0
+        param_named cFresnelPower   float   0
+        
+        param_named cBlendColor1    float4  0 0 0 0
+        param_named cBlendColor2    float4  0 0 0 0
+
+        param_named cDissolveAmount float   0.0
+        param_named cDissolveSize   float   0.2
+        param_named cDissolveColor  float4  0 2.5 10 6
+    }
+}
+
+fragment_program unlit_fresnel_flare_noise_fp hlsl
+{
+    source          materials/programs/unlit_fresnel_fp.hlsl
+    entry_point     mainFP
+    target          ps_5_0
+
+    preprocessor_defines USE_NOISE_MAP=1,USE_FLARE=1,USE_ALPHA=1
+
+    default_params
+    {
+        param_named         cFresnelBias        float   0
+        param_named         cFresnelScale       float   0
+        param_named         cFresnelPower       float   0
+        
+        param_named         cBlendColor1        float4  0 0 0 0
+        param_named         cBlendColor2        float4  0 0 0 0
+
+        param_named         cNoisePower         float   0.5
+        param_named         cNoiseTileScale     float   1.0
+
+        param_named         cAlpha              float   0.0
+
+        param_named_auto    cTime               time
+        param_named         cFlarePower         float 0.1
+        param_named         cFlareSpeed         float 1
+    }
+}
+
+fragment_program unlit_fresnel_vegetation_flare_noise_fp hlsl
+{
+    source                  materials/programs/unlit_fresnel_fp.hlsl
+    entry_point             mainFP
+    target                  ps_5_0
+    preprocessor_defines    USE_BURNED_MAP=1,USE_ALPHA_TEST=1,USE_NOISE_MAP=1,USE_FLARE=1,USE_ALPHA=1
+    
+    default_params
+    {
+        param_named         cFresnelBias        float   0
+        param_named         cFresnelScale       float   0
+        param_named         cFresnelPower       float   0
+        
+        param_named         cBlendColor1        float4  0 0 0 0
+        param_named         cBlendColor2        float4  0 0 0 0
+
+        param_named         cDissolveAmount     float   0.0
+        param_named         cBurningAmount      float4  0.0 0.0 0.0 0.0
+
+        param_named         cNoisePower         float   0.5
+        param_named         cNoiseTileScale     float   1.0
+        param_named         cNoiseColor         float4  1.0 1.0 1.0 1.0
+
+        param_named         cAlpha              float   0.0
+
+        param_named_auto    cTime               time
+        param_named         cFlarePower         float 0.1
+        param_named         cFlareSpeed         float 1
+    }
+}

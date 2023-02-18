@@ -1,0 +1,15 @@
+fragment_program deferred_alien_core_fp hlsl
+{
+    source materials/programs/deferred_alien_core_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1
+        param_named_auto cMIPBias            mip_bias
+        param_named      cTilingFactor       float          12
+    }
+}

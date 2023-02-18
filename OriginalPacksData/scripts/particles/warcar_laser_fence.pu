@@ -1,0 +1,134 @@
+system exor/warcar_laser_fence
+{
+    fixed_timeout                               4
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0200
+    scale                                       0.0200 0.0200 0.0200
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique lightning_box
+    {
+        keep_local                              true
+        visual_particle_quota                   150
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_2x2_blue_04
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       250
+            angle                               359
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.5
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            duration                            3
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             125
+            }
+            position                            0 200 0
+            end_texture_coords_range            3
+            colour                              0.262745 0.937255 0.870588 1
+            box_width                           1300
+            box_height                          450
+            box_depth                           500
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.254902 0.254902 0.254902 1
+            time_colour                         0.217391  0.254902 0.254902 0.254902 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector331
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+    }
+    technique sparks_box
+    {
+        visual_particle_quota                   150
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box DebrisEmitter
+        {
+            emission_rate                       100
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             500
+                max                             750
+            }
+            duration                            3
+            particle_width                      4
+            particle_height                     dyn_random
+            {
+                min                             4
+                max                             20
+            }
+            position                            0 300 0
+            start_colour_range                  1 1 1 1
+            box_width                           1200
+            box_height                          200
+            box_depth                           450
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.243137 0.243137 0.243137 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                ScaleVelocity Affector36
+        {
+            velocity_scale                      dyn_curved_linear
+            {
+                control_point                   0.00184502 72.5508
+                control_point                   1 -1183.16
+            }
+            stop_at_flip                        true
+        }
+        affector                                LinearForce Affector153
+        {
+            force_vector                        0 -800 0
+        }
+    }
+}

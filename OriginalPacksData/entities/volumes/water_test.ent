@@ -1,0 +1,52 @@
+EntityBlueprint
+{
+	name            "volumes/water_test"
+
+	SceneEditorDesc
+    {
+        initial_scale
+        {
+            x "10.0"
+            y "3.0"
+            z "10.0"
+        }
+
+        mesh                "meshes/volume.mesh"
+    }
+
+	TypeDesc
+    {
+        type "water"
+    }
+
+	PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                group_id    "water"
+                type        "static"
+
+                Shapes
+                {
+                    PhysicsBoxShape
+                    {
+                        x "1"
+                        y "1"
+                        z "1"
+                    }
+                }
+            }
+        }
+    }
+
+	WaterVolumeDesc
+    {
+        splash_effect           "effects/water_splash_medium"
+
+        object_damping          "15.0"
+        object_inertia_scale    "0.3"
+        object_height_change    "0.5"
+    }
+}

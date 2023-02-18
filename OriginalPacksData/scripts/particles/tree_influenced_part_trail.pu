@@ -1,0 +1,70 @@
+system exor/tree_influenced_part_trail
+{
+    fixed_timeout                               3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique fire_alpha
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_blue_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       15
+            angle                               45
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             50
+            }
+            duration                            dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1.5
+                max                             3
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.25  1 1 1 0.709804
+            time_colour                         0.408696  1 1 1 0.494118
+            time_colour                         1    1 1 1 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      1
+        }
+        affector                                LinearForce Affector17
+        {
+            force_vector                        0 -100 0
+        }
+    }
+}

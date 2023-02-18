@@ -1,0 +1,220 @@
+//editor "offset(-946.893,9.727)|zoom(0.906)"
+FlowGraphTemplate
+{
+	version "2"
+	editor "4956"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(891,534)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(2803,540)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2607,540)"
+			script "lua/graph/logic/logic_wait.lua"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "232.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2043,631)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure_metallic"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(1209,521)"
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(3105,553)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(1526,489)"
+			script "lua/graph/logic/logic_if_biome.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "metallic"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_biome_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "logic_if_biome_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_biome_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1541,623)"
+			self_id "logic_if_biome_0###true"
+			key "true"
+			value "logic_if_biome_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1541,596)"
+			self_id "logic_if_biome_0###false"
+			key "false"
+			value "logic_if_biome_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2044,483)"
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure"
+					}
+
+				}
+
+			}
+
+			self_id "audio_music_change_playlist_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2422,556)"
+			self_id "logic_or_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_music_change_playlist_1 "logic_or_0"
+		logic_if_biome_0###false "audio_music_change_playlist_1"
+		logic_if_biome_0###true "audio_music_change_playlist_0"
+		logic_if_biome_0 "logic_if_biome_0###false|logic_if_biome_0###true"
+		audio_adaptive_music_system_1 "logic_if_biome_0"
+		audio_music_change_playlist_0 "logic_or_0"
+		logic_or_0 "logic_wait_0"
+		logic_wait_0 "audio_adaptive_music_system_0"
+		audio_adaptive_music_system_0 "event_end_0"
+		default "audio_adaptive_music_system_1"
+	}
+
+}
+

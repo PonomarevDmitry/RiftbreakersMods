@@ -1,0 +1,39 @@
+EntityBlueprint
+{
+	name  "test/geothermal_vent"
+
+	MeshDesc
+	{
+		mesh "meshes/resources/resource_geothermal_vent.mesh"
+		material "resources/geothermal_vent"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+							x 4
+							y 4
+							z 4
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+	}
+}
+

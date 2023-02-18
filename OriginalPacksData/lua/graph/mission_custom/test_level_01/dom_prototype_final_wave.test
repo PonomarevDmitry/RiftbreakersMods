@@ -1,0 +1,81 @@
+local node = {}
+node.__index = node
+
+function node.create()
+    local object = {}
+    setmetatable(object,node)
+    return object
+end
+
+function node:init()    
+    --self.fsm = self:CreateStateMachine()
+    --self.fsm:AddState( "wait", { enter="OnEnterWait", exit= "OnExitWait" } )
+	--self.RandomNumber = 0
+	
+	EntityService:RegisterHandler( event_sink, "MissionFlowDeactivatedEvent",   "OnMissionFlowDeactivatedEvent", self )
+	
+	-- borderSpawnPointsByDirection : can be more/less
+	self.borderSpawnPointGroupNames =
+	{
+		"spawn_enemy_border_south",
+		"spawn_enemy_border_north",
+		"spawn_enemy_border_east",
+		"spawn_enemy_border_west"
+	}	
+	
+	self.finalWave = "error"
+	
+	local borderSpawnPointGroupName = self.borderSpawnPointGroupNames[RandInt( 1,#self.borderSpawnPointGroupNames )]
+
+	LogService:Log( "Border spawn point group :" .. borderSpawnPointGroupName )
+
+	self:RandomizeSpawnPoint( borderSpawnPointGroupName )
+
+	local difficulty = DifficultyService:GetCurrentDifficultyName()
+
+	if ( difficulty == "easy" ) then
+		self.finalWave = MissionService:ActivateMissionFlow( "", "easy_nazwa_skryptu.logic", "default", self.data )
+	elseif ( difficulty == "normal" ) then
+		self.finalWave = MissionService:ActivateMissionFlow( "", "normal_nazwa_skryptu.logic", "default", self.data )
+	elseif ( difficulty == "hard" ) then
+		self.finalWave = MissionService:ActivateMissionFlow( "", "hard_nazwa_skryptu.logic", "default", self.data )
+	end
+	
+end
+
+function node:RandomizeSpawnPoint( borderSpawnPointGroupName )
+	self.spawnPointPool = FindService:FindEntitiesByGroup( borderSpawnPointGroupName )
+	
+	if ( #self.spawnPointPool == 0 ) then
+		Assert( false, "Failed to find entities with group: " .. borderSpawnPointGroupName)
+		self.spawnPointPool = FindService:FindEntitiesByBlueprint( "logic/spawn_enemy" )
+	end
+
+	if #self.spawnPointPool > 1 then
+		repeat
+			self.tempRandomNumber = RandInt( 1,#self.spawnPointPool )
+		until self.tempRandomNumber ~= self.randomNumber
+		self.randomNumber = self.tempRandomNumber
+	else
+		self.randomNumber = 1
+	end
+	
+	local spawnPointName = EntityService:GetName( self.spawnPointPool[self.randomNumber] )	
+	self.data:SetString( "spawn_point", spawnPointName )
+
+	LogService:Log( "Current spawn point :" .. spawnPointName )
+end
+
+function node:OnMissionFlowDeactivatedEvent( event )
+
+	local logicFileName = event:GetName()
+	
+	if ( logicFileName == self.finalWave )
+		self.SetFinished()
+	end
+	
+end
+
+
+
+return node

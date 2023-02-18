@@ -1,0 +1,1539 @@
+EntityBlueprint
+{
+    name "items/weapons/sword"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/sword.mesh"
+		material 	"items/weapons/sword_lvl_1"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/sword"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor				"0.65"
+
+		melee_attack_angle_threshold		"60"
+		melee_attack_speed_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0.0"
+					y "0.83"
+				}
+				Vector2
+				{
+					x "0.04"
+					y "1.66"
+				}
+				Vector2
+				{
+					x "0.08"
+					y "1.6"
+				}
+				Vector2
+				{
+					x "0.14"
+					y "0.6"
+				}
+				Vector2
+				{
+					x "0.20"
+					y "0.13"
+				}
+			}
+		}
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1.0"
+			emissive_factor "2"
+		}			
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_gray"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_gray"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_gray"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_gray"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_gray"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "0.875"
+				half_height "1.47"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}		
+
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/equipped_melee_sharp_weapon"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/sword/debug"
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"color/red"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.25
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_advanced"
+
+	base_blueprint "items/weapons/sword"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/sword_lvl_2.mesh"
+		material 	"items/weapons/sword_lvl_2"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1.0"
+			emissive_factor "2"
+		}			
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_blue"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_blue"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_blue"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_blue"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_blue"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "0.875"
+				half_height "1.47"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/sword"
+		item_bp		"items/weapons/sword_advanced"
+		icon		"gui/hud/items_icons/weapons/sword_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/sword_advanced"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_demo_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/sword"
+		item_bp		"items/weapons/sword"
+		icon		"gui/hud/items_icons/weapons/sword"
+		bigger_icon "gui/menu/items_icons/weapons/sword"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_extreme"
+
+	base_blueprint "items/weapons/sword"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/sword_lvl_4.mesh"
+		material 	"items/weapons/sword_lvl_4"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1.0"
+			emissive_factor "2"
+		}			
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_red"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_red"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "0.875"
+				half_height "1.47"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/sword"
+		item_bp		"items/weapons/sword_extreme"
+		icon		"gui/hud/items_icons/weapons/sword_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/sword_extreme"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/sword"
+		item_bp		"items/weapons/sword"
+		icon		"gui/hud/items_icons/weapons/sword"
+		bigger_icon "gui/menu/items_icons/weapons/sword"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_superior"
+
+	base_blueprint "items/weapons/sword"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/sword_lvl_3.mesh"
+		material 	"items/weapons/sword_lvl_3"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1.0"
+			emissive_factor "2"
+		}			
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/sword_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/sword_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/sword_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "0.875"
+				half_height "1.47"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/sword"
+		item_bp		"items/weapons/sword_superior"
+		icon		"gui/hud/items_icons/weapons/sword_superior"
+		bigger_icon "gui/menu/items_icons/weapons/sword_superior"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_gray"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_gray"
+		update_bounds 		1
+		fade_out_time		0.17
+		tesselation_step 	0.1
+		manual_fade 		1
+		
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_long_gray"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_gray"
+		update_bounds 		1
+		fade_out_time		0.34
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_orange"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_orange"
+		update_bounds 		1
+		fade_out_time		0.17
+		tesselation_step 	0.1
+		manual_fade 		1
+		
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_long_orange"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_orange"
+		update_bounds 		1
+		fade_out_time		0.34
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_blue"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_blue"
+		update_bounds 		1
+		fade_out_time		0.17
+		tesselation_step 	1
+		manual_fade 		1
+		
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_long_blue"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_blue"
+		update_bounds 		1
+		fade_out_time		0.34
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_violet"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_violet"
+		update_bounds 		1
+		fade_out_time		0.17
+		tesselation_step 	0.1
+		manual_fade 		1
+		
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_long_violet"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_violet"
+		update_bounds 		1
+		fade_out_time		0.34
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_red"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_red"
+		update_bounds 		1
+		fade_out_time		0.17
+		tesselation_step 	0.1
+		manual_fade 		1
+		
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/sword_slash_long_red"
+
+	RibbonComponent
+	{
+		material 			"ribbon/sword_slash_red"
+		update_bounds 		1
+		fade_out_time		0.34
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}

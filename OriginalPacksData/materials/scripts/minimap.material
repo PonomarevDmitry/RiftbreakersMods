@@ -1,0 +1,759 @@
+// Stencil ref:
+// 0 	- Undiscovered
+// 2 	- Discovered
+// 4 	- Radar
+// 8 	- Visible
+// 16 	- RadarOutline
+
+material minimap/fog_of_war_hidden
+{
+	render_group 200
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write 		off
+
+			cull_hardware 		none
+			
+			vertex_program_ref fog_of_war_vp 
+			{
+			}
+			
+			geometry_program_ref fog_of_war_gp 
+			{
+			}
+			
+			fragment_program_ref fog_of_war_fp
+			{
+			}
+
+			texture_unit grid 
+			{
+				texture materials/textures/gui/hud/minimap_grid_quad.dds
+				filtering point point none
+				tex_address_mode wrap
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_darken
+{
+	render_group 201
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write			off
+			colour_write 		off
+
+			cull_hardware 		none
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+            ref_value   		2
+			mask				2
+            two_sided   		on
+			
+			vertex_program_ref fog_of_war_vp 
+			{
+			}
+			
+			geometry_program_ref fog_of_war_gp 
+			{
+			}
+			
+			fragment_program_ref fog_of_war_fp
+			{
+			}
+
+			texture_unit grid 
+			{
+				texture materials/textures/gui/hud/minimap_grid_quad.dds
+				filtering point point none
+				tex_address_mode wrap
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_radar_outline
+{
+	render_group 202
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write 		off
+			colour_write 		off
+
+			cull_hardware 		none
+			scene_blend			alpha_blend
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+			mask				16
+            ref_value   		16
+            two_sided   		on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_circle_gp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 1.0 1.0 1.0 0.4
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_radar
+{
+	render_group 203
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write 		off
+			colour_write 		off
+
+			cull_hardware 		none
+			scene_blend			alpha_blend
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+			mask				4
+            ref_value   		4
+            two_sided   		on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_circle_gp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 0.1 0.1 0.1 1.0
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_visible
+{
+	render_group 204
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write			off
+			colour_write 		off
+
+			cull_hardware 		none
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+			mask				8
+            ref_value   		8
+            two_sided   		on
+			
+			vertex_program_ref fog_of_war_vp 
+			{
+			}
+			
+			geometry_program_ref fog_of_war_gp 
+			{
+			}
+
+			fragment_program_ref fog_of_war_fp
+			{
+			}
+
+			texture_unit grid 
+			{
+				texture materials/textures/gui/hud/minimap_grid_quad.dds
+				filtering point point none
+				tex_address_mode wrap
+			}
+		}
+	}
+}
+
+material minimap/blur_x
+{
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+
+			vertex_program_ref texture_to_clip_vp 
+			{
+			}
+
+			fragment_program_ref gaussian_blur_x_fp 
+			{
+				param_named cGaussianSigma float 2
+			}
+			
+			texture_unit source
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material minimap/blur_y
+{
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+
+			vertex_program_ref texture_to_clip_vp 
+			{
+			}
+
+			fragment_program_ref gaussian_blur_y_fp 
+			{
+				param_named cGaussianSigma float 2	
+			}
+			
+			texture_unit source
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material minimap/terrain
+{
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+
+			// Stencil
+            check       	on
+            comp_func   	not_equal
+            ref_value   	0
+			mask			10
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref texture_to_clip_vp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 0.2 0.41 0.45 1.0
+			}
+		}
+	}
+}
+
+material minimap/world_blocker
+{
+	render_group 205
+
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+
+			// Stencil
+            check       	on
+            comp_func   	not_equal
+			mask			10
+            ref_value   	0
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_quad_gp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 0.025 0.075 0.125 1.0
+			}
+		}
+	}
+}
+
+material minimap/radar_outline
+{
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+
+			// Stencil
+            check       	on
+            comp_func   	equal
+            ref_value   	16
+			mask			20
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref texture_to_clip_vp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 1.0 1.0 1.0 0.4
+			}
+		}
+	}
+}
+
+material minimap/noise
+{
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+			scene_blend 	alpha_blend
+			// Stencil
+            check       	on
+            comp_func   	not_equal
+            ref_value   	0
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref texture_to_clip_vp 
+			{
+			}
+
+			fragment_program_ref fog_of_war_noise_fp
+			{
+			}
+
+			texture_unit noise
+			{
+				texture materials/textures/gui/hud/map_noise.dds
+				filtering linear linear none
+			}
+		}
+	}
+}
+
+material minimap/darken
+{
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+			scene_blend		alpha_blend
+
+			// Stencil
+            check       	on
+            comp_func   	equal
+            ref_value   	2
+			mask			2
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref texture_to_clip_vp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 0.0 0.0 0.0 0.6
+			}
+		}
+	}
+}
+
+material minimap/quad_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+			scene_blend		alpha_blend
+
+			// Stencil
+            check       	on
+            comp_func   	not_equal
+            ref_value   	0
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_quad_gp 
+			{
+			}
+
+			fragment_program_ref minimap_fp
+			{
+			}
+		}
+	}
+}
+
+material minimap/quad_d : minimap/quad_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 2
+		}
+	}
+}
+
+material minimap/quad_r : minimap/quad_base
+{
+	render_group 208
+
+	technique
+	{
+		pass
+		{
+			mask 4
+		}
+	}
+}
+
+material minimap/quad_v : minimap/quad_base
+{
+	render_group 209
+
+	technique
+	{
+		pass
+		{
+			mask 8
+		}
+	}
+}
+
+material minimap/quad_dr : minimap/quad_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 6
+		}
+	}
+}
+
+material minimap/quad_dv : minimap/quad_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 10
+		}
+	}
+}
+
+material minimap/quad_drv : minimap/quad_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 14
+		}
+	}
+}
+
+material minimap/quad_rv : minimap/quad_base
+{
+	render_group 208
+
+	technique
+	{
+		pass
+		{
+			mask 12
+		}
+	}
+}
+
+material minimap/quad_always
+{
+	render_group 210
+
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+			scene_blend		alpha_blend
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_quad_gp 
+			{
+			}
+
+			fragment_program_ref minimap_fp
+			{
+			}
+		}
+	}
+}
+
+material minimap/circle_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+			scene_blend		alpha_blend
+
+			// Stencil
+            check       	on
+            comp_func   	not_equal
+            ref_value   	0
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_circle_gp 
+			{
+			}
+
+			fragment_program_ref minimap_fp
+			{
+			}
+		}
+	}
+}
+
+material minimap/circle_d : minimap/circle_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 2
+		}
+	}
+}
+
+material minimap/circle_r : minimap/circle_base
+{
+	render_group 208
+
+	technique
+	{
+		pass
+		{
+			mask 4
+		}
+	}
+}
+
+material minimap/circle_v : minimap/circle_base
+{
+	render_group 209
+
+	technique
+	{
+		pass
+		{
+			mask 8
+		}
+	}
+}
+
+material minimap/circle_dr : minimap/circle_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 6
+		}
+	}
+}
+
+material minimap/circle_dv : minimap/circle_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 10
+		}
+	}
+}
+
+material minimap/circle_drv : minimap/circle_base
+{
+	render_group 207
+
+	technique
+	{
+		pass
+		{
+			mask 14
+		}
+	}
+}
+
+material minimap/circle_rv : minimap/circle_base
+{
+	render_group 208
+
+	technique
+	{
+		pass
+		{
+			mask 12
+		}
+	}
+}
+
+material minimap/circle_always
+{
+	render_group 210
+
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+			scene_blend		alpha_blend
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_circle_gp 
+			{
+			}
+
+			fragment_program_ref minimap_fp
+			{
+			}
+		}
+	}
+}
+
+material minimap/circle_nr : minimap/circle_base
+{
+	render_group 210
+
+	technique
+	{
+		pass
+		{
+			mask 		4
+            comp_func	equal
+		}
+	}
+}

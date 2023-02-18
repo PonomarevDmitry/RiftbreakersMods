@@ -1,0 +1,56 @@
+compute_program fsr_easu_cs hlsl
+{
+	source 					materials/programs/fsr_easu.hlsl
+	entry_point 			mainCS
+	target 					cs_5_0
+
+    preprocessor_defines SAMPLE_NEAREST=0
+
+	default_params
+    {
+		param_named_auto cViewportSize 	viewport_size
+		param_named_auto cTextureSize   texture_size 0
+	}
+}
+
+compute_program fsr_rcas_cs hlsl
+{
+	source 					materials/programs/fsr_rcas.hlsl
+	entry_point 			mainCS
+	target 					cs_5_0
+
+	default_params
+    {
+		param_named_auto cSharpness 	cas_sharpness
+	}
+}
+
+compute_program fsr_easu_fp16_cs hlsl
+{
+	source 					materials/programs/fsr_easu.hlsl
+	entry_point 			mainCS
+	target 					cs_5_0
+	required_capabilities   RSC_MIN_PRECISION_16_BIT
+
+    preprocessor_defines FP16_SUPPORT=1,SAMPLE_NEAREST=0
+
+	default_params
+    {
+		param_named_auto cViewportSize 	viewport_size
+		param_named_auto cTextureSize   texture_size 0
+	}
+}
+
+compute_program fsr_rcas_fp16_cs hlsl
+{
+	source 					materials/programs/fsr_rcas.hlsl
+	entry_point 			mainCS
+	target 					cs_5_0
+	preprocessor_defines 	FP16_SUPPORT=1
+	required_capabilities   RSC_MIN_PRECISION_16_BIT
+
+	default_params
+    {
+		param_named_auto cSharpness 	cas_sharpness
+	}
+}

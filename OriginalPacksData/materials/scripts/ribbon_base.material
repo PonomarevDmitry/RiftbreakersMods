@@ -1,0 +1,129 @@
+material ribbon/texture
+{
+	render_group 60
+
+	glow 1
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+			cull_hardware none
+
+			vertex_program_ref ribbon_vp
+			{
+			}
+
+			fragment_program_ref ribbon_fp
+			{
+
+			}
+
+			texture_unit color
+			{
+				texture materials/textures/noise.dds
+				filtering bilinear
+				tex_address_mode wrap
+			}
+		}
+	}
+}
+
+material ribbon/uniform
+{
+	render_group 60
+
+	glow 1
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+			cull_hardware none
+
+			vertex_program_ref ribbon_vp
+			{
+			}
+
+			fragment_program_ref ribbon_uniform_fp
+			{
+
+			}
+
+			texture_unit mask
+			{
+				texture materials/textures/noise.dds
+				filtering bilinear
+				tex_address_mode wrap
+			}
+		}
+	}
+}
+
+material ribbon/uniform_clamp
+{
+	render_group 60
+
+	glow 1
+	
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+			cull_hardware none
+
+			vertex_program_ref ribbon_vp
+			{
+			}
+
+			fragment_program_ref ribbon_uniform_fp
+			{
+
+			}
+
+			texture_unit mask
+			{
+				texture materials/textures/noise.dds
+				filtering bilinear
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material ribbon/uniform_soft_triangle : ribbon/uniform
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref ribbon_uniform_soft_triangle_fp
+			{
+
+			}
+		}
+	}
+}
+
+material ribbon/uniform_soft_trail : ribbon/uniform
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref ribbon_uniform_soft_trail_fp
+			{
+
+			}
+		}
+	}
+}

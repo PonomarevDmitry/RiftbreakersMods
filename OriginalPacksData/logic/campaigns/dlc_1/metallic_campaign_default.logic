@@ -1,0 +1,1928 @@
+//editor "offset(-3908.46,-733.48)|zoom(1.33)"
+FlowGraphTemplate
+{
+	version "30"
+	editor "5091"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-5774,250)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(-705,465)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "metallic_outpost"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_1/metallic_outpost"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-1429,452)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.metal_outpost"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metal_outpost"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(460,584)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "metallic_crash_site"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_1/metallic_crash_site"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(8318,1790)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "metallic_lakes"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_1/metallic_lakes"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(4496,810)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "metallic_factory"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_1/metallic_factory"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_4"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(1283,544)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "metallic_crash_site"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(1283,730)"
+			key "win"
+			self_id "logic_if_mission_status_0###win"
+			value "logic_if_mission_status_0###win"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_global_variable.xml)|pos(-5528,174)"
+			script "lua/graph/logic/logic_set_global_variable.lua"
+			self_id "logic_set_global_variable_2"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.metallic_start"
+						value "true"
+					}
+
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(-4981,176)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.metallic_encounter"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4981,393)"
+			key "true"
+			self_id "logic_if_global_variable_2###true"
+			value "logic_if_global_variable_2###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(-139,418)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.metallic_outpost_stage_1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-139,635)"
+			key "true"
+			self_id "logic_if_global_variable_3###true"
+			value "logic_if_global_variable_3###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(458,734)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.metal_crash_site "
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metal_crash_site"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(1818,668)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.return_to_outpost"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metal_outpost_stage_2"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(2446,635)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.metallic_outpost_stage_2_complete"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2446,852)"
+			key "true"
+			self_id "logic_if_global_variable_4###true"
+			value "logic_if_global_variable_4###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(3873,798)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.metallic_factory"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metallic_factory"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_3"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(5631,1900)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_1"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_1/ashley_outpost_stage_2_07"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(7629,1776)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.metallic_lakes.travel"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metallic_lakes.travel"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_4"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(6376,859)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.metallic_outpost_stage_3_complete"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6376,1076)"
+			key "true"
+			self_id "logic_if_global_variable_5###true"
+			value "logic_if_global_variable_5###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(6856,1008)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.alien_base"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.alien_base"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(7464,1015)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "metallic_alien_base"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_1/metallic_alien_base"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(5437,903)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.return_to_outpost"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metal_outpost_stage_3"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_6"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(4961,771)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "metallic_factory"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(4961,957)"
+			key "win"
+			self_id "logic_if_mission_status_1###win"
+			value "logic_if_mission_status_1###win"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(7883,982)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "metallic_alien_base"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(7883,1168)"
+			key "win"
+			self_id "logic_if_mission_status_2###win"
+			value "logic_if_mission_status_2###win"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(6262,1424)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/liquid_compression_lvl1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			self_id "logic_wait_on_reseach_finished_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_research_finished.xml)|pos(5035,1694)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/liquid_compression_lvl1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_research_finished.lua"
+			self_id "logic_if_research_finished_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5035,1802)"
+			key "true"
+			self_id "logic_if_research_finished_0###true"
+			value "logic_if_research_finished_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(5035,1832)"
+			key "false"
+			self_id "logic_if_research_finished_0###false"
+			value "logic_if_research_finished_0###false"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(7402,1814)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(5645,1396)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.metallic_lakes.research_liquid_compression"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metallic_lakes.research_liquid_compression"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(6818,1412)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metallic_lakes.research_liquid_compression"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "campaign_objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(4411,1678)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.metallic_lakes"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metallic_lakes"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_8"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-2321,-146)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_6"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_1/mech_headquarters_13"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_1/ashley_headquarters_14"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(-3304,-18)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/research_station"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			self_id "logic_wait_on_reseach_finished_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(-3292,-314)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/research_station"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			self_id "mission_highlight_research_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(-2327,-318)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/research_station"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			self_id "mission_highlight_research_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_research_finished.xml)|pos(-4533,354)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/research_station"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_research_finished.lua"
+			self_id "logic_if_research_finished_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4533,462)"
+			key "false"
+			self_id "logic_if_research_finished_1###false"
+			value "logic_if_research_finished_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4533,492)"
+			key "true"
+			self_id "logic_if_research_finished_1###true"
+			value "logic_if_research_finished_0###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-3993,-333)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_2"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_1/mech_headquarters_12"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_1/ashley_headquarters_13"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1716,489)"
+			self_id "logic_or_1"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(6272,1579)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_3"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_1/ashley_outpost_stage_2_08"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(2982,601)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_4"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_1/ashley_outpost_stage_2_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_1/mech_outpost_stage_2_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_1/ashley_outpost_stage_2_05"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_1/mech_outpost_stage_2_04"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(3643,1362)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_5"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_1/ashley_outpost_stage_2_06"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_1/mech_outpost_stage_2_05"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-4533,593)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_1/campaign/global.metal_main"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_9"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-3301,248)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/research_station"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_station_metallic"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(-2315,263)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.research_station_metallic"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "campaign_objective_finish_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(9478,1140)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.metal_main"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "campaign_objective_finish_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(8735,1749)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "metallic_lakes"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(8735,1935)"
+			key "win"
+			self_id "logic_if_mission_status_3###win"
+			value "logic_if_mission_status_2###win"
+		}
+
+	}
+
+	GraphConnections
+	{
+		campaign_interface_dialogue_show_group_2 "campaign_objective_generic_10|logic_wait_on_reseach_finished_1|mission_highlight_research_0"
+		campaign_interface_dialogue_show_group_4 "campaign_interface_dialogue_show_group_5|campaign_objective_generic_3"
+		campaign_interface_dialogue_show_group_5 "campaign_objective_generic_8"
+		campaign_mission_unlock_0 "logic_if_global_variable_3"
+		campaign_mission_unlock_1 "logic_if_mission_status_2"
+		campaign_mission_unlock_2 "logic_if_mission_status_0"
+		campaign_mission_unlock_3 "logic_if_mission_status_3"
+		campaign_mission_unlock_4 "logic_if_mission_status_1"
+		campaign_objective_finish_0 "logic_or_0"
+		campaign_objective_generic_0 "campaign_mission_unlock_0"
+		campaign_objective_generic_10 "campaign_objective_finish_1"
+		campaign_objective_generic_2 "logic_if_global_variable_4"
+		campaign_objective_generic_3 "campaign_mission_unlock_4"
+		campaign_objective_generic_4 "campaign_mission_unlock_3"
+		campaign_objective_generic_5 "campaign_mission_unlock_1"
+		campaign_objective_generic_6 "logic_if_global_variable_5"
+		campaign_objective_generic_7 "campaign_interface_dialogue_show_group_3|logic_wait_on_reseach_finished_0"
+		campaign_objective_generic_8 "logic_if_research_finished_0"
+		default "logic_set_global_variable_2"
+		interface_dialogue_show_group_6 "logic_or_1"
+		logic_if_global_variable_2 "logic_if_global_variable_2###true"
+		logic_if_global_variable_2###true "campaign_objective_generic_9|logic_if_research_finished_1"
+		logic_if_global_variable_3 "logic_if_global_variable_3###true"
+		logic_if_global_variable_3###true "campaign_mission_unlock_2|campaign_objective_generic_1"
+		logic_if_global_variable_4 "logic_if_global_variable_4###true"
+		logic_if_global_variable_4###true "campaign_interface_dialogue_show_group_4"
+		logic_if_global_variable_5 "logic_if_global_variable_5###true"
+		logic_if_global_variable_5###true "campaign_objective_generic_5"
+		logic_if_mission_status_0 "logic_if_mission_status_0###win"
+		logic_if_mission_status_0###win "campaign_objective_generic_2"
+		logic_if_mission_status_1 "logic_if_mission_status_1###win"
+		logic_if_mission_status_1###win "campaign_objective_generic_6"
+		logic_if_mission_status_2 "logic_if_mission_status_2###win"
+		logic_if_mission_status_2###win "campaign_objective_finish_2"
+		logic_if_mission_status_3 "logic_if_mission_status_3###win"
+		logic_if_mission_status_3###win "campaign_objective_finish_2"
+		logic_if_research_finished_0 "logic_if_research_finished_0###false|logic_if_research_finished_0###true"
+		logic_if_research_finished_0###false "campaign_objective_generic_7"
+		logic_if_research_finished_0###true "campaign_interface_dialogue_show_group_1|logic_or_0"
+		logic_if_research_finished_1 "logic_if_research_finished_1###false|logic_if_research_finished_1###true"
+		logic_if_research_finished_1###false "campaign_interface_dialogue_show_group_2"
+		logic_if_research_finished_1###true "logic_or_1"
+		logic_or_0 "campaign_objective_generic_4"
+		logic_or_1 "campaign_objective_generic_0"
+		logic_set_global_variable_2 "logic_if_global_variable_2"
+		logic_wait_on_reseach_finished_0 "campaign_objective_finish_0"
+		logic_wait_on_reseach_finished_1 "campaign_objective_finish_1|interface_dialogue_show_group_6|mission_highlight_research_1"
+	}
+
+	GraphComments
+}
+

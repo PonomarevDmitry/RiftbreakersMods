@@ -1,0 +1,1184 @@
+//editor "offset(-284.827,547.430)|zoom(0.768)"
+FlowGraphTemplate
+{
+	version "14"
+	editor "2594"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(3311,425)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant.find"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(806,195)"
+			script "lua/graph/mission_state/event_start.lua"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "default"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(2871,143)"
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "objective_plant"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "25.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_exist_entity_new_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_exist_entity_new_0###true"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(1639,208)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "[DEV] Cultivate and harvest strange plant"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(2252,212)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "[DEV] Find strange plant"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant.find"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "cultivate_and_harvest_plant"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2886,435)"
+			self_id "logic_if_exist_entity_new_0###true"
+			key "true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_show_zone.xml)|pos(2287,0)"
+			script "lua/graph/interface/interface_minimap_show_zone.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "objective_plant"
+					}
+
+					StringData
+					{
+						key "marker_name"
+						value "objective_plant_marker"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "marker_radius"
+						value "100.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "marker_randomize_position"
+						value "1"
+					}
+
+					IntData
+					{
+						key "marker_color_r"
+						value "255"
+					}
+
+					IntData
+					{
+						key "marker_color_g"
+						value "255"
+					}
+
+					IntData
+					{
+						key "marker_color_b"
+						value "0"
+					}
+
+					IntData
+					{
+						key "marker_color_a"
+						value "50"
+					}
+
+				}
+
+			}
+
+			self_id "interface_minimap_show_zone_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(3347,237)"
+			script "lua/graph/interface/interface_minimap_hide_zone.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "marker_name"
+						value "objective_plant_marker"
+					}
+
+				}
+
+			}
+
+			self_id "interface_minimap_hide_zone_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_spawn_blueprint.xml)|pos(1139,70)"
+			script "lua/graph/objective/objective_spawn_blueprint.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/interactive/objective_cultivate_plant"
+					}
+
+					StringData
+					{
+						key "marker"
+					}
+
+					StringData
+					{
+						key "target"
+						value "objective_plant"
+					}
+
+					StringData
+					{
+						key "team"
+						value "neutral"
+					}
+
+				}
+
+			}
+
+			self_id "objective_spawn_blueprint_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_false.xml)"
+					key "false"
+					value "objective_spawn_blueprint_0###false"
+				}
+
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "objective_spawn_blueprint_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1154,279)"
+			self_id "objective_spawn_blueprint_0###true"
+			key "true"
+			value "objective_spawn_blueprint_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1154,252)"
+			self_id "objective_spawn_blueprint_0###false"
+			key "false"
+			value "objective_spawn_blueprint_0###false"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1634,95)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaEmbeddedBehaviourNode
+		{
+			//editor "layout(logic_embedded_script.xml)|pos(5324,84)"
+			embedded_script "cmVxdWlyZSgibHVhL3V0aWxzL2ZpbmRfdXRpbHMubHVhIikNCg0KY2xhc3MgJ292ZXJyaWRlX3NhcGxpbmcnICggTHVhR3JhcGhOb2RlICkNCg0KZnVuY3Rpb24gb3ZlcnJpZGVfc2FwbGluZzpfX2luaXQoKQ0KICAgIEx1YUdyYXBoTm9kZS5fX2luaXQoc2VsZiwgc2VsZikNCiAgICBzZWxmLnZpc2l0ZWQgPSB7fQ0KZW5kDQoNCmZ1bmN0aW9uIG92ZXJyaWRlX3NhcGxpbmc6VXBkYXRlKCkNCiAgICBsb2NhbCBjdWx0aXZhdG9ycyA9IEZpbmRFbnRpdHkoc2VsZi5kYXRhOkdldEZsb2F0KCJzZWFyY2hfcmFkaXVzIiksIHNlbGYuZGF0YTpHZXRTdHJpbmcoInNlYXJjaF90YXJnZXQiKSwgIiIsICIiLCAiIiwgImJ1aWxkaW5ncy9yZXNvdXJjZXMvZmxvcmFfY3VsdGl2YXRvciIgKQ0KICAgIGZvciBjdWx0aXZhdG9yIGluIEl0ZXIoY3VsdGl2YXRvcnMpIGRvDQogICAgICAgIGlmIG5vdCBzZWxmLnZpc2l0ZWRbY3VsdGl2YXRvcl0gYW5kIEJ1aWxkaW5nU2VydmljZTpHZXRCdWlsZGluZ01vZGUoY3VsdGl2YXRvcikgPT0gQk1fQ09NUExFVEVEIHRoZW4NCiAgICAgICAgICAgIHNlbGYudmlzaXRlZFtjdWx0aXZhdG9yXSA9IHRydWUNCiAgICAgICAgICAgIFF1ZXVlRXZlbnQoIkx1YUdsb2JhbEV2ZW50IiwgY3VsdGl2YXRvciwgIkN1bHRpdmF0ZVBsYW50QCIgLi4gc2VsZi5kYXRhOkdldFN0cmluZygiY3VsdGl2YXRlX3RhcmdldCIpICkNCiAgICAgICAgZW5kDQogICAgZW5kDQplbmQNCg0KcmV0dXJuIG92ZXJyaWRlX3NhcGxpbmc="
+			self_id "logic_override_cultivator"
+			database
+			{
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(binding_string.xml)"
+						key "search_target"
+						value "objective_plant"
+					}
+
+					StringData
+					{
+						//editor "layout(binding_string.xml)"
+						key "cultivate_target"
+						value "objective_plant"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)"
+						key "search_radius"
+						value "25.00"
+					}
+
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_construct_building.xml)|pos(4309,518)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/construct_building.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "[DEV] Construct a Flora Cultivator"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant.build_cultivator"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "cultivate_and_harvest_plant"
+					}
+
+					StringData
+					{
+						key "type"
+					}
+
+					StringData
+					{
+						key "blueprint"
+						value "buildings/resources/flora_cultivator"
+					}
+
+					StringData
+					{
+						key "name"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "true"
+					}
+
+					StringData
+					{
+						key "search_target"
+						value "objective_plant"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "25.00"
+					}
+
+				}
+
+			}
+
+			self_id "objective_construct_building_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(3832,499)"
+			script "lua/graph/entity/entity_spawn_single.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "effects/messages_and_markers/objective_marker"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "objective_plant_marker"
+					}
+
+					StringData
+					{
+						key "entity_group"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "objective_plant"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "1"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "entity_spawn_single_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(6373,662)"
+			script "lua/graph/entity/entity_remove.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "objective_plant_marker"
+					}
+
+					StringData
+					{
+						key "target_group"
+					}
+
+					StringData
+					{
+						key "target_type"
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "false"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "entity_remove_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_building_working.xml)|pos(5477,569)"
+			script "lua/graph/logic/logic_if_building_working.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "buildings/resources/flora_cultivator"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "objective_plant"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "25.00"
+					}
+
+				}
+
+			}
+
+			self_id "logic_if_building_working_0"
+			conditions
+			{
+				//editor "expanded(1)"
+				ConditionData
+				{
+					//editor "layout(condition_true.xml)"
+					key "true"
+					value "logic_if_building_working_0###true"
+				}
+
+			}
+
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5492,811)"
+			self_id "logic_if_building_working_0###true"
+			key "true"
+			value "logic_if_building_working_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(4887,613)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "[DEV] Working cultivator"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant.connect_cultivator"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "cultivate_and_harvest_plant"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(5872,706)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant.connect_cultivator"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(6820,674)"
+			script "lua/graph/objective/objective_spawn.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "[DEV] Cultivate plant"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant.cultivate_plant"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "cultivate_and_harvest_plant"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "objective_generic_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(7420,703)"
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "CultivationEnded"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+			}
+
+			self_id "logic_wait_on_event_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_disable_node.xml)|pos(7975,739)"
+			script "lua/graph/logic/logic_disable_node.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_override_cultivator"
+					}
+
+				}
+
+			}
+
+			self_id "logic_disable_node_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(7957,528)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant.cultivate_plant"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(8536,593)"
+			script "lua/graph/objective/objective_finish.lua"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "cultivate_and_harvest_plant"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+			}
+
+			self_id "objective_finish_3"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(9483,92)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		objective_finish_3 "event_end_0"
+		logic_wait_on_event_0 "logic_disable_node_0|objective_finish_1"
+		objective_generic_0 "logic_if_building_working_0"
+		logic_if_building_working_0 "logic_if_building_working_0###true"
+		entity_remove_0 "objective_generic_3"
+		entity_spawn_single_0 "objective_construct_building_0"
+		objective_construct_building_0 "objective_generic_0"
+		objective_spawn_blueprint_0 "objective_spawn_blueprint_0###false|objective_spawn_blueprint_0###true"
+		objective_generic_3 "logic_wait_on_event_0"
+		objective_finish_0 "entity_remove_0"
+		logic_if_exist_entity_new_0###true "interface_minimap_hide_zone_0|objective_finish_2"
+		objective_spawn_blueprint_0###false "event_end_1"
+		objective_finish_1 "objective_finish_3"
+		objective_generic_2 "logic_if_exist_entity_new_0"
+		objective_generic_1 "interface_minimap_show_zone_0|objective_generic_2"
+		default "objective_spawn_blueprint_0"
+		logic_if_exist_entity_new_0 "logic_if_exist_entity_new_0###true"
+		objective_spawn_blueprint_0###true "objective_generic_1"
+		logic_if_building_working_0###true "objective_finish_0"
+		objective_finish_2 "entity_spawn_single_0|logic_override_cultivator"
+	}
+
+}
+

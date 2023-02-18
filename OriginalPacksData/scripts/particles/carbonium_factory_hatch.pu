@@ -1,0 +1,116 @@
+system rift/carbonium_factory_hatch
+{
+    fixed_timeout                               3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.16
+    scale                                       0.16 0.16 0.16
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 8
+    technique smoke
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/barrel_smoke_loop_8x8
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       20
+            angle                               7
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             6
+            }
+            duration                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             7
+                max                             10
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           10
+            box_height                          5
+            box_depth                           10
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 0
+            time_colour                         0.134783  0.501961 0.501961 0.501961 0.4
+            time_colour                         0.756522  0.501961 0.501961 0.501961 0.388235
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+        affector                                LinearForce Affector23
+        {
+            force_vector                        0 10 0
+            force_application                   average
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   25
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       40
+            angle                               7
+            time_to_live                        0.7
+            velocity                            dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            duration                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           10
+            box_height                          5
+            box_depth                           10
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.12549 0.12549 0.12549 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector23
+        {
+            force_vector                        0 10 0
+            force_application                   average
+        }
+        affector                                Scale Affector31
+        {
+            xyz_scale                           -1
+        }
+    }
+}

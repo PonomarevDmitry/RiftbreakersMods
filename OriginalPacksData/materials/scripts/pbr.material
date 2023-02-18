@@ -1,0 +1,946 @@
+material pbr/default
+{ 
+	render_group 50
+	feature "gbuffer|shadow|velocity"
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			glow 6
+
+			vertex_program_ref deferred_gbuffer_vp 
+			{
+			}
+
+			fragment_program_ref deferred_gbuffer_fp
+			{
+
+			}
+			
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+		}	
+	}
+}
+
+material pbr/alpha_test : pbr/default
+{ 	
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+
+			fragment_program_ref deferred_gbuffer_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/reflections : pbr/default
+{ 	
+	technique
+	{
+		pass
+		{
+
+			fragment_program_ref deferred_gbuffer_reflection_fp
+			{
+        		param_named      cReflectionParams   float2         0.5 1.0
+			}
+
+			texture_unit reflection 
+			{	
+				texture materials/textures/skybox/skybox_reflection.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/vegetation_no_alpha
+{ 	
+	render_group 50
+	feature "gbuffer|shadow|velocity"
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			raytracing_feature "vegetation"
+
+			glow 0
+			subsurface 1 0 0 0
+
+			vertex_program_ref deferred_vegetation_vp
+			{
+
+			}
+
+			fragment_program_ref deferred_vegetation_fp
+			{
+
+			}
+
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+			texture_unit burned_albedo 
+			{
+				texture materials/textures/vegetation/burned_vegetation_albedo.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit burned_normal 
+			{	
+				texture materials/textures/vegetation/burned_vegetation_normal.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit burned_emissive
+			{
+				texture materials/textures/vegetation/burned_vegetation_emissive.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit burned_gradient 
+			{	
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 10
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/vegetation : pbr/vegetation_no_alpha
+{ 
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+
+			fragment_program_ref deferred_vegetation_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_tree : pbr/vegetation
+{ 
+	technique
+	{
+		pass
+		{
+			raytracing_feature "vegetation_tree"
+
+			vertex_program_ref deferred_vegetation_tree_vp
+			{
+
+			}
+			
+			fragment_program_ref deferred_vegetation_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_tree_no_alpha : pbr/vegetation_no_alpha
+{ 
+	technique
+	{
+		pass
+		{
+			raytracing_feature "vegetation_tree"
+
+			vertex_program_ref deferred_vegetation_tree_vp
+			{
+
+			}
+			
+			fragment_program_ref deferred_vegetation_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_deform : pbr/vegetation
+{ 
+	technique
+	{
+		pass
+		{
+			deform 0.2 1.0
+			
+			vertex_program_ref deferred_vegetation_deform_vp
+			{
+
+			}
+			
+			fragment_program_ref deferred_vegetation_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_deform_no_alpha : pbr/vegetation_no_alpha
+{ 
+	technique
+	{
+		pass
+		{
+			deform 0.2 1.0
+			
+			vertex_program_ref deferred_vegetation_deform_vp
+			{
+
+			}
+			
+			fragment_program_ref deferred_vegetation_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_twosided : pbr/vegetation
+{ 
+	technique
+	{
+		pass
+		{	
+			cull_hardware none
+
+			fragment_program_ref deferred_vegetation_twosided_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+
+material pbr/vegetation_no_alpha_twosided : pbr/vegetation_no_alpha
+{ 
+	technique
+	{
+		pass
+		{	
+			cull_hardware none
+
+			fragment_program_ref deferred_vegetation_twosided_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_tree_twosided : pbr/vegetation_tree
+{ 
+	technique
+	{
+		pass
+		{	
+			cull_hardware none
+
+			fragment_program_ref deferred_vegetation_twosided_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_metalness_no_alpha
+{ 
+	render_group 50
+	feature "gbuffer|shadow|velocity"
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			raytracing_feature "vegetation"
+
+			glow 0
+			subsurface 1 0 0 0
+
+			vertex_program_ref deferred_vegetation_vp
+			{
+
+			}
+
+			fragment_program_ref deferred_vegetation_metalness_fp
+			{
+
+			}
+
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit subsurface 
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+			texture_unit burned_albedo 
+			{
+				texture materials/textures/vegetation/burned_vegetation_albedo.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit burned_normal 
+			{	
+				texture materials/textures/vegetation/burned_vegetation_normal.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit burned_emissive
+			{
+				texture materials/textures/vegetation/burned_vegetation_emissive.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit burned_gradient 
+			{	
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 10
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/vegetation_metalness : pbr/vegetation_metalness_no_alpha
+{ 
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+
+			fragment_program_ref deferred_vegetation_metalness_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_metalness_twosided : pbr/vegetation_metalness
+{ 
+	technique
+	{
+		pass
+		{	
+			cull_hardware none
+
+			fragment_program_ref deferred_vegetation_metalness_alpha_test_twosided_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_metalness_no_alpha_twosided : pbr/vegetation_metalness_no_alpha
+{ 
+	technique
+	{
+		pass
+		{	
+			cull_hardware none
+
+			fragment_program_ref deferred_vegetation_metalness_twosided_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/flammable : pbr/vegetation
+{ 
+	
+}
+
+/////////////////////////////////////////////////////////////////
+
+material pbr/units : pbr/default
+{ 
+	render_group 55
+}
+
+/////////////////////////////////////////////////////////////////
+
+material pbr/height_dissolve
+{ 
+	render_group 50
+	feature "gbuffer|shadow|velocity"
+	
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+			cull_hardware none
+			
+			glow 6
+
+			dissolve 0 10 20 1
+
+			vertex_program_ref deferred_height_vp 
+			{
+			}
+
+			fragment_program_ref deferred_height_dissolve_fp
+			{
+        		param_named      cDissolveSize       float          0.02
+			}
+			
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+		}	
+	}
+}
+
+
+/////////////////////////////////////////////////////////////////
+
+material pbr/skybox
+{
+	render_group 60
+
+ 	technique
+	{
+		pass
+		{
+			depth_write off
+
+			vertex_program_ref skybox_procedural_VP
+			{
+			}
+
+			fragment_program_ref skybox_procedural_FP
+			{
+
+			}
+		}
+	}
+}
+
+//material pbr/skybox
+//{
+//	render_group 60
+//
+// 	technique
+//	{
+//		pass
+//		{
+//			depth_write off
+//
+//			vertex_program_ref unlit_environment_VP
+//			{
+//			}
+//
+//			fragment_program_ref unlit_environment_FP
+//			{
+//
+//			}
+//
+//			texture_unit skybox
+//			{	
+//				content_type shared skybox
+//				filtering linear linear none
+//			}
+//		}
+//	}
+//}
+
+//////////////////////////////////////////////////////////////////
+
+material pbr/metal : pbr/default
+{
+	set_texture_alias albedo			materials/textures/gradient_70.png
+	set_texture_alias packed 			materials/textures/pbr_100_70_packed.dds
+}
+
+material pbr/concrete : pbr/default
+{
+	set_texture_alias albedo			materials/textures/gradient_70.png
+	set_texture_alias packed 			materials/textures/pbr_0_70_packed.dds
+}
+
+//////////////////////////////////////////////////////////////////
+
+material pbr/metals : pbr/default
+{
+	set_texture_alias albedo			materials/textures/color_white.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+}
+
+material pbr/non_metals : pbr/default
+{
+	set_texture_alias albedo			materials/textures/color_green.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+}
+
+material pbr/emissive : pbr/default
+{
+	set_texture_alias albedo			materials/textures/color_red.dds
+	set_texture_alias packed			materials/textures/pbr_0_0_packed.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias emissive			materials/textures/color_red.dds
+}
+
+/////////////////////////////////////////////////////////////////
+
+material pbr/metals_black : pbr/default
+{
+	set_texture_alias albedo			materials/textures/color_black.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias packed			materials/textures/pbr_100_0_packed.dds
+}
+
+material pbr/non_metals_black : pbr/default
+{
+	set_texture_alias albedo			materials/textures/color_black.dds
+	set_texture_alias normal			materials/textures/normalmap_flat_bc5.dds
+	set_texture_alias packed			materials/textures/pbr_0_100_packed.dds
+}
+
+/////////////////////////////////////////////////////////////////
+
+material pbr/metals_0 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_0_packed.dds
+}
+
+material pbr/metals_10 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_10_packed.dds
+}
+
+material pbr/metals_20 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_20_packed.dds
+}
+
+material pbr/metals_30 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_30_packed.dds
+}
+
+material pbr/metals_40 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_40_packed.dds
+}
+
+material pbr/metals_50 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_50_packed.dds
+}
+
+material pbr/metals_60 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_60_packed.dds
+}
+
+material pbr/metals_70 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_70_packed.dds
+}
+
+material pbr/metals_80 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_80_packed.dds
+}
+
+material pbr/metals_90 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_90_packed.dds
+}
+
+material pbr/metals_100 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_100_packed.dds
+}
+
+material pbr/non_metals_0 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_0_packed.dds
+}
+
+material pbr/non_metals_10 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_10_packed.dds
+}
+
+material pbr/non_metals_20 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_20_packed.dds
+}
+
+material pbr/non_metals_30 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_30_packed.dds
+}
+
+material pbr/non_metals_40 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_40_packed.dds
+}
+
+material pbr/non_metals_50 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_50_packed.dds
+}
+
+material pbr/non_metals_60 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_60_packed.dds
+}
+
+material pbr/non_metals_70 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_70_packed.dds
+}
+
+material pbr/non_metals_80 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_80_packed.dds
+}
+
+material pbr/non_metals_90 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_90_packed.dds
+}
+
+material pbr/non_metals_100 : pbr/non_metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_100_packed.dds
+}
+
+material pbr/0_0 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_0_0_packed.dds
+}
+
+material pbr/10_10 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_10_10_packed.dds
+}
+
+material pbr/20_20 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_20_20_packed.dds
+}
+
+material pbr/30_30 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_30_30_packed.dds
+}
+
+material pbr/40_40 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_40_40_packed.dds
+}
+
+material pbr/50_50 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_50_50_packed.dds
+}
+
+material pbr/60_60 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_60_60_packed.dds
+}
+
+material pbr/70_70 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_70_70_packed.dds
+}
+
+material pbr/80_80 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_80_80_packed.dds
+}
+
+material pbr/90_90 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_90_90_packed.dds
+}
+
+material pbr/100_100 : pbr/metals
+{
+	set_texture_alias packed			materials/textures/pbr_100_100_packed.dds
+}
+
+material pbr/emissive_0 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 0
+		}
+	}
+}
+
+material pbr/emissive_1 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 1
+		}
+	}
+}
+
+material pbr/emissive_2 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 2
+		}
+	}
+}
+
+material pbr/emissive_3 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 3
+		}
+	}
+}
+
+material pbr/emissive_4 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 4
+		}
+	}
+}
+
+material pbr/emissive_5 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 5
+		}
+	}
+}
+
+material pbr/emissive_6 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 6
+		}
+	}
+}
+
+material pbr/emissive_7 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 7
+		}
+	}
+}
+
+material pbr/emissive_8 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 8
+		}
+	}
+}
+
+material pbr/emissive_9 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 9
+		}
+	}
+}
+
+material pbr/emissive_10 : pbr/emissive
+{
+	technique
+	{
+		pass
+		{
+			glow 10
+		}
+	}
+}

@@ -1,0 +1,72 @@
+EntityBlueprint
+{
+	name  "props/bush/metallic_leafy_big_04"
+
+	base_blueprints
+	{
+		 props/base/flammable_small
+		 props/base/resistant_small
+		 props/bush/metallic_flowers_big
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/bush/metallic_leafy_big_04.mesh"
+		material "props/bush/metallic_leafy"
+	}
+
+
+DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/bush_medium_metal"	
+					part_material	 		"props/bush/metallic_leafy"
+					part_prefix 			"meshes/props/bush/metallic_leafy_big_04"
+					//part_effect 			"effects/destructibles/grass_part_trail"
+					
+				}
+			}
+			
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					part_material 			"props/bush/metallic_leafy"
+					part_prefix 			"meshes/props/bush/metallic_leafy_big_04"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+					
+				}
+			}
+		}		
+	}
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}
+	}	
+}

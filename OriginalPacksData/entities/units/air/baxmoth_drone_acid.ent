@@ -1,0 +1,49 @@
+EntityBlueprint
+{
+	name "units/air/baxmoth_drone_acid"
+
+	base_blueprint "units/air/baxmoth_drone_base"
+
+	LuaDesc
+	{
+		script "lua/units/air/baxmoth_drone.lua"	
+		database
+		{
+			min_scale	float:"1.3"
+			max_scale	float:"1.3"
+		}	
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"10"
+		health 						"10"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/baxmoth_drone.mesh"
+		material 	"units/air/baxmoth_drone_acid"
+	}
+}
+

@@ -1,0 +1,36 @@
+system rift/loot_resources_carbonium
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.04
+    scale                                       0.04 0.04 0.04
+    tight_bounding_box                          true
+    category                                    RIFT
+    technique pillar_sharp
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/loot_marker_no_color
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_type                      oriented_common
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1000
+            time_to_live                        100
+            velocity                            1e-006
+            particle_width                      60
+            particle_height                     60
+            direction                           0 0 0
+            colour                              0.643137 0.321569 0 1
+        }
+    }
+}

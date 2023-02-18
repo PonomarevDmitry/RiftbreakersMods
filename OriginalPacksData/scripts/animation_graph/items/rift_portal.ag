@@ -1,0 +1,279 @@
+AnimationGraph
+{
+	name "rift_portal"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "0_tilt"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "3.403"
+					anim_name "place_triangle"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "appearing"
+						position
+						{
+							x "265.000"
+							y "321.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "1"
+					end_time "4.000"
+					anim_name "idle"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "idle"
+						position
+						{
+							x "793.000"
+							y "481.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationStateTransitionCondition"
+					{
+						max_time "999.000"
+						condition "1"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+		AnimationGraphLayer
+		{
+			name "1_action"
+			blend_type "1"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationGetNeutralPoseNode"
+						{
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "433.000"
+									y "529.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1016.000"
+									y "368.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "neutral"
+						position
+						{
+							x "610.000"
+							y "513.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "3.423"
+					anim_name "activate"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "activate"
+						position
+						{
+							x "1042.000"
+							y "753.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "leaving"
+						cmp "5"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "leaving"
+						cmp "4"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "leaving"
+			data_type "0"
+			is_const "0"
+		}
+
+	}
+
+}
+

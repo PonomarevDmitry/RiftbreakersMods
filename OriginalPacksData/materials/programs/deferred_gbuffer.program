@@ -1,0 +1,180 @@
+vertex_program deferred_gbuffer_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    preprocessor_defines USE_HW_SKINNING=0
+
+    default_params
+    {
+        param_named_auto cWorld         world_matrix 
+        param_named_auto cViewProj      viewproj_matrix 
+    }
+}
+
+vertex_program deferred_gbuffer_skinned_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_skeletal_animation true
+    preprocessor_defines USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+    }
+}
+
+vertex_program deferred_gbuffer_instanced_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    includes_instance_data true
+    preprocessor_defines USE_HW_SKINNING=0,USE_INSTANCING=1
+
+    default_params
+    {   
+        param_named_auto cInstanceInfo  instance_info
+        param_named_auto cViewProj      viewproj_matrix
+    }
+}
+
+vertex_program deferred_gbuffer_skinned_instanced_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_skeletal_animation true
+    includes_instance_data true
+    preprocessor_defines USE_HW_SKINNING=1,USE_INSTANCING=1
+
+    default_params
+    {
+        param_named_auto cInstanceInfo  instance_info
+        param_named_auto cViewProj      viewproj_matrix
+    }
+}
+
+vertex_program deferred_gbuffer_tiled_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    preprocessor_defines USE_HW_SKINNING=0,USE_TILED_UV=1,USE_LOCAL_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld         world_matrix 
+        param_named_auto cViewProj      viewproj_matrix 
+        param_named      cTilingFactor  float 1
+    }
+}
+
+vertex_program deferred_gbuffer_local_pos_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    preprocessor_defines USE_HW_SKINNING=0,USE_LOCAL_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld         world_matrix
+        param_named_auto cViewProj      viewproj_matrix
+    }
+}
+
+fragment_program deferred_gbuffer_fp hlsl
+{
+    source materials/programs/deferred_gbuffer_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named_auto cMIPBias            mip_bias
+    }
+}
+
+fragment_program deferred_gbuffer_alpha_test_fp hlsl
+{
+    source materials/programs/deferred_gbuffer_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_ALPHA_TEST=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named_auto cMIPBias            mip_bias
+    }
+}
+
+fragment_program deferred_gbuffer_reflection_fp hlsl
+{
+    source materials/programs/deferred_gbuffer_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_REFLECTION_MAP=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cReflectionParams   float2         0.5 1.0
+        param_named_auto cWorldCameraPos     camera_position
+        param_named_auto cMIPBias            mip_bias
+    }
+}
+
+vertex_program deferred_gbuffer_mipmap_vp hlsl
+{
+    source materials/programs/deferred_gbuffer_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    preprocessor_defines USE_HW_SKINNING=0,USE_NORMAL_MAP=1,USE_MIPMAP_CHECKER=1
+
+    default_params
+    {
+        param_named_auto cWorld         world_matrix 
+        param_named_auto cViewProj      viewproj_matrix 
+        param_named      cTilingFactor  float 1
+    }
+}
+
+fragment_program deferred_gbuffer_mipmap_fp hlsl
+{
+    source materials/programs/deferred_gbuffer_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_NORMAL_MAP=1,USE_MIPMAP_CHECKER=1
+
+    default_params
+    {
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named_auto cMIPBias            mip_bias
+    }
+}
+

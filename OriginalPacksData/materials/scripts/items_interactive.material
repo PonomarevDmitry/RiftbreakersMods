@@ -1,0 +1,114 @@
+import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/distortion.material"
+
+material items/interactive/drill: pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/interactive/drill_albedo.dds
+	set_texture_alias normal			materials/textures/items/interactive/drill_normal.dds
+	set_texture_alias packed			materials/textures/items/interactive/drill_packed.dds
+
+	technique
+	{
+		pass
+		{
+			dissolve 0 10 20 1
+		}
+	}
+}
+
+
+material items/interactive/detector : pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/interactive/detector_albedo.dds
+	set_texture_alias normal			materials/textures/items/interactive/detector_normal.dds
+	set_texture_alias packed			materials/textures/items/interactive/detector_packed.dds
+	set_texture_alias emissive			materials/textures/items/interactive/detector_emissive.dds
+
+	glow 10
+}
+
+material items/interactive/detector_scanner
+{
+	render_group 61
+
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			glow 3
+            emissive 0 4 10 10
+
+			vertex_program_ref detector_vp 
+			{
+			}
+
+			fragment_program_ref detector_fp
+			{
+
+			}
+			
+			texture_unit color
+			{
+				texture materials/textures/items/interactive/detector_scanner_color.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit enemy
+			{
+				texture materials/textures/items/interactive/detector_scanner_enemy_color.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit emissive
+			{	
+				texture materials/textures/items/interactive/detector_scanner_emissive.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}	
+			
+			texture_unit gradient
+			{	
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 6
+                tex_address_mode wrap
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material items/interactive/bioscanner : pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/interactive/bioscanner_albedo.dds
+	set_texture_alias normal			materials/textures/items/interactive/bioscanner_normal.dds
+	set_texture_alias packed			materials/textures/items/interactive/bioscanner_packed.dds
+	set_texture_alias emissive			materials/textures/items/interactive/bioscanner_emissive.dds
+
+	glow 2
+}
+
+material items/interactive/bioscanner_ui : pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/interactive/bioscanner_ui_albedo.dds
+	set_texture_alias normal			materials/textures/items/interactive/bioscanner_ui_normal.dds
+	set_texture_alias packed			materials/textures/items/interactive/bioscanner_ui_packed.dds
+
+	glow 2
+
+	technique
+	{
+		pass
+		{
+		    texture_unit emissive
+		    {
+		        anim_texture    materials/textures/items/interactive/bioscanner_ui_emissive.dds 6 1
+				filtering anisotropic
+				max_anisotropy 16
+		    }
+		}
+    }
+}

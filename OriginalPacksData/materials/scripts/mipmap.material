@@ -1,0 +1,63 @@
+material mipmap/checker
+{ 
+	render_group 50
+	
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+			
+			vertex_program_ref deferred_gbuffer_mipmap_vp 
+			{
+			}
+
+			fragment_program_ref deferred_gbuffer_mipmap_fp
+			{
+
+			}
+
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+			texture_unit mipmap 
+			{	
+				texture materials/textures/mipmap_checker.dds
+				tex_address_mode wrap
+				filtering anisotropic
+			}
+		}	
+	}
+}

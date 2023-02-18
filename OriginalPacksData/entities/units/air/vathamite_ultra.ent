@@ -1,0 +1,40 @@
+EntityBlueprint
+{
+	name "units/air/vathamite_ultra"
+
+	base_blueprint "units/air/vathamite_base"
+
+	StateMachineDesc
+	{
+		template_name "vathamite"
+		params
+		{
+			speed							float:"1.7"
+			acceleration					float:"1"
+			max_search_origin_radius		float:"100"	
+			rotate_speed					float:"50"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/vathamite.lua"
+		database
+		{
+			min_scale	float:"0.25"
+			max_scale	float:"0.35"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/vathamite.mesh"
+		material 	"units/air/vathamite_ultra"
+	}
+}
+

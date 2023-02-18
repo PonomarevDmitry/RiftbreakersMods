@@ -1,0 +1,89 @@
+system exor/plasma_shield_off
+{
+    fixed_timeout                               1
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0100
+    scale                                       0.0100 0.0100 0.0100
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique flash2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.5
+            velocity                            0
+            all_particle_dimensions             200
+            position                            0 50 0
+            keep_local                          true
+            colour                              0.776471 0.388235 0 1
+            force_emission                      true
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           4500
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0.894118
+            time_colour                         0.754348  1 0.501961 0 0.74902
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   25
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 SphereSurface flash2
+        {
+            emission_rate                       10000
+            angle                               90
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             600
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             8
+                max                             16
+            }
+            position                            0 50 0
+            keep_local                          true
+            colour                              0.776471 0.388235 0 1
+            auto_direction                      true
+            force_emission                      true
+            radius                              200
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         0.502174  0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

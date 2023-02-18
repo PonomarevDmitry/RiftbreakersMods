@@ -1,0 +1,23 @@
+vertex_program gui_disabled_vp hlsl
+{
+    source      materials/programs/gui_disabled_vp.hlsl
+    entry_point mainVP
+    target      vs_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cTexelOffset texel_offsets
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program gui_disabled_fp hlsl
+{
+    source      materials/programs/gui_disabled_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines    USE_TEXTURE=1
+}

@@ -1,0 +1,51 @@
+system rift/snow
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0250
+    scale                                       0.0250 0.0250 0.0250
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true	
+    technique 
+    {
+        visual_particle_quota                   750
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/snow_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              8
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       250
+            angle                               2
+            time_to_live                        dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             250
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             3
+                max                             10
+            }
+            position                            500 -100 0
+            direction                           0.2 -1 0
+            end_texture_coords_range            5
+            colour                              1 1 1 0.686275
+            box_width                           2500
+            box_height                          1
+            box_depth                           2500
+        }
+    }
+}

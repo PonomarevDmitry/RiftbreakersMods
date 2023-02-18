@@ -1,0 +1,62 @@
+vertex_program gui_text_vp hlsl
+{
+    source      materials/programs/gui_text_vp.hlsl
+    entry_point mainVP
+    target      vs_5_0
+
+    default_params
+    {
+        param_named_auto cTexelOffset texel_offsets
+		param_named_auto cViewportSize viewport_size
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program gui_text_fp hlsl
+{
+    source      materials/programs/gui_text_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    default_params
+    {
+        param_named_auto    cTextureSize    texture_size    0
+        param_named_auto    cViewportSize   viewport_size
+        //param_named         cSmooth         float           32.0
+        //param_named         cCenter         float           0.5
+
+        //param_named         cGlowEnabled    float           0.0
+        //param_named         cGlowSize       float           0.0
+        //param_named         cGlowSpread     float           0.0
+
+        //param_named         cBlurr          float           0.0
+        //param_named         cShadowSize     float           0.0
+    }
+}
+
+
+vertex_program gui_text_ss_vp hlsl
+{
+    source      materials/programs/gui_aa_vp.hlsl
+    entry_point mainVP
+    target      vs_5_0
+	
+	preprocessor_defines USE_TEXTURE=1
+    
+    default_params
+    {
+        param_named_auto cTexelOffset texel_offsets
+		param_named_auto cViewportSize viewport_size
+        param_named_auto cWorldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program gui_text_ss_fp hlsl
+{
+    source      materials/programs/gui_aa_fp.hlsl
+    entry_point mainFP
+    target      ps_5_0
+    
+    preprocessor_defines USE_TEXTURE=1
+}
+

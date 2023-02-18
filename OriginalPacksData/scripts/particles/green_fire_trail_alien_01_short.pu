@@ -1,0 +1,129 @@
+system player/green/green_fire_trail_alien_01_short
+{
+    fixed_timeout                               2.5
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 30
+    technique fire_alpha
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_explosion_fire_01_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             25
+                max                             35
+            }
+            duration                            dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             8
+                max                             16
+            }
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         1    0.192157 0.192157 0.192157 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      1
+        }
+        affector                                Scale Affector19
+        {
+            xyz_scale                           10
+        }
+    }
+    technique fire_alpha
+    {
+        visual_particle_quota                   45
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            angle                               45
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             50
+            }
+            duration                            dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1.5
+                max                             3
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      1
+        }
+        affector                                LinearForce Affector17
+        {
+            force_vector                        0 -100 0
+        }
+    }
+}

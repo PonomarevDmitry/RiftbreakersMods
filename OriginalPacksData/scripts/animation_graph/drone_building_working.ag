@@ -1,0 +1,343 @@
+AnimationGraph
+{
+	name "drone_building_working"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "0_tilt"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationPlayAnimNode"
+						{
+							mirror "0"
+							anim_name "working"
+							looped "1"
+							normalize "0"
+							blend_funtion
+							{
+								funtion_type "0"
+							}
+
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "3"
+								}
+
+							}
+
+							id "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1550.000"
+									y "591.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							id "1"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1914.000"
+									y "589.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetFloatParamNode"
+						{
+							param_name "is_working"
+							dependency_vec
+							id "2"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "768.000"
+									y "593.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationFloatSmoothingNode"
+						{
+							smoothing "0.900"
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "1735549268"
+									src_node_idx "2"
+								}
+
+							}
+
+							id "3"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1125.000"
+									y "593.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					id "65535"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "working"
+						position
+						{
+							x "658.000"
+							y "-2848.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "0"
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+		AnimationGraphLayer
+		{
+			name "1_drones"
+			blend_type "1"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "opening"
+					speed "10.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "open"
+						position
+						{
+							x "573.000"
+							y "262.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "closing"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "close"
+						position
+						{
+							x "511.000"
+							y "567.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationEntryNode"
+				{
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "default"
+						position
+						{
+							x "126.000"
+							y "252.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "2"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationTrueTransitionCondition"
+					authoritative "0"
+					dst_idx "2"
+					blend_function_type "0"
+					duration "2.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "2"
+					condition "AnimationIntParamTransitionCondition"
+					{
+						compare_value "0"
+						param "lifting_drones"
+						cmp "2"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationIntParamTransitionCondition"
+					{
+						compare_value "0"
+						param "lifting_drones"
+						cmp "1"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "FloatParamDecl"
+		{
+			max "10.000"
+			min "0.000"
+			default "0.000"
+			param_name "is_working"
+			data_type "2"
+			is_const "0"
+		}
+
+		ParamDecl "IntParamDecl"
+		{
+			max "1"
+			min "0"
+			default "0"
+			param_name "lifting_drones"
+			data_type "1"
+			is_const "0"
+		}
+
+	}
+
+}
+

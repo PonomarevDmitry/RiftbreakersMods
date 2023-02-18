@@ -1,0 +1,311 @@
+EntityBlueprint
+{
+	name  "items/weapons/plasma_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/plasma_gun.mesh"
+		material 	"items/weapons/plasma_gun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/plasma_gun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.5"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone   "be_recoil"
+				recoil_time   	"0.1"
+				recoil_offset   "0.3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}
+
+		ammo_blueprint 				"items/weapons/plasma_gun_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_energy/plasma_gun_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/plasma_gun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/plasma_gun_advanced"
+
+	base_blueprint "items/weapons/plasma_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/plasma_gun.mesh"
+		material 	"items/weapons/plasma_gun_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasma_gun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/plasma_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/plasma_gun_advanced"
+		icon		"gui/hud/items_icons/weapons/plasmagun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/plasmagun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/plasma_gun_extreme"
+
+	base_blueprint "items/weapons/plasma_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/plasma_gun.mesh"
+		material 	"items/weapons/plasma_gun_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasma_gun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/plasma_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/plasma_gun_extreme"
+		icon		"gui/hud/items_icons/weapons/plasmagun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/plasmagun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasma_gun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/plasma_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/plasma_gun"
+		icon		"gui/hud/items_icons/weapons/plasmagun"
+		bigger_icon "gui/menu/items_icons/weapons/plasmagun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasma_gun_projectile"
+
+	base_blueprint "effects/weapons_energy/mech_plasma_gun_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+
+		collision_3d 			"world_blocker|world|ground_unit|building|destructible|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.2
+		type 		"camera"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/plasma_gun_superior"
+
+	base_blueprint "items/weapons/plasma_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/plasma_gun.mesh"
+		material 	"items/weapons/plasma_gun_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasma_gun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/plasma_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/plasma_gun_superior"
+		icon		"gui/hud/items_icons/weapons/plasmagun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/plasmagun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+

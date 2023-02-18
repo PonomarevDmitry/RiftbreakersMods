@@ -1,0 +1,96 @@
+EntityBlueprint
+{ 
+	name "items/interactive/excavator"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/interactive/drill.mesh"
+		material 	"items/interactive/drill"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/interactive/drill"
+	}
+
+	EffectDesc
+	{
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_drill_equipped"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "item_activated_once"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_drill_activated"
+				}
+			}
+		}
+        EffectGroup
+		{
+			group "dig"
+			enabled "0"
+    
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/mech_dig"
+					bone "att_drill_effect"
+					//delay "1.2"
+				}			
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/mech_dig_2nd_layer"
+					bone "att_drill_effect"
+					//delay "1.0"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/mech_dig_3rd_layer"
+					bone "att_drill_effect"
+					//delay "1.0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/interactive/excavator_item"
+
+	InventoryItemDesc
+	{
+		type 		 	"equipment"
+		name 		 	"equipment_name/extractor"
+		holding_pose 	"hanging"
+		item_bp		 	"items/interactive/excavator"
+		icon		 	""
+		bigger_icon  	""
+		cooldown	 	"0.066"
+		continuous   	"1"
+		add_quality 	"0"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/extractor.lua"
+	}
+}

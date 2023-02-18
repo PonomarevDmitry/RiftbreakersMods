@@ -1,0 +1,130 @@
+system exor/destructible_metal_part_trail
+{
+    fixed_timeout                               3.5
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique smoke
+    {
+        visual_particle_quota                   25
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       15
+            angle                               15
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            duration                            dyn_random
+            {
+                min                             1.5
+                max                             2
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           2
+            box_height                          2
+            box_depth                           2
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.584314 0.564706 0.411765 0.686275
+            time_colour                         1    0.584314 0.556863 0.411765 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+    }
+    technique falling_sparks
+    {
+        visual_particle_quota                   8
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       5
+            angle                               45
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            duration                            dyn_random
+            {
+                min                             1.5
+                max                             2
+            }
+            particle_width                      1
+            particle_height                     dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.109804 0.109804 0.109804 0
+            time_colour                         0.302174  0.2 0.2 0.2 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector17
+        {
+            force_vector                        0 -50 0
+        }
+    }
+}

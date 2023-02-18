@@ -1,0 +1,75 @@
+EntityBlueprint
+{
+	name  "weather/tornado_small"
+
+
+    
+    //MeshDesc
+	//{
+	//	mesh 		"meshes/cube.mesh"
+	//	material 	"selector/hologram_blue"
+	//}
+    	SceneEditorDesc
+    {
+        mesh "meshes/effect.mesh"
+    }
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/tornado"
+		visibility		"visible|radar"		
+		additional_z_order "90"		
+	}
+
+	TornadoDesc
+	{
+		radius		              "5"
+		speed		              "9"
+		rotate_speed              "72"
+		wander_jitter_multiplier  "0.1"
+		oscillation_radius        "25"
+		damage_per_sec	          "2"
+		type                      "target_chase"
+	}
+
+	LifeTimeDesc
+	{
+		time 		60
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_small"
+					bone "att_tornado"
+				}
+			}
+		}	
+	}
+
+	PointWindDesc
+    {
+        type        "1"
+        power_max   "-3500"
+        power_min   "-3500"
+        radius      "10"
+    }
+
+
+}
+

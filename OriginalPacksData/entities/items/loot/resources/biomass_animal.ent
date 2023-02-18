@@ -1,0 +1,111 @@
+EntityBlueprint
+{ 
+	name "items/loot/resources/biomass_animal"
+
+	MeshDesc
+	{
+		mesh 		"meshes/loot/resources/biomass_animal.mesh"
+		material 	"loot/resources/biomass_animal"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/loot/resources/biomass_animal_item"
+
+	ResourceComponent
+	{
+		type_produced 	biomass_animal
+		initial_amount	1		
+	}
+
+	InventoryItemDesc
+	{
+		type 			"misc"
+		name 			"resource_name/biomass_animal"
+		item_bp			"items/loot/resources/biomass_animal"
+		icon			"gui/hud/resource_icons/biomas_animal"
+		bigger_icon 	"gui/hud/resource_icons/biomas_animal_bigger"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/misc/resource_giver.lua"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"loot"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 	"1.0"
+						y 	"0.25"
+						z 	"0.8"
+
+						position 
+						{
+							x "0.0"
+							y "0.25"
+							z "0.0"
+						}							
+					}				
+				}
+				mass 		"380"				
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		//EffectGroup
+		//{
+		//	group "loot_spawn"
+		//	enabled "0"		
+		//	
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/loot/loot_spawn"							
+		//		}
+		//	}
+		//}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_collect_flesh"							
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_max"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_max"							
+				}
+			}
+		}
+	}
+}
+

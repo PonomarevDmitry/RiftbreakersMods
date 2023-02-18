@@ -1,0 +1,185 @@
+EntityBlueprint
+{
+	name "units/ground/drexolian_alpha"
+
+	base_blueprint "units/ground/drexolian_base"
+
+	StateMachineDesc
+	{
+		template_name "drexolian"
+		params
+		{
+			aggressive_speed					float:"5"
+			aggressive_acceleration				float:"5"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/drexolian.lua"
+		database
+		{
+			min_scale	float:"1.05"
+			max_scale	float:"1.10"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"500"
+		health 						"500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.6"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/drexolian.mesh"
+		material 	"units/ground/drexolian_alpha"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/drexolian_alpha"
+		can_activate 0
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+
+		ammo_blueprint 				"units/ground/drexolian/attack_range"
+
+		muzzle_flash_effect 		"effects/weapon_fire/tower_basic"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/drexolian_alpha/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"1.80"
+						attack_end_time				"2.00"
+						attack_duration 			"4.47"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.68"
+						attack_end_time				"1.11"
+						attack_duration 			"2.63"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "2.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

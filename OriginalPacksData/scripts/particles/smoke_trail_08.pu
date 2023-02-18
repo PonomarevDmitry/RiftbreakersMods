@@ -1,0 +1,72 @@
+system rift/smoke_trail_08
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1
+    scale                                       0.1 0.1 0.1
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 10
+    technique fire_alpha13
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/thick_smoke_03
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       20
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             6
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             14
+                max                             20
+            }
+            colour                              0.313726 0.313726 0.313726 0.27451
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.104348  1 1 1 0.894118
+            time_colour                         0.708696  1 1 1 0.694118
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      0
+        }
+        affector                                LinearForce Affector122
+        {
+            force_vector                        0 30 0
+            force_application                   average
+        }
+    }
+}

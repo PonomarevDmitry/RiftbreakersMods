@@ -1,0 +1,155 @@
+material ssao_horizon_based
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			depth_check off
+			depth_write off
+			
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref ssao_horizon_based_fp
+			{
+			}
+			
+			texture_unit normal
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear none
+			}
+			
+			texture_unit depth
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+			
+			texture_unit noise
+			{
+				texture materials/textures/rand_cos_sin_jitter_4x4.dds
+				tex_address_mode wrap
+				filtering none
+			}
+		}
+	}
+}
+
+material ssao_normal
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			depth_check off
+			depth_write off
+			
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref ssao_normal_fp
+			{
+			}
+			
+			texture_unit normal
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material ssao_raytracing
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			depth_check off
+			depth_write off
+			
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref ssao_raytracing_fp
+			{
+			}
+			
+			texture_unit normal
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material ssao_bilateral_filter_x
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			depth_check off
+			depth_write off
+			
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref ssao_bilateral_filter_x_fp
+			{
+				param_named_auto stepX inverse_viewport_width
+			}
+			
+			texture_unit occlusion
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material ssao_bilateral_filter_y
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			depth_check off
+			depth_write off
+			
+			vertex_program_ref post_quad_vp
+			{
+			}
+			
+			fragment_program_ref ssao_bilateral_filter_y_fp
+			{
+				param_named_auto stepY inverse_viewport_height
+			}
+			
+			texture_unit bilateral_occlusion
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}

@@ -1,0 +1,65 @@
+EntityBlueprint
+{
+	name  "resources/resource_mud"
+
+
+	
+    //MeshDesc
+	//{
+	//	mesh 		"meshes/resources/resource_water.mesh"
+	//	material 	"resources/resource_mud"
+	//}
+	
+		TypeDesc
+	{
+		type "resource"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"resource"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 2
+						y 1
+						z 2
+					}
+				}
+			}
+		}
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "1"
+				z "1"
+			}	
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode	"origin"
+		terrain_type  "liquid"		
+	}
+}
+

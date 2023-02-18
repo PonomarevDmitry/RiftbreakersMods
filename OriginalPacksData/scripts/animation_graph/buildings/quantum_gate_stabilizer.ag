@@ -1,0 +1,380 @@
+AnimationGraph
+{
+	name "buildings/quantum_gate_stabilizer"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "default"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationGetNeutralPoseNode"
+						{
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "211.000"
+									y "308.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "808.000"
+									y "311.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "idle"
+						position
+						{
+							x "1435.000"
+							y "547.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationStateMachineNode"
+				{
+					animation_node_vec
+					{
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "entry"
+								position
+								{
+									x "24.000"
+									y "404.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationMotionNode"
+						{
+							mirror "0"
+							blend_function_holder
+							{
+								funtion_type "0"
+							}
+
+							loop "1"
+							end_time "340282346638528859811704183484516925440.000"
+							anim_name "idle"
+							speed "1.000"
+							start_time "0.000"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "idle"
+								position
+								{
+									x "876.000"
+									y "273.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationBlendTreeNode"
+						{
+							end_node_idx "0"
+							eval_node_vec
+							{
+								AnimationEvalNode "AnimationEndNode"
+								{
+									dependency_vec
+									{
+										EvalNodeDependency
+										{
+											dst_slot "0"
+											src_slot "0"
+											src_node_idx "2"
+										}
+
+									}
+
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "1085.000"
+											y "589.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationGetFloatParamNode"
+								{
+									param_name "charging_speed"
+									dependency_vec
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "146.000"
+											y "590.000"
+										}
+
+									}
+
+								}
+
+								AnimationEvalNode "AnimationPlayAnimNode"
+								{
+									mirror "0"
+									anim_name "working"
+									looped "1"
+									normalize "0"
+									blend_funtion
+									{
+										funtion_type "0"
+									}
+
+									dependency_vec
+									{
+										EvalNodeDependency
+										{
+											dst_slot "0"
+											src_slot "0"
+											src_node_idx "1"
+										}
+
+									}
+
+									emit_progress_event "0"
+									evaluate_blend_threshold "1.000"
+									metadata
+									{
+										name
+										position
+										{
+											x "607.000"
+											y "588.000"
+										}
+
+									}
+
+								}
+
+							}
+
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "charging"
+								position
+								{
+									x "876.000"
+									y "513.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					start_node_idx "0"
+					transition_vec
+					{
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationTrueTransitionCondition"
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "2"
+							condition "AnimationFloatParamTransitionCondition"
+							{
+								compare_value "0.000"
+								param "charging_speed"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "1"
+							condition "AnimationFloatParamTransitionCondition"
+							{
+								compare_value "0.000"
+								param "charging_speed"
+								cmp "2"
+							}
+
+							authoritative "0"
+							dst_idx "2"
+							blend_function_type "2"
+							duration "0.100"
+						}
+
+					}
+
+					metadata
+					{
+						name "working"
+						position
+						{
+							x "1438.000"
+							y "226.000"
+						}
+
+					}
+
+					emit_progress_event "0"
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_working"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "2"
+					duration "1.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_working"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "is_working"
+			data_type "0"
+			is_const "0"
+		}
+
+		ParamDecl "FloatParamDecl"
+		{
+			max "100.000"
+			min "0.000"
+			default "0.000"
+			param_name "charging_speed"
+			data_type "2"
+			is_const "0"
+		}
+
+	}
+
+}
+

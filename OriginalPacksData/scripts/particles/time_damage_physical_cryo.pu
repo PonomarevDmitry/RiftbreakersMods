@@ -1,0 +1,74 @@
+system rift/time_damage_physical_cryo
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.02
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique blood
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim_8x8_mild_blue
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            angle                               90
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             150
+                max                             250
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             60
+            }
+            position                            0 5 0
+            end_texture_coords_range            15
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+        affector                                LinearForce Affector30
+        {
+            force_vector                        0 -300 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0.494118
+            time_colour                         0.502174  1 1 1 0.498039
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureAnimator Affector81
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+    }
+}

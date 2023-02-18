@@ -1,0 +1,114 @@
+system exor/bush_influenced_destruction
+{
+    fixed_timeout                               3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    fade_out                                    true
+    cache_count                                 0
+    technique sparks
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_blue_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       50
+            angle                               60
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            force_emission                      true
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.25  1 1 1 0.709804
+            time_colour                         0.408696  1 1 1 0.494118
+            time_colour                         1    1 1 1 0
+        }
+        affector                                LinearForce Affector17
+        {
+            force_vector                        0 -300 0
+        }
+    }
+    technique smoke
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box smoke
+        {
+            emission_rate                       25
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             40
+                max                             50
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             20
+                max                             25
+            }
+            end_texture_coords_range            3
+            start_colour_range                  0.501961 0.501961 0.25098 1
+            end_colour_range                    0.501961 0.501961 0.50196 1
+            force_emission                      true
+            box_width                           25
+            box_height                          25
+            box_depth                           25
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 1 1 0.6
+            time_colour                         0.506522  0.501961 1 1 0.4
+            time_colour                         1    0.501961 1 1 0
+        }
+        affector                                LinearForce Affector10
+        {
+            force_vector                        0 -40 0
+        }
+        affector                                Scale Affector19
+        {
+            xyz_scale                           25
+            since_start_system                  true
+        }
+    }
+}
