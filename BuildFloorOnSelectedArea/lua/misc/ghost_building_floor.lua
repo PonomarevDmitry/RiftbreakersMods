@@ -165,24 +165,18 @@ function ghost_building_floor:FillWithFloors( blueprint, indexes )
     end
 end
 
-function ghost_building_floor:BuildFloor(currentPosition, testBuildable, allFreeGrids)
-    local toRecreate ={}
-    
-    local hashAllFreeGreeds = {}
-    
-    local allFreeGridsCount = #allFreeGrids
-    if ( allFreeGridsCount == 0 ) then
-        allFreeGridsCount = allFreeGrids.count
-    end 
-    for i = 1,allFreeGridsCount do
-        local idx = allFreeGrids[i]
-        hashAllFreeGreeds[idx] = true
-    end
+function ghost_building_floor:BuildFloor(currentPosition, testBuildable, hashAllFreeGrids, listSelledEntities)
 
-    local removedCount =0
+    local toRecreate = {}
+
+    local removedCount = 0
+
     local buildingToSellCount = testBuildable.entities_to_sell.count
+
     for i = 1,buildingToSellCount do
+
         local entityToSell = testBuildable.entities_to_sell[i]
+
         --LogService:Log("Test: " .. tostring(i) .. "/" .. tostring(testBuildable.entities_to_sell.count ) .. ":" ..tostring(entityToSell))
         if (entityToSell == nil  ) then 
             --LogService:Log("Entity to sell nil!  do not remove! " ..tostring(entityToSell)  )
@@ -213,28 +207,28 @@ function ghost_building_floor:BuildFloor(currentPosition, testBuildable, allFree
         local indexes = gridCullerComponentHelper.indexes
         local freeGrids = {}
         for i=indexes.count,1,-1 do 
-            local add = true
-            -- for j=1,testBuildable.free_grids.count do
-                -- if ( testBuildable.free_grids[j] == indexes[i]) then
-                    -- add = false
-                    -- break
-                -- end
-            -- end
+
+            local idx = indexes[i]
             
-            if ( hashAllFreeGreeds[indexes[i]] == true ) then
-                add = false
-            end
-            
-            if (add ) then
-                Insert(freeGrids, indexes[i] )
+            if ( hashAllFreeGrids[idx] == nil ) then
+
+                Insert( freeGrids, idx )
             end
         end
+
         if ( #freeGrids > 0 ) then
             Insert(toRecreate, {["bp"]=entityBlueprint,["indexes"] = freeGrids })
         end
 
         removedCount = removedCount + 1
-        QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+
+        if ( IndexOf( listSelledEntities, entityToSell ) == nil ) then 
+            
+            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+
+            Insert(listSelledEntities, entityToSell )
+        end
+        
         ::continue::
     end
     Assert(removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
@@ -289,6 +283,8 @@ function ghost_building_floor:OnUpdate()
     end    
 
     if ( self.nowBuildingLine and self.buildStartPosition ) then
+
+        local positionY = self.buildStartPosition.position.y
     
         local team = EntityService:GetTeam(self.entity)
     
@@ -337,7 +333,7 @@ function ghost_building_floor:OnUpdate()
                     local newPosition = {}
                     
                     newPosition.x = positionX
-                    newPosition.y = buildEndPosition.y
+                    newPosition.y = positionY
                     newPosition.z = positionZ
                 
                     local lineEnt = EntityService:SpawnEntity(self.ghostBlueprint, newPosition, team )
@@ -371,7 +367,7 @@ function ghost_building_floor:OnUpdate()
                     local newPosition = {}
                     
                     newPosition.x = positionX
-                    newPosition.y = buildEndPosition.y
+                    newPosition.y = positionY
                     newPosition.z = positionZ
                 
                     local lineEnt = EntityService:SpawnEntity(self.ghostBlueprint, newPosition, team )
@@ -396,7 +392,7 @@ function ghost_building_floor:OnUpdate()
                 local newPosition = {}
                 
                 newPosition.x = positionX
-                newPosition.y = buildEndPosition.y
+                newPosition.y = positionY
                 newPosition.z = positionZ
                 
                 local transform = {}
@@ -404,13 +400,13 @@ function ghost_building_floor:OnUpdate()
                 transform.orientation = currentTransform.orientation
                 transform.position = newPosition
                 
-                local entity = gridEntitiesZ[zIndex];
-                EntityService:SetPosition( entity, newPosition)
-                EntityService:SetScale( entity, currentScale, 1.0, currentScale)
+                local lineEnt = gridEntitiesZ[zIndex];
+                EntityService:SetPosition( lineEnt, newPosition)
+                EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
                 
                 local id = (xIndex -1 ) * #arrayX + zIndex
                 
-                self:CheckEntityBuildable(entity, transform, true, id, true)
+                self:CheckEntityBuildable(lineEnt, transform, true, id, true)
             end
         end
     else
@@ -423,17 +419,24 @@ end
 
 function ghost_building_floor:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
 
-    local bounds = EntityService:GetBoundsSize( self.entity )
-    
-    local deltaXZ = math.max( bounds.x, bounds.z )
+    local gridSize = BuildingService:GetBuildingGridSize(self.entity)
     
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
     
-    local minX = math.min( buildStartPosition.x, buildEndPosition.x )
-    local maxX = math.max( buildStartPosition.x, buildEndPosition.x )
+    local deltaX = gridSize.x * 2 * xSign
+    local deltaZ = gridSize.z * 2 * zSign
+
+    local smallDeltaX = (gridSize.x * xSign) / 2
+    local smallDeltaZ = (gridSize.z * zSign) / 2
+
+    local buildEndPositionX = buildEndPosition.x + smallDeltaX
+    local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
     
-    local minZ = math.min( buildStartPosition.z, buildEndPosition.z )
-    local maxZ = math.max( buildStartPosition.z, buildEndPosition.z )
+    local minX = math.min( buildStartPosition.x, buildEndPositionX )
+    local maxX = math.max( buildStartPosition.x, buildEndPositionX )
+    
+    local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
+    local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
     
     local arrayX = {}
     
@@ -443,7 +446,7 @@ function ghost_building_floor:FindPositionsToBuildLine(buildStartPosition, build
     
         Insert(arrayX, positionX)
         
-        positionX = positionX + deltaXZ * xSign
+        positionX = positionX + deltaX
     end
     
     local arrayZ = {}
@@ -454,7 +457,7 @@ function ghost_building_floor:FindPositionsToBuildLine(buildStartPosition, build
     
         Insert(arrayZ, positionZ)
         
-        positionZ = positionZ + deltaXZ * zSign
+        positionZ = positionZ + deltaZ
     end
     
     return arrayX, arrayZ
@@ -485,6 +488,8 @@ function ghost_building_floor:OnActivate()
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
         EntityService:SetVisible( self.entity , false )
+
+        self:OnUpdate()
     else
         self:FinishLineBuild() 
     end    
@@ -509,9 +514,9 @@ function ghost_building_floor:FinishLineBuild()
     
     if ( count > 0 ) then
     
-        local allFreeGrids = self:GetAllFreeGrids(allEntities)
+        local hashAllFreeGrids = self:GetAllFreeGrids(allEntities)
         
-        self:BuildFloorEntites(allEntities, allFreeGrids)
+        self:BuildFloorEntites(allEntities, hashAllFreeGrids)
     end
     
     self.gridEntities = {}
@@ -540,10 +545,10 @@ end
 
 function ghost_building_floor:GetAllFreeGrids(floorEntities)
 
+    local hashAllFreeGrids = {}
+
     local count = #floorEntities
     
-    local free_grids = {}
-
     for i=1,count do
     
         local ghost = floorEntities[i]        
@@ -559,26 +564,23 @@ function ghost_building_floor:GetAllFreeGrids(floorEntities)
         for i = 1,indexesCount do
             
             local idx = testBuildable.free_grids[i]
-        
-            if ( IndexOf( free_grids, idx ) == nil ) then 
-            
-                Insert(free_grids, idx)                
-            end
+
+            hashAllFreeGrids[idx] = true
         end
     end
     
-    free_grids["count"] = #free_grids
-    
-    return free_grids
+    return hashAllFreeGrids
 end
 
-function ghost_building_floor:BuildFloorEntites(floorEntities, allFreeGrids)
+function ghost_building_floor:BuildFloorEntites(floorEntities, hashAllFreeGrids)
 
     local count = #floorEntities
             
     self.buildPosition = EntityService:GetWorldTransform( self.selector )
             
     local entityTransform = EntityService:GetWorldTransform( self.entity )
+
+    local listSelledEntities = {}
 
     for i=1,count do
     
@@ -590,7 +592,7 @@ function ghost_building_floor:BuildFloorEntites(floorEntities, allFreeGrids)
         
         local testBuildable = reflection_helper(test:ToTypeInstance())
         
-        self:BuildFloor(entityTransform, testBuildable, allFreeGrids )
+        self:BuildFloor(entityTransform, testBuildable, hashAllFreeGrids, listSelledEntities )
     
         EntityService:RemoveEntity(ghost)
     end
