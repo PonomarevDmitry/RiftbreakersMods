@@ -5,7 +5,7 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'harvester_drone' ( base_drone )
 
 local LOCK_TYPE_HARVESTER = "harvester";
-SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 10)
+SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 3)
 
 function harvester_drone:__init()
     base_drone.__init(self,self)
@@ -138,6 +138,11 @@ function harvester_drone:FindActionTarget()
             end
             
             if ( EntityService:CompareType( entity, "ground_unit" ) ) then
+            
+                return false
+            end
+            
+            if ( EntityService:CompareType( entity, "air_unit" ) ) then
             
                 return false
             end
