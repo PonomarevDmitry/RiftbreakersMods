@@ -13,17 +13,17 @@ function ghost_building_line:OnInit()
     
     self.linesEntities = {}
 
-    if ( self.data:GetInt("activated") == 1 ) then
-        self.activated = true
-        self.buildStartPosition = EntityService:GetWorldTransform( self.entity )
-        self.buildStartPosition.position.x = self.data:GetFloat("activation_position_x")
-        self.buildStartPosition.position.y = self.data:GetFloat("activation_position_y")
-        self.buildStartPosition.position.z = self.data:GetFloat("activation_position_z")
-        EntityService:SetVisible( self.entity , false )
+    --if ( self.data:GetInt("activated") == 1 ) then
+    --    self.activated = true
+    --    self.buildStartPosition = EntityService:GetWorldTransform( self.entity )
+    --    self.buildStartPosition.position.x = self.data:GetFloat("activation_position_x")
+    --    self.buildStartPosition.position.y = self.data:GetFloat("activation_position_y")
+    --    self.buildStartPosition.position.z = self.data:GetFloat("activation_position_z")
+    --    EntityService:SetVisible( self.entity , false )
         
-        local player = PlayerService:GetPlayerControlledEnt(0)
-        self.positionPlayer = EntityService:GetPosition( player )
-    end
+    --    local player = PlayerService:GetPlayerControlledEnt(0)
+    --    self.positionPlayer = EntityService:GetPosition( player )
+    --end
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     
@@ -807,6 +807,8 @@ function ghost_building_line:OnActivate()
         
         local player = PlayerService:GetPlayerControlledEnt(0)
         self.positionPlayer = EntityService:GetPosition( player )
+
+        self:OnUpdate()
     else
         self:FinishLineBuild() 
     end
