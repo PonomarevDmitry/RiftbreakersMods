@@ -1,0 +1,264 @@
+EntityBlueprint
+{
+	name  "items/equipment/scanner"
+
+	MeshDesc
+	{
+		mesh "meshes/items/interactive/bioscanner.mesh"
+
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "items/interactive/bioscanner"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "items/interactive/bioscanner_ui"
+			}
+		}
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/interactive/bioscanner"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/equipment/scanner_projectile"
+		fire_effect 				"effects/mech/bioscanner_muzzle"
+		autoaim_type				"scannable"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/laser_small_equipped"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/equipment/scanner_projectile"
+
+	IdDesc
+	{
+		name "##ammo##"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/bioscanner_beam.mesh"
+		material 	"projectiles/bioscanner_idle"
+	}
+
+	LaserBeamComponent
+	{
+		range 						"200"
+	
+		ring_bp 					"items/equipment/scanner_ring"
+	
+		on_enemy_hit_effect 		"effects/mech/bioscanner_hit"
+		on_world_hit_effect 		"effects/mech/bioscanner_hit"
+	
+		collision_3d 				"world_blocker|world|ground_unit|hitbox|building|destructible|vegetation"
+		collision_block 			"world_blocker|world|building"
+		collision_user_mask			"scannable"
+		
+		is_visible_only 			"1"
+		only_blocking_effect		"1"
+
+		diameter					"1.5"
+        damage_factor_max       	"9.0"
+        damage_factor_increase  	"5"
+        damage_factor_decrease  	"10.0"
+        damage_max_beam_scale 		"1.5"
+		damage_max_beam_glow 		"1.0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/equipment/scanner_ring"
+
+	base_blueprints
+	{
+		lights/point/bioscanner
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/bioscanner_ring.mesh"
+		material 	"projectiles/bioscanner_ring"
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "items/interactive/scanner_item"
+
+	InventoryItemDesc
+	{
+		type 		"equipment"
+		name 		"gui/menu/inventory/equipment/bioscanner"
+		holding_pose "range"
+		item_bp		"items/equipment/scanner"
+		icon		"gui/hud/items_icons/interactive/scanner"
+		bigger_icon "gui/menu/items_icons/interactive/scanner"
+		cooldown	 "0.001"
+		continuous   "1"
+		replace_lower_quality		"1"	
+		add_after_obtaining "1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/scanner.lua"
+
+		database
+		{
+			scanning_time	float:"2"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/interactive/scanner_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"equipment"
+		name 		"gui/menu/inventory/equipment/bioscanner"
+		holding_pose "range"
+		item_bp		"items/equipment/scanner"
+		icon		"gui/hud/items_icons/interactive/scanner"
+		bigger_icon "gui/menu/items_icons/interactive/scanner"
+		cooldown	 "0.001"
+		continuous   "1"
+		replace_lower_quality		"1"	
+		add_after_obtaining "1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/scanner.lua"
+
+		database
+		{
+			scanning_time	float:"1.5"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/interactive/scanner_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"equipment"
+		name 		"gui/menu/inventory/equipment/bioscanner"
+		holding_pose "range"
+		item_bp		"items/equipment/scanner"
+		icon		"gui/hud/items_icons/interactive/scanner"
+		bigger_icon "gui/menu/items_icons/interactive/scanner"
+		cooldown	 "0.001"
+		continuous   "1"
+		replace_lower_quality		"1"	
+		add_after_obtaining "1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/scanner.lua"
+
+		database
+		{
+			scanning_time	float:"1.0"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/interactive/scanner_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"equipment"
+		name 		"gui/menu/inventory/equipment/bioscanner"
+		holding_pose "range"
+		item_bp		"items/equipment/scanner"
+		icon		"gui/hud/items_icons/interactive/scanner"
+		bigger_icon "gui/menu/items_icons/interactive/scanner"
+		cooldown	 "0.001"
+		continuous   "1"
+		replace_lower_quality		"1"	
+		add_after_obtaining "1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/scanner.lua"
+
+		database
+		{
+			scanning_time	float:"0.5"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
