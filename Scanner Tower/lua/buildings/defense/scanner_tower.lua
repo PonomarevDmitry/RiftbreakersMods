@@ -156,7 +156,7 @@ function scanner_tower:OnRelease()
         EntityService:RemoveEntity( self.effect )
     end
     
-    building:OnRelease(self)
+    building.OnRelease(self)
 end
 
 -- tower.lua v
