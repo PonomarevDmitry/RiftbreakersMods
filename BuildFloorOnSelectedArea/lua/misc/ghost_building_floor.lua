@@ -210,7 +210,7 @@ function ghost_building_floor:BuildFloor(currentPosition, testBuildable, hashAll
 
             local idx = indexes[i]
             
-            if ( not (hashAllFreeGrids[idx] == true) ) then
+            if ( hashAllFreeGrids[idx] == nil ) then
 
                 Insert( freeGrids, idx )
             end
