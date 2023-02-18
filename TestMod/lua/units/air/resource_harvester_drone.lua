@@ -5,7 +5,7 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'harvester_drone' ( base_drone )
 
 local LOCK_TYPE_HARVESTER = "harvester";
-SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 3)
+SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 10)
 
 function harvester_drone:__init()
     base_drone.__init(self,self)
@@ -158,7 +158,7 @@ function harvester_drone:FindActionTarget()
     local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
 
     local target = FindBestVegetationEntity( self.entity, entities );
-    if target ~= INVALID_ID then
+    if ( target ~= INVALID_ID and target ~= nil and EntityService:IsAlive( target ) ) then
         EntityService:EnsureGatherableComponent( target )
         self:LockTarget( target, LOCK_TYPE_HARVESTER );
     end
@@ -244,13 +244,19 @@ function harvester_drone:OnHarvestEnter(state)
     end
     state:SetDurationLimit(self.harvest_duration)
 
-    local target = self:GetDroneActionTarget();
+    local target = self:GetDroneActionTarget()
+
+    if ( target == INVALID_ID or target == nil or not EntityService:IsAlive( target ) ) then
+        state:Exit()
+        return
+    end
+
     Insert(self.exclude_targets, target)
 
     local resources = EntityService:GetGatherableResources(target);
     if #resources == 0 then
         state:Exit()
-        return;
+        return
     end
 
     for i=1,#resources do
@@ -296,9 +302,14 @@ end
 function harvester_drone:OnHarvestExecute(state, dt)
     local max_change_amount = ( self.harvest_storage / self.harvest_duration ) * dt;
 
-    local target = self:GetDroneActionTarget();
+    local target = self:GetDroneActionTarget()
 
-    if not EntityService:IsAlive( target ) then
+    if ( target == INVALID_ID or target == nil ) then
+        state:Exit()
+        return 
+    end
+
+    if ( not EntityService:IsAlive( target ) ) then
         return state:Exit()
     end
 
@@ -315,8 +326,10 @@ function harvester_drone:OnHarvestExecute(state, dt)
 end
 
 function harvester_drone:OnHarvestExit()
+
     local target = self:GetDroneActionTarget();
-    if EntityService:IsAlive( target ) then
+
+    if ( target ~= nil and target ~= INVALID_ID and EntityService:IsAlive( target ) ) then
         local resources = EntityService:GetGatherableResources(target);
         if #resources == 0 then
             EntityService:RemoveComponent(target, "GatherResourceComponent")
