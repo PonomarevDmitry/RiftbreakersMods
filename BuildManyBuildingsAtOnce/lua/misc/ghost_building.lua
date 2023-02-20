@@ -29,6 +29,13 @@ function ghost_building:OnInit()
     self.oldBuildingsToSell = {}
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+
+    self.limitedBuildingsQueue = {}
+
+    self.massBuildLimitMachine = self:CreateStateMachine()
+    self.massBuildLimitMachine:AddState( "working", { execute = "_massBuildLimitMachineWorking", interval = 0.05 } )
+    self.massBuildLimitMachine:AddState( "idle", { interval = 10.0 } )
+    self.massBuildLimitMachine:ChangeState("idle")
 end
 
 function ghost_building:OnBuildingStartEvent( evt)
@@ -213,6 +220,8 @@ function ghost_building:OnUpdate()
         BuildingService:CheckAndFixBuildingConnection(self.entity)
     end
 
+    ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
+
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     end
@@ -349,6 +358,32 @@ function ghost_building:BuildEntity(entity)
         return
     end
 
+    if ( testBuildable.flag == CBF_TO_CLOSE ) then
+
+        if ( self.toCloseAnnoucement ~= "" ) then
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
+        end
+
+        return testBuildable.flag
+
+    elseif( testBuildable.flag == CBF_LIMITS ) then
+
+        QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
+
+        return testBuildable.flag
+    end
+
+    local missingResources = testBuildable.missing_resources
+    if ( missingResources.count  > 0 ) then
+        if ( missingResources.count  > 1 ) then
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", entity, false )
+        elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
+            QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
+        end
+
+        return testBuildable.flag
+    end
+
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
@@ -361,6 +396,8 @@ function ghost_building:BuildEntity(entity)
     elseif( testBuildable.flag == CBF_REPAIR  ) then
         QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
     end
+
+    return testBuildable.flag
 end
 
 function ghost_building:OnActivate()
@@ -389,8 +426,6 @@ function ghost_building:FinishLineBuild()
     
         return
     end
-
-    EntityService:SetVisible( self.entity , true )
     
     local allEntities = self:GetAllEntities()
     
@@ -398,19 +433,80 @@ function ghost_building:FinishLineBuild()
     
     if ( count > 0 ) then
 
-        for i=1,count do
-    
-            local ghost = allEntities[i]
+        if ( self.desc ~= nil and ( (self.desc.limit ~= nil and self.desc.limit > 0) or (self.desc.map_limit ~= nil and self.desc.map_limit > 0) ) ) then
 
-            self:BuildEntity(ghost)
+            if ( self.limitedBuildingsQueue == nil ) then
+                self.limitedBuildingsQueue = {}
+            end
 
-            EntityService:RemoveEntity(ghost)
+            Insert( self.limitedBuildingsQueue, allEntities )
+
+            self.massBuildLimitMachine:ChangeState("working")
+        else
+
+            for i=1,count do
+            
+                local ghost = allEntities[i]
+            
+                self:BuildEntity(ghost)
+            
+                EntityService:RemoveEntity(ghost)
+            end
         end
     end
+
+    EntityService:SetVisible( self.entity , true )
+
+    ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
     
     self.gridEntities = {}
     self.buildStartPosition = nil
     self.nowBuildingLine = false;
+end
+
+function ghost_building:_massBuildLimitMachineWorking( state )
+
+    if ( self.limitedBuildingsQueue == nil ) then
+        self.limitedBuildingsQueue = {}
+    end
+
+    if ( #self.limitedBuildingsQueue == 0 ) then
+        self.massBuildLimitMachine:ChangeState("idle")
+        return
+    end
+
+    local allEntities = self.limitedBuildingsQueue[1]
+
+    if ( #allEntities == 0) then
+
+        Remove( self.limitedBuildingsQueue, allEntities )
+        return
+    end
+
+    local ghost = allEntities[1]
+    Remove( allEntities, ghost )
+
+    local testBuildableFlag = self:BuildEntity(ghost)
+    EntityService:RemoveEntity(ghost)
+
+    if ( #allEntities == 0) then
+
+        Remove( self.limitedBuildingsQueue, allEntities )
+        return
+    end
+
+    if( testBuildableFlag == CBF_LIMITS ) then
+
+        if ( #allEntities > 0 ) then
+
+            for index=1,#allEntities do
+                local entity = allEntities[index]
+                EntityService:RemoveEntity(entity)
+            end
+
+            Remove( self.limitedBuildingsQueue, allEntities )
+        end
+    end
 end
 
 function ghost_building:GetAllEntities()
@@ -466,6 +562,14 @@ function ghost_building:OnRelease()
     if ( self.gridEntities ~= nil) then
         for gridEntitiesZ in Iter(self.gridEntities) do
             for ghost in Iter(gridEntitiesZ) do
+                EntityService:RemoveEntity(ghost)
+            end
+        end
+    end
+
+    if ( self.limitedBuildingsQueue ~= nil) then
+        for arrayBuildings in Iter(self.limitedBuildingsQueue) do
+            for ghost in Iter(arrayBuildings) do
                 EntityService:RemoveEntity(ghost)
             end
         end
