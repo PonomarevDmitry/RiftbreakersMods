@@ -1,12 +1,8 @@
 ConsoleService:RegisterCommand( "activate_slot_request", function( args )
 
-    LogService:Log("Command activate_slot_request " .. tostring(args[1]) )
-
     if not Assert( #args == 1, "Command requires one argument! [slot_name]" ) then
         return 
     end
-    
-    LogService:Log("Command activate_slot_request " .. tostring(args[1]) .. " ItemService:UseEquippedItem" )
     
     local player = PlayerService:GetPlayerControlledEnt(0)
     
@@ -15,6 +11,15 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
 
     
 end)
+
+--JUMP_SKILL
+--DODGE_ROLL_SKILL
+--TELEPORT_SKILL
+ConsoleService:ExecuteCommand('bind key_20 "activate_slot_request JUMP_SKILL"')
+ConsoleService:ExecuteCommand('bind #20 "activate_slot_request JUMP_SKILL"')
+ConsoleService:ExecuteCommand('bind 20 "activate_slot_request JUMP_SKILL"')
+ConsoleService:ExecuteCommand('bind lcontrol "activate_slot_request DODGE_ROLL_SKILL"')
+ConsoleService:ExecuteCommand('bind lalt "activate_slot_request TELEPORT_SKILL"')
 
 ConsoleService:ExecuteCommand('bind 9 "activate_slot_request USABLE_9"')
 ConsoleService:ExecuteCommand('bind 0 "activate_slot_request USABLE_10"')
