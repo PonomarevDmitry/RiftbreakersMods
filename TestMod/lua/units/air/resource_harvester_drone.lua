@@ -11,6 +11,12 @@ function harvester_drone:__init()
     base_drone.__init(self,self)
 end
 
+local function SetBestTarget( best, entity, distance, index )
+    best.entity = entity
+    best.distance = distance;
+    best.index = index
+end
+
 local function FindBestVegetationEntity(source, entities)
     local best = {
         entity = INVALID_ID,
@@ -37,16 +43,34 @@ local function FindBestVegetationEntity(source, entities)
         else
             index = 0
         end
-        local distance = EntityService:GetDistanceBetween( source, entity );
 
-        if best.entity == INVALID_ID or index > best.index then
-            best.entity = entity
-            best.distance = distance;
-            best.index = index
-        elseif index == best.index and best.distance > distance then
-            best.entity = entity
-            best.distance = distance;
-            best.index = index
+        local distance = EntityService:GetDistanceBetween( source, entity )
+
+        if best.entity == INVALID_ID then
+
+            SetBestTarget(best, entity, distance, index)
+        else
+            
+            if index == best.index and best.distance > distance then
+
+                SetBestTarget(best, entity, distance, index)
+
+            elseif index > (best.index + 5) then
+
+                SetBestTarget(best, entity, distance, index)
+
+            elseif index > (best.index + 3) and ( distance <= (best.distance * 1.3) ) then
+
+                SetBestTarget(best, entity, distance, index)
+
+            elseif index > (best.index + 2) and ( distance <= (best.distance * 1.2) ) then
+
+                SetBestTarget(best, entity, distance, index)
+
+            elseif index > (best.index + 1) and ( distance <= (best.distance * 1.1) ) then
+
+                SetBestTarget(best, entity, distance, index)
+            end
         end
     end
 
@@ -136,13 +160,15 @@ function harvester_drone:FindActionTarget()
             if not lootComponent or not reflection_helper( lootComponent ).is_gatherable then
                 return false
             end
+
+            local isAlive = HealthService:IsAlive( entity )
             
-            if ( EntityService:CompareType( entity, "ground_unit" ) ) then
+            if ( EntityService:CompareType( entity, "ground_unit" ) and isAlive ) then
             
                 return false
             end
             
-            if ( EntityService:CompareType( entity, "air_unit" ) ) then
+            if ( EntityService:CompareType( entity, "air_unit" ) and isAlive ) then
             
                 return false
             end
@@ -163,7 +189,7 @@ function harvester_drone:FindActionTarget()
     local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
 
     local target = FindBestVegetationEntity( self.entity, entities );
-    if ( target ~= INVALID_ID and target ~= nil and EntityService:IsAlive( target ) ) then
+    if ( target ~= INVALID_ID and target ~= nil ) then
         EntityService:EnsureGatherableComponent( target )
         self:LockTarget( target, LOCK_TYPE_HARVESTER );
     end
@@ -251,7 +277,7 @@ function harvester_drone:OnHarvestEnter(state)
 
     local target = self:GetDroneActionTarget()
 
-    if ( target == INVALID_ID or target == nil or not EntityService:IsAlive( target ) ) then
+    if ( target == INVALID_ID or target == nil ) then
         state:Exit()
         return
     end
@@ -314,7 +340,7 @@ function harvester_drone:OnHarvestExecute(state, dt)
         return 
     end
 
-    if ( not EntityService:IsAlive( target ) ) then
+    if not EntityService:IsAlive( target ) then
         return state:Exit()
     end
 
