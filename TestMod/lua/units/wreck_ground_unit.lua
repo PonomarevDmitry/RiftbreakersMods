@@ -23,6 +23,8 @@ function wreck_ground_unit:init()
         EntityService:ChangeType( self.entity, "prop|wreck_medium" )
     elseif EntityService:CompareType( self.entity, "ground_unit_large" ) then 
         EntityService:ChangeType( self.entity, "prop|wreck_large" )
+    else
+        EntityService:ChangeType( self.entity, "prop|wreck_medium" )
     end
 
     self.meshChanged = false
