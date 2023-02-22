@@ -1,14 +1,14 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-class 'cultivator_sapling_inserter_tool' ( tool )
+class 'cultivator_sapling_replacer_tool' ( tool )
 
-function cultivator_sapling_inserter_tool:__init()
+function cultivator_sapling_replacer_tool:__init()
     tool.__init(self,self)
 end
 
-function cultivator_sapling_inserter_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_inserter_tool", self.entity)
+function cultivator_sapling_replacer_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_replacer_tool", self.entity)
     self.popupShown = false
 
     local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_item"
@@ -18,11 +18,11 @@ function cultivator_sapling_inserter_tool:OnInit()
     self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", DEFAULT_SAPLING_BLUEPRINT )
 end
 
-function cultivator_sapling_inserter_tool:OnPreInit()
+function cultivator_sapling_replacer_tool:OnPreInit()
     self.initialScale = { x=8, y=1, z=8 }
 end
 
-function cultivator_sapling_inserter_tool:AddedToSelection( entity )
+function cultivator_sapling_replacer_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
@@ -31,17 +31,17 @@ function cultivator_sapling_inserter_tool:AddedToSelection( entity )
     end
 end
 
-function cultivator_sapling_inserter_tool:SpawnCornerBlueprint()
+function cultivator_sapling_replacer_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function cultivator_sapling_inserter_tool:RemovedFromSelection( entity )
+function cultivator_sapling_replacer_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function cultivator_sapling_inserter_tool:FilterSelectedEntities( selectedEntities ) 
+function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntities ) 
 
     local entities = {}
     
@@ -80,7 +80,7 @@ function cultivator_sapling_inserter_tool:FilterSelectedEntities( selectedEntiti
     return entities
 end
 
-function cultivator_sapling_inserter_tool:OnActivateEntity( entity )
+function cultivator_sapling_replacer_tool:OnActivateEntity( entity )
 
     local item = ItemService:GetFirstItemForBlueprint( entity, self.SelectedItemBlueprint )
 
@@ -94,5 +94,5 @@ function cultivator_sapling_inserter_tool:OnActivateEntity( entity )
     BuildingService:BlinkBuilding(entity)
 end
 
-return cultivator_sapling_inserter_tool
+return cultivator_sapling_replacer_tool
  
