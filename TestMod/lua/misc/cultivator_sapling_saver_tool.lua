@@ -8,28 +8,14 @@ function cultivator_sapling_saver_tool:__init()
 end
 
 function cultivator_sapling_saver_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_saver_tool", self.entity)
+    self.popupShown = false
 
     local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_item"
-    
-    self.popupShown = false
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", DEFAULT_SAPLING_BLUEPRINT )
-
-    local tempItem = EntityService:SpawnAndAttachEntity( self.SelectedItemBlueprint, self.entity )
-
-    self.iconMaterial = ItemService:GetItemIcon( tempItem )
-
-    EntityService:RemoveEntity( tempItem )
-
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_saver", self.entity)
-
-    EntityService:ChangeMaterial( self.childEntity, self.iconMaterial )
-
-    LogService:Log("OnInit SelectedItemBlueprint " .. self.SelectedItemBlueprint )
-
-    LogService:Log("OnInit iconMaterial " .. self.iconMaterial )
 end
 
 function cultivator_sapling_saver_tool:OnPreInit()
@@ -102,8 +88,6 @@ function cultivator_sapling_saver_tool:OnActivateEntity( entity )
 
         item = ItemService:AddItemToInventory( entity, self.SelectedItemBlueprint )
     end
-
-    LogService:Log("OnActivateEntity item = MOD_1" )
 
     ItemService:EquipItemInSlot( entity, item, "MOD_1" )
 

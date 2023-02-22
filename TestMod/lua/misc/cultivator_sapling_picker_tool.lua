@@ -9,7 +9,7 @@ function cultivator_sapling_picker_tool:__init()
 end
 
 function cultivator_sapling_picker_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_picker", self.entity)
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_picker_tool", self.entity)
     self.popupShown = false
     
     self.scaleMap = {
@@ -79,15 +79,33 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
         if ( modItem ~= nil ) then
 
-            local blueprint = EntityService:GetBlueprintName(modItem)
+            local modItemBlueprint = EntityService:GetBlueprintName(modItem)
 
             local selectorDB = EntityService:GetDatabase( self.selector )
 
-            selectorDB:SetString( "cultivator_sapling_picker_tool.selecteditem", blueprint or "" )
+            selectorDB:SetString( "cultivator_sapling_picker_tool.selecteditem", modItemBlueprint or "" )
 
-            QueueEvent( "ChangeSelectorRequest", self.selector, "buildings/tools/cultivator_sapling_saver", "buildings/tools/cultivator_sapling_saver_ghost" )
 
-            QueueEvent( "ChangeBuildingRequest", self.selector, "buildings/tools/cultivator_sapling_saver" )
+
+            local saverToolBlueprintDesc = BuildingService:GetBuildingDesc( "buildings/tools/cultivator_sapling_saver_tool" )
+
+            QueueEvent( "ChangeSelectorRequest", self.selector, saverToolBlueprintDesc.bp ,saverToolBlueprintDesc.ghost_bp )
+
+
+
+            local saverToolBlueprintDescHelper = reflection_helper(saverToolBlueprintDesc)
+
+            local saverToolBlueprint = saverToolBlueprintDescHelper.bp
+
+            local lowName = BuildingService:FindLowUpgrade( saverToolBlueprint )
+                
+            if ( lowName == saverToolBlueprint ) then
+                lowName = saverToolBlueprintDescHelper.name
+            end
+            
+            BuildingService:SetBuildingLastLevel( lowName, saverToolBlueprintDescHelper.name)
+
+            QueueEvent("ChangeBuildingRequest", self.selector, lowName )
 
             return
         end
