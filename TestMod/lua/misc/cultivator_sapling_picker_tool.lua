@@ -87,23 +87,23 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
 
 
-            local saverToolBlueprintDesc = BuildingService:GetBuildingDesc( "buildings/tools/cultivator_sapling_saver_tool" )
+            local inserterToolBlueprintDesc = BuildingService:GetBuildingDesc( "buildings/tools/cultivator_sapling_inserter_tool" )
 
-            QueueEvent( "ChangeSelectorRequest", self.selector, saverToolBlueprintDesc.bp ,saverToolBlueprintDesc.ghost_bp )
+            QueueEvent( "ChangeSelectorRequest", self.selector, inserterToolBlueprintDesc.bp ,inserterToolBlueprintDesc.ghost_bp )
 
 
 
-            local saverToolBlueprintDescHelper = reflection_helper(saverToolBlueprintDesc)
+            local inserterToolBlueprintDescHelper = reflection_helper(inserterToolBlueprintDesc)
 
-            local saverToolBlueprint = saverToolBlueprintDescHelper.bp
+            local inserterToolBlueprint = inserterToolBlueprintDescHelper.bp
 
-            local lowName = BuildingService:FindLowUpgrade( saverToolBlueprint )
+            local lowName = BuildingService:FindLowUpgrade( inserterToolBlueprint )
                 
-            if ( lowName == saverToolBlueprint ) then
-                lowName = saverToolBlueprintDescHelper.name
+            if ( lowName == inserterToolBlueprint ) then
+                lowName = inserterToolBlueprintDescHelper.name
             end
             
-            BuildingService:SetBuildingLastLevel( lowName, saverToolBlueprintDescHelper.name)
+            BuildingService:SetBuildingLastLevel( lowName, inserterToolBlueprintDescHelper.name)
 
             QueueEvent("ChangeBuildingRequest", self.selector, lowName )
 
