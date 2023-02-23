@@ -1,0 +1,591 @@
+EntityBlueprint
+{
+	name 			"units/ground/flurian_boss_omicron"
+
+	base_blueprint 	"units/ground/flurian_base"
+
+	
+	LuaDesc
+	{
+		script "lua/units/ground/flurian.lua"
+		database
+		{
+			min_scale	float:"1.6"
+			max_scale	float:"1.6"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"200"
+		unit_soft_radius				"2.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"7000"
+		health 						"7000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 			"700"
+		regeneration_cooldown 	"5"
+	}
+	
+	HealthBarDesc
+	{
+		type "2"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	ResistanceComponent
+	{
+		physical		"0.0"
+		fire			"1.0"
+		acid			"3.0"
+		energy			"0.5"
+		cryo			"0.5"
+		area			"3.0"
+		gravity			"3.0"
+		radiation		"0.05"
+	}	
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.05"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.2"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+	}		
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/flurian.mesh"
+		material 	"units/ground/flurian_omicron"
+		render_group 29 // no point light cast shadow
+	}
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"		
+	}	
+	
+	TurretDesc
+	{
+		name   "range"
+		target "ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "5"
+			range_max "70"
+			aiming_range "80"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		gravity_factor "10"
+		use_IK "0"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_artillery"
+			}			
+		}
+
+		ammo_blueprint 				"units/ground/flurian/flurian_boss_omicron_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_flurian/flurian_boss_omicron_muzzle"
+
+		muzzles_per_fire 			"1"
+		//burst_column_spacing 		"2"
+		burst_rate 					"0.3"
+		burst_column_angle 			"5"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/flurian_boss_omicron"
+		can_activate 0
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_flurian/death_kinetic"	
+					part_prefix 			"meshes/units/ground/flurian"
+					part_material 			"units/ground/flurian_boss_omicron"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}	
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/flurian_base"
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_flurian/death_long"	
+					bone "att_death"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"shadow_caster"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_shadow_caster_orange"
+					bone "att_death"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_flurian/run"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/comms_hub_energy"
+					bone "stomack"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "Fleg_4.R"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "Fleg_4.L"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "Bleg_4.R"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "Bleg_4.L"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "LowerArm.R"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+		
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "Hand.L"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "UpperArm.R"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+
+				Effect
+				{
+					blueprint "effects/enemies_flurian/flurian_boss_omicron_trail"
+					bone "UpperArm.L"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+	
+		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_physical"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_physical"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_yellow"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+	}			
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/flurian_ultra/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_flurian/attack_start"
+						attack_start_time			"0.85"
+						attack_end_time				"0.95"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_flurian/attack_start"
+						attack_start_time			"0.89"
+						attack_end_time				"0.99"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+				}
+				
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"99"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "3.0"
+						z "3.0"
+					}			
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/flurian/flurian_boss_omicron_projectile"
+
+	base_blueprints 
+	{
+		lights/point/muzzle_orange_medium
+		effects/no_lifetime
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/nurglax_bomb_fly.lua"
+		
+		database
+		{
+			egg_spawn_on_destroy			string:"units/ground/egg_flurian_boss_omicron_deployer"
+			egg_spawn_count					int:"2"	
+		}	
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material 	"projectiles/kinetic_grenade"
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/artillery_shell"
+	}
+	
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_alien_tower/alien_projectile_kinetic_trail"
+					bone "att_exhaust"
+				}
+			}
+		}
+	}
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_big"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_big"
+		on_resisted_hit_effect	"effects/weapons_generic/projectile_hit_resisted"
+		on_shield_hit_effect	"effects/weapons_explosive/explosion_big"
+		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		//hit_effect_direction	"up"  //inverse, normal, up
+		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
+		
+		friendly_fire			"pass"
+		delay_update_time		"0.3"
+		manual_remove			"1"
+		diameter				"1.0"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/weapons_explosive/explosion_small"
+					part_prefix 			"meshes/items/consumables/grenade_gravity.mesh"
+					part_material 			"projectiles/kinetic_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_light"		
+				}
+
+				key "default"
+			}					
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+}

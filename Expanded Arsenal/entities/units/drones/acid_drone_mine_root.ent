@@ -1,0 +1,158 @@
+EntityBlueprint
+{
+	name  			"units/drones/acid_drone_mine_root"
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"units/drones/acid_mine_explosion"
+			delay				float:"1.0"
+			delay_before_armed	float:"2.0"
+		}			
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_mine_root.mesh"
+		material "units/drones/acid_drone_mine_root"
+	}
+	
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		is_manual					"1"
+	}
+	
+	ResistanceComponent
+	{
+		creeper_area			"1"
+		magma_hot_ground		"1"
+		magma_very_hot_ground	"1"
+		quicksand				"0"
+		acid_terrain_friendly	"0"
+	}
+	
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/mine"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "1"
+					}	
+				}
+			}
+		}
+	}
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"ground_unit"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				team		"hostility"
+				check_parent "0"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "5"
+			}
+		}
+	}
+
+	TerrainAffectedComponent
+	{
+		name "mine"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			group "mine_unarmed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_placed"
+					bone "att_light"
+				}
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_armed"
+					bone "att_light"
+					delay "2"
+				}				
+			}
+		}
+		EffectGroup
+		{
+			enabled "0"
+			group	"mine_armed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_activated"
+					bone "att_light"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/acid_mine_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/weapons_acid/acid_weapon_explosion_medium"
+
+		DamagePattern
+		{
+			area_damage_radius	"8.0"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"250"
+					type			"acid"
+				}
+			}
+		}
+	}
+}

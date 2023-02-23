@@ -1,0 +1,138 @@
+EntityBlueprint
+{
+	name "effects/enemies_nurglax/nurglax_boss_omega_artillery_explosion"
+
+	base_blueprints
+	{
+		 lights/point/explosion_red_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"8"
+			EMP_duration	float:"10"
+		}
+	}
+
+	TeamDesc
+	{
+		team "nurglax"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/bomogan_omega_emp_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		5
+			y		5
+			z		5
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_nurglax/death_artillery_explosion_energy_red"
+
+	base_blueprints
+	{
+		effects/enemies_nurglax/artillery_explosion
+	}
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_red_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+
+	name "effects/enemies_nurglax/death_long_energy_red"
+	
+	base_blueprints
+	{
+		lights/point/explosion_red_big
+		effects/default
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_red_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/nurglax/death"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_red_energy_random"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		}
+	}	
+}

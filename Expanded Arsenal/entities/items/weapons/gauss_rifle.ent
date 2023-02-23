@@ -1,0 +1,590 @@
+EntityBlueprint
+{
+	name "items/weapons/gauss_rifle_projectile"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/artillery_shell.mesh"
+		material 	"projectiles/artillery_shell"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/artillery_shell"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility			"always"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"2.0"
+	}
+	
+	ProjectileAmmoComponent
+	{
+		
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_medium"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
+		on_resisted_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.6
+		//type 		"camera"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/rifle_trail_red
+				update_bounds 		1
+				fade_out_time		0.15
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0.0 0.0 0.3"
+					}
+
+					Ribbon
+					{
+						offset "0.0 0.0 -0.3"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/gauss_rifle_projectile_sniper"
+	base_blueprint "items/weapons/gauss_rifle_projectile"
+
+	ProjectileAmmoComponent
+	{
+		
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_medium"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
+		on_resisted_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.35
+		//type 		"camera"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/rifle_trail_red
+				update_bounds 		1
+				fade_out_time		0.15
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0.0 0.0 0.3"
+					}
+
+					Ribbon
+					{
+						offset "0.0 0.0 -0.3"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name 			"items/weapons/gauss_rifle_projectile_rocket"
+	base_blueprint 	"effects/weapons_explosive/rocket_projectile_big"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/rocket_small.mesh"
+		material 	"projectiles/rocket_small"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/rocket_small"
+	}
+
+	ProjectileAmmoComponent
+	{
+		
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_big"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_big"
+		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_big"
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.5
+		type 		"camera"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/rifle_trail_red
+				update_bounds 		1
+				fade_out_time		0.6
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0.0 0.0 0.3"
+					}
+
+					Ribbon
+					{
+						offset "0.0 0.0 -0.3"
+					}
+				}
+			}
+		}
+	}	
+}
+
+
+EntityBlueprint
+{
+	name  "items/weapons/gauss_rifle"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/gauss_rifle"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/burst_rifle"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "3"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone   "be_recoil_1"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+				recoil_bone   "be_recoil_2"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+				recoil_bone   "be_recoil_3"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+				recoil_bone   "be_recoil_1"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+				recoil_bone   "be_recoil_2"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_6"
+				recoil_bone   "be_recoil_3"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_7"
+				recoil_bone   "be_recoil_1"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/gauss_rifle_projectile"
+		muzzle_flash_effect 		"effects/weapons_bullet/gauss_rifle_fire"
+		muzzles_per_fire			"1"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.075"
+		//burst_column_angle 			"5"
+	}
+
+	ChargeWeaponComponent
+	{
+        ChargeLevels
+        {
+            ChargeLevel
+            {
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_bullet/gauss_rifle_fire_charged_sniper"
+
+                charge_time_start           "0.3"
+                charge_time_end             "1"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/gauss_rifle_projectile_sniper"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+            }
+
+            ChargeLevel
+            {
+				name 						"charge_level_2"
+
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_bullet/gauss_rifle_fire_charged_rocket"
+
+                charge_time_start           "1"
+                charge_time_end             "2"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/gauss_rifle_projectile_rocket"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+            }
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/towers_pointers/orange_laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/gauss_rifle_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"weapon_advanced"
+		name 		"gui/menu/inventory/weapon_name/gauss_rifle"
+		holding_pose "range"
+		item_bp		"items/weapons/gauss_rifle"
+		icon		"gui/hud/items_icons/weapons/gauss_rifle"
+		bigger_icon "gui/menu/items_icons/weapons/gauss_rifle"
+		description "gui/menu/inventory/weapon_charge_description/gauss_rifle"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/gauss_charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  			"items/weapons/gauss_rifle_advanced"
+	base_blueprint 	"items/weapons/gauss_rifle"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/gauss_rifle_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/gauss_rifle_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"weapon_advanced"
+		name 		"gui/menu/inventory/weapon_name/gauss_rifle"
+		holding_pose "range"
+		item_bp		"items/weapons/gauss_rifle_advanced"
+		icon		"gui/hud/items_icons/weapons/gauss_rifle_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/gauss_rifle_advanced"
+		description "gui/menu/inventory/weapon_charge_description/gauss_rifle"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/gauss_charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  			"items/weapons/gauss_rifle_superior"
+	base_blueprint 	"items/weapons/gauss_rifle"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/gauss_rifle_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/gauss_rifle_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"weapon_advanced"
+		name 		"gui/menu/inventory/weapon_name/gauss_rifle"
+		holding_pose "range"
+		item_bp		"items/weapons/gauss_rifle_superior"
+		icon		"gui/hud/items_icons/weapons/gauss_rifle_superior"
+		bigger_icon "gui/menu/items_icons/weapons/gauss_rifle_superior"
+		description "gui/menu/inventory/weapon_charge_description/gauss_rifle"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/gauss_charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  			"items/weapons/gauss_rifle_extreme"
+	base_blueprint 	"items/weapons/gauss_rifle"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/gauss_rifle_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/gauss_rifle_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"weapon_advanced"
+		name 		"gui/menu/inventory/weapon_name/gauss_rifle"
+		holding_pose "range"
+		item_bp		"items/weapons/gauss_rifle_extreme"
+		icon		"gui/hud/items_icons/weapons/gauss_rifle_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/gauss_rifle_extreme"
+		description "gui/menu/inventory/weapon_charge_description/gauss_rifle"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/gauss_charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

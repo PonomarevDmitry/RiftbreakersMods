@@ -1,0 +1,345 @@
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/death_artillery_explosion_magma"
+
+	base_blueprints
+	{
+		 lights/point/explosion_red_medium
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "bomogan"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"5"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"66"
+					type			"fire"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_bulb_explosion_red_medium"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/artillery_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_yellow_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/artillery_launch_magma"
+
+	base_blueprints
+	{
+		 lights/point/fire_orange_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/magmoth_projectile"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/artillery_launch"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/death_fire"
+	
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name  "enemies/generic/enemy_death_medium"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"5.0"
+			area_damage_speed 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"30"
+					type			"fire"
+				}
+			}
+		}
+	}	
+	
+	ShockWaveDesc
+	{
+		power 	"800"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.3"
+		power   		"0.75"
+		falloff_radius 	"35"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_medium"
+	}	
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_magma_terrain"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/magma_crater_01"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+	
+	TeamInheritanceComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_bomogan/death_fire_long
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/death_yellow_medium_long"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/death"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_yellow_random"
+		scale
+		{
+			x		1.7
+			y		1.7
+			z		1.7
+		
+		}
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name effects/enemies_bomogan/bomogan_magma_egg_explosion
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/death_yellow_small_long"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_small"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_yellow_random"
+		scale
+		{
+			x		1.7
+			y		1.7
+			z		1.7
+		
+		}
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/bomogan_omega_artillery_explosion"
+
+	base_blueprints
+	{
+		 lights/point/explosion_red_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"6"
+			EMP_duration	float:"6"
+		}
+	}
+
+	TeamDesc
+	{
+		team "bomogan"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"25"
+		radius 	"25"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/bomogan_omega_emp_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/bomogan_omega_artillery_launch"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_red_very_small
+		 effects/default
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/artillery_launch"
+	}
+}

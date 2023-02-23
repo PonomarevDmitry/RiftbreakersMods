@@ -1,0 +1,179 @@
+EntityBlueprint
+{
+	name  "items/consumables/radio_grenade"
+
+	MeshDesc
+	{
+		mesh 						"meshes/projectiles/hand_grenade.mesh"
+		material 					"items/consumables/hand_grenade"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_10_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+		on_world_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+		on_resisted_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"ground_unit|world|world_blocker|hitbox|destructible"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+		friendly_fire				"pass"
+
+		DamagePattern
+		{
+			area_damage_radius	"5"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"33"
+					type			"radiation"
+				}
+			}
+		}
+	}
+	
+	LifeTimeDesc
+	{
+		time 6
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/grenade_trail_yellow
+				update_bounds 		1
+				fade_out_time		0.45
+				uv_scroll			"0 -1.5"
+				tiling_distance     "3"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name  			"items/consumables/radio_grenade_lvl_2"
+	base_blueprint 	"items/consumables/radio_grenade"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+		on_world_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+		on_resisted_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"ground_unit|world|world_blocker|hitbox|destructible"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+		friendly_fire				"pass"
+
+		DamagePattern
+		{
+			area_damage_radius	"5"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"55.71"
+					type			"radiation"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"items/consumables/radio_grenade_lvl_3"
+	base_blueprint 	"items/consumables/radio_grenade"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+		on_world_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+		on_resisted_hit_effect 		"effects/weapons_radio/radio_artillery_explosion"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"ground_unit|world|world_blocker|hitbox|destructible"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+		friendly_fire				"pass"
+
+		DamagePattern
+		{
+			area_damage_radius	"5"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"84"
+					type			"radiation"
+				}
+			}
+		}
+	}
+}

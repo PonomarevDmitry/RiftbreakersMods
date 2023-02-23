@@ -1,0 +1,96 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_cryo_weapon"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/alien_acid_elite"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_cryo_weapon_projectile"
+
+		muzzles_per_fire			"5"
+		muzzle_flash_effect 		"effects/enemies_arachnoid/arachnoid_boss_cryo_spit"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_cryo_weapon_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"alien_cryo_weapon"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/alien_cryo_weapon"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons_enemy/alien_cryo_weapon_projectile"
+
+	base_blueprint "effects/enemies_arachnoid/arachnoid_projectile_boss_cryo"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_boss_projectile.mesh"
+		material    "projectiles/arachnoid_boss_cryo_projectile"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 		"effects/enemies_arachnoid/arachnoid_boss_cryo_projectile_hit"
+		on_world_hit_effect 		"effects/enemies_arachnoid/arachnoid_boss_cryo_projectile_hit"
+		on_shield_hit_effect		"effects/enemies_arachnoid/arachnoid_boss_cryo_projectile_hit"
+
+		friendly_cryo				"pass"
+
+		collision_3d 				"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_2d 				"ground_unit|hitbox"
+	}
+}
+

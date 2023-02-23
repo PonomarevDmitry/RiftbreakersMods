@@ -1,0 +1,693 @@
+EntityBlueprint
+{
+	name 			"items/weapons/heavy_radio_blaster_shotgun"
+
+	base_blueprint 	"effects/weapons_radio/radio_shotgun_bullet"
+
+	ProjectileAmmoComponent
+	{
+		distribution 			"dissipation"
+
+		on_enemy_hit_effect 	"effects/weapons_radio/radio_shotgun_hit_enemy_flesh_medium"
+		on_world_hit_effect 	"effects/weapons_radio/radio_shotgun_hit_world_rocks_medium"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+		collision_2d 			"ground_unit|hitbox|destructible"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/enemy_energy_projectile_medium_yellow"
+	}
+	
+}
+
+EntityBlueprint
+{
+	name 			"items/weapons/heavy_radio_blaster_minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/rocket_heavy_artillery.mesh"
+		material 	"projectiles/radio_shell"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/rocket_small"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility			"always"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_radio/radio_blaster_hit"
+		on_world_hit_effect 	"effects/weapons_radio/radio_blaster_hit"
+		on_resisted_hit_effect 	"effects/weapons_radio/radio_blaster_hit"
+
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+		collision_2d 			"ground_unit|hitbox|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.5
+		type 		"camera"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/ribbon_trail_yellow
+				update_bounds 		1
+				fade_out_time		0.05
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.3"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.3"
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/heavy_radio_blaster_explosive_shot"
+
+	base_blueprints 
+	{
+		lights/point/yellow_super_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material    "projectiles/laser_yellow"
+	}		
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"0.5"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_radio/explosion_atomic_radio"
+		on_world_hit_effect 	"effects/weapons_radio/explosion_atomic_radio"
+		on_resisted_hit_effect 	"effects/weapons_radio/explosion_atomic_radio"
+
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+		collision_2d 			"ground_unit|hitbox|destructible"
+		hit_effect_direction 	"up"
+	}
+
+	LifeTimeDesc
+	{
+		time 		1
+		type 		"camera"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/enemy_energy_projectile_medium_yellow"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/heavy_plasma_yellow
+				update_bounds 		1
+				fade_out_time		0.35
+				uv_scroll			"0 -0.1"
+				tiling_distance     "0"
+				tesselation_step 	"0.2"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.3"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.3"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons/heavy_radio_blaster"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
+		material 	"items/weapons/heavy_radio_blaster"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/heavy_plasma_gun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.9"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}
+		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}			
+		}
+
+		ammo_blueprint 				"items/weapons/heavy_radio_blaster_shotgun"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_radio/radio_shotgun_fire"
+
+		burst_rate 							"0.08"
+		burst_column_spacing				"0.5"
+		//burst_column_angle 					"1"
+	}
+
+	ChargeWeaponComponent
+	{			
+        ChargeLevels
+        {
+            ChargeLevel
+            {
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/tower_radio_minigun_muzzle"
+                
+                charge_time_start           "0.3"
+                charge_time_end             "1"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_minigun"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+
+			ChargeLevel
+            {
+				name 						"charge_level_2"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/heavy_radio_blaster_explosive_fire"
+                
+                charge_time_start           "1"
+                charge_time_end             "2"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_explosive_shot"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+        }		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+	
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/heavy_plasma_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/towers_pointers/yellow_laser_pointer"
+					bone "att_muzzle"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons/heavy_radio_blaster_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"		
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/heavy_radio_blaster"
+		item_bp			"items/weapons/heavy_radio_blaster"
+		icon			"gui/hud/items_icons/weapons/heavy_radio_blaster"
+		bigger_icon 	"gui/menu/items_icons/weapons/heavy_radio_blaster"
+		description 	"gui/menu/inventory/weapon_charge_description/heavy_radio_blaster"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/heavy_radio_blaster_advanced"
+	base_blueprint "items/weapons/heavy_radio_blaster"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
+		material 	"items/weapons/heavy_radio_blaster_advanced"
+	}
+	
+	ChargeWeaponComponent
+	{			
+        ChargeLevels
+        {
+            ChargeLevel
+            {
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/tower_radio_minigun_muzzle"
+                
+                charge_time_start           "0.3"
+                charge_time_end             "1"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_minigun"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+
+			ChargeLevel
+            {
+				name 						"charge_level_2"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/heavy_radio_blaster_explosive_fire"
+                
+                charge_time_start           "1"
+                charge_time_end             "2"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_explosive_shot"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+        }		
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/heavy_radio_blaster_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/heavy_radio_blaster"
+		item_bp			"items/weapons/heavy_radio_blaster_advanced"
+		icon			"gui/hud/items_icons/weapons/heavy_radio_blaster_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/heavy_radio_blaster_advanced"
+		description 	"gui/menu/inventory/weapon_charge_description/heavy_radio_blaster"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/heavy_radio_blaster_superior"
+	base_blueprint "items/weapons/heavy_radio_blaster"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
+		material 	"items/weapons/heavy_radio_blaster_superior"
+	}
+	
+	ChargeWeaponComponent
+	{			
+        ChargeLevels
+        {
+            ChargeLevel
+            {
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/tower_radio_minigun_muzzle"
+                
+                charge_time_start           "0.3"
+                charge_time_end             "1"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_minigun"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+
+			ChargeLevel
+            {
+				name 						"charge_level_2"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/heavy_radio_blaster_explosive_fire"
+                
+                charge_time_start           "1"
+                charge_time_end             "2"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_explosive_shot"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+        }		
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/heavy_radio_blaster_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/heavy_radio_blaster"
+		item_bp			"items/weapons/heavy_radio_blaster_superior"
+		icon			"gui/hud/items_icons/weapons/heavy_radio_blaster_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/heavy_radio_blaster_superior"
+		description 	"gui/menu/inventory/weapon_charge_description/heavy_radio_blaster"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/heavy_radio_blaster_extreme"
+	base_blueprint "items/weapons/heavy_radio_blaster"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
+		material 	"items/weapons/heavy_radio_blaster_extreme"
+	}
+	
+	ChargeWeaponComponent
+	{			
+        ChargeLevels
+        {
+            ChargeLevel
+            {
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/tower_radio_minigun_muzzle"
+                
+                charge_time_start           "0.3"
+                charge_time_end             "1"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_minigun"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+
+			ChargeLevel
+            {
+				name 						"charge_level_2"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_radio/heavy_radio_blaster_explosive_fire"
+                
+                charge_time_start           "1"
+                charge_time_end             "2"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/heavy_radio_blaster_explosive_shot"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"		
+            }
+        }		
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/heavy_radio_blaster_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/heavy_radio_blaster"
+		item_bp			"items/weapons/heavy_radio_blaster_extreme"
+		icon			"gui/hud/items_icons/weapons/heavy_radio_blaster_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/heavy_radio_blaster_extreme"
+		description 	"gui/menu/inventory/weapon_charge_description/heavy_radio_blaster"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

@@ -1,0 +1,97 @@
+system rift/flurian_boss_omicron_trail
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.04
+    scale                                       0.05 0.05 0.05
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 15
+    
+	technique flare
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_glow_01
+        renderer                                Billboard
+        {
+            render_queue_group                  66
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       3000
+            time_to_live                        dyn_random
+			{
+                min                             2.5
+                max                             3.5
+            }
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             9
+            }
+            colour                              1 0.501961 0 10
+        }
+        affector                                Colour Affector15
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.247826  1 1 1 1
+            time_colour                         0.754348  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+		
+		affector                                LinearForce Affector122
+        {
+            force_vector                        0 30 0
+            force_application                   average
+        }
+	}
+	
+	technique ring
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp2_shockwave_a_add
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        dyn_random
+			{
+                min                             2.5
+                max                             3.5
+            }
+			
+			emission_rate                       3000
+            velocity                            0.0001
+            all_particle_dimensions             4
+            colour                              1 0.501961 0 10
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           10
+        }
+        affector                                Colour Affector22
+        {
+            time_colour                         0    1 0.501961 0 1
+            time_colour                         1    0 0 0 0
+        }
+		
+		affector                                LinearForce Affector122
+        {
+            force_vector                        0 30 0
+            force_application                   average
+        }
+    }
+}

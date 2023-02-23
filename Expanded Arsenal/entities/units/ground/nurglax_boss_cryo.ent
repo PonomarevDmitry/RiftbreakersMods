@@ -1,0 +1,490 @@
+EntityBlueprint
+{
+	name "units/ground/nurglax_boss_cryo"
+
+	base_blueprint "units/ground/nurglax_base"
+	
+	StateMachineDesc
+	{
+		template_name "nurglax"
+		params
+		{
+			aggressive_speed					float:"7"
+			aggressive_acceleration				float:"14"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"55"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			artillery_projectile				string:"units/ground/nurglax/bomb_fly_boss_cryo"
+			artillery_projectile_grow_speed		float:"3.5"
+			artillery_fake_projectile			string:"units/ground/nurglax/bomb_grow_boss_cryo"
+			range_attack_cooldown				float:"3.5"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/nurglax.lua"
+		database
+		{
+			min_scale	float:"1.35"
+			max_scale	float:"1.35"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"2500"
+		health 						"2500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	HealthBarDesc
+	{
+		type "2"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"6.0"
+		acid			"0.0"
+		energy			"0.5"
+		cryo			"0.0"
+		area			"2.0"
+		gravity			"2.5"
+		radiation		"0.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.05"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.2"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+	}		
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nurglax.mesh"
+		material 	"units/ground/nurglax_boss_cryo"
+		render_group 29 // no point light cast shadow
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/units/ground/nurglax"
+	}	
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"		
+	}	
+
+	SelectableDesc
+	{
+		content "monster_name/nurglax_ultra"
+		can_activate 0
+	}
+	
+	TurretDesc
+	{
+		name   "range"
+		target "ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "18"
+			range_max "150"
+			aiming_range "155"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		gravity_factor "8"
+		use_IK "0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_nurglax/death_cryo"	
+					part_prefix 			"meshes/units/ground/nurglax"
+					part_material 			"units/ground/nurglax_boss_cryo"
+					part_effect 			"effects/enemies_generic/blood_trail_cryo"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}	
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/nurglax_base"
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_nurglax/death_long_cryo"	
+					bone "att_death"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"shadow_caster"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_shadow_caster_white"
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "Tail_A"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "Tail_D"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "back"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_cryo"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_cryo"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_cryo"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}		
+	}		
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/nurglax_ultra/attack"
+
+			AttachmentDesc
+			{
+				attachment "Head"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_nurglax/attack_start"
+						attack_start_time			"0.50"
+						attack_end_time				"0.75"
+						attack_duration 			"1.60"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"99"
+										type 	"cryo"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "3.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/nurglax/bomb_fly_boss_cryo"
+
+	base_blueprint "units/ground/nurglax/bomb_fly_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/nurglax_bomb_fly.lua"
+		
+		database
+		{
+			egg_spawn_on_destroy			string:"units/ground/egg_nurglax_drone_ultra"
+			egg_spawn_count					int:"30"	
+		}	
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nurglax_bomb_fly.mesh"
+		material    "units/ground/nurglax_boss_cryo"
+	}
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/enemies_nurglax/death_artillery_explosion_cryo"
+		on_world_hit_effect 	"effects/enemies_nurglax/death_artillery_explosion_cryo"			
+		on_shield_hit_effect 	"effects/enemies_nurglax/death_artillery_explosion_cryo"
+		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small"
+		
+		delay_update_time		"0.3"
+		manual_remove			"1"
+		diameter				"4.0"
+
+		DamagePattern
+		{
+			area_damage_radius 	"8"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"175"
+					type 	"cryo"
+				}
+			}
+		}
+	}
+	
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					scale "2 2 2"
+				}
+			}
+		}				
+	}		
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_nurglax/death_artillery_explosion_cryo"	
+					part_prefix 			"meshes/units/ground/nurglax_bomb_fly"
+					part_material 			"units/ground/nurglax_boss_cryo"
+					part_effect 			"effects/enemies_generic/blood_trail_cryo"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/nurglax/bomb_grow_boss_cryo"
+
+	base_blueprint "units/ground/nurglax/bomb_grow_base"
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nurglax_bomb_grow.mesh"
+		material    "units/ground/nurglax_boss_cryo"
+		render_group 29 // no point light cast shadow
+	}
+	
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					scale "2 2 2"
+				}
+			}
+		}				
+	}		
+}
+
+

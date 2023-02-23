@@ -1,0 +1,577 @@
+
+// tower_radio_blaster
+
+EntityBlueprint
+
+{
+	name "effects/weapons_radio/radio_blaster_projectile"
+
+	base_blueprints 
+	{
+		lights/point/yellow_super_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_gun_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_radio/tower_radio_blaster_fire"
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_gun_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "towers/radio/tower_radio_blaster_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_radio/radio_blaster_hit"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_weapon_explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_weapon_hit"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"radio_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/radio_residue"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+}
+
+// tower_radio_minigun
+
+EntityBlueprint
+{
+	name effects/weapons_radio/tower_radio_minigun_muzzle
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_minigun_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/bullet/minigun_fire_single"
+	}
+}
+
+// tower_radio_grenadier
+
+EntityBlueprint
+{
+	name effects/weapons_radio/tower_radio_grenadier_muzzle
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_muzzle_flash"
+	}
+
+	SoundDesc
+	{
+		name "towers/radio/tower_radio_grenadier_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_radio/radio_artillery_explosion"
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_artillery_explosion"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"radio_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/radio_residue"
+		scale
+		{
+			x		5.0
+			y		5.0
+			z		5.0
+		}
+	}
+}
+
+// tower_radio_cruise_missile
+
+EntityBlueprint
+{
+
+	name effects/weapons_radio/tower_radio_cruise_missile_muzzle_flash
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_muzzle_flash"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/rocket_projectile_big"
+	}
+}
+
+EntityBlueprint
+{
+
+	name "effects/weapons_radio/radio_cruise_missile_trail"
+	
+	base_blueprints 
+	{
+		lights/point/yellow_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_cruise_missile"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_radio/radio_cruise_missile_hit"
+
+	base_blueprints
+	{
+		lights/point/atomic_explosion
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"10000"
+		speed 	"30"
+		radius 	"40"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/atomic_explosion"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_atomic"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"radio_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/radio_residue"
+		scale
+		{
+			x		5.0
+			y		5.0
+			z		5.0
+		}
+	}
+}
+
+
+// tower_radio_drone_attack
+
+EntityBlueprint
+{
+	name "effects/weapons_radio/radio_drone_missile_trail"
+	
+	base_blueprints 
+	{
+		lights/point/yellow_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_cruise_missile"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/rocket_projectile_small"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_radio/radio_drone_missile_hit"
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/atomic_explosion"
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"100"
+		speed 	"3"
+		radius 	"5"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_atomic"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"radio_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/radio_residue"
+		scale
+		{
+			x		3.0
+			y		3.0
+			z		3.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_radio/radio_shotgun_bullet
+
+	base_blueprints 
+	{
+		lights/point/yellow_very_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_shotgun_bullet"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_radio/radio_shotgun_fire
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_shotgun_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name "towers/radio/tower_radio_shotgun_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_radio/radio_shotgun_hit_enemy_flesh_medium
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_bullet_hit_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/shotguns/shotgun_hit_enemy_flesh"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_radio/radio_shotgun_hit_world_rocks_medium
+
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/radio_bullet_hit_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/shotguns/shotgun_hit_world_rocks"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"radio_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/radio_residue"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+}
+
+// heavy_radio_blaster
+
+EntityBlueprint
+{
+	name "effects/weapons_radio/heavy_radio_blaster_explosive_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_yellow_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/heavy_radio_gun_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.2"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/heavy_plasma_fire"
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_radio/explosion_atomic_radio
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/atomic_explosion
+		effects/default
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"radio_terrain_friendly"
+		extend  		"2"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"10000"
+		speed 	"30"
+		radius 	"40"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/atomic_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.5"
+		power   		"1.5"
+		falloff_radius 	"40"
+		radius   		"60"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_atomic"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/radio_residue"
+		scale
+		{
+			x		8.0
+			y		8.0
+			z		8.0
+		}
+	}
+}

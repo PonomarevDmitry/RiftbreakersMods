@@ -1,0 +1,136 @@
+system rift/building_disabled_icon
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.06
+    scale                                       0.035 0.035 0.035
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    false
+    cache_count                                 5
+    technique 
+    {
+        position                                0 10 0
+        visual_particle_quota                   2
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/building_status_no_energy
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_type                      oriented_common
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       100
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            particle_width                      60
+            particle_height                     60
+            position                            0 250 0
+            direction                           0 0 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0.4 0.4 0.4 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique 
+    {
+        visual_particle_quota                   2
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_self
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            position                            0 1 0
+            colour                              0.501961 0 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0.294118 0.294118 0.294118 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+    }
+    technique rings_alpha_3
+    {
+        visual_particle_quota                   2
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_marker_ring_red_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            1
+            all_particle_dimensions             200
+            position                            0 1 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.506522  0.4 0.4 0.4 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      1
+        }
+    }
+}

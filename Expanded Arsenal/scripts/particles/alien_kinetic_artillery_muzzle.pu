@@ -1,0 +1,260 @@
+system rift/alien_kinetic_artillery_muzzle
+{
+    fixed_timeout                               3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0035
+    scale                                       0.0035 0.0035 0.0035
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 30
+	
+	technique flare
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_glow_01
+        renderer                                Billboard
+        {
+            render_queue_group                  66
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       3000
+            time_to_live                        0.6
+            velocity                            0.0001
+            all_particle_dimensions             100
+			position							-5 0 0
+			direction							1 0 0
+            colour                              1 0.12549 0 1
+        }
+        affector                                Colour Affector15
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.247826  1 1 1 1
+            time_colour                         0.754348  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+	}
+	
+    technique muzzle_front
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/muzzleflash_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point Emitter1
+        {
+            angle                               0
+            time_to_live                        0.2
+            velocity                            1
+            all_particle_dimensions             100
+            keep_local                          true
+            direction                           1 0 0
+            end_texture_coords_range            3
+            colour                              0.188235 0.188235 0.188235 1
+            force_emission                      true
+        }
+        affector                                Scale Affector9
+        {
+            xyz_scale                           dyn_curved_linear
+            {
+                control_point                   0 0
+                control_point                   0.1 7000
+            }
+        }
+        affector                                Colour Affector8
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    0.2 0.2 0.2 0
+        }
+    }
+    technique muzzle_side
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/muzzleflash_atlas_side_medium_1x4
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+            common_direction                    1 0 0
+            accurate_facing                     true
+        }
+        emitter                                 Point Emitter1
+        {
+            angle                               0
+            time_to_live                        0.2
+            velocity                            1
+            all_particle_dimensions             1
+            keep_local                          true
+            direction                           1 0 0
+            end_texture_coords_range            3
+            colour                              0.188235 0.188235 0.188235 1
+            force_emission                      true
+        }
+        affector                                Scale Affector9
+        {
+            xyz_scale                           dyn_curved_linear
+            {
+                control_point                   0 0
+                control_point                   0.1 7000
+            }
+        }
+        affector                                TextureRotator Affector8
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3.6
+                max                             3.6
+            }
+            rotation_speed                      0
+        }
+        affector                                Colour Affector8
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    0.2 0.2 0.2 0
+        }
+    }
+    technique debris
+    {
+		enabled                                 false
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/machinegun_shell
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point debris
+        {
+            emission_rate                       100
+            angle                               10
+            velocity                            dyn_random
+            {
+                min                             2000
+                max                             3000
+            }
+            particle_width                      170
+            particle_height                     270
+            position                            -900 25 0
+            direction                           -1 1 0
+            colour                              0.803922 0.52549 0.105882 1
+            force_emission                      true
+        }
+        affector                                LinearForce Affector50
+        {
+            force_vector                        0 -15000 0
+        }
+        affector                                TextureRotator Affector192
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.9
+                max                             0.9
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -10
+                max                             10
+            }
+        }
+        affector                                Colour Affector358
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.904348  1 1 1 1
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+        affector                                PlaneCollider Affector75
+        {
+            position                            0 100 0
+            friction                            1
+            bouncyness                          0.2
+            normal                              0 1 0
+        }
+    }
+	
+	technique refract
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 SphereSurface flash2
+        {
+            emission_rate                       20
+            time_to_live                        0.6
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            radius                              100
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  1 1 1 0.498039
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector120
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+        }
+        affector                                Scale Affector121
+        {
+            xyz_scale                           dyn_random
+            {
+                min                             100
+                max                             200
+            }
+        }
+	}
+}

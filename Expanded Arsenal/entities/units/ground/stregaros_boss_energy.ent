@@ -1,0 +1,352 @@
+EntityBlueprint
+{
+	name  "units/ground/stregaros_boss_energy"
+
+	base_blueprint "units/ground/stregaros_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/stregaros.lua"
+		database
+		{
+			min_scale	float:"1.1"
+			max_scale	float:"1.1"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"4000"
+		health 						"4000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	HealthBarDesc
+	{
+		type "2"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+	
+	ResistanceComponent
+	{
+		physical		"0.25"
+		fire			"1.0"
+		acid			"2.0"
+		energy			"0.0"
+		cryo			"1.0"
+		area			"1.0"
+		gravity			"0.05"
+		radiation		"0.0"
+	}	
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.15"
+		stagger_health_threshold		"0.04"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"2.8"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/stregaros.mesh"
+		material 	"units/ground/stregaros_boss_energy"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/units/ground/stregaros"
+	}	
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"		
+	}	
+
+	SelectableDesc
+	{
+		content "monster_name/stregaros_ultra"
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_stregaros/death_energy"	
+					part_prefix 			"meshes/units/ground/stregaros"
+					part_material 			"units/ground/stregaros_boss_energy"
+					part_effect 			"effects/enemies_generic/blood_trail_energy"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+	
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/stregaros_base"
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_stregaros/death_long_energy"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy"
+					bone "Hand.L"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy"
+					bone "Hand.R"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy"
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy"
+					bone "Leg01_Middle.L"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy"
+					bone "Leg01_Middle.R"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_energy"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_energy"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_energy"
+					bone "att_death"
+					scale "1.8 1.8 1.8"
+				}
+			}
+		}		
+	}	
+
+	children
+	{
+		EntityBlueprint
+		{
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						attack_start_time			"0.63"
+						attack_end_time				"0.85"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						attack_start_time			"0.54"
+						attack_end_time				"0.63"
+						attack_duration 			"1.88"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						attack_start_time			"0.70"
+						attack_end_time				"1.08"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"135"
+										type 	"energy"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "6.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

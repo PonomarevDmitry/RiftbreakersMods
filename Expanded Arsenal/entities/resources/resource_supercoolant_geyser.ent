@@ -1,0 +1,87 @@
+EntityBlueprint
+{
+	name "resources/resource_supercoolant_geyser"
+
+	TypeDesc
+	{
+		type "resource"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"resource"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 2
+						y 1
+						z 2
+					}
+				}
+			}
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type	"supercoolant_geyser_terrain"
+		extend  		"2"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/supercoolant_vent"
+
+		visibility 			"discovered|radar"
+	}
+
+	SelectableDesc
+	{
+		content "resource_name/supercoolant_vent"
+		can_activate "0"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/supercoolant_vent"
+		scale
+		{
+			x		3.0
+			y		3.0
+			z		3.0
+		
+		}
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "steam"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/steam_small"								
+				}
+				Effect
+				{
+					blueprint "effects/world/supercoolant_vent"
+				}				
+			}
+		}	
+	}		
+}
+

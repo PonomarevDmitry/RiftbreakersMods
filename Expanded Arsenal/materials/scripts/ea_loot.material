@@ -1,0 +1,24 @@
+import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/loot.material"
+
+//----------------------EXPANDED ARSENAL START----------------------\\
+
+material loot/resources/shard_voidinite : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_voidinite_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_ferdonite_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_ferdonite_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor float4 0.7 0 0.55 1
+			}
+		}
+	}
+}
+
+//----------------------EXPANDED ARSENAL END----------------------\\
