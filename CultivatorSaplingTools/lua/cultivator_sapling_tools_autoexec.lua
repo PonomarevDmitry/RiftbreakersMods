@@ -1,6 +1,6 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     
-    BuildingService:UnlockBuilding("buildings/tools/cultivator_sapling_picker_tool")
-    BuildingService:UnlockBuilding("buildings/tools/cultivator_sapling_replacer_tool")
+    BuildingService:UnlockBuilding("buildings/tools/sapling_picker")
+    BuildingService:UnlockBuilding("buildings/tools/sapling_replacer")
 end)
 

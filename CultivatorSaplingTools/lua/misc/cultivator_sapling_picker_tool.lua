@@ -87,7 +87,7 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
 
 
-            local replacerToolBlueprintDesc = BuildingService:GetBuildingDesc( "buildings/tools/cultivator_sapling_replacer_tool" )
+            local replacerToolBlueprintDesc = BuildingService:GetBuildingDesc( "buildings/tools/sapling_replacer" )
 
             QueueEvent( "ChangeSelectorRequest", self.selector, replacerToolBlueprintDesc.bp ,replacerToolBlueprintDesc.ghost_bp )
 
