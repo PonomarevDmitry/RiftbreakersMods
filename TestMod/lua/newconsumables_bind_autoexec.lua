@@ -5,19 +5,31 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
     end
 
     if ( PlayerService == nil or ItemService == nil ) then
-
         return
     end
     
     local player = PlayerService:GetPlayerControlledEnt(0)
 
     if ( player == nil ) then
+        return
+    end
 
+    local slotName = args[1]
+
+    local slotItem = ItemService:GetEquippedItem( player, slotName )
+
+    if ( slotItem == nil ) then
+        return
+    end
+
+    local slotItemType = ItemService:GetItemType( slotItem )
+    
+    if ( not ItemService:CanActivateItemSlot( player, slotName, slotItemType ) ) then
         return
     end
     
-    ItemService:UseEquippedItem(player ,args[1])
-    ItemService:StopUsingEquippedItem(player ,args[1])
+    ItemService:UseEquippedItem( player, slotName )
+    ItemService:StopUsingEquippedItem( player, slotName )
     
 end)
 
