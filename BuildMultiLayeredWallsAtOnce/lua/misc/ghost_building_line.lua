@@ -20,7 +20,7 @@ function ghost_building_line:OnInit()
     --    self.buildStartPosition.position.y = self.data:GetFloat("activation_position_y")
     --    self.buildStartPosition.position.z = self.data:GetFloat("activation_position_z")
     --    EntityService:SetVisible( self.entity , false )
-        
+    --    
     --    local player = PlayerService:GetPlayerControlledEnt(0)
     --    self.positionPlayer = EntityService:GetPosition( player )
     --end
@@ -91,6 +91,7 @@ function ghost_building_line:OnUpdate()
         elseif ( #self.linesEntities < #newPositions ) then
         
             for i=#self.linesEntities + 1 ,#newPositions do
+
                 local lineEnt = EntityService:SpawnEntity(self.ghostBlueprint, newPositions[i], EntityService:GetTeam(self.entity) )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
                 Insert(self.linesEntities, lineEnt)
