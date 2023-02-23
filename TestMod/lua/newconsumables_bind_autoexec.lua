@@ -3,12 +3,21 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
     if not Assert( #args == 1, "Command requires one argument! [slot_name]" ) then
         return 
     end
+
+    if ( PlayerService == nil or ItemService == nil ) then
+
+        return
+    end
     
     local player = PlayerService:GetPlayerControlledEnt(0)
+
+    if ( player == nil ) then
+
+        return
+    end
     
     ItemService:UseEquippedItem(player ,args[1])
     ItemService:StopUsingEquippedItem(player ,args[1])
-
     
 end)
 
