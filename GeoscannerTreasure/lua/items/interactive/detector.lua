@@ -257,7 +257,7 @@ function detector:spawnReplacement()
     local newEnt = ResourceService:FindEmptySpace(0, 0)
     EntityService:SetPosition(newEnt, 0, 0, 0)
 
-    local treasureSpotFind = FindService:FindEmptySpotInRadius( newEnt, 0, 9999999.0, "", "", 40.0, 250.0 )
+    local treasureSpotFind = FindService:FindEmptySpotInRadius( newEnt, 0, 9999999.0, "", "", 50.0, 250.0 )
 
     if ( treasureSpotFind.first and treasureSpotFind.first ~= nil ) then
 
@@ -270,6 +270,24 @@ function detector:spawnReplacement()
         local randomNumber = RandInt( 1, #treasureList )
 
         EntityService:SpawnEntity(treasureList[randomNumber], treasureSpot.x, treasureSpot.y, treasureSpot.z, "")
+
+        local dialogs = 
+        {
+            { "gui/hud/dialogs/ashley","DIALOG/generic/ashley_treasure_found_01", "voice_over/generic/ashley_treasure_found_01" },
+            { "gui/hud/dialogs/ashley","DIALOG/generic/ashley_treasure_found_02", "voice_over/generic/ashley_treasure_found_02" },
+            { "gui/hud/dialogs/ashley","DIALOG/generic/ashley_treasure_found_03", "voice_over/generic/ashley_treasure_found_03" },
+            { "gui/hud/dialogs/mech","DIALOG/generic/mech_treasure_found_01", "voice_over/generic/mech_treasure_found_01" },
+            { "gui/hud/dialogs/mech","DIALOG/generic/mech_treasure_found_02", "voice_over/generic/mech_treasure_found_02" },
+            { "gui/hud/dialogs/mech","DIALOG/generic/mech_treasure_found_03", "voice_over/generic/mech_treasure_found_03" },
+        }
+
+        local idx = RandInt(1, #dialogs)
+    
+        local currentDialog = dialogs[idx]
+    
+        local soundDuration = SoundService:GetSoundDuration( currentDialog[3] )
+
+        GuiService:ShowDialog( currentDialog[1],currentDialog[2],currentDialog[3], 0, soundDuration, false, true, false, 0, false )
     end
 
     --local treasureCount = table.getn(treasureList)
