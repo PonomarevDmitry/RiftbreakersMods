@@ -7,9 +7,6 @@ function base_lamp:__init()
 end
 
 function base_lamp:OnInit()
-
-    building.OnInit(self)
-
 	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
     
