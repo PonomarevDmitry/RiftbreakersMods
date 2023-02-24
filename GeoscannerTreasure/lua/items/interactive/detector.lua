@@ -233,7 +233,24 @@ end
 
 function detector:spawnReplacement()
 
-    LogService:Log("Spawn Replacement Treasure")
+    local predicate = {
+        signature = "TreasureComponent",
+        filter = function( entity ) 
+            local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
+            if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
+                return true
+            end
+
+            return false
+        end
+    }
+
+    local discoveredTresures = FindService:FindEntitiesByPredicateInRadius( self.item, 9999999.0, predicate );
+
+    if ( #discoveredTresures > 0 ) then
+
+        return
+    end
 
     local treasureList = detector:GetTreasureList()
 
