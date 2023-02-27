@@ -11,11 +11,38 @@ function cultivator_sapling_replacer_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_replacer_tool", self.entity)
     self.popupShown = false
 
+    self.SelectedItemBlueprint = self:GetSaplingItem()
+
+    LogService:Log("OnInit SelectedItemBlueprint " .. self.SelectedItemBlueprint )
+end
+
+function cultivator_sapling_replacer_tool:GetSaplingItem()
+
     local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_item"
+
+    local sapling_item = DEFAULT_SAPLING_BLUEPRINT
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", DEFAULT_SAPLING_BLUEPRINT )
+    if selectorDB:HasString("cultivator_sapling_picker_tool.selecteditem") then
+
+        sapling_item = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", DEFAULT_SAPLING_BLUEPRINT )
+
+        if not ResourceManager:ResourceExists( "EntityBlueprint", sapling_item ) then
+            sapling_item = DEFAULT_SAPLING_BLUEPRINT
+        end
+    end
+
+    if sapling_item == DEFAULT_SAPLING_BLUEPRINT then
+
+        local biome_default_item = "items/loot/saplings/biomas_sapling_" .. MissionService:GetCurrentBiomeName() .. "_item"
+
+        if ResourceManager:ResourceExists( "EntityBlueprint", biome_default_item ) then
+            return biome_default_item
+        end
+    end
+
+    return sapling_item
 end
 
 function cultivator_sapling_replacer_tool:OnPreInit()
