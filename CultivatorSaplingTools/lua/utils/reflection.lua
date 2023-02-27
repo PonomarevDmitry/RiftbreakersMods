@@ -114,7 +114,7 @@ TypeValueHelper.mt = {
         value = value .. "\n{\n"
 
         for field_name in Iter( ptr:GetFieldNames() ) do
-            value = value .. "\t" .. field_name .. " = "
+            value = value .. "    " .. field_name .. " = "
 
             local field = ptr:GetField(field_name)
             if field ~= nil then
@@ -134,9 +134,9 @@ TypeValueHelper.mt = {
         
                             local fieldValueItem = fieldRef[i]
 
-                            value = value .. "\n\t[" .. tostring(i) .. "] ="
+                            value = value .. "\n    [" .. tostring(i) .. "] ="
 
-                            value = value .. "\n\t{"
+                            value = value .. "\n    {"
 
                             local singleItemString = tostring(fieldValueItem)
 
@@ -144,11 +144,11 @@ TypeValueHelper.mt = {
 
                             for j=1,#singleItemStringSplit do
                                 if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
-                                    value = value .. "\n\t\t" .. singleItemStringSplit[j]
+                                    value = value .. "\n        " .. singleItemStringSplit[j]
                                 end
                             end
                             
-                            value = value .. "\n\t},"
+                            value = value .. "\n    },"
                         end
                     else
                         local fieldRefString = tostring(fieldRef)
@@ -157,7 +157,7 @@ TypeValueHelper.mt = {
 
                         for j=1,#singleItemStringSplit do
                             if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
-                                value = value .. "\n\t" .. singleItemStringSplit[j]
+                                value = value .. "\n    " .. singleItemStringSplit[j]
                             end
                         end
                     end
