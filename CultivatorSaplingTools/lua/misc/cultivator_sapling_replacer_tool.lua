@@ -12,8 +12,6 @@ function cultivator_sapling_replacer_tool:OnInit()
     self.popupShown = false
 
     self.SelectedItemBlueprint = self:GetSaplingItem()
-
-    LogService:Log("OnInit SelectedItemBlueprint " .. self.SelectedItemBlueprint )
 end
 
 function cultivator_sapling_replacer_tool:GetSaplingItem()
