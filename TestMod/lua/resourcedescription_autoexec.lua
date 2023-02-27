@@ -1,4 +1,5 @@
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
 
 ConsoleService:RegisterCommand( "test_log_resource", function( args )
 
@@ -28,11 +29,20 @@ ConsoleService:RegisterCommand( "test_log_resource", function( args )
             count = #componentNames
         end
 
+        local tableNames = {}
+
         for i = 1, count do 
         
             local componentName = componentNames[i]
 
-            LogService:Log("test_log_resource blueprint " .. blueprintName .. " " .. componentName )
+            Insert( tableNames, componentName )
+        end
+
+        table.sort(tableNames)
+
+        for i = 1, #tableNames do
+
+            LogService:Log("test_log_resource " .. blueprintName .. " " .. tableNames[i] )
         end
     else
 
