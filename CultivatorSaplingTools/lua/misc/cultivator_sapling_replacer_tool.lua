@@ -12,6 +12,17 @@ function cultivator_sapling_replacer_tool:OnInit()
     self.popupShown = false
 
     self.SelectedItemBlueprint = self:GetSaplingItem()
+
+    local blueprint = ResourceManager:GetBlueprint( self.SelectedItemBlueprint )
+
+    local component = blueprint:GetComponent("InventoryItemComponent")
+
+    local componentRef = reflection_helper(component)
+
+    local saplingIcon = componentRef.icon
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+    markerDB:SetString("sapling_icon", saplingIcon)
 end
 
 function cultivator_sapling_replacer_tool:GetSaplingItem()
