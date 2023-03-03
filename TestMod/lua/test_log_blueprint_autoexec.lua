@@ -73,7 +73,7 @@ ConsoleService:RegisterCommand( "test_log_blueprint", function( args )
 
                 local componentRef = reflection_helper(component)
 
-                LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " component " .. " " .. tostring(componentRef) )
+                LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " component " .. tostring(componentRef) )
             end
         else
 
@@ -81,7 +81,7 @@ ConsoleService:RegisterCommand( "test_log_blueprint", function( args )
 
             local componentRef = reflection_helper(component)
 
-            LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " component " .. " " .. tostring(componentRef) )
+            LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " component " .. tostring(componentRef) )
 
         end
     end

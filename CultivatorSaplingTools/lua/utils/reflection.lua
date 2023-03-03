@@ -122,42 +122,59 @@ TypeValueHelper.mt = {
                 if field_value ~= nil then
                     value = value .. tostring(field_value)
                 else
-                    value = value .. "[" .. field:GetTypeName() .. "]"
 
                     local fieldRef = reflection_helper( field )
 
                     if field:IsContainer() then
 
-                        value = value .. ".count = " .. tostring(fieldRef.count)
+                        value = value .. "[" .. field:GetTypeName() .. "]" .. ".count = " .. tostring(fieldRef.count)
+
+                        value = value .. "\n    {"
 
                         for i = 1, fieldRef.count do 
         
                             local fieldValueItem = fieldRef[i]
 
-                            value = value .. "\n    [" .. tostring(i) .. "] ="
-
-                            value = value .. "\n    {"
+                            value = value .. "\n        [" .. tostring(i) .. "] = "
 
                             local singleItemString = tostring(fieldValueItem)
 
                             local singleItemStringSplit = Split( singleItemString, "\n" )
 
-                            for j=1,#singleItemStringSplit do
-                                if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
-                                    value = value .. "\n        " .. singleItemStringSplit[j]
+                            if ( #singleItemStringSplit > 0 ) then
+
+                                value = value .. singleItemStringSplit[1]
+
+                                if ( #singleItemStringSplit > 1 ) then
+
+                                    for j=2,#singleItemStringSplit do
+                                        if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
+                                            value = value .. "\n        " .. singleItemStringSplit[j]
+                                        end
+                                    end
                                 end
                             end
-                            
-                            value = value .. "\n    },"
+
+                            value = value .. ","
                         end
+                            
+                        value = value .. "\n    }"
                     else
                         local fieldRefString = tostring(fieldRef)
 
                         local singleItemStringSplit = Split( fieldRefString, "\n" )
 
-                        for j=1,#singleItemStringSplit do
-                            if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
-                                value = value .. "\n    " .. singleItemStringSplit[j]
+                        if ( #singleItemStringSplit > 0 ) then
+
+                            value = value .. singleItemStringSplit[1]
+
+                            if ( #singleItemStringSplit > 1 ) then
+
+                                for j=2,#singleItemStringSplit do
+                                    if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
+                                        value = value .. "\n    " .. singleItemStringSplit[j]
+                                    end
+                                end
                             end
                         end
                     end
