@@ -17,6 +17,62 @@ function flora_cultivator:OnInit()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnLuaGlobalEvent" )
+
+    RegisterGlobalEventHandler("EnterBuildMenuEvent", function()
+
+        LogService:Log( "EnterBuildMenuEvent" )
+
+        self.data:SetInt("player_inbuildmode", 1)
+
+        self:PopulateSpecialActionInfo()
+    end)
+
+    RegisterGlobalEventHandler("EnterFighterModeEvent", function()
+
+        LogService:Log( "EnterFighterModeEvent" )
+
+        self.data:SetInt("player_inbuildmode", 0)
+
+        self:PopulateSpecialActionInfo()
+    end)
+end
+
+function flora_cultivator:CreateMenuEntity()
+
+    local offsetY = 5.0
+
+    if ( self.cultivatorSaplingMenuSpot == nil ) then
+        self.cultivatorSaplingMenuSpot = EntityService:SpawnAndAttachEntity(self.entity, "att_landing" )
+
+        local position = EntityService:GetPosition( self.cultivatorSaplingMenuSpot )
+        LogService:Log("CreateMenuEntity cultivatorSaplingMenuSpot 1 " .. tostring(position.x) .. " " .. tostring(position.y) .. " " .. tostring(position.z) )
+
+        --EntityService:SetPosition( self.cultivatorSaplingMenuSpot, 0, offsetY , 0 )
+
+        local position = EntityService:GetPosition( self.cultivatorSaplingMenuSpot )
+        LogService:Log("CreateMenuEntity cultivatorSaplingMenuSpot 2 " .. tostring(position.x) .. " " .. tostring(position.y) .. " " .. tostring(position.z) )
+    end
+
+    if ( self.cultivatorSaplingMenu == nil ) then
+        self.cultivatorSaplingMenu = EntityService:SpawnAndAttachEntity("misc/cultivator_sapling_menu", self.cultivatorSaplingMenuSpot)
+
+        local position = EntityService:GetPosition( self.cultivatorSaplingMenu )
+
+        LogService:Log("CreateMenuEntity cultivatorSaplingMenu " .. tostring(position.x) .. " " .. tostring(position.y) .. " " .. tostring(position.z) )
+    end
+end
+
+function flora_cultivator:OnRelease()
+
+    if ( self.cultivatorSaplingMenu ~= nil and self.cultivatorSaplingMenu ~= INVALID_ID ) then
+        EntityService:RemoveEntity( self.cultivatorSaplingMenu )
+    end
+
+    if ( self.cultivatorSaplingMenuSpot ~= nil and self.cultivatorSaplingMenuSpot ~= INVALID_ID ) then
+        EntityService:RemoveEntity( self.cultivatorSaplingMenuSpot )
+    end
+    
+    drone_spawner_building.OnRelease( self )
 end
 
 function IsEquippedItemBlueprintValid( entity, new_blueprint )
@@ -78,6 +134,10 @@ end
 
 function flora_cultivator:OnBuildingEnd()
 
+    self.data:SetInt("player_inbuildmode", 1)
+
+    self:CreateMenuEntity()
+
     local default_blueprint = self:GetDefaultSaplingItem()
 
     self.default_item = ItemService:GetFirstItemForBlueprint( self.entity, default_blueprint )
@@ -110,8 +170,39 @@ function flora_cultivator:PopulateSpecialActionInfo()
 
     if ( self.item ~= INVALID_ID and self.item ~= nil ) then
         local material = ItemService:GetItemIcon( self.item )
+
+        local blueprintName = EntityService:GetBlueprintName( self.item )
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+
+        local component = blueprint:GetComponent("InventoryItemComponent")
+
+        local componentRef = reflection_helper(component)
+
+        local saplingIcon = componentRef.icon
+        local saplingName = componentRef.name
         
         self.data:SetString("action_icon", material )
+
+        self.data:SetString("stat_categories", "production_group" )
+
+        self.data:SetString("production_group.rows", "plant" )
+
+        self.data:SetString("production_group.rows.plant.name", saplingName )
+        self.data:SetString("production_group.rows.plant.icon", "gui/hud/tools_icons/sapling" )
+        self.data:SetString("production_group.rows.plant.value",  "" )
+
+        self:CreateMenuEntity()
+
+        local inBuildMode = self.data:GetIntOrDefault( "player_inbuildmode",  1 )
+
+        self.data:SetInt("player_inbuildmode", inBuildMode)
+
+        LogService:Log("PopulateSpecialActionInfo player_inbuildmode " .. tostring(inBuildMode) )
+
+        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+        menuDB:SetString("sapling_icon", saplingIcon)
+        menuDB:SetString("sapling_name", saplingName)
+        menuDB:SetInt("sapling_visible", inBuildMode)
     end
 
     local plant_blueprint = self.data:GetStringOrDefault("plant_blueprint", "")
@@ -207,10 +298,12 @@ function flora_cultivator:OnItemEquippedEvent( evt )
     if( db == nil ) then
         return
     end
+
+    LogService:Log("OnItemEquippedEvent item " .. EntityService:GetBlueprintName( self.item ) )
     
     if db:HasString("plant_blueprint") then
         self.spawn_blueprint = db:GetStringOrDefault( "plant_blueprint", "" )
-        EntityService:RemoveComponent( self.entity, "FloraCultivatorComponent");
+        EntityService:RemoveComponent( self.entity, "FloraCultivatorComponent")
     else
         self.spawn_blueprint = nil
     end
