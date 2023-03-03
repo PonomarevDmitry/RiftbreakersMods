@@ -48,9 +48,9 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
 
     local entities = {}
 
-    for  ent in Iter(selectedEntities ) do
+    for  entity in Iter(selectedEntities ) do
 
-        local blueprint = EntityService:GetBlueprintName(ent)
+        local blueprint = EntityService:GetBlueprintName(entity)
 
         local buildingDesc = BuildingService:GetBuildingDesc( blueprint )
         if ( buildingDesc == nil ) then
@@ -63,7 +63,7 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
             goto continue
         end
 
-        Insert(entities, ent)
+        Insert(entities, entity)
 
         ::continue::
     end

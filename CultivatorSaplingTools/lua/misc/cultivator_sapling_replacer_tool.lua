@@ -20,38 +20,35 @@ function cultivator_sapling_replacer_tool:OnInit()
     local componentRef = reflection_helper(component)
 
     local saplingIcon = componentRef.icon
+    local saplingName = componentRef.name
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
     markerDB:SetString("sapling_icon", saplingIcon)
+    markerDB:SetString("sapling_name", saplingName)
 end
 
 function cultivator_sapling_replacer_tool:GetSaplingItem()
 
     local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_item"
 
-    local sapling_item = DEFAULT_SAPLING_BLUEPRINT
-
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     if selectorDB:HasString("cultivator_sapling_picker_tool.selecteditem") then
 
-        sapling_item = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", DEFAULT_SAPLING_BLUEPRINT )
+        local sapling_item = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", "" )
 
-        if not ResourceManager:ResourceExists( "EntityBlueprint", sapling_item ) then
-            sapling_item = DEFAULT_SAPLING_BLUEPRINT
+        if ( sapling_item ~= nil and sapling_item ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", sapling_item ) ) then
+            return sapling_item
         end
     end
 
-    if sapling_item == DEFAULT_SAPLING_BLUEPRINT then
+    local biome_default_item = "items/loot/saplings/biomas_sapling_" .. MissionService:GetCurrentBiomeName() .. "_item"
 
-        local biome_default_item = "items/loot/saplings/biomas_sapling_" .. MissionService:GetCurrentBiomeName() .. "_item"
-
-        if ResourceManager:ResourceExists( "EntityBlueprint", biome_default_item ) then
-            return biome_default_item
-        end
+    if ( ResourceManager:ResourceExists( "EntityBlueprint", biome_default_item ) ) then
+        return biome_default_item
     end
 
-    return sapling_item
+    return DEFAULT_SAPLING_BLUEPRINT
 end
 
 function cultivator_sapling_replacer_tool:OnPreInit()
@@ -81,22 +78,22 @@ function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntiti
 
     local entities = {}
     
-    for ent in Iter(selectedEntities ) do
+    for entity in Iter(selectedEntities ) do
 
-        local blueprint = EntityService:GetBlueprintName(ent)
+        local blueprintName = EntityService:GetBlueprintName(entity)
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprint )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
         end
 
-        local lowName = BuildingService:FindLowUpgrade( blueprint )
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
         if ( lowName ~= "flora_cultivator" ) then
             goto continue
         end
 
-        local modItem = ItemService:GetEquippedItem( ent, "MOD_1" )
+        local modItem = ItemService:GetEquippedItem( entity, "MOD_1" )
 
         if ( modItem ~= nil ) then
 
@@ -108,7 +105,7 @@ function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntiti
             end
         end
 
-        Insert(entities, ent)
+        Insert(entities, entity)
 
         ::continue::
     end
