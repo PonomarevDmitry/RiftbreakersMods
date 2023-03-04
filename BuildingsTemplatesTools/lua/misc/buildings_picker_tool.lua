@@ -12,6 +12,8 @@ function buildings_picker_tool:OnInit()
     self.popupShown = false
 
     self.templateEntities = {}
+
+    self.template_name = self.data:GetString("template_name")
 end
 
 function buildings_picker_tool:OnPreInit()
@@ -168,9 +170,9 @@ function buildings_picker_tool:OnRelease()
 
             if ( campaignDatabase ~= nil ) then
 
-                LogService:Log("OnRelease templateString " .. templateString )
+                LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
 
-                campaignDatabase:SetString( "", templateString )
+                campaignDatabase:SetString( self.template_name, templateString )
             end
         end
 
