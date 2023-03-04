@@ -11,11 +11,45 @@ function cultivator_sapling_replacer_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_replacer_tool", self.entity)
     self.popupShown = false
 
+    self.SelectedItemBlueprint = self:GetSaplingItem()
+
+    local blueprint = ResourceManager:GetBlueprint( self.SelectedItemBlueprint )
+
+    local component = blueprint:GetComponent("InventoryItemComponent")
+
+    local componentRef = reflection_helper(component)
+
+    local saplingIcon = componentRef.icon
+    local saplingName = componentRef.name
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+    markerDB:SetString("sapling_icon", saplingIcon)
+    markerDB:SetString("sapling_name", saplingName)
+    markerDB:SetInt("sapling_visible", 1)
+end
+
+function cultivator_sapling_replacer_tool:GetSaplingItem()
+
     local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_item"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", DEFAULT_SAPLING_BLUEPRINT )
+    if selectorDB:HasString("cultivator_sapling_picker_tool.selecteditem") then
+
+        local sapling_item = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", "" )
+
+        if ( sapling_item ~= nil and sapling_item ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", sapling_item ) ) then
+            return sapling_item
+        end
+    end
+
+    local biome_default_item = "items/loot/saplings/biomas_sapling_" .. MissionService:GetCurrentBiomeName() .. "_item"
+
+    if ( ResourceManager:ResourceExists( "EntityBlueprint", biome_default_item ) ) then
+        return biome_default_item
+    end
+
+    return DEFAULT_SAPLING_BLUEPRINT
 end
 
 function cultivator_sapling_replacer_tool:OnPreInit()
@@ -45,34 +79,34 @@ function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntiti
 
     local entities = {}
     
-    for ent in Iter(selectedEntities ) do
+    for entity in Iter(selectedEntities ) do
 
-        local blueprint = EntityService:GetBlueprintName(ent)
+        local blueprintName = EntityService:GetBlueprintName(entity)
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprint )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
         end
 
-        local lowName = BuildingService:FindLowUpgrade( blueprint )
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
         if ( lowName ~= "flora_cultivator" ) then
             goto continue
         end
 
-        local modItem = ItemService:GetEquippedItem( ent, "MOD_1" )
+        local modItem = ItemService:GetEquippedItem( entity, "MOD_1" )
 
         if ( modItem ~= nil ) then
 
-            local blueprintMod = EntityService:GetBlueprintName(modItem)
+            local modItemBlueprint = EntityService:GetBlueprintName(modItem)
 
-            if ( blueprintMod == self.SelectedItemBlueprint ) then
+            if ( modItemBlueprint == self.SelectedItemBlueprint ) then
 
                 goto continue
             end
         end
 
-        Insert(entities, ent)
+        Insert(entities, entity)
 
         ::continue::
     end
