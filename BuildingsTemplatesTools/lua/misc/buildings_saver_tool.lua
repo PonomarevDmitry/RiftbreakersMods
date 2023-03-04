@@ -17,9 +17,7 @@ function buildings_saver_tool:OnInit()
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
 
-    local transform = EntityService:GetWorldTransform( self.entity )
     EntityService:SetVisible( self.entity , true )
-    self:CheckEntityBuildable( self.entity , transform )
 
     self:RegisterHandler( INVALID_ID, "BuildingStartEvent", "OnBuildingStartEvent" )
 
@@ -98,7 +96,7 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
 
     local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( blueprint ) )
 
-    LogService:Log("SpawnTemplate buildingDesc " .. tostring(buildingDesc) )
+    --LogService:Log("SpawnTemplate buildingDesc " .. tostring(buildingDesc) )
 
     buildingTemplate.buildingDesc = buildingDesc
 
@@ -122,8 +120,12 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
 
         buildingEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
+
+        LogService:Log("SpawnTemplate buildingDesc.ghost_bp " .. tostring(buildingDesc.ghost_bp) )
     else
         buildingEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
+
+        LogService:Log("SpawnTemplate buildingDesc.bp " .. tostring(buildingDesc.bp) )
     end
 
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
@@ -132,6 +134,8 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
 
     buildingTemplate.entity = buildingEntity
+
+    HideBuildingDisplayRadiusAround( buildingEntity, buildingDesc.ghost_bp )
 
     Insert( self.templateEntities, buildingTemplate )
 end
@@ -148,6 +152,55 @@ function buildings_saver_tool:SetLastBuildSpot(transform)
     itemHelper.z = transform.position.z
 end
 
+function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint, id )
+
+    id = id or 1
+
+    local test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, blueprint, id)
+
+    if ( test == nil ) then
+        return
+    end
+
+    local testReflection = reflection_helper(test:ToTypeInstance(), test )
+
+    
+    local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
+    local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
+    
+    local skinned = EntityService:IsSkinned(entity)
+
+    if ( testReflection.flag == CBF_REPAIR  ) then
+        if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
+            end
+        else
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
+            end
+        end
+    else
+        if ( canBuildOverride ) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_active")
+            end
+        elseif ( canBuild  ) then
+            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+        else
+            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+        end
+    end
+
+    return testReflection
+end
+
 function buildings_saver_tool:OnUpdate()
 
     self.buildCost = {}
@@ -155,7 +208,7 @@ function buildings_saver_tool:OnUpdate()
     local currentTransform = EntityService:GetWorldTransform( self.entity )
     local currentPosition = currentTransform.position
 
-    self:CheckEntityBuildable( self.entity , currentTransform, false )
+    self:CheckEntityBuildable( self.entity , currentTransform, self.blueprint )
 
     for i=1,#self.templateEntities do
 
@@ -175,11 +228,13 @@ function buildings_saver_tool:OnUpdate()
             
         local entity = buildingTemplate.entity
 
-        local testBuildable = self:CheckEntityBuildable(entity, transform, false, i, false)
+        local testBuildable = self:CheckEntityBuildable(entity, transform, buildingTemplate.blueprint, i)
 
         EntityService:SetPosition( entity, newPosition )
         EntityService:SetOrientation(entity, transform.orientation )
         BuildingService:CheckAndFixBuildingConnection(entity)
+
+        HideBuildingDisplayRadiusAround( entity, buildingTemplate.buildingDesc.ghost_bp )
 
         local list = BuildingService:GetBuildCosts( buildingTemplate.blueprint, self.playerId )
 
@@ -232,10 +287,11 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
 
     local transform = EntityService:GetWorldTransform( entity )
        
-    local testBuildable = self:CheckEntityBuildable( entity , transform, false )
+    local testBuildable = self:CheckEntityBuildable( entity , transform, buildingTemplate.blueprint )
 
     if ( testBuildable == nil ) then
 
+        LogService:Log("testBuildable null")
         return
     end
 
@@ -245,11 +301,15 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
             QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
         end
 
+        LogService:Log("testBuildable CBF_TO_CLOSE")
+
         return testBuildable.flag
 
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
         QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
+        
+        LogService:Log("testBuildable CBF_LIMITS")
 
         return testBuildable.flag
     end
@@ -261,9 +321,13 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
         elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
             QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
         end
+        
+        LogService:Log("testBuildable missingResources")
 
         return testBuildable.flag
     end
+        
+    LogService:Log( "testBuildable buildable " .. tostring(testBuildable.flag) )
 
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
