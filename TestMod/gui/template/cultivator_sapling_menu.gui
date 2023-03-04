@@ -7,34 +7,19 @@ GuiRootGroupDef
         edges
         {
             up
-            {
-            }
-
             right
-            {
-            }
-
             down
-            {
-            }
-
             left
-            {
-            }
         }
 
         nodes
-        {
-        }
     }
 
     priority "0.000"
     bg_blur "0.000"
     shortcuts
-    {
-    }
 
-    full_screen "1"
+    full_screen "2"
     container_type "0"
     allow_overflow "1"
     children
@@ -514,9 +499,136 @@ GuiRootGroupDef
                 }
 
                 animations
-                {
-                    items
-                }
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							name "this@Show"
+							frames
+							{
+								GuiAnimationFrame
+								{
+									color
+									{
+										z "0.000"
+										x "0.000"
+										y "0.000"
+										w "-1.000"
+									}
+
+									rotation "0.000"
+									texture_number "0"
+									loop "-1"
+									scale
+									{
+										x "0.500"
+										y "0.500"
+									}
+
+									mask "44"
+									frame_number "0"
+									offset
+									{
+										x "0.000"
+										y "0.000"
+									}
+								}
+
+								GuiAnimationFrame
+								{
+									color
+									{
+										z "0.000"
+										x "0.000"
+										y "0.000"
+										w "0.000"
+									}
+
+									rotation "0.000"
+									texture_number "0"
+									loop "-1"
+									scale
+									{
+										x "1.000"
+										y "1.000"
+									}
+
+									mask "32"
+									frame_number "30"
+									offset
+									{
+										x "0.000"
+										y "0.000"
+									}
+								}
+							}
+						}
+
+						GuiAnimationDef
+						{
+							name "this@Hide"
+							frames
+							{
+								GuiAnimationFrame
+								{
+									color
+									{
+										z "0.000"
+										x "0.000"
+										y "0.000"
+										w "0.000"
+									}
+
+									rotation "0.000"
+									texture_number "0"
+									loop "-1"
+									scale
+									{
+										x "1.000"
+										y "1.000"
+									}
+
+									mask "0"
+									frame_number "0"
+									offset
+									{
+										x "0.000"
+										y "0.000"
+									}
+								}
+
+								GuiAnimationFrame
+								{
+									color
+									{
+										z "0.000"
+										x "0.000"
+										y "0.000"
+										w "-1.000"
+									}
+
+									rotation "0.000"
+									texture_number "0"
+									loop "-1"
+									scale
+									{
+										x "1.250"
+										y "1.250"
+									}
+
+									mask "44"
+									frame_number "30"
+									offset
+									{
+										x "0.000"
+										y "0.000"
+									}
+								}
+							}
+						}
+					}
+				}
 
                 id "sapling_replacer_menu"
                 color
@@ -529,8 +641,27 @@ GuiRootGroupDef
 
                 rotation "0.000"
                 animation_groups
-                {
-                }
+				{
+					GuiAnimationGroupDef
+					{
+						items
+						{
+							String "this"
+						}
+
+						name "Show"
+					}
+
+					GuiAnimationGroupDef
+					{
+						items
+						{
+							String "this"
+						}
+
+						name "Hide"
+					}
+				}
 
                 hitbox_visible "1"
                 tooltip
@@ -568,9 +699,86 @@ GuiRootGroupDef
                 }
                 alignment "center"
                 item_scripts
-                {
-                    scripts
-                }
+				{
+					scripts
+					{
+						Pair_IdString_GuiScriptDef3
+						{
+							value
+							{
+								script
+								{
+									cmd
+									children
+									{
+										GuiScriptNodeDef
+										{
+											cmd "GuiScriptCommandAnimStartDef"
+											{
+												anim_info
+												{
+													multiplier "0.150"
+													reverse "0"
+													stay_at_end "1"
+													loop "1"
+													random_start "0"
+												}
+
+												gui_path "this"
+												value "Hide"
+												type "gui_play_anim"
+											}
+
+											children
+										}
+									}
+								}
+
+								event_name "OnHide"
+							}
+
+							key "OnHide"
+						}
+
+						Pair_IdString_GuiScriptDef3
+						{
+							value
+							{
+								script
+								{
+									cmd
+									children
+									{
+										GuiScriptNodeDef
+										{
+											cmd "GuiScriptCommandAnimStartDef"
+											{
+												anim_info
+												{
+													multiplier "0.150"
+													reverse "0"
+													stay_at_end "1"
+													loop "1"
+													random_start "0"
+												}
+
+												gui_path "this"
+												value "Show"
+												type "gui_play_anim"
+											}
+
+											children
+										}
+									}
+								}
+
+								event_name "OnShow"
+							}
+
+							key "OnShow"
+						}
+					}
+				}
 
                 margin
                 {
