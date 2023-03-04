@@ -25,6 +25,7 @@ function cultivator_sapling_replacer_tool:OnInit()
     local markerDB = EntityService:GetDatabase( self.childEntity )
     markerDB:SetString("sapling_icon", saplingIcon)
     markerDB:SetString("sapling_name", saplingName)
+    markerDB:SetInt("sapling_visible", 1)
 end
 
 function cultivator_sapling_replacer_tool:GetSaplingItem()
@@ -97,9 +98,9 @@ function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntiti
 
         if ( modItem ~= nil ) then
 
-            local blueprintMod = EntityService:GetBlueprintName(modItem)
+            local modItemBlueprint = EntityService:GetBlueprintName(modItem)
 
-            if ( blueprintMod == self.SelectedItemBlueprint ) then
+            if ( modItemBlueprint == self.SelectedItemBlueprint ) then
 
                 goto continue
             end

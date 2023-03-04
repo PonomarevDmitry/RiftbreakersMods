@@ -15,6 +15,32 @@ function cultivator_sapling_picker_tool:OnInit()
     self.scaleMap = {
         1,
     }
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", "" )
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
+            
+        local blueprint = ResourceManager:GetBlueprint( self.SelectedItemBlueprint )
+
+        local component = blueprint:GetComponent("InventoryItemComponent")
+
+        local componentRef = reflection_helper(component)
+
+        local saplingIcon = componentRef.icon
+        local saplingName = componentRef.name
+
+        local markerDB = EntityService:GetDatabase( self.childEntity )
+        markerDB:SetString("sapling_icon", saplingIcon)
+        markerDB:SetString("sapling_name", saplingName)
+        markerDB:SetInt("sapling_visible", 1)
+    else
+        self.SelectedItemBlueprint = ""
+        markerDB:SetInt("sapling_visible", 0)
+    end
 end
 
 function cultivator_sapling_picker_tool:OnPreInit()
@@ -60,6 +86,20 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
         local lowName = BuildingService:FindLowUpgrade( blueprint )
 
         if ( lowName ~= "flora_cultivator" ) then
+            goto continue
+        end
+
+        local modItem = ItemService:GetEquippedItem( entity, "MOD_1" )
+
+        if ( modItem == nil ) then
+
+            goto continue
+        end
+
+        local modItemBlueprint = EntityService:GetBlueprintName(modItem)
+
+        if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and modItemBlueprint == self.SelectedItemBlueprint ) then
+
             goto continue
         end
 
