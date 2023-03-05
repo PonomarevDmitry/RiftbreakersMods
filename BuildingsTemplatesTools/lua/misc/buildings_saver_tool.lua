@@ -63,6 +63,12 @@ function buildings_saver_tool:InitializeValues()
 
     self.oldBuildingsToSell = {}
 
+    self.transformXX = 1
+    self.transformXZ = 0
+
+    self.transformZX = 0
+    self.transformZZ = 1
+
     local team = EntityService:GetTeam( self.entity )
     local currentTransform = EntityService:GetWorldTransform( self.entity )
 
@@ -141,10 +147,12 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     buildingTemplate.buildingDesc = buildingDesc
 
     local newPosition = {}
+
+    local deltaX, deltaZ = self:GetVectorDelta( buildingTemplate.positionX, buildingTemplate.positionZ )
                 
-    newPosition.x = currentPosition.x + buildingTemplate.positionX
+    newPosition.x = currentPosition.x + deltaX
     newPosition.y = currentPosition.y
-    newPosition.z = currentPosition.z + buildingTemplate.positionZ
+    newPosition.z = currentPosition.z + deltaZ
 
     local orientation = {}
                 
@@ -176,6 +184,14 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     HideBuildingDisplayRadiusAround( buildingEntity, buildingEntity )
     
     Insert( self.templateEntities, buildingTemplate )
+end
+
+function buildings_saver_tool:GetVectorDelta( positionX, positionZ )
+    
+    local deltaX = self.transformXX * positionX + self.transformXZ * positionZ
+    local deltaZ = self.transformZX * positionX + self.transformZZ * positionZ
+
+    return deltaX, deltaZ
 end
 
 function buildings_saver_tool:GetBuildInfo( entity  )
@@ -259,10 +275,12 @@ function buildings_saver_tool:OnUpdate()
         local buildingTemplate = self.templateEntities[i]
 
         local newPosition = {}
-                
-        newPosition.x = currentPosition.x + buildingTemplate.positionX
+
+        local deltaX, deltaZ = self:GetVectorDelta( buildingTemplate.positionX, buildingTemplate.positionZ )
+
+        newPosition.x = currentPosition.x + deltaX
         newPosition.y = currentPosition.y
-        newPosition.z = currentPosition.z + buildingTemplate.positionZ
+        newPosition.z = currentPosition.z + deltaZ
 
         local transform = {}
 
@@ -565,8 +583,59 @@ function buildings_saver_tool:RemoveMaterialFromOldBuildingsToSell()
     end
 end
 
-function buildings_saver_tool:OnRotateSelectorRequest()
+function buildings_saver_tool:OnRotateSelectorRequest(evt)
 
+    local degree = evt:GetDegree()
+
+    for buildingTemplate in Iter(self.templateEntities) do
+    
+        EntityService:Rotate( buildingTemplate.entity, 0.0, 1.0, 0.0, -degree )
+
+        local transform = EntityService:GetWorldTransform( buildingTemplate.entity )
+
+        buildingTemplate.orientation = transform.orientation
+    end
+
+    local coefAA = 1 
+    local coefAB = 0
+    local coefBA = 0
+    local coefBB = 1
+
+    if ( degree > 0 ) then
+
+        -- clockwise
+        coefAA = 0 
+        coefAB = -1
+        coefBA = 1
+        coefBB = 0
+    else
+
+        -- counter-clockwise
+
+        coefAA = 0 
+        coefAB = 1
+        coefBA = -1
+        coefBB = 0
+    end
+
+    local newtransformXX, newtransformXZ, newtransformZX, newtransformZZ = self:TrasformMatrix( coefAA, coefAB, coefBA, coefBB )
+
+    self.transformXX = newtransformXX
+    self.transformXZ = newtransformXZ
+    self.transformZX = newtransformZX
+    self.transformZZ = newtransformZZ
+
+    self:OnUpdate()
+end
+
+function buildings_saver_tool:TrasformMatrix( coefAA, coefAB, coefBA, coefBB)
+
+    local newtransformXX = self.transformXX * coefAA + self.transformXZ * coefBA
+    local newtransformXZ = self.transformXX * coefAB + self.transformXZ * coefBB
+    local newtransformZX = self.transformZX * coefAA + self.transformZZ * coefBA
+    local newtransformZZ = self.transformZX * coefAB + self.transformZZ * coefBB
+
+    return newtransformXX, newtransformXZ, newtransformZX, newtransformZZ
 end
 
 function buildings_saver_tool:OnRelease()
@@ -649,4 +718,3 @@ function buildings_saver_tool:OnMassBuildLimitMachineWorking( state )
 end
 
 return buildings_saver_tool
- 
