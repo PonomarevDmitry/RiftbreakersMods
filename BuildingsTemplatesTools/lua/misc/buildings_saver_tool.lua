@@ -587,9 +587,12 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
+    -- Inverting rotation
+    --degree = -degree
+
     for buildingTemplate in Iter(self.templateEntities) do
     
-        EntityService:Rotate( buildingTemplate.entity, 0.0, 1.0, 0.0, -degree )
+        EntityService:Rotate( buildingTemplate.entity, 0.0, 1.0, 0.0, degree )
 
         local transform = EntityService:GetWorldTransform( buildingTemplate.entity )
 
@@ -603,18 +606,18 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
 
     if ( degree > 0 ) then
 
-        -- clockwise
-        coefAA = 0 
-        coefAB = -1
-        coefBA = 1
-        coefBB = 0
-    else
-
         -- counter-clockwise
 
         coefAA = 0 
         coefAB = 1
         coefBA = -1
+        coefBB = 0
+    else
+
+        -- clockwise
+        coefAA = 0 
+        coefAB = -1
+        coefBA = 1
         coefBB = 0
     end
 
