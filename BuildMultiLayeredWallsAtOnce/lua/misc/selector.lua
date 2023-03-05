@@ -599,7 +599,7 @@ end
 function selector:RotateBuilding( degree )
 
     -- Inverting rotation
-    --degree = -degree
+    degree = -degree
 
     EntityService:Rotate(self.selector, 0.0, 1.0, 0.0, degree )
     local transform = EntityService:GetWorldTransform( self.selector )

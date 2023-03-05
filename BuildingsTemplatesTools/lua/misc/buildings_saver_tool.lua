@@ -592,7 +592,7 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
     local degree = evt:GetDegree()
 
     -- Inverting rotation
-    --degree = -degree
+    degree = -degree
 
     for buildingTemplate in Iter(self.templateEntities) do
     
