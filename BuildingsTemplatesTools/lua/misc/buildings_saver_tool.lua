@@ -90,6 +90,14 @@ function buildings_saver_tool:InitializeValues()
     local markerDB = EntityService:GetDatabase( self.markerEntity )
 
     if ( #self.templateEntities > 0 ) then
+
+        local firstBuildingTemplate = self.templateEntities[1]
+        local firstEntity = firstBuildingTemplate.entity
+
+        local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
+
+        EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z)
+
         markerDB:SetString("message_text", "")
         markerDB:SetInt("message_visible", 0)
     else
@@ -99,6 +107,22 @@ function buildings_saver_tool:InitializeValues()
 end
 
 function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
+
+    -- templateString format:
+    -- blueprint1:ent1PosX,ent1PosZ,ent1OrientX,ent1OrientY,ent1OrientZ,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientX,ent2OrientY,ent2OrientZ,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientX,ent3OrientY,ent3OrientZ,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientX,ent4OrientY,ent4OrientZ,ent4OrientW
+
+    -- Delimiter between blueprints groups: "|"
+    -- Delimiter between blueprint name and array of entities coordinates: ":"
+    -- Delimiter between entities in array of entities coordinates: ";"
+    -- Delimiter between coordinates for single entity: ","
+    -- blueprint1, blueprint2 - blueprints names
+    -- ent1PosX, ent2PosX - entities relative position.x
+    -- ent1PosZ, ent2PosZ - entities relative position.z
+
+    -- ent1OrientX, ent2OrientX - entities orientation.x
+    -- ent1OrientY, ent2OrientY - entities orientation.y
+    -- ent1OrientZ, ent2OrientZ - entities orientation.z
+    -- ent1OrientW, ent2OrientW - entities orientation.w
 
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
@@ -113,69 +137,93 @@ function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
         return
     end
 
-    local templatesArray = Split( templateString, "|" )
+    -- Split by "|" blueprints groups
+    local blueprintsGroupsArray = Split( templateString, "|" )
 
-    for template in Iter( templatesArray ) do
-        
-        self:SpawnTemplate( template, currentPosition, team )
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, ":" )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray == 2 ) then
+
+            -- First blueprintName
+            local blueprintName = blueprintValuesArray[1]
+            -- Second array with entities coordinates
+            local entitiesCoordinatesString = blueprintValuesArray[2]
+
+            if ( ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+
+                local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+                if ( blueprintBuildingDesc ~= nil ) then
+
+                    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+                
+                    if ( buildingDesc ~= nil ) then
+
+                        -- Split array of coordinates by ";"
+                        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, ";" )
+
+                        for entityString in Iter( entitiesCoordinatesArray ) do
+
+                            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, entityString, currentPosition, team )
+                        end
+                    end
+                end
+            end
+        end
     end
-
-    local firstBuildingTemplate = self.templateEntities[1]
-    local firstEntity = firstBuildingTemplate.entity
-
-    local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
-
-    EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z)
 end
 
-function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
+function buildings_saver_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, entityString, currentPosition, team )
 
-    local valuesArray = Split( template, "," )
+    -- Split coordinates by ","
+    local valuesArray = Split( entityString, "," )
+
+    -- Only 6 values in valuesArray
+    if ( #valuesArray ~= 6 ) then
+        return
+    end
+
+    local positionX = tonumber( valuesArray[1] )
+    local positionZ = tonumber( valuesArray[2] )
+                
+    local orientationX = tonumber( valuesArray[3] )
+    local orientationY = tonumber( valuesArray[4] )
+    local orientationZ = tonumber( valuesArray[5] )
+    local orientationW = tonumber( valuesArray[6] )
+
+    if ( positionX == nil or positionZ == nil or orientationX == nil or orientationY == nil or orientationZ == nil or orientationW == nil ) then
+        return
+    end
 
     local buildingTemplate = {}
 
-    local blueprintName = valuesArray[1]
-
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-        return
-    end
-
-    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-
-    if ( blueprintBuildingDesc == nil ) then
-        return
-    end
-
-    local buildingDesc = reflection_helper( blueprintBuildingDesc )
-
     buildingTemplate.blueprint = blueprintName
-
-    buildingTemplate.positionX = tonumber( valuesArray[2] )
-    buildingTemplate.positionZ = tonumber( valuesArray[3] )
-
-    buildingTemplate.orientationX = tonumber( valuesArray[4] )
-    buildingTemplate.orientationY = tonumber( valuesArray[5] )
-    buildingTemplate.orientationZ = tonumber( valuesArray[6] )
-    buildingTemplate.orientationW = tonumber( valuesArray[7] )
 
     buildingTemplate.buildingDesc = buildingDesc
 
-    local newPosition = {}
+    buildingTemplate.positionX = positionX
+    buildingTemplate.positionZ = positionZ
 
-    local deltaX, deltaZ = self:GetVectorDelta( buildingTemplate.positionX, buildingTemplate.positionZ )
+    local orientation = {}
+                
+    orientation.x = orientationX
+    orientation.y = orientationY
+    orientation.z = orientationZ
+    orientation.w = orientationW
+
+    buildingTemplate.orientation = orientation
+
+    local deltaX, deltaZ = self:GetVectorDelta( positionX, positionZ )
+
+    local newPosition = {}
                 
     newPosition.x = currentPosition.x + deltaX
     newPosition.y = currentPosition.y
     newPosition.z = currentPosition.z + deltaZ
-
-    local orientation = {}
-                
-    orientation.x = buildingTemplate.orientationX
-    orientation.y = buildingTemplate.orientationY
-    orientation.z = buildingTemplate.orientationZ
-    orientation.w = buildingTemplate.orientationW
-
-    buildingTemplate.orientation = orientation
 
     local buildingEntity = nil
 

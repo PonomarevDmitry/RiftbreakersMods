@@ -126,6 +126,22 @@ function buildings_picker_tool:OnActivateEntity( entity )
 end
 
 function buildings_picker_tool:SaveEntitiesToDatabase()
+
+    -- templateString format:
+    -- blueprint1:ent1PosX,ent1PosZ,ent1OrientX,ent1OrientY,ent1OrientZ,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientX,ent2OrientY,ent2OrientZ,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientX,ent3OrientY,ent3OrientZ,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientX,ent4OrientY,ent4OrientZ,ent4OrientW
+
+    -- Delimiter between blueprints groups: "|"
+    -- Delimiter between blueprint name and array of entities coordinates: ":"
+    -- Delimiter between entities in array of entities coordinates: ";"
+    -- Delimiter between coordinates for single entity: ","
+    -- blueprint1, blueprint2 - blueprints names
+    -- ent1PosX, ent2PosX - entities relative position.x
+    -- ent1PosZ, ent2PosZ - entities relative position.z
+
+    -- ent1OrientX, ent2OrientX - entities orientation.x
+    -- ent1OrientY, ent2OrientY - entities orientation.y
+    -- ent1OrientZ, ent2OrientZ - entities orientation.z
+    -- ent1OrientW, ent2OrientW - entities orientation.w
     
     if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
         return
@@ -136,8 +152,6 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         return
     end
 
-    local templateString = ""
-
     local firstEntity = self.templateEntities[1]
 
     local firstPosition = EntityService:GetPosition( firstEntity )
@@ -145,36 +159,72 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
     local startX = firstPosition.x
     local startZ = firstPosition.z
 
+    local hashBlueprints = {}
+    local listBlueprintsNames = {}
+
+    local formatFloat = "%g"
+
     for entity in Iter( self.templateEntities ) do
-
-        if ( string.len( templateString ) > 0 ) then
-
-            templateString = templateString .. "|"
-        end
 
         local transform = EntityService:GetWorldTransform( entity )
 
         local position = transform.position
         local orientation = transform.orientation
 
-        local entityBlueprint = EntityService:GetBlueprintName(entity)
-
         local deltaPositionX = position.x - startX
         local deltaPositionZ = position.z - startZ
 
-        local entityString = entityBlueprint
+        --local entityString = tostring(deltaPositionX)
+        --entityString = entityString .. "," .. tostring(deltaPositionZ)
 
-        entityString = entityString .. "," .. tostring(deltaPositionX)
-        entityString = entityString .. "," .. tostring(deltaPositionZ)
+        --entityString = entityString .. "," .. tostring(orientation.x)
+        --entityString = entityString .. "," .. tostring(orientation.y)
+        --entityString = entityString .. "," .. tostring(orientation.z)
+        --entityString = entityString .. "," .. tostring(orientation.w)
 
-        entityString = entityString .. "," .. tostring(orientation.x)
-        entityString = entityString .. "," .. tostring(orientation.y)
-        entityString = entityString .. "," .. tostring(orientation.z)
-        entityString = entityString .. "," .. tostring(orientation.w)
+        local entityString = string.format(formatFloat, deltaPositionX)
+        entityString = entityString .. "," .. string.format(formatFloat, deltaPositionZ)
 
-        LogService:Log("OnRelease entityString " .. entityString )
+        entityString = entityString .. "," .. string.format(formatFloat, orientation.x)
+        entityString = entityString .. "," .. string.format(formatFloat, orientation.y)
+        entityString = entityString .. "," .. string.format(formatFloat, orientation.z)
+        entityString = entityString .. "," .. string.format(formatFloat, orientation.w)
 
-        templateString = templateString .. entityString
+
+
+        local entityBlueprint = EntityService:GetBlueprintName(entity)
+
+        if ( hashBlueprints[entityBlueprint] == nil ) then
+            
+            Insert( listBlueprintsNames, entityBlueprint )
+
+            hashBlueprints[entityBlueprint] = ""
+        end
+
+        local entitiesCoordinatesString = hashBlueprints[entityBlueprint]
+
+        if ( string.len( entitiesCoordinatesString ) > 0 ) then
+
+            entitiesCoordinatesString = entitiesCoordinatesString .. ";"
+        end
+
+        entitiesCoordinatesString = entitiesCoordinatesString .. entityString
+
+        hashBlueprints[entityBlueprint] = entitiesCoordinatesString
+    end
+
+    local templateString = ""
+
+    for entityBlueprint in Iter( listBlueprintsNames ) do
+
+        local entitiesCoordinates = hashBlueprints[entityBlueprint]
+
+        if ( string.len( templateString ) > 0 ) then
+
+            templateString = templateString .. "|"
+        end
+
+        templateString = templateString .. entityBlueprint .. ":" .. entitiesCoordinates
     end
 
     LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
