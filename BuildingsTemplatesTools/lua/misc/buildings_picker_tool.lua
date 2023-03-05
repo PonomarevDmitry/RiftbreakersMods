@@ -8,7 +8,11 @@ function buildings_picker_tool:__init()
 end
 
 function buildings_picker_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_buildings_picker_tool", self.entity)
+
+    local marker = self.data:GetString("marker")
+    local markerBlueprint = "misc/marker_selector_buildings_picker_tool_" .. marker
+    
+    self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     self.popupShown = false
 
     self.templateEntities = {}
@@ -189,6 +193,10 @@ function buildings_picker_tool:OnRelease()
     end
     
     self.templateEntities = {}
+
+    if ( self.childEntity ~= nil) then
+        EntityService:RemoveEntity(self.childEntity)
+    end
 
     tool.OnRelease(self)
 end

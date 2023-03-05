@@ -17,7 +17,7 @@ function buildings_saver_tool:OnInit()
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
 
-    EntityService:SetVisible( self.entity , true )
+    EntityService:SetVisible( self.entity , false )
 
     self.template_name = self.data:GetString("template_name")
 
@@ -29,6 +29,13 @@ function buildings_saver_tool:OnInit()
     self:SpawnBuildinsTemplates( team, currentTransform.position )
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+
+    local marker = self.data:GetString("marker")
+
+    local markerBlueprint = "misc/marker_selector_buildings_saver_tool_" .. marker
+            
+    self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
 end
 
 function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
@@ -63,15 +70,25 @@ end
 
 function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
 
-    LogService:Log("SpawnTemplate template " .. template )
-
     local valuesArray = Split( template, "," )
 
     local buildingTemplate = {}
 
-    local blueprint = valuesArray[1]
+    local blueprintName = valuesArray[1]
 
-    buildingTemplate.blueprint = blueprint
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return
+    end
+
+    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+    if ( blueprintBuildingDesc == nil ) then
+        return
+    end
+
+    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+
+    buildingTemplate.blueprint = blueprintName
 
     buildingTemplate.positionX = tonumber( valuesArray[2] )
     buildingTemplate.positionZ = tonumber( valuesArray[3] )
@@ -80,10 +97,6 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     buildingTemplate.orientationY = tonumber( valuesArray[5] )
     buildingTemplate.orientationZ = tonumber( valuesArray[6] )
     buildingTemplate.orientationW = tonumber( valuesArray[7] )
-
-    LogService:Log("SpawnTemplate blueprint " .. blueprint )
-
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( blueprint ) )
 
     buildingTemplate.buildingDesc = buildingDesc
 
@@ -306,13 +319,14 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     return testBuildable.flag
 end
 
-function buildings_saver_tool:OnDeactivate()
-end
-
 function buildings_saver_tool:OnRelease()
 
     if ( self.infoChild ~= nil) then
         EntityService:RemoveEntity(self.infoChild)
+    end
+
+    if ( self.markerEntity ~= nil) then
+        EntityService:RemoveEntity(self.markerEntity)
     end
 
     for buildingTemplate in Iter(self.templateEntities) do
