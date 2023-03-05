@@ -86,6 +86,16 @@ function buildings_saver_tool:InitializeValues()
     local markerBlueprint = "misc/marker_selector_buildings_saver_tool_" .. marker
             
     self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
+
+    local markerDB = EntityService:GetDatabase( self.markerEntity )
+
+    if ( #self.templateEntities > 0 ) then
+        markerDB:SetString("message_text", "")
+        markerDB:SetInt("message_visible", 0)
+    else
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/empty_template")
+        markerDB:SetInt("message_visible", 1)
+    end
 end
 
 function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
