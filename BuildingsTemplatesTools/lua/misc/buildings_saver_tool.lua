@@ -1,18 +1,54 @@
-local ghost = require("lua/misc/ghost.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'buildings_saver_tool' ( ghost )
+class 'buildings_saver_tool' ( LuaEntityObject )
 
 function buildings_saver_tool:__init()
-    ghost.__init(self,self)
+    LuaEntityObject.__init(self,self)
 end
 
-function buildings_saver_tool:OnInit()
+function buildings_saver_tool:init()
+    
+    self.stateMachine = self:CreateStateMachine()
+    self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
+    self.stateMachine:ChangeState("working")
 
-    local boundsSize = EntityService:GetBoundsSize( self.selector)
+    self.massBuildLimitMachine = self:CreateStateMachine()
+    self.massBuildLimitMachine:AddState( "working", { execute = "OnMassBuildLimitMachineWorking", interval = 0.05 } )
+    self.massBuildLimitMachine:AddState( "idle", { interval = 10.0 } )
+    self.massBuildLimitMachine:ChangeState("idle")
+
+    self:InitializeValues()
+end
+
+function buildings_saver_tool:InitializeValues()
+
+    self.selector = EntityService:GetParent( self.entity )
+    
+    self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
+    self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
+    self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
+
+    local playerReferenceComponent = reflection_helper( EntityService:GetComponent( self.selector, "PlayerReferenceComponent" ) )
+    self.playerId = playerReferenceComponent.player_id
+
+    local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent") )
+    self.blueprint = buildingComponent.bp 
+
+    self.activated = false
+    
+    self.annoucements = { 
+        ["ai"] = "voice_over/announcement/not_enough_ai_cores",
+        ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
+        ["steel"] = "voice_over/announcement/not_enough_steel",
+        ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
+        ["palladium"] = "voice_over/announcement/not_enough_palladium",
+        ["titanium"] = "voice_over/announcement/not_enough_titanium" 
+    }
+
+    local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
@@ -23,7 +59,9 @@ function buildings_saver_tool:OnInit()
 
     self.templateEntities = {}
 
-    local team = EntityService:GetTeam(self.entity)
+    self.limitedBuildingsQueue = {}
+
+    local team = EntityService:GetTeam( self.entity )
     local currentTransform = EntityService:GetWorldTransform( self.entity )
 
     self:SpawnBuildinsTemplates( team, currentTransform.position )
@@ -132,8 +170,22 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     buildingTemplate.entity = buildingEntity
 
     HideBuildingDisplayRadiusAround( buildingEntity, buildingDesc.ghost_bp )
-
+    HideBuildingDisplayRadiusAround( buildingEntity, buildingDesc.bp )
+    HideBuildingDisplayRadiusAround( buildingEntity, buildingEntity )
+    
     Insert( self.templateEntities, buildingTemplate )
+end
+
+function buildings_saver_tool:GetBuildInfo( entity  )
+    local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent")
+    if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!") ) then 
+        return nil 
+    end
+    if (buildInfoComponent == nil ) then
+        return nil
+    end
+    local helper = reflection_helper(buildInfoComponent)
+    return helper.build_info
 end
 
 function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint, id )
@@ -219,6 +271,8 @@ function buildings_saver_tool:OnUpdate()
         BuildingService:CheckAndFixBuildingConnection(entity)
 
         HideBuildingDisplayRadiusAround( entity, buildingTemplate.buildingDesc.ghost_bp )
+        HideBuildingDisplayRadiusAround( entity, buildingTemplate.buildingDesc.bp )
+        HideBuildingDisplayRadiusAround( entity, entity )
 
         local list = BuildingService:GetBuildCosts( buildingTemplate.blueprint, self.playerId )
 
@@ -254,20 +308,109 @@ function buildings_saver_tool:FinishLineBuild()
     
     local count = #self.templateEntities
     
-    if ( count > 0 ) then
+    if ( count == 0 ) then
+        return
+    end
 
-        for i=1,count do
+    local limitedBuildingsQueuesByName, unlimitedBuildings = self:FilterLimitedAndUnimited()
 
-            local buildingTemplate = self.templateEntities[i]
+    if ( #limitedBuildingsQueuesByName > 0 ) then
+
+        if ( self.limitedBuildingsQueue == nil ) then
+            self.limitedBuildingsQueue = {}
+        end
+
+        for i=1,#limitedBuildingsQueuesByName do
+
+            Insert( self.limitedBuildingsQueue, limitedBuildingsQueuesByName[i] ) 
+        end
+
+        self.massBuildLimitMachine:ChangeState("working")
+    end
+
+    if ( #unlimitedBuildings > 0 ) then
+
+        for i=1,#unlimitedBuildings do
+
+            local buildingTemplate = unlimitedBuildings[i]
             
             self:BuildEntity(buildingTemplate)
         end
     end
 end
 
+function buildings_saver_tool:FilterLimitedAndUnimited()
+    
+    local limitedBuildingsQueuesByName = {}
+    local limitedBuildingsHash = {}
+
+    local unlimitedBuildings = {}
+
+    local count = #self.templateEntities
+
+    local team = EntityService:GetTeam( self.entity )
+
+    for i=1,count do
+
+        local buildingTemplate = self.templateEntities[i]
+
+        local buildingDesc = buildingTemplate.buildingDesc
+
+        if ( buildingDesc ~= nil and ( (buildingDesc.limit ~= nil and buildingDesc.limit > 0) or (buildingDesc.map_limit ~= nil and buildingDesc.map_limit > 0) ) ) then
+
+            local blueprintLowName = BuildingService:FindLowUpgrade( buildingTemplate.blueprint )
+
+            if ( limitedBuildingsHash[blueprintLowName] == nil ) then
+
+                local newQueue = {}
+
+                Insert( limitedBuildingsQueuesByName, newQueue )
+
+                limitedBuildingsHash[blueprintLowName] = newQueue
+            end
+
+            local lowNameQueue = limitedBuildingsHash[blueprintLowName]
+
+            local entityTransform = EntityService:GetWorldTransform( buildingTemplate.entity )
+
+            local newPosition = entityTransform.position
+            local newOrientation = entityTransform.orientation
+
+            local doubleEntity = nil
+
+            if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
+
+                doubleEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
+            else
+                doubleEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
+            end
+
+            EntityService:RemoveComponent( doubleEntity, "LuaComponent" )
+            EntityService:SetPosition( doubleEntity, newPosition )
+            EntityService:SetOrientation( doubleEntity, newOrientation )
+            EntityService:ChangeMaterial( doubleEntity, "selector/hologram_blue" )
+
+            local doubleBuildingTemplate = {}
+
+            doubleBuildingTemplate.entity = doubleEntity
+            doubleBuildingTemplate.buildingDesc = buildingTemplate.buildingDesc
+            doubleBuildingTemplate.blueprint = buildingTemplate.blueprint
+
+            Insert( lowNameQueue, doubleBuildingTemplate )
+
+        else
+            Insert( unlimitedBuildings, buildingTemplate )
+        end
+    end
+
+    return limitedBuildingsQueuesByName, unlimitedBuildings
+end
+
 function buildings_saver_tool:BuildEntity(buildingTemplate)
 
     local entity = buildingTemplate.entity
+
+    local buildingDesc = buildingTemplate.buildingDesc
 
     local transform = EntityService:GetWorldTransform( entity )
        
@@ -278,9 +421,9 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     end
 
     if ( testBuildable.flag == CBF_TO_CLOSE ) then
-
-        if ( self.toCloseAnnoucement ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
+    
+        if ( buildingDesc.min_radius_effect ~= "" ) then
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, buildingDesc.min_radius_effect, entity, false)
         end
 
         return testBuildable.flag
@@ -319,6 +462,36 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     return testBuildable.flag
 end
 
+function buildings_saver_tool:OnWorkEnter()
+end
+
+function buildings_saver_tool:OnWorkExit()
+end
+
+function buildings_saver_tool:OnWorkExecute()
+    if ( self.OnUpdate ) then
+        self:OnUpdate()
+    end
+end
+
+function buildings_saver_tool:OnActivateSelectorRequest()
+    self.activated = true
+    if ( self.OnActivate ) then
+        self:OnActivate()
+    end
+end
+
+function buildings_saver_tool:OnDeactivateSelectorRequest()
+    self.activated = false
+    if ( self.OnDeactivate ) then
+        self:OnDeactivate()
+    end
+end
+
+function buildings_saver_tool:OnRotateSelectorRequest()
+
+end
+
 function buildings_saver_tool:OnRelease()
 
     if ( self.infoChild ~= nil) then
@@ -336,6 +509,61 @@ function buildings_saver_tool:OnRelease()
     end
 
     self.templateEntities = {}
+
+    if ( self.limitedBuildingsQueue ~= nil) then
+        for arrayBuildings in Iter(self.limitedBuildingsQueue) do
+            for ghostBuildingTemplate in Iter(arrayBuildings) do
+                EntityService:RemoveEntity(ghostBuildingTemplate.entity)
+            end
+        end
+    end
+
+    self.limitedBuildingsQueue = {}
+end
+
+function buildings_saver_tool:OnMassBuildLimitMachineWorking( state )
+
+    if ( self.limitedBuildingsQueue == nil ) then
+        self.limitedBuildingsQueue = {}
+    end
+
+    if ( #self.limitedBuildingsQueue == 0 ) then
+        self.massBuildLimitMachine:ChangeState("idle")
+        return
+    end
+
+    local buildinsTemplatesArray = self.limitedBuildingsQueue[1]
+
+    if ( #buildinsTemplatesArray == 0) then
+
+        Remove( self.limitedBuildingsQueue, buildinsTemplatesArray )
+        return
+    end
+
+    local ghostBuildingTemplate = buildinsTemplatesArray[1]
+    Remove( buildinsTemplatesArray, ghostBuildingTemplate )
+
+    local testBuildableFlag = self:BuildEntity(ghostBuildingTemplate)
+    EntityService:RemoveEntity(ghostBuildingTemplate.entity)
+
+    if ( #buildinsTemplatesArray == 0) then
+
+        Remove( self.limitedBuildingsQueue, buildinsTemplatesArray )
+        return
+    end
+
+    if( testBuildableFlag == CBF_LIMITS ) then
+
+        if ( #buildinsTemplatesArray > 0 ) then
+
+            for index=1,#buildinsTemplatesArray do
+                local ghostBuildingTemplate = buildinsTemplatesArray[index]
+                EntityService:RemoveEntity(ghostBuildingTemplate.entity)
+            end
+
+            Remove( self.limitedBuildingsQueue, buildinsTemplatesArray )
+        end
+    end
 end
 
 return buildings_saver_tool
