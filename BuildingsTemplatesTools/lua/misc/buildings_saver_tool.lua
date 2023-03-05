@@ -61,6 +61,8 @@ function buildings_saver_tool:InitializeValues()
 
     self.limitedBuildingsQueue = {}
 
+    self.oldBuildingsToSell = {}
+
     local team = EntityService:GetTeam( self.entity )
     local currentTransform = EntityService:GetWorldTransform( self.entity )
 
@@ -241,6 +243,10 @@ end
 
 function buildings_saver_tool:OnUpdate()
 
+    self:RemoveMaterialFromOldBuildingsToSell()
+
+    self.oldBuildingsToSell = {}
+
     self.buildCost = {}
 
     local currentTransform = EntityService:GetWorldTransform( self.entity )
@@ -267,6 +273,10 @@ function buildings_saver_tool:OnUpdate()
         local entity = buildingTemplate.entity
 
         local testBuildable = self:CheckEntityBuildable( entity, transform, buildingTemplate.blueprint, i )
+
+        if ( testBuildable ~= nil) then    
+            self:AddToEntitiesToSellList(testBuildable)
+        end
 
         EntityService:SetPosition( entity, newPosition )
         EntityService:SetOrientation(entity, transform.orientation )
@@ -303,6 +313,37 @@ function buildings_saver_tool:OnUpdate()
     if ( self.activated  ) then
 
         self:FinishLineBuild( true )
+    end
+end
+
+function buildings_saver_tool:AddToEntitiesToSellList(testBuildable)
+
+    if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
+    
+        return
+    end
+    
+    local buildingToSellCount = testBuildable.entities_to_sell.count
+
+    for i = 1,buildingToSellCount do
+
+        local entityToSell = testBuildable.entities_to_sell[i]
+
+        if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
+
+            if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
+
+                local skinned = EntityService:IsSkinned(entityToSell)
+
+                if ( skinned ) then
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
+                else
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
+                end
+            
+                Insert(self.oldBuildingsToSell, entityToSell)
+            end
+        end
     end
 end
 
@@ -510,6 +551,20 @@ function buildings_saver_tool:OnActivate()
     self:FinishLineBuild( false )    
 end
 
+function buildings_saver_tool:OnDeactivate()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+end
+
+function buildings_saver_tool:RemoveMaterialFromOldBuildingsToSell()
+
+    if ( self.oldBuildingsToSell ~= nil ) then
+        for entityToSell in Iter( self.oldBuildingsToSell ) do
+            EntityService:RemoveMaterial(entityToSell, "selected" )
+        end
+    end
+end
+
 function buildings_saver_tool:OnRotateSelectorRequest()
 
 end
@@ -536,11 +591,16 @@ function buildings_saver_tool:OnRelease()
         for arrayBuildings in Iter(self.limitedBuildingsQueue) do
             for ghostBuildingTemplate in Iter(arrayBuildings) do
                 EntityService:RemoveEntity(ghostBuildingTemplate.entity)
+                ghostBuildingTemplate.entity = nil
             end
         end
     end
 
     self.limitedBuildingsQueue = {}
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+
+    self.oldBuildingsToSell = {}
 end
 
 function buildings_saver_tool:OnMassBuildLimitMachineWorking( state )
