@@ -597,7 +597,11 @@ function selector:ResizeFloor( degree )
 end
 
 function selector:RotateBuilding( degree )
-    EntityService:Rotate(self.selector, 0.0, 1.0, 0.0, -degree )
+
+    -- Inverting rotation
+    --degree = -degree
+
+    EntityService:Rotate(self.selector, 0.0, 1.0, 0.0, degree )
     local transform = EntityService:GetWorldTransform( self.selector )
     
     local lowBlueprint = BuildingService:FindLowUpgrade( self.blueprint )
