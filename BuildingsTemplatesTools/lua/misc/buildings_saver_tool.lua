@@ -192,22 +192,23 @@ function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint
 
     id = id or 1
 
-    local test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, blueprint, id)
+    local checkStatus = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, blueprint, id)
 
-    if ( test == nil ) then
-        return
+    if ( checkStatus == nil ) then
+        return nil
     end
 
-    local testReflection = reflection_helper(test:ToTypeInstance(), test )
+    local testBuildable = reflection_helper(checkStatus:ToTypeInstance(), checkStatus )
 
     
-    local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
-    local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
+    local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
+    local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_OVERRIDES or testBuildable.flag == CBF_REPAIR)
     
     local skinned = EntityService:IsSkinned(entity)
 
-    if ( testReflection.flag == CBF_REPAIR  ) then
-        if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
+    if ( testBuildable.flag == CBF_REPAIR  ) then
+
+        if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
             if ( skinned ) then
                 EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
             else
@@ -221,6 +222,7 @@ function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint
             end
         end
     else
+
         if ( canBuildOverride ) then
             if ( skinned ) then
                 EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
@@ -234,7 +236,7 @@ function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint
         end
     end
 
-    return testReflection
+    return testBuildable
 end
 
 function buildings_saver_tool:OnUpdate()
@@ -264,7 +266,7 @@ function buildings_saver_tool:OnUpdate()
             
         local entity = buildingTemplate.entity
 
-        local testBuildable = self:CheckEntityBuildable(entity, transform, buildingTemplate.blueprint, i)
+        local testBuildable = self:CheckEntityBuildable( entity, transform, buildingTemplate.blueprint, i )
 
         EntityService:SetPosition( entity, newPosition )
         EntityService:SetOrientation(entity, transform.orientation )
@@ -300,11 +302,11 @@ function buildings_saver_tool:OnUpdate()
 
     if ( self.activated  ) then
 
-        self:FinishLineBuild()
+        self:FinishLineBuild( true )
     end
 end
 
-function buildings_saver_tool:FinishLineBuild()
+function buildings_saver_tool:FinishLineBuild( onlyUnlimited )
     
     local count = #self.templateEntities
     
@@ -312,7 +314,7 @@ function buildings_saver_tool:FinishLineBuild()
         return
     end
 
-    local limitedBuildingsQueuesByName, unlimitedBuildings = self:FilterLimitedAndUnimited()
+    local limitedBuildingsQueuesByName, unlimitedBuildings = self:FilterLimitedAndUnimited( onlyUnlimited )
 
     if ( #limitedBuildingsQueuesByName > 0 ) then
 
@@ -339,7 +341,7 @@ function buildings_saver_tool:FinishLineBuild()
     end
 end
 
-function buildings_saver_tool:FilterLimitedAndUnimited()
+function buildings_saver_tool:FilterLimitedAndUnimited( onlyUnlimited )
     
     local limitedBuildingsQueuesByName = {}
     local limitedBuildingsHash = {}
@@ -354,52 +356,67 @@ function buildings_saver_tool:FilterLimitedAndUnimited()
 
         local buildingTemplate = self.templateEntities[i]
 
-        local buildingDesc = buildingTemplate.buildingDesc
+        local entity = buildingTemplate.entity
 
-        if ( buildingDesc ~= nil and ( (buildingDesc.limit ~= nil and buildingDesc.limit > 0) or (buildingDesc.map_limit ~= nil and buildingDesc.map_limit > 0) ) ) then
+        local transform = EntityService:GetWorldTransform( entity )
 
-            local blueprintLowName = BuildingService:FindLowUpgrade( buildingTemplate.blueprint )
+        local testBuildable = self:CheckEntityBuildable( entity, transform, buildingTemplate.blueprint )
 
-            if ( limitedBuildingsHash[blueprintLowName] == nil ) then
+        local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
 
-                local newQueue = {}
+        if ( canBuild ) then
 
-                Insert( limitedBuildingsQueuesByName, newQueue )
+            local buildingDesc = buildingTemplate.buildingDesc
 
-                limitedBuildingsHash[blueprintLowName] = newQueue
-            end
+            if ( buildingDesc ~= nil and ( (buildingDesc.limit ~= nil and buildingDesc.limit > 0) or (buildingDesc.map_limit ~= nil and buildingDesc.map_limit > 0) ) ) then
 
-            local lowNameQueue = limitedBuildingsHash[blueprintLowName]
+                if ( not onlyUnlimited ) then
 
-            local entityTransform = EntityService:GetWorldTransform( buildingTemplate.entity )
+                    local blueprintLowName = BuildingService:FindLowUpgrade( buildingTemplate.blueprint )
 
-            local newPosition = entityTransform.position
-            local newOrientation = entityTransform.orientation
+                    if ( limitedBuildingsHash[blueprintLowName] == nil ) then
 
-            local doubleEntity = nil
+                        local newQueue = {}
 
-            if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
+                        Insert( limitedBuildingsQueuesByName, newQueue )
 
-                doubleEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
+                        limitedBuildingsHash[blueprintLowName] = newQueue
+                    end
+
+                    local lowNameQueue = limitedBuildingsHash[blueprintLowName]
+
+                    local entityTransform = EntityService:GetWorldTransform( buildingTemplate.entity )
+
+                    local newPosition = entityTransform.position
+                    local newOrientation = entityTransform.orientation
+
+                    local doubleEntity = nil
+
+                    if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
+
+                        doubleEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
+                    else
+                        doubleEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
+                    end
+
+                    EntityService:RemoveComponent( doubleEntity, "LuaComponent" )
+                    EntityService:SetPosition( doubleEntity, newPosition )
+                    EntityService:SetOrientation( doubleEntity, newOrientation )
+                    EntityService:ChangeMaterial( doubleEntity, "selector/hologram_blue" )
+
+                    local doubleBuildingTemplate = {}
+
+                    doubleBuildingTemplate.entity = doubleEntity
+                    doubleBuildingTemplate.buildingDesc = buildingTemplate.buildingDesc
+                    doubleBuildingTemplate.blueprint = buildingTemplate.blueprint
+
+                    Insert( lowNameQueue, doubleBuildingTemplate )
+
+                end
             else
-                doubleEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
+                Insert( unlimitedBuildings, buildingTemplate )
             end
 
-            EntityService:RemoveComponent( doubleEntity, "LuaComponent" )
-            EntityService:SetPosition( doubleEntity, newPosition )
-            EntityService:SetOrientation( doubleEntity, newOrientation )
-            EntityService:ChangeMaterial( doubleEntity, "selector/hologram_blue" )
-
-            local doubleBuildingTemplate = {}
-
-            doubleBuildingTemplate.entity = doubleEntity
-            doubleBuildingTemplate.buildingDesc = buildingTemplate.buildingDesc
-            doubleBuildingTemplate.blueprint = buildingTemplate.blueprint
-
-            Insert( lowNameQueue, doubleBuildingTemplate )
-
-        else
-            Insert( unlimitedBuildings, buildingTemplate )
         end
     end
 
@@ -486,6 +503,11 @@ function buildings_saver_tool:OnDeactivateSelectorRequest()
     if ( self.OnDeactivate ) then
         self:OnDeactivate()
     end
+end
+
+function buildings_saver_tool:OnActivate()
+
+    self:FinishLineBuild( false )    
 end
 
 function buildings_saver_tool:OnRotateSelectorRequest()
