@@ -63,6 +63,10 @@ function buildings_saver_tool:InitializeValues()
 
     self.oldBuildingsToSell = {}
 
+    -- Identity matrix
+    --   X Z
+    -- X 1 0
+    -- Z 0 1
     self.transformXX = 1
     self.transformXZ = 0
 
@@ -599,6 +603,10 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
         buildingTemplate.orientation = transform.orientation
     end
 
+    -- Identity matrix
+    --   A B
+    -- A 1 0
+    -- B 0 1
     local coefAA = 1 
     local coefAB = 0
     local coefBA = 0
@@ -606,7 +614,10 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
 
     if ( degree > 0 ) then
 
-        -- counter-clockwise
+        -- counter-clockwise matrix
+        --    A B
+        -- A  0 1
+        -- B -1 0
 
         coefAA = 0 
         coefAB = 1
@@ -614,14 +625,21 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
         coefBB = 0
     else
 
-        -- clockwise
+        -- clockwise matrix
+        --   A  B
+        -- A 0 -1
+        -- B 1  0
+
         coefAA = 0 
         coefAB = -1
         coefBA = 1
         coefBB = 0
     end
 
-    local newtransformXX, newtransformXZ, newtransformZX, newtransformZZ = self:TrasformMatrix( coefAA, coefAB, coefBA, coefBB )
+    local newtransformXX = self.transformXX * coefAA + self.transformXZ * coefBA
+    local newtransformXZ = self.transformXX * coefAB + self.transformXZ * coefBB
+    local newtransformZX = self.transformZX * coefAA + self.transformZZ * coefBA
+    local newtransformZZ = self.transformZX * coefAB + self.transformZZ * coefBB
 
     self.transformXX = newtransformXX
     self.transformXZ = newtransformXZ
@@ -629,16 +647,6 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
     self.transformZZ = newtransformZZ
 
     self:OnUpdate()
-end
-
-function buildings_saver_tool:TrasformMatrix( coefAA, coefAB, coefBA, coefBB)
-
-    local newtransformXX = self.transformXX * coefAA + self.transformXZ * coefBA
-    local newtransformXZ = self.transformXX * coefAB + self.transformXZ * coefBB
-    local newtransformZX = self.transformZX * coefAA + self.transformZZ * coefBA
-    local newtransformZZ = self.transformZX * coefAB + self.transformZZ * coefBB
-
-    return newtransformXX, newtransformXZ, newtransformZX, newtransformZZ
 end
 
 function buildings_saver_tool:OnRelease()
