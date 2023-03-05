@@ -117,65 +117,72 @@ function buildings_picker_tool:OnActivateEntity( entity )
 
         Remove( self.templateEntities, entity )
     end
+
+    self:SaveEntitiesToDatabase()
+end
+
+function buildings_picker_tool:SaveEntitiesToDatabase()
+    
+    if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
+        return
+    end
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        return
+    end
+
+    local templateString = ""
+
+    local firstEntity = self.templateEntities[1]
+
+    local firstPosition = EntityService:GetPosition( firstEntity )
+
+    local startX = firstPosition.x
+    local startZ = firstPosition.z
+
+    for entity in Iter( self.templateEntities ) do
+
+        if ( string.len( templateString ) > 0 ) then
+
+            templateString = templateString .. "|"
+        end
+
+        local transform = EntityService:GetWorldTransform( entity )
+
+        local position = transform.position
+        local orientation = transform.orientation
+
+        local entityBlueprint = EntityService:GetBlueprintName(entity)
+
+        local deltaPositionX = position.x - startX
+        local deltaPositionZ = position.z - startZ
+
+        local entityString = entityBlueprint
+
+        entityString = entityString .. "," .. tostring(deltaPositionX)
+        entityString = entityString .. "," .. tostring(deltaPositionZ)
+
+        entityString = entityString .. "," .. tostring(orientation.x)
+        entityString = entityString .. "," .. tostring(orientation.y)
+        entityString = entityString .. "," .. tostring(orientation.z)
+        entityString = entityString .. "," .. tostring(orientation.w)
+
+        LogService:Log("OnRelease entityString " .. entityString )
+
+        templateString = templateString .. entityString
+    end
+
+    LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
+
+    campaignDatabase:SetString( self.template_name, templateString )
 end
 
 function buildings_picker_tool:OnRelease()
     
+    self:SaveEntitiesToDatabase()
+    
     if ( self.templateEntities ~= nil) then
-
-        if ( #self.templateEntities > 0 ) then
-
-            local templateString = ""
-
-            local firstEntity = self.templateEntities[1]
-
-            local firstPosition = EntityService:GetPosition( firstEntity )
-
-            local startX = firstPosition.x
-            local startZ = firstPosition.z
-
-            for entity in Iter( self.templateEntities ) do
-
-                if ( string.len( templateString ) > 0 ) then
-
-                    templateString = templateString .. "|"
-                end
-
-                local transform = EntityService:GetWorldTransform( entity )
-
-                local position = transform.position
-                local orientation = transform.orientation
-
-                local entityBlueprint = EntityService:GetBlueprintName(entity)
-
-                local deltaPositionX = position.x - startX
-                local deltaPositionZ = position.z - startZ
-
-                local entityString = entityBlueprint
-
-                entityString = entityString .. "," .. tostring(deltaPositionX)
-                entityString = entityString .. "," .. tostring(deltaPositionZ)
-
-                entityString = entityString .. "," .. tostring(orientation.x)
-                entityString = entityString .. "," .. tostring(orientation.y)
-                entityString = entityString .. "," .. tostring(orientation.z)
-                entityString = entityString .. "," .. tostring(orientation.w)
-
-                LogService:Log("OnRelease entityString " .. entityString )
-
-                templateString = templateString .. entityString
-            end
-
-            local campaignDatabase = CampaignService:GetCampaignData()
-
-            if ( campaignDatabase ~= nil ) then
-
-                LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
-
-                campaignDatabase:SetString( self.template_name, templateString )
-            end
-        end
-
         for entity in Iter( self.templateEntities ) do
             self:RemovedFromSelection( entity )
         end

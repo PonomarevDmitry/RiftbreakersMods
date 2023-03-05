@@ -19,8 +19,6 @@ function buildings_saver_tool:OnInit()
 
     EntityService:SetVisible( self.entity , true )
 
-    self:RegisterHandler( INVALID_ID, "BuildingStartEvent", "OnBuildingStartEvent" )
-
     self.template_name = self.data:GetString("template_name")
 
     self.templateEntities = {}
@@ -31,15 +29,6 @@ function buildings_saver_tool:OnInit()
     self:SpawnBuildinsTemplates( team, currentTransform.position )
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
-end
-
-function buildings_saver_tool:OnBuildingStartEvent( evt )
-    if ( evt:GetPlayerId() ~= self.playerId or not self.activated) then
-        return
-    end
-
-    local transform = EntityService:GetWorldTransform( evt:GetEntity() )
-    self:SetLastBuildSpot(transform)
 end
 
 function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
@@ -96,8 +85,6 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
 
     local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( blueprint ) )
 
-    --LogService:Log("SpawnTemplate buildingDesc " .. tostring(buildingDesc) )
-
     buildingTemplate.buildingDesc = buildingDesc
 
     local newPosition = {}
@@ -120,12 +107,8 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
 
         buildingEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
-
-        LogService:Log("SpawnTemplate buildingDesc.ghost_bp " .. tostring(buildingDesc.ghost_bp) )
     else
         buildingEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
-
-        LogService:Log("SpawnTemplate buildingDesc.bp " .. tostring(buildingDesc.bp) )
     end
 
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
@@ -138,18 +121,6 @@ function buildings_saver_tool:SpawnTemplate( template, currentPosition, team )
     HideBuildingDisplayRadiusAround( buildingEntity, buildingDesc.ghost_bp )
 
     Insert( self.templateEntities, buildingTemplate )
-end
-
-function buildings_saver_tool:SetLastBuildSpot(transform)
-    local selectorComponent = EntityService:GetComponent( self.selector, "BuildingSelectorComponent")
-    local container = selectorComponent:GetField("last_build_pos"):ToContainer()
-    local item = container:GetItem(0)
-    if ( item == nil ) then item = container:CreateItem() end
-
-    local itemHelper = reflection_helper(item)
-    itemHelper.x = transform.position.x
-    itemHelper.y = transform.position.y
-    itemHelper.z = transform.position.z
 end
 
 function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint, id )
@@ -290,8 +261,6 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     local testBuildable = self:CheckEntityBuildable( entity , transform, buildingTemplate.blueprint )
 
     if ( testBuildable == nil ) then
-
-        LogService:Log("testBuildable null")
         return
     end
 
@@ -301,16 +270,12 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
             QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
         end
 
-        LogService:Log("testBuildable CBF_TO_CLOSE")
-
         return testBuildable.flag
 
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
         QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
         
-        LogService:Log("testBuildable CBF_LIMITS")
-
         return testBuildable.flag
     end
 
@@ -322,13 +287,9 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
             QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
         end
         
-        LogService:Log("testBuildable missingResources")
-
         return testBuildable.flag
     end
         
-    LogService:Log( "testBuildable buildable " .. tostring(testBuildable.flag) )
-
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
@@ -345,21 +306,10 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     return testBuildable.flag
 end
 
-function buildings_saver_tool:ClearLastBuildPos()
-    local selectorComponent = EntityService:GetComponent( self.selector, "BuildingSelectorComponent")
-    local container = selectorComponent:GetField("last_build_pos"):ToContainer()
-    local item = container:GetItem(0)
-    if ( item ~= nil ) then
-         container:EraseItem(0)
-    end
-end
-
 function buildings_saver_tool:OnDeactivate()
-    self:ClearLastBuildPos()
 end
 
 function buildings_saver_tool:OnRelease()
-    self:ClearLastBuildPos()
 
     if ( self.infoChild ~= nil) then
         EntityService:RemoveEntity(self.infoChild)
