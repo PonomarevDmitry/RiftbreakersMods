@@ -109,20 +109,19 @@ end
 function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
 
     -- templateString format:
-    -- blueprint1:ent1PosX,ent1PosZ,ent1OrientX,ent1OrientY,ent1OrientZ,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientX,ent2OrientY,ent2OrientZ,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientX,ent3OrientY,ent3OrientZ,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientX,ent4OrientY,ent4OrientZ,ent4OrientW
+    -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
 
     -- Delimiter between blueprints groups: "|"
     -- Delimiter between blueprint name and array of entities coordinates: ":"
     -- Delimiter between entities in array of entities coordinates: ";"
     -- Delimiter between coordinates for single entity: ","
     -- blueprint1, blueprint2 - blueprints names
-    -- ent1PosX, ent2PosX - entities relative position.x
-    -- ent1PosZ, ent2PosZ - entities relative position.z
 
-    -- ent1OrientX, ent2OrientX - entities orientation.x
-    -- ent1OrientY, ent2OrientY - entities orientation.y
-    -- ent1OrientZ, ent2OrientZ - entities orientation.z
-    -- ent1OrientW, ent2OrientW - entities orientation.w
+    -- ent1PosX, ent2PosX, ent3PosX, ent4PosX - entities relative position.x
+    -- ent1PosZ, ent2PosZ, ent3PosZ, ent4PosZ - entities relative position.z
+
+    -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
+    -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
 
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
@@ -163,12 +162,15 @@ function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
                 
                     if ( buildingDesc ~= nil ) then
 
+                        --  Do not create cubes for building_mode "line"
+                        local createCube = not ( buildingDesc.building_mode == "line" )
+
                         -- Split array of coordinates by ";"
                         local entitiesCoordinatesArray = Split( entitiesCoordinatesString, ";" )
 
                         for entityString in Iter( entitiesCoordinatesArray ) do
 
-                            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, entityString, currentPosition, team )
+                            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
                         end
                     end
                 end
@@ -177,25 +179,24 @@ function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
     end
 end
 
-function buildings_saver_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, entityString, currentPosition, team )
+function buildings_saver_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
 
     -- Split coordinates by ","
     local valuesArray = Split( entityString, "," )
 
-    -- Only 6 values in valuesArray
-    if ( #valuesArray ~= 6 ) then
+    -- Only 4 values in valuesArray
+    if ( #valuesArray ~= 4 ) then
         return
     end
 
     local positionX = tonumber( valuesArray[1] )
     local positionZ = tonumber( valuesArray[2] )
                 
-    local orientationX = tonumber( valuesArray[3] )
-    local orientationY = tonumber( valuesArray[4] )
-    local orientationZ = tonumber( valuesArray[5] )
-    local orientationW = tonumber( valuesArray[6] )
+    local orientationY = tonumber( valuesArray[3] )
+    local orientationW = tonumber( valuesArray[4] )
 
-    if ( positionX == nil or positionZ == nil or orientationX == nil or orientationY == nil or orientationZ == nil or orientationW == nil ) then
+    -- Parse to number successful
+    if ( positionX == nil or positionZ == nil or orientationY == nil or orientationW == nil ) then
         return
     end
 
@@ -204,15 +205,16 @@ function buildings_saver_tool:CreateSingleBuildingTemplate( blueprintName, build
     buildingTemplate.blueprint = blueprintName
 
     buildingTemplate.buildingDesc = buildingDesc
+    buildingTemplate.createCube = createCube
 
     buildingTemplate.positionX = positionX
     buildingTemplate.positionZ = positionZ
 
     local orientation = {}
                 
-    orientation.x = orientationX
+    orientation.x = 0
     orientation.y = orientationY
-    orientation.z = orientationZ
+    orientation.z = 0
     orientation.w = orientationW
 
     buildingTemplate.orientation = orientation
@@ -530,6 +532,7 @@ function buildings_saver_tool:FilterLimitedAndUnimited( onlyUnlimited )
                     doubleBuildingTemplate.entity = doubleEntity
                     doubleBuildingTemplate.buildingDesc = buildingTemplate.buildingDesc
                     doubleBuildingTemplate.blueprint = buildingTemplate.blueprint
+                    doubleBuildingTemplate.createCube = buildingTemplate.createCube
 
                     Insert( lowNameQueue, doubleBuildingTemplate )
 
@@ -549,6 +552,12 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     local entity = buildingTemplate.entity
 
     local buildingDesc = buildingTemplate.buildingDesc
+
+    local createCube = false
+
+    if ( buildingTemplate.createCube ~= nil ) then
+        createCube = buildingTemplate.createCube
+    end
 
     local transform = EntityService:GetWorldTransform( entity )
        
@@ -587,12 +596,12 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
         for entityToSell in Iter(testBuildable.entities_to_sell) do
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
     elseif( testBuildable.flag == CBF_REPAIR  ) then
         QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
     end
