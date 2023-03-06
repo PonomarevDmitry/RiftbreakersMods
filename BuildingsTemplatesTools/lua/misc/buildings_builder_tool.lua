@@ -3,13 +3,13 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'buildings_saver_tool' ( LuaEntityObject )
+class 'buildings_builder_tool' ( LuaEntityObject )
 
-function buildings_saver_tool:__init()
+function buildings_builder_tool:__init()
     LuaEntityObject.__init(self,self)
 end
 
-function buildings_saver_tool:init()
+function buildings_builder_tool:init()
     
     self.stateMachine = self:CreateStateMachine()
     self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
@@ -23,7 +23,7 @@ function buildings_saver_tool:init()
     self:InitializeValues()
 end
 
-function buildings_saver_tool:InitializeValues()
+function buildings_builder_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
     
@@ -83,7 +83,7 @@ function buildings_saver_tool:InitializeValues()
 
     local marker = self.data:GetString("marker")
 
-    local markerBlueprint = "misc/marker_selector_buildings_saver_tool_" .. marker
+    local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. marker
             
     self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
 
@@ -106,7 +106,7 @@ function buildings_saver_tool:InitializeValues()
     end
 end
 
-function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
+function buildings_builder_tool:SpawnBuildinsTemplates( team, currentPosition )
 
     -- templateString format:
     -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
@@ -179,7 +179,7 @@ function buildings_saver_tool:SpawnBuildinsTemplates( team, currentPosition )
     end
 end
 
-function buildings_saver_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
+function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
 
     -- Split coordinates by ","
     local valuesArray = Split( entityString, "," )
@@ -250,7 +250,7 @@ function buildings_saver_tool:CreateSingleBuildingTemplate( blueprintName, build
     Insert( self.templateEntities, buildingTemplate )
 end
 
-function buildings_saver_tool:GetVectorDelta( positionX, positionZ )
+function buildings_builder_tool:GetVectorDelta( positionX, positionZ )
     
     local deltaX = self.transformXX * positionX + self.transformXZ * positionZ
     local deltaZ = self.transformZX * positionX + self.transformZZ * positionZ
@@ -258,7 +258,7 @@ function buildings_saver_tool:GetVectorDelta( positionX, positionZ )
     return deltaX, deltaZ
 end
 
-function buildings_saver_tool:GetBuildInfo( entity  )
+function buildings_builder_tool:GetBuildInfo( entity  )
     local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent")
     if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!") ) then 
         return nil 
@@ -270,7 +270,7 @@ function buildings_saver_tool:GetBuildInfo( entity  )
     return helper.build_info
 end
 
-function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint, id )
+function buildings_builder_tool:CheckEntityBuildable( entity, transform, blueprint, id )
 
     id = id or 1
 
@@ -321,7 +321,7 @@ function buildings_saver_tool:CheckEntityBuildable( entity, transform, blueprint
     return testBuildable
 end
 
-function buildings_saver_tool:OnUpdate()
+function buildings_builder_tool:OnUpdate()
 
     self:RemoveMaterialFromOldBuildingsToSell()
 
@@ -398,7 +398,7 @@ function buildings_saver_tool:OnUpdate()
     end
 end
 
-function buildings_saver_tool:AddToEntitiesToSellList(testBuildable)
+function buildings_builder_tool:AddToEntitiesToSellList(testBuildable)
 
     if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
     
@@ -429,7 +429,7 @@ function buildings_saver_tool:AddToEntitiesToSellList(testBuildable)
     end
 end
 
-function buildings_saver_tool:FinishLineBuild( onlyUnlimited )
+function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
     
     local count = #self.templateEntities
     
@@ -464,7 +464,7 @@ function buildings_saver_tool:FinishLineBuild( onlyUnlimited )
     end
 end
 
-function buildings_saver_tool:FilterLimitedAndUnimited( onlyUnlimited )
+function buildings_builder_tool:FilterLimitedAndUnimited( onlyUnlimited )
     
     local limitedBuildingsQueuesByName = {}
     local limitedBuildingsHash = {}
@@ -547,7 +547,7 @@ function buildings_saver_tool:FilterLimitedAndUnimited( onlyUnlimited )
     return limitedBuildingsQueuesByName, unlimitedBuildings
 end
 
-function buildings_saver_tool:BuildEntity(buildingTemplate)
+function buildings_builder_tool:BuildEntity(buildingTemplate)
 
     local entity = buildingTemplate.entity
 
@@ -609,43 +609,43 @@ function buildings_saver_tool:BuildEntity(buildingTemplate)
     return testBuildable.flag
 end
 
-function buildings_saver_tool:OnWorkEnter()
+function buildings_builder_tool:OnWorkEnter()
 end
 
-function buildings_saver_tool:OnWorkExit()
+function buildings_builder_tool:OnWorkExit()
 end
 
-function buildings_saver_tool:OnWorkExecute()
+function buildings_builder_tool:OnWorkExecute()
     if ( self.OnUpdate ) then
         self:OnUpdate()
     end
 end
 
-function buildings_saver_tool:OnActivateSelectorRequest()
+function buildings_builder_tool:OnActivateSelectorRequest()
     self.activated = true
     if ( self.OnActivate ) then
         self:OnActivate()
     end
 end
 
-function buildings_saver_tool:OnDeactivateSelectorRequest()
+function buildings_builder_tool:OnDeactivateSelectorRequest()
     self.activated = false
     if ( self.OnDeactivate ) then
         self:OnDeactivate()
     end
 end
 
-function buildings_saver_tool:OnActivate()
+function buildings_builder_tool:OnActivate()
 
     self:FinishLineBuild( false )    
 end
 
-function buildings_saver_tool:OnDeactivate()
+function buildings_builder_tool:OnDeactivate()
 
     self:RemoveMaterialFromOldBuildingsToSell()
 end
 
-function buildings_saver_tool:RemoveMaterialFromOldBuildingsToSell()
+function buildings_builder_tool:RemoveMaterialFromOldBuildingsToSell()
 
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
@@ -654,7 +654,7 @@ function buildings_saver_tool:RemoveMaterialFromOldBuildingsToSell()
     end
 end
 
-function buildings_saver_tool:OnRotateSelectorRequest(evt)
+function buildings_builder_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
@@ -716,7 +716,7 @@ function buildings_saver_tool:OnRotateSelectorRequest(evt)
     self:OnUpdate()
 end
 
-function buildings_saver_tool:OnRelease()
+function buildings_builder_tool:OnRelease()
 
     if ( self.infoChild ~= nil) then
         EntityService:RemoveEntity(self.infoChild)
@@ -750,7 +750,7 @@ function buildings_saver_tool:OnRelease()
     self.oldBuildingsToSell = {}
 end
 
-function buildings_saver_tool:OnMassBuildLimitMachineWorking( state )
+function buildings_builder_tool:OnMassBuildLimitMachineWorking( state )
 
     if ( self.limitedBuildingsQueue == nil ) then
         self.limitedBuildingsQueue = {}
@@ -795,4 +795,4 @@ function buildings_saver_tool:OnMassBuildLimitMachineWorking( state )
     end
 end
 
-return buildings_saver_tool
+return buildings_builder_tool
