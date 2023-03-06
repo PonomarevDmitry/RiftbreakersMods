@@ -20,6 +20,10 @@ function flora_cultivator:OnInit()
 
     self.showPlantIcon = 1
 
+    self.fsm = self:CreateStateMachine();
+    self.fsm:AddState( "update_production", { execute="OnUpdateProductionExecute", interval=1.0 } )
+    self.fsm:ChangeState("update_production")
+
     self:registerBuildMenuTracker()
 end
 
@@ -169,20 +173,14 @@ function flora_cultivator:PopulateSpecialActionInfo()
         
         self.data:SetString("action_icon", material )
 
-        self.data:SetString("stat_categories", "production_group" )
-
-        self.data:SetString("production_group.rows", "plant" )
-
-        self.data:SetString("production_group.rows.plant.name", saplingName )
-        self.data:SetString("production_group.rows.plant.icon", "gui/hud/tools_icons/sapling" )
-        self.data:SetString("production_group.rows.plant.value",  "" )
-
         self:CreateMenuEntity()
 
         local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
         menuDB:SetString("sapling_icon", saplingIcon)
         menuDB:SetString("sapling_name", saplingName)
     end
+
+    self:OnUpdateProductionExecute()
 
     local plant_blueprint = self.data:GetStringOrDefault("plant_blueprint", "")
     
@@ -323,6 +321,32 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 
     self:DisableVegetationAround();
     self:RefreshDrones()
+end
+
+function flora_cultivator:OnUpdateProductionExecute()
+
+    if ( self.item ~= INVALID_ID and self.item ~= nil ) then
+        local material = ItemService:GetItemIcon( self.item )
+
+        local blueprintName = EntityService:GetBlueprintName( self.item )
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+
+        local component = blueprint:GetComponent("InventoryItemComponent")
+
+        local componentRef = reflection_helper(component)
+
+        local saplingName = componentRef.name
+        
+        self.data:SetString("stat_categories", "production_group" )
+
+        self.data:SetString("production_group.rows", "plant" )
+
+        self.data:SetString("production_group.rows.plant.name", saplingName )
+        self.data:SetString("production_group.rows.plant.icon", "gui/hud/tools_icons/sapling" )
+        self.data:SetString("production_group.rows.plant.value",  "" )
+    else
+        self.data:SetString("stat_categories", "" )
+    end
 end
 
 return flora_cultivator
