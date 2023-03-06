@@ -33,33 +33,58 @@ end
 
 function buildings_picker_tool:OnUpdate()
 
-    for entity in Iter( self.templateEntities ) do
-        
-        local skinned = EntityService:IsSkinned(entity)
+    local firstEntity = nil
+
+    if ( #self.templateEntities > 0 ) then
+
+        firstEntity = self.templateEntities[1]
+
+        local skinned = EntityService:IsSkinned(firstEntity)
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
+            EntityService:SetMaterial( firstEntity, "selector/hologram_current_skinned", "selected")
         else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-        end 
+            EntityService:SetMaterial( firstEntity, "selector/hologram_current", "selected")
+        end
+
+        if ( #self.templateEntities > 1 ) then
+            
+            for i=2,#self.templateEntities do
+
+                local entity = self.templateEntities[i]
+
+                local skinned = EntityService:IsSkinned(entity)
+                if ( skinned ) then
+                    EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
+                else
+                    EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
+                end 
+            end
+        end
     end
 
     for entity in Iter(self.selectedEntities ) do
 
         local skinned = EntityService:IsSkinned(entity)
 
-        local isInList = IndexOf( self.templateEntities, entity ) == nil
+        local isInList = ( IndexOf( self.templateEntities, entity ) ~= nil )
 
         if ( isInList ) then
+
+            if ( firstEntity ~= nil and entity ~= firstEntity ) then
+
+                -- Mark candidate to remove from template
+                if ( skinned ) then
+                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
+                else
+                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+                end
+            end
+        else
+            -- Mark candidate to add to template
             if ( skinned ) then
                 EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
             else
                 EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-            end
-        else
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
             end
         end
     end
@@ -75,54 +100,70 @@ function buildings_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
+--function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
+--
+--    local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
+--
+--    local position = selectorComponent.position
+--    
+--    local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
+--    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
+--    
+--    local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+--
+--    for entity in Iter( self.selectedEntities ) do 
+--        if ( IndexOf( ruins, entity ) == nil and IndexOf( selectedItems, entity ) == nil ) then
+--            EntityService:RemoveMaterial( entity, "selected")
+--        end
+--    end
+--    
+--    for entity in Iter( ruins ) do
+--    
+--        if ( IndexOf( self.selectedEntities, entity ) == nil ) then
+--        
+--            if ( EntityService:IsSkinned( entity ) ) then
+--                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
+--            else
+--                EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
+--            end
+--
+--            if ( self.activated )  then
+--                self:OnActivateEntity( entity )
+--            end
+--        end
+--    end
+--    
+--    ConcatUnique( selectedItems, ruins)
+--    return selectedItems
+--end
 
-    local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
+function buildings_picker_tool:OnActivateSelectorRequest()
 
-    local position = selectorComponent.position
-    
-    local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
-    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
-    
-    local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+    self.activated = true
 
-    for entity in Iter( self.selectedEntities ) do 
-        if ( IndexOf( ruins, entity ) == nil and IndexOf( selectedItems, entity ) == nil ) then
-            EntityService:RemoveMaterial( entity, "selected")
-        end
+    for entity in Iter(self.selectedEntities ) do
+        self:OnActivateEntity( entity, true, true )
     end
-    
-    for entity in Iter( ruins ) do
-    
-        if ( IndexOf( self.selectedEntities, entity ) == nil ) then
-        
-            if ( EntityService:IsSkinned( entity ) ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-            end
 
-            if ( self.activated )  then
-                self:OnActivateEntity( entity )
-            end
-        end
-    end
-    
-    ConcatUnique( selectedItems, ruins)
-    return selectedItems
+    self:SaveEntitiesToDatabase()
 end
 
-function buildings_picker_tool:OnActivateEntity( entity )
+function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreSaveToDatabase )
+
+    removalEnabled = removalEnabled or false
+    ignoreSaveToDatabase = ignoreSaveToDatabase or false
 
     if ( IndexOf( self.templateEntities, entity ) == nil ) then
 
         Insert( self.templateEntities, entity )
-    else
+    elseif ( removalEnabled ) then
 
         Remove( self.templateEntities, entity )
     end
 
-    self:SaveEntitiesToDatabase()
+    if ( ignoreSaveToDatabase ) then
+        self:SaveEntitiesToDatabase()
+    end
 end
 
 function buildings_picker_tool:SaveEntitiesToDatabase()
