@@ -27,6 +27,23 @@ function buildings_builder_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
     
+    local marker = self.data:GetString("marker")
+    self.template_name = self.data:GetString("template_name")
+
+    self.templateEntities = {}
+    self.limitedBuildingsQueue = {}
+    self.oldBuildingsToSell = {}
+
+    -- Identity matrix
+    --   X Z
+    -- X 1 0
+    -- Z 0 1
+    self.transformXX = 1
+    self.transformXZ = 0
+
+    self.transformZX = 0
+    self.transformZZ = 1
+    
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
     self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
@@ -52,61 +69,18 @@ function buildings_builder_tool:InitializeValues()
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
-
     EntityService:SetVisible( self.entity , false )
 
-    self.template_name = self.data:GetString("template_name")
+    local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. marker
+    self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
 
-    self.templateEntities = {}
-
-    self.limitedBuildingsQueue = {}
-
-    self.oldBuildingsToSell = {}
-
-    -- Identity matrix
-    --   X Z
-    -- X 1 0
-    -- Z 0 1
-    self.transformXX = 1
-    self.transformXZ = 0
-
-    self.transformZX = 0
-    self.transformZZ = 1
-
-    local team = EntityService:GetTeam( self.entity )
-    local currentTransform = EntityService:GetWorldTransform( self.entity )
-
-    self:SpawnBuildinsTemplates( team, currentTransform.position )
+    self:SpawnBuildinsTemplates()
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
-
-    local marker = self.data:GetString("marker")
-
-    local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. marker
-            
-    self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
-
-    local markerDB = EntityService:GetDatabase( self.markerEntity )
-
-    if ( #self.templateEntities > 0 ) then
-
-        local firstBuildingTemplate = self.templateEntities[1]
-        local firstEntity = firstBuildingTemplate.entity
-
-        local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
-
-        EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z)
-
-        markerDB:SetString("message_text", "")
-        markerDB:SetInt("message_visible", 0)
-    else
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/empty_template")
-        markerDB:SetInt("message_visible", 1)
-    end
 end
 
-function buildings_builder_tool:SpawnBuildinsTemplates( team, currentPosition )
+function buildings_builder_tool:SpawnBuildinsTemplates()
 
     -- templateString format:
     -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
@@ -123,18 +97,30 @@ function buildings_builder_tool:SpawnBuildinsTemplates( team, currentPosition )
     -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
     -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
 
+    local markerDB = EntityService:GetDatabase( self.markerEntity )
+
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
         return
     end
 
     local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" )
+    if ( templateString == nil ) then
+        templateString = ""
+    end
 
     LogService:Log("SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
 
-    if ( templateString == nil or templateString == "" ) then
+    if ( templateString == "" ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/empty_template")
+        markerDB:SetInt("message_visible", 1)
         return
     end
+
+    local team = EntityService:GetTeam( self.entity )
+    local currentPosition = EntityService:GetWorldTransform( self.entity ).position
 
     -- Split by "|" blueprints groups
     local blueprintsGroupsArray = Split( templateString, "|" )
@@ -145,37 +131,69 @@ function buildings_builder_tool:SpawnBuildinsTemplates( team, currentPosition )
         local blueprintValuesArray = Split( template, ":" )
 
         -- Only 2 values in blueprintValuesArray
-        if ( #blueprintValuesArray == 2 ) then
-
-            -- First blueprintName
-            local blueprintName = blueprintValuesArray[1]
-            -- Second array with entities coordinates
-            local entitiesCoordinatesString = blueprintValuesArray[2]
-
-            if ( ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-
-                local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-
-                if ( blueprintBuildingDesc ~= nil ) then
-
-                    local buildingDesc = reflection_helper( blueprintBuildingDesc )
-                
-                    if ( buildingDesc ~= nil ) then
-
-                        --  Do not create cubes for building_mode "line"
-                        local createCube = not ( buildingDesc.building_mode == "line" )
-
-                        -- Split array of coordinates by ";"
-                        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, ";" )
-
-                        for entityString in Iter( entitiesCoordinatesArray ) do
-
-                            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
-                        end
-                    end
-                end
-            end
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
         end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+            goto continue
+        end
+
+        local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+        if ( blueprintBuildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDesc = reflection_helper( blueprintBuildingDesc )
+                
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+
+        if ( #list == 0 ) then
+            goto continue
+        end
+
+        --  Do not create cubes for building_mode "line"
+        local createCube = not ( buildingDesc.building_mode == "line" )
+
+        -- Split array of coordinates by ";"
+        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, ";" )
+
+        for entityString in Iter( entitiesCoordinatesArray ) do
+
+            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
+        end
+
+        ::continue::
+    end
+
+    if ( #self.templateEntities > 0 ) then
+
+        local firstBuildingTemplate = self.templateEntities[1]
+        local firstEntity = firstBuildingTemplate.entity
+
+        local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
+
+        EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z)
+
+        markerDB:SetString("message_text", "")
+        markerDB:SetInt("message_visible", 0)
+    else
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/building_impossible")
+        markerDB:SetInt("message_visible", 1)
     end
 end
 

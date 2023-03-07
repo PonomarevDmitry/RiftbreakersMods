@@ -18,6 +18,37 @@ function buildings_picker_tool:OnInit()
     self.templateEntities = {}
 
     self.template_name = self.data:GetString("template_name")
+
+    self:FillMarkerMessage( true )
+end
+
+function buildings_picker_tool:FillMarkerMessage( isInitialize )
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
+    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" )
+    if ( templateString == nil ) then
+        templateString = ""
+    end
+
+    if ( templateString ~= "" ) then
+
+        if ( isInitialize ) then
+            markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/template_already_created")
+            markerDB:SetInt("message_visible", 1)
+            return
+        end
+    end
+
+    markerDB:SetString("message_text", "")
+    markerDB:SetInt("message_visible", 0)
 end
 
 function buildings_picker_tool:OnPreInit()
@@ -137,6 +168,37 @@ end
 --    return selectedItems
 --end
 
+
+function buildings_picker_tool:FilterSelectedEntities( selectedEntities ) 
+
+    local entities = {}
+
+    for  entity in Iter(selectedEntities ) do
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+        if ( buildingDesc == nil ) then 
+            goto continue 
+        end
+
+        local buildingDescHelper = reflection_helper( buildingDesc )
+
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+
+        if ( #list == 0 ) then
+            goto continue
+        end
+
+        Insert(entities, entity)
+
+        ::continue::
+    end
+
+    return entities
+end
+
 function buildings_picker_tool:OnActivateSelectorRequest()
 
     self.activated = true
@@ -146,6 +208,7 @@ function buildings_picker_tool:OnActivateSelectorRequest()
     end
 
     self:SaveEntitiesToDatabase()
+    self:FillMarkerMessage( false )
 end
 
 function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreSaveToDatabase )
@@ -161,8 +224,9 @@ function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreS
         Remove( self.templateEntities, entity )
     end
 
-    if ( ignoreSaveToDatabase ) then
+    if ( not ignoreSaveToDatabase ) then
         self:SaveEntitiesToDatabase()
+        self:FillMarkerMessage( false )
     end
 end
 
