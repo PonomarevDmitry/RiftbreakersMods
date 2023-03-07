@@ -164,12 +164,12 @@ function flora_cultivator:PopulateSpecialActionInfo()
         local blueprintName = EntityService:GetBlueprintName( self.item )
         local blueprint = ResourceManager:GetBlueprint( blueprintName )
 
-        local component = blueprint:GetComponent("InventoryItemComponent")
+        local inventoryComp = blueprint:GetComponent("InventoryItemComponent")
 
-        local componentRef = reflection_helper(component)
+        local inventoryCompRef = reflection_helper(inventoryComp)
 
-        local saplingIcon = componentRef.icon
-        local saplingName = componentRef.name
+        local saplingIcon = inventoryCompRef.icon
+        local saplingName = inventoryCompRef.name
         
         self.data:SetString("action_icon", material )
 
@@ -324,29 +324,99 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 end
 
 function flora_cultivator:OnUpdateProductionExecute()
+    
+    local resourceNamesList = {}
+
+    Insert( resourceNamesList, "biomass_plant" )
+    Insert( resourceNamesList, "biomass_animal" )
+
+    Insert( resourceNamesList, "carbonium" )
+    Insert( resourceNamesList, "steel" )
+
+    Insert( resourceNamesList, "cobalt" )
+    Insert( resourceNamesList, "palladium" )
+
+    Insert( resourceNamesList, "uranium_ore" )
+    Insert( resourceNamesList, "uranium" )
+
+    Insert( resourceNamesList, "titanium" )
+
+    Insert( resourceNamesList, "rhodonite" )
+    Insert( resourceNamesList, "tanzanite" )
+    Insert( resourceNamesList, "hazenite" )
+    Insert( resourceNamesList, "ferdonite" )
 
     if ( self.item ~= INVALID_ID and self.item ~= nil ) then
+
         local material = ItemService:GetItemIcon( self.item )
 
         local blueprintName = EntityService:GetBlueprintName( self.item )
         local blueprint = ResourceManager:GetBlueprint( blueprintName )
 
-        local component = blueprint:GetComponent("InventoryItemComponent")
+        local inventoryComp = blueprint:GetComponent("InventoryItemComponent")
+        local inventoryCompRef = reflection_helper(inventoryComp)
 
-        local componentRef = reflection_helper(component)
+        local productionGroupContent = "plant"
 
-        local saplingName = componentRef.name
-        
-        self.data:SetString("stat_categories", "production_group" )
-
-        self.data:SetString("production_group.rows", "plant" )
-
-        self.data:SetString("production_group.rows.plant.name", saplingName )
+        self.data:SetString("production_group.rows.plant.name", inventoryCompRef.name )
         self.data:SetString("production_group.rows.plant.icon", "gui/hud/tools_icons/sapling" )
         self.data:SetString("production_group.rows.plant.value",  "" )
+
+
+
+        local gatherComp = blueprint:GetComponent("GatherResourceComponent")
+
+        if ( gatherComp ~= nil ) then
+        
+            local gatherCompRef = reflection_helper(gatherComp)
+
+            if ( gatherCompRef ~= nil and gatherCompRef.resources ~= nil and gatherCompRef.resources.resource ~= nil and gatherCompRef.resources.resource.count > 0 ) then
+
+                for resourceName in Iter( resourceNamesList ) do
+
+                    if ( self:IsResourceInGatherable( resourceName, gatherCompRef.resources.resource ) ) then
+
+                        local resourceBlueprintName = ItemService:GetResourceBlueprint( resourceName )
+
+                        local resourceBlueprint = ResourceManager:GetBlueprint( resourceBlueprintName )
+
+                        local resourceInventoryComp = resourceBlueprint:GetComponent("InventoryItemComponent")
+                        local resourceInventoryCompRef = reflection_helper(resourceInventoryComp)
+
+                        productionGroupContent = productionGroupContent .. "," .. resourceName
+
+                        self.data:SetString("production_group.rows." .. resourceName .. ".name", resourceInventoryCompRef.name )
+                        self.data:SetString("production_group.rows." .. resourceName .. ".icon", resourceInventoryCompRef.icon )
+                        self.data:SetString("production_group.rows." .. resourceName .. ".value",  "" )
+                    end
+                end
+            end
+        end
+
+        self.data:SetString("stat_categories", "production_group")
+        self.data:SetString("production_group.rows", productionGroupContent )
     else
         self.data:SetString("stat_categories", "" )
     end
+end
+
+function flora_cultivator:IsResourceInGatherable( resourceName, resourceList )
+
+    local hashResource = CalcHash(resourceName)
+
+    local count = resourceList.count
+
+    for i=1,count do
+
+        local resourcePair = resourceList[i]
+
+        if ( resourcePair ~= nil and resourcePair.key ~= nil and resourcePair.key.hash ~= nil and resourcePair.key.hash == hashResource ) then
+
+            return true
+        end        
+    end
+
+    return false
 end
 
 return flora_cultivator
