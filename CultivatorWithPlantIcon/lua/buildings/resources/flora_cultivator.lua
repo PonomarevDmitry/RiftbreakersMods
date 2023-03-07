@@ -324,85 +324,130 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 end
 
 function flora_cultivator:OnUpdateProductionExecute()
-    
-    local resourceNamesList = {}
 
-    Insert( resourceNamesList, "biomass_plant" )
-    Insert( resourceNamesList, "biomass_animal" )
+    if ( self.item == INVALID_ID or self.item == nil ) then
 
-    Insert( resourceNamesList, "carbonium" )
-    Insert( resourceNamesList, "steel" )
+        self.data:SetString( "stat_categories", "" )
+        return
+    end
 
-    Insert( resourceNamesList, "cobalt" )
-    Insert( resourceNamesList, "palladium" )
+    local blueprintName = EntityService:GetBlueprintName( self.item )
+    if ( blueprintName == "" or blueprintName == nil ) then
 
-    Insert( resourceNamesList, "uranium_ore" )
-    Insert( resourceNamesList, "uranium" )
+        self.data:SetString( "stat_categories", "" )
+        return
+    end
 
-    Insert( resourceNamesList, "titanium" )
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
 
-    Insert( resourceNamesList, "rhodonite" )
-    Insert( resourceNamesList, "tanzanite" )
-    Insert( resourceNamesList, "hazenite" )
-    Insert( resourceNamesList, "ferdonite" )
+        self.data:SetString( "stat_categories", "" )
+        return
+    end
 
-    if ( self.item ~= INVALID_ID and self.item ~= nil ) then
+    local blueprint = ResourceManager:GetBlueprint( blueprintName )
+    if ( blueprint == nil ) then
 
-        local material = ItemService:GetItemIcon( self.item )
+        self.data:SetString( "stat_categories", "" )
+        return
+    end
 
-        local blueprintName = EntityService:GetBlueprintName( self.item )
-        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+    local productionGroupContent = ""
 
-        if ( blueprint ~= nil ) then
+    local inventoryComp = blueprint:GetComponent("InventoryItemComponent")
+    if ( inventoryComp ~= nil ) then
+        
+        local inventoryCompRef = reflection_helper(inventoryComp)
 
-            local inventoryComp = blueprint:GetComponent("InventoryItemComponent")
-            local inventoryCompRef = reflection_helper(inventoryComp)
+        if ( inventoryCompRef ~= nil ) then
 
-            local productionGroupContent = "plant"
+            productionGroupContent = "plant"
 
             self.data:SetString("production_group.rows.plant.name", inventoryCompRef.name )
             self.data:SetString("production_group.rows.plant.icon", "gui/hud/tools_icons/sapling" )
             self.data:SetString("production_group.rows.plant.value",  "" )
-
-
-
-            local gatherComp = blueprint:GetComponent("GatherResourceComponent")
-
-            if ( gatherComp ~= nil ) then
-        
-                local gatherCompRef = reflection_helper(gatherComp)
-
-                if ( gatherCompRef ~= nil and gatherCompRef.resources ~= nil and gatherCompRef.resources.resource ~= nil and gatherCompRef.resources.resource.count > 0 ) then
-
-                    for resourceName in Iter( resourceNamesList ) do
-
-                        if ( self:IsResourceInGatherable( resourceName, gatherCompRef.resources.resource ) ) then
-
-                            local resourceBlueprintName = ItemService:GetResourceBlueprint( resourceName )
-
-                            local resourceBlueprint = ResourceManager:GetBlueprint( resourceBlueprintName )
-
-                            local resourceInventoryComp = resourceBlueprint:GetComponent("InventoryItemComponent")
-                            local resourceInventoryCompRef = reflection_helper(resourceInventoryComp)
-
-                            productionGroupContent = productionGroupContent .. "," .. resourceName
-
-                            self.data:SetString("production_group.rows." .. resourceName .. ".name", resourceInventoryCompRef.name )
-                            self.data:SetString("production_group.rows." .. resourceName .. ".icon", resourceInventoryCompRef.icon )
-                            self.data:SetString("production_group.rows." .. resourceName .. ".value",  "" )
-                        end
-                    end
-                end
-            end
-
-            self.data:SetString("stat_categories", "production_group")
-            self.data:SetString("production_group.rows", productionGroupContent )
-
-            return
         end
     end
 
-    self.data:SetString("stat_categories", "" )
+    local gatherComp = blueprint:GetComponent("GatherResourceComponent")
+
+    if ( gatherComp ~= nil ) then
+        
+        local gatherCompRef = reflection_helper(gatherComp)
+
+        if ( gatherCompRef ~= nil and gatherCompRef.resources ~= nil and gatherCompRef.resources.resource ~= nil and gatherCompRef.resources.resource.count > 0 ) then
+    
+            local resourceNamesList = {}
+
+            Insert( resourceNamesList, "biomass_plant" )
+            Insert( resourceNamesList, "biomass_animal" )
+
+            Insert( resourceNamesList, "carbonium" )
+            Insert( resourceNamesList, "steel" )
+
+            Insert( resourceNamesList, "cobalt" )
+            Insert( resourceNamesList, "palladium" )
+
+            Insert( resourceNamesList, "uranium_ore" )
+            Insert( resourceNamesList, "uranium" )
+
+            Insert( resourceNamesList, "titanium" )
+
+            Insert( resourceNamesList, "rhodonite" )
+            Insert( resourceNamesList, "tanzanite" )
+            Insert( resourceNamesList, "hazenite" )
+            Insert( resourceNamesList, "ferdonite" )
+
+            for resourceName in Iter( resourceNamesList ) do
+
+                if ( self:IsResourceInGatherable( resourceName, gatherCompRef.resources.resource ) ) then
+
+                    productionGroupContent = self:AddResourceToProductionGroup(resourceName, productionGroupContent)
+                end
+            end
+        end
+    end
+
+    self.data:SetString("stat_categories", "production_group")
+    self.data:SetString("production_group.rows", productionGroupContent )
+end
+
+function flora_cultivator:AddResourceToProductionGroup( resourceName, productionGroupContent )
+
+    local resourceBlueprintName = ItemService:GetResourceBlueprint( resourceName )
+    if ( resourceBlueprintName == "" or resourceBlueprintName == nil ) then
+        return productionGroupContent
+    end
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", resourceBlueprintName ) ) then
+        return productionGroupContent
+    end
+    
+    local resourceBlueprint = ResourceManager:GetBlueprint( resourceBlueprintName )
+    if ( resourceBlueprint == nil ) then
+        return productionGroupContent
+    end
+
+    local resourceInventoryComp = resourceBlueprint:GetComponent( "InventoryItemComponent" )
+    if ( resourceInventoryComp == nil ) then
+        return productionGroupContent
+    end
+
+    local resourceInventoryCompRef = reflection_helper( resourceInventoryComp )
+    if ( resourceInventoryCompRef == nil ) then
+        return productionGroupContent
+    end
+
+    if ( string.len(productionGroupContent) > 0 ) then
+        productionGroupContent = productionGroupContent .. ","
+    end
+
+    productionGroupContent = productionGroupContent .. resourceName
+
+    self.data:SetString("production_group.rows." .. resourceName .. ".name", resourceInventoryCompRef.name )
+    self.data:SetString("production_group.rows." .. resourceName .. ".icon", resourceInventoryCompRef.icon )
+    self.data:SetString("production_group.rows." .. resourceName .. ".value",  "" )
+
+    return productionGroupContent
 end
 
 function flora_cultivator:IsResourceInGatherable( resourceName, resourceList )
