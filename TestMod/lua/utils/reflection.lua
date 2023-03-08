@@ -76,6 +76,64 @@ TypeContainerHelper.mt = {
     __len = function( self )
         local ptr = rawget(self, "__ptr");
         return ptr:GetItemCount();
+    end,
+    __tostring = function( self )
+
+        local ptr = rawget(self, "__ptr");
+
+        local itemsCount = ptr:GetItemCount()
+
+        local result = "Container.count = " .. tostring(itemsCount)
+        result = result .. "\n{\n"
+
+        for i = 1, ptr:GetItemCount() do 
+
+            result = result .. "\n    [" .. tostring(i) .. "] = "
+        
+            local field = ptr:GetItem(i - 1)
+
+            if field ~= nil then
+
+                local field_value = GetPodValue(field)
+                if field_value ~= nil then
+                    result = result .. tostring(field_value)
+                else
+
+                    if field:IsContainer() then
+
+                        result = result .. "[" .. field:GetTypeName() .. "] "
+                    end
+
+                    local fieldRef = reflection_helper( field )
+
+                    local fieldRefString = tostring(fieldRef)
+
+                    local singleItemStringSplit = Split( fieldRefString, "\n" )
+
+                    if ( #singleItemStringSplit > 0 ) then
+
+                        result = result .. singleItemStringSplit[1]
+
+                        if ( #singleItemStringSplit > 1 ) then
+
+                            for j=2,#singleItemStringSplit do
+                                if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
+                                    result = result .. "\n    " .. singleItemStringSplit[j]
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                result = result .. "nil"
+            end
+
+            result = result .. ",\n"
+        end
+                            
+        result = result .. "}\n"
+
+        return result
     end
 }
 
@@ -123,57 +181,26 @@ TypeValueHelper.mt = {
                     value = value .. tostring(field_value)
                 else
 
-                    local fieldRef = reflection_helper( field )
-
                     if field:IsContainer() then
 
-                        value = value .. "[" .. field:GetTypeName() .. "]" .. ".count = " .. tostring(fieldRef.count)
+                        value = value .. "[" .. field:GetTypeName() .. "] "
+                    end
 
-                        value = value .. "\n    {"
+                    local fieldRef = reflection_helper( field )
 
-                        for i = 1, fieldRef.count do 
-        
-                            local fieldValueItem = fieldRef[i]
+                    local fieldRefString = tostring(fieldRef)
 
-                            value = value .. "\n        [" .. tostring(i) .. "] = "
+                    local singleItemStringSplit = Split( fieldRefString, "\n" )
 
-                            local singleItemString = tostring(fieldValueItem)
+                    if ( #singleItemStringSplit > 0 ) then
 
-                            local singleItemStringSplit = Split( singleItemString, "\n" )
+                        value = value .. singleItemStringSplit[1]
 
-                            if ( #singleItemStringSplit > 0 ) then
+                        if ( #singleItemStringSplit > 1 ) then
 
-                                value = value .. singleItemStringSplit[1]
-
-                                if ( #singleItemStringSplit > 1 ) then
-
-                                    for j=2,#singleItemStringSplit do
-                                        if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
-                                            value = value .. "\n        " .. singleItemStringSplit[j]
-                                        end
-                                    end
-                                end
-                            end
-
-                            value = value .. ","
-                        end
-                            
-                        value = value .. "\n    }"
-                    else
-                        local fieldRefString = tostring(fieldRef)
-
-                        local singleItemStringSplit = Split( fieldRefString, "\n" )
-
-                        if ( #singleItemStringSplit > 0 ) then
-
-                            value = value .. singleItemStringSplit[1]
-
-                            if ( #singleItemStringSplit > 1 ) then
-
-                                for j=2,#singleItemStringSplit do
-                                    if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
-                                        value = value .. "\n    " .. singleItemStringSplit[j]
-                                    end
+                            for j=2,#singleItemStringSplit do
+                                if ( singleItemStringSplit[j] ~= "" and singleItemStringSplit[j] ~= nil ) then
+                                    value = value .. "\n    " .. singleItemStringSplit[j]
                                 end
                             end
                         end
