@@ -376,26 +376,26 @@ function flora_cultivator:OnUpdateProductionExecute()
 
         if ( gatherCompRef ~= nil and gatherCompRef.resources ~= nil and gatherCompRef.resources.resource ~= nil and gatherCompRef.resources.resource.count > 0 ) then
     
-            local resourceNamesList = {}
+            local resourceNamesList = { 
+                "biomass_plant",
+                "biomass_animal",
 
-            Insert( resourceNamesList, "biomass_plant" )
-            Insert( resourceNamesList, "biomass_animal" )
+                "carbonium",
+                "steel",
 
-            Insert( resourceNamesList, "carbonium" )
-            Insert( resourceNamesList, "steel" )
+                "cobalt",
+                "palladium",
 
-            Insert( resourceNamesList, "cobalt" )
-            Insert( resourceNamesList, "palladium" )
+                "uranium_ore",
+                "uranium",
 
-            Insert( resourceNamesList, "uranium_ore" )
-            Insert( resourceNamesList, "uranium" )
+                "titanium",
 
-            Insert( resourceNamesList, "titanium" )
-
-            Insert( resourceNamesList, "rhodonite" )
-            Insert( resourceNamesList, "tanzanite" )
-            Insert( resourceNamesList, "hazenite" )
-            Insert( resourceNamesList, "ferdonite" )
+                "rhodonite",
+                "tanzanite",
+                "hazenite",
+                "ferdonite"
+            }
 
             for resourceName in Iter( resourceNamesList ) do
 
