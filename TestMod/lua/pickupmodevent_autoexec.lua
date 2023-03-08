@@ -1,4 +1,4 @@
----------------------------------------------------
+--------    -------------------------------------------
         -- Mod created by @SenorRagequit --
         -- Shoutout to Lukasz + Starbugs --
         -- Stop stealing my ideas Pawel! --
@@ -31,6 +31,12 @@ RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
     local numItemsInInv = ItemService:GetItemCount( playerEntity, itemBlueprint )
 
     --LogService:Log( "PickedUpItemEvent itemBlueprint " .. tostring(itemBlueprint) .. " numItemsInInv " .. tostring(numItemsInInv) .. " itemName " .. tostring(itemName) .. " itemLevel " .. tostring(itemLevel) )
+
+    --local costComponent = EntityService:GetComponent( itemEntity, "CostComponent" )
+    --if ( costComponent ~= nil ) then
+    --    local costComponentRef = reflection_helper( costComponent )
+    --    LogService:Log( "PickedUpItemEvent itemEntity " .. tostring(itemEntity) .. " costComponentRef " .. tostring(costComponentRef) )
+    --end
 
     local disassemblyEntity = false
         
