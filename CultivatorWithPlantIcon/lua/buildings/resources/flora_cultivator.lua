@@ -29,7 +29,7 @@ end
 
 function flora_cultivator:registerBuildMenuTracker()
 
-    self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEventTest" )
+    self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEventCultivatorShowHideIcon" )
 end
 
 function flora_cultivator:CreateMenuEntity()
@@ -224,7 +224,7 @@ function flora_cultivator:DroneSpawned(drone)
     end
 end
 
-function flora_cultivator:OnLuaGlobalEventTest( evt )
+function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon( evt )
 
     local eventName = evt:GetEvent()
     
