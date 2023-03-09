@@ -127,23 +127,19 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
 
 
-            local replacerToolBlueprintDesc = BuildingService:GetBuildingDesc( "buildings/tools/sapling_replacer" )
+            local replacerToolBlueprintDesc = reflection_helper( BuildingService:GetBuildingDesc( "buildings/tools/sapling_replacer" ) )
 
-            QueueEvent( "ChangeSelectorRequest", self.selector, replacerToolBlueprintDesc.bp ,replacerToolBlueprintDesc.ghost_bp )
+            QueueEvent( "ChangeSelectorRequest", self.selector, replacerToolBlueprintDesc.bp, replacerToolBlueprintDesc.ghost_bp )
 
-
-
-            local replacerToolBlueprintDescHelper = reflection_helper(replacerToolBlueprintDesc)
-
-            local replacerToolBlueprint = replacerToolBlueprintDescHelper.bp
+            local replacerToolBlueprint = replacerToolBlueprintDesc.bp
 
             local lowName = BuildingService:FindLowUpgrade( replacerToolBlueprint )
                 
             if ( lowName == replacerToolBlueprint ) then
-                lowName = replacerToolBlueprintDescHelper.name
+                lowName = replacerToolBlueprintDesc.name
             end
-            
-            BuildingService:SetBuildingLastLevel( lowName, replacerToolBlueprintDescHelper.name)
+
+            BuildingService:SetBuildingLastLevel( lowName, replacerToolBlueprintDesc.name)
 
             QueueEvent("ChangeBuildingRequest", self.selector, lowName )
 
