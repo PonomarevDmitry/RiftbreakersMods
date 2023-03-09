@@ -52,13 +52,18 @@ local function GetSubSlotForItem( owner, slot_name, item )
 
     local slots = equipment.slots
     for i=1,slots.count do
+
         local slot = slots[i]
+
         if slot.name == slot_name then
-            for i=1,slot.subslots.count do
-                local entities = slot.subslots[i]
+
+            for j=1,slot.subslots.count do
+
+                local entities = slot.subslots[j]
+
                 local entity = entities[1]
-                if entities[1] and entities[1].id == item then
-                    return i - 1
+                if entity and entity.id == item then
+                    return j - 1
                 end
             end
         end
@@ -169,6 +174,7 @@ function tower_player_weapon:OnDestroyRequest()
         return 
     end
     
+    --PlayerService:DropItem( self.equipped_weapon, self.entity, self.entity )
     QueueEvent("EquipItemRequest", self.entity, self.equipped_weapon, "MOD_1")
     
 end
