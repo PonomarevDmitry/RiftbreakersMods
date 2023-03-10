@@ -75,11 +75,20 @@ function compressor:ChangeLiquidIcon()
     local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
 
     if ( self:IsCompressedResourceFilled( menuDB ) ) then
+
+        if ( self.compressorNonWorking ~= nil ) then
+            EntityService:RemoveEntity(self.compressorNonWorking)
+            self.compressorNonWorking = nil
+        end
         return
     end
 
     menuDB:SetString("liquid_icon", "gui/hud/resource_icons/compressed_resources_bigger")
     menuDB:SetString("liquid_name", "gui/hud/messages/compressors_with_liquid_icon/connect_resource")
+
+    if ( self.compressorNonWorking == nil ) then
+        self.compressorNonWorking = EntityService:SpawnAndAttachEntity("misc/compressor_minimap_icon_non_working_blue", self.entity)
+    end
 end
 
 function compressor:IsCompressedResourceFilled( menuDB )
@@ -160,6 +169,19 @@ end
 function compressor:OnBuildingModifiedEvent( evt )
     self:FixMaterial()
     self:ChangeLiquidIcon()
+end
+
+function compressor:OnRelease()
+
+    if ( self.compressorLiquidMenu ~= nil and self.compressorLiquidMenu ~= INVALID_ID ) then
+        EntityService:RemoveEntity( self.compressorLiquidMenu )
+    end
+
+    if ( self.compressorNonWorking ~= nil and self.compressorNonWorking ~= INVALID_ID ) then
+        EntityService:RemoveEntity( self.compressorNonWorking )
+    end
+    
+    building.OnRelease( self )
 end
 
 return compressor

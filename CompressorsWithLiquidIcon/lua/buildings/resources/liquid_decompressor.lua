@@ -57,6 +57,11 @@ function liquid_decompressor:PopulateSpecialActionInfo()
     local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
 
     if ( self:IsCompressedResourceFilled( menuDB ) ) then
+
+        if ( self.compressorNonWorking ~= nil ) then
+            EntityService:RemoveEntity(self.compressorNonWorking)
+            self.compressorNonWorking = nil
+        end
         return
     end
 
@@ -64,6 +69,10 @@ function liquid_decompressor:PopulateSpecialActionInfo()
 
     menuDB:SetString("liquid_icon", "gui/hud/resource_icons/compressed_resources_bigger")
     menuDB:SetString("liquid_name", "gui/hud/messages/compressors_with_liquid_icon/select_compressed_resource")
+
+    if ( self.compressorNonWorking == nil ) then
+        self.compressorNonWorking = EntityService:SpawnAndAttachEntity("misc/compressor_minimap_icon_non_working_blue", self.entity)
+    end
 end
 
 function liquid_decompressor:IsCompressedResourceFilled( menuDB )
@@ -152,16 +161,12 @@ end
 
 function liquid_decompressor:OnItemEquippedEvent( evt )
 
-    LogService:Log("OnItemEquippedEvent lastResource " .. self.lastResource )
-
     self:registerBuildMenuTracker()
 
     self.item = evt:GetItem()    
     
     local blueprintName = EntityService:GetBlueprintName( self.item )
     blueprintName = blueprintName or ""
-
-    LogService:Log("OnItemEquippedEvent blueprintName " .. blueprintName )
 
     BuildingService:ReplaceProductionByCompressedItem( self.entity , self.item , self.lastResource , self.attachment, self.production, self.consumption )
 
@@ -171,14 +176,25 @@ function liquid_decompressor:OnItemEquippedEvent( evt )
     self.lastResource = info.first
     self.resource = self.lastResource:gsub( "_compressed", "" )
 
-    LogService:Log("OnItemEquippedEvent newLastResource " .. self.lastResource .. " newResource " .. self.resource  )
-
     if (IsNullOrEmpty(self.resource)) then
         EntityService:SetSubMeshMaterial( self.entity, "resources/resource_empty_fresnel" , 1, "default" )
     else
         EntityService:SetSubMeshMaterial( self.entity, "resources/resource_" .. self.resource .. self.postfix , 1, "default" )
         EntityService:SetSubMeshMaterial( self.entity, "resources/resource_" .. self.resource .."_fresnel" , 1, "fresnel" )
     end
+end
+
+function liquid_decompressor:OnRelease()
+
+    if ( self.compressorLiquidMenu ~= nil and self.compressorLiquidMenu ~= INVALID_ID ) then
+        EntityService:RemoveEntity( self.compressorLiquidMenu )
+    end
+
+    if ( self.compressorNonWorking ~= nil and self.compressorNonWorking ~= INVALID_ID ) then
+        EntityService:RemoveEntity( self.compressorNonWorking )
+    end
+    
+    building.OnRelease( self )
 end
 
 return liquid_decompressor
