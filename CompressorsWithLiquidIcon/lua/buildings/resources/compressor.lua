@@ -79,7 +79,7 @@ function compressor:ChangeLiquidIcon()
     end
 
     menuDB:SetString("liquid_icon", "gui/hud/resource_icons/compressed_resources_bigger")
-    menuDB:SetString("liquid_name", "")
+    menuDB:SetString("liquid_name", "gui/hud/messages/compressors_with_liquid_icon/connect_resource")
 end
 
 function compressor:IsCompressedResourceFilled( menuDB )
@@ -122,12 +122,10 @@ function compressor:IsCompressedResourceFilled( menuDB )
         return false
     end
 
-    local itemIcon = inventoryCompRef.icon
     local itemBiggerIcon = inventoryCompRef.bigger_icon
-    local itemName = inventoryCompRef.name
         
     menuDB:SetString("liquid_icon", itemBiggerIcon)
-    menuDB:SetString("liquid_name", itemName)
+    menuDB:SetString("liquid_name", "")
 
     return true
 end

@@ -60,10 +60,10 @@ function liquid_decompressor:PopulateSpecialActionInfo()
         return
     end
 
-    self.data:SetString("action_icon", "gui/hud/resource_icons/compressed_resources_icon" )
+    self.data:SetString("action_icon", "gui/hud/resource_icons/compressed_resources_bigger" )
 
     menuDB:SetString("liquid_icon", "gui/hud/resource_icons/compressed_resources_bigger")
-    menuDB:SetString("liquid_name", "")
+    menuDB:SetString("liquid_name", "gui/hud/messages/compressors_with_liquid_icon/select_compressed_resource")
 end
 
 function liquid_decompressor:IsCompressedResourceFilled( menuDB )
@@ -94,14 +94,12 @@ function liquid_decompressor:IsCompressedResourceFilled( menuDB )
         return false
     end
 
-    local itemIcon = inventoryCompRef.icon
     local itemBiggerIcon = inventoryCompRef.bigger_icon
-    local itemName = inventoryCompRef.name
         
-    self.data:SetString("action_icon", itemIcon )
+    self.data:SetString("action_icon", itemBiggerIcon )
 
     menuDB:SetString("liquid_icon", itemBiggerIcon)
-    menuDB:SetString("liquid_name", itemName)
+    menuDB:SetString("liquid_name", "")
 
     return true
 end
