@@ -26,6 +26,7 @@ function ghost_building_line:OnInit()
     --end
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1)
     
     local category = BuildingService:GetBuildingCategory( self.blueprint )
     local typeName = ""    
@@ -116,10 +117,9 @@ function ghost_building_line:OnUpdate()
         local list = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
         for resourceCost in Iter(list) do
             if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first ] = resourceCost.second * #newPositions 
-            else
-               self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] + ( resourceCost.second * #newPositions ) 
+               self.buildCost[resourceCost.first] = 0 
             end
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #newPositions )
         end
     else
         local transform = EntityService:GetWorldTransform( self.entity )
@@ -130,6 +130,7 @@ function ghost_building_line:OnUpdate()
     
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
     end
     
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
@@ -137,7 +138,7 @@ function ghost_building_line:OnUpdate()
     if ( onScreen ) then
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost)
     else
-        BuildingService:OperateBuildCosts( self.infoChild , self.playerId,{})
+        BuildingService:OperateBuildCosts( self.infoChild , self.playerId, {})
     end
 end
 
@@ -826,7 +827,9 @@ function ghost_building_line:OnRelease()
     end
     self.linesEntities = {}
 
-    EntityService:RemoveEntity(self.infoChild)
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+    end
     
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then        
