@@ -400,6 +400,7 @@ function buildings_builder_tool:OnUpdate()
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
