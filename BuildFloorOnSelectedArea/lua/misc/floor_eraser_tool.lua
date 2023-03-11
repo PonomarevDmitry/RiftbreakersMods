@@ -442,7 +442,6 @@ function floor_eraser:OnUpdate()
 
             if ( self.repairCosts[resourceCost.first] == nil ) then
                self.repairCosts[resourceCost.first] = 0 
-            else
             end
 
             self.repairCosts[resourceCost.first] = self.repairCosts[resourceCost.first] + resourceCost.second

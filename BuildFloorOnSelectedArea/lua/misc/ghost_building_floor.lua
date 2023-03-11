@@ -25,6 +25,9 @@ function ghost_building_floor:OnInit()
     local scale_z = self.data:GetFloatOrDefault("resize_scale_z", 4)
     EntityService:SetScale( self.entity, scale_x, scale_y, scale_z)
 
+    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+
     self.nowBuildingLine = false
     self.gridEntities = {}
     
@@ -242,6 +245,8 @@ function ghost_building_floor:BuildFloor(currentPosition, testBuildable, hashAll
 end
 
 function ghost_building_floor:OnUpdate()
+
+    self.buildCost = {}
     
     local currentScale = EntityService:GetScale(self.entity).x
     
@@ -409,11 +414,34 @@ function ghost_building_floor:OnUpdate()
                 self:CheckEntityBuildable(lineEnt, transform, true, id, true)
             end
         end
+
+        local list = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
+        for resourceCost in Iter(list) do
+
+            if ( self.buildCost[resourceCost.first] == nil ) then
+               self.buildCost[resourceCost.first] = 0
+            end
+
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ ) 
+        end
     else
 
         local currentTransform = EntityService:GetWorldTransform( self.entity )
         
         local testBuildable = self:CheckEntityBuildable( self.entity , currentTransform, true )        
+    end
+    
+    if ( self.infoChild == nil ) then
+        self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    end
+    
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
+    
+    if ( onScreen ) then
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost)
+    else
+        BuildingService:OperateBuildCosts( self.infoChild , self.playerId, {})
     end
 end
 
