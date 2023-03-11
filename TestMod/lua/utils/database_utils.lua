@@ -19,6 +19,9 @@ end
 function DatabaseFullLog( database )
 
     local stringKeys = database:GetStringKeys()
+
+    table.sort(stringKeys, function(a, b) return a:upper() < b:upper() end)
+
     for key in Iter( stringKeys ) do
 
         local value = database:GetString(key)
@@ -27,6 +30,9 @@ function DatabaseFullLog( database )
     end
 
     local floatKeys = database:GetFloatKeys()
+
+    table.sort(floatKeys, function(a, b) return a:upper() < b:upper() end)
+
     for key in Iter( floatKeys ) do
 
         local value = database:GetFloat(key)
@@ -35,6 +41,9 @@ function DatabaseFullLog( database )
     end
 
     local intKeys = database:GetIntKeys()
+
+    table.sort(intKeys, function(a, b) return a:upper() < b:upper() end)
+
     for key in Iter( intKeys ) do
 
         local value = database:GetInt(key)
