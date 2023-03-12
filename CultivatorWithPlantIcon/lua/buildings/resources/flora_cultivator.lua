@@ -129,8 +129,6 @@ end
 
 function flora_cultivator:OnBuildingEnd()
 
-    self:CreateMenuEntity()
-
     self:PopulateSpecialActionInfo()
 
     local default_blueprint = self:GetDefaultSaplingItem()
