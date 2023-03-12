@@ -680,6 +680,8 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
     -- Inverting rotation
     degree = -degree
 
+    EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, degree )
+
     for buildingTemplate in Iter(self.templateEntities) do
     
         EntityService:Rotate( buildingTemplate.entity, 0.0, 1.0, 0.0, degree )
