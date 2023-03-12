@@ -1,0 +1,53 @@
+EntityBlueprint
+{
+	name					"buildings/tools/building_rotate_tool"
+
+	BuildingDesc
+	{
+		name 				"building_rotate_tool"
+		bp   				"buildings/tools/building_rotate_tool"
+		ghost_bp   			"buildings/tools/building_rotate_tool_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/building_rotate_tool"
+		description			"gui/hud/building_description/building_rotate_tool"
+		menu_icon			"gui/hud/tools_icons/picker_tool"
+		order				"55"
+		type 				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh 				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/building_rotate_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"building_rotate_tool_ghost"
+		buildable 			"0"
+		type 				"picker"
+		category 			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/building_rotate_tool.lua"
+		database
+		{
+			action			string:"building_rotate_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
