@@ -654,6 +654,11 @@ function ghost_building_floor:OnRelease()
         EntityService:RemoveEntity(self.currentSizeMarker)
         self.currentSizeMarker = nil
     end
+
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
 end
 
 return ghost_building_floor
