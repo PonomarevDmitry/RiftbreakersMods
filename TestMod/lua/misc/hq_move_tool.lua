@@ -2,6 +2,7 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
+require("lua/utils/database_utils.lua")
 
 class 'hq_move_tool' ( LuaEntityObject )
 
@@ -42,8 +43,20 @@ function hq_move_tool:InitializeValues()
     self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
     
     self.hq = nil
+    
+    self.annoucements = { 
+        ["ai"] = "voice_over/announcement/not_enough_ai_cores",
+        ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
+        ["steel"] = "voice_over/announcement/not_enough_steel",
+        ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
+        ["palladium"] = "voice_over/announcement/not_enough_palladium",
+        ["titanium"] = "voice_over/announcement/not_enough_titanium" 
+    }
 
     self:SpawnBuildinsTemplates()
+
+    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1)
 end
 
 function hq_move_tool:SpawnBuildinsTemplates()
@@ -115,6 +128,8 @@ function hq_move_tool:OnWorkExecute()
 
     self:CheckEntityBuildable( self.entity, currentTransform, self.blueprint )
 
+    self.buildCost = {}
+
     if ( self.ghostHQ ~= nil ) then
 
         EntityService:SetPosition( self.ghostHQ, currentTransform.position )
@@ -124,6 +139,32 @@ function hq_move_tool:OnWorkExecute()
         currentTransform.position = currentTransform.position
 
         local testBuildable = self:CheckEntityBuildable( self.ghostHQ, currentTransform, self.hqBlueprint )
+
+        BuildingService:CheckAndFixBuildingConnection( self.ghostHQ )
+
+        local list = BuildingService:GetBuildCosts( self.buildingDesc.bp, self.playerId )
+
+        for resourceCost in Iter(list) do
+
+            if ( self.buildCost[resourceCost.first] == nil ) then
+               self.buildCost[resourceCost.first] = 0
+            end
+
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + resourceCost.second
+        end
+    end
+
+    if ( self.infoChild == nil ) then
+        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    end
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+
+    if ( onScreen ) then
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
+    else
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
 end
 
@@ -138,41 +179,11 @@ function hq_move_tool:CheckEntityBuildable( entity, transform, blueprint, id )
     end
 
     local testBuildable = reflection_helper(checkStatus:ToTypeInstance(), checkStatus )
-
     
-    local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
-    local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_OVERRIDES or testBuildable.flag == CBF_REPAIR)
-    
-    local skinned = EntityService:IsSkinned(entity)
-
-    if ( testBuildable.flag == CBF_REPAIR  ) then
-
-        if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
-        else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
-        end
+    if ( testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_LIMITS  ) then
+        EntityService:ChangeMaterial( entity, "selector/hologram_blue")
     else
-
-        if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
-        elseif ( canBuild  ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
-        else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
-        end
+        EntityService:ChangeMaterial( entity, "selector/hologram_red")
     end
 
     return testBuildable
@@ -183,46 +194,92 @@ function hq_move_tool:OnActivateSelectorRequest()
     if ( self.ghostHQ == nil or self.hq == nil ) then
         return
     end
-
-    local currentTransform = EntityService:GetWorldTransform( self.ghostHQ )
-
-    local testBuildable = self:CheckEntityBuildable( self.ghostHQ, currentTransform, self.hqBlueprint )
-
-    --EntityService:SetPosition( self.hq, currentTransform.position )
-    --EntityService:SetOrientation( self.hq, currentTransform.orientation )
-    --BuildingService:CheckAndFixBuildingConnection( self.hq )
     
-    local component = EntityService:GetComponent( self.hq, "BuildingComponent" )
-    if ( component ~= nil ) then
-        component:GetField("m_isSellable"):SetValue("true")
-        local componentRef = reflection_helper( component )
+    LogService:Log("CBF_CAN_BUILD " .. tostring(CBF_CAN_BUILD))
+    LogService:Log("CBF_OVERRIDES " .. tostring(CBF_OVERRIDES))
+    LogService:Log("CBF_REPAIR " .. tostring(CBF_REPAIR))
 
-        LogService:Log(tostring(componentRef))
+    LogService:Log("CBF_TO_CLOSE " .. tostring(CBF_TO_CLOSE))
+    LogService:Log("CBF_LIMITS " .. tostring(CBF_LIMITS))
     
-        if ( componentRef.build_costs ~= nil and componentRef.build_costs.resource ~= nil ) then
+    
 
-            local container = rawget( componentRef.build_costs.resource, "__ptr" );
+    local transformToNewHQ = EntityService:GetWorldTransform( self.ghostHQ )
 
-            if ( container ~= nil ) then
-                for i=container:GetItemCount(),-1,0 do
-                    container:EraseItem(i)
-                end
-            end
+    local testBuildable = self:CheckEntityBuildable( self.ghostHQ, transformToNewHQ, self.hqBlueprint )
+
+    LogService:Log(tostring(testBuildable))
+
+    if ( testBuildable.flag == CBF_TO_CLOSE ) then
+
+        LogService:Log("CBF_TO_CLOSE " .. tostring(CBF_TO_CLOSE))
+            
+        LogService:Log("self.buildingDesc.min_radius_effect " .. tostring(self.buildingDesc.min_radius_effect))
+
+        if ( self.buildingDesc.min_radius_effect ~= "" ) then
+            LogService:Log("CBF_TO_CLOSE " .. tostring(CBF_TO_CLOSE))
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.buildingDesc.min_radius_effect, self.ghostHQ, false)
+        else
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/portal_too_close", self.ghostHQ, false)
         end
+
+        return
     end
 
+    local missingResources = testBuildable.missing_resources
+    if ( missingResources.count > 0 ) then
+
+        if ( missingResources.count  > 1 ) then
+
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", self.ghostHQ, false )
+
+        elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
+
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.annoucements[missingResources[1]], self.ghostHQ, false )
+        end
+
+        return
+    end
+
+    local gridCullerComponent = EntityService:GetComponent( self.ghostHQ, "GridCullerComponent")
+    if( gridCullerComponent ~= nil ) then
+
+        local gridCullerComponentRef = reflection_helper( gridCullerComponent )
+        LogService:Log("gridCullerComponent " .. tostring(gridCullerComponentRef))
+    end
+
+    if ( testBuildable.free_grids.count  ~= 56 ) then
+        return
+    end
+
+    local builder = EntityService:SpawnEntity( "buildings/tools/hq_move_tool/builder", self.entity, EntityService:GetTeam(self.entity) )
+    
+    local database = EntityService:GetDatabase( builder )
+    
+    database:SetInt("playerId", self.playerId )
+    
+    database:SetInt("hq", self.hq )
+    database:SetInt("ghostHQ", self.ghostHQ )
+    
+    database:SetString("hq_blueprint", self.buildingDesc.bp )
+    
+    database:SetFloat("position.x", transformToNewHQ.position.x )
+    database:SetFloat("position.y", transformToNewHQ.position.y )
+    database:SetFloat("position.z", transformToNewHQ.position.z )
+    
+    database:SetFloat("orientation.x", transformToNewHQ.orientation.x )
+    database:SetFloat("orientation.y", transformToNewHQ.orientation.y )
+    database:SetFloat("orientation.z", transformToNewHQ.orientation.z )
+    database:SetFloat("orientation.w", transformToNewHQ.orientation.w )
+    
+    DatabaseFullLog( database )
+    
+    self.ghostHQ = nil
+    
     EntityService:RemoveMaterial( self.hq, "selected" )
-
-    --QueueEvent("SellBuildingRequest", self.hq, self.playerId, false )
-    EntityService:DissolveEntity(self.hq, 0.5)
-    --EntityService:RemoveEntity( self.hq )
-
     self.hq = nil
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.buildingDesc.bp, currentTransform, true )
-
-    EntityService:RemoveEntity(self.ghostHQ)
-    self.ghostHQ = nil
+    EntityService:RemoveEntity( self.entity )
 end
 
 function hq_move_tool:OnDeactivateSelectorRequest()
@@ -245,6 +302,11 @@ function hq_move_tool:OnRotateSelectorRequest(evt)
 end
 
 function hq_move_tool:OnRelease()
+
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
 
     if ( self.ghostHQ ~= nil ) then
         EntityService:RemoveEntity(self.ghostHQ)
