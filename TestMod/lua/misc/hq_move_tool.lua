@@ -252,7 +252,28 @@ function hq_move_tool:OnActivateSelectorRequest()
         return
     end
 
-    local builder = EntityService:SpawnEntity( "buildings/tools/hq_move_tool/builder", self.entity, EntityService:GetTeam(self.entity) )
+    local listCosts = BuildingService:GetBuildCosts( self.buildingDesc.bp, self.playerId )
+
+    for resourceCost in Iter( listCosts ) do
+
+        LogService:Log("PlayerService AddResourceAmount " .. tostring(resourceCost.first) .. " amount " .. tostring(-resourceCost.second) )
+
+        PlayerService:AddResourceAmount( resourceCost.first, -resourceCost.second )
+    end
+
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::Math::Vector3<float>] const&)
+    --unsigned int SpawnEntity(EntityService&,unsigned int)
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [struct Exor::TeamId])
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [struct Exor::TeamId])
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [float],custom [float],custom [float],custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
+    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::Math::Vector3<float>] const&,custom [struct Exor::TeamId])
+
+    local builder = EntityService:SpawnEntity( "buildings/tools/hq_move_tool/builder", transformToNewHQ.position, EntityService:GetTeam(self.entity) )
+
+    EntityService:SetOrientation( builder, transformToNewHQ.orientation )
     
     local database = EntityService:GetDatabase( builder )
     

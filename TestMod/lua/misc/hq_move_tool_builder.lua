@@ -71,6 +71,15 @@ function hq_move_tool_builder:OnBuildingSellEndEvent()
 
     LogService:Log("OnBuildingSellEndEvent ")
 
+    local listCosts = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
+
+    for resourceCost in Iter( listCosts ) do
+
+        LogService:Log("PlayerService AddResourceAmount " .. tostring(resourceCost.first) .. " amount " .. tostring(resourceCost.second) )
+
+        PlayerService:AddResourceAmount( resourceCost.first, resourceCost.second )
+    end
+
     EntityService:RemoveEntity( self.ghostHQ )
     self.ghostHQ = nil
 
