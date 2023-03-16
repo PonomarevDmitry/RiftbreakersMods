@@ -278,7 +278,7 @@ function Research:CheckResearches()
 
                 if ( IsRequiredResearched( node ) ) then
 
-                    LogService:Log("Adding to can_be_tested_for_researched " .. node.research_name )
+                    --LogService:Log("Adding to can_be_tested_for_researched " .. node.research_name )
 
                     local item = canBeTestedContainer:CreateItem()
 
