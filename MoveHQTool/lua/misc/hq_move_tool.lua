@@ -36,11 +36,10 @@ function hq_move_tool:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
+    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
     EntityService:SetVisible( self.entity , false )
     
-    local markerBlueprint = "misc/marker_selector_buildings_builder_tool_01"
-    self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
+    self.markerEntity = EntityService:SpawnAndAttachEntity( "misc/marker_selector_hq_move_tool", self.selector )
     
     self.hq = nil
     
@@ -66,7 +65,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
     local findResult = FindService:FindEntityByName( "headquarters" )
 
     if ( findResult == nil or findResult == INVALID_ID ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/building_impossible")
+        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_found")
         markerDB:SetInt("message_visible", 1)
         return
     end
