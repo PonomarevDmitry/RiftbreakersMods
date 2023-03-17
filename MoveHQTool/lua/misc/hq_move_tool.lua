@@ -2,7 +2,6 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
-require("lua/utils/database_utils.lua")
 
 class 'hq_move_tool' ( LuaEntityObject )
 
@@ -70,6 +69,26 @@ function hq_move_tool:SpawnBuildinsTemplates()
         return
     end
 
+    local hqBlueprint = EntityService:GetBlueprintName( findResult )
+
+    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( hqBlueprint )
+    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+
+    LogService:Log("buildingDesc " .. tostring(buildingDesc))
+
+    if ( buildingDesc.upgrade ~= "" and buildingDesc.upgrade ~= nil ) then
+
+        local nextUpgrade = buildingDesc.upgrade
+
+        LogService:Log("nextUpgrade " .. tostring(nextUpgrade))
+
+        if ( BuildingService:CanUpgrade( findResult, self.playerId )) then
+            markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
+            markerDB:SetInt("message_visible", 1)
+            return
+        end
+    end
+
     self.hq = findResult
 
     local skinned = EntityService:IsSkinned( self.hq )
@@ -79,16 +98,10 @@ function hq_move_tool:SpawnBuildinsTemplates()
         EntityService:SetMaterial( self.hq, "selector/hologram_active", "selected")
     end
 
-    local hqBlueprint = EntityService:GetBlueprintName( self.hq )
-
     local transform = EntityService:GetWorldTransform( self.hq )
 
     local position = transform.position
     local orientation = transform.orientation
-
-    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( hqBlueprint )
-    local buildingDesc = reflection_helper( blueprintBuildingDesc )
-
 
     local team = EntityService:GetTeam( self.entity )
 
@@ -193,30 +206,14 @@ function hq_move_tool:OnActivateSelectorRequest()
     if ( self.ghostHQ == nil or self.hq == nil ) then
         return
     end
-    
-    LogService:Log("CBF_CAN_BUILD " .. tostring(CBF_CAN_BUILD))
-    LogService:Log("CBF_OVERRIDES " .. tostring(CBF_OVERRIDES))
-    LogService:Log("CBF_REPAIR " .. tostring(CBF_REPAIR))
-
-    LogService:Log("CBF_TO_CLOSE " .. tostring(CBF_TO_CLOSE))
-    LogService:Log("CBF_LIMITS " .. tostring(CBF_LIMITS))
-    
-    
 
     local transformToNewHQ = EntityService:GetWorldTransform( self.ghostHQ )
 
     local testBuildable = self:CheckEntityBuildable( self.ghostHQ, transformToNewHQ, self.hqBlueprint )
 
-    LogService:Log(tostring(testBuildable))
-
     if ( testBuildable.flag == CBF_TO_CLOSE ) then
 
-        LogService:Log("CBF_TO_CLOSE " .. tostring(CBF_TO_CLOSE))
-            
-        LogService:Log("self.buildingDesc.min_radius_effect " .. tostring(self.buildingDesc.min_radius_effect))
-
         if ( self.buildingDesc.min_radius_effect ~= "" ) then
-            LogService:Log("CBF_TO_CLOSE " .. tostring(CBF_TO_CLOSE))
             QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.buildingDesc.min_radius_effect, self.ghostHQ, false)
         else
             QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/portal_too_close", self.ghostHQ, false)
@@ -240,35 +237,16 @@ function hq_move_tool:OnActivateSelectorRequest()
         return
     end
 
-    local gridCullerComponent = EntityService:GetComponent( self.ghostHQ, "GridCullerComponent")
-    if( gridCullerComponent ~= nil ) then
-
-        local gridCullerComponentRef = reflection_helper( gridCullerComponent )
-        LogService:Log("gridCullerComponent " .. tostring(gridCullerComponentRef))
-    end
-
     if ( testBuildable.free_grids.count  ~= 56 ) then
         return
     end
 
+    -- Paying resources
     local listCosts = BuildingService:GetBuildCosts( self.buildingDesc.bp, self.playerId )
-
     for resourceCost in Iter( listCosts ) do
-
-        LogService:Log("PlayerService AddResourceAmount " .. tostring(resourceCost.first) .. " amount " .. tostring(-resourceCost.second) )
 
         PlayerService:AddResourceAmount( resourceCost.first, -resourceCost.second )
     end
-
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::Math::Vector3<float>] const&)
-    --unsigned int SpawnEntity(EntityService&,unsigned int)
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [struct Exor::TeamId])
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [struct Exor::TeamId])
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,unsigned int,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [float],custom [float],custom [float],custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&)
-    --unsigned int SpawnEntity(EntityService&,custom [class Exor::UtfString<char,class Exor::utf_traits<char>,class Exor::StlAllocatorProxy<char> >] const&,custom [class Exor::Math::Vector3<float>] const&,custom [struct Exor::TeamId])
 
     local builder = EntityService:SpawnEntity( "buildings/tools/hq_move_tool/builder", transformToNewHQ.position, EntityService:GetTeam(self.entity) )
 
@@ -291,8 +269,6 @@ function hq_move_tool:OnActivateSelectorRequest()
     database:SetFloat("orientation.y", transformToNewHQ.orientation.y )
     database:SetFloat("orientation.z", transformToNewHQ.orientation.z )
     database:SetFloat("orientation.w", transformToNewHQ.orientation.w )
-    
-    DatabaseFullLog( database )
     
     self.ghostHQ = nil
     
@@ -323,6 +299,10 @@ end
 
 function hq_move_tool:OnRelease()
 
+    if ( self.hq ~= nil ) then
+        EntityService:RemoveMaterial( self.hq, "selected" )
+    end
+
     if ( self.infoChild ~= nil) then
         EntityService:RemoveEntity(self.infoChild)
         self.infoChild = nil
@@ -331,10 +311,6 @@ function hq_move_tool:OnRelease()
     if ( self.ghostHQ ~= nil ) then
         EntityService:RemoveEntity(self.ghostHQ)
         self.ghostHQ = nil
-    end
-
-    if ( self.hq ~= nil ) then
-        EntityService:RemoveMaterial( self.hq, "selected" )
     end
 
     if ( self.markerEntity ~= nil) then

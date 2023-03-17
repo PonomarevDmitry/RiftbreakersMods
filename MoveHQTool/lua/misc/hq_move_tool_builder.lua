@@ -2,7 +2,6 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
-require("lua/utils/database_utils.lua")
 
 class 'hq_move_tool_builder' ( LuaEntityObject )
 
@@ -12,8 +11,6 @@ end
 
 function hq_move_tool_builder:init()
 
-    LogService:Log("init ")
-    
     self.playerId = self.data:GetInt("playerId")
 
     self.hq = self.data:GetInt("hq")
@@ -69,13 +66,9 @@ end
 
 function hq_move_tool_builder:OnBuildingSellEndEvent()
 
-    LogService:Log("OnBuildingSellEndEvent ")
-
     local listCosts = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
 
     for resourceCost in Iter( listCosts ) do
-
-        LogService:Log("PlayerService AddResourceAmount " .. tostring(resourceCost.first) .. " amount " .. tostring(resourceCost.second) )
 
         PlayerService:AddResourceAmount( resourceCost.first, resourceCost.second )
     end
