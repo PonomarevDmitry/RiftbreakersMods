@@ -82,7 +82,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
 
         LogService:Log("nextUpgrade " .. tostring(nextUpgrade))
 
-        if ( BuildingService:CanUpgrade( findResult, self.playerId )) then
+        if ( self:CanUpgrade( findResult, buildingDesc ) ) then
             markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
             markerDB:SetInt("message_visible", 1)
             return
@@ -154,8 +154,23 @@ end
 
 function hq_move_tool:OnWorkExecute()
 
-    local currentTransform = EntityService:GetWorldTransform( self.entity )
+    if ( self.hq ~= nil and self:CanUpgrade( self.hq, self.buildingDesc ) ) then
 
+        local markerDB = EntityService:GetDatabase( self.markerEntity )
+
+        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
+        markerDB:SetInt("message_visible", 1)
+
+        EntityService:RemoveMaterial( self.hq, "selected" )
+        self.hq = nil
+
+        if ( self.ghostHQ ~= nil ) then
+            EntityService:RemoveEntity(self.ghostHQ)
+            self.ghostHQ = nil
+        end
+    end
+
+    local currentTransform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity, currentTransform, self.blueprint )
 
     self.buildCost = {}
@@ -222,6 +237,24 @@ end
 function hq_move_tool:OnActivateSelectorRequest()
 
     if ( self.ghostHQ == nil or self.hq == nil ) then
+        return
+    end
+
+    if ( self:CanUpgrade( self.hq, self.buildingDesc ) ) then
+
+        local markerDB = EntityService:GetDatabase( self.markerEntity )
+
+        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
+        markerDB:SetInt("message_visible", 1)
+
+        EntityService:RemoveMaterial( self.hq, "selected" )
+        self.hq = nil
+
+        if ( self.ghostHQ ~= nil ) then
+            EntityService:RemoveEntity(self.ghostHQ)
+            self.ghostHQ = nil
+        end
+
         return
     end
 
@@ -307,6 +340,25 @@ function hq_move_tool:OnActivateSelectorRequest()
     EntityService:RemoveEntity( self.entity )
 end
 
+function hq_move_tool:CanUpgrade( hqEntity, buildingDesc )
+
+    if ( hqEntity ~= nil ) then
+
+        if ( BuildingService:CanUpgrade( hqEntity, self.playerId ) ) then
+            return true
+        end
+    end
+
+    if ( buildingDesc.upgrade ~= "" and buildingDesc.upgrade ~= nil ) then
+
+        if ( BuildingService:IsBuildingAvailable( buildingDesc.upgrade ) ) then
+            return true
+        end
+    end
+
+    return false
+end
+
 function hq_move_tool:OnDeactivateSelectorRequest()
 end
 
@@ -330,6 +382,7 @@ function hq_move_tool:OnRelease()
 
     if ( self.hq ~= nil ) then
         EntityService:RemoveMaterial( self.hq, "selected" )
+        self.hq = nil
     end
 
     if ( self.infoChild ~= nil) then
