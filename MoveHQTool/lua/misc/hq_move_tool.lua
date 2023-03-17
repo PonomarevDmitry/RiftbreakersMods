@@ -89,6 +89,24 @@ function hq_move_tool:SpawnBuildinsTemplates()
         end
     end
 
+    if ( not BuildingService:IsBuildingFinished( findResult ) ) then
+        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_building_now")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
+    local baseDesc = BuildingService:FindBaseBuilding( hqBlueprint )
+    if (baseDesc ~= nil ) then
+
+        local baseDescRef = reflection_helper( baseDesc )
+
+        self.base_min_radius_effect = baseDescRef.min_radius_effect
+    end
+
+    self.base_min_radius_effect = self.base_min_radius_effect or ""
+
+    LogService:Log("base_min_radius_effect " .. tostring(self.base_min_radius_effect))
+
     self.hq = findResult
 
     local skinned = EntityService:IsSkinned( self.hq )
@@ -215,8 +233,8 @@ function hq_move_tool:OnActivateSelectorRequest()
 
         if ( self.buildingDesc.min_radius_effect ~= "" ) then
             QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.buildingDesc.min_radius_effect, self.ghostHQ, false)
-        else
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/portal_too_close", self.ghostHQ, false)
+        elseif( self.base_min_radius_effect ~= "" ) then
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.base_min_radius_effect, self.ghostHQ, false)
         end
 
         return
@@ -241,12 +259,22 @@ function hq_move_tool:OnActivateSelectorRequest()
         return
     end
 
+    local paidResources = "";
+
     -- Paying resources
     local listCosts = BuildingService:GetBuildCosts( self.buildingDesc.bp, self.playerId )
     for resourceCost in Iter( listCosts ) do
 
         PlayerService:AddResourceAmount( resourceCost.first, -resourceCost.second )
+
+        if ( string.len(paidResources) > 0 ) then
+            paidResources = paidResources .. "|"
+        end
+
+        paidResources = paidResources .. tostring(resourceCost.first) .. ";" .. tostring(resourceCost.second)
     end
+
+    LogService:Log("paidResources " .. paidResources)
 
     local builder = EntityService:SpawnEntity( "buildings/tools/hq_move_tool/builder", transformToNewHQ.position, EntityService:GetTeam(self.entity) )
 
@@ -259,6 +287,7 @@ function hq_move_tool:OnActivateSelectorRequest()
     database:SetInt("hq", self.hq )
     database:SetInt("ghostHQ", self.ghostHQ )
     
+    database:SetString("paidResources", paidResources )
     database:SetString("hq_blueprint", self.buildingDesc.bp )
     
     database:SetFloat("position.x", transformToNewHQ.position.x )

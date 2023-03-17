@@ -16,6 +16,7 @@ function hq_move_tool_builder:init()
     self.hq = self.data:GetInt("hq")
     self.ghostHQ = self.data:GetInt("ghostHQ")
 
+    self.paidResources = self.data:GetStringOrDefault("paidResources", "")
     self.blueprint = self.data:GetString("hq_blueprint")
 
     local position = {}
@@ -66,11 +67,26 @@ end
 
 function hq_move_tool_builder:OnBuildingSellEndEvent()
 
-    local listCosts = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
+    if ( self.paidResources ~= "" ) then
 
-    for resourceCost in Iter( listCosts ) do
+        local paidResourcesArray = Split( self.paidResources, "|" )
 
-        PlayerService:AddResourceAmount( resourceCost.first, resourceCost.second )
+        for template in Iter( paidResourcesArray ) do
+
+            if ( template ~= "") then
+
+                local resourceArray = Split( template, ";" )
+                if ( #resourceArray == 2 ) then
+
+                    local resourceName = resourceArray[1]
+                    local resourceValue = tonumber( resourceArray[2] )
+
+                    if ( resourceName ~= "" and resourceValue ~= nil ) then
+                        PlayerService:AddResourceAmount( resourceName, resourceValue )
+                    end
+                end
+            end
+        end
     end
 
     EntityService:RemoveEntity( self.ghostHQ )
