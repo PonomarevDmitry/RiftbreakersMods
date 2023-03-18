@@ -35,8 +35,6 @@ function ghost_building_line:OnInit()
         local buildingDescHelper = reflection_helper(buildingDesc)
         typeName = buildingDescHelper.type
     end
-
-    LogService:Log("OnInit category " .. category .. " typeName " .. typeName .. " self.blueprint " .. tostring(self.blueprint) )
     
     -- Marker with number of wall layers
     self.markerLinesConfig = "0"

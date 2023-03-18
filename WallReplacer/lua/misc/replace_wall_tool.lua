@@ -24,7 +24,7 @@ function replace_wall_tool:OnInit()
     local wallBlueprint = self.data:GetStringOrDefault("wallBlueprint", "")
     wallBlueprint = wallBlueprint or ""
 
-    LogService:Log( "OnInit wallBlueprint " .. wallBlueprint )
+    LogService:Log( "wallBlueprint " .. wallBlueprint )
 
     if ( wallBlueprint ~= "" ) then
 
@@ -33,21 +33,21 @@ function replace_wall_tool:OnInit()
 
     self:SetMaxLevel()
 
-    LogService:Log( "OnInit self.wallBlueprint " .. tostring(self.wallBlueprint) )
+    LogService:Log( "self.wallBlueprint " .. tostring(self.wallBlueprint) )
 
     for i=1,#self.wallBluprintsArray do
-        LogService:Log( "OnInit wallBluprintsArray " .. tostring(i) .. " " .. self.wallBluprintsArray[i] )
+        LogService:Log( "wallBluprintsArray " .. tostring(i) .. " " .. self.wallBluprintsArray[i] )
     end
 
     for i=1,#self.allWallBluprintsArray do
 
         local blueprintName = self.allWallBluprintsArray[i]
 
-        LogService:Log( "OnInit allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName )
+        LogService:Log( "allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName )
 
         --local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         --local buildingRef = reflection_helper(buildingDesc)
-        --LogService:Log( "OnInit allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName .. " " .. tostring(buildingRef) )
+        --LogService:Log( "allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName .. " " .. tostring(buildingRef) )
     end
 end
 
@@ -180,6 +180,8 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
         if ( buildingRef.category ~= "defense" or buildingRef.type ~= "wall" ) then
             goto continue
         end
+
+        LogService:Log( "blueprintName " .. blueprintName )
 
         Insert(entities, entity)
 
