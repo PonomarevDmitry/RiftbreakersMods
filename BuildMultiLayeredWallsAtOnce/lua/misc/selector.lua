@@ -162,15 +162,17 @@ function selector:ChangeBlueprint( blueprintName, ghostBlueprint )
     self.category = BuildingService:GetBuildingCategory( self.blueprint )
     self.type = BuildingService:GetBuildingType( self.selector )
     
-    local typeName = ""    
-    local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )    
+    local typeName = ""
+    local buildingMode = ""
+    local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
     if( buildingDesc ~= nil ) then    
-        local buildingDescHelper = reflection_helper(buildingDesc)        
-        typeName = buildingDescHelper.type                
+        local buildingDescHelper = reflection_helper(buildingDesc)
+        typeName = buildingDescHelper.type
+        buildingMode = buildingDescHelper.building_mode
     end
     
     -- Loading saved setting value wall_lines_config
-    if ( self.category == "defense" and typeName == "wall" ) then
+    if ( buildingMode == "line" and typeName == "wall" ) then
         
         if (self.wallLinesSettings ~= nil and self.wallLinesSettings["Walls"] ~= nil ) then
         
@@ -717,7 +719,6 @@ function selector:OnRotateSelectorRequest( evt )
     
     if ( action == "line" ) then
     
-        local category = BuildingService:GetBuildingCategory( self.blueprint )
         local typeName = ""    
         local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )    
         if( buildingDesc ~= nil ) then    
@@ -725,7 +726,7 @@ function selector:OnRotateSelectorRequest( evt )
             typeName = buildingDescHelper.type    
         end
     
-        if ( category == "defense" and typeName == "wall" ) then
+        if ( typeName == "wall" ) then
             self:IncreaseWallLinesCount( degree )
         else
             self:RotateBuilding( degree )

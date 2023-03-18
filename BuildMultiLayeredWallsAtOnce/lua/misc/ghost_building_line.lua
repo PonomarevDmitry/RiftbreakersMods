@@ -28,7 +28,6 @@ function ghost_building_line:OnInit()
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
     
-    local category = BuildingService:GetBuildingCategory( self.blueprint )
     local typeName = ""    
     local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
     if( buildingDesc ~= nil ) then    
@@ -39,7 +38,7 @@ function ghost_building_line:OnInit()
     -- Marker with number of wall layers
     self.markerLinesConfig = "0"
     self.currentMarkerLines = nil
-    self.isWall = ( category == "defense" and typeName == "wall")
+    self.isWall = ( typeName == "wall" )
 end
 
 function ghost_building_line:OnUpdate()
