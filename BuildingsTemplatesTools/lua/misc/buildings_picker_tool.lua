@@ -41,7 +41,111 @@ function buildings_picker_tool:FillMarkerMessage( isInitialize )
     if ( templateString ~= "" ) then
 
         if ( isInitialize ) then
-            markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/template_already_created")
+
+            local blueprintsGroupsArray = Split( templateString, "|" )
+
+            local listIconsNames = {}
+            local hashIconsCount = {}
+
+            for template in Iter( blueprintsGroupsArray ) do
+
+                -- Split by ":" blueprint template
+                local blueprintValuesArray = Split( template, ":" )
+
+                -- Only 2 values in blueprintValuesArray
+                if ( #blueprintValuesArray ~= 2 ) then
+                    goto continue
+                end
+
+                -- First blueprintName
+                local blueprintName = blueprintValuesArray[1]
+                -- Second array with entities coordinates
+                local entitiesCoordinatesString = blueprintValuesArray[2]
+
+                if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+                    goto continue
+                end
+
+                local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+                if ( blueprintBuildingDesc == nil ) then
+                    goto continue
+                end
+
+                local buildingDesc = reflection_helper( blueprintBuildingDesc )
+                if ( buildingDesc == nil ) then
+                    goto continue
+                end
+
+                local menuIcon = buildingDesc.menu_icon or ""
+
+                if ( menuIcon == "" ) then
+
+                    for i=1,buildingDesc.connect.count do
+
+                        local connectRecord = buildingDesc.connect[i]
+
+                        for j=1,connectRecord.value.count do
+
+                            local connectBlueprintName = connectRecord.value[j]
+
+                            local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
+
+                            if ( connectMenuIcon ~= "" ) then
+                                menuIcon = connectMenuIcon
+                                goto icon_found
+                            end
+                        end
+                    end
+                end
+
+                ::icon_found::
+
+                if ( menuIcon == "" ) then
+                    goto continue
+                end
+
+                -- Split array of coordinates by ";"
+                local entitiesCoordinatesArray = Split( entitiesCoordinatesString, ";" )
+                if ( #entitiesCoordinatesArray > 0) then
+
+                    if ( hashIconsCount[menuIcon] == nil ) then
+            
+                        Insert( listIconsNames, menuIcon )
+
+                        hashIconsCount[menuIcon] = 0
+                    end
+
+                    hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + #entitiesCoordinatesArray
+                end
+
+                ::continue::
+            end
+
+            local markerText = ""
+
+            for menuIcon in Iter( listIconsNames ) do
+
+                local count = hashIconsCount[menuIcon]
+
+                if ( count > 0 ) then
+
+                    if ( string.len(markerText) > 0 ) then
+
+                        markerText = markerText .. ", "
+                    end
+
+                    markerText = markerText .. '<img="' .. menuIcon .. '"> ' .. tostring(count)
+                end
+            end
+
+            if ( string.len(markerText) > 0 ) then
+
+                markerDB:SetString("message_text", markerText)
+            else
+
+                markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/template_already_created")
+            end
+
             markerDB:SetInt("message_visible", 1)
             return
         end
@@ -49,6 +153,27 @@ function buildings_picker_tool:FillMarkerMessage( isInitialize )
 
     markerDB:SetString("message_text", "")
     markerDB:SetInt("message_visible", 0)
+end
+
+function buildings_picker_tool:GetBuildingMenuIcon( blueprintName )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return ""
+    end
+
+    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( blueprintBuildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local menuIcon = buildingDesc.menu_icon or ""
+
+    return menuIcon
 end
 
 function buildings_picker_tool:OnPreInit()
@@ -203,7 +328,11 @@ function buildings_picker_tool:OnActivateSelectorRequest()
 
     self.activated = true
 
-    for entity in Iter(self.selectedEntities ) do
+    if ( #self.selectedEntities == 0 ) then
+        return
+    end
+
+    for entity in Iter( self.selectedEntities ) do
         self:OnActivateEntity( entity, true, true )
     end
 
@@ -327,7 +456,7 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         templateString = templateString .. entityBlueprint .. ":" .. entitiesCoordinates
     end
 
-    LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
+    --LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
 
     campaignDatabase:SetString( self.template_name, templateString )
 end

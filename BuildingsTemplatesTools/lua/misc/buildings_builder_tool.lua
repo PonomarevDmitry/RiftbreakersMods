@@ -111,7 +111,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
         templateString = ""
     end
 
-    LogService:Log("SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
+    --LogService:Log("SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
 
     if ( templateString == "" ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/empty_template")
@@ -400,6 +400,7 @@ function buildings_builder_tool:OnUpdate()
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
@@ -678,6 +679,8 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
 
     -- Inverting rotation
     degree = -degree
+
+    EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, degree )
 
     for buildingTemplate in Iter(self.templateEntities) do
     
