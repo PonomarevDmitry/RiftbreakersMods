@@ -20,24 +20,40 @@ function replace_wall_tool:OnInit()
 
     self.wallBluprintsArray = {}
     self.allWallBluprintsArray = {}
-    self.wallBlueprint = "buildings/defense/wall_energy_straight_01"
 
-    self:FillAllBlueprints( self.wallBlueprint )
+    local wallBlueprint = self.data:GetStringOrDefault("wallBlueprint", "")
+    wallBlueprint = wallBlueprint or ""
+
+    LogService:Log( "wallBlueprint " .. wallBlueprint )
+
+    if ( wallBlueprint ~= "" ) then
+
+        self:FillAllBlueprints( wallBlueprint )
+    end
 
     self:SetMaxLevel()
 
-    LogService:Log( "wallBlueprint " .. self.wallBlueprint )
+    LogService:Log( "self.wallBlueprint " .. tostring(self.wallBlueprint) )
 
     for i=1,#self.wallBluprintsArray do
         LogService:Log( "wallBluprintsArray " .. tostring(i) .. " " .. self.wallBluprintsArray[i] )
     end
 
     for i=1,#self.allWallBluprintsArray do
-        LogService:Log( "allWallBluprintsArray " .. tostring(i) .. " " .. self.allWallBluprintsArray[i] )
+
+        local blueprintName = self.allWallBluprintsArray[i]
+
+        LogService:Log( "allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName )
+
+        --local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        --local buildingRef = reflection_helper(buildingDesc)
+        --LogService:Log( "allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName .. " " .. tostring(buildingRef) )
     end
 end
 
 function replace_wall_tool:SetMaxLevel()
+
+    self.wallBlueprint = nil
 
     for i=#self.wallBluprintsArray,1,-1 do
         local blueprintName = self.wallBluprintsArray[i]
@@ -50,6 +66,10 @@ function replace_wall_tool:SetMaxLevel()
 end
 
 function replace_wall_tool:FillAllBlueprints( blueprintName )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return
+    end
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -138,6 +158,10 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
+    if ( self.wallBlueprint == nil ) then
+        return entities
+    end
+
     for entity in Iter(selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
@@ -168,6 +192,10 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
 end
 
 function replace_wall_tool:OnActivateEntity( entity )
+
+    if ( self.wallBlueprint == nil ) then
+        return
+    end
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 

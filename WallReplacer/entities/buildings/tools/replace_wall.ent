@@ -1,55 +1,111 @@
 EntityBlueprint
 {
-	name  "buildings/tools/replace_wall"
+	name  "buildings/tools/replace_wall_01"
 
 	BuildingDesc
 	{
-		name 				"replace_wall"
-		bp   				"buildings/tools/replace_wall"
-		ghost_bp   			"buildings/tools/replace_wall_ghost"
+		name 				"replace_wall_01"
+		bp   				"buildings/tools/replace_wall_01"
+		ghost_bp   			"buildings/tools/replace_wall_01_ghost"
 		category 			"tools"
-		localization_id		"gui/hud/building_name/replace_wall_tool"
-		description			"gui/hud/building_description/replace_wall_tool"
+		localization_id		"gui/hud/building_name/replace_wall_01_tool"
+		description			"gui/hud/building_description/replace_wall_01_tool"
 		menu_icon			"gui/hud/buttons/action_menu_upgrade_neutral"
 		order				"60"
-		type 				"replace_wall"
+		type 				"replace_wall_01"
 	}
 
 	MeshDesc
 	{
-		mesh 		"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material 	"buildings/metal_plate_1x1"
-		flags       "2"
+		mesh 				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 			"buildings/metal_plate_1x1"
+		flags				"2"
 	}
 }
 
 EntityBlueprint
 {
-	name  "buildings/tools/replace_wall_ghost"
+	name  "buildings/tools/replace_wall_01_ghost"
 
 	BuildingDesc
 	{
-		name		"replace_wall_ghost"
-		buildable 	"0"
-		type 		"replace_wall"
-		category 	"tools"
+		name				"replace_wall_01_ghost"
+		buildable 			"0"
+		type 				"replace_wall_01"
+		category 			"tools"
 	}
 
 	LuaDesc
 	{
-		script "lua/misc/replace_wall_tool.lua"
+		script				"lua/misc/replace_wall_tool.lua"
 		database
 		{
-			action	string:"replace_wall"
+			action			string:"replace_wall_01"
+			wallBlueprint	string:"buildings/defense/wall_small_straight_01"
 		}
 	}
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material "selector/hologram_blue"
-		flags       "2"
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
 	}
-
 }
 
+EntityBlueprint
+{
+	name  "buildings/tools/replace_wall_02"
+
+	BuildingDesc
+	{
+		name 				"replace_wall_02"
+		bp   				"buildings/tools/replace_wall_02"
+		ghost_bp   			"buildings/tools/replace_wall_02_ghost"
+		category 			"tools"
+		localization_id		"gui/hud/building_name/replace_wall_02_tool"
+		description			"gui/hud/building_description/replace_wall_02_tool"
+		menu_icon			"gui/hud/buttons/action_menu_upgrade_neutral"
+		order				"60"
+		type 				"replace_wall_01"
+		building_group		"replace_wall_01"
+		buildable 			"0"
+	}
+
+	MeshDesc
+	{
+		mesh 				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material 			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_02_ghost"
+
+	BuildingDesc
+	{
+		name				"replace_wall_02_ghost"
+		buildable 			"0"
+		type 				"replace_wall_01"
+		category 			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/replace_wall_tool.lua"
+		database
+		{
+			action			string:"replace_wall_02"
+			wallBlueprint	string:"buildings/defense/wall_energy_straight_01"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
