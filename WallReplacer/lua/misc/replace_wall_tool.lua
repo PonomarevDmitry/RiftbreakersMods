@@ -19,6 +19,7 @@ function replace_wall_tool:OnInit()
     self.playerId = playerReferenceComponent.player_id
 
     self.wallBluprintsArray = {}
+    self.wallBluprintsResearch = {}
     self.allWallBluprintsArray = {}
 
     local wallBlueprint = self.data:GetStringOrDefault("wallBlueprint", "")
@@ -29,11 +30,8 @@ function replace_wall_tool:OnInit()
     if ( wallBlueprint ~= "" ) then
 
         self:FillAllBlueprints( wallBlueprint )
+        self:FillResearches()
     end
-
-    self:SetMaxLevel()
-
-    LogService:Log( "OnInit self.wallBlueprint " .. tostring(self.wallBlueprint) )
 
     for i=1,#self.wallBluprintsArray do
         LogService:Log( "OnInit wallBluprintsArray " .. tostring(i) .. " " .. self.wallBluprintsArray[i] )
@@ -51,20 +49,6 @@ function replace_wall_tool:OnInit()
     end
 end
 
-function replace_wall_tool:SetMaxLevel()
-
-    self.wallBlueprint = nil
-
-    for i=#self.wallBluprintsArray,1,-1 do
-        local blueprintName = self.wallBluprintsArray[i]
-
-        if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
-            self.wallBlueprint = blueprintName
-            return
-        end
-    end
-end
-
 function replace_wall_tool:FillAllBlueprints( blueprintName )
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
@@ -76,6 +60,8 @@ function replace_wall_tool:FillAllBlueprints( blueprintName )
         return
     end
 
+    local buildingRef = reflection_helper(buildingDesc)
+
     if ( IndexOf( self.wallBluprintsArray, blueprintName ) == nil ) then
         Insert( self.wallBluprintsArray, blueprintName )
     end
@@ -83,8 +69,6 @@ function replace_wall_tool:FillAllBlueprints( blueprintName )
     if ( IndexOf( self.allWallBluprintsArray, blueprintName ) == nil ) then
         Insert( self.allWallBluprintsArray, blueprintName )
     end
-
-    local buildingRef = reflection_helper(buildingDesc)
 
     for i=1,buildingRef.connect.count do
 
@@ -106,6 +90,47 @@ function replace_wall_tool:FillAllBlueprints( blueprintName )
     end
 end
 
+function replace_wall_tool:FillResearches()
+
+    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+
+    for i=1,#self.wallBluprintsArray do
+        
+        local blueprintName = self.wallBluprintsArray[i]
+
+        local researchName = self:GetResearchForUpgrade( researchComponent, blueprintName )
+
+        self.wallBluprintsResearch[blueprintName] = researchName
+    end
+end
+
+function replace_wall_tool:GetResearchForUpgrade( researchComponent, blueprintName )
+    
+    local categories = researchComponent.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+        local category_nodes = category.nodes
+
+        for j=1,category_nodes.count do
+
+            local node = category_nodes[j]
+
+            local awards = node.research_awards
+            for k=1,awards.count do
+
+                if awards[k].blueprint == blueprintName then
+
+                    return node.research_name
+                end
+            end
+        end
+    end
+
+    return ""
+end
+
 function replace_wall_tool:AddedToSelection( entity )
 end
 
@@ -125,22 +150,29 @@ function replace_wall_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
         end
 
-        local list = BuildingService:GetBuildCosts( self.wallBlueprint, self.playerId )
-        for resourceCost in Iter(list) do
-            if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first ] = 0
+        local level = BuildingService:GetBuildingLevel( self.entity )
+
+        local wallBlueprint = self:GetWallBlueprint(level)
+
+        if ( wallBlueprint ~= "" ) then
+
+            local list = BuildingService:GetBuildCosts( wallBlueprint, self.playerId )
+            for resourceCost in Iter(list) do
+                if ( self.buildCost[resourceCost.first] == nil ) then
+                   self.buildCost[resourceCost.first ] = 0
+                end
+
+                self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] + resourceCost.second
             end
 
-            self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] + resourceCost.second
-        end
+            local list = BuildingService:GetSellResourceAmount( entity )
+            for resourceCost in Iter(list) do
+                if ( self.buildCost[resourceCost.first] == nil ) then
+                   self.buildCost[resourceCost.first ] = 0 
+                end
 
-        local list = BuildingService:GetSellResourceAmount( entity )
-        for resourceCost in Iter(list) do
-            if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first ] = 0 
+                self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] - resourceCost.second 
             end
-
-            self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] - resourceCost.second 
         end
     end
 
@@ -154,11 +186,31 @@ function replace_wall_tool:OnUpdate()
     end
 end
 
+function replace_wall_tool:GetWallBlueprint( level )
+
+    local minNumber = math.min( level, #self.wallBluprintsArray )
+
+    for i=minNumber,1,-1 do
+        local blueprintName = self.wallBluprintsArray[i]
+
+        local researchName = self.wallBluprintsResearch[blueprintName] or ""
+
+        if ( researchName ~= "" ) then
+
+            if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+                return blueprintName
+            end
+        end
+    end
+
+    return ""
+end
+
 function replace_wall_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    if ( self.wallBlueprint == nil ) then
+    if ( #self.wallBluprintsArray == 0 ) then
         return entities
     end
 
@@ -177,7 +229,7 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
 
         local buildingRef = reflection_helper(buildingDesc)
 
-        if ( buildingRef.category ~= "defense" or buildingRef.type ~= "wall" ) then
+        if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations" ) then
             goto continue
         end
 
@@ -191,7 +243,7 @@ end
 
 function replace_wall_tool:OnActivateEntity( entity )
 
-    if ( self.wallBlueprint == nil ) then
+    if ( #self.wallBluprintsArray == 0 ) then
         return
     end
 
@@ -208,13 +260,21 @@ function replace_wall_tool:OnActivateEntity( entity )
 
     local buildingRef = reflection_helper(buildingDesc)
 
-    if ( buildingRef.category ~= "defense" or buildingRef.type ~= "wall" ) then
+    if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations"  ) then
+        return
+    end
+
+    local level = BuildingService:GetBuildingLevel( entity )
+
+    local wallBlueprint = self:GetWallBlueprint(level)
+
+    if ( wallBlueprint == "" ) then
         return
     end
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.wallBlueprint, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprint, transform, true )
 end
 
 return replace_wall_tool
