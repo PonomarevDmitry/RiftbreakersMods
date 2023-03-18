@@ -111,7 +111,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
         templateString = ""
     end
 
-    LogService:Log("SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
+    --LogService:Log("SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
 
     if ( templateString == "" ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/empty_template")

@@ -456,7 +456,7 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         templateString = templateString .. entityBlueprint .. ":" .. entitiesCoordinates
     end
 
-    LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
+    --LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
 
     campaignDatabase:SetString( self.template_name, templateString )
 end
