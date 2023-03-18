@@ -74,20 +74,28 @@ function hq_move_tool:SpawnBuildinsTemplates()
     local blueprintBuildingDesc = BuildingService:GetBuildingDesc( hqBlueprint )
     local buildingDesc = reflection_helper( blueprintBuildingDesc )
 
-    LogService:Log("buildingDesc " .. tostring(buildingDesc))
+    LogService:Log("SpawnBuildinsTemplates buildingDesc " .. tostring(buildingDesc))
+
+    local nextUpgradeResearch = ""
 
     if ( buildingDesc.upgrade ~= "" and buildingDesc.upgrade ~= nil ) then
 
         local nextUpgrade = buildingDesc.upgrade
 
-        LogService:Log("nextUpgrade " .. tostring(nextUpgrade))
+        LogService:Log("SpawnBuildinsTemplates nextUpgrade " .. tostring(nextUpgrade))
 
-        if ( self:CanUpgrade( findResult, buildingDesc ) ) then
+        nextUpgradeResearch = self:GetResearchForUpgrade( nextUpgrade )
+
+        LogService:Log("SpawnBuildinsTemplates nextUpgradeResearch " .. tostring(nextUpgradeResearch))
+
+        if ( self:CanUpgrade( findResult, buildingDesc, nextUpgradeResearch ) ) then
             markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
             markerDB:SetInt("message_visible", 1)
             return
         end
     end
+
+    self.nextUpgradeResearch = nextUpgradeResearch
 
     if ( not BuildingService:IsBuildingFinished( findResult ) ) then
         markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_building_now")
@@ -95,7 +103,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
         return
     end
 
-    local baseDesc = BuildingService:FindBaseBuilding( hqBlueprint )
+    local baseDesc = BuildingService:FindBaseBuilding( "buildings/main/headquarters" )
     if (baseDesc ~= nil ) then
 
         local baseDescRef = reflection_helper( baseDesc )
@@ -105,7 +113,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
 
     self.base_min_radius_effect = self.base_min_radius_effect or ""
 
-    LogService:Log("base_min_radius_effect " .. tostring(self.base_min_radius_effect))
+    LogService:Log("SpawnBuildinsTemplates base_min_radius_effect " .. tostring(self.base_min_radius_effect))
 
     self.hq = findResult
 
@@ -152,9 +160,37 @@ function hq_move_tool:SpawnBuildinsTemplates()
     markerDB:SetInt("message_visible", 0)
 end
 
+function hq_move_tool:GetResearchForUpgrade( nextUpgrade )
+
+    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+    local categories = researchComponent.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+        local category_nodes = category.nodes
+
+        for j=1,category_nodes.count do
+
+            local node = category_nodes[j]
+
+            local awards = node.research_awards
+            for k=1,awards.count do
+
+                if awards[k].blueprint == nextUpgrade then
+
+                    return node.research_name
+                end
+            end
+        end
+    end
+
+    return ""
+end
+
 function hq_move_tool:OnWorkExecute()
 
-    if ( self.hq ~= nil and self:CanUpgrade( self.hq, self.buildingDesc ) ) then
+    if ( self.hq ~= nil and self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
 
         local markerDB = EntityService:GetDatabase( self.markerEntity )
 
@@ -187,16 +223,7 @@ function hq_move_tool:OnWorkExecute()
 
         BuildingService:CheckAndFixBuildingConnection( self.ghostHQ )
 
-        local list = BuildingService:GetBuildCosts( self.buildingDesc.bp, self.playerId )
-
-        for resourceCost in Iter(list) do
-
-            if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0
-            end
-
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + resourceCost.second
-        end
+        self:GetFullBuildCosts( self.buildCost )
     end
 
     if ( self.infoChild == nil ) then
@@ -210,6 +237,50 @@ function hq_move_tool:OnWorkExecute()
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
     else
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
+    end
+end
+
+function hq_move_tool:GetFullBuildCosts( buildCost )
+
+    local targetBlueprintName = self.buildingDesc.bp
+
+    local baseDesc = BuildingService:FindBaseBuilding( "buildings/main/headquarters" )
+    if (baseDesc ~= nil ) then
+
+        local baseDescRef = reflection_helper( baseDesc )
+
+        self:AddBuildCost( buildCost, baseDescRef, targetBlueprintName )
+    end
+end
+
+function hq_move_tool:AddBuildCost( buildCost, baseDescRef, targetBlueprintName )
+
+    local list = BuildingService:GetBuildCosts( baseDescRef.bp, self.playerId )
+
+    for resourceCost in Iter(list) do
+
+        if ( buildCost[resourceCost.first] == nil ) then
+            buildCost[resourceCost.first] = 0
+        end
+
+        buildCost[resourceCost.first] = buildCost[resourceCost.first] + resourceCost.second
+    end
+
+    if ( baseDescRef.bp == targetBlueprintName ) then
+        return
+    end
+
+    if ( baseDescRef.upgrade ~= "" and baseDescRef.upgrade ~= nil ) then
+
+        local nextUpgrade = baseDescRef.upgrade
+
+        local nextUpgradeDesc = BuildingService:GetBuildingDesc( nextUpgrade )
+
+        if ( nextUpgradeDesc ~= nil ) then
+            local nextUpgradeRef = reflection_helper( nextUpgradeDesc )
+
+            self:AddBuildCost( buildCost, nextUpgradeRef, targetBlueprintName )
+        end
     end
 end
 
@@ -240,7 +311,7 @@ function hq_move_tool:OnActivateSelectorRequest()
         return
     end
 
-    if ( self:CanUpgrade( self.hq, self.buildingDesc ) ) then
+    if ( self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
 
         local markerDB = EntityService:GetDatabase( self.markerEntity )
 
@@ -262,17 +333,6 @@ function hq_move_tool:OnActivateSelectorRequest()
 
     local testBuildable = self:CheckEntityBuildable( self.ghostHQ, transformToNewHQ, self.hqBlueprint )
 
-    if ( testBuildable.flag == CBF_TO_CLOSE ) then
-
-        if ( self.buildingDesc.min_radius_effect ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.buildingDesc.min_radius_effect, self.ghostHQ, false)
-        elseif( self.base_min_radius_effect ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.base_min_radius_effect, self.ghostHQ, false)
-        end
-
-        return
-    end
-
     local missingResources = testBuildable.missing_resources
     if ( missingResources.count > 0 ) then
 
@@ -288,26 +348,40 @@ function hq_move_tool:OnActivateSelectorRequest()
         return
     end
 
+    if ( testBuildable.flag == CBF_TO_CLOSE ) then
+
+        if ( self.buildingDesc.min_radius_effect ~= "" ) then
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.buildingDesc.min_radius_effect, self.ghostHQ, false)
+        elseif( self.base_min_radius_effect ~= "" ) then
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.base_min_radius_effect, self.ghostHQ, false)
+        end
+
+        return
+    end
+
     if ( testBuildable.free_grids.count  ~= 56 ) then
         return
     end
 
+    local buildCost = {}
+    
+    -- Paying resources
+    self:GetFullBuildCosts( buildCost )
+
     local paidResources = "";
 
-    -- Paying resources
-    local listCosts = BuildingService:GetBuildCosts( self.buildingDesc.bp, self.playerId )
-    for resourceCost in Iter( listCosts ) do
+	for resourceName,resourceValue in pairs(buildCost) do
 
-        PlayerService:AddResourceAmount( resourceCost.first, -resourceCost.second )
+        PlayerService:AddResourceAmount( resourceName, -resourceValue )
 
         if ( string.len(paidResources) > 0 ) then
             paidResources = paidResources .. "|"
         end
 
-        paidResources = paidResources .. tostring(resourceCost.first) .. ";" .. tostring(resourceCost.second)
-    end
+        paidResources = paidResources .. tostring(resourceName) .. ";" .. tostring(resourceValue)
+	end
 
-    LogService:Log("paidResources " .. paidResources)
+    LogService:Log("OnActivateSelectorRequest paidResources " .. paidResources)
 
     local builder = EntityService:SpawnEntity( "buildings/tools/hq_move_tool/builder", transformToNewHQ.position, EntityService:GetTeam(self.entity) )
 
@@ -340,7 +414,7 @@ function hq_move_tool:OnActivateSelectorRequest()
     EntityService:RemoveEntity( self.entity )
 end
 
-function hq_move_tool:CanUpgrade( hqEntity, buildingDesc )
+function hq_move_tool:CanUpgrade( hqEntity, buildingDesc, nextUpgradeResearch )
 
     if ( hqEntity ~= nil ) then
 
@@ -349,9 +423,11 @@ function hq_move_tool:CanUpgrade( hqEntity, buildingDesc )
         end
     end
 
-    if ( buildingDesc.upgrade ~= "" and buildingDesc.upgrade ~= nil ) then
+    LogService:Log("CanUpgrade nextUpgradeResearch " .. tostring(nextUpgradeResearch))
 
-        if ( BuildingService:IsBuildingAvailable( buildingDesc.upgrade ) ) then
+    if ( nextUpgradeResearch ~= "" and nextUpgradeResearch ~= nil ) then
+
+        if ( PlayerService:IsResearchUnlocked( nextUpgradeResearch ) ) then
             return true
         end
     end
