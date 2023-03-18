@@ -1,0 +1,282 @@
+EntityBlueprint
+{
+	name "units/air/baxmoth_drone_zeta"
+	base_blueprint "units/air/baxmoth_drone_base"
+
+	LuaDesc
+	{
+		script "lua/units/air/baxmoth_drone.lua"	
+		database
+		{
+			min_scale	float:"1.3"
+			max_scale	float:"1.3"
+		}	
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+	
+	StateMachineDesc
+	{
+		template_name "baxmoth_drone"
+		params
+		{
+			aggressive_speed				float:"20"
+			aggressive_acceleration			float:"10"
+			not_aggressive_speed			float:"10"
+			not_aggressive_acceleration		float:"5"
+			weapon_bp						string:"units/air/baxmoth_drone_zeta_weapon"
+		}		
+	}
+	
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"2.0"
+		acid			"0.0"
+		energy			"0.5"
+		cryo			"1.0"
+		area			"3.0"
+		gravity			"0.25"
+		radiation		"3.0"
+	}
+	
+
+	HealthDesc
+	{
+		max_health 					"10"
+		health 						"10"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/air/baxmoth_drone.mesh"
+		material 	"units/air/baxmoth_drone_ultra"
+	}
+	
+	EffectDesc
+	{		
+		EffectGroup
+		{			
+			group "move_random"
+			enabled "1"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_baxmoth/drone_run"								
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy_green"
+					bone "att_death"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/air/baxmoth_drone_zeta_weapon"
+
+	TeamDesc
+	{
+		team "baxmoth"
+	}
+
+	TeamInheritanceDesc
+	{
+
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/air/baxmoth_drone"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	
+	}
+
+	TurretDesc
+	{
+		target "ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "20"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"units/air/baxmoth_drone_zeta_weapon_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_generic/energy_green_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/air/baxmoth_drone_zeta_weapon_projectile"
+
+	base_blueprints 
+	{
+		lights/point/green_super_small
+		effects/no_lifetime
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
+		material    "projectiles/corrosive_gun"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/nurglax_bomb_fly.lua"
+		
+		database
+		{
+			egg_spawn_on_destroy			string:"units/ground/egg_baxmoth_zeta_drone"
+			egg_spawn_count					int:"1"	
+		}	
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	
+	}	
+	
+	VegetationBendingComponentDesc
+	{
+		bending_power	"500.0"
+		bending_radius	"1.0"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_energy_projectile_medium_green"
+	}
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/enemies_baxmoth/baxmoth_drone_zeta_projectile_hit"
+		on_world_hit_effect 	"effects/enemies_baxmoth/baxmoth_drone_zeta_projectile_hit"
+		on_resisted_hit_effect	"effects/enemies_baxmoth/baxmoth_drone_zeta_projectile_hit"
+		on_shield_hit_effect	"effects/enemies_baxmoth/baxmoth_drone_zeta_projectile_hit"
+		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		//hit_effect_direction	"up"  //inverse, normal, up
+		//crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
+		
+		friendly_fire			"pass"
+		delay_update_time		"0.3"
+		manual_remove			"1"
+		diameter				"1.0"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1"
+					explosion_effect 		"effects/enemies_canoptrix/death"
+					part_prefix 			"meshes/units/ground/egg_nurglax"
+					part_material 			"units/ground/egg_nurglax_open"
+					part_effect 			"effects/enemies_generic/blood_trail_energy_green"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}					
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+}
+

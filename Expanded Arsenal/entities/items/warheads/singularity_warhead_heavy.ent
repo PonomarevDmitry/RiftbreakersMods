@@ -1,0 +1,605 @@
+//Level 1
+
+EntityBlueprint
+{
+	name items/warheads/singularity_warhead_heavy
+
+	LuaDesc
+	{
+		script "lua/items/warheads/singularity_warhead_heavy.lua"
+
+		database
+		{
+			
+////////////Damage parameters
+			
+			initial_blast 		string:"items/warheads/singularity_warhead_heavy_initial_blast"
+			damage 		  		string:"items/warheads/singularity_warhead_heavy_damage"
+			slowdown	  		string:"items/warheads/singularity_warhead_heavy_slowdown"
+			
+////////////Graphics parameters
+		
+			radius		  		string:"items/warheads/singularity_warhead_heavy_radius"
+			closed_effect		string:"items/warheads/singularity_warhead_heavy_closed"
+			refract_effect		string:"items/warheads/singularity_warhead_heavy_refract"
+
+////////////Sound parameters
+			
+			init_sound			string:"items/warheads/singularity_warhead_heavy_init_sound"
+			open_sound			string:"items/warheads/singularity_warhead_heavy_open_sound"
+			idle_sound			string:"items/warheads/singularity_warhead_heavy_idle_sound"
+			close_sound			string:"items/warheads/singularity_warhead_heavy_close_sound"
+		}
+
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "1.0"
+			w "500.0"
+		}
+
+		light_range "40"
+	}
+
+	AffectorDesc
+	{
+	 	AffectorLambdaDesc
+	 	{
+		 	affector_lambda LightFadeInOutAffector
+			{
+				fade_in_start 	"0"
+				fade_in_end   	"2"
+				fade_out_start	"12"
+				fade_out_end    "12.5"
+			}
+	 	}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "items/warheads/singularity_warhead_heavy_inner"
+			
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+
+		EntityBlueprint
+		{
+		    name "items/warheads/singularity_warhead_heavy_outer"
+
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+    }
+
+}
+
+EntityBlueprint
+{
+	name  "items/warheads/singularity_warhead_heavy_refract"
+
+	ParticleDesc
+	{
+		name    "rift/singularity_core_heavy_opened"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.3"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	PointWindDesc
+	{
+		power_frequency		"3.0"
+		power_max   		"3000"
+		power_min   		"1500"
+		radius      		"28"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/warheads/singularity_warhead_heavy_closed"
+
+	ParticleDesc
+	{
+		name "rift/singularity_core_heavy_closed" 
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/warheads/singularity_warhead_heavy_open_sound"
+
+	SoundDesc
+	{
+		name "items/warheads/singularity_warhead_heavy_open"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/warheads/singularity_warhead_heavy_init_sound"
+
+	SoundDesc
+	{
+		name "items/warheads/singularity_warhead_heavy_expand"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/warheads/singularity_warhead_heavy_idle_sound"
+
+	SoundDesc
+	{
+		name "items/warheads/singularity_warhead_heavy_idle"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/warheads/singularity_warhead_heavy_close_sound"
+
+	SoundDesc
+	{
+		name "items/warheads/singularity_warhead_heavy_close"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_initial_blast"
+
+	base_blueprints
+	{
+		 lights/point/explosion_red_big
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius	"8.0"
+			area_damage_speed 	"45"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"200"
+					type			"gravity"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1500"
+		speed 	"15"
+		radius 	"15"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/singularity_core_heavy_initial_blast"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.4"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_big"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_damage"
+	
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius		"8.0"
+			area_damage_duration    "3"
+			area_damage_type		"explosion_plane"
+
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"100"
+					duration		"1"
+					type			"gravity"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_slowdown"
+	
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/singularity_slowdown_violet"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"singularity_terrain_friendly"	//speed 0.6
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		8.0
+			y		8.0
+			z		8.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_radius"
+
+	DisplayRadiusDesc
+	{
+		max_radius 				"8.0"
+		max_radius_blueprint 	"items/warheads/singularity_warhead_heavy_radius_decal"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_radius_decal"
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"items/warheads/singularity_warhead_heavy_red_radius"
+	}
+}
+
+// Level 2
+
+EntityBlueprint
+{
+	name 			"items/warheads/singularity_warhead_heavy_lvl_2"
+	base_blueprint 	"items/warheads/singularity_warhead_heavy"
+
+	LuaDesc
+	{
+		script "lua/items/warheads/singularity_warhead_heavy.lua"
+
+		database
+		{
+			initial_blast 	string:"items/warheads/singularity_warhead_heavy_lvl_2_initial_blast"
+			damage 		  	string:"items/warheads/singularity_warhead_heavy_lvl_2_damage"
+			slowdown	  	string:"items/warheads/singularity_warhead_heavy_lvl_2_slowdown"
+			radius			string:"items/warheads/singularity_warhead_heavy_lvl_2_radius"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_2_initial_blast"
+
+	base_blueprints
+	{
+		 lights/point/explosion_red_big
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius	"9.0"
+			area_damage_speed 	"55"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"400"
+					type			"gravity"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1500"
+		speed 	"15"
+		radius 	"15"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/singularity_core_heavy_initial_blast"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.4"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_big"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_2_damage"
+	
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius		"9.0"
+			area_damage_duration    "3"
+			area_damage_type		"explosion_plane"
+
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"200"
+					duration		"1"
+					type			"gravity"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_2_slowdown"
+	base_blueprint "items/warheads/singularity_warhead_heavy_slowdown"
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"singularity_terrain_lvl_2_friendly" //speed 0.45	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		9.0
+			y		9.0
+			z		9.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_2_radius"
+
+	DisplayRadiusDesc
+	{
+		max_radius 				"9.0"
+		max_radius_blueprint 	"items/warheads/singularity_warhead_heavy_radius_decal"
+	}
+}
+
+// Level 3
+
+EntityBlueprint
+{
+	name 			"items/warheads/singularity_warhead_heavy_lvl_3"
+	base_blueprint 	"items/warheads/singularity_warhead_heavy"
+
+	LuaDesc
+	{
+		script "lua/items/warheads/singularity_warhead_heavy.lua"
+
+		database
+		{
+			initial_blast 	string:"items/warheads/singularity_warhead_heavy_lvl_3_initial_blast"
+			damage 		  	string:"items/warheads/singularity_warhead_heavy_lvl_3_damage"
+			slowdown	  	string:"items/warheads/singularity_warhead_heavy_lvl_3_slowdown"
+			radius			string:"items/warheads/singularity_warhead_heavy_lvl_3_radius"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_3_initial_blast"
+
+	base_blueprints
+	{
+		 lights/point/explosion_red_big
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius	"10.0"
+			area_damage_speed 	"65"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"800"
+					type			"gravity"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/singularity_core_heavy_initial_blast"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.4"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_big"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_3_damage"
+	
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius		"10.0"
+			area_damage_duration    "3"
+			area_damage_type		"explosion_plane"
+
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"400"
+					duration		"1"
+					type			"gravity"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_3_slowdown"
+	base_blueprint "items/warheads/singularity_warhead_heavy_slowdown"
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"singularity_terrain_lvl_3_friendly"	//speed 0.3	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		10.0
+			y		10.0
+			z		10.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/warheads/singularity_warhead_heavy_lvl_3_radius"
+
+	DisplayRadiusDesc
+	{
+		max_radius 				"10.0"
+		max_radius_blueprint 	"items/warheads/singularity_warhead_heavy_radius_decal"
+	}
+}

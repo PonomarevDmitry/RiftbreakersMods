@@ -1,0 +1,175 @@
+EntityBlueprint
+{
+	name 					"buildings/defense/tower_cruise_rocket_lvl_2"
+	base_blueprint 			"buildings/defense/tower_cruise_rocket"
+
+	BuildingDesc
+	{
+		name 				"tower_cruise_rocket_lvl_2"
+		bp   				"buildings/defense/tower_cruise_rocket_lvl_2"
+		category 			"defense_mod_2"
+		localization_id		"gui/hud/building_name/tower_cruise_rocket"
+		description			"gui/hud/building_description/tower_cruise_rocket"
+		menu_icon			"gui/hud/building_icons/tower_cruise_rocket_lvl2"
+		require 			"headquarters"
+		order				"2"
+		buildable			"0"
+		type				"tower"
+		overrides			"tower,wall"
+		upgrade				"buildings/defense/tower_cruise_rocket_lvl_3"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"200"
+					steel 		"100"
+					uranium		"50"
+				}
+			}		
+		}		
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"2"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_2.mesh"
+		material "buildings/defense/tower_cruise_rocket_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_rocket_launcher_lvl_2"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone  "be_recoil_01"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+				recoil_bone  "be_recoil_02"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+				recoil_bone  "be_recoil_03"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+				recoil_bone  "be_recoil_04"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+				recoil_bone  "be_recoil_05"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_6"
+				recoil_bone  "be_recoil_06"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_cruise_rocket_projectile"
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_explosive/tower_rocket_fire_medium"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}

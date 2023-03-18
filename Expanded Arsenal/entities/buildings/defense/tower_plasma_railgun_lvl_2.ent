@@ -1,0 +1,135 @@
+EntityBlueprint
+{
+	name  					"buildings/defense/tower_plasma_railgun_lvl_2"
+	base_blueprint 			"buildings/defense/tower_plasma_railgun"
+
+	BuildingDesc
+	{
+		name 				"tower_plasma_railgun_lvl_2"
+		bp   				"buildings/defense/tower_plasma_railgun_lvl_2"
+		category 			"defense_mod_2"
+		localization_id		"gui/hud/building_name/tower_plasma_railgun"
+		description			"gui/hud/building_description/tower_plasma_railgun"
+		menu_icon			"gui/hud/building_icons/tower_plasma_railgun_lvl2"
+		require 			"headquarters"
+		order				"6"
+		buildable			"0"
+		type				"tower"
+		overrides			"tower,wall"
+		upgrade				"buildings/defense/tower_plasma_railgun_lvl_3"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"300"
+					steel 		"160"
+					cobalt		"80"
+					palladium	"20"
+				}
+			}		
+		}		
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"2"
+			}
+			
+			GameplayResource
+			{
+				resource 	"supercoolant"
+				value 		"2.5"
+				attachment	"att_in_1"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_railgun_lvl_2.mesh"
+		material "buildings/defense/tower_plasma_railgun_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_railgun_lvl_2"
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	TowerDesc
+	{
+	}
+	
+		TurretDesc
+	{
+		target "ground_unit_artillery|ground_unit_large|ground_unit|air_unit"
+		target_ignore "invisible"
+		speed "150"
+		find_type "farthest"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "5"
+			range_max "65"
+			aiming_range "75"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+}

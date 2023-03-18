@@ -1,0 +1,210 @@
+EntityBlueprint
+{
+	name  "buildings/resources/tanzanite_catalyzer_lvl_3"
+
+	base_blueprint "buildings/resources/tanzanite_catalyzer_lvl_2"
+
+	BuildingDesc
+	{
+		name 				"tanzanite_catalyzer_lvl_3"
+		bp   				"buildings/resources/tanzanite_catalyzer_lvl_3"
+		category 			"resource_mod_3"
+		type				"pipe"
+		localization_id		"gui/hud/building_name/tanzanite_catalyzer"
+		description			"gui/hud/building_description/tanzanite_catalyzer"
+		menu_icon			"gui/hud/building_icons/tanzanite_catalyzer_lvl3"
+		require 			"headquarters"
+		order				"11"
+		buildable			"0"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 180
+				building_cost
+				{
+					carbonium 	"800"
+					steel 		"1000"	
+					uranium		"100"
+				}
+			}
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 30
+				building_cost
+				{
+					carbonium 	"400"
+					steel 		"500"
+					uranium		"50"
+				}
+			}			
+		}
+	}
+
+	ResourceConverterDesc
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"tanzanite"
+				value		"2"
+			}
+			
+			GameplayResource
+			{
+				resource 	"sludge"
+				value 		"100"
+				attachment	"att_in_1"
+			}
+			
+			GameplayResource
+			{
+				resource 	"flammable_gas"
+				value 		"25"
+				attachment	"att_in_2"
+			}
+			
+		}
+		out
+		{
+		
+			GameplayResource
+			{
+				resource 			"energy"
+				value			 	"400"
+			}
+			
+			GameplayResource
+			{
+				resource 			"uranium"
+				value			 	"4"
+			}
+			
+			GameplayResource
+			{
+				resource 			"tanzanite_vapor"
+				value			 	"100"
+				attachment			"att_out_1"
+			}
+			
+		}		
+		priority 4
+	}
+	
+	ResourceStorageDesc
+	{
+		Storages
+		{
+			Storage
+			{
+				resource 	"tanzanite_vapor"
+				max 	 	"400"
+				attachment	"att_out_1"
+			}
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 					"1150"
+		health 						"1150"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+		
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_in_1_arrow"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "att_in_2"
+			enabled "0"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_in_2_arrow"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "att_out_1"
+			enabled "0"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_out_arrow"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "level"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/level_3_simple"
+					bone "att_level"
+				}
+			}
+		}
+	}
+}

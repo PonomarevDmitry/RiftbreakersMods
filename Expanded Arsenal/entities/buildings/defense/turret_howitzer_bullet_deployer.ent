@@ -1,0 +1,747 @@
+EntityBlueprint
+{
+	name "buildings/defense/turret_howitzer_bullet_deployer_lvl_1"
+	
+	base_blueprints 
+	{
+		lights/point/muzzle_orange_very_small
+		effects/no_lifetime
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		
+		database
+		{
+			min_scale	float:"0.7"
+			max_scale	float:"0.7"
+		}
+	}
+	
+	ResistanceComponent
+	{
+		creeper_area			"1"
+		magma_hot_ground		"0"
+		magma_very_hot_ground	"0"
+		quicksand				"0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"10"
+		health 						"10"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material 	"projectiles/kinetic_grenade"
+	}	
+
+	TypeDesc
+	{
+		type "ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"wreck"
+				physics_material 	"gibs_light"
+				dominance			"1"
+				sleep_threshold     "5"
+
+				Shapes
+				{
+					//PhysicsSphereShape
+					//{
+						//r "0.5"
+					//}
+					
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/egg_nurglax_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/buildings_resources/liquid_decompressor_teleport"
+					part_prefix 			"meshes/items/consumables/grenade_gravity.mesh"
+					part_material 			"projectiles/kinetic_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/buildings_resources/liquid_decompressor_teleport"
+					part_prefix 			"meshes/items/consumables/grenade_gravity.mesh"
+					part_material 			"projectiles/kinetic_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_energy"
+					part_physics_material   "gibs_light"	
+				}
+
+				key "spawn"
+			}					
+		}
+	}
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/bullet_turret_burst_gun"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+
+EntityBlueprint
+{
+	name 			"buildings/defense/turret_howitzer_bullet_deployer_lvl_2"
+	base_blueprint 	"buildings/defense/turret_howitzer_bullet_deployer_lvl_1"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/bullet_turret_deployer_lvl_2"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	buildings/defense/bullet_turret_deployer_lvl_2
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	buildings/defense/bullet_turret_burst_gun
+		}
+		
+		Blueprint
+		{
+			blueprint	buildings/defense/bullet_turret_shotgun
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"buildings/defense/turret_howitzer_bullet_deployer_lvl_3"
+	base_blueprint 	"buildings/defense/turret_howitzer_bullet_deployer_lvl_1"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/bullet_turret_deployer_lvl_3"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name	buildings/defense/bullet_turret_deployer_lvl_3
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	buildings/defense/bullet_turret_burst_gun
+		}
+		
+		Blueprint
+		{
+			blueprint	buildings/defense/bullet_turret_shotgun
+		}
+		
+		Blueprint
+		{
+			blueprint	buildings/defense/bullet_turret_sniper
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name "buildings/defense/bullet_turret_base"
+
+	BuildingDesc
+	{
+		name 				"bullet_turret_base"
+		bp   				"buildings/defense/bullet_turret_base"
+		category 			"defense"
+		localization_id		"gui/menu/inventory/consumable_name/mobile_turret"
+		description			"gui/menu/inventory/consumable_name/mobile_turret"
+		menu_icon			"gui/hud/building_icons/tower_basic"
+		sellable 			"0"
+        buildable           "0"
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_1x1"
+			cone_effect_sell	string:"sell_small"
+			building_time		float:"0.1"
+			time_machine		int:"0"
+            check_collison      int:"0"
+		}
+
+	}
+	
+	ResistanceComponent
+	{
+		creeper_area			"1"
+		magma_hot_ground		"0"
+		magma_very_hot_ground	"0"
+		quicksand				"0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"250"
+		health 						"250"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual                   0
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|defense|tower"
+	}
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "4"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	2
+				y	2
+				z	2
+			}
+		}
+	}
+	
+	SelectableDesc
+	{
+		can_activate 0
+	}		
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0.5"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility			"discovered"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	TowerDesc
+	{
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		////////////////////////MISC/////////////////////////
+
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint 		"effects/towers_pointers/orange_laser_pointer" 
+					bone 			"att_pointer"
+					random_delay	"0.01"
+				}
+			}
+		}
+	}
+	
+	LifeTimeDesc
+	{
+		time 		30
+	}
+}
+
+EntityBlueprint
+{
+	name  			"buildings/defense/bullet_turret_burst_gun"
+	base_blueprint	"buildings/defense/bullet_turret_base"
+	
+	BuildingDesc
+	{
+		name 				"bullet_turret_burst_gun"
+		bp   				"buildings/defense/bullet_turret_burst_gun"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/bullet_turret_burst_gun"
+		description			"gui/hud/building_description/bullet_turret_burst_gun"
+		menu_icon			"gui/hud/building_icons/tower_basic"
+
+        buildable           "0"
+		sellable			"0"
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/mobile_turret_lvl_1.mesh"
+		material 	"items/consumables/bullet_turret_burst_gun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/mobile_turret_lvl_1"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+
+	TurretDesc
+	{
+		target "ground_unit_large|ground_unit|air_unit"
+		target_ignore "invisible"
+		speed "300"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "30"
+			aiming_range "35"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.2"
+				recoil_offset   "1"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/bullet_turret_burst_gun_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_bullet/bullet_turret_burst_gun_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.075"
+		burst_column_angle 			"2"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/bullet_turret_burst_gun_projectile"
+
+	base_blueprint "effects/projectiles_and_trails/tower_bullet"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+
+		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		0.7
+		//type 		"camera"
+	}
+}
+
+EntityBlueprint
+{
+	name  			"buildings/defense/bullet_turret_shotgun"
+	base_blueprint	"buildings/defense/bullet_turret_base"
+	
+	BuildingDesc
+	{
+		name 				"bullet_turret_shotgun"
+		bp   				"buildings/defense/bullet_turret_shotgun"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/bullet_turret_shotgun"
+		description			"gui/hud/building_description/bullet_turret_shotgun"
+		menu_icon			"gui/hud/building_icons/tower_basic"
+
+        buildable           "0"
+		sellable			"0"
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/items/consumables/mobile_turret_lvl_2.mesh"
+		material "items/consumables/bullet_turret_shotgun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/mobile_turret_lvl_2"
+	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+
+	TurretDesc
+	{
+		target "ground_unit_small|ground_unit|air_unit"
+		target_ignore "invisible"
+		speed "300"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "20"
+			aiming_range "25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.2"
+				recoil_offset   "1"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_shotgun_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_bullet/tower_shotgun_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"25"
+	}
+}
+
+EntityBlueprint
+{
+	name  			"buildings/defense/bullet_turret_sniper"
+	base_blueprint	"buildings/defense/bullet_turret_base"
+	
+	BuildingDesc
+	{
+		name 				"bullet_turret_sniper"
+		bp   				"buildings/defense/bullet_turret_sniper"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/bullet_turret_sniper"
+		description			"gui/hud/building_description/bullet_turret_sniper"
+		menu_icon			"gui/hud/building_icons/tower_basic"
+
+        buildable           "0"
+		sellable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/items/consumables/mobile_turret_lvl_4.mesh"
+		material "items/consumables/bullet_turret_sniper"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/mobile_turret_lvl_4"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+
+	TurretDesc
+	{
+		target "ground_unit_large|ground_unit|air_unit"
+		target_ignore "invisible"
+		speed "150"
+		find_type	"farthest"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "33"
+			aiming_range "40"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.2"
+				recoil_offset   "1"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/bullet_turret_sniper_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_bullet/bullet_sniper_drone_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/bullet_turret_sniper_projectile"
+
+	base_blueprint "buildings/defense/tower_sniper_projectile"
+
+	ProjectileAmmoComponent
+	{
+
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_medium"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+	}
+	
+	LifeTimeDesc
+	{
+		time 0.6
+	}
+}

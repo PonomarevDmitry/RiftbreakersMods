@@ -1,0 +1,778 @@
+EntityBlueprint
+{
+	name "units/ground/gnerot_burning"
+
+	StateMachineDesc
+	{
+		template_name "gnerot"
+		params
+		{
+			aggressive_speed					float:"5"
+			aggressive_acceleration				float:"60"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"40"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_sleep_time						float:"10.0"
+			max_sleep_time						float:"15.0"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			eat_time							float::"15.0"
+			bp_on_range_attack					string:"units/ground/gnerot/underground_rock"
+			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
+			range_attack_underground_offset		float:"-8.0"
+			range_attack_cooldown				float:"5.0"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/gnerot_burning.lua"
+		database
+		{
+			min_scale	float:"1.3"
+			max_scale	float:"1.3"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"4000"
+		health 						"4000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	ResistanceComponent
+	{
+		physical 	"0.0"
+		acid		"0.0"
+		cryo		"4.0"
+		fire 		"0.0"
+		energy		"1.0"
+		area		"2.0"
+		gravity		"3.0"
+		radiation	"0.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.2"
+		stagger_health_threshold		"0.2"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+		
+		stagger_cooldown				"2.0"
+		stagger_long_cooldown			"4.0"
+		stun_cooldown					"20"
+		
+		force_stagger_chance 			"0.025"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"90"
+		unit_soft_radius				"2.6"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		material "units/ground/gnerot_ultra_burning"
+		mesh "meshes/units/ground/gnerot.mesh"
+		render_group 29 // no point light cast shadow
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "gnerot"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/gnerot"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "gnerot"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/gnerot_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"always"		
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	AINonWaveMovevementComponent
+	{
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+
+
+	//HighlightComponent
+	//{
+    //
+	//}
+
+		FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/gnerot_ultra"
+		can_activate 0
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0.1"
+			range_max "0.3"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_gnerot/death"	
+					part_prefix 			"meshes/units/ground/gnerot"
+					part_material			"units/ground/gnerot_ultra_burning"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_gnerot/death_long"	
+					part_prefix 			"meshes/units/ground/gnerot_death_2"
+					part_material			"units/ground/gnerot_ultra_burning"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "death_2"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/idle"
+				}
+			}
+		}
+		
+		EffectGroup
+		{			
+			group "attack_start_distant"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/attack_start_distant"
+				}
+			}
+		}
+		
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+
+		EffectGroup
+		{						
+			group "death_splash"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/death_ground_hit"	
+					bone "be_head"
+					always_up "1"
+				}
+			}
+		}	
+		
+		EffectGroup
+		{						
+			group "death_splash_pelvis"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/death_ground_hit"	
+					bone "be_pelvis"
+					always_up "1"					
+				}
+			}
+		}	
+
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_dust"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_dust"	
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_gravity"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_gravity"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_radiation"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_radiation"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "footstep_left"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/stomp"
+					bone "be_foot_left"
+					always_up "1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "footstep_right"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/stomp"
+					bone "be_foot_right"
+					always_up "1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "attack_1_ground_splash"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/attack_ground_hit"
+					bone "att_attack_1_ground_splash"
+					always_up "1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "dig_up_left"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/dig_up"
+					bone "att_digup_left"
+					always_up "1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "dig_up_right"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/dig_up"
+					bone "att_digup_right"
+					always_up "1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "wakeup"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/wake_up"
+					always_up "1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_fire_trail"
+					bone "be_shin_right"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_fire_trail"
+					bone "be_shin_left"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_fire_trail"
+					bone "be_pelvis"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_fire_trail"
+					bone "be_elbow_right"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_fire_trail"
+					bone "be_elbow_left"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_fire_trail"
+					bone "att_hand_right_inside"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_fire_trail"
+					bone "be_finger_middle_1"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_main_fire_trail"
+					bone "att_head"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_light_above"
+					bone "att_light_above"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_light_eye"
+					bone "att_light"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"fire_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies/gnerot_light"
+					bone "att_shadow_caster"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 6 0"
+					scale "1 1 1"
+				}
+			}
+		}			
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"3.5"			// radius to spread fire
+		spread_chance_override 	"1.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			end "200000" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"10000000000"	// how long it will burn in seconds
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/gnerot_ultra/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_hand_right"
+			}		
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack_1"
+						attack_start_effect 		"effects/enemies_gnerot/attack_start"
+						attack_start_time			"0.83"
+						attack_end_time				"1.10"
+						attack_duration 			"2.00"
+						damage_multiple  			"0"
+					}
+
+					
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack_2"
+						attack_start_effect 		"effects/enemies_gnerot/attack_start"
+						attack_start_time			"0.75"
+						attack_end_time				"1.00"
+						attack_duration 			"2.00"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 				"close_attack_1"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+						}
+					}
+
+					MeleeDamage
+					{
+						name 				"close_attack_2"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"120.0"
+										type 	"fire"
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x 2.0
+						y 2.0
+						z 3.0
+					}	
+				}
+			}
+		}
+	}
+}
+

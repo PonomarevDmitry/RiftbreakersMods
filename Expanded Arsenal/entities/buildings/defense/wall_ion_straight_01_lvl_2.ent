@@ -1,0 +1,240 @@
+EntityBlueprint
+{
+	name  					"buildings/defense/wall_ion_straight_01_lvl_2"
+	base_blueprint 			"buildings/defense/wall_ion_straight_01"
+
+	BuildingDesc
+	{
+		buildable				"0"
+		name 					"wall_ion_straight_01_lvl_2"
+		bp   					"buildings/defense/wall_ion_straight_01_lvl_2"
+		category 				"defense_mod_1"
+		type					"wall"
+		localization_id			"gui/hud/building_name/wall_ion"
+		description				"gui/hud/building_description/wall_ion"
+		menu_icon				"gui/hud/building_icons/wall_ion_lvl2"
+		build_on_water			"0"
+		require 				"headquarters"
+		order					"1"
+		upgrade					"buildings/defense/wall_ion_straight_01_lvl_3"
+		building_mode			"line"
+		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		check_connect			"1"
+		overrides				"wall"
+		building_group			"wall_kinetic"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name 			"default"
+				building_time 	5
+				building_cost
+				{
+					carbonium 	"10"
+					steel 		"10"
+					rhodonite	"0.4"
+				}
+			}
+		}
+
+		connect
+		{
+			T 		"buildings/defense/wall_ion_t_01_lvl_2"
+			X		"buildings/defense/wall_ion_x_01_lvl_2"
+			L		"buildings/defense/wall_ion_corner_01_lvl_2"
+			I		"buildings/defense/wall_ion_straight_01_lvl_2"
+		}
+	}
+
+	ReflectDamageComponent
+	{
+		reflect_type 	"damage_ratio"  // health_ratio, damage_ratio, flat_damage
+		melee_only	 	"1"			   // reflect only melee damage
+		damage_value 	"1.15"
+		damage_type 	"energy"	   // optional, if not provided damage type will be set to "reflect"
+	}
+
+	ReflectHighlightComponent
+	{
+		submesh_idx 	1
+		glow_factor 	100
+	}
+	
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"rhodonite_condensate"
+				value 		"0.01"
+			}		
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	PipeComponent
+	{
+		
+	}
+	
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 			"75"
+		regeneration_cooldown 	"1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/wall_energy_straight_01_lvl_2.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/defense/wall_ion_lvl_2_solid"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/defense/wall_energy_lvl_2_ion"
+			}
+
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/wall_ion_damage"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/wall_ion_damage"	
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
+					bone "att_in_1_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_2"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
+					bone "att_in_2_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_3"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
+					bone "att_in_3_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_4"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
+					bone "att_in_4_arrow"
+				}
+			}
+		}		
+	}
+}

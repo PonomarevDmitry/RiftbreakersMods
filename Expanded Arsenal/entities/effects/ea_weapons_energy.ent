@@ -1,0 +1,763 @@
+import * from "entities/effects/weapons_energy.ent"
+
+//----------------------EXPANDED ARSENAL MOD START----------------------\\
+
+//--------------------ADVANCED ENERGY TOWERS START--------------------\\
+
+// tower_plasma_shotgun
+
+EntityBlueprint
+{
+	name effects/weapons_energy/plasma_shotgun_bullet
+
+	base_blueprints 
+	{
+		lights/point/blue_very_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_shotgun_bullet"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/plasma_shotgun_fire
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"800"
+		speed 	"150"
+		radius 	"5"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/plasma_shotgun_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/railgun_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/plasma_shotgun_hit_enemy
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_shotgun_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_weapon_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/plasma_shotgun_hit_world
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_shotgun_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/shotguns/shotgun_hit_world_rocks"
+	}
+
+}
+
+// tower_plasma_mortar
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/tower_plasma_mortar_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name     "rift/tower_energy_muzzle_flash"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/plasma_gun_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/plasma_mortar_hit"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_blue_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"20"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_blaster_charged_explosion_lvl1"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		3.0
+			y		3.0
+			z		3.0
+			
+		}
+	}
+}
+
+// tower_plasma_mauler
+
+EntityBlueprint
+{
+	name effects/weapons_energy/tower_plasma_mauler_fire
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_plasma_gun_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "towers/energy/tower_plasma_mauler_fire"
+	}
+}
+
+// tower_mhd
+
+EntityBlueprint
+{
+	name effects/weapons_energy/mhd_muzzle
+	
+	base_blueprints
+	{
+		lights/point/orange_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mhd_muzzle"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/mhd_enemy_hit
+
+	base_blueprints
+	{
+		lights/point/orange_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mhd_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/energy/mhd_enemy_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/mhd_world_hit"
+
+	base_blueprints
+	{
+		lights/point/orange_super_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mhd_hit"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/mhd_world_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"physical_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/molten_crater"
+		scale
+		{
+			x		1.5
+			y		1.5
+			z		1.5
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/mhd_loop
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name 		"towers/energy/mhd_loop"
+		start_name 	"towers/energy/mhd_start"
+		end_name	"towers/energy/mhd_stop"
+	}
+}
+
+//--------------------ADVANCED ENERGY TOWERS END--------------------\\
+
+//--------------------RIFT TOWERS START--------------------\\
+
+// tower_lightning_spike
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/lightning_strike"
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2500"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/lesigian_lightning_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.3"
+		falloff_radius 	"35"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/lesigian/lightning_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		3.0
+			y		3.0
+			z		3.0
+		}
+	}
+}
+
+//--------------------RIFT TOWERS END--------------------\\
+
+//--------------------ADVANCED ENERGY TOWERS-II START--------------------\\
+
+// tower_plasma_laser
+
+EntityBlueprint
+{
+	name effects/weapons_energy/plasma_laser_muzzle
+	
+	base_blueprints
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_muzzle"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/plasma_laser_enemy_hit"
+
+	base_blueprints
+	{
+		lights/point/blue_super_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_hit"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/plasma_laser_enemy_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/plasma_laser_world_hit"
+
+	base_blueprints
+	{
+		lights/point/blue_super_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_hit"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/plasma_laser_world_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"energy_terrain_friendly"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/energy_residue"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/plasma_laser_loop
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name 		"towers/energy/plasma_laser_loop"
+		start_name 	"towers/energy/plasma_laser_start"
+		end_name	"towers/energy/plasma_laser_stop"
+	}
+}
+
+// tower_plasma_laser_heavy
+
+EntityBlueprint
+{
+	name effects/weapons_energy/heavy_plasma_laser_enemy_hit
+
+	base_blueprints
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/energy/heavy_plasma_laser_enemy_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/heavy_plasma_laser_world_hit
+
+	base_blueprints
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/energy/heavy_plasma_laser_world_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"energy_terrain_friendly"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/energy_residue"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/heavy_plasma_laser_loop
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name 		"towers/energy/heavy_plasma_laser_loop"
+		start_name 	"towers/energy/heavy_plasma_laser_start"
+		end_name	"towers/energy/heavy_plasma_laser_stop"
+	}
+}
+
+// tower_plasma_railgun
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/tower_plasma_railgun_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_plasma_gun_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/plasma_railgun_fire"
+	}
+}
+
+// tower_prism
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/prism_projectile"
+	
+	base_blueprints 
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/prism_shot"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			ParticleDesc
+			{
+				name    "rift/mech_sniper_rifle_bullet_trail"
+			}				
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/tower_prism_fire"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_plasma_gun_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/railgun_fire_charged"
+	}
+}
+
+//--------------------ADVANCED ENERGY TOWERS-II END--------------------\\
+
+//--------------------------TURRET HOWITZERS START--------------------------\\
+
+// tower_turret_howitzer_energy
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/tower_turret_howitzer_energy_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_energy_muzzle_flash"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/tower_turret_howitzer_energy_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/tower_turret_howitzer_energy_blast"
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_big
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"6000"
+		speed 	"35"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/howitzer_energy_energy_shockwave"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"energy_terrain_friendly"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/energy_residue"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+			
+		}
+	}	
+}
+
+//--------------------------TURRET HOWITZERS END--------------------------\\
+
+//--------------------ADVANCED EXPLOSIVE TOWERS-II START--------------------\\
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/tower_cruise_plasma_missile_fire"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_plasma_gun_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/tower_cruise_plasma_shoot"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_energy/plasma_explosion_medium"
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_blaster_charged_explosion_lvl1"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint  "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+			
+		}
+	}
+}
+
+//--------------------ADVANCED EXPLOSIVE TOWERS-II END--------------------\\
+
+//----------------------EXPANDED ARSENAL MOD END----------------------\\

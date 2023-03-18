@@ -1,0 +1,595 @@
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/arachnoid_boss_omega_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_red_small
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"3"
+			EMP_duration	float:"2"
+		}
+	}
+
+	TeamDesc
+	{
+		team "arachnoid_sentinel"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"10"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/arachnoid_boss_omega_emp_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_arachnoid/death_fire
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_medium"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3.0"
+			area_damage_speed 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"17"
+					type			"fire"
+				}
+			}
+		}
+	}	
+	
+	ShockWaveDesc
+	{
+		power 	"200"
+		speed 	"10"
+		radius 	"10"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.3"
+		power   		"0.75"
+		falloff_radius 	"35"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_medium"
+	}	
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_magma_terrain"	
+		extend  		"0.5"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_yellow_random"
+		scale
+		{
+			x		1.7
+			y		1.7
+			z		1.7
+		}
+	}	
+	TeamInheritanceComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_arachnoid/death_fire_long
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/death_yellow_medium_long"
+	}
+
+	SoundDesc
+	{
+		name "enemies/arachnoid/death"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_yellow_random"
+		scale
+		{
+			x		1.7
+			y		1.7
+			z		1.7
+		
+		}
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name  "effects/enemies_arachnoid/magma_spit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_red_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_magma_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/arachnoid/acid_spit"
+	}
+	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/arachnoid_projectile_boss_cryo"
+
+	base_blueprints 
+	{
+		lights/point/white_super_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magmoth_projectile_cryo"
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/arachnoid_projectile_boss_energy"
+
+	base_blueprints 
+	{
+		lights/point/blue_super_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magmoth_projectile_energy"
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/arachnoid_projectile_boss_fire"
+
+	base_blueprints 
+	{
+		lights/point/orange_super_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magmoth_projectile"
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/arachnoid_projectile_boss_omega"
+
+	base_blueprints 
+	{
+		lights/point/red_super_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_energy_projectile_medium_red"
+	}
+
+	LifeTimeDesc
+	{
+		time 		8
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/enemies_arachnoid/arachnoid_boss_cryo_spit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_white_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_boss_cryo_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/arachnoid/acid_spit"
+	}
+	
+}
+
+EntityBlueprint
+{
+	name  "effects/enemies_arachnoid/arachnoid_boss_energy_spit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_blue_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_boss_energy_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/arachnoid/acid_spit"
+	}
+	
+}
+
+EntityBlueprint
+{
+	name  "effects/enemies_arachnoid/arachnoid_boss_fire_spit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_red_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_boss_fire_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/arachnoid/acid_spit"
+	}
+	
+}
+
+EntityBlueprint
+{
+	name  "effects/enemies_arachnoid/arachnoid_boss_omega_spit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_red_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/omega_gun_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/arachnoid/acid_spit"
+	}
+	
+}
+
+EntityBlueprint
+{
+	name	effects/enemies_arachnoid/arachnoid_boss_cryo_projectile_hit
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cryo_explosion_medium"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_cryo_terrain"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/cryo_crater_01"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.12"
+		power   		"0.25"
+		falloff_radius 	"15"
+		radius   		"30"
+		frequency 		"30"
+		group			"explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	effects/enemies_arachnoid/arachnoid_boss_energy_projectile_hit
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_medium"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.12"
+		power   		"0.25"
+		falloff_radius 	"15"
+		radius   		"30"
+		frequency 		"30"
+		group			"explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	effects/enemies_arachnoid/arachnoid_boss_fire_projectile_hit
+	
+	base_blueprints
+	{
+		lights/point/explosion_red_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_medium"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_magma_terrain"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/magma_crater_01"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.12"
+		power   		"0.25"
+		falloff_radius 	"15"
+		radius   		"30"
+		frequency 		"30"
+		group			"explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/magmoth/projectile_hit"
+	}
+}

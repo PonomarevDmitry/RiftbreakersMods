@@ -1,0 +1,189 @@
+EntityBlueprint
+{
+	name "units/ground/egg_arachnoid_boss_fire_deployer"
+
+	ResistanceComponent
+	{
+		enemy_magma_terrain		"0"
+		enemy_cryo_terrain		"0"
+		magma_hot_ground		"0"
+		magma_very_hot_ground	"0"
+		quicksand				"0"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+
+		database
+		{
+			spawn_effect string:"effects/enemies_arachnoid/death_fire"
+			min_scale	float:"0.8"
+			max_scale	float:"1.2"
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 					"60"
+		health 						"60"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/egg_canoptrix.mesh"
+		material "units/ground/egg_arachnoid"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "arachnoid"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+						
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_arachnoid/death_fire"
+					part_prefix 			"meshes/units/ground/egg_nurglax"
+					part_material 			"units/ground/egg_arachnoid"
+					part_effect 			"effects/enemies_generic/blood_trail_fire"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+			
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"shadow_caster"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_shadow_caster_red"
+					scale "0.8 0.8 0.8"
+				}
+			}
+		}
+	}
+	
+	EggDesc
+	{
+		blueprint				"units/ground/arachnoid_boss_fire_deployer"
+		time_to_hatch			"90"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/arachnoid_boss_fire_deployer"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/arachnoid_magma"
+		}
+		
+		Blueprint
+		{
+			blueprint "units/ground/arachnoid_magma"
+		}
+	
+		Blueprint
+		{
+			blueprint "units/ground/bomogan_magma"
+		}
+		
+		Blueprint
+		{
+			blueprint "units/ground/morirot"
+		}
+		
+		Blueprint
+		{
+			blueprint "units/ground/morirot"
+		}
+	}
+}

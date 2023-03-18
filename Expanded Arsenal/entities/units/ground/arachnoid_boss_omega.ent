@@ -1,0 +1,515 @@
+EntityBlueprint
+{
+	name  "units/ground/arachnoid_boss_omega"
+	base_blueprint "units/ground/arachnoid_boss"
+
+	LuaDesc
+	{
+		script "lua/units/ground/arachnoid_boss.lua"
+		
+		database
+		{
+			min_scale	float:"3.0"
+			max_scale	float:"3.0"
+			
+			items 		string:"items/weapons_enemy/alien_omega_weapon_item"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"7000"
+		health 						"7000"
+		is_manual					"1"
+		update_health_uniform 		"1"		
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"1.5"
+		acid			"0.0"
+		energy			"0.0"
+		cryo			"1.0"
+		area			"0.0"
+		gravity			"0.05"
+		radiation		"3.0"
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 			"700"
+		regeneration_cooldown 	"5"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.025"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.05"
+		
+		stagger_cooldown				"2.0"
+		stagger_long_cooldown			"5.0"
+		stun_cooldown					"15"
+
+		force_stagger_chance 			"0.05"
+	}
+
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/arachnoid_boss.mesh"
+		material 	"units/ground/arachnoid_boss_omega"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/arachnoid_boss_omega"
+		can_activate 0
+	}
+
+	EquipmentDesc
+	{
+		equipment
+		{
+			Equipment Equipment
+			{
+				slots
+				{		
+					EquipmentSlot
+					{
+						name			"STING"
+						allow_types		"enemy_range_weapon"
+						bone			"att_muzzle"
+						subslots_count	"1"
+					}							
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_arachnoid/death_boss_long"	
+					part_prefix 			"meshes/units/ground/arachnoid_sentinel"
+					part_effect 			"effects/enemies_generic/blood_trail_energy_red"
+					part_physics_material   "gibs_heavy"						
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/arachnoid_boss"
+		}
+		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_energy"	
+					bone "att_death"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_energy"	
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_energy"
+					bone "att_death"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy_red"
+					bone "att_foot_fl"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy_red"
+					bone "att_foot_fr"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy_red"
+					bone "att_foot_rr"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_energy_red"
+					bone "att_foot_rl"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"light"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_shadow_caster_red"
+					bone "att_tail_light"
+					scale "0.33 0.33 0.33"
+				}
+			}
+		}	
+	}
+
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"6"
+		}
+	}
+
+	InventoryDesc
+	{
+		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/arachnoid_boss/trigger"
+			
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+			
+			TriggerDesc
+			{
+				tag 		"melee"
+				owner 		"parent"
+				collision 	"building|building_small|ground_unit"
+
+				Filters
+				{
+					TeamRelationTriggerFilter 
+					{
+						team		"hostility"
+						check_parent "1"
+					}
+					InvisibleTriggerFilter
+				}
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "2.0"
+						z "1.0"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			name "units/ground/arachnoid_boss_energy_red/destructor"
+			
+			DamageTriggerComponent
+			{
+				damage_amount	10
+				always_kill		1
+				collision 		"vegetation|destructible"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.2"
+						y "3.75"
+						z "3.0"
+					}	
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/arachnoid_boss/attack_1"
+
+			AttachmentDesc
+			{
+				attachment "be_front_right_talon"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
+						attack_start_time			"0.43"
+						attack_end_time				"0.63"
+						attack_duration 			"1.30"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_energy_red			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"energy"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "1.75"
+						z "1.0"
+
+						position 
+						{
+							x "0.0"
+							y "0.0"
+							z "0.25"
+						}
+					}	
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/arachnoid_boss/attack_2"
+
+			AttachmentDesc
+			{
+				attachment "be_front_left_talon"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
+						attack_start_time			"0.43"
+						attack_end_time				"0.63"
+						attack_duration 			"1.30"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_energy_red			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"energy"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "1.75"
+						z "1.0"
+
+						position 
+						{
+							x "0.0"
+							y "0.0"
+							z "-0.25"
+						}
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/arachnoid_boss_energy_red_armour"
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_arachnoid/death"	
+					part_material	 		"units/ground/arachnoid_boss_omega"
+					part_prefix 			"meshes/units/ground/arachnoid_boss_armor"
+					part_effect 			"effects/enemies_generic/blood_trail_energy_red"
+					part_physics_material   "gibs_heavy"						
+				}
+
+				key "default"
+			}
+		}		
+	}
+}
+

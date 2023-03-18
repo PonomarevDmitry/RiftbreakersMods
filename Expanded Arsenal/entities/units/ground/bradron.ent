@@ -1,0 +1,709 @@
+EntityBlueprint
+{
+	name "units/ground/bradron_base"
+
+	StateMachineDesc
+	{
+		template_name "bradron"
+		params
+		{
+			aggressive_speed					float:"12"
+			aggressive_acceleration				float:"24"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"3"
+			rotate_speed						float:"350"
+			shoot_rotate_speed					float:"50"			
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"55"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			charge_time							float:"1.5"
+			shoot_time							float:"2.0"
+			eat_bp_name							string:"units/ground/bradron/eat"
+			eat_time							float:"6.0"
+			eat_start_distance					float:"8.0"
+			shockwave_attack_in_range			float:"10"
+			shockwave_bp						string:"units/ground/bradron/shockwave"
+			shockwave_attack_cooldown			float:"10"
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"1.0"
+		acid			"1.0"
+		energy			"0.5"
+		cryo			"0.5"
+		area			"2.0"
+		gravity			"0.05"
+		radiation		"3.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.08"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.2"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"150"
+		unit_soft_radius				"1.8"
+		ignore_cost_mask				"building|path_blocker|sludge_vein|magma_vein|mud_vein|morphium_vein|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/bradron"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "bradron"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/bradron_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+
+		visibility "radar"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	AirGroundNavigationComponent
+	{
+
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed   "0.95"
+		look_forward_distance "2.0"
+		add_extra_height      "2.0"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/bradron"
+		can_activate 0
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "24"
+			aiming_range "24"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		gravity_factor "6"
+		use_IK "0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_nurglax/death"
+					part_prefix 			"meshes/units/ground/bradron"
+					part_material 			"units/ground/bradron"
+					part_effect 			"effects/enemies_generic/blood_trail_black"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "idle_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_bradron/idle"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_bradron/run"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_bradron/death_long"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_black"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_gravity"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_gravity"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_radiation"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_radiation"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 5 0"
+					scale "0.8 0.8 0.8"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_bradron/laser_pointer"
+					bone "att_shoot"
+				}
+			}
+		}
+	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"2.8"
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name "units/ground/bradron"
+
+	base_blueprint "units/ground/bradron_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/bradron.lua"
+		database
+		{
+			min_scale	float:"0.95"
+			max_scale	float:"1.05"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"180"
+		health 						"180"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/bradron.mesh"
+		material 	"units/ground/bradron"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"units/ground/bradron/laser"
+
+		fire_effect 				"effects/enemies_bradron/muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+}
+
+
+
+EntityBlueprint
+{
+	name  "units/ground/bradron/trigger"
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				team		"hostility"
+				check_parent "1"
+			}
+
+			InvisibleTriggerFilter
+
+			TypeTriggerFilter 
+			{
+				type		"ground_unit|building|wall"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "2"
+				y "2"
+				z "2"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/bradron/eat"
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/bradron"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_eat"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"units/ground/bradron/laser"
+
+		fire_effect 				"effects/enemies_bradron/muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/bradron/laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"projectiles/laser_red"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"26"
+
+		on_enemy_hit_effect 	"effects/enemies_bradron/projectile_hit"
+		on_world_hit_effect 	"effects/enemies_bradron/projectile_hit"
+		on_shield_hit_effect	"effects/enemies_bradron/projectile_hit"
+
+		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		friendly_fire			"pass"
+		collision_block 		"world"
+
+        damage_factor_max       "1.0"
+        damage_factor_increase  "1"
+        damage_factor_decrease  "1.0"
+        damage_max_beam_scale 	"1.0"
+		damage_max_beam_glow 	"1.0"
+	}
+
+
+	SoundDesc
+	{
+		name 		"enemies/bradron/laser_muzzle"
+		//start_name 	"items/weapons/fluid/flamer_start"
+		//end_name 	"items/weapons/fluid/flamer_stop"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "units/ground/bradron/shockwave"
+
+	LuaDesc
+	{
+		script "lua/weather/ion_storm.lua"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/bradron_shockwave"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"10"
+			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane
+			Damages
+			{
+				Damage
+				{
+					value 			"50"
+					type			"area"
+				}
+			}
+		}
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"50"
+		radius 	"50"
+	}	
+	
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.35"
+		falloff_radius 	"25"
+		radius   		"35"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bradron/shockwave"
+	}
+
+	LifeTimeDesc
+	{
+		time 		5
+	}
+	
+	TeamInheritanceComponent
+	{
+
+	}	
+}

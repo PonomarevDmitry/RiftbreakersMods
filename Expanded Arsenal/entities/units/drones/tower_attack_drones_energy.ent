@@ -1,0 +1,351 @@
+EntityBlueprint
+{
+	name  "units/drones/energy_blaster_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_energy"
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"	
+					bone "att_drone_trail_0"
+					scale	"0.9 0.9 0.9"	
+				}
+			}
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "35"
+			submesh_idx "1"
+		}
+		
+		ammo_blueprint 				"units/drones/energy_blaster_drone_weapon"
+		muzzles_per_fire			"2"
+		muzzle_flash_effect 		"effects/weapons_energy/tower_plasma_gun_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.08"
+		burst_column_angle 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/energy_blaster_drone_weapon"
+
+	base_blueprint "effects/weapons_energy/mech_plasma_gun_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+	}
+
+	LifeTimeDesc
+	{
+		time 		1.2
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/energy_tesla_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_energy"
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_small|ground_unit|air_unit"
+		target_ignore "invisible"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "15"
+			aiming_range "20"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}	
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/energy_tesla_drone_weapon"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/drones/energy_tesla_drone_weapon"
+
+	LightningBeamComponent
+	{
+		range 					"15"
+
+		on_enemy_hit_effect 	"effects/weapons_energy/lightning_gun_hit"
+
+		type_mask				"ground_unit|air_unit"
+		aiming_angle			"60"
+
+		idle_attachments
+		{	
+			IdString "att_lightning_1"
+			IdString "att_lightning_2"
+			IdString "att_lightning_3"
+		}
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"1"
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/energy_laser_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_energy"
+	
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"	
+					bone "att_drone_trail_0"
+					scale	"0.9 0.9 0.9"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+	}
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_artillery|ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}	
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "35"
+			submesh_idx "1"
+		}
+		
+		ammo_blueprint 				"units/drones/energy_laser_drone_weapon"
+		muzzles_per_fire			"1"
+		muzzle_flash_effect 		"effects/weapons_energy/laser_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/energy_laser_drone_weapon"
+
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"items/skills/rift_portal_energy_2"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"20"
+
+		on_enemy_hit_effect 	"effects/weapons_energy/laser_small_hit"
+		on_world_hit_effect 	"effects/weapons_energy/laser_small_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_block 		"world"
+
+        damage_factor_max       "9.0"
+        damage_factor_increase  "5.0"
+        damage_factor_decrease  "6.0"
+        damage_max_beam_scale 	"1.5"
+		damage_max_beam_glow 	"2.0"
+	}
+
+
+	SoundDesc
+	{
+		name 		"items/weapons/fluid/flamer_loop"
+		start_name 	"items/weapons/fluid/flamer_start"
+		end_name 	"items/weapons/fluid/flamer_stop"
+	}
+}
