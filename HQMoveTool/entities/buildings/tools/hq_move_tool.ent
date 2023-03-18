@@ -1,0 +1,108 @@
+EntityBlueprint
+{
+    name					"buildings/tools/hq_move_tool"
+
+    BuildingDesc
+    {
+        name 				"hq_move_tool"
+        bp   				"buildings/tools/hq_move_tool"
+        ghost_bp   			"buildings/tools/hq_move_tool_ghost"
+        category 			"tools"
+        localization_id		"gui/hud/building_name/hq_move_tool"
+        description			"gui/hud/building_description/hq_move_tool"
+        menu_icon			"gui/hud/tools_icons/hq_move_tool"
+        order				"53"
+        type 				"picker"
+    }
+
+    MeshDesc
+    {
+        mesh 				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+        material 			"buildings/metal_plate_1x1"
+        flags				"2"
+    }
+}
+
+EntityBlueprint
+{
+    name					"buildings/tools/hq_move_tool_ghost"
+
+    BuildingDesc
+    {
+        name				"hq_move_tool_ghost"
+        buildable 			"0"
+        type 				"picker"
+        category 			"tools"
+    }
+
+    LuaDesc
+    {
+        script				"lua/misc/hq_move_tool.lua"
+        database
+        {
+            action			string:"hq_move_tool"
+        }
+    }
+
+    MeshDesc
+    {
+        mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+        material			"selector/hologram_violet"
+        flags				"2"
+    }
+}
+
+EntityBlueprint
+{
+    name					"buildings/tools/hq_move_tool/builder"
+
+    LuaDesc
+    {
+        script				"lua/misc/hq_move_tool_builder.lua"
+        database
+        {
+        }
+    }
+
+    PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                type 				"static"
+                group_id 			"world_blocker"
+                Shapes
+                {
+   					PhysicsBoxShape
+   					{
+    					x	16
+    					y	10
+    					z	14
+   					}
+                }
+            }
+        }
+    }
+
+    NodeCullerDesc
+    {
+        nav_mesh_cull_type 	"1"
+        cost_type 			"path_blocker"
+        can_build 			"1"
+        flow_field_size		"0.05"
+    }
+
+    GridCullerDesc
+    {
+        Shapes
+        {
+            PhysicsBoxShape
+            {
+                x	16
+                y	10
+                z	14
+            }			
+        }
+    }
+}
