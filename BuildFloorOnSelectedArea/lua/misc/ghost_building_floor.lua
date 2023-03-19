@@ -422,7 +422,7 @@ function ghost_building_floor:OnUpdate()
                self.buildCost[resourceCost.first] = 0
             end
 
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ ) 
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ * currentScale * currentScale )
         end
     else
 
