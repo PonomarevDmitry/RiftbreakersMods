@@ -193,17 +193,29 @@ function replace_wall_tool:GetWallBlueprint( level )
     for i=minNumber,1,-1 do
         local blueprintName = self.wallBluprintsArray[i]
 
-        local researchName = self.wallBluprintsResearch[blueprintName] or ""
-
-        if ( researchName ~= "" ) then
-
-            if ( PlayerService:IsResearchUnlocked( researchName ) ) then
-                return blueprintName
-            end
+        if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
+            return blueprintName
         end
     end
 
     return ""
+end
+
+function replace_wall_tool:IsWallBlueprintAvailable( blueprintName )
+
+    if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
+        return true
+    end
+
+    local researchName = self.wallBluprintsResearch[blueprintName] or ""
+    if ( researchName ~= "" ) then
+
+        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+            return true
+        end
+    end
+
+    return false
 end
 
 function replace_wall_tool:FilterSelectedEntities( selectedEntities )
@@ -213,6 +225,8 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
     if ( #self.wallBluprintsArray == 0 ) then
         return entities
     end
+
+    --LogService:Log( "FilterSelectedEntities Start" )
 
     for entity in Iter(selectedEntities ) do
 
@@ -228,15 +242,23 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
         end
 
         local buildingRef = reflection_helper(buildingDesc)
-
         if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations" ) then
             goto continue
         end
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName == "wall_small_floor" ) then
+            goto continue
+        end
+
+        --LogService:Log( "FilterSelectedEntities lowName " .. tostring(lowName) .. " blueprintName " .. tostring(blueprintName) )
 
         Insert(entities, entity)
 
         ::continue::
     end
+
+    --LogService:Log( "FilterSelectedEntities End" )
 
     return entities
 end
@@ -244,31 +266,43 @@ end
 function replace_wall_tool:OnActivateEntity( entity )
 
     if ( #self.wallBluprintsArray == 0 ) then
+        LogService:Log( "return #self.wallBluprintsArray == 0 " )
         return
     end
 
     local blueprintName = EntityService:GetBlueprintName( entity )
+    local lowName = BuildingService:FindLowUpgrade( blueprintName )
+
+    LogService:Log( "OnActivateEntity lowName " .. tostring(lowName) .. " blueprintName " .. tostring(blueprintName) )
 
     if ( IndexOf( self.allWallBluprintsArray, blueprintName ) ~= nil ) then
+        LogService:Log( "return IndexOf( self.allWallBluprintsArray, blueprintName ) ~= nil " )
         return
     end
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
+        LogService:Log( "return buildingDesc == nil " )
         return
     end
 
     local buildingRef = reflection_helper(buildingDesc)
-
     if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations"  ) then
+        LogService:Log( "return buildingRef.type wall or buildingRef.category decorations " )
+        return
+    end
+
+    local lowName = BuildingService:FindLowUpgrade( blueprintName )
+    if ( lowName == "wall_small_floor" ) then
+        LogService:Log( "return lowName wall_small_floor " )
         return
     end
 
     local level = BuildingService:GetBuildingLevel( entity )
 
     local wallBlueprint = self:GetWallBlueprint(level)
-
     if ( wallBlueprint == "" ) then
+        LogService:Log( "return wallBlueprint empty " )
         return
     end
 
