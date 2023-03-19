@@ -46,8 +46,7 @@ function replace_wall_tool:OnInit()
 
         LogService:Log( "OnInit allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName )
 
-        --local buildingDesc = self.buildingDescHash[blueprintName]
-        --local buildingRef = reflection_helper(buildingDesc)
+        --local buildingRef = self.buildingDescHash[blueprintName]
         --LogService:Log( "OnInit allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName .. " " .. tostring(buildingRef) )
     end
 end
@@ -174,36 +173,67 @@ function replace_wall_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        if ( IndexOf( self.allWallBluprintsArray, blueprintName ) ~= nil ) then
+            goto continue
+        end
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName == "wall_small_floor" ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingRef = reflection_helper(buildingDesc)
+        if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations" ) then
+            goto continue
+        end
+
+        local connectType = self:GetConnectType( blueprintName, buildingRef )
+        if ( connectType == -1 ) then
+            goto continue
+        end
+        
+        local level = BuildingService:GetBuildingLevel( entity )
+
+        local wallBlueprint = self:GetWallBlueprint( level, connectType )
+
+        if ( wallBlueprint == "" ) then
+            goto continue
+        end
+
+
+
+        local list = BuildingService:GetBuildCosts( wallBlueprint, self.playerId )
+        for resourceCost in Iter(list) do
+            if ( self.buildCost[resourceCost.first] == nil ) then
+                self.buildCost[resourceCost.first ] = 0
+            end
+
+            self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] + resourceCost.second
+        end
+
+        local list = BuildingService:GetSellResourceAmount( entity )
+        for resourceCost in Iter(list) do
+            if ( self.buildCost[resourceCost.first] == nil ) then
+                self.buildCost[resourceCost.first ] = 0 
+            end
+
+            self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] - resourceCost.second 
+        end
+
         if ( skinned ) then
             EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
         else
             EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
         end
 
-        local level = BuildingService:GetBuildingLevel( self.entity )
-
-        local wallBlueprint = self:GetWallBlueprint(level)
-
-        if ( wallBlueprint ~= "" ) then
-
-            local list = BuildingService:GetBuildCosts( wallBlueprint, self.playerId )
-            for resourceCost in Iter(list) do
-                if ( self.buildCost[resourceCost.first] == nil ) then
-                   self.buildCost[resourceCost.first ] = 0
-                end
-
-                self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] + resourceCost.second
-            end
-
-            local list = BuildingService:GetSellResourceAmount( entity )
-            for resourceCost in Iter(list) do
-                if ( self.buildCost[resourceCost.first] == nil ) then
-                   self.buildCost[resourceCost.first ] = 0 
-                end
-
-                self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] - resourceCost.second 
-            end
-        end
+        ::continue::
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
@@ -216,7 +246,26 @@ function replace_wall_tool:OnUpdate()
     end
 end
 
-function replace_wall_tool:GetWallBlueprint( level )
+function replace_wall_tool:GetConnectType( blueprintName, buildingRef )
+
+    for i=1,buildingRef.connect.count do
+
+        local connectRecord = buildingRef.connect[i]
+
+        for j=1,connectRecord.value.count do
+
+            local connectBlueprintName = connectRecord.value[j]
+
+            if ( connectBlueprintName == blueprintName ) then
+                return connectRecord.key
+            end
+        end
+    end    
+
+    return -1 
+end
+
+function replace_wall_tool:GetWallBlueprint( level, connectType )
 
     local minNumber = math.min( level, #self.wallBluprintsArray )
 
@@ -224,7 +273,22 @@ function replace_wall_tool:GetWallBlueprint( level )
         local blueprintName = self.wallBluprintsArray[i]
 
         if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
-            return blueprintName
+
+            local buildingRef = self.buildingDescHash[blueprintName]
+
+            for i=1,buildingRef.connect.count do
+
+                local connectRecord = buildingRef.connect[i]
+
+                if ( connectRecord.key == connectType and connectRecord.value.count > 0 ) then
+
+                    local connectBlueprintName = connectRecord.value[1]
+
+                    return connectBlueprintName
+                end
+            end
+
+            --return blueprintName
         end
     end
 
@@ -256,13 +320,18 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
         return entities
     end
 
-    LogService:Log( "FilterSelectedEntities Start" )
+    --LogService:Log( "FilterSelectedEntities Start" )
 
-    for entity in Iter(selectedEntities ) do
+    for entity in Iter( selectedEntities ) do
 
-        local blueprintName = EntityService:GetBlueprintName(entity)
+        local blueprintName = EntityService:GetBlueprintName( entity )
 
         if ( IndexOf( self.allWallBluprintsArray, blueprintName ) ~= nil ) then
+            goto continue
+        end
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName == "wall_small_floor" ) then
             goto continue
         end
 
@@ -276,19 +345,19 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local lowName = BuildingService:FindLowUpgrade( blueprintName )
-        if ( lowName == "wall_small_floor" ) then
+        local connectType = self:GetConnectType( blueprintName, buildingRef )
+        if ( connectType == -1 ) then
             goto continue
         end
 
-        LogService:Log( "FilterSelectedEntities lowName " .. tostring(lowName) .. " blueprintName " .. tostring(blueprintName) )
+        --LogService:Log( "FilterSelectedEntities lowName " .. tostring(lowName) .. " blueprintName " .. tostring(blueprintName) )
 
         Insert(entities, entity)
 
         ::continue::
     end
 
-    LogService:Log( "FilterSelectedEntities End" )
+    --LogService:Log( "FilterSelectedEntities End" )
 
     return entities
 end
@@ -296,43 +365,39 @@ end
 function replace_wall_tool:OnActivateEntity( entity )
 
     if ( #self.wallBluprintsArray == 0 ) then
-        LogService:Log( "return #self.wallBluprintsArray == 0 " )
         return
     end
 
     local blueprintName = EntityService:GetBlueprintName( entity )
-    local lowName = BuildingService:FindLowUpgrade( blueprintName )
-
-    LogService:Log( "OnActivateEntity lowName " .. tostring(lowName) .. " blueprintName " .. tostring(blueprintName) )
 
     if ( IndexOf( self.allWallBluprintsArray, blueprintName ) ~= nil ) then
-        LogService:Log( "return IndexOf( self.allWallBluprintsArray, blueprintName ) ~= nil " )
-        return
-    end
-
-    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( buildingDesc == nil ) then
-        LogService:Log( "return buildingDesc == nil " )
-        return
-    end
-
-    local buildingRef = reflection_helper(buildingDesc)
-    if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations"  ) then
-        LogService:Log( "return buildingRef.type wall or buildingRef.category decorations " )
         return
     end
 
     local lowName = BuildingService:FindLowUpgrade( blueprintName )
     if ( lowName == "wall_small_floor" ) then
-        LogService:Log( "return lowName wall_small_floor " )
+        return
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return
+    end
+
+    local buildingRef = reflection_helper(buildingDesc)
+    if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations"  ) then
+        return
+    end
+    local connectType = self:GetConnectType( blueprintName, buildingRef )
+
+    if ( connectType == -1 ) then
         return
     end
 
     local level = BuildingService:GetBuildingLevel( entity )
 
-    local wallBlueprint = self:GetWallBlueprint(level)
+    local wallBlueprint = self:GetWallBlueprint( level, connectType )
     if ( wallBlueprint == "" ) then
-        LogService:Log( "return wallBlueprint empty " )
         return
     end
 
