@@ -12,12 +12,13 @@ function replace_wall_tool:OnPreInit()
 end
 
 function replace_wall_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_upgrade", self.entity)
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_replace_wall_tool", self.entity)
     self.popupShown = false
 
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.selector, "PlayerReferenceComponent") )
     self.playerId = playerReferenceComponent.player_id
 
+    self.buildingDescHash = {}
     self.wallBluprintsArray = {}
     self.wallBluprintsResearch = {}
     self.allWallBluprintsArray = {}
@@ -33,6 +34,8 @@ function replace_wall_tool:OnInit()
         self:FillResearches()
     end
 
+    self:SetWallIcon()
+
     for i=1,#self.wallBluprintsArray do
         LogService:Log( "OnInit wallBluprintsArray " .. tostring(i) .. " " .. self.wallBluprintsArray[i] )
     end
@@ -43,7 +46,7 @@ function replace_wall_tool:OnInit()
 
         LogService:Log( "OnInit allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName )
 
-        --local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        --local buildingDesc = self.buildingDescHash[blueprintName]
         --local buildingRef = reflection_helper(buildingDesc)
         --LogService:Log( "OnInit allWallBluprintsArray " .. tostring(i) .. " " .. blueprintName .. " " .. tostring(buildingRef) )
     end
@@ -64,6 +67,8 @@ function replace_wall_tool:FillAllBlueprints( blueprintName )
 
     if ( IndexOf( self.wallBluprintsArray, blueprintName ) == nil ) then
         Insert( self.wallBluprintsArray, blueprintName )
+
+        self.buildingDescHash[buildingRef.bp] = buildingRef
     end
 
     if ( IndexOf( self.allWallBluprintsArray, blueprintName ) == nil ) then
@@ -102,6 +107,31 @@ function replace_wall_tool:FillResearches()
 
         self.wallBluprintsResearch[blueprintName] = researchName
     end
+end
+
+function replace_wall_tool:SetWallIcon()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    for i=#self.wallBluprintsArray,1,-1 do
+        
+        local blueprintName = self.wallBluprintsArray[i]
+
+        if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
+
+            local buildingRef = self.buildingDescHash[blueprintName]
+            
+            markerDB:SetString("wall_name", buildingRef.localization_id)
+            markerDB:SetString("wall_icon", buildingRef.menu_icon)
+            markerDB:SetInt("wall_icon_visible", 1)
+
+            return
+        end
+    end
+
+    markerDB:SetString("wall_name", "gui/hud/messages/hq_move_tool/walls_not_available")
+    markerDB:SetString("wall_icon", "")
+    markerDB:SetInt("wall_icon_visible", 0)
 end
 
 function replace_wall_tool:GetResearchForUpgrade( researchComponent, blueprintName )
@@ -226,7 +256,7 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
         return entities
     end
 
-    --LogService:Log( "FilterSelectedEntities Start" )
+    LogService:Log( "FilterSelectedEntities Start" )
 
     for entity in Iter(selectedEntities ) do
 
@@ -251,14 +281,14 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        --LogService:Log( "FilterSelectedEntities lowName " .. tostring(lowName) .. " blueprintName " .. tostring(blueprintName) )
+        LogService:Log( "FilterSelectedEntities lowName " .. tostring(lowName) .. " blueprintName " .. tostring(blueprintName) )
 
         Insert(entities, entity)
 
         ::continue::
     end
 
-    --LogService:Log( "FilterSelectedEntities End" )
+    LogService:Log( "FilterSelectedEntities End" )
 
     return entities
 end
