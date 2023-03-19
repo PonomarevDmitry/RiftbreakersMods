@@ -788,7 +788,7 @@ function ghost_building_line:FinishLineBuild()
             for entityToSell in Iter(testBuildable.entities_to_sell) do
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
             end
-            self:BuildBuilding(transform)
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
             
         elseif( testBuildable.flag == CBF_REPAIR  ) then
             QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
