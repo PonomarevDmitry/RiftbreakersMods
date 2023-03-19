@@ -69,6 +69,11 @@ ConsoleService:RegisterCommand( "test_log_blueprint", function( args )
 
             for i = 1, #tableNames do
 
+                LogService:Log("test_log_blueprint " .. blueprintName .. " " .. tableNames[i] )
+            end
+
+            for i = 1, #tableNames do
+
                 local component = blueprint:GetComponent(tableNames[i])
 
                 local componentRef = reflection_helper(component)
