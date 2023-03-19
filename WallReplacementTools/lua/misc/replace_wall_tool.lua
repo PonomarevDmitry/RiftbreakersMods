@@ -153,7 +153,8 @@ end
 
 function replace_wall_tool:OnUpdate()
 
-    self.buildCost = {}
+    local costResourceList = {}
+    local costValues = {}
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -193,22 +194,30 @@ function replace_wall_tool:OnUpdate()
 
 
 
-        local list = BuildingService:GetBuildCosts( wallBlueprint, self.playerId )
-        for resourceCost in Iter(list) do
-            if ( self.buildCost[resourceCost.first] == nil ) then
-                self.buildCost[resourceCost.first ] = 0
+        local list1 = BuildingService:GetBuildCosts( wallBlueprint, self.playerId )
+        for resourceCost in Iter(list1) do
+
+            if ( costValues[resourceCost.first] == nil ) then
+
+                Insert( costResourceList, resourceCost.first )
+
+                costValues[resourceCost.first] = 0
             end
 
-            self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] + resourceCost.second
+            costValues[resourceCost.first] = costValues[resourceCost.first] + resourceCost.second
         end
 
-        local list = BuildingService:GetSellResourceAmount( entity )
-        for resourceCost in Iter(list) do
-            if ( self.buildCost[resourceCost.first] == nil ) then
-                self.buildCost[resourceCost.first ] = 0 
+        local list2 = BuildingService:GetSellResourceAmount( entity )
+        for resourceCost in Iter(list2) do
+
+            if ( costValues[resourceCost.first] == nil ) then
+
+                Insert( costResourceList, resourceCost.first )
+
+                costValues[resourceCost.first] = 0 
             end
 
-            self.buildCost[resourceCost.first ] = self.buildCost[resourceCost.first ] - resourceCost.second 
+            costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second 
         end
 
         if ( skinned ) then
@@ -218,6 +227,18 @@ function replace_wall_tool:OnUpdate()
         end
 
         ::continue::
+    end
+
+    self.buildCost = {}
+
+    for resourceName in Iter(costResourceList) do
+        
+        local resourceValue = costValues[resourceName]
+
+        if ( resourceValue ~= 0 ) then
+
+            self.buildCost[resourceName] = resourceValue
+        end
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
