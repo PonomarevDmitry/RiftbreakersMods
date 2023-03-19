@@ -22,6 +22,7 @@ function replace_wall_tool:OnInit()
     self.wallBluprintsArray = {}
     self.wallBluprintsResearch = {}
     self.allWallBluprintsArray = {}
+    self.cacheBuildCosts = {}
 
     local wallBlueprint = self.data:GetStringOrDefault("wallBlueprint", "")
     wallBlueprint = wallBlueprint or ""
@@ -186,25 +187,25 @@ function replace_wall_tool:OnUpdate()
         
         local level = BuildingService:GetBuildingLevel( entity )
 
-        local wallBlueprint = self:GetWallBlueprint( level, connectType )
+        local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
 
         if ( wallBlueprint == "" ) then
             goto continue
         end
 
 
+        
+        local list1 = self:GetBuildCosts( wallBlueprintLevel )
+        for resourceName, amount in pairs( list1 ) do
 
-        local list1 = BuildingService:GetBuildCosts( wallBlueprint, self.playerId )
-        for resourceCost in Iter(list1) do
+            if ( costValues[resourceName] == nil ) then
 
-            if ( costValues[resourceCost.first] == nil ) then
+                Insert( costResourceList, resourceName )
 
-                Insert( costResourceList, resourceCost.first )
-
-                costValues[resourceCost.first] = 0
+                costValues[resourceName] = 0
             end
 
-            costValues[resourceCost.first] = costValues[resourceCost.first] + resourceCost.second
+            costValues[resourceName] = costValues[resourceName] + amount
         end
 
         local list2 = BuildingService:GetSellResourceAmount( entity )
@@ -270,7 +271,7 @@ function replace_wall_tool:GetConnectType( blueprintName, buildingRef )
     return -1 
 end
 
-function replace_wall_tool:GetWallBlueprint( level, connectType )
+function replace_wall_tool:GetWallBlueprintAndLevel( level, connectType )
 
     local minNumber = math.min( level, #self.wallBluprintsArray )
 
@@ -289,15 +290,13 @@ function replace_wall_tool:GetWallBlueprint( level, connectType )
 
                     local connectBlueprintName = connectRecord.value[1]
 
-                    return connectBlueprintName
+                    return connectBlueprintName, buildingRef.level
                 end
             end
-
-            --return blueprintName
         end
     end
 
-    return ""
+    return "", 0
 end
 
 function replace_wall_tool:IsWallBlueprintAvailable( blueprintName )
@@ -315,6 +314,63 @@ function replace_wall_tool:IsWallBlueprintAvailable( blueprintName )
     end
 
     return false
+end
+
+function replace_wall_tool:GetBuildCosts( level )
+
+    if ( self.cacheBuildCosts == nil ) then
+
+        self.cacheBuildCosts = {}
+    end
+
+    if ( self.cacheBuildCosts[level] ~= nil ) then
+       
+        return self.cacheBuildCosts[level]
+    end
+
+    local result = self:CalculateBuildCosts( level )
+
+    self.cacheBuildCosts[level] = result
+
+    return result
+end
+
+function replace_wall_tool:CalculateBuildCosts( level )
+
+    local blueprintName = self.wallBluprintsArray[level]
+
+    local costValues = {}
+
+    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    for resourceCost in Iter(list) do
+
+        if ( costValues[resourceCost.first] == nil ) then
+            costValues[resourceCost.first] = 0
+        end
+
+        costValues[resourceCost.first] = costValues[resourceCost.first] + resourceCost.second
+    end
+
+    if ( level > 1 ) then
+        
+        local previousList = self:GetBuildCosts( level - 1 )
+
+        for resourceName, amount in pairs( previousList ) do
+
+            if ( costValues[resourceName] == nil ) then
+                costValues[resourceName] = 0
+            end
+
+            costValues[resourceName] = costValues[resourceName] + amount
+        end
+    end
+
+    for resourceName, amount in pairs( costValues ) do
+
+        LogService:Log("CalculateBuildCosts level " .. tostring(level) .. " blueprintName " .. blueprintName .. " resourceName " .. resourceName .. " amount " .. tostring(amount) )
+    end
+
+    return costValues
 end
 
 function replace_wall_tool:FilterSelectedEntities( selectedEntities )
@@ -395,7 +451,7 @@ function replace_wall_tool:OnActivateEntity( entity )
 
     local level = BuildingService:GetBuildingLevel( entity )
 
-    local wallBlueprint = self:GetWallBlueprint( level, connectType )
+    local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
     if ( wallBlueprint == "" ) then
         return
     end
