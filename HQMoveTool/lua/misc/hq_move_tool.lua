@@ -403,6 +403,11 @@ function hq_move_tool:OnActivateSelectorRequest()
     EntityService:RemoveMaterial( self.hq, "selected" )
     self.hq = nil
 
+    --local SM_SELECT  = 2
+    --QueueEvent( "ChangeSelectorModeRequest", self.selector, SM_SELECT )
+
+    QueueEvent( "LeaveBuildModeRequest", self.selector, false )
+
     EntityService:RemoveEntity( self.entity )
 end
 
