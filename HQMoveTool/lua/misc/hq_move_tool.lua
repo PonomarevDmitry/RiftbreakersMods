@@ -41,6 +41,8 @@ function hq_move_tool:InitializeValues()
     self.markerEntity = EntityService:SpawnAndAttachEntity( "misc/marker_selector_hq_move_tool", self.selector )
     
     self.hq = nil
+    self.ghostHQ = nil
+    self.buildCost = {}
     
     self.annoucements = { 
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
@@ -143,6 +145,8 @@ function hq_move_tool:SpawnBuildinsTemplates()
     self.ghostHQ = buildingEntity
     self.hqBlueprint = hqBlueprint
 
+    self.buildCost = self:GetFullBuildCosts( self.buildingDesc.bp )
+
 
     local gridSize = BuildingService:GetBuildingGridSize( self.hq )
 
@@ -180,69 +184,19 @@ function hq_move_tool:GetResearchForUpgrade( nextUpgrade )
     return ""
 end
 
-function hq_move_tool:OnWorkExecute()
+function hq_move_tool:GetFullBuildCosts( targetBlueprintName )
 
-    if ( self.hq ~= nil and self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
+    local buildCost = {}
 
-        local markerDB = EntityService:GetDatabase( self.markerEntity )
-
-        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
-        markerDB:SetInt("message_visible", 1)
-
-        EntityService:RemoveMaterial( self.hq, "selected" )
-        self.hq = nil
-
-        if ( self.ghostHQ ~= nil ) then
-            EntityService:RemoveEntity(self.ghostHQ)
-            self.ghostHQ = nil
-        end
-    end
-
-    local currentTransform = EntityService:GetWorldTransform( self.entity )
-    self:CheckEntityBuildable( self.entity, currentTransform, self.blueprint )
-
-    self.buildCost = {}
-
-    if ( self.ghostHQ ~= nil ) then
-
-        EntityService:SetPosition( self.ghostHQ, currentTransform.position )
-
-        local currentTransform = EntityService:GetWorldTransform( self.ghostHQ )
-
-        currentTransform.position = currentTransform.position
-
-        local testBuildable = self:CheckEntityBuildable( self.ghostHQ, currentTransform, self.hqBlueprint )
-
-        BuildingService:CheckAndFixBuildingConnection( self.ghostHQ )
-
-        self:GetFullBuildCosts( self.buildCost )
-    end
-
-    if ( self.infoChild == nil ) then
-        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
-    end
-
-    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
-
-    if ( onScreen ) then
-        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
-    else
-        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
-    end
-end
-
-function hq_move_tool:GetFullBuildCosts( buildCost )
-
-    local targetBlueprintName = self.buildingDesc.bp
-
-    local baseDesc = BuildingService:FindBaseBuilding( "buildings/main/headquarters" )
+    local baseDesc = BuildingService:GetBuildingDesc( "buildings/main/headquarters" )
     if (baseDesc ~= nil ) then
 
         local baseDescRef = reflection_helper( baseDesc )
 
         self:AddBuildCost( buildCost, baseDescRef, targetBlueprintName )
     end
+
+    return buildCost
 end
 
 function hq_move_tool:AddBuildCost( buildCost, baseDescRef, targetBlueprintName )
@@ -273,6 +227,55 @@ function hq_move_tool:AddBuildCost( buildCost, baseDescRef, targetBlueprintName 
 
             self:AddBuildCost( buildCost, nextUpgradeRef, targetBlueprintName )
         end
+    end
+end
+
+function hq_move_tool:OnWorkExecute()
+
+    if ( self.hq ~= nil and self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
+
+        local markerDB = EntityService:GetDatabase( self.markerEntity )
+
+        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
+        markerDB:SetInt("message_visible", 1)
+
+        EntityService:RemoveMaterial( self.hq, "selected" )
+        self.hq = nil
+
+        if ( self.ghostHQ ~= nil ) then
+            EntityService:RemoveEntity(self.ghostHQ)
+            self.ghostHQ = nil
+            self.buildCost = {}
+        end
+    end
+
+    local currentTransform = EntityService:GetWorldTransform( self.entity )
+    self:CheckEntityBuildable( self.entity, currentTransform, self.blueprint )
+
+    if ( self.ghostHQ ~= nil ) then
+
+        EntityService:SetPosition( self.ghostHQ, currentTransform.position )
+
+        local currentTransform = EntityService:GetWorldTransform( self.ghostHQ )
+
+        currentTransform.position = currentTransform.position
+
+        local testBuildable = self:CheckEntityBuildable( self.ghostHQ, currentTransform, self.hqBlueprint )
+
+        BuildingService:CheckAndFixBuildingConnection( self.ghostHQ )
+    end
+
+    if ( self.infoChild == nil ) then
+        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    end
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+
+    if ( onScreen ) then
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
+    else
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
 end
 
@@ -316,6 +319,7 @@ function hq_move_tool:OnActivateSelectorRequest()
         if ( self.ghostHQ ~= nil ) then
             EntityService:RemoveEntity(self.ghostHQ)
             self.ghostHQ = nil
+            self.buildCost = {}
         end
 
         return
@@ -355,14 +359,11 @@ function hq_move_tool:OnActivateSelectorRequest()
         return
     end
 
-    local buildCost = {}
-    
     -- Paying resources
-    self:GetFullBuildCosts( buildCost )
 
     local paidResources = "";
 
-    for resourceName,resourceValue in pairs(buildCost) do
+    for resourceName,resourceValue in pairs(self.buildCost) do
 
         PlayerService:AddResourceAmount( resourceName, -resourceValue )
 
@@ -397,6 +398,7 @@ function hq_move_tool:OnActivateSelectorRequest()
     database:SetFloat("orientation.w", transformToNewHQ.orientation.w )
     
     self.ghostHQ = nil
+    self.buildCost = {}
     
     EntityService:RemoveMaterial( self.hq, "selected" )
     self.hq = nil
@@ -458,6 +460,7 @@ function hq_move_tool:OnRelease()
         EntityService:RemoveEntity(self.ghostHQ)
         self.ghostHQ = nil
     end
+    self.buildCost = {}
 
     if ( self.markerEntity ~= nil) then
         EntityService:RemoveEntity(self.markerEntity)
