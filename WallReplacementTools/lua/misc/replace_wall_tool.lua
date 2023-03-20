@@ -365,11 +365,6 @@ function replace_wall_tool:CalculateBuildCosts( level )
         end
     end
 
-    for resourceName, amount in pairs( costValues ) do
-
-        LogService:Log("CalculateBuildCosts level " .. tostring(level) .. " blueprintName " .. blueprintName .. " resourceName " .. resourceName .. " amount " .. tostring(amount) )
-    end
-
     return costValues
 end
 
