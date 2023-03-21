@@ -140,7 +140,7 @@ function replace_wall_tool:SetWallIcon()
         end
     end
 
-    markerDB:SetString("wall_name", "gui/hud/messages/hq_move_tool/walls_not_available")
+    markerDB:SetString("wall_name", "gui/hud/messages/replace_wall_to_energy_tool/walls_not_available")
     markerDB:SetString("wall_icon", "")
     markerDB:SetInt("wall_icon_visible", 0)
 end
