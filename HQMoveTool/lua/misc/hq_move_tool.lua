@@ -99,7 +99,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
 
     self.nextUpgradeResearch = nextUpgradeResearch
 
-    local baseDesc = BuildingService:FindBaseBuilding( "buildings/main/headquarters" )
+    local baseDesc = BuildingService:GetBuildingDesc( "buildings/main/headquarters" )
     if (baseDesc ~= nil ) then
 
         local baseDescRef = reflection_helper( baseDesc )
