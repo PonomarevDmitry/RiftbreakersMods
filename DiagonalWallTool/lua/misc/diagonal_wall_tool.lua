@@ -193,14 +193,30 @@ function diagonal_wall_tool:OnWorkExecute()
     end
 end
 
--- Get positions to build wall entites
 function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLinesConfig )
     
-    -- Path from buildStartPosition to currentTransform
-    --local pathFromStartPositionToEndPosition = BuildingService:FindPathByBlueprint( self.buildStartPosition, currentTransform, self.wallBlueprint )
-    --return pathFromStartPositionToEndPosition 
+    local positionPlayer = self.positionPlayer
+    if (positionPlayer == nil) then
+        local player = PlayerService:GetPlayerControlledEnt(0)
+        positionPlayer = EntityService:GetPosition( player )    
+    end
 
+    local pathFromStartPositionToEndPosition = self:FindSingleDiagonalLine( buildEndPosition, positionPlayer )
+    if ( wallLinesConfig == "1" ) then
+    
+        return pathFromStartPositionToEndPosition    
+    end
+
+    return pathFromStartPositionToEndPosition 
+end
+
+function diagonal_wall_tool:FindSingleDiagonalLine( buildEndPosition, positionPlayer )
+
+    local xSignPlayer, zSignPlayer = self:GetXZSigns(positionPlayer, self.buildStartPosition.position)
+    
     local xSign, zSign = self:GetXZSigns(self.buildStartPosition.position, buildEndPosition)
+
+    local zPriority = (xSignPlayer * xSign) < 0 and (zSignPlayer * zSign) > 0
 
     local x0 = self.buildStartPosition.position.x
     local z0 = self.buildStartPosition.position.z
@@ -225,8 +241,6 @@ function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
 
     local error = dx + dz
 
-    local previousPosition = nil
-
     while ( true ) do
     
         local position = {}
@@ -235,65 +249,58 @@ function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
         position.y = positionY
         position.z = positionZ
 
-        if ( previousPosition ~= nil and not self:IsNeighbours( previousPosition, position ) ) then
-
-            local positionBetween = {}
-            positionBetween.y = previousPosition.y
-            positionBetween.x = previousPosition.x
-            positionBetween.z = previousPosition.z
-
-            if ( dx >= dzAbs ) then
-
-                positionBetween.x = positionBetween.x + deltaX
-            else
-
-                positionBetween.z = positionBetween.z + deltaZ
-            end
-
-            Insert(result, positionBetween)
-        end
-
         Insert(result, position)
-
-        previousPosition = position
 
         if ( positionX == x1 and positionZ == z1 ) then
             break
         end
 
-        local e2 = 2 * error
+        local errorMul2 = 2 * error
 
-        if ( e2 >= dz ) then
-            if positionX == x1 then
-                break
-            end
-            error = error + dz
-            positionX = positionX + deltaX
-        end
+        if ( zPriority ) then
 
-        if ( e2 <= dx ) then
-            if ( positionZ == z1 ) then
-                break
+            if ( errorMul2 <= dx ) then
+                if ( positionZ == z1 ) then
+                    break
+                end
+                error = error +  dx
+                positionZ = positionZ + deltaZ
+                goto continue
             end
-            error = error + dx
-            positionZ = positionZ + deltaZ
+
+            if ( errorMul2 >= dz ) then
+                if positionX == x1 then
+                    break
+                end
+                error = error + dz
+                positionX = positionX + deltaX
+                goto continue
+            end
+        else
+
+            if ( errorMul2 >= dz ) then
+                if positionX == x1 then
+                    break
+                end
+                error = error + dz
+                positionX = positionX + deltaX
+                goto continue
+            end
+
+            if ( errorMul2 <= dx ) then
+                if ( positionZ == z1 ) then
+                    break
+                end
+                error = error +  dx
+                positionZ = positionZ + deltaZ
+                goto continue
+            end
         end
+            
+        ::continue::
     end
 
     return result
-end
-
-function diagonal_wall_tool:IsNeighbours( position1, position2)
-
-    if ( position1.x == position2.x ) then
-        return true
-    end
-
-    if ( position1.z == position2.z ) then
-        return true
-    end
-
-    return false
 end
 
 function diagonal_wall_tool:GetXZSigns(positionStart, positionEnd)
@@ -336,43 +343,16 @@ function diagonal_wall_tool:GetWallConfigArray()
         "11",
         
         -- 3
-        "101",        
         "111",
         
         -- 4
-        "1011",
         "1111",
         
         -- 5
-        "10101",
         "11111",
         
         -- 6
-        "101011",
-        "111111",
-        
-        -- 7
-        "1010101",
-        
-        -- 8
-        "10101011",
-        
-        -- 9
-        "101010101",
-        
-        -- 10
-        "1010101011",
-        
-        -- 11
-        "10101010101",
-        
-        "T10",
-        "T8",
-        "T6",
-        "T5",
-        "T4",
-        "T3",
-        "T2",
+        "111111"
     }
 
     return scaleWallLines
