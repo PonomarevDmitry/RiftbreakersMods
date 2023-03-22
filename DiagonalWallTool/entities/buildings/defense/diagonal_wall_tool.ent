@@ -1,18 +1,19 @@
 EntityBlueprint
 {
-    name					"buildings/tools/diagonal_wall_tool"
+    name					"buildings/defense/diagonal_wall_tool"
 
     BuildingDesc
     {
         name 				"diagonal_wall_tool"
-        bp   				"buildings/tools/diagonal_wall_tool"
-        ghost_bp   			"buildings/tools/diagonal_wall_tool_ghost"
-        category 			"tools"
+        bp   				"buildings/defense/diagonal_wall_tool"
+        ghost_bp   			"buildings/defense/diagonal_wall_tool_ghost"
+        category 			"defense"
         localization_id		"gui/hud/building_name/diagonal_wall_tool"
         description			"gui/hud/building_description/diagonal_wall_tool"
         menu_icon			"gui/hud/tools_icons/diagonal_wall_tool"
-        order				"53"
-        type 				"picker"
+        order				"0.1"
+        type 				"diagonal_wall_tool"
+        require 			"headquarters"
     }
 
     MeshDesc
@@ -25,19 +26,19 @@ EntityBlueprint
 
 EntityBlueprint
 {
-    name					"buildings/tools/diagonal_wall_tool_ghost"
+    name					"buildings/defense/diagonal_wall_tool_ghost"
 
     BuildingDesc
     {
         name				"diagonal_wall_tool_ghost"
         buildable 			"0"
-        type 				"picker"
-        category 			"tools"
+        type 				"diagonal_wall_tool"
+        category 			"defense"
     }
 
     LuaDesc
     {
-        script				"lua/misc/diagonal_wall_tool.lua"
+        script				"lua/buildings/defense/diagonal_wall_tool.lua"
         database
         {
             action			string:"diagonal_wall_tool"

@@ -39,17 +39,9 @@ function diagonal_wall_tool:InitializeValues()
     self.linesEntities = {}
 
     self.buildStartPosition = nil
+    self.positionPlayer = nil
 
-    self.wallBlueprint = "buildings/defense/wall_small_straight_01";
-    
-    self.annoucements = { 
-        ["ai"] = "voice_over/announcement/not_enough_ai_cores",
-        ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
-        ["steel"] = "voice_over/announcement/not_enough_steel",
-        ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
-        ["palladium"] = "voice_over/announcement/not_enough_palladium",
-        ["titanium"] = "voice_over/announcement/not_enough_titanium" 
-    }
+    self.wallBlueprint = self:GetWallBlueprint()
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
@@ -59,6 +51,17 @@ function diagonal_wall_tool:InitializeValues()
     -- Marker with number of wall layers
     self.markerLinesConfig = "0"
     self.currentMarkerLines = nil
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    -- Wall layers config
+    self.wallLinesConfig = selectorDB:GetStringOrDefault("wall_lines_config", "1")
+    self.wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
+end
+
+function diagonal_wall_tool:GetWallBlueprint()
+
+    return "buildings/defense/wall_small_straight_01"
 end
 
 function diagonal_wall_tool:SpawnWallTemplates()
@@ -98,7 +101,7 @@ function diagonal_wall_tool:OnWorkExecute()
     self.buildCost = {}
 
     -- Wall layers config
-    local wallLinesConfig = self.data:GetStringOrDefault("wall_lines_config", "1")
+    local wallLinesConfig = self.wallLinesConfig
     
     wallLinesConfig = self:CheckConfigExists(wallLinesConfig)
     
@@ -207,7 +210,120 @@ function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
         return pathFromStartPositionToEndPosition    
     end
 
-    return pathFromStartPositionToEndPosition 
+    local playerValue = self:CalcFunction( positionPlayer.x, positionPlayer.z )
+    
+    local deltaXZ = 2
+            
+    local wallLinesConfigLen = string.len( wallLinesConfig ) - 1
+
+    local hashPositions = {}
+    local result = {}
+
+    local R2 = wallLinesConfigLen * wallLinesConfigLen
+
+    for i=1,#pathFromStartPositionToEndPosition do
+    
+        local position = pathFromStartPositionToEndPosition[i]
+        
+        -- Add if position has not been added yet
+        if ( not self:HashContains(hashPositions, position.x, position.z ) ) then
+        
+            table.insert(result, position)
+        end
+
+        for stepX=-wallLinesConfigLen,wallLinesConfigLen do
+
+            local newPositionX = position.x + stepX * deltaXZ
+
+            for stepZ=-wallLinesConfigLen,wallLinesConfigLen do
+
+                local len = stepX * stepX + stepZ * stepZ
+
+                if ( len <= R2 ) then
+    
+                    local newPositionZ = position.z + stepZ * deltaXZ
+
+                    local positionValue = self:CalcFunction( newPositionX, newPositionZ )
+            
+                    if ( positionValue == 0 or positionValue * playerValue < 0 ) then
+
+                        self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
+                    end
+                end
+            end
+        end
+    end
+
+    return result 
+end
+
+function diagonal_wall_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
+    
+    -- Add if position has not been added yet
+    if ( self:HashContains(hashPositions, newPositionX, newPositionZ ) ) then
+        return
+    end
+
+    local newPosition = {}
+    newPosition.x = newPositionX
+    newPosition.y = newPositionY
+    newPosition.z = newPositionZ
+
+    table.insert(result, newPosition)
+end
+
+-- Check position has not already been added to hashPositions
+function diagonal_wall_tool:HashContains(hashPositions, newPositionX, newPositionZ)
+
+    if ( hashPositions[newPositionX] == nil) then
+    
+        hashPositions[newPositionX] = {}    
+    end
+    
+    local hashXPosition = hashPositions[newPositionX]
+    
+    if ( hashXPosition[newPositionZ] ~= nil ) then
+        
+        return true    
+    end
+    
+    hashXPosition[newPositionZ] = true    
+    
+    return false
+end
+
+function diagonal_wall_tool:GetVectorOut(position, playerValue)
+                
+    for xSign in Iter( {1,-1} ) do
+
+        for zSign in Iter( {1,-1} ) do
+
+            local newPositionX = position.x + xSign * 10
+            local newPositionZ = position.z + zSign * 10
+
+            local positionValue = self:CalcFunction( newPositionX, newPositionZ )
+            
+            if ( positionValue * playerValue < 0 ) then
+
+                return xSign, zSign
+            end
+        end 
+    end    
+
+    return 0, 0
+end
+
+function diagonal_wall_tool:CalcFunction( positionX, positionZ )
+
+    local result = self.coefX * positionX + self.coefZ * positionZ + self.const
+
+    if ( result > 0 ) then
+        return 1
+    elseif ( result < 0 ) then
+        return -1
+    end
+
+    return 0
 end
 
 function diagonal_wall_tool:FindSingleDiagonalLine( buildEndPosition, positionPlayer )
@@ -226,6 +342,10 @@ function diagonal_wall_tool:FindSingleDiagonalLine( buildEndPosition, positionPl
 
     local deltaX = 2 * xSign
     local deltaZ = 2 * zSign
+
+    self.coefX = (z1 - z0)
+    self.coefZ = -(x1 - x0)
+    self.const = x1*z0 - x0*z1
 
     local dx = math.abs(x1 - x0)
     local dz = -math.abs(z1 - z0)
@@ -303,7 +423,7 @@ function diagonal_wall_tool:FindSingleDiagonalLine( buildEndPosition, positionPl
     return result
 end
 
-function diagonal_wall_tool:GetXZSigns(positionStart, positionEnd)
+function diagonal_wall_tool:GetXZSigns(positionStart, positionEnd, playerValue)
                 
     local xSign = -1
     local zSign = -1
@@ -352,7 +472,7 @@ function diagonal_wall_tool:GetWallConfigArray()
         "11111",
         
         -- 6
-        "111111"
+        "111111",
     }
 
     return scaleWallLines
@@ -433,6 +553,7 @@ function diagonal_wall_tool:FinishLineBuild()
 
     local count = #self.linesEntities
     local step = count
+
     if ( count > 5 ) then
         local additionalCubesCount = math.ceil( count / 5 ) 
         step = math.ceil( count / additionalCubesCount) 
@@ -474,7 +595,8 @@ function diagonal_wall_tool:OnRotateSelectorRequest(evt)
 
     local scaleWallLines = self:GetWallConfigArray()
 
-    local currentLinesConfig = self.data:GetStringOrDefault("wall_lines_config", "1")
+    local currentLinesConfig = self.wallLinesConfig
+    currentLinesConfig = self:CheckConfigExists(currentLinesConfig)
     
     local change = 1
     if ( degree > 0 ) then
@@ -496,9 +618,13 @@ function diagonal_wall_tool:OnRotateSelectorRequest(evt)
     end
     
     local newValue = scaleWallLines[newIndex]
-    
-    self.data:SetString("wall_lines_config", newValue)
-    
+
+    self.wallLinesConfig = newValue
+
+    -- Wall layers config
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetString("wall_lines_config", newValue)
+
     self:OnWorkExecute()
 end
 
