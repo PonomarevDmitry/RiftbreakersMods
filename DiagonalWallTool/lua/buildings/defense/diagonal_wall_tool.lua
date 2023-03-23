@@ -46,8 +46,6 @@ function diagonal_wall_tool:InitializeValues()
 
     self.wallBlueprint = self:GetWallBlueprint( selectorDB )
 
-    LogService:Log( "wallBlueprint " .. self.wallBlueprint )
-
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
 
@@ -182,6 +180,7 @@ function diagonal_wall_tool:OnWorkExecute()
             if ( lineEnt == nil ) then
 
                 lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
+                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
             end
 
