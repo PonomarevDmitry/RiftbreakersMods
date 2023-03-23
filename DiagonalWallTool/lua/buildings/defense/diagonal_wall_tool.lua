@@ -204,11 +204,13 @@ function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
         positionPlayer = EntityService:GetPosition( player )    
     end
 
-    local pathFromStartPositionToEndPosition = self:FindSingleDiagonalLine( buildEndPosition, positionPlayer )
+    local pathFromStartPositionToEndPosition = self:FindSingleDiagonalLine( self.buildStartPosition.position, buildEndPosition, positionPlayer )
     if ( wallLinesConfig == "1" ) then
     
         return pathFromStartPositionToEndPosition    
     end
+
+    self:SetLineParameters( self.buildStartPosition.position, buildEndPosition )
 
     local playerValue = self:CalcFunction( positionPlayer.x, positionPlayer.z )
     
@@ -326,26 +328,36 @@ function diagonal_wall_tool:CalcFunction( positionX, positionZ )
     return 0
 end
 
-function diagonal_wall_tool:FindSingleDiagonalLine( buildEndPosition, positionPlayer )
+function diagonal_wall_tool:SetLineParameters( buildStartPosition, buildEndPosition )
 
-    local xSignPlayer, zSignPlayer = self:GetXZSigns(positionPlayer, self.buildStartPosition.position)
+    local x0 = buildStartPosition.x
+    local z0 = buildStartPosition.z
+
+    local x1 = buildEndPosition.x
+    local z1 = buildEndPosition.z
+
+    self.coefX = (z1 - z0)
+    self.coefZ = -(x1 - x0)
+    self.const = x1*z0 - x0*z1
+
+end
+
+function diagonal_wall_tool:FindSingleDiagonalLine( buildStartPosition, buildEndPosition, positionPlayer )
+
+    local xSignPlayer, zSignPlayer = self:GetXZSigns(positionPlayer, buildStartPosition)
     
-    local xSign, zSign = self:GetXZSigns(self.buildStartPosition.position, buildEndPosition)
+    local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
 
     local zPriority = (xSignPlayer * xSign) < 0 and (zSignPlayer * zSign) > 0
 
-    local x0 = self.buildStartPosition.position.x
-    local z0 = self.buildStartPosition.position.z
+    local x0 = buildStartPosition.x
+    local z0 = buildStartPosition.z
 
     local x1 = buildEndPosition.x
     local z1 = buildEndPosition.z
 
     local deltaX = 2 * xSign
     local deltaZ = 2 * zSign
-
-    self.coefX = (z1 - z0)
-    self.coefZ = -(x1 - x0)
-    self.const = x1*z0 - x0*z1
 
     local dx = math.abs(x1 - x0)
     local dz = -math.abs(z1 - z0)
@@ -354,7 +366,7 @@ function diagonal_wall_tool:FindSingleDiagonalLine( buildEndPosition, positionPl
 
     local result = {}
 
-    local positionY = self.buildStartPosition.position.y
+    local positionY = buildStartPosition.y
 
     local positionX = x0
     local positionZ = z0
