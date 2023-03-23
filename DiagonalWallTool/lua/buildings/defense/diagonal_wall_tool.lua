@@ -22,6 +22,8 @@ function diagonal_wall_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
 
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
     self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
@@ -42,7 +44,9 @@ function diagonal_wall_tool:InitializeValues()
     self.buildStartPosition = nil
     self.positionPlayer = nil
 
-    self.wallBlueprint = self:GetWallBlueprint()
+    self.wallBlueprint = self:GetWallBlueprint( selectorDB )
+
+    LogService:Log( "wallBlueprint " .. self.wallBlueprint )
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
@@ -53,16 +57,41 @@ function diagonal_wall_tool:InitializeValues()
     self.markerLinesConfig = 0
     self.currentMarkerLines = nil
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
-
     -- Wall layers config
     self.wallLinesCount = selectorDB:GetIntOrDefault("$diagonal_wall_lines_count", 1)
     self.wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
 end
 
-function diagonal_wall_tool:GetWallBlueprint()
+function diagonal_wall_tool:GetWallBlueprint( selectorDB )
 
-    return "buildings/defense/wall_small_straight_01"
+    local defaultWall = "buildings/defense/wall_small_straight_01"
+
+    local blueprintName = selectorDB:GetStringOrDefault("$diagonal_wall_blueprint", defaultWall)
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return defaultWall
+    end
+
+    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+        return defaultWall
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return defaultWall
+    end
+
+    local buildingRef = reflection_helper( buildingDesc )
+    if ( buildingRef == nil ) then
+        return defaultWall
+    end
+
+    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    if ( #list == 0 ) then
+        return defaultWall
+    end
+
+    return blueprintName
 end
 
 function diagonal_wall_tool:SpawnWallTemplates()
@@ -72,8 +101,6 @@ function diagonal_wall_tool:SpawnWallTemplates()
     --markerDB:SetInt("message_visible", 0)
 
     local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.wallBlueprint ) )
-
-    LogService:Log( tostring(buildingDesc) )
 
     local transform = EntityService:GetWorldTransform( self.entity )
 
