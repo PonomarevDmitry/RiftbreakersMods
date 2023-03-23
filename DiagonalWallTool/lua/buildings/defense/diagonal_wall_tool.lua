@@ -210,13 +210,43 @@ function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
         return pathFromStartPositionToEndPosition    
     end
 
-    self:SetLineParameters( self.buildStartPosition.position, buildEndPosition )
+    local x0 = self.buildStartPosition.position.x
+    local z0 = self.buildStartPosition.position.z
+
+    local x1 = buildEndPosition.x
+    local z1 = buildEndPosition.z
+
+    self.coefX = (z1 - z0)
+    self.coefZ = -(x1 - x0)
+    self.const = x1*z0 - x0*z1
 
     local playerValue = self:CalcFunction( positionPlayer.x, positionPlayer.z )
+
+    local newPositionX = x0 + self.coefX * 3
+    local newPositionZ = z0 + self.coefZ * 3
+
+    local secondValue = self:CalcFunction( newPositionX, newPositionZ )
     
-    local deltaXZ = 2
-            
+    if ( secondValue * playerValue > 0 ) then
+
+        newPositionX = x0 - self.coefX * 3
+        newPositionZ = z0 - self.coefZ * 3
+    end
+
+    local endPositionMulti = {}
+    endPositionMulti.x = newPositionX
+    endPositionMulti.y = self.buildStartPosition.position.y
+    endPositionMulti.z = newPositionZ
+
+    local pathMulti = self:FindSingleDiagonalLine( self.buildStartPosition.position, endPositionMulti, positionPlayer )
+
+    self:MakeRelativePath( pathMulti, x0, z0 )
+
     local wallLinesConfigLen = string.len( wallLinesConfig ) - 1
+
+    local multiWallsArray = self:GetPathWithNumberChanges( pathMulti, wallLinesConfigLen )
+    
+    
 
     local hashPositions = {}
     local result = {}
@@ -233,30 +263,97 @@ function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
             table.insert(result, position)
         end
 
-        for stepX=-wallLinesConfigLen,wallLinesConfigLen do
+        for vector in Iter( multiWallsArray ) do
 
-            local newPositionX = position.x + stepX * deltaXZ
+            local newPositionX = position.x + vector.x
+            local newPositionZ = position.z + vector.z
 
-            for stepZ=-wallLinesConfigLen,wallLinesConfigLen do
-
-                local len = stepX * stepX + stepZ * stepZ
-
-                if ( len <= R2 ) then
-    
-                    local newPositionZ = position.z + stepZ * deltaXZ
-
-                    local positionValue = self:CalcFunction( newPositionX, newPositionZ )
-            
-                    if ( positionValue == 0 or positionValue * playerValue < 0 ) then
-
-                        self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
-                    end
-                end
-            end
+            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
         end
     end
 
     return result 
+end
+
+function diagonal_wall_tool:GetPathWithNumberChanges( pathMulti, changesCount )
+
+    if ( #pathMulti == 0 or #pathMulti == 1 ) then
+        return pathMulti
+    end
+
+    local x0 = 0
+    local z0 = 0
+
+    local changesX = 0
+    local changesZ = 0
+
+    local index = 1
+    local previousPosition = nil
+
+
+    local result = {}
+
+    local countCalcs = 0
+
+    while ( true ) do
+       
+        local position = pathMulti[index]
+
+        local newPositionX = x0 + position.x
+        local newPositionZ = z0 + position.z
+
+        local vector = {}
+        vector.x = newPositionX
+        vector.z = newPositionZ
+
+        Insert( result, vector )
+
+        if (previousPosition ~= nil) then
+            
+            if ( previousPosition.x ~= newPositionX ) then
+                changesX = changesX + 1
+            end
+            
+            if ( previousPosition.z ~= newPositionZ ) then
+                changesZ = changesZ + 1
+            end
+        end
+
+        if ( changesX >= changesCount or changesZ >= changesCount ) then
+            break;
+        end
+
+        previousPosition = vector
+
+        index = index + 1
+
+        if ( index > #pathMulti ) then
+            index = 2;
+
+            x0 = newPositionX
+            z0 = newPositionZ
+        end
+
+        countCalcs = countCalcs + 1
+
+        if ( countCalcs > 30 ) then
+            break
+        end
+    end
+
+    return result
+end
+
+function diagonal_wall_tool:MakeRelativePath( pathMulti, x0, z0 )
+
+    for position in Iter( pathMulti ) do
+
+        local newPositionX = position.x - x0
+        local newPositionZ = position.z - z0
+
+        position.x = newPositionX
+        position.z = newPositionZ
+    end
 end
 
 function diagonal_wall_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
