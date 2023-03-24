@@ -203,7 +203,13 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
 
     LogService:Log("TryEquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) )
 
-    ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber - 1 )
+    --ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber - 1 )
+
+    --QueueEvent("UnequipItemRequest", player, subSlotEntityId, slotName )
+
+    --QueueEvent("EquipItemRequest", player, subSlotEntityId, slotName )
+
+    PlayerService:EquipItemInSlot( 0, subSlotEntityId, slotName )
 end
 
 return QuickEquipmentSlotsUtils;
