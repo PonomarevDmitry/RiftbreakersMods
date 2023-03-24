@@ -170,6 +170,12 @@ function diagonal_wall_tool:OnWorkExecute()
         local newLinesEntityInfo = {}
         local newGridEntities = {}
 
+        local isLogNeeded = (#oldLinesEntities ~= #newPositionsArray)
+
+        --if ( isLogNeeded ) then
+        --    LogService:Log("OnWorkExecute Start")
+        --end
+
         for i=1,#newPositionsArray do
 
             local newPosition = newPositionsArray[i]
@@ -184,6 +190,15 @@ function diagonal_wall_tool:OnWorkExecute()
 
                 EntityService:SetOrientation(lineEnt, currentTransform.orientation )
                 EntityService:SetPosition( lineEnt, newPosition)
+
+                --if ( isLogNeeded ) then
+                --    LogService:Log("OnWorkExecute Spawn position.x " .. tostring(newPosition.x) .. " position.z " .. tostring(newPosition.z) .. " lineEnt " .. tostring(lineEnt) )
+                --end
+            --else
+            --
+            --    if ( isLogNeeded ) then
+            --        LogService:Log("OnWorkExecute Exists position.x " .. tostring(newPosition.x) .. " position.z " .. tostring(newPosition.z) .. " lineEnt " .. tostring(lineEnt) )
+            --    end
             end
 
             Insert( newLinesEntities, lineEnt )
@@ -195,6 +210,25 @@ function diagonal_wall_tool:OnWorkExecute()
             entityInfo.entity = lineEnt
 
             Insert( newLinesEntityInfo, entityInfo )
+        end
+
+        for i=#oldLinesEntityInfo,1,-1 do
+
+            local entityInfo = oldLinesEntityInfo[i]
+
+            local lineEnt = entityInfo.entity
+
+            local lineEntPosition = entityInfo.position
+
+            if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
+
+                --if ( isLogNeeded ) then
+                --    LogService:Log("OnWorkExecute Destroy position.x " .. tostring(lineEntPosition.x) .. " position.z " .. tostring(lineEntPosition.z) .. " lineEnt " .. tostring(lineEnt) )
+                --end
+
+                EntityService:RemoveEntity( lineEnt )
+                oldLinesEntityInfo[i] = nil
+            end
         end
 
         for i=1,#newLinesEntities do
@@ -211,20 +245,9 @@ function diagonal_wall_tool:OnWorkExecute()
         self.linesEntityInfo = newLinesEntityInfo
         self.gridEntities = newGridEntities
 
-        for i=#oldLinesEntityInfo,1,-1 do
-
-            local entityInfo = oldLinesEntityInfo[i]
-
-            local lineEnt = entityInfo.entity
-
-            local lineEntPosition = entityInfo.position
-
-            if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
-
-                EntityService:RemoveEntity( lineEnt )
-                oldLinesEntityInfo[i] = nil
-            end
-        end
+        --if ( isLogNeeded ) then
+        --    LogService:Log("OnWorkExecute End")
+        --end
         
         local list = BuildingService:GetBuildCosts( self.wallBlueprint, self.playerId )
         for resourceCost in Iter(list) do
