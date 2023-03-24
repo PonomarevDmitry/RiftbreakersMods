@@ -38,7 +38,9 @@ function diagonal_wall_tool:InitializeValues()
     EntityService:SetVisible( self.entity , false )
     
     self.ghostWall = nil
+
     self.linesEntities = {}
+    self.linesEntityInfo = {}
     self.gridEntities = {}
 
     self.buildStartPosition = nil
@@ -160,21 +162,18 @@ function diagonal_wall_tool:OnWorkExecute()
 
         local newPositionsArray, hashPositions = self:FindPositionsToBuildLine( buildEndPosition, wallLinesCount )
 
-        local oldLineEntities = self.linesEntities
+        local oldLinesEntities = self.linesEntities
+        local oldLinesEntityInfo = self.linesEntityInfo
         local oldGridEntities = self.gridEntities
 
-        local newLineEntities = {}
+        local newLinesEntities = {}
+        local newLinesEntityInfo = {}
         local newGridEntities = {}
 
         for i=1,#newPositionsArray do
 
             local newPosition = newPositionsArray[i]
 
-            local transform = {}
-            transform.scale = { x=1, y=1, z=1 }
-            transform.orientation = currentTransform.orientation
-            transform.position = newPosition
-            
             local lineEnt = self:GetEntityFromGrid( oldGridEntities, newPosition.x, newPosition.z )
 
             if ( lineEnt == nil ) then
@@ -182,31 +181,48 @@ function diagonal_wall_tool:OnWorkExecute()
                 lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
+
+                EntityService:SetOrientation(lineEnt, currentTransform.orientation )
+                EntityService:SetPosition( lineEnt, newPosition)
             end
 
-            EntityService:SetPosition( lineEnt, newPosition)
-            EntityService:SetOrientation(lineEnt, transform.orientation )
+            Insert( newLinesEntities, lineEnt )
+            self:InsertEntityToGrid( newGridEntities, lineEnt, newPosition.x, newPosition.z  )
+
+            local entityInfo = {}
+
+            entityInfo.position = newPosition
+            entityInfo.entity = lineEnt
+
+            Insert( newLinesEntityInfo, entityInfo )
+        end
+
+        for i=1,#newLinesEntities do
+
+            local lineEnt = newLinesEntities[i]
+
+            local transform = EntityService:GetWorldTransform( lineEnt )
 
             self:CheckEntityBuildable( lineEnt, transform, i )
             BuildingService:CheckAndFixBuildingConnection( lineEnt )
-
-            Insert( newLineEntities, lineEnt )
-            self:InsertEntityToGrid( newGridEntities, lineEnt, newPosition.x, newPosition.z  )
         end
 
-        self.linesEntities = newLineEntities
+        self.linesEntities = newLinesEntities
+        self.linesEntityInfo = newLinesEntityInfo
         self.gridEntities = newGridEntities
 
-        for i=#oldLineEntities,1,-1 do
+        for i=#oldLinesEntityInfo,1,-1 do
 
-            local lineEnt = oldLineEntities[i]
+            local entityInfo = oldLinesEntityInfo[i]
 
-            local lineEntPosition = EntityService:GetWorldTransform( lineEnt ).position
+            local lineEnt = entityInfo.entity
+
+            local lineEntPosition = entityInfo.position
 
             if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
 
                 EntityService:RemoveEntity( lineEnt )
-                oldLineEntities[i] = nil
+                oldLinesEntityInfo[i] = nil
             end
         end
         
@@ -653,7 +669,7 @@ function diagonal_wall_tool:CheckEntityBuildable( entity, transform, id )
     id = id or 1
     local test = nil
 
-    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.wallBlueprint, id)
+    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.wallBlueprint, id )
 
     if ( test == nil ) then
         return
@@ -756,6 +772,7 @@ function diagonal_wall_tool:FinishLineBuild()
     end
 
     self.linesEntities = {}
+    self.linesEntityInfo = {}
     self.gridEntities = {}
     self.buildStartPosition = nil
     self.positionPlayer = nil
@@ -806,6 +823,7 @@ function diagonal_wall_tool:OnRelease()
         EntityService:RemoveEntity(ghost)
     end
     self.linesEntities = {}
+    self.linesEntityInfo = {}
     self.gridEntities = {}
 
     if ( self.infoChild ~= nil) then
