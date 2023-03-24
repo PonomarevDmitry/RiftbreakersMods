@@ -738,7 +738,7 @@ end
 
 function diagonal_wall_tool:OnActivateSelectorRequest()
 
-     if ( self.buildStartPosition == nil ) then
+    if ( self.buildStartPosition == nil ) then
 
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
