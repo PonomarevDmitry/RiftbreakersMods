@@ -1,0 +1,54 @@
+EntityBlueprint
+{
+    name					"buildings/defense/thorns_walls_tool"
+
+    BuildingDesc
+    {
+        name 				"thorns_walls_tool"
+        bp   				"buildings/defense/thorns_walls_tool"
+        ghost_bp   			"buildings/defense/thorns_walls_tool_ghost"
+        category 			"defense"
+        localization_id		"gui/hud/building_name/thorns_walls_tool"
+        description			"gui/hud/building_description/thorns_walls_tool"
+        menu_icon			"gui/hud/tools_icons/thorns_walls_tool"
+        order				"0.2"
+        type 				"thorns_walls_tool"
+        require 			"headquarters"
+    }
+
+    MeshDesc
+    {
+        mesh 				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+        material 			"buildings/metal_plate_1x1"
+        flags				"2"
+    }
+}
+
+EntityBlueprint
+{
+    name					"buildings/defense/thorns_walls_tool_ghost"
+
+    BuildingDesc
+    {
+        name				"thorns_walls_tool_ghost"
+        buildable 			"0"
+        type 				"thorns_walls_tool"
+        category 			"defense"
+    }
+
+    LuaDesc
+    {
+        script				"lua/buildings/defense/thorns_walls_tool.lua"
+        database
+        {
+            action			string:"thorns_walls_tool"
+        }
+    }
+
+    MeshDesc
+    {
+        mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+        material			"selector/hologram_violet"
+        flags				"2"
+    }
+}
