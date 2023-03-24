@@ -668,7 +668,7 @@ function diagonal_wall_tool:CheckConfigExists( wallLinesCount )
     
     if ( index == nil ) then 
     
-        return "1"
+        return scaleWallLines[1]
     end
     
     return wallLinesCount
