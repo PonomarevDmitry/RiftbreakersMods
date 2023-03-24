@@ -36,10 +36,17 @@ function thorns_walls_tool:InitializeValues()
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
     EntityService:SetVisible( self.entity , false )
+
+    local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent" ))
+
+    local floorRef = reflection_helper(BuildingService:GetBuildingDesc( buildingComponent.bp ))
+
+    self.floorBlueprint = floorRef.ghost_bp
     
     self.ghostWall = nil
 
     self.linesEntities = {}
+    self.floorEntities = {}
 
     self.buildStartPosition = nil
     self.positionPlayer = nil
@@ -156,7 +163,7 @@ function thorns_walls_tool:OnWorkExecute()
         
         local currentTransform = EntityService:GetWorldTransform( self.ghostWall )
 
-        local newPositions = self:FindPositionsToBuildLine( currentTransform, wallLinesCount )
+        local newPositions, pathFromStartPositionToEndPosition = self:FindPositionsToBuildLine( currentTransform, wallLinesCount )
 
         if ( #self.linesEntities > #newPositions ) then
         
@@ -174,8 +181,6 @@ function thorns_walls_tool:OnWorkExecute()
                 Insert( self.linesEntities, lineEnt )
             end
         end
-        
-        Assert(#self.linesEntities == #newPositions, "ERROR: something wrong with line positioning: " .. tostring(#self.linesEntities) .. "/" .. tostring(#newPositions))
         
         for i=1,#newPositions do
             local transform = {}
@@ -199,6 +204,44 @@ function thorns_walls_tool:OnWorkExecute()
 
             self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #newPositions )
         end
+
+
+
+
+        if ( #self.floorEntities > #pathFromStartPositionToEndPosition ) then
+        
+            for i=#self.floorEntities,#pathFromStartPositionToEndPosition + 1,-1 do 
+                EntityService:RemoveEntity(self.floorEntities[i])
+                self.floorEntities[i] = nil
+            end
+            
+        elseif ( #self.floorEntities < #pathFromStartPositionToEndPosition ) then
+        
+            for i=#self.floorEntities + 1 ,#pathFromStartPositionToEndPosition do
+
+                local lineEnt = EntityService:SpawnEntity( self.floorBlueprint, pathFromStartPositionToEndPosition[i], team )
+                EntityService:RemoveComponent( lineEnt, "LuaComponent" )
+                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+
+                Insert( self.floorEntities, lineEnt )
+            end
+        end
+        
+        for i=1,#pathFromStartPositionToEndPosition do
+
+            local transform = {}
+            transform.scale = {x=1,y=1,z=1}
+            transform.orientation = currentTransform.orientation
+            transform.position = pathFromStartPositionToEndPosition[i]
+            
+            local entity = self.floorEntities[i]
+
+            EntityService:ChangeMaterial( entity, "selector/hologram_blue" )
+            EntityService:SetPosition( entity, pathFromStartPositionToEndPosition[i] )
+            EntityService:SetOrientation( entity, transform.orientation )
+        end
+
+
     else
         local transform = EntityService:GetWorldTransform( self.ghostWall )
         local testBuildable = self:CheckEntityBuildable( self.ghostWall, transform )
@@ -333,7 +376,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
         end
     end
 
-    return result
+    return result, pathFromStartPositionToEndPosition
 end
 
 function thorns_walls_tool:FillCollisionBoxBounds( cornerPosition, firstPosition, lastPosition )
@@ -710,6 +753,11 @@ function thorns_walls_tool:FinishLineBuild()
 
     EntityService:SetVisible( self.ghostWall , true )
 
+    for floorGhost in Iter(self.floorEntities) do
+        EntityService:RemoveEntity(floorGhost)
+    end
+    self.floorEntities = {}
+
     local count = #self.linesEntities
     local step = count
 
@@ -793,6 +841,11 @@ function thorns_walls_tool:OnRelease()
         EntityService:RemoveEntity(ghost)
     end
     self.linesEntities = {}
+
+    for floorGhost in Iter(self.floorEntities) do
+        EntityService:RemoveEntity(floorGhost)
+    end
+    self.floorEntities = {}
 
     if ( self.infoChild ~= nil) then
         EntityService:RemoveEntity(self.infoChild)
