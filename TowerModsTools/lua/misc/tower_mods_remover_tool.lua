@@ -125,9 +125,8 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
 
         QueueEvent("UnequipItemRequest", entity, modItem1, "MOD_1" )
 
-        QueueEvent("RemoveItemFromInventoryRequest", entity, modItem1 )
-
-        QueueEvent("AddItemToInventoryRequest", player, modItem1 )
+        --QueueEvent("RemoveItemFromInventoryRequest", entity, modItem1 )
+        --QueueEvent("AddItemToInventoryRequest", player, modItem1 )
     end
 
     if ( buildingLevel > 1) then
@@ -140,9 +139,8 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
 
             QueueEvent("UnequipItemRequest", entity, modItem2, "MOD_2" )
 
-            QueueEvent("RemoveItemFromInventoryRequest", entity, modItem2 )
-
-            QueueEvent("AddItemToInventoryRequest", player, modItem2 )
+            --QueueEvent("RemoveItemFromInventoryRequest", entity, modItem2 )
+            --QueueEvent("AddItemToInventoryRequest", player, modItem2 )
         end
     end
 
@@ -156,9 +154,8 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
 
             QueueEvent("UnequipItemRequest", entity, modItem3, "MOD_3" )
 
-            QueueEvent("RemoveItemFromInventoryRequest", entity, modItem3 )
-
-            QueueEvent("AddItemToInventoryRequest", player, modItem3 )
+            --QueueEvent("RemoveItemFromInventoryRequest", entity, modItem3 )
+            --QueueEvent("AddItemToInventoryRequest", player, modItem3 )
         end
     end
 
