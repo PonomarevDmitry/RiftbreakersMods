@@ -170,7 +170,7 @@ function diagonal_wall_tool:OnWorkExecute()
         local newLinesEntityInfo = {}
         local newGridEntities = {}
 
-        local isLogNeeded = (#oldLinesEntities ~= #newPositionsArray)
+        --local isLogNeeded = (#oldLinesEntities ~= #newPositionsArray)
 
         --if ( isLogNeeded ) then
         --    LogService:Log("OnWorkExecute Start")
