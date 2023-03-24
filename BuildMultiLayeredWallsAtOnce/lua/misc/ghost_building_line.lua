@@ -185,14 +185,6 @@ function ghost_building_line:CheckConfigExists( wallLinesConfig )
         -- 11
         "10101010101",
         "11111111111",
-        
-        "T10",
-        "T8",
-        "T6",
-        "T5",
-        "T4",
-        "T3",
-        "T2",
     }
     
     local index = IndexOf(scaleWallLines, wallLinesConfig )
@@ -203,41 +195,6 @@ function ghost_building_line:CheckConfigExists( wallLinesConfig )
     end
     
     return wallLinesConfig
-end
-
-function ghost_building_line:GetLinesCountFromConfig( wallLinesConfig )
-
-    local str = wallLinesConfig
-    
-    if ( string.sub(str, 1, 1) == "G" ) then
-    
-        str = string.sub(str, 2)
-    end
-    
-    if ( string.sub(str, 1, 1) == "T" ) then
-    
-        str = string.sub(str, 2)
-    end
-    
-    local result = tonumber(str)    
-    
-    if ( result == nil) then
-        return 1
-    end
-    
-    return result
-end
-
-function ghost_building_line:CreateStringForNumber( wallLinesCount )
-
-    local result = ""
-
-    for i=1,wallLinesCount do
-    
-        result = result .. "1"
-    end
-    
-    return result
 end
 
 -- Get positions to build wall entites
@@ -256,21 +213,9 @@ function ghost_building_line:FindPositionsToBuildLine(currentTransform, wallLine
     if (positionPlayer == nil) then
         local player = PlayerService:GetPlayerControlledEnt(0)
         positionPlayer = EntityService:GetPosition( player )    
-    end   
-    
-    local wallThorns = ( string.sub(wallLinesConfig, 1, 1) == "T" )
-    
-    if ( wallThorns ) then
-    
-        local wallLinesCount = self:GetLinesCountFromConfig( wallLinesConfig )
-        
-        local newWallLinesConfig = self:CreateStringForNumber(wallLinesCount)
-    
-        return self:CreateThornsWalls(pathFromStartPositionToEndPosition, newWallLinesConfig, positionPlayer)
-    else
-    
-        return self:CreateSolidWalls(pathFromStartPositionToEndPosition, wallLinesConfig, positionPlayer)
-    end    
+    end
+
+    return self:CreateSolidWalls(pathFromStartPositionToEndPosition, wallLinesConfig, positionPlayer)
 end
 
 function ghost_building_line:PositionResult(positionX, positionZ)
@@ -489,115 +434,6 @@ function ghost_building_line:GetCornerVector(pathFromStartPositionToEndPosition,
     end
     
     return cornerX, cornerZ
-end
-
-function ghost_building_line:CreateThornsWalls(pathFromStartPositionToEndPosition, wallLinesConfig, positionPlayer)
-
-    local odds, cornerTileNumber = self:GetCorner(pathFromStartPositionToEndPosition)
-    
-    self.cornerVectorX = 0
-    self.cornerVectorZ = 0
-    self.cornerPositionX = 0
-    self.cornerPositionZ = 0
-    
-    self.checkCollisionBox = false
-    
-    local cornerType = 0
-            
-    local wallLinesConfigLen = string.len( wallLinesConfig )
-    
-    if ( cornerTileNumber ~= -1 ) then
-    
-        local cornerX, cornerZ = self:GetCornerVector(pathFromStartPositionToEndPosition, cornerTileNumber)
-        
-        local cornerPosition = pathFromStartPositionToEndPosition[cornerTileNumber]
-        
-        local cornerXSign, cornerZSign = self:GetXZSigns(cornerPosition, positionPlayer)
-        
-        cornerType = cornerXSign * cornerX + cornerZSign * cornerZ
-        
-        if ( cornerType == -2 ) then
-        
-            self.checkCollisionBox = true
-
-            self.cornerPositionX = cornerPosition.x
-            self.cornerPositionZ = cornerPosition.z        
-            self.cornerVectorX = cornerX
-            self.cornerVectorZ = cornerZ
-        
-            local firstPosition = pathFromStartPositionToEndPosition[1]
-            local lastPosition = pathFromStartPositionToEndPosition[#pathFromStartPositionToEndPosition]
-            
-            self:FillCollisionBoxBounds( wallLinesConfigLen, cornerPosition, firstPosition, lastPosition )
-        end
-    end
-    
-    local deltaXZ = 2
-
-    local hashPositions = {}
-    local result = {}
-
-    for i=1,#pathFromStartPositionToEndPosition do
-    
-        if ( i % 2 == odds) then
-    
-            local position = pathFromStartPositionToEndPosition[i]
-            
-            local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
-            
-            local xSign, zSign = self:GetXZSigns(position, positionPlayer)
-                
-            -- Add if position has not been added yet
-            if ( not self:HashContains(hashPositions, position.x, position.z ) ) then
-    
-                table.insert(result, position)                
-            end
-
-            local currentValue = self:PositionResult(position.x, position.z)
-            
-            if ( hasChangesX ) then
-
-                self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, currentValue, hashPositions, result)
-            end
-            
-            if ( hasChangesZ ) then
-            
-                self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, currentValue, hashPositions, result)
-            end
-            
-            if ( i == cornerTileNumber ) then
-                
-                -- Outer Corner
-                if (cornerType == 2) then
-            
-                    local xzDelta = 2
-                
-                    while (xzDelta <= wallLinesConfigLen - 1) do
-
-                        for zStep=0,(wallLinesConfigLen - 1 - xzDelta) do
-                            
-                            local newPositionX = position.x + xSign * xzDelta * 2
-                            local newPositionZ = position.z + zSign * xzDelta * 2 + zSign * zStep * 2
-                            
-                            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
-                        end
-                    
-                        for xStep=0,(wallLinesConfigLen - 1 - xzDelta) do
-                        
-                            local newPositionX = position.x + xSign * xzDelta * 2 + xSign * xStep * 2
-                            local newPositionZ = position.z + zSign * xzDelta * 2
-                            
-                            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
-                        end
-                        
-                        xzDelta = xzDelta + 2
-                    end
-                end            
-            end            
-        end
-    end
-
-    return result
 end
 
 function ghost_building_line:GetCorner(pathFromStartPositionToEndPosition)

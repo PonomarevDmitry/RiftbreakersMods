@@ -650,14 +650,6 @@ function selector:IncreaseWallLinesCount( degree )
         
         -- 11
         "10101010101",
-        
-        "T10",
-        "T8",
-        "T6",
-        "T5",
-        "T4",
-        "T3",
-        "T2",
     }
 
     local database = EntityService:GetDatabase( self.selector )
