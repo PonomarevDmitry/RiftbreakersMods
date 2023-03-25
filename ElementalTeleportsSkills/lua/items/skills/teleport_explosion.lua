@@ -37,7 +37,7 @@ function teleport_explosion:FillInitialParams()
     self.explosionOnEnd = database:GetIntOrDefault( "explosion_end", 0 ) == 1
     
     self.bp = database:GetStringOrDefault( "bp", "" )
-    self.att = database:GetString( "att" )
+    self.att = database:GetStringOrDefault( "att", "" )
 
     self.radiusBp = database:GetStringOrDefault( "radius_bp", "")
     self.radiusSize = database:GetFloatOrDefault("radius_size", 0)
@@ -75,11 +75,11 @@ function teleport_explosion:OnTeleportAppearExit()
     self.data:SetInt("leaving", 0)
 end
 
-function teleport_explosion:OnOwnerTeleportAppearExit()
+function teleport_explosion:OnOwnerRiftTeleportEndEvent()
+
+    self:UnregisterHandler( self.owner, "RiftTeleportEndEvent",  "OnOwnerRiftTeleportEndEvent" )
     
     self:SpawnExplosion()
-
-    self:UnregisterHandler( self.owner, "TeleportAppearExit",  "OnOwnerTeleportAppearExit" )
 end
 
 function teleport_explosion:OnEquipped()
@@ -102,7 +102,7 @@ function teleport_explosion:OnActivate()
         end
     
         if ( self.explosionOnEnd ) then
-            self:RegisterHandler( self.owner, "TeleportAppearExit",  "OnOwnerTeleportAppearExit" )
+            self:RegisterHandler( self.owner, "RiftTeleportEndEvent",  "OnOwnerRiftTeleportEndEvent" )
         end
         
         PlayerService:TeleportPlayer( self.owner, self.foundPos.second , 0.2, 0.1, 0.2 )
