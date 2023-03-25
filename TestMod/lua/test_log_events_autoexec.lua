@@ -259,3 +259,35 @@ RegisterGlobalEventHandler("ResearchUnlockedEvent", function(evt)
 
     LogService:Log(text)
 end)
+
+
+
+
+RegisterGlobalEventHandler("ResourceMissingEvent", function(evt)
+
+    local text = "ResourceMissingEvent " .. tostring(evt)
+
+    if (evt ~= nil) then
+
+        local entity = evt:GetEntity()
+        local entityName = EntityService:GetBlueprintName( entity )
+
+        local negative = evt:GetNegative()
+
+        local resource = evt:GetResource()
+
+        local family = evt:GetFamily()
+
+        text = text .. "\n" .. "negative " .. tostring(negative)
+
+        text = text .. "\n" .. "resource " .. tostring(resource)
+
+        text = text .. "\n" .. "family " .. tostring(family)
+
+        text = text .. "\n" .. "entityName " .. tostring(entityName)
+
+        text = text .. "\n" .. "entity " .. tostring(entity)
+    end
+
+    LogService:Log(text)
+end)
