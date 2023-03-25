@@ -1,0 +1,35 @@
+EntityBlueprint
+{
+    name                            items/skills/teleport_trail_fire
+
+    base_blueprints 
+    {
+        lights/point/fire_orange_medium
+        effects/no_lifetime
+    }
+
+    GridMarkerComponent
+    {
+        terrain_type                "mech_fire_trail"
+        mode 		                "1"
+    }
+
+    ParticleDesc
+    {
+        name                        "rift/mech_dash_fire"
+    }
+
+    BurningComponent
+    {
+        spread_radius 			    "1.0"		    // radius to spread fire
+        spread_chance_override 	    "1"			    // allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+        spread_timer
+        {
+            end "200000" 						    // how often entity will try to spread fire in microseconds ( 2s )
+        }
+
+        burning_effect_group        ""			    // effect group to be enabled on entity
+        burning_time			    "10000000000"	// how long it will burn in seconds
+    }
+}
