@@ -1,9 +1,9 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-    PlayerService:AddGlobalAward("items/skills/teleport_attack_standard_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_attack_advanced_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_attack_superior_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_attack_extreme_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_attack_area_standard_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_attack_area_advanced_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_attack_area_superior_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_attack_area_extreme_item", false)
 
     PlayerService:AddGlobalAward("items/skills/teleport_attack_acid_standard_item", false)
     PlayerService:AddGlobalAward("items/skills/teleport_attack_acid_advanced_item", false)
@@ -27,10 +27,10 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
 
 
-    PlayerService:AddGlobalAward("items/skills/teleport_emergency_standard_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_emergency_advanced_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_emergency_superior_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_emergency_extreme_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_emergency_area_standard_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_emergency_area_advanced_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_emergency_area_superior_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_emergency_area_extreme_item", false)
 
     PlayerService:AddGlobalAward("items/skills/teleport_emergency_acid_standard_item", false)
     PlayerService:AddGlobalAward("items/skills/teleport_emergency_acid_advanced_item", false)
@@ -54,10 +54,10 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
 
 
-    PlayerService:AddGlobalAward("items/skills/teleport_double_standard_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_double_advanced_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_double_superior_item", false)
-    PlayerService:AddGlobalAward("items/skills/teleport_double_extreme_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_double_area_standard_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_double_area_advanced_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_double_area_superior_item", false)
+    PlayerService:AddGlobalAward("items/skills/teleport_double_area_extreme_item", false)
 
     PlayerService:AddGlobalAward("items/skills/teleport_double_acid_standard_item", false)
     PlayerService:AddGlobalAward("items/skills/teleport_double_acid_advanced_item", false)
