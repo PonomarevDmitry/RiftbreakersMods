@@ -374,7 +374,7 @@ function hq_move_tool:OnActivateSelectorRequest()
         paidResources = paidResources .. tostring(resourceName) .. ";" .. tostring(resourceValue)
     end
 
-    local builder = EntityService:SpawnEntity( "buildings/tools/hq_move_tool/builder", transformToNewHQ.position, EntityService:GetTeam(self.entity) )
+    local builder = EntityService:SpawnEntity( "buildings/main/hq_move_tool/builder", transformToNewHQ.position, EntityService:GetTeam(self.entity) )
 
     EntityService:SetOrientation( builder, transformToNewHQ.orientation )
     
