@@ -76,61 +76,75 @@ end
 
 function sell_depleted:FilterSelectedEntities( selectedEntities )
 
+    LogService:Log("FilterSelectedEntities Start")
+
     local entities = {}
 
     local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
     for entity in Iter( entitiesBuildings ) do
 
-        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        if ( buildingComponent == nil ) then
-            goto continue
-        end
+        local blueprintName = EntityService:GetBlueprintName( entity )
 
-        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode <= 2 ) then
+        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        if ( selectableComponent == nil ) then
+            LogService:Log("FilterSelectedEntities No SelectableComponent blueprintName " .. blueprintName )
             goto continue
         end
 
         if ( EntityService:GetComponent(entity, "ResourceConverterComponent") == nil ) then
+            LogService:Log("FilterSelectedEntities No ResourceConverterComponent blueprintName " .. blueprintName )
             goto continue
         end
 
-        --if ( BuildingService:IsResourceSupplied( entity ) ) then
-        --    goto continue
-        --end
-
-        local blueprintName = EntityService:GetBlueprintName( entity )
-
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
+            LogService:Log("FilterSelectedEntities No BuildingDesc blueprintName " .. blueprintName )
             goto continue
         end
 
         local buildingDescRef = reflection_helper( buildingDesc )
         if ( buildingDescRef == nil ) then
+            LogService:Log("FilterSelectedEntities No buildingDescRef blueprintName " .. blueprintName )
             goto continue
         end
 
         local resourceRequirement = buildingDescRef.resource_requirement
         if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
+            LogService:Log("FilterSelectedEntities No resourceRequirement.count <= 0 blueprintName " .. blueprintName )
             goto continue
         end
 
-        local isOnResource = self:CheckEntityOnResource( entity, resourceRequirement )
+        local isOnResource = self:CheckEntityOnResource( entity, resourceRequirement, blueprintName )
         if ( isOnResource ) then
             goto continue
         end
 
         Insert(entities, entity)
 
+        local text = "FilterSelectedEntities entity to sell blueprintName " .. blueprintName .. " entityid " .. tostring(entity)
+
+        for i = 1,resourceRequirement.count do
+
+            local resource = resourceRequirement[i]
+
+            if ( resource ~= nil and resource ~= "" ) then
+
+                text = text .. "\n resource: " .. resource
+            end
+        end
+
+        LogService:Log(text)
+
         ::continue::
     end
+
+    LogService:Log("FilterSelectedEntities End")
 
     return entities
 end
 
-function sell_depleted:CheckEntityOnResource( entity, resourceRequirement )
+function sell_depleted:CheckEntityOnResource( entity, resourceRequirement, blueprintName )
 
     for i = 1,resourceRequirement.count do
 
@@ -139,6 +153,8 @@ function sell_depleted:CheckEntityOnResource( entity, resourceRequirement )
         if ( resource ~= nil and resource ~= "" ) then
 
             if ( BuildingService:IsOnResource(entity, resource) ) then
+
+                LogService:Log("CheckEntityOnResource blueprintName " .. blueprintName .. " entityid " .. tostring(entity) .. " supplied " .. resource )
                 
             	return true
             end
