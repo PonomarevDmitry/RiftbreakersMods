@@ -82,8 +82,8 @@ function sell_depleted:FilterSelectedEntities( selectedEntities )
 
     for entity in Iter( entitiesBuildings ) do
 
-        local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        if ( buildingsComponent == nil ) then
+        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        if ( buildingComponent == nil ) then
             goto continue
         end
 
