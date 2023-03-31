@@ -12,9 +12,11 @@ end
 
 function sell_depleted:OnInit()
 
-    LogService:Log("OnInit");
-
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell", self.entity)
+    
+    self.scaleMap = {
+        1,
+    }
 end
 
 function sell_depleted:SpawnCornerBlueprint()
@@ -76,13 +78,19 @@ function sell_depleted:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    LogService:Log("FilterSelectedEntities Start");
-
     local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
     for entity in Iter( entitiesBuildings ) do
 
-        local blueprintName = EntityService:GetBlueprintName( entity )
+        local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        if ( buildingsComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode <= 2 ) then
+            goto continue
+        end
 
         if ( EntityService:GetComponent(entity, "ResourceConverterComponent") == nil ) then
             goto continue
@@ -91,6 +99,8 @@ function sell_depleted:FilterSelectedEntities( selectedEntities )
         --if ( BuildingService:IsResourceSupplied( entity ) ) then
         --    goto continue
         --end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
 
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
@@ -112,26 +122,10 @@ function sell_depleted:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local text = "FilterSelectedEntities entity to sell blueprintName " .. blueprintName .. " entityid " .. tostring(entity)
-
-        for i = 1,resourceRequirement.count do
-
-            local resource = resourceRequirement[i]
-
-            if ( resource ~= nil and resource ~= "" ) then
-
-                text = text .. "\n resource: " .. resource
-            end
-        end
-
-        LogService:Log(text)
-
         Insert(entities, entity)
 
         ::continue::
     end
-
-    LogService:Log("FilterSelectedEntities End");
 
     return entities
 end
