@@ -36,6 +36,10 @@ function energy_walk:FillInitialParams()
     self:FindMinDistance()
 
     self.isWorking = self.isWorking or false
+
+    if ( self.iconEntity ~= nil ) then
+        EntityService:RemoveEntity(self.iconEntity)
+    end
 end
 
 function energy_walk:OnEquipped()
@@ -54,8 +58,6 @@ end
 
 function energy_walk:OnActivate()
 
-    LogService:Log("OnActivate")
-
     self:InitStateMachine()
 
     self.playerId = 0
@@ -64,24 +66,28 @@ function energy_walk:OnActivate()
 
     if ( self.isWorking ) then
 
-        self.isWorking = false
-
-        self.stateMachine:Deactivate()
-
-        self.buildPosition = {}
+        self:StopWorking()
     else
 
         self.isWorking = true
+
+        if ( self.iconEntity ~= nil ) then
+            EntityService:RemoveEntity(self.iconEntity)
+        end
+
+        self.iconEntity = EntityService:SpawnAndAttachEntity("items/skills/energy_walk/icon", self.owner )
 
         self:FillConnectorsList()
 
         if ( #self.buildPosition == 0 ) then
 
-            local transform = self:GetPlayerTransform()
+            if ( BuildingService:IsBuildingAvailable( self.blueprint ) and BuildingService:CanAffordBuilding( self.blueprint, self.playerId) ) then
 
-            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+                local transform = self:GetPlayerTransform()
 
-            Insert( self.buildPosition, transform )
+                QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+                Insert( self.buildPosition, transform )
+            end
         end
 
         self:OnWorkExecute()
@@ -103,27 +109,86 @@ function energy_walk:FillConnectorsList()
 
     self.buildPosition = {}
 
-    local allEntities = FindService:FindEntitiesByName("energy_connector")
+    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
-    LogService:Log("FillConnectorsList #allEntities " .. tostring(#allEntities) )
+    for entity in Iter( entitiesBuildings ) do
 
-    for entity in Iter( allEntities ) do
+        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        if ( selectableComponent == nil ) then
+            goto continue
+        end
 
-        local spot = EntityService:GetWorldTransform( entity )
+        local resourceStorageComponent = EntityService:GetComponent( entity, "ResourceStorageComponent")
+        if ( resourceStorageComponent == nil ) then
+            goto continue
+        end
 
-        Insert( self.buildPosition, spot )
+        local resourceStorageRef = reflection_helper( resourceStorageComponent )
+        if ( not self:HasDistributionRadius( resourceStorageRef ) ) then
+            goto continue
+        end
+
+        --local blueprintName = EntityService:GetBlueprintName( entity )
+
+        --LogService:Log("FillConnectorsList blueprintName " .. blueprintName .. " " .. tostring(resourceStorageRef) )
+
+        local transform = EntityService:GetWorldTransform( entity )
+
+        Insert( self.buildPosition, transform )
+
+        ::continue::
     end
+
+    --LogService:Log("FillConnectorsList #self.buildPosition " .. tostring(#self.buildPosition) )
+end
+
+function energy_walk:HasDistributionRadius( resourceStorageRef )
+
+    if ( resourceStorageRef ~= nil and resourceStorageRef.Storages ~= nil ) then
+
+        local count = resourceStorageRef.Storages.count
+
+        for i=1,count do
+            
+            local storage = resourceStorageRef.Storages[i]
+
+            if ( tostring(storage.group) == "10" and storage.distribution_radius >= 1 ) then
+
+                return true
+            end
+        end
+    end
+    
+    return false
 end
 
 function energy_walk:OnUnequipped()
     if ( self.isWorking ) then
 
-        self.isWorking = false
-
-        self.stateMachine:Deactivate()
-
-        self.buildPosition = {}
+        self:StopWorking()
     end
+end
+
+function energy_walk:StopWorking()
+
+    self.isWorking = false
+
+    self.stateMachine:Deactivate()
+
+    self.buildPosition = {}
+
+    if ( self.iconEntity ~= nil ) then
+        EntityService:RemoveEntity(self.iconEntity)
+    end
+end
+
+function energy_walk:OnRelease()
+    if ( self.isWorking ) then
+
+        self:StopWorking()
+    end
+    
+    item.OnRelease(self)
 end
 
 function energy_walk:InitStateMachine()
@@ -150,9 +215,13 @@ function energy_walk:OnWorkExecute()
     local spots = BuildingService:FindSpotsByDistance( nearestSpot, transform, self.radius, self.blueprint )
 
     for spot in Iter( spots ) do
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
 
-        Insert( self.buildPosition, spot )
+        if ( BuildingService:IsBuildingAvailable( self.blueprint ) and BuildingService:CanAffordBuilding( self.blueprint, self.playerId) ) then
+
+            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
+
+            Insert( self.buildPosition, spot )
+        end
     end
 end
 
