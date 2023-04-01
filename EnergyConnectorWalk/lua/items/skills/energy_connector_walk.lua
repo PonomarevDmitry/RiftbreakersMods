@@ -5,27 +5,27 @@ require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 require("lua/utils/numeric_utils.lua")
 
-class 'energy_walk' ( item )
+class 'energy_connector_walk' ( item )
 
-function energy_walk:__init()
+function energy_connector_walk:__init()
     item.__init(self,self)
 end
 
-function energy_walk:OnInit()
+function energy_connector_walk:OnInit()
 
     item.OnInit(self)
 
     self:FillInitialParams()
 end
 
-function energy_walk:OnLoad()
+function energy_connector_walk:OnLoad()
 
     item.OnLoad(self)
 
     self:FillInitialParams()
 end
 
-function energy_walk:FillInitialParams()
+function energy_connector_walk:FillInitialParams()
     
     self.blueprint = "buildings/energy/energy_connector"
 
@@ -42,11 +42,11 @@ function energy_walk:FillInitialParams()
     end
 end
 
-function energy_walk:OnEquipped()
+function energy_connector_walk:OnEquipped()
     self:FindMinDistance()
 end
 
-function energy_walk:FindMinDistance()
+function energy_connector_walk:FindMinDistance()
 
     self.radius = BuildingService:FindEnergyRadius( self.blueprint )
 
@@ -56,7 +56,7 @@ function energy_walk:FindMinDistance()
     end
 end
 
-function energy_walk:OnActivate()
+function energy_connector_walk:OnActivate()
 
     self:InitStateMachine()
 
@@ -75,7 +75,7 @@ function energy_walk:OnActivate()
             EntityService:RemoveEntity(self.iconEntity)
         end
 
-        self.iconEntity = EntityService:SpawnAndAttachEntity("items/skills/energy_walk/icon", self.owner )
+        self.iconEntity = EntityService:SpawnAndAttachEntity("items/skills/energy_connector_walk/icon", self.owner )
 
         self:FillConnectorsList()
 
@@ -96,7 +96,7 @@ function energy_walk:OnActivate()
     end
 end
 
-function energy_walk:GetPlayerTransform()
+function energy_connector_walk:GetPlayerTransform()
 
     local player = PlayerService:GetPlayerControlledEnt( self.playerId )
     local transform = EntityService:GetWorldTransform( player )
@@ -105,7 +105,7 @@ function energy_walk:GetPlayerTransform()
     return transform
 end
 
-function energy_walk:FillConnectorsList()
+function energy_connector_walk:FillConnectorsList()
 
     self.buildPosition = {}
 
@@ -142,7 +142,7 @@ function energy_walk:FillConnectorsList()
     --LogService:Log("FillConnectorsList #self.buildPosition " .. tostring(#self.buildPosition) )
 end
 
-function energy_walk:HasDistributionRadius( resourceStorageRef )
+function energy_connector_walk:HasDistributionRadius( resourceStorageRef )
 
     if ( resourceStorageRef ~= nil and resourceStorageRef.Storages ~= nil ) then
 
@@ -162,14 +162,14 @@ function energy_walk:HasDistributionRadius( resourceStorageRef )
     return false
 end
 
-function energy_walk:OnUnequipped()
+function energy_connector_walk:OnUnequipped()
     if ( self.isWorking ) then
 
         self:StopWorking()
     end
 end
 
-function energy_walk:StopWorking()
+function energy_connector_walk:StopWorking()
 
     self.isWorking = false
 
@@ -182,7 +182,7 @@ function energy_walk:StopWorking()
     end
 end
 
-function energy_walk:OnRelease()
+function energy_connector_walk:OnRelease()
     if ( self.isWorking ) then
 
         self:StopWorking()
@@ -191,7 +191,7 @@ function energy_walk:OnRelease()
     item.OnRelease(self)
 end
 
-function energy_walk:InitStateMachine()
+function energy_connector_walk:InitStateMachine()
 
     if ( self.stateMachine ~= nil ) then
         return
@@ -201,7 +201,7 @@ function energy_walk:InitStateMachine()
     self.stateMachine:AddState( "working", { execute="OnWorkExecute" } )
 end
 
-function energy_walk:OnWorkExecute()
+function energy_connector_walk:OnWorkExecute()
 
     if ( #self.buildPosition == 0 ) then
 
@@ -225,7 +225,7 @@ function energy_walk:OnWorkExecute()
     end
 end
 
-function energy_walk:GetNearestSpot( playerPosition )
+function energy_connector_walk:GetNearestSpot( playerPosition )
 
     local currentSpot = nil
     local currentDistance = nil
@@ -251,7 +251,7 @@ function energy_walk:GetNearestSpot( playerPosition )
     return currentSpot
 end
 
-function energy_walk:GetDistance( playerPosition, position )
+function energy_connector_walk:GetDistance( playerPosition, position )
 
     local dx = math.abs(playerPosition.x - position.x)
     local dz = math.abs(playerPosition.z - position.z)
@@ -259,4 +259,4 @@ function energy_walk:GetDistance( playerPosition, position )
     return math.max(dx, dz)
 end
 
-return energy_walk
+return energy_connector_walk
