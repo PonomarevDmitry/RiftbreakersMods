@@ -3,6 +3,7 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
+require("lua/utils/numeric_utils.lua")
 
 class 'energy_walk' ( item )
 
@@ -28,7 +29,7 @@ function energy_walk:FillInitialParams()
     
     self.blueprint = "buildings/energy/energy_connector"
 
-    self.buildPosition = nil
+    self.buildPosition = {}
 
     self.playerId = 0
 
@@ -63,36 +64,65 @@ function energy_walk:OnActivate()
 
     if ( self.isWorking ) then
 
+        self.isWorking = false
+
         self.stateMachine:Deactivate()
 
-        self.buildPosition = nil
-
-        self.isWorking = false
+        self.buildPosition = {}
     else
-
-        local player = PlayerService:GetPlayerControlledEnt( self.playerId )
-
-        local transform = EntityService:GetWorldTransform( player )
-        transform.orientation = { x=0, y=0, z=0, w=1 }
-
-        self.buildPosition = transform
-
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
 
         self.isWorking = true
 
+        self:FillConnectorsList()
+
+        if ( #self.buildPosition == 0 ) then
+
+            local transform = self:GetPlayerTransform()
+
+            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+
+            Insert( self.buildPosition, transform )
+        end
+
+        self:OnWorkExecute()
+
         self.stateMachine:ChangeState("working")
+    end
+end
+
+function energy_walk:GetPlayerTransform()
+
+    local player = PlayerService:GetPlayerControlledEnt( self.playerId )
+    local transform = EntityService:GetWorldTransform( player )
+    transform.orientation = { x=0, y=1, z=0, w=0 }
+
+    return transform
+end
+
+function energy_walk:FillConnectorsList()
+
+    self.buildPosition = {}
+
+    local allEntities = FindService:FindEntitiesByName("energy_connector")
+
+    LogService:Log("FillConnectorsList #allEntities " .. tostring(#allEntities) )
+
+    for entity in Iter( allEntities ) do
+
+        local spot = EntityService:GetWorldTransform( entity )
+
+        Insert( self.buildPosition, spot )
     end
 end
 
 function energy_walk:OnUnequipped()
     if ( self.isWorking ) then
 
+        self.isWorking = false
+
         self.stateMachine:Deactivate()
 
-        self.buildPosition = nil
-
-        self.isWorking = false
+        self.buildPosition = {}
     end
 end
 
@@ -108,26 +138,56 @@ end
 
 function energy_walk:OnWorkExecute()
 
-    LogService:Log("OnWorkExecute")
-
-    if ( self.buildPosition == nil ) then
-
-        LogService:Log("OnWorkExecute self.buildPosition == nil")
+    if ( #self.buildPosition == 0 ) then
 
         return
     end
 
-    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
+    local transform = self:GetPlayerTransform()
 
-    local transform = EntityService:GetWorldTransform( player )
-    transform.orientation = { x=0, y=0, z=0, w=1 }
+    local nearestSpot = self:GetNearestSpot(transform.position)
 
-    local spots = BuildingService:FindSpotsByDistance( self.buildPosition, transform, self.radius, self.blueprint )
+    local spots = BuildingService:FindSpotsByDistance( nearestSpot, transform, self.radius, self.blueprint )
 
     for spot in Iter( spots ) do
         QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
-        self.buildPosition = spot
+
+        Insert( self.buildPosition, spot )
     end
+end
+
+function energy_walk:GetNearestSpot( playerPosition )
+
+    local currentSpot = nil
+    local currentDistance = nil
+
+    for spot in Iter( self.buildPosition ) do
+
+        local distance = Distance( playerPosition, spot.position )
+
+        if currentSpot == nil or distance < currentDistance then
+
+            currentSpot = spot;
+            currentDistance = distance
+
+            local lineDistance = self:GetDistance( playerPosition, spot.position )
+
+            if ( lineDistance <= self.radius ) then
+
+                return currentSpot
+            end
+        end
+    end
+
+    return currentSpot
+end
+
+function energy_walk:GetDistance( playerPosition, position )
+
+    local dx = math.abs(playerPosition.x - position.x)
+    local dz = math.abs(playerPosition.z - position.z)
+
+    return math.max(dx, dz)
 end
 
 return energy_walk
