@@ -8,7 +8,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(arg)
 
 	local skillName = "items/skills/energy_walk"
 
-	if ItemService:GetItemCount( player, skillName ) > 0 then
+	if ( ItemService:GetItemCount( player, skillName ) > 0 ) then
 		return
 	end
 
