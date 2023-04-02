@@ -293,6 +293,15 @@ function base_lamp_trail:BuildOnSpot( blueprint, spot )
     end
 end
 
+function base_lamp_trail:GetTerrainType( position )
+
+    local tempEntity = EntityService:SpawnEntity( position )
+    local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( tempEntity )
+    EntityService:RemoveEntity(tempEntity)
+
+    return terrainType
+end
+
 function base_lamp_trail:GetNearestSpot( playerPosition )
 
     local currentSpot = nil
