@@ -81,13 +81,9 @@ function energy_connector_trail:OnActivate()
 
         if ( #self.buildPosition == 0 ) then
 
-            if ( BuildingService:IsBuildingAvailable( self.blueprint ) and BuildingService:CanAffordBuilding( self.blueprint, self.playerId) ) then
+            local transform = self:GetPlayerTransform()
 
-                local transform = self:GetPlayerTransform()
-
-                QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
-                Insert( self.buildPosition, transform )
-            end
+            self:BuildOnSpot( transform )
         end
 
         self:OnWorkExecute()
@@ -216,13 +212,44 @@ function energy_connector_trail:OnWorkExecute()
 
     for spot in Iter( spots ) do
 
-        if ( BuildingService:IsBuildingAvailable( self.blueprint ) and BuildingService:CanAffordBuilding( self.blueprint, self.playerId) ) then
+        self:BuildOnSpot( spot )
+    end
+end
 
-            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
+function energy_connector_trail:BuildOnSpot( spot )
 
-            Insert( self.buildPosition, spot )
+    if ( BuildingService:IsBuildingAvailable( antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then 
+
+        local terrainType = self:GetTerrainType( spot.position )
+
+        local antiQuickSandFloor = "buildings/decorations/floor_desert_1x1"
+
+        if ( terrainType == "quicksand" ) then
+
+            local transformFloor = {}
+            transformFloor.position = spot.position
+            transformFloor.orientation = { x=0, y=0, z=0, w=1}
+            transformFloor.scale = { x=1, y=1, z=1}
+
+            QueueEvent("BuildFloorRequest", INVALID_ID, self.playerId, antiQuickSandFloor, transformFloor )
         end
     end
+
+    if ( BuildingService:IsBuildingAvailable( self.blueprint ) and BuildingService:CanAffordBuilding( self.blueprint, self.playerId) ) then
+
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
+
+        Insert( self.buildPosition, spot )
+    end
+end
+
+function energy_connector_trail:GetTerrainType( position )
+
+    local tempEntity = EntityService:SpawnEntity( position )
+    local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( tempEntity )
+    EntityService:RemoveEntity(tempEntity)
+
+    return terrainType
 end
 
 function energy_connector_trail:GetNearestSpot( playerPosition )
