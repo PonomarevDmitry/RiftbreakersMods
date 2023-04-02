@@ -218,11 +218,11 @@ end
 
 function energy_connector_trail:BuildOnSpot( spot )
 
+    local antiQuickSandFloor = "buildings/decorations/floor_desert_1x1"
+
     if ( BuildingService:IsBuildingAvailable( antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then 
 
         local terrainType = self:GetTerrainType( spot.position )
-
-        local antiQuickSandFloor = "buildings/decorations/floor_desert_1x1"
 
         if ( terrainType == "quicksand" ) then
 
