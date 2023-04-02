@@ -257,7 +257,7 @@ function detector:spawnReplacement()
     local newEnt = ResourceService:FindEmptySpace(0, 0)
     EntityService:SetPosition(newEnt, 0, 0, 0)
 
-    local treasureSpotFind = FindService:FindEmptySpotInRadius( newEnt, 0, 9999999.0, "", "", 50.0, 250.0 )
+    local treasureSpotFind = FindService:FindEmptySpotInRadius( newEnt, 0, 9999999.0, "", "", 50.0, 9999999.0 )
 
     if ( treasureSpotFind.first and treasureSpotFind.first ~= nil ) then
 
@@ -406,8 +406,8 @@ function detector:GetTreasureList()
         if ( finished ) then
         
             Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish_ore")
-            Insert(treasureList, "items/loot/treasures/treasure_uranium_replenish")
-            Insert(treasureList, "items/loot/treasures/treasure_uranium_replenish")
+            Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish")
+            Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish")
         end
     end
 
