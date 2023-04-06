@@ -1,0 +1,206 @@
+EntityBlueprint
+{
+    name  "buildings/decorations/attack_floor_fire_2x2"
+
+    BuildingDesc
+    {
+        name 				    "attack_floor_fire_2x2"
+        bp   				    "buildings/decorations/attack_floor_fire_2x2"
+        category 			    "decorations"
+        localization_id		    "gui/hud/building_name/attack_floor_fire"
+        description			    "gui/hud/building_description/attack_floor_fire"
+        menu_icon			    "gui/hud/building_icons/attack_floor_fire"
+        order				    "0.5"
+        type				    "floor"
+        require 			    "headquarters"
+        buildable 			    "0"
+        building_mode		    "radius"
+        exclude_terrain_types   "quicksand,magma_hot_ground,magma_very_hot_ground,creeper_area"
+        overrides			    "floor"
+    
+        costs
+        {
+            BuildingCostInfo
+            {
+                name "default"
+                building_time 1
+                building_cost
+                {
+                    carbonium 	"20"
+                    steel 		"20"
+                    cobalt      "20"
+                }
+            }		
+        }
+    }
+
+    LuaDesc
+    {
+        script "lua/buildings/building.lua"
+        database
+        {
+            remove_lua_after_build int:"1"
+        }
+    }
+
+    ParticleDesc
+    {
+        name    "rift/mech_dash_fire"
+    }
+
+    BurningComponent
+    {
+        spread_radius 			"1.0"			// radius to spread fire
+        spread_chance_override 	"1.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+        spread_timer
+        {
+            end "200000" 						// how often entity will try to spread fire in microseconds ( 2s )
+        }
+
+        burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+        burning_time			"10000000000"	// how long it will burn in seconds
+    }
+
+    ResistanceComponent
+    {
+        creeper_area		"1"
+        default_factor		"0"
+    }
+
+    PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                type 				"static"
+                group_id 			"floor"
+                physics_material 	"default"
+                Shapes
+                {
+                    PhysicsBoxShape
+                    {
+                        x	3.9
+                        y	0.1
+                        z	3.9
+                    }			
+                }
+            }
+        }
+    }
+
+    LocalAabbDesc
+    {
+        local_aabb
+        {
+            min
+            {
+                x "-2"
+                y "0"
+                z "-2"
+            }
+            max
+            {
+                x "2"
+                y "0.1"
+                z "2"
+            }	
+        }
+    }
+
+    GridCullerDesc
+    {
+        type 2
+        
+        Shapes
+        {
+            PhysicsBoxShape
+            {
+                x	3.9
+                y	3.9
+                z	3.9
+            }			
+        }
+    }
+
+    GridMarkerComponent
+    {
+        terrain_type  "attack_floor_fire"		
+    }
+
+    children
+    {
+        EntityBlueprint
+        {
+            name "buildings/decorations/attack_floor_fire_2x2_random"
+            RandomBlueprintDesc
+            {
+                Blueprint
+                {
+                    blueprint "buildings/decorations/attack_floor_fire_2x2_1"
+                }
+                Blueprint
+                {
+                    blueprint "buildings/decorations/attack_floor_fire_2x2_2"
+                }
+                Blueprint
+                {
+                    blueprint "buildings/decorations/attack_floor_fire_2x2_3"
+                }		
+                Blueprint
+                {
+                    blueprint "buildings/decorations/attack_floor_fire_2x2_4"
+                }
+            }
+        }
+    }
+}
+
+EntityBlueprint
+{
+    name            "buildings/decorations/attack_floor_fire_2x2_1"
+
+    MeshDesc
+    {
+        mesh        "meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+        material    "buildings/decorations/attack_floor_fire_4x4_01"
+        flags       "2"
+    }
+}
+
+EntityBlueprint
+{
+    name            "buildings/decorations/attack_floor_fire_2x2_2"
+
+    MeshDesc
+    {
+        mesh        "meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+        material    "buildings/decorations/attack_floor_fire_4x4_02"
+        flags       "2"
+    }
+}
+
+EntityBlueprint
+{
+    name            "buildings/decorations/attack_floor_fire_2x2_3"
+
+    MeshDesc
+    {
+        mesh        "meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+        material    "buildings/decorations/attack_floor_fire_4x4_03"
+        flags       "2"
+    }
+}
+
+EntityBlueprint
+{
+    name            "buildings/decorations/attack_floor_fire_2x2_4"
+
+    MeshDesc
+    {
+        mesh        "meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+        material    "buildings/decorations/attack_floor_fire_4x4_04"
+        flags       "2"
+    }
+}
