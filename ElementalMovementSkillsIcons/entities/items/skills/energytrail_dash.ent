@@ -1,0 +1,288 @@
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_energy
+
+	base_blueprints 
+	{
+		effects/no_lifetime
+		lights/point/fire_blue_very_small
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_energy_trail"	
+		mode 		  "1"
+		extend  		"3"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_dash_energy"
+	}
+
+	SoundDesc
+	{
+		name "items/skills/dash_energy"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_energy_advanced
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/mech_trail_energy
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_energy_trail_advanced"	
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_energy_superior
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/mech_trail_energy
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_energy_trail_superior"	
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/mech_trail_energy_extreme
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/mech_trail_energy
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_energy_trail_extreme"	
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_energy_effects"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"50"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "500"
+				}
+				
+				Vector2
+				{	
+					x "0.3"
+					y "500"
+				}
+				
+				Vector2
+				{
+					x "0.5"
+					y "-500"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+	
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_energy_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_energy"
+		cooldown	"3"
+		item_bp		"items/skills/dash_energy_effects"
+		icon		"gui/hud/items_icons/skills/dash_energy"
+		bigger_icon "gui/menu/items_icons/skills/dash_energy"		
+		description 	"gui/menu/inventory/skill_description/dash_energy"			
+		rarity			"STANDARD"	
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_energy"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_energy"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_energy_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_energy"
+		cooldown	"3"
+		item_bp		"items/skills/dash_energy_effects"
+		icon		"gui/hud/items_icons/skills/dash_energy"
+		bigger_icon "gui/menu/items_icons/skills/dash_energy"		
+		description 	"gui/menu/inventory/skill_description/dash_energy"	
+		rarity			"ADVANCED"		
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_energy_advanced"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_energy_advanced"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_energy_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_energy"
+		cooldown	"3"
+		item_bp		"items/skills/dash_energy_effects"
+		icon		"gui/hud/items_icons/skills/dash_energy"
+		bigger_icon "gui/menu/items_icons/skills/dash_energy"		
+		description 	"gui/menu/inventory/skill_description/dash_energy"	
+		rarity			"SUPERIOR"	
+		replace_lower_quality		"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_energy_superior"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_energy_superior"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dash_energy_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"dash_skill"
+		subtype		"dash"
+		name 		"gui/menu/inventory/skill_name/dash_energy"
+		cooldown	"3"
+		item_bp		"items/skills/dash_energy_effects"
+		icon		"gui/hud/items_icons/skills/dash_energy"
+		bigger_icon "gui/menu/items_icons/skills/dash_energy"		
+		description 	"gui/menu/inventory/skill_description/dash_energy"	
+		rarity			"EXTREME"	
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/firetrail_dash.lua"		
+		
+		database
+		{
+			trail_time 		float:"5"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/mech_trail_energy_extreme"
+			stat_bp			string:"effects/projectiles_and_trails/mech_trail_energy_extreme"
+			trail_extend_time float:"0.5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
