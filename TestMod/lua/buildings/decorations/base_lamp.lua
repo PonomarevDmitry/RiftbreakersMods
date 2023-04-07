@@ -9,24 +9,28 @@ end
 function base_lamp:OnInit()
 	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
-    
+	
 	ItemService:SetInvisible( self.entity, true )
 end
 
 function base_lamp:OnBuildingEnd()
 	local timeOfDay = EnvironmentService:GetTimeOfDay()
 	if ( timeOfDay == "day" or timeOfDay == "sunrise" ) then
+		self.data:SetInt("is_working", 0 )
 		BuildingService:DisableBuilding( self.entity )
 	else
+		self.data:SetInt("is_working", 1 )
 		BuildingService:EnableBuilding( self.entity )
 	end
 end
 
 function base_lamp:OnDayStartedEvent(evt)
+	self.data:SetInt("is_working", 0 )
 	BuildingService:DisableBuilding( self.entity )
 end
 
 function base_lamp:OnSunsetStartedEvent(evt)
+	self.data:SetInt("is_working", 1 )
 	BuildingService:EnableBuilding( self.entity )
 end
 
