@@ -3,6 +3,7 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/building_utils.lua")
+
 class 'drone_player_scanner' ( base_drone )
 
 function drone_player_scanner:__init()
@@ -153,8 +154,6 @@ function drone_player_scanner:SelectEntity( target )
 	WeaponService:SetCustomTarget( self.entity, target )
 	self.selectedEntity = target
 
-	UnitService:SetCurrentTarget( self.entity, "action", target )
-
 	if target ~= INVALID_ID   then
 
 		WeaponService:RotateWeaponMuzzleToTarget( self.entity, target )
@@ -167,26 +166,28 @@ end
 
 function drone_player_scanner:OnWorkInProgress()
 
+	if ( self.selectedEntity ~= nil and self.shoting == true) then
+		self:ExecuteScanning()
+		return
+	end
+
 	--local maxRange = WeaponService:GetTurretMaxRange( self.entity )
 
 	local owner = self:GetDroneOwnerTarget()
 	
 	local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, {
 		signature = "ScannableComponent"
-	} )
+	})
 
 	local target = FindClosestEntity( owner, entities )
 
 	if ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID then
 		self:SelectEntity( target )
-	elseif ( self.selectedEntity ~= nil and self.shoting == true) then
-		self:ExecuteScanning()
 	elseif target == INVALID_ID   then
 		self:SelectEntity( INVALID_ID )
-		WeaponService:StopShoot( self.entity )
 		self.selectedEntity = nil
+		WeaponService:StopShoot( self.entity )
 	end
-	
 end
 
 function drone_player_scanner:OnTurretEvent( evt )
@@ -198,12 +199,16 @@ function drone_player_scanner:OnTurretEvent( evt )
 
    local target = evt:GetTargetEntity()
 
-   LogService:Log("OnTurretEvent " .. tostring(target))
-
    local status = evt:GetTurretStatus()
+
    if ( status == 4) then
+
 		WeaponService:RotateWeaponMuzzleToTarget( self.entity, target )
+
+		EntityService:LookAt( self.entity, target, true )
+
 		WeaponService:StartShoot( self.entity )
+
 		self.shoting = true
    else
 		WeaponService:StopShoot( self.entity )
