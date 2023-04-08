@@ -1,0 +1,205 @@
+EntityBlueprint
+{	
+	name  			"units/drones/drone_player_scanner_standard"
+	
+	base_blueprint 	"units/drones/drone_base"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			            float:"1"
+			hover_min_height		            float:"7"
+
+			owner_movement						string:"follow"
+			owner_movement_speed_near       	float:"0.75"
+			owner_movement_speed_far          	float:"1.5"
+			owner_movement_trigger_distance 	float:"10.0"
+
+			target_movement			            string:"follow"
+			target_manual_rotation	            int:"1"
+			target_search_mode  	            string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/drone_player_scanner.lua"
+
+		database
+		{
+			search_radius			    float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				    float:"0.9"
+			max_scale				    float:"0.9"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_attack.mesh"
+		material "units/drones/drone_attack"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/drones/drone_attack"
+	}
+	
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"50"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"50"
+		}
+		
+		max_speed
+		{
+			base 	"250"
+		}
+	}
+
+	TurretDesc
+	{
+		target "scannable"
+		target_ignore "invisible"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "35"
+			aiming_range "40"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "35"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"units/drones/drone_player_scanner_projectile"
+		muzzles_per_fire			"1"
+
+		autoaim_type				"scannable"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/drones/drone_player_scanner_projectile"
+
+	IdDesc
+	{
+		name "##ammo##"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/bioscanner_beam.mesh"
+		material 	"projectiles/bioscanner_idle"
+	}
+
+	LaserBeamComponent
+	{
+		range 						"50"
+	
+		ring_bp 					"units/drones/drone_player_scanner_ring"
+	
+		on_enemy_hit_effect 		"effects/mech/bioscanner_hit"
+		on_world_hit_effect 		"effects/mech/bioscanner_hit"
+	
+		collision_3d 				"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|vegetation"
+		collision_block 			"world_blocker|world|building"
+		collision_user_mask			"scannable"
+		
+		is_visible_only 			"1"
+		only_blocking_effect		"1"
+
+		diameter			        "1.5"
+		damage_factor_max       	"9.0"
+		damage_factor_increase  	"5"
+		damage_factor_decrease  	"10.0"
+		damage_max_beam_scale 		"1.5"
+		damage_max_beam_glow 		"1.0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/drones/drone_player_scanner_ring"
+
+	base_blueprints
+	{
+		lights/point/bioscanner
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/bioscanner_ring.mesh"
+		material 	"projectiles/bioscanner_ring"
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_scanner_advanced"
+	base_blueprint		"units/drones/drone_player_scanner_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_scanner_superior"
+	base_blueprint		"units/drones/drone_player_scanner_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_scanner_extreme"
+	base_blueprint		"units/drones/drone_player_scanner_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
