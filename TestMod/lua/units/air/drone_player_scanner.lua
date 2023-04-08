@@ -27,15 +27,15 @@ function drone_player_scanner:FillInitialParams()
 		self.search_radius = self.data:GetFloat("drone_search_radius")
 	else
 		self.search_radius = self.data:GetFloat("search_radius")
-	end 
+	end
+
+	self.maxScanTime = self.data:GetFloatOrDefault( "scanning_time", 2 )
 
 	self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
 
 	self.shoting = false
 	self.lastTarget = INVALID_ID
 	self.effect 	= INVALID_ID
-
-	self.maxScanTime = self.data:GetFloatOrDefault( "scanning_time", 2 )
 
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "working", { execute="OnWorkInProgress" } )
@@ -171,19 +171,19 @@ function drone_player_scanner:OnWorkInProgress()
 		return
 	end
 
-	--local maxRange = WeaponService:GetTurretMaxRange( self.entity )
-
 	local owner = self:GetDroneOwnerTarget()
-	
-	local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, {
+
+	local predicate = {
 		signature = "ScannableComponent"
-	})
+	}
+	
+	local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate )
 
 	local target = FindClosestEntity( owner, entities )
 
-	if ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID then
+	if ( ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID ) then
 		self:SelectEntity( target )
-	elseif target == INVALID_ID   then
+	elseif ( target == INVALID_ID ) then
 		self:SelectEntity( INVALID_ID )
 		self.selectedEntity = nil
 		WeaponService:StopShoot( self.entity )

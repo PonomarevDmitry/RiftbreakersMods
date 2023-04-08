@@ -1,6 +1,6 @@
 EntityBlueprint
 {	
-	name  			"units/drones/drone_player_scanner_standard"
+	name  			"units/drones/drone_player_scanner_base"
 	
 	base_blueprint 	"units/drones/drone_base"
 
@@ -20,18 +20,6 @@ EntityBlueprint
 			target_movement			            string:"follow"
 			target_manual_rotation	            int:"1"
 			target_search_mode  	            string:"always"
-		}
-	}
-
-	LuaDesc
-	{
-		script "lua/units/air/drone_player_scanner.lua"
-
-		database
-		{
-			search_radius			    float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
-			min_scale				    float:"0.9"
-			max_scale				    float:"0.9"
 		}
 	}
 
@@ -107,10 +95,6 @@ EntityBlueprint
 		burst_rate 					"0"
 		burst_column_angle 			"0"
 	}
-	
-	WeaponItemDesc
-	{
-	}
 }
 
 EntityBlueprint
@@ -172,8 +156,48 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name				"units/drones/drone_player_scanner_advanced"
+	name				"units/drones/drone_player_scanner_standard"
+
 	base_blueprint		"units/drones/drone_player_scanner_standard"
+
+	LuaDesc
+	{
+		script "lua/units/air/drone_player_scanner.lua"
+
+		database
+		{
+			search_radius			    float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			scanning_time				float:"3"
+
+			min_scale				    float:"0.9"
+			max_scale				    float:"0.9"
+		}
+	}
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_scanner_advanced"
+
+	base_blueprint		"units/drones/drone_player_scanner_base"
+
+	LuaDesc
+	{
+		script "lua/units/air/drone_player_scanner.lua"
+
+		database
+		{
+			search_radius			    float:"45.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			scanning_time				float:"2.5"
+
+			min_scale				    float:"0.9"
+			max_scale				    float:"0.9"
+		}
+	}
 	
 	WeaponItemDesc
 	{
@@ -183,7 +207,22 @@ EntityBlueprint
 EntityBlueprint
 {
 	name				"units/drones/drone_player_scanner_superior"
-	base_blueprint		"units/drones/drone_player_scanner_standard"
+
+	base_blueprint		"units/drones/drone_player_scanner_base"
+
+	LuaDesc
+	{
+		script "lua/units/air/drone_player_scanner.lua"
+
+		database
+		{
+			search_radius			    float:"50.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			scanning_time				float:"2"
+
+			min_scale				    float:"0.9"
+			max_scale				    float:"0.9"
+		}
+	}
 	
 	WeaponItemDesc
 	{
@@ -193,7 +232,22 @@ EntityBlueprint
 EntityBlueprint
 {
 	name				"units/drones/drone_player_scanner_extreme"
-	base_blueprint		"units/drones/drone_player_scanner_standard"
+
+	base_blueprint		"units/drones/drone_player_scanner_base"
+
+	LuaDesc
+	{
+		script "lua/units/air/drone_player_scanner.lua"
+
+		database
+		{
+			search_radius			    float:"55.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			scanning_time				float:"1.5"
+
+			min_scale				    float:"0.9"
+			max_scale				    float:"0.9"
+		}
+	}
 	
 	WeaponItemDesc
 	{
