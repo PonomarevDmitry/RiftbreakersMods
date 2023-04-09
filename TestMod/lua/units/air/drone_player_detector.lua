@@ -30,9 +30,9 @@ function drone_player_detector:FillInitialParams()
 		self.search_radius = self.data:GetFloat("search_radius")
 	end
 
-	self.radius   = self.data:GetFloat( "radius" )
-	self.enemyRadius   = self.data:GetFloat( "enemy_radius" )
-	self.level    = self.data:GetInt( "lvl" )
+	self.radius = self.data:GetFloat( "radius" )
+	self.enemyRadius = self.data:GetFloat( "enemy_radius" )
+	self.level = self.data:GetInt( "lvl" )
 
 	self.effect = INVALID_ID
 	self.effectScanner = INVALID_ID
@@ -42,7 +42,7 @@ function drone_player_detector:FillInitialParams()
 
 	EntityService:SetGraphicsUniform( self.entity, "cDissolveAmount", 1 )
 
-	self.effectScanner =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.entity, "att_detector", "" )
+	self.effectScanner = EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner", self.entity, "att_detector", "" )
 	EntityService:SetScale( self.effectScanner, 15.0, 15.0, 15.0 )
 
 	EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
@@ -71,7 +71,7 @@ function drone_player_detector:OnWorkInProgress()
 				return false
 			end
 			
-			if (  tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
+			if ( tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
 				return false
 			end
 
@@ -115,7 +115,7 @@ function drone_player_detector:OnWorkInProgress()
 
 		local distanceToSelf = EntityService:GetDistance2DBetween( self.entity, ent )
 
-		local factor = (distanceToSelf - discoverDistance)  / ( radius - discoverDistance )
+		local factor = (distanceToSelf - discoverDistance) / ( radius - discoverDistance )
 
 		if ( distance > discoverDistance or type == "enemy" ) then
 
@@ -156,7 +156,7 @@ function drone_player_detector:OnWorkInProgress()
 
 			for eEnt in Iter( enemyEntities ) do
 
-				local eDistance = EntityService:GetDistanceBetween(eEnt, owner)
+				local eDistance = EntityService:GetDistanceBetween( eEnt, owner )
 
 				local discoverDistance = self:GetDiscoveryDistance( eEnt )
 		
@@ -173,7 +173,7 @@ function drone_player_detector:OnWorkInProgress()
 		if ( self.effect ~= INVALID_ID ) then
 
 			EntityService:RemoveEntity( self.effect )
-			self.effect  = INVALID_ID
+			self.effect = INVALID_ID
 
 			self.type = ""
 			self.lastFactor = -1;
@@ -220,7 +220,7 @@ function drone_player_detector:FindNearestTreaure()
 				return false
 			end
 			
-			if (  tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
+			if ( tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
 				return false
 			end
 
@@ -252,12 +252,10 @@ function drone_player_detector:FindNearestTreaure()
 
 		local type = ""
 
-		local radius = self.radius
 		if ( distanceEnemy ~= nil and distanceEnemy < distance and self.enemyRadius > distanceEnemy ) then
 			ent = entEnemy
 			distance = distanceEnemy
 			type = "enemy"
-			radius = self.enemyRadius
 		end
 
 		if ( distance <= self.search_radius ) then
@@ -364,7 +362,7 @@ function drone_player_detector:CheckAndSpawnEffect( ent, type, factor )
 
 	if ( type ~= self.type or mode ~= oldMode or ( ent ~= self.oldEnt and self.oldEnt ~= INVALID_ID ) ) then
 		EntityService:RemoveEntity( self.effect )
-		self.effect  = INVALID_ID
+		self.effect = INVALID_ID
 		self.type = ""
 	end
 
