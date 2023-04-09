@@ -90,7 +90,7 @@ function drone_spawner:SpawnDrones()
 		{
 			[EntityModType.repair_drone]     = "units/drones/drone_player_repair" .. blueprint_suffix,             -- stat RepairDrone
 			[EntityModType.attack_drone]     = "units/drones/drone_player_offensive".. blueprint_suffix,           -- stat AttackDrone
-			[EntityModType.defense_drone]    = "units/drones/drone_player_scanner".. blueprint_suffix,           -- stat DefensiveDrone
+			[EntityModType.defense_drone]    = "units/drones/drone_player_detector".. blueprint_suffix,           -- stat DefensiveDrone
 			[EntityModType.loot_drone]       = "units/drones/drone_player_loot_collector".. blueprint_suffix,      -- stat LootDrone
 		};
 
