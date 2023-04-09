@@ -33,28 +33,27 @@ function drone_player_detector:FillInitialParams()
 	self.radius   = self.data:GetFloat( "radius" )
 	self.enemyRadius   = self.data:GetFloat( "enemy_radius" )
 	self.level    = self.data:GetInt( "lvl" )
-	self.cooldown = 0.05
-	self.timer = 0
+
 	self.effect = INVALID_ID
 	self.effectScanner = INVALID_ID
+
 	self.type = ""
-	self.lastItemEnt = nil
-	self.poseType = ""
-	self.lastItemType = ""
 	self.lastFactor = 0
 
 	EntityService:SetGraphicsUniform( self.entity, "cDissolveAmount", 1 )
 
 	self.effectScanner =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.entity, "att_detector", "" )
-
 	EntityService:SetScale( self.effectScanner, 15.0, 15.0, 15.0 )
 
 	EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
 
-	self.fsm = self:CreateStateMachine()
-	self.fsm:AddState( "working", { execute="OnWorkInProgress" } )
+	self.fsmFollow = self:CreateStateMachine();
+	self.fsmFollow:AddState("follow", { execute="OnFollowExecute" } )
 
-	self.fsm:ChangeState("working")
+	self.fsmDetect = self:CreateStateMachine()
+	self.fsmDetect:AddState( "working", { execute="OnWorkInProgress" } )
+
+	self.fsmDetect:ChangeState("working")
 end
 
 function drone_player_detector:OnWorkInProgress()
@@ -100,8 +99,6 @@ function drone_player_detector:OnWorkInProgress()
 	local entEnemy = foundEnemy.entity
 	local distanceEnemy = foundEnemy.distance
 
-	self:SetDetectorTarget( INVALID_ID )
-
 	if ( (ent ~= INVALID_ID ) or (entEnemy ~= INVALID_ID and self.enemyRadius > distanceEnemy) ) then
 
 		local type = ""
@@ -114,14 +111,11 @@ function drone_player_detector:OnWorkInProgress()
 			radius = self.enemyRadius
 		end
 
-		local discoverDistance = 10
+		local discoverDistance = self:GetDiscoveryDistance( ent )
 
-		local db = EntityService:GetDatabase( ent )
-		if ( db ~= nil and db:HasFloat("discovery_distance") ) then
-			discoverDistance = db:GetFloat("discovery_distance")
-		end
+		local distanceToSelf = EntityService:GetDistance2DBetween( self.entity, ent )
 
-		local factor = (distance - discoverDistance)  / ( radius - discoverDistance )
+		local factor = (distanceToSelf - discoverDistance)  / ( radius - discoverDistance )
 
 		if ( distance > discoverDistance or type == "enemy" ) then
 
@@ -164,49 +158,193 @@ function drone_player_detector:OnWorkInProgress()
 
 				local eDistance = EntityService:GetDistanceBetween(eEnt, owner)
 
-				local discoverDistance = 10
-
-				local db = EntityService:GetDatabase( eEnt )
-				if ( db ~= nil and db:HasFloat("discovery_distance") ) then
-					discoverDistance = db:GetFloat("discovery_distance")
-				end
+				local discoverDistance = self:GetDiscoveryDistance( eEnt )
 		
 				if ( eDistance <= discoverDistance ) then
 					ItemService:RevealHiddenEntity( eEnt )
 				end
 			end
-		else
-			self:SetDetectorTarget( ent )
 		end
 	
-	elseif ( self.effect ~= INVALID_ID ) then
+	else
 
-		EntityService:RemoveEntity( self.effect )
-		self.effect  = INVALID_ID
+		EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
 
-		self.type = ""
-		self.lastFactor = -1;
+		if ( self.effect ~= INVALID_ID ) then
+
+			EntityService:RemoveEntity( self.effect )
+			self.effect  = INVALID_ID
+
+			self.type = ""
+			self.lastFactor = -1;
+		end
 	end
 end
 
-function drone_player_detector:SetDetectorTarget( target )
+function drone_player_detector:GetDiscoveryDistance( entity )
 
-	UnitService:SetCurrentTarget( self.entity, "action", target )
+	local discoverDistance = 10
 
-	if target ~= INVALID_ID then
-		UnitService:SetStateMachineParam(self.entity, "target_action_finished", 0)
-		UnitService:SetStateMachineParam(self.entity, "owner_action_finished", 1)
+	local db = EntityService:GetDatabase( entity )
 
-		UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
-
-		UnitService:EmitStateMachineParam(self.entity, "action_target_found")
-	else
-
-		UnitService:SetStateMachineParam(self.entity, "target_action_finished", 1)
-		UnitService:SetStateMachineParam(self.entity, "owner_action_finished", 0)
-
-		UnitService:SetStateMachineParam( self.entity, "action_target_valid", 0)
+	if ( db ~= nil and db:HasFloat("discovery_distance") ) then
+		discoverDistance = db:GetFloat("discovery_distance")
 	end
+
+	return discoverDistance
+end
+
+function drone_player_detector:FindActionTarget()
+
+	self.fsmFollow:Deactivate()
+
+	local result = self:FindNearestTreaure()
+
+	self.fsmFollow:ChangeState("follow")
+
+	return result
+end
+
+function drone_player_detector:FindNearestTreaure()
+
+	local owner = self:GetDroneOwnerTarget()
+
+	local predicate = {
+
+		signature = "TreasureComponent",
+
+		filter = function( entity )
+
+			local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
+			if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
+				return false
+			end
+			
+			if (  tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
+				return false
+			end
+
+			local db = EntityService:GetDatabase( entity )
+			if ( db == nil ) then
+				return false
+			end
+
+			local type = db:GetStringOrDefault("type","")
+			if ( type ~= "enemy") then
+				return false
+			end
+
+			return true
+		end
+	}
+
+	local enemyEntities = FindService:FindEntitiesByPredicateInRadius( owner, self.enemyRadius, predicate );
+
+	local foundNormal = ItemService:FindClosestTreasureInRadius( owner, self.level, "", "enemy" )
+	local ent = foundNormal.first
+	local distance = foundNormal.second
+
+	local foundEnemy = FindClosestEntityWithDistance( owner, enemyEntities )
+	local entEnemy = foundEnemy.entity
+	local distanceEnemy = foundEnemy.distance
+
+	if ( (ent ~= INVALID_ID ) or (entEnemy ~= INVALID_ID and self.enemyRadius > distanceEnemy) ) then
+
+		local type = ""
+
+		local radius = self.radius
+		if ( distanceEnemy ~= nil and distanceEnemy < distance and self.enemyRadius > distanceEnemy ) then
+			ent = entEnemy
+			distance = distanceEnemy
+			type = "enemy"
+			radius = self.enemyRadius
+		end
+
+		if ( distance <= self.search_radius ) then
+
+			if ( not self:IsDiscovered( ent ) ) then
+
+				return ent
+			end
+		end
+	end
+
+	return INVALID_ID
+end
+
+function drone_player_detector:OnDroneTargetAction( target )
+
+	if ( target == INVALID_ID ) then
+		return
+	end
+
+	if ( not EntityService:IsAlive(target) ) then
+
+		self.fsmFollow:Deactivate()
+		self:SetTargetActionFinished()
+		self.fsmFollow:ChangeState("follow")
+
+		return
+	end
+
+	if ( self:IsDiscovered( target ) ) then
+
+		self.fsmFollow:Deactivate()
+		self:SetTargetActionFinished()
+		self.fsmFollow:ChangeState("follow")
+
+		return
+	end
+
+	self.fsmFollow:ChangeState("follow")
+end
+
+function drone_player_detector:OnFollowExecute(state)
+
+	local target = self:GetDroneActionTarget()
+
+	if ( target == INVALID_ID ) then
+		self:SetTargetActionFinished()
+		return state:Exit()
+	end
+
+	if ( not EntityService:IsAlive(target) ) then
+		self:SetTargetActionFinished()
+		return state:Exit()
+	end
+
+	local owner = self:GetDroneOwnerTarget()
+
+	if ( EntityService:GetDistance2DBetween( owner, target ) > ( self.search_radius * 1.1 ) ) then
+		self:SetTargetActionFinished()
+		return state:Exit()
+	end
+
+	if ( self:IsDiscovered( target ) ) then
+		self:SetTargetActionFinished()
+		state:Exit()
+	end
+
+	local nearestTreaure = self:FindNearestTreaure()
+
+	if	( nearestTreaure ~= target ) then
+		self:SetTargetActionFinished()
+		state:Exit()
+	end
+end
+
+function drone_player_detector:IsDiscovered( target )
+
+	local treasureComponent = EntityService:GetComponent( target, "TreasureComponent")
+	if	( treasureComponent == nil ) then
+		return true
+	end
+
+	if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
+		return true
+	end
+
+	return false
 end
 
 function drone_player_detector:GetModeFromFactor( factor )
@@ -236,10 +374,10 @@ function drone_player_detector:CheckAndSpawnEffect( ent, type, factor )
 		self.type = type
 
 		if ( type == "enemy" ) then
-			self.effect = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite_red",  self.entity, "att_detector", "" )
+			self.effect = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite_red", self.entity, "att_detector", "" )
 			return 3
 		else
-			self.effect = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite",  self.entity, "att_detector", "" )
+			self.effect = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite", self.entity, "att_detector", "" )
 		end
 	end
 
