@@ -110,8 +110,6 @@ function drone_player_scanner:ExecuteScanning()
 
 			QueueEvent( "EntityScanningStartEvent", self.selectedEntity )
 
-			QueueEvent( "ShowScannableRequest", event_sink, true )
-
 		elseif ( self.selectedEntity == self.lastTarget ) then
 
 			scannableComponentHelper.scanning_progress = scannableComponentHelper.scanning_progress + ( 1.0 / 30 )
