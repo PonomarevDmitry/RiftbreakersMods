@@ -1,0 +1,54 @@
+EntityBlueprint
+{
+	name					"buildings/tools/sell_place_ruin"
+
+	BuildingDesc
+	{
+		name				"sell_place_ruin"
+		bp					"buildings/tools/sell_place_ruin"
+		ghost_bp			"buildings/tools/sell_place_ruin_ghost"
+		category			"tools"
+		localization_id		"gui/hud/building_name/sell_place_ruin_tool"
+		description			"gui/hud/building_description/sell_place_ruin_tool"
+		menu_icon			"gui/hud/buttons/action_menu_sell_neutral"
+		order				"2.1"
+		type				"sell"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/sell_place_ruin_ghost"
+
+	BuildingDesc
+	{
+		name				"sell_place_ruin_ghost"
+		buildable			"0"
+		type				"sell_place_ruin"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/sell_place_ruin_tool.lua"
+		
+		database
+		{
+			action			string:"sell_place_ruin"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
