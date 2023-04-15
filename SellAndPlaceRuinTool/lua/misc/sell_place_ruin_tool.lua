@@ -13,7 +13,7 @@ end
 
 function sell_place_ruin_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_gold", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_gold", self.entity )
     end
 end
 
@@ -23,25 +23,28 @@ end
 
 function sell_place_ruin_tool:AddedToSelection( entity )
 
-    local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent")
+    local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
     if ( buildingComponent == nil ) then
         return
     end
 
     local buildingComponentHelper = reflection_helper(buildingComponent)
 
+    local isSkinned = EntityService:IsSkinned( entity )
+
     if ( buildingComponentHelper.m_isSellable == true ) then
 
-        if ( EntityService:IsSkinned(entity ) ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
+        if ( isSkinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
         else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
+            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
         end
     else
-        if ( EntityService:IsSkinned(entity ) ) then
-            EntityService:SetMaterial( entity, "selector/hologram_red_skinned", "selected")
+
+        if ( isSkinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_red_skinned", "selected" )
         else
-            EntityService:SetMaterial( entity, "selector/hologram_red", "selected")
+            EntityService:SetMaterial( entity, "selector/hologram_red", "selected" )
         end
     end
 end
@@ -54,7 +57,7 @@ function sell_place_ruin_tool:FilterSelectedEntities( selectedEntities )
 
     local result = {}
 
-    for entity in Iter(selectedEntities ) do
+    for entity in Iter( selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName( entity )
 
