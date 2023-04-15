@@ -32,8 +32,11 @@ function detector:OnEquipped()
 end
 
 function detector:OnActivate()
+
     PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+
     self:OnExecuteDetecting()
+
     local ownerData = EntityService:GetDatabase( self.owner );
     if ( self.data:GetInt( "activated" ) == 0  ) then
         self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
@@ -42,6 +45,7 @@ function detector:OnActivate()
         self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
         self.poseType = ownerData:GetStringOrDefault( "RIGHT_HAND_pose_type", "" )
     end
+
     ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
 
 end
@@ -50,8 +54,10 @@ function detector:OnDeactivate( forced )
     PlayerService:StopPadHapticFeedback( 0 )
 
     EntityService:RemoveEntity( self.effect )
-    EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
     self.effect = INVALID_ID
+
+    EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
+
     local ownerData = EntityService:GetDatabase( self.owner );
     if ownerData ~= nil then
         ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
@@ -64,8 +70,13 @@ function detector:OnDeactivate( forced )
     if (forced == false and  self.lastItemEnt ~= nil and EntityService:IsAlive( self.lastItemEnt ) ) then
         QueueEvent("FadeEntityInRequest", self.lastItemEnt, 0.5)
     end
+
     QueueEvent("FadeEntityOutRequest", self.item, 0.5)
+
     self.lastItemEnt = nil
+
+    self.targetTimeToSpawn = nil
+
     return true
 end
 
@@ -220,6 +231,9 @@ function detector:OnExecuteDetecting()
     elseif ( self.effect ~= INVALID_ID ) then
         EntityService:RemoveEntity( self.effect )
         self.effect  = INVALID_ID
+
+        EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
+
         self.type = ""
         self.lastFactor = -1;
     else
@@ -248,9 +262,24 @@ function detector:spawnReplacement()
     local discoveredTresures = FindService:FindEntitiesByPredicateInRadius( self.item, 9999999.0, predicate );
 
     if ( #discoveredTresures > 0 ) then
+        self.targetTimeToSpawn = nil
+        return
+    end
+
+    if ( self.targetTimeToSpawn == nil ) then
+
+        self.targetTimeToSpawn = GetLogicTime() + 3
+        return
+    end
+
+    local currentTime = GetLogicTime()
+
+    if ( currentTime < self.targetTimeToSpawn ) then
 
         return
     end
+
+    self.targetTimeToSpawn = nil
 
     local treasureList = detector:GetTreasureList()
 
