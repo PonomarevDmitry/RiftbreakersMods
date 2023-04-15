@@ -998,19 +998,8 @@ function building_base:RemoveAllBuilidingEntities()
         EntityService:RemoveEntity( self.printingOrigin )
         self.printingOrigin = nil
     end
-    if (#self.cubes > 0 ) then
-        for line in Iter( self.lines ) do
-            EntityService:RemoveEntity( line[1]  )
-            EntityService:RemoveEntity( line[6]  )
-        end
-        for line in Iter( self.currentLines ) do
-            EntityService:RemoveEntity( line[1]  )
-            EntityService:RemoveEntity( line[6]  )
-        end
-        Clear( self.lines )
-        Clear( self.currentLines )
-
-
+    
+    if ( #self.cubes > 0 ) then
         for cube in Iter( self.cubes ) do
             AnimationService:StopAnims( cube )
             if ( AnimationService:HasAnim( cube, "scale_down") ) then
@@ -1018,6 +1007,10 @@ function building_base:RemoveAllBuilidingEntities()
             end
             EntityService:CreateLifeTime( cube, 0.5, "" ) 
         end
+        Clear( self.cubes )
+    end
+
+    if ( #self.currentCubes > 0 ) then
         for cube in Iter( self.currentCubes) do
             AnimationService:StopAnims( cube )
             if ( AnimationService:HasAnim( cube, "scale_down") ) then
@@ -1025,9 +1018,23 @@ function building_base:RemoveAllBuilidingEntities()
             end
             EntityService:CreateLifeTime( cube, 0.5, "" ) 
         end
-        
-        Clear( self.cubes )
         Clear( self.currentCubes )
+    end
+
+    if ( #self.lines > 0 ) then
+        for line in Iter( self.lines ) do
+            EntityService:RemoveEntity( line[1]  )
+            EntityService:RemoveEntity( line[6]  )
+        end
+        Clear( self.lines )
+    end
+
+    if ( #self.currentLines > 0 ) then
+        for line in Iter( self.currentLines ) do
+            EntityService:RemoveEntity( line[1]  )
+            EntityService:RemoveEntity( line[6]  )
+        end
+        Clear( self.currentLines )
     end
 end
 
