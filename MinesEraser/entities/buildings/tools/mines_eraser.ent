@@ -1,0 +1,54 @@
+EntityBlueprint
+{
+	name	"buildings/tools/mines_eraser"
+
+	BuildingDesc
+	{
+		name				"mines_eraser"
+		bp					"buildings/tools/mines_eraser"
+		ghost_bp			"buildings/tools/mines_eraser_ghost"
+		category			"tools"
+		localization_id		"gui/hud/building_name/mines_eraser"
+		description			"gui/hud/building_description/mines_eraser"
+		menu_icon			"gui/hud/tools_icons/mines_eraser_tool"
+		order				"3"
+		type				"mines_eraser"
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material	"buildings/metal_plate_1x1"
+		flags		"2"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/tools/mines_eraser_ghost"
+
+	BuildingDesc
+	{
+		name		"mines_eraser_ghost"
+		buildable	"0"
+		type		"mines_eraser"
+		category	"tools"
+	}
+
+	LuaDesc
+	{
+		script	"lua/misc/mines_eraser_tool.lua"
+		
+		database
+		{
+			action	string:"mines_eraser"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material	"selector/hologram_active"
+		flags		"2"
+	}
+}
