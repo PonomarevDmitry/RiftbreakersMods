@@ -239,7 +239,7 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
 
             for tempEntity in Iter( tempSelected ) do
 
-                if ( entity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
+                if ( tempEntity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
                    Insert( possibleSelectedEnts, tempEntity )
                 end
             end
