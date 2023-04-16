@@ -7,13 +7,35 @@ function base_lamp:__init()
 end
 
 function base_lamp:OnInit()
+
+	building.OnInit( self )
+
 	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
 	
 	ItemService:SetInvisible( self.entity, true )
+
+	self:SetWorking()
+end
+
+function base_lamp:OnLoad()
+
+	building.OnLoad( self )
+
+	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
+	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
+	
+	ItemService:SetInvisible( self.entity, true )
+
+	self:SetWorking()
 end
 
 function base_lamp:OnBuildingEnd()
+
+	self:SetWorking()
+end
+
+function base_lamp:SetWorking()
 	local timeOfDay = EnvironmentService:GetTimeOfDay()
 	if ( timeOfDay == "day" or timeOfDay == "sunrise" ) then
 		self.data:SetInt("is_working", 0 )
@@ -41,6 +63,5 @@ end
 function base_lamp:OnDeactivate()
 	self.data:SetInt("is_working", 0 )
 end
-
 
 return base_lamp
