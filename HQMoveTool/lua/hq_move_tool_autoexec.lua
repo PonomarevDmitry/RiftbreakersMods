@@ -1,5 +1,5 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     
-    BuildingService:UnlockBuilding("buildings/tools/hq_move_tool")
+    BuildingService:UnlockBuilding("buildings/main/hq_move_tool")
 end)
 
