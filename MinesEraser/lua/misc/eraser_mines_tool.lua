@@ -23,7 +23,7 @@ function eraser_mines_tool:SpawnCornerBlueprint()
     end
 end
 
-function eraser_mines_tool:SellFloor()
+function eraser_mines_tool:DisposeMines()
 
     for i=1,#self.selectedEntities do
 
@@ -336,7 +336,7 @@ function eraser_mines_tool:OnActivateSelectorRequest()
 
         self:OnUpdate()
     else
-        self:SellFloor()
+        self:DisposeMines()
 
         self:StopBuildingGhosts()
     end
@@ -344,7 +344,7 @@ end
 
 function eraser_mines_tool:OnDeactivate()
 
-    self:SellFloor()
+    self:DisposeMines()
 
     self:StopBuildingGhosts()
 end
