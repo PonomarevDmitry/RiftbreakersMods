@@ -1,15 +1,15 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-class 'mines_eraser_tool' ( tool )
+class 'eraser_mines_tool' ( tool )
 
-function mines_eraser_tool:__init()
+function eraser_mines_tool:__init()
     tool.__init(self,self)
 end
 
-function mines_eraser_tool:OnInit()
+function eraser_mines_tool:OnInit()
     self.baseSearch = false
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_mines_eraser_tool", self.entity)
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser_mines_tool", self.entity)
 
     self.nowBuildingLine = false
     self.buildStartPosition = nil
@@ -17,13 +17,13 @@ function mines_eraser_tool:OnInit()
     self.currentSize = 0
 end
 
-function mines_eraser_tool:SpawnCornerBlueprint()
+function eraser_mines_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_gold", self.entity )
     end
 end
 
-function mines_eraser_tool:SellFloor()
+function eraser_mines_tool:SellFloor()
 
     for i=1,#self.selectedEntities do
 
@@ -33,7 +33,7 @@ function mines_eraser_tool:SellFloor()
     end
 end
 
-function mines_eraser_tool:FindEntitiesToSelect( selectorComponent )
+function eraser_mines_tool:FindEntitiesToSelect( selectorComponent )
 
     local predicate = {
 
@@ -119,13 +119,13 @@ function mines_eraser_tool:FindEntitiesToSelect( selectorComponent )
     return selectedEntities
 end
 
-function mines_eraser_tool:AddedToSelection( entity )
+function eraser_mines_tool:AddedToSelection( entity )
 end
 
-function mines_eraser_tool:RemovedFromSelection( entity )
+function eraser_mines_tool:RemovedFromSelection( entity )
 end
 
-function mines_eraser_tool:OnUpdate()
+function eraser_mines_tool:OnUpdate()
     
     local currentScale = EntityService:GetScale(self.entity).x
     
@@ -262,7 +262,7 @@ function mines_eraser_tool:OnUpdate()
     end
 end
 
-function mines_eraser_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
+function eraser_mines_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
 
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
     
@@ -308,7 +308,7 @@ function mines_eraser_tool:FindPositionsToBuildLine(buildStartPosition, buildEnd
     return arrayX, arrayZ
 end
 
-function mines_eraser_tool:GetXZSigns(positionStart, positionEnd)
+function eraser_mines_tool:GetXZSigns(positionStart, positionEnd)
                 
     local xSign = -1
     local zSign = -1
@@ -324,7 +324,7 @@ function mines_eraser_tool:GetXZSigns(positionStart, positionEnd)
     return xSign, zSign
 end
 
-function mines_eraser_tool:OnActivateSelectorRequest()
+function eraser_mines_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
@@ -342,14 +342,14 @@ function mines_eraser_tool:OnActivateSelectorRequest()
     end
 end
 
-function mines_eraser_tool:OnDeactivate()
+function eraser_mines_tool:OnDeactivate()
 
     self:SellFloor()
 
     self:StopBuildingGhosts()
 end
 
-function mines_eraser_tool:StopBuildingGhosts()
+function eraser_mines_tool:StopBuildingGhosts()
 
     self:ClearGridEntities()
 
@@ -359,7 +359,7 @@ function mines_eraser_tool:StopBuildingGhosts()
     self.buildStartPosition = nil
 end
 
-function mines_eraser_tool:ClearGridEntities()
+function eraser_mines_tool:ClearGridEntities()
 
     if ( self.gridEntities ~= nil ) then
         for gridEntitiesZ in Iter(self.gridEntities) do
@@ -372,7 +372,7 @@ function mines_eraser_tool:ClearGridEntities()
     self.gridEntities = {}
 end
 
-function mines_eraser_tool:OnRelease()
+function eraser_mines_tool:OnRelease()
 
     self:ClearGridEntities()
 
@@ -384,7 +384,7 @@ function mines_eraser_tool:OnRelease()
     tool.OnRelease(self)
 end
 
-function mines_eraser_tool:OnRotate()
+function eraser_mines_tool:OnRotate()
 end
 
-return mines_eraser_tool
+return eraser_mines_tool
