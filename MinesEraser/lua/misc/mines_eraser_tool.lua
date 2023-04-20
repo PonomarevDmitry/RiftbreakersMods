@@ -9,7 +9,7 @@ end
 
 function mines_eraser_tool:OnInit()
     self.baseSearch = false
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser", self.entity)
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_mines_eraser_tool", self.entity)
 
     self.nowBuildingLine = false
     self.buildStartPosition = nil
