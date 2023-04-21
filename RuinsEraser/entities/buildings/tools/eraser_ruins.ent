@@ -1,0 +1,54 @@
+EntityBlueprint
+{
+	name	"buildings/tools/eraser_ruins"
+
+	BuildingDesc
+	{
+		name				"eraser_ruins"
+		bp					"buildings/tools/eraser_ruins"
+		ghost_bp			"buildings/tools/eraser_ruins_ghost"
+		category			"tools"
+		localization_id		"gui/hud/building_name/eraser_ruins"
+		description			"gui/hud/building_description/eraser_ruins"
+		menu_icon			"gui/hud/tools_icons/eraser_ruins_tool"
+		order				"60"
+		type				"eraser_ruins"
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material	"buildings/metal_plate_1x1"
+		flags		"2"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/tools/eraser_ruins_ghost"
+
+	BuildingDesc
+	{
+		name		"eraser_ruins_ghost"
+		buildable	"0"
+		type		"eraser_ruins"
+		category	"tools"
+	}
+
+	LuaDesc
+	{
+		script	"lua/misc/eraser_ruins_tool.lua"
+		
+		database
+		{
+			action	string:"eraser_ruins"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material	"selector/hologram_active"
+		flags		"2"
+	}
+}
