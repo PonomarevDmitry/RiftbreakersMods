@@ -12,7 +12,7 @@ end
 function buildings_builder_tool:init()
     
     self.stateMachine = self:CreateStateMachine()
-    self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
+    self.stateMachine:AddState( "working", { enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
     self.stateMachine:ChangeState("working")
 
     self.massBuildLimitMachine = self:CreateStateMachine()
@@ -51,7 +51,7 @@ function buildings_builder_tool:InitializeValues()
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent( self.selector, "PlayerReferenceComponent" ) )
     self.playerId = playerReferenceComponent.player_id
 
-    local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent") )
+    local buildingComponent = reflection_helper( EntityService:GetComponent( self.entity, "BuildingComponent" ) )
     self.blueprint = buildingComponent.bp 
 
     self.activated = false
@@ -68,19 +68,21 @@ function buildings_builder_tool:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
-    EntityService:SetVisible( self.entity , false )
+    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    EntityService:SetVisible( self.entity, false )
 
     local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. marker
-    self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
+    self.markerEntity = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
     self:SpawnBuildinsTemplates()
 
-    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
 end
 
 function buildings_builder_tool:SpawnBuildinsTemplates()
+
+    self.buildCost = {}
 
     -- templateString format:
     -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
@@ -107,9 +109,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     end
 
     local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" )
-    if ( templateString == nil ) then
-        templateString = ""
-    end
+    templateString = templateString or ""
 
     --LogService:Log("SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
 
@@ -174,7 +174,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
         for entityString in Iter( entitiesCoordinatesArray ) do
 
-            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
+            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list )
         end
 
         ::continue::
@@ -182,12 +182,22 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
     if ( #self.templateEntities > 0 ) then
 
+        if ( #self.templateEntities > 1 ) then
+
+            for i=2,#self.templateEntities do
+
+                local buildingTemplate = self.templateEntities[i]
+            
+                EntityService:RemoveComponent( buildingTemplate.entity, "DisplayRadiusComponent" )
+            end
+        end
+
         local firstBuildingTemplate = self.templateEntities[1]
         local firstEntity = firstBuildingTemplate.entity
 
         local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
 
-        EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z)
+        EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z )
 
         markerDB:SetString("message_text", "")
         markerDB:SetInt("message_visible", 0)
@@ -197,7 +207,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     end
 end
 
-function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, currentPosition, team, entityString )
+function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list )
 
     -- Split coordinates by ","
     local valuesArray = Split( entityString, "," )
@@ -209,7 +219,7 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
 
     local positionX = tonumber( valuesArray[1] )
     local positionZ = tonumber( valuesArray[2] )
-                
+
     local orientationY = tonumber( valuesArray[3] )
     local orientationW = tonumber( valuesArray[4] )
 
@@ -222,6 +232,15 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
 
     buildingTemplate.blueprint = blueprintName
 
+    for resourceCost in Iter( list ) do
+
+        if ( self.buildCost[resourceCost.first] == nil ) then
+            self.buildCost[resourceCost.first] = 0
+        end
+
+        self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + resourceCost.second
+    end
+
     buildingTemplate.buildingDesc = buildingDesc
     buildingTemplate.createCube = createCube
 
@@ -229,7 +248,7 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
     buildingTemplate.positionZ = positionZ
 
     local orientation = {}
-                
+
     orientation.x = 0
     orientation.y = orientationY
     orientation.z = 0
@@ -240,31 +259,29 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
     local deltaX, deltaZ = self:GetVectorDelta( positionX, positionZ )
 
     local newPosition = {}
-                
-    newPosition.x = currentPosition.x + deltaX
-    newPosition.y = currentPosition.y
-    newPosition.z = currentPosition.z + deltaZ
+
+    newPosition.x = deltaX
+    newPosition.y = 0
+    newPosition.z = deltaZ
 
     local buildingEntity = nil
 
     if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
 
-        buildingEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
+        buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.ghost_bp, self.selector )
     else
-        buildingEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
+        buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.bp, self.selector )
     end
 
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
+
+    EntityService:SetPosition( buildingEntity, newPosition )
     EntityService:SetOrientation( buildingEntity, orientation )
 
     EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
 
     buildingTemplate.entity = buildingEntity
 
-    HideBuildingDisplayRadiusAround( buildingEntity, buildingDesc.ghost_bp )
-    HideBuildingDisplayRadiusAround( buildingEntity, buildingDesc.bp )
-    HideBuildingDisplayRadiusAround( buildingEntity, buildingEntity )
-    
     Insert( self.templateEntities, buildingTemplate )
 end
 
@@ -278,7 +295,7 @@ end
 
 function buildings_builder_tool:GetBuildInfo( entity  )
     local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent")
-    if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!") ) then 
+    if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!") ) then
         return nil 
     end
     if (buildInfoComponent == nil ) then
@@ -341,62 +358,44 @@ end
 
 function buildings_builder_tool:OnUpdate()
 
-    self:RemoveMaterialFromOldBuildingsToSell()
-
-    self.oldBuildingsToSell = {}
-
-    self.buildCost = {}
-
-    local currentTransform = EntityService:GetWorldTransform( self.entity )
-    local currentPosition = currentTransform.position
-
-    self:CheckEntityBuildable( self.entity , currentTransform, self.blueprint )
+    local buildingsToSell = {}
 
     for i=1,#self.templateEntities do
 
         local buildingTemplate = self.templateEntities[i]
-
-        local newPosition = {}
-
-        local deltaX, deltaZ = self:GetVectorDelta( buildingTemplate.positionX, buildingTemplate.positionZ )
-
-        newPosition.x = currentPosition.x + deltaX
-        newPosition.y = currentPosition.y
-        newPosition.z = currentPosition.z + deltaZ
-
-        local transform = {}
-
-        transform.scale = { x=1, y=1, z=1 }
-        transform.orientation = buildingTemplate.orientation
-        transform.position = newPosition
             
         local entity = buildingTemplate.entity
 
+        local transform = EntityService:GetWorldTransform( entity )
+
         local testBuildable = self:CheckEntityBuildable( entity, transform, buildingTemplate.blueprint, i )
 
-        if ( testBuildable ~= nil) then    
-            self:AddToEntitiesToSellList(testBuildable)
-        end
-
-        EntityService:SetPosition( entity, newPosition )
-        EntityService:SetOrientation(entity, transform.orientation )
-        BuildingService:CheckAndFixBuildingConnection(entity)
-
-        HideBuildingDisplayRadiusAround( entity, buildingTemplate.buildingDesc.ghost_bp )
-        HideBuildingDisplayRadiusAround( entity, buildingTemplate.buildingDesc.bp )
-        HideBuildingDisplayRadiusAround( entity, entity )
-
-        local list = BuildingService:GetBuildCosts( buildingTemplate.blueprint, self.playerId )
-
-        for resourceCost in Iter(list) do
-
-            if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0
-            end
-
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + resourceCost.second
+        if ( testBuildable ~= nil ) then    
+            self:AddToEntitiesToSellList( testBuildable, buildingsToSell )
         end
     end
+
+    for entity in Iter( self.oldBuildingsToSell ) do
+    
+        if ( IndexOf( buildingsToSell, entity ) == nil ) then
+            EntityService:RemoveMaterial(entity, "selected" )
+        end
+    end
+    
+    for entity in Iter( buildingsToSell ) do
+        
+        local skinned = EntityService:IsSkinned(entity)
+
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
+        end
+    end
+
+    self.oldBuildingsToSell = buildingsToSell
+
+
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
@@ -417,7 +416,7 @@ function buildings_builder_tool:OnUpdate()
     end
 end
 
-function buildings_builder_tool:AddToEntitiesToSellList(testBuildable)
+function buildings_builder_tool:AddToEntitiesToSellList(testBuildable, buildingsToSell)
 
     if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
     
@@ -432,17 +431,9 @@ function buildings_builder_tool:AddToEntitiesToSellList(testBuildable)
 
         if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
 
-            if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
-
-                local skinned = EntityService:IsSkinned(entityToSell)
-
-                if ( skinned ) then
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
-                else
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
-                end
+            if ( IndexOf( buildingsToSell, entityToSell ) == nil ) then
             
-                Insert(self.oldBuildingsToSell, entityToSell)
+                Insert( buildingsToSell, entityToSell )
             end
         end
     end
@@ -460,9 +451,7 @@ function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
 
     if ( #limitedBuildingsQueuesByName > 0 ) then
 
-        if ( self.limitedBuildingsQueue == nil ) then
-            self.limitedBuildingsQueue = {}
-        end
+        self.limitedBuildingsQueue = self.limitedBuildingsQueue or {}
 
         for i=1,#limitedBuildingsQueuesByName do
 
@@ -661,10 +650,10 @@ end
 
 function buildings_builder_tool:OnDeactivate()
 
-    self:RemoveMaterialFromOldBuildingsToSell()
+    self:RemoveMaterialFromBuildingsToSell()
 end
 
-function buildings_builder_tool:RemoveMaterialFromOldBuildingsToSell()
+function buildings_builder_tool:RemoveMaterialFromBuildingsToSell()
 
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
@@ -681,15 +670,6 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
     degree = -degree
 
     EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, degree )
-
-    for buildingTemplate in Iter(self.templateEntities) do
-    
-        EntityService:Rotate( buildingTemplate.entity, 0.0, 1.0, 0.0, degree )
-
-        local transform = EntityService:GetWorldTransform( buildingTemplate.entity )
-
-        buildingTemplate.orientation = transform.orientation
-    end
 
     -- Identity matrix
     --   A B
@@ -734,7 +714,25 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
     self.transformZX = newtransformZX
     self.transformZZ = newtransformZZ
 
-    self:OnUpdate()
+    for buildingTemplate in Iter(self.templateEntities) do
+    
+        EntityService:Rotate( buildingTemplate.entity, 0.0, 1.0, 0.0, degree )
+
+        local deltaX, deltaZ = self:GetVectorDelta( buildingTemplate.positionX, buildingTemplate.positionZ )
+
+        local newPosition = {}
+        newPosition.x = deltaX
+        newPosition.y = 0
+        newPosition.z = deltaZ
+            
+        local entity = buildingTemplate.entity
+
+        EntityService:SetPosition( buildingTemplate.entity, newPosition )
+
+        local transform = EntityService:GetWorldTransform( buildingTemplate.entity )
+
+        buildingTemplate.orientation = transform.orientation
+    end
 end
 
 function buildings_builder_tool:OnRelease()
@@ -766,16 +764,14 @@ function buildings_builder_tool:OnRelease()
 
     self.limitedBuildingsQueue = {}
 
-    self:RemoveMaterialFromOldBuildingsToSell()
+    self:RemoveMaterialFromBuildingsToSell()
 
     self.oldBuildingsToSell = {}
 end
 
 function buildings_builder_tool:OnMassBuildLimitMachineWorking( state )
 
-    if ( self.limitedBuildingsQueue == nil ) then
-        self.limitedBuildingsQueue = {}
-    end
+    self.limitedBuildingsQueue = self.limitedBuildingsQueue or {}
 
     if ( #self.limitedBuildingsQueue == 0 ) then
         self.massBuildLimitMachine:ChangeState("idle")
