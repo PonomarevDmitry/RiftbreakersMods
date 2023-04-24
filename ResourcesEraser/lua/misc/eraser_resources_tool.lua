@@ -37,7 +37,7 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
     local predicate = {
 
-        signature="ResourceVolumeComponent"
+        signature="ResourceComponent,SelectableComponent,InteractiveComponent"
     };
 
     local possibleSelectedEnts = {}
@@ -52,18 +52,61 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
             local position = EntityService:GetPosition( entity )
 
+            LogService:Log("position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " self.currentScale " .. tostring(self.currentScale) )
+
             local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
-            local min = VectorSub(position, VectorMulByNumber(boundsSize , self.currentScale))
-            local max = VectorAdd(position, VectorMulByNumber(boundsSize , self.currentScale))
+            local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
+            local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
+
+            LogService:Log("min.x " .. tostring(min.x) .. " min.z " .. tostring(min.z) )
+            LogService:Log("max.x " .. tostring(max.x) .. " max.z " .. tostring(max.z) )
+
+            local gridsEntity = FindService:GetEntityCellIndexes( entity )
     
             local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
             for tempEntity in Iter( tempCollection ) do
 
-                if ( tempEntity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
-                   Insert( possibleSelectedEnts, tempEntity )
+                if ( tempEntity == nil ) then
+                    goto continue
                 end
+
+                if ( IndexOf( possibleSelectedEnts, tempEntity ) ~= nil ) then
+                    goto continue
+                end
+
+                if ( not EntityService:HasComponent( tempEntity, "SelectableComponent" ) ) then
+                    goto continue
+                end
+                
+                if ( not EntityService:HasComponent( tempEntity, "InteractiveComponent" ) ) then
+                    goto continue
+                end
+
+                local resourceComponent = EntityService:GetComponent( tempEntity, "ResourceComponent" )
+                if ( resourceComponent == nil ) then
+                    goto continue
+                end
+
+                --local gridTemp = FindService:GetEntityCellIndexes( tempEntity )
+                --if ( not self:IsIntersect(gridTemp, gridsEntity) ) then
+                --    goto continue
+                --end
+
+                local blueprintName = EntityService:GetBlueprintName( tempEntity )
+
+                local positionTemp = EntityService:GetPosition( tempEntity )
+
+                LogService:Log("blueprintName " .. blueprintName .. " positionTemp.x " .. tostring(positionTemp.x) .. " positionTemp.z " .. tostring(positionTemp.z) )
+
+                local resource = EntityService:GetResourceAmount( tempEntity )
+
+                LogService:Log("resource.first " .. tostring(resource.first) .. " resource.second " .. tostring(resource.second) )
+
+                Insert( possibleSelectedEnts, tempEntity )
+
+                ::continue::
             end
         end
     end
@@ -86,23 +129,37 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
     for entity in Iter( possibleSelectedEnts ) do
 
-        local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
-        if ( resourceVolumeComponent == nil ) then 
-            goto continue
-        end
-
-        Insert(selectedEntities, entity )
-
-        ::continue::
+        Insert( selectedEntities, entity )
     end
     
-    return selectedEntities
+    return possibleSelectedEnts
+end
+
+function eraser_resources_tool:IsIntersect( gridTemp, gridsEntity )
+
+    for i=1,#gridTemp do
+            
+        local idx1 = gridTemp[i]
+
+        for j=1,#gridsEntity do
+            
+            local idx2 = gridsEntity[i]
+
+            if ( idx1 == idx2 ) then
+                return true
+            end
+        end
+    end
+
+    return false
 end
 
 function eraser_resources_tool:AddedToSelection( entity )
+    QueueEvent( "SelectEntityRequest", entity )
 end
 
 function eraser_resources_tool:RemovedFromSelection( entity )
+    QueueEvent( "DeselectEntityRequest", entity )
 end
 
 function eraser_resources_tool:OnUpdate()
