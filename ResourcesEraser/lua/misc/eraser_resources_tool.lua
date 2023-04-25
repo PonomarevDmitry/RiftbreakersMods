@@ -23,21 +23,14 @@ end
 
 function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
-    LogService:Log("FindEntitiesToSelect Start")
-
     local possibleSelectedEnts = {}
 
     local position = selectorComponent.position
-
-    LogService:Log("position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " self.currentScale " .. tostring(self.currentScale) )
 
     local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
     local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
     local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
-
-    LogService:Log("min.x " .. tostring(min.x) .. " min.z " .. tostring(min.z) )
-    LogService:Log("max.x " .. tostring(max.x) .. " max.z " .. tostring(max.z) )
 
     local predicate = {
 
@@ -70,12 +63,6 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
-        local blueprintName = EntityService:GetBlueprintName( entity )
-
-        LogService:Log("blueprintName " .. blueprintName .. " positionTemp.x " .. tostring(positionTemp.x) .. " positionTemp.z " .. tostring(positionTemp.z) )
-
-        local resource = EntityService:GetResourceAmount( entity )
-
         Insert( possibleSelectedEnts, entity )
 
         ::continue::
@@ -102,8 +89,6 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
         Insert( selectedEntities, entity )
     end
 
-    LogService:Log("FindEntitiesToSelect End")
-    
     return possibleSelectedEnts
 end
 
