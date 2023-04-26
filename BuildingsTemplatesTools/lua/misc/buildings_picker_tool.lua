@@ -431,6 +431,19 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     for entity in Iter( self.templateEntities ) do
 
+        local entityBlueprint = self:GetBlueprintName( entity )
+
+        if ( hashBlueprints[entityBlueprint] == nil ) then
+
+            Insert( listBlueprintsNames, entityBlueprint )
+
+            hashBlueprints[entityBlueprint] = {}
+        end
+
+        local entitiesCoordinatesStringArray = hashBlueprints[entityBlueprint]
+
+
+
         local transform = EntityService:GetWorldTransform( entity )
 
         local position = transform.position
@@ -451,47 +464,41 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         --entityString = entityString .. delimiterBetweenCoordinates .. string.format(formatFloat, orientation.y)
         --entityString = entityString .. delimiterBetweenCoordinates .. string.format(formatFloat, orientation.w)
 
-        local entityStringArray = {}
-
-        Insert( entityStringArray, string.format(formatFloat, deltaPositionX) )
-        Insert( entityStringArray, string.format(formatFloat, deltaPositionZ) )
-
-        Insert( entityStringArray, string.format(formatFloat, orientation.y) )
-        Insert( entityStringArray, string.format(formatFloat, orientation.w) )
-
-        local entityString = table.concat( entityStringArray, delimiterBetweenCoordinates )
-
-
-        local entityBlueprint = self:GetBlueprintName( entity )
-
-        if ( hashBlueprints[entityBlueprint] == nil ) then
-
-            Insert( listBlueprintsNames, entityBlueprint )
-
-            hashBlueprints[entityBlueprint] = {}
+        if ( #entitiesCoordinatesStringArray > 0 ) then
+            Insert( entitiesCoordinatesStringArray, delimiterEntitiesArray )
         end
 
-        local entitiesCoordinatesStringArray = hashBlueprints[entityBlueprint]
+        Insert( entitiesCoordinatesStringArray, string.format(formatFloat, deltaPositionX) )
+        Insert( entitiesCoordinatesStringArray, delimiterBetweenCoordinates )
 
-        Insert( entitiesCoordinatesStringArray, entityString )
+        Insert( entitiesCoordinatesStringArray, string.format(formatFloat, deltaPositionZ) )
+        Insert( entitiesCoordinatesStringArray, delimiterBetweenCoordinates )
 
-        hashBlueprints[entityBlueprint] = entitiesCoordinatesStringArray
+        Insert( entitiesCoordinatesStringArray, string.format(formatFloat, orientation.y) )
+        Insert( entitiesCoordinatesStringArray, delimiterBetweenCoordinates )
+
+        Insert( entitiesCoordinatesStringArray, string.format(formatFloat, orientation.w) )
     end
 
     local templateStringArray = {}
 
     for entityBlueprint in Iter( listBlueprintsNames ) do
 
+        if ( #templateStringArray > 0 ) then
+            Insert( templateStringArray, delimiterBlueprintsGroups )
+        end
+
+        Insert( templateStringArray, entityBlueprint )
+        Insert( templateStringArray, delimiterBlueprintName )
+
         local entitiesCoordinates = hashBlueprints[entityBlueprint]
 
-        local entitiesCoordinatesString = table.concat( entitiesCoordinates, delimiterEntitiesArray )
-
-        local entityBlueprintString = entityBlueprint .. delimiterBlueprintName .. entitiesCoordinatesString
-
-        Insert( templateStringArray, entityBlueprintString )
+        for str in Iter( entitiesCoordinates ) do
+            Insert( templateStringArray, str )
+        end
     end
 
-    local templateString = table.concat( templateStringArray, delimiterBlueprintsGroups )
+    local templateString = table.concat( templateStringArray )
 
     --LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
 
