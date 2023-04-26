@@ -258,62 +258,61 @@ function buildings_picker_tool:SpawnCornerBlueprint()
 end
 
 function buildings_picker_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
---function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
---
---    local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
---
---    local position = selectorComponent.position
---    
---    local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
---    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
---    
---    local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
---
---    for entity in Iter( self.selectedEntities ) do 
---        if ( IndexOf( ruins, entity ) == nil and IndexOf( selectedItems, entity ) == nil ) then
---            EntityService:RemoveMaterial( entity, "selected")
---        end
---    end
---    
---    for entity in Iter( ruins ) do
---    
---        if ( IndexOf( self.selectedEntities, entity ) == nil ) then
---        
---            if ( EntityService:IsSkinned( entity ) ) then
---                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
---            else
---                EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
---            end
---
---            if ( self.activated )  then
---                self:OnActivateEntity( entity )
---            end
---        end
---    end
---    
---    ConcatUnique( selectedItems, ruins)
---    return selectedItems
---end
+function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
 
+    local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
 
-function buildings_picker_tool:FilterSelectedEntities( selectedEntities ) 
+    local position = selectorComponent.position
+
+    local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
+    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
+
+    local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    ruins = self:FilterSelectedEntities( ruins )
+
+    ConcatUnique( selectedItems, ruins )
+
+    --for ent in Iter( self.selectedEntities ) do 
+    --    if ( IndexOf( ruins, ent ) == nil and IndexOf( selectedItems, ent ) == nil ) then
+    --        self:RemovedFromSelection( entity )
+    --    end
+    --end
+    --
+    --for entity in Iter( ruins ) do
+    --
+    --    if ( IndexOf( self.selectedEntities, entity ) == nil ) then
+    --
+    --        if ( self.activated )  then
+    --            self:OnActivateEntity( entity )
+    --        end
+    --    end
+    --end
+
+    return selectedItems
+end
+
+function buildings_picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    for  entity in Iter(selectedEntities ) do
+    for entity in Iter( selectedEntities ) do
 
-        local blueprintName = EntityService:GetBlueprintName( entity )
+        local blueprintName = self:GetBlueprintName( entity )
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-
-        if ( buildingDesc == nil ) then 
-            goto continue 
+        if ( blueprintName == "" ) then
+            goto continue
         end
 
-        local buildingDescHelper = reflection_helper( buildingDesc )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        --local buildingDescHelper = reflection_helper( buildingDesc )
 
         local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
 
@@ -331,6 +330,25 @@ function buildings_picker_tool:FilterSelectedEntities( selectedEntities )
     end
 
     return entities
+end
+
+function buildings_picker_tool:GetBlueprintName( entity )
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    if( EntityService:GetGroup( entity ) == "##ruins##" ) then
+
+        local database = EntityService:GetDatabase( entity )
+
+        if ( database and database:HasString("blueprint") ) then
+
+            blueprintName = database:GetString("blueprint")
+        end
+    end
+
+    blueprintName = blueprintName or ""
+
+    return blueprintName
 end
 
 function buildings_picker_tool:OnActivateSelectorRequest()
@@ -444,8 +462,7 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         local entityString = table.concat( entityStringArray, delimiterBetweenCoordinates )
 
 
-
-        local entityBlueprint = EntityService:GetBlueprintName(entity)
+        local entityBlueprint = self:GetBlueprintName( entity )
 
         if ( hashBlueprints[entityBlueprint] == nil ) then
 
