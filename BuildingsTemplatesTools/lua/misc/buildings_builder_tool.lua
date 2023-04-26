@@ -122,13 +122,18 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     local team = EntityService:GetTeam( self.entity )
     local currentPosition = EntityService:GetWorldTransform( self.entity ).position
 
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
     -- Split by "|" blueprints groups
-    local blueprintsGroupsArray = Split( templateString, "|" )
+    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
 
     for template in Iter( blueprintsGroupsArray ) do
 
         -- Split by ":" blueprint template
-        local blueprintValuesArray = Split( template, ":" )
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
 
         -- Only 2 values in blueprintValuesArray
         if ( #blueprintValuesArray ~= 2 ) then
@@ -170,11 +175,11 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
         local createCube = not ( buildingDesc.building_mode == "line" )
 
         -- Split array of coordinates by ";"
-        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, ";" )
+        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
 
         for entityString in Iter( entitiesCoordinatesArray ) do
 
-            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list )
+            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list, delimiterBetweenCoordinates )
         end
 
         ::continue::
@@ -207,10 +212,10 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     end
 end
 
-function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list )
+function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list, delimiterBetweenCoordinates )
 
     -- Split coordinates by ","
-    local valuesArray = Split( entityString, "," )
+    local valuesArray = Split( entityString, delimiterBetweenCoordinates )
 
     -- Only 4 values in valuesArray
     if ( #valuesArray ~= 4 ) then

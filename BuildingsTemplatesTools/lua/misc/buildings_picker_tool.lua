@@ -11,7 +11,7 @@ function buildings_picker_tool:OnInit()
 
     local marker = self.data:GetString("marker")
     local markerBlueprint = "misc/marker_selector_buildings_picker_tool_" .. marker
-    
+
     self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     self.popupShown = false
 
@@ -38,11 +38,16 @@ function buildings_picker_tool:FillMarkerMessage( isInitialize )
         templateString = ""
     end
 
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
     if ( templateString ~= "" ) then
 
         if ( isInitialize ) then
 
-            local blueprintsGroupsArray = Split( templateString, "|" )
+            local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
 
             local listIconsNames = {}
             local hashIconsCount = {}
@@ -50,7 +55,7 @@ function buildings_picker_tool:FillMarkerMessage( isInitialize )
             for template in Iter( blueprintsGroupsArray ) do
 
                 -- Split by ":" blueprint template
-                local blueprintValuesArray = Split( template, ":" )
+                local blueprintValuesArray = Split( template, delimiterBlueprintName )
 
                 -- Only 2 values in blueprintValuesArray
                 if ( #blueprintValuesArray ~= 2 ) then
@@ -105,11 +110,11 @@ function buildings_picker_tool:FillMarkerMessage( isInitialize )
                 end
 
                 -- Split array of coordinates by ";"
-                local entitiesCoordinatesArray = Split( entitiesCoordinatesString, ";" )
+                local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
                 if ( #entitiesCoordinatesArray > 0) then
 
                     if ( hashIconsCount[menuIcon] == nil ) then
-            
+
                         Insert( listIconsNames, menuIcon )
 
                         hashIconsCount[menuIcon] = 0
@@ -316,6 +321,10 @@ function buildings_picker_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
+        if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+            goto continue
+        end
+
         Insert(entities, entity)
 
         ::continue::
@@ -360,6 +369,11 @@ function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreS
 end
 
 function buildings_picker_tool:SaveEntitiesToDatabase()
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
 
     -- templateString format:
     -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
@@ -408,53 +422,59 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         local deltaPositionZ = position.z - startZ
 
         --local entityString = tostring(deltaPositionX)
-        --entityString = entityString .. "," .. tostring(deltaPositionZ)
+        --entityString = entityString .. delimiterBetweenCoordinates .. tostring(deltaPositionZ)
 
-        --entityString = entityString .. "," .. tostring(orientation.y)
-        --entityString = entityString .. "," .. tostring(orientation.w)
+        --entityString = entityString .. delimiterBetweenCoordinates .. tostring(orientation.y)
+        --entityString = entityString .. delimiterBetweenCoordinates .. tostring(orientation.w)
 
-        local entityString = string.format(formatFloat, deltaPositionX)
-        entityString = entityString .. "," .. string.format(formatFloat, deltaPositionZ)
+        --local entityString = string.format(formatFloat, deltaPositionX)
+        --entityString = entityString .. delimiterBetweenCoordinates .. string.format(formatFloat, deltaPositionZ)
 
-        entityString = entityString .. "," .. string.format(formatFloat, orientation.y)
-        entityString = entityString .. "," .. string.format(formatFloat, orientation.w)
+        --entityString = entityString .. delimiterBetweenCoordinates .. string.format(formatFloat, orientation.y)
+        --entityString = entityString .. delimiterBetweenCoordinates .. string.format(formatFloat, orientation.w)
+
+        local entityStringArray = {}
+
+        Insert( entityStringArray, string.format(formatFloat, deltaPositionX) )
+        Insert( entityStringArray, string.format(formatFloat, deltaPositionZ) )
+
+        Insert( entityStringArray, string.format(formatFloat, orientation.y) )
+        Insert( entityStringArray, string.format(formatFloat, orientation.w) )
+
+        local entityString = table.concat( entityStringArray, delimiterBetweenCoordinates )
 
 
 
         local entityBlueprint = EntityService:GetBlueprintName(entity)
 
         if ( hashBlueprints[entityBlueprint] == nil ) then
-            
+
             Insert( listBlueprintsNames, entityBlueprint )
 
-            hashBlueprints[entityBlueprint] = ""
+            hashBlueprints[entityBlueprint] = {}
         end
 
-        local entitiesCoordinatesString = hashBlueprints[entityBlueprint]
+        local entitiesCoordinatesStringArray = hashBlueprints[entityBlueprint]
 
-        if ( string.len( entitiesCoordinatesString ) > 0 ) then
+        Insert( entitiesCoordinatesStringArray, entityString )
 
-            entitiesCoordinatesString = entitiesCoordinatesString .. ";"
-        end
-
-        entitiesCoordinatesString = entitiesCoordinatesString .. entityString
-
-        hashBlueprints[entityBlueprint] = entitiesCoordinatesString
+        hashBlueprints[entityBlueprint] = entitiesCoordinatesStringArray
     end
 
-    local templateString = ""
+    local templateStringArray = {}
 
     for entityBlueprint in Iter( listBlueprintsNames ) do
 
         local entitiesCoordinates = hashBlueprints[entityBlueprint]
 
-        if ( string.len( templateString ) > 0 ) then
+        local entitiesCoordinatesString = table.concat( entitiesCoordinates, delimiterEntitiesArray )
 
-            templateString = templateString .. "|"
-        end
+        local entityBlueprintString = entityBlueprint .. delimiterBlueprintName .. entitiesCoordinatesString
 
-        templateString = templateString .. entityBlueprint .. ":" .. entitiesCoordinates
+        Insert( templateStringArray, entityBlueprintString )
     end
+
+    local templateString = table.concat( templateStringArray, delimiterBlueprintsGroups )
 
     --LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
 
@@ -470,7 +490,7 @@ function buildings_picker_tool:OnRelease()
             self:RemovedFromSelection( entity )
         end
     end
-    
+
     self.templateEntities = {}
 
     if ( self.childEntity ~= nil) then
