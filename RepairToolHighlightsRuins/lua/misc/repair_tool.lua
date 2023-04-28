@@ -10,9 +10,8 @@ end
 function repair_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_repair", self.entity)
     
-    -- List of buildings highlighted for upgrade
-    self.previousMarkedBuildings = {}
-    -- Radius from player to highlight buildings for upgrade
+    self.previousMarkedRuins = {}
+    -- Radius from player to highlight
     self.radiusShowRuins = 100.0
 end
 function repair_tool:OnPreInit()
@@ -72,33 +71,30 @@ end
 
 function repair_tool:OnUpdate()
     
-    local buildings = self:FindBuildingRuins()
+    local ruinsList = self:FindBuildingRuins()
+
+    self.previousMarkedRuins = self.previousMarkedRuins or {}
     
-    if ( self.previousMarkedBuildings == nil) then
-        self.previousMarkedBuildings = {}
-    end
+    -- Remove highlighting from previous ruins
+    for entity in Iter( self.previousMarkedRuins ) do
     
-    -- Remove highlighting from previous buildings
-    for entity in Iter( self.previousMarkedBuildings ) do
-    
-        -- If the building is not included in the new list
-        if ( IndexOf( buildings, entity ) == nil ) then
+        -- If the ruin is not included in the new list
+        if ( IndexOf( ruinsList, entity ) == nil ) then
             self:RemovedFromSelection( entity )
         end
     end
     
-    for entity in Iter( buildings ) do
+    for entity in Iter( ruinsList ) do
         
-        -- Highlight building if it can be upgraded
         local skinned = EntityService:IsSkinned( entity )
         if ( skinned ) then
             EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
         else
             EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end 
+        end
     end
     
-    self.previousMarkedBuildings = buildings
+    self.previousMarkedRuins = ruinsList
 
     self.repairCosts = {}
 
@@ -245,14 +241,14 @@ end
 function repair_tool:OnRelease()
     tool.OnRelease(self)
     
-    -- Remove highlighting from buildings
-    if ( self.previousMarkedBuildings ~= nil) then
-        for ent in Iter( self.previousMarkedBuildings ) do
+    -- Remove highlighting from ruins
+    if ( self.previousMarkedRuins ~= nil) then
+        for ent in Iter( self.previousMarkedRuins ) do
         
             self:RemovedFromSelection( ent )
         end
     end
-    self.previousMarkedBuildings = {}
+    self.previousMarkedRuins = {}
 end
 
 return repair_tool
