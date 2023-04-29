@@ -18,17 +18,25 @@ function sell_by_type_picker_tool:OnInit()
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.SelectedBuildingBlueprint = selectorDB:GetStringOrDefault( "sell_by_type_picker_tool.selectedbuilding", "" ) or ""
+    local selectedBuildingBlueprint = selectorDB:GetStringOrDefault( "sell_by_type_picker_tool.selectedbuilding", "" ) or ""
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    if ( self.SelectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedBuildingBlueprint ) ) then
+    if ( selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", selectedBuildingBlueprint ) ) then
 
-        self.SelectedLowUpgrade = BuildingService:FindLowUpgrade( self.SelectedBuildingBlueprint )
+        local baseBuildingDesc = BuildingService:FindBaseBuilding( selectedBuildingBlueprint )
+        if (baseBuildingDesc ~= nil ) then
 
-        LogService:Log("self.SelectedBuildingBlueprint " .. self.SelectedBuildingBlueprint .. " self.SelectedLowUpgrade " .. self.SelectedLowUpgrade)
+            local baseBuildingDescRef = reflection_helper(baseBuildingDesc)
 
-        local menuIcon = self:GetMenuIcon( self.SelectedBuildingBlueprint )
+            selectedBuildingBlueprint = baseBuildingDescRef.bp
+        end
+
+        self.SelectedLowUpgrade = BuildingService:FindLowUpgrade( selectedBuildingBlueprint )
+
+        LogService:Log("selectedBuildingBlueprint " .. selectedBuildingBlueprint .. " self.SelectedLowUpgrade " .. self.SelectedLowUpgrade)
+
+        local menuIcon = self:GetMenuIcon( selectedBuildingBlueprint )
 
         if ( menuIcon ~= "" ) then
 
@@ -39,7 +47,6 @@ function sell_by_type_picker_tool:OnInit()
             markerDB:SetInt("building_visible", 0)
         end
     else
-        self.SelectedBuildingBlueprint = ""
         self.SelectedLowUpgrade = ""
         markerDB:SetInt("building_visible", 0)
     end
@@ -55,31 +62,36 @@ end
 
 function sell_by_type_picker_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_gold", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool", self.entity )
     end
 end
 
 function sell_by_type_picker_tool:GetMenuIcon( blueprintName )
 
-    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( blueprintBuildingDesc == nil ) then
-        return ""
-    end
-
-    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return ""
     end
 
-    local menuIcon = buildingDesc.menu_icon or ""
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if ( baseBuildingDesc ~= nil ) then
+        buildingDesc = baseBuildingDesc
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = buildingDescRef.menu_icon or ""
 
     if ( menuIcon ~= "" ) then
         return menuIcon
     end
 
-    for i=1,buildingDesc.connect.count do
+    for i=1,buildingDescRef.connect.count do
 
-        local connectRecord = buildingDesc.connect[i]
+        local connectRecord = buildingDescRef.connect[i]
 
         for j=1,connectRecord.value.count do
 
@@ -103,17 +115,22 @@ function sell_by_type_picker_tool:GetBuildingMenuIcon( blueprintName )
         return ""
     end
 
-    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( blueprintBuildingDesc == nil ) then
-        return ""
-    end
-
-    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return ""
     end
 
-    local menuIcon = buildingDesc.menu_icon or ""
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if ( baseBuildingDesc ~= nil ) then
+        buildingDesc = baseBuildingDesc
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = buildingDescRef.menu_icon or ""
 
     return menuIcon
 end
@@ -140,20 +157,29 @@ function sell_by_type_picker_tool:FilterSelectedEntities( selectedEntities )
 
         local blueprintName = EntityService:GetBlueprintName(entity)
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-        if ( buildingDesc == nil ) then
-            goto continue
-        end
-
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
         if ( buildingComponent == nil ) then
             goto continue
         end
 
-        local buildingComponentHelper = reflection_helper(buildingComponent)
-        if ( buildingComponentHelper.m_isSellable == false ) then
+        local buildingComponentRef = reflection_helper(buildingComponent)
+        if ( buildingComponentRef.m_isSellable == false ) then
             goto continue
         end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+        if (baseBuildingDesc ~= nil ) then
+            buildingDesc = baseBuildingDesc
+        end
+
+        local buildingDescRef = reflection_helper(buildingDesc)
+
+        blueprintName = buildingDescRef.bp
 
         local lowName = BuildingService:FindLowUpgrade( blueprintName )
         if ( self.SelectedLowUpgrade == lowName ) then
@@ -174,6 +200,20 @@ function sell_by_type_picker_tool:OnActivateSelectorRequest()
     for entity in Iter( self.selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+        
+        local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+        if (baseBuildingDesc ~= nil ) then
+            buildingDesc = baseBuildingDesc
+        end
+
+        local buildingDescHelper = reflection_helper(buildingDesc)
+
+        blueprintName = buildingDescHelper.bp
 
         local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -197,7 +237,11 @@ function sell_by_type_picker_tool:OnActivateSelectorRequest()
 
         QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
 
-        return
+        do
+            return
+        end
+
+        ::continue::
     end
 end
 

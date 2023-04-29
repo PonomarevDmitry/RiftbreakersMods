@@ -12,17 +12,25 @@ function sell_by_type_seller_tool:OnInit()
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.SelectedBuildingBlueprint = selectorDB:GetStringOrDefault( "sell_by_type_picker_tool.selectedbuilding", "" ) or ""
+    local selectedBuildingBlueprint = selectorDB:GetStringOrDefault( "sell_by_type_picker_tool.selectedbuilding", "" ) or ""
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    if ( self.SelectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedBuildingBlueprint ) ) then
+    if ( selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", selectedBuildingBlueprint ) ) then
 
-        self.SelectedLowUpgrade = BuildingService:FindLowUpgrade( self.SelectedBuildingBlueprint )
-        
-        LogService:Log("self.SelectedBuildingBlueprint " .. self.SelectedBuildingBlueprint .. " self.SelectedLowUpgrade " .. self.SelectedLowUpgrade)
+        local baseBuildingDesc = BuildingService:FindBaseBuilding( selectedBuildingBlueprint )
+        if (baseBuildingDesc ~= nil ) then
 
-        local menuIcon = self:GetMenuIcon( self.SelectedBuildingBlueprint )
+            local baseBuildingDescRef = reflection_helper(baseBuildingDesc)
+
+            selectedBuildingBlueprint = baseBuildingDescRef.bp
+        end
+
+        self.SelectedLowUpgrade = BuildingService:FindLowUpgrade( selectedBuildingBlueprint )
+
+        LogService:Log("selectedBuildingBlueprint " .. selectedBuildingBlueprint .. " self.SelectedLowUpgrade " .. self.SelectedLowUpgrade)
+
+        local menuIcon = self:GetMenuIcon( selectedBuildingBlueprint )
 
         if ( menuIcon ~= "" ) then
 
@@ -33,7 +41,6 @@ function sell_by_type_seller_tool:OnInit()
             markerDB:SetInt("building_visible", 0)
         end
     else
-        self.SelectedBuildingBlueprint = ""
         self.SelectedLowUpgrade = ""
         markerDB:SetInt("building_visible", 0)
     end
@@ -51,25 +58,30 @@ end
 
 function sell_by_type_seller_tool:GetMenuIcon( blueprintName )
 
-    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( blueprintBuildingDesc == nil ) then
-        return ""
-    end
-
-    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return ""
     end
 
-    local menuIcon = buildingDesc.menu_icon or ""
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if ( baseBuildingDesc ~= nil ) then
+        buildingDesc = baseBuildingDesc
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = buildingDescRef.menu_icon or ""
 
     if ( menuIcon ~= "" ) then
         return menuIcon
     end
 
-    for i=1,buildingDesc.connect.count do
+    for i=1,buildingDescRef.connect.count do
 
-        local connectRecord = buildingDesc.connect[i]
+        local connectRecord = buildingDescRef.connect[i]
 
         for j=1,connectRecord.value.count do
 
@@ -93,17 +105,22 @@ function sell_by_type_seller_tool:GetBuildingMenuIcon( blueprintName )
         return ""
     end
 
-    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( blueprintBuildingDesc == nil ) then
-        return ""
-    end
-
-    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return ""
     end
 
-    local menuIcon = buildingDesc.menu_icon or ""
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if ( baseBuildingDesc ~= nil ) then
+        buildingDesc = baseBuildingDesc
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = buildingDescRef.menu_icon or ""
 
     return menuIcon
 end
@@ -126,26 +143,40 @@ function sell_by_type_seller_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    for  entity in Iter( selectedEntities ) do
+    LogService:Log("FilterSelectedEntities Start")
+
+    for entity in Iter( selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
-
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-        if ( buildingDesc == nil ) then
-            goto continue
-        end
 
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
         if ( buildingComponent == nil ) then
             goto continue
         end
 
-        local buildingComponentHelper = reflection_helper(buildingComponent)
-        if ( buildingComponentHelper.m_isSellable == false ) then
+        local buildingComponentRef = reflection_helper(buildingComponent)
+        if ( buildingComponentRef.m_isSellable == false ) then
             goto continue
         end
 
-        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+        if (baseBuildingDesc ~= nil ) then
+            buildingDesc = baseBuildingDesc
+        end
+
+        local buildingDescRef = reflection_helper(buildingDesc)
+
+        local blueprintNameBP = buildingDescRef.bp
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintNameBP )
+
+        LogService:Log("blueprintName " .. blueprintName .. " blueprintNameBP " .. blueprintNameBP .. " lowName " .. lowName)
+
         if ( self.SelectedLowUpgrade ~= lowName ) then
             goto continue
         end
@@ -156,6 +187,8 @@ function sell_by_type_seller_tool:FilterSelectedEntities( selectedEntities )
         ::continue::
     end
 
+    LogService:Log("FilterSelectedEntities End")
+
     return entities
 end
 
@@ -163,7 +196,7 @@ function sell_by_type_seller_tool:OnUpdate()
 
     self.sellCosts = {}
     
-    for entity in Iter(self.selectedEntities ) do
+    for entity in Iter( self.selectedEntities ) do
     
         local list = BuildingService:GetSellResourceAmount( entity )
         
@@ -173,7 +206,7 @@ function sell_by_type_seller_tool:OnUpdate()
                self.sellCosts[resourceCost.first] = 0
             end
             
-           self.sellCosts[resourceCost.first] = self.sellCosts[resourceCost.first] + resourceCost.second 
+           self.sellCosts[resourceCost.first] = self.sellCosts[resourceCost.first] + resourceCost.second
         end
     end
 
