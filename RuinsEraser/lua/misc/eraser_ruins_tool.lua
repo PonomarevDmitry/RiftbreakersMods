@@ -8,17 +8,9 @@ function eraser_ruins_tool:__init()
 end
 
 function eraser_ruins_tool:OnInit()
-    self.baseSearch = false
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser_ruins_tool", self.entity)
 
-    self.nowBuildingLine = false
-    self.buildStartPosition = nil
-    self.gridEntities = {}
-    self.currentSize = 0
-    
-    -- List of buildings highlighted for upgrade
-    self.previousMarkedBuildings = {}
-    -- Radius from player to highlight buildings for upgrade
+    self.previousMarkedRuins = {}
     self.radiusShowRuins = 100.0
 end
 
@@ -28,47 +20,27 @@ function eraser_ruins_tool:SpawnCornerBlueprint()
     end
 end
 
-function eraser_ruins_tool:DisposeRuins()
-
-    for i=1,#self.selectedEntities do
-
-        local entity = self.selectedEntities[i]
-
-        EntityService:SetGroup( entity, "" )
-        
-        BuildingService:BlinkBuilding( entity )
-        
-        QueueEvent( "DissolveEntityRequest", entity, 1.0, 0 )
-    end
+function eraser_ruins_tool:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
 end
 
 function eraser_ruins_tool:FindEntitiesToSelect( selectorComponent )
 
     local possibleSelectedEnts = {}
 
-    for xIndex=1,#self.gridEntities do
-        
-        local gridEntitiesZ = self.gridEntities[xIndex]
-        
-        for zIndex=1,#gridEntitiesZ do
-        
-            local entity = gridEntitiesZ[zIndex]
+    local position = selectorComponent.position
 
-            local position = EntityService:GetPosition( entity )
+    local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
-            local boundsSize = { x=1.0, y=1.0, z=1.0 }
+    local min = VectorSub(position, VectorMulByNumber(boundsSize , self.currentScale - 0.5))
+    local max = VectorAdd(position, VectorMulByNumber(boundsSize , self.currentScale - 0.5))
 
-            local min = VectorSub(position, VectorMulByNumber(boundsSize , self.currentScale))
-            local max = VectorAdd(position, VectorMulByNumber(boundsSize , self.currentScale))
+    local tempCollection = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 
-            local tempCollection = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+    for tempEntity in Iter( tempCollection ) do
 
-            for tempEntity in Iter( tempCollection ) do
-
-                if ( tempEntity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
-                   Insert( possibleSelectedEnts, tempEntity )
-                end
-            end
+        if ( tempEntity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
+            Insert( possibleSelectedEnts, tempEntity )
         end
     end
 
@@ -103,9 +75,9 @@ function eraser_ruins_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned( entity )
 
     if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
+        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
     else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
+        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
     end
 end
 
@@ -116,174 +88,29 @@ end
 
 function eraser_ruins_tool:OnUpdate()
     
-    local buildings = self:FindBuildingRuins()
+    local ruinsList = self:FindBuildingRuins()
     
-    if ( self.previousMarkedBuildings == nil) then
-        self.previousMarkedBuildings = {}
-    end
+    self.previousMarkedRuins = self.previousMarkedRuins or {}
     
-    -- Remove highlighting from previous buildings
-    for entity in Iter( self.previousMarkedBuildings ) do
+    for entity in Iter( self.previousMarkedRuins ) do
     
         -- If the building is not included in the new list
-        if ( IndexOf( buildings, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
+        if ( IndexOf( ruinsList, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
             self:RemovedFromSelection( entity )
         end
     end
     
-    for entity in Iter( buildings ) do
+    for entity in Iter( ruinsList ) do
         
-        -- Highlight building if it can be upgraded
         local skinned = EntityService:IsSkinned( entity )
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
         else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end 
-    end
-    
-    self.previousMarkedBuildings = buildings
-
-
-    
-    local currentScale = EntityService:GetScale(self.entity).x
-    
-    if ( self.currentSize ~= currentScale ) then
-        
-        self.currentSize = currentScale
-
-        self:StopBuildingGhosts()
-    end
-
-    if ( self.nowBuildingLine and self.buildStartPosition ) then
-
-        local positionY = self.buildStartPosition.position.y
-    
-        local team = EntityService:GetTeam(self.entity)
-    
-        local currentTransform = EntityService:GetWorldTransform( self.entity )
-        
-        local buildEndPosition = currentTransform.position
-        
-        local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition )
-        
-        if ( self.gridEntities == nil ) then
-            self.gridEntities = {}
-        end
-        
-        local positionX, positionZ
-
-        if ( #self.gridEntities > #arrayX ) then
-        
-            for xIndex=#self.gridEntities,#arrayX + 1,-1 do
-            
-                local gridEntitiesZ = self.gridEntities[xIndex]
-                
-                for zIndex=1,#gridEntitiesZ do
-                
-                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
-                    
-                    gridEntitiesZ[zIndex] = nil
-                end
-                
-                self.gridEntities[xIndex] = nil
-            end
-            
-        elseif ( #self.gridEntities < #arrayX ) then
-        
-            for xIndex=#self.gridEntities + 1 ,#arrayX do
-                
-                positionX = arrayX[xIndex]
-            
-                local gridEntitiesZ = {}
-                
-                self.gridEntities[xIndex] = gridEntitiesZ
-                
-                for zIndex=1,#arrayZ do
-                
-                    positionZ = arrayZ[zIndex]
-            
-                    local newPosition = {}
-                    
-                    newPosition.x = positionX
-                    newPosition.y = positionY
-                    newPosition.z = positionZ
-                
-                    local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
-                    EntityService:RemoveComponent(lineEnt, "LuaComponent")
-                    EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
-                    
-                    Insert(gridEntitiesZ, lineEnt)
-                end
-            end
-        end
-        
-        for xIndex=1,#arrayX do
-                
-            positionX = arrayX[xIndex]
-        
-            local gridEntitiesZ = self.gridEntities[xIndex]
-            
-            if ( #gridEntitiesZ > #arrayZ ) then
-            
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do 
-                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
-                    gridEntitiesZ[zIndex] = nil
-                end
-                
-            elseif ( #gridEntitiesZ < #arrayZ ) then
-            
-                for zIndex=#gridEntitiesZ + 1 ,#arrayZ do
-                
-                    positionZ = arrayZ[zIndex]
-            
-                    local newPosition = {}
-                    
-                    newPosition.x = positionX
-                    newPosition.y = positionY
-                    newPosition.z = positionZ
-                
-                    local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
-                    EntityService:RemoveComponent(lineEnt, "LuaComponent")
-                    EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
-                    
-                    Insert(gridEntitiesZ, lineEnt)
-                end
-            end
-        end
-        
-        for xIndex=1,#arrayX do
-        
-            positionX = arrayX[xIndex]
-            
-            local gridEntitiesZ = self.gridEntities[xIndex]
-            
-            for zIndex=1,#arrayZ do
-                
-                positionZ = arrayZ[zIndex]
-        
-                local newPosition = {}
-                
-                newPosition.x = positionX
-                newPosition.y = positionY
-                newPosition.z = positionZ
-                
-                local transform = {}
-                transform.scale = {x=1,y=1,z=1}
-                transform.orientation = currentTransform.orientation
-                transform.position = newPosition
-                
-                local lineEnt = gridEntitiesZ[zIndex];
-                EntityService:SetPosition( lineEnt, newPosition)
-                EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
-            end
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
         end
     end
-
-    for entity in Iter( self.selectedEntities ) do
-
-        self:AddedToSelection( entity )
-    end
+    
+    self.previousMarkedRuins = ruinsList
 end
 
 function eraser_ruins_tool:FindBuildingRuins()
@@ -308,133 +135,23 @@ function eraser_ruins_tool:FindBuildingRuins()
     return result
 end
 
-function eraser_ruins_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
+function eraser_ruins_tool:OnActivateEntity( entity )
 
-    local gridSize = BuildingService:GetBuildingGridSize(self.entity)
-    
-    local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
-    
-    local deltaX = gridSize.x * 2 * xSign
-    local deltaZ = gridSize.z * 2 * zSign
-
-    local smallDeltaX = (gridSize.x * xSign) / 2
-    local smallDeltaZ = (gridSize.z * zSign) / 2
-
-    local buildEndPositionX = buildEndPosition.x + smallDeltaX
-    local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
-    
-    local minX = math.min( buildStartPosition.x, buildEndPositionX )
-    local maxX = math.max( buildStartPosition.x, buildEndPositionX )
-    
-    local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
-    local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
-    
-    local arrayX = {}
-    
-    local positionX = buildStartPosition.x
-    
-    while (minX <= positionX and positionX <= maxX) do
-    
-        Insert(arrayX, positionX)
+    EntityService:SetGroup( entity, "" )
         
-        positionX = positionX + deltaX
-    end
-    
-    local arrayZ = {}
-    
-    local positionZ = buildStartPosition.z
-
-    while (minZ <= positionZ and positionZ <= maxZ) do
-    
-        Insert(arrayZ, positionZ)
+    BuildingService:BlinkBuilding( entity )
         
-        positionZ = positionZ + deltaZ
-    end
-    
-    return arrayX, arrayZ
-end
-
-function eraser_ruins_tool:GetXZSigns(positionStart, positionEnd)
-                
-    local xSign = -1
-    local zSign = -1
-    
-    if( positionEnd.x >= positionStart.x ) then
-        xSign = 1
-    end
-    
-    if( positionEnd.z >= positionStart.z ) then
-        zSign = 1
-    end
-
-    return xSign, zSign
-end
-
-function eraser_ruins_tool:OnActivateSelectorRequest()
-
-    if ( self.buildStartPosition == nil ) then
-
-        self.nowBuildingLine = true;
-
-        local transform = EntityService:GetWorldTransform( self.entity )
-        self.buildStartPosition = transform
-        EntityService:SetVisible( self.entity , false )
-
-        self:OnUpdate()
-    else
-        self:DisposeRuins()
-
-        self:StopBuildingGhosts()
-    end
-end
-
-function eraser_ruins_tool:OnDeactivate()
-
-    self:DisposeRuins()
-
-    self:StopBuildingGhosts()
-end
-
-function eraser_ruins_tool:StopBuildingGhosts()
-
-    self:ClearGridEntities()
-
-    EntityService:SetVisible( self.entity , true )
-
-    self.nowBuildingLine = false
-    self.buildStartPosition = nil
-end
-
-function eraser_ruins_tool:ClearGridEntities()
-
-    if ( self.gridEntities ~= nil ) then
-        for gridEntitiesZ in Iter(self.gridEntities) do
-            for ghost in Iter(gridEntitiesZ) do
-                EntityService:RemoveEntity(ghost)
-            end
-        end
-    end
-    
-    self.gridEntities = {}
+    QueueEvent( "DissolveEntityRequest", entity, 1.0, 0 )
 end
 
 function eraser_ruins_tool:OnRelease()
-
-    self:ClearGridEntities()
-
-    self.nowBuildingLine = false
-    self.buildStartPosition = nil
     
-    self.currentSize = 0
-    
-    -- Remove highlighting from buildings
-    if ( self.previousMarkedBuildings ~= nil) then
-        for ent in Iter( self.previousMarkedBuildings ) do
-        
+    if ( self.previousMarkedRuins ~= nil) then
+        for ent in Iter( self.previousMarkedRuins ) do
             self:RemovedFromSelection( ent )
         end
     end
-    self.previousMarkedBuildings = {}
+    self.previousMarkedRuins = {}
 
     tool.OnRelease(self)
 end
