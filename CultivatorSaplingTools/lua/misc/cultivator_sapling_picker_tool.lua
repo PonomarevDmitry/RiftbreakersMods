@@ -33,7 +33,6 @@ function cultivator_sapling_picker_tool:OnInit()
         local saplingIcon = componentRef.icon
         local saplingName = componentRef.name
 
-        local markerDB = EntityService:GetDatabase( self.childEntity )
         markerDB:SetString("sapling_icon", saplingIcon)
         markerDB:SetString("sapling_name", saplingName)
         markerDB:SetInt("sapling_visible", 1)
@@ -76,14 +75,14 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
 
     for  entity in Iter(selectedEntities ) do
 
-        local blueprint = EntityService:GetBlueprintName(entity)
+        local blueprintName = EntityService:GetBlueprintName(entity)
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprint )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
         end
 
-        local lowName = BuildingService:FindLowUpgrade( blueprint )
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
         if ( lowName ~= "flora_cultivator" ) then
             goto continue
@@ -96,9 +95,9 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
             goto continue
         end
 
-        local modItemBlueprint = EntityService:GetBlueprintName(modItem)
+        local modItemBlueprintName = EntityService:GetBlueprintName(modItem)
 
-        if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and modItemBlueprint == self.SelectedItemBlueprint ) then
+        if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and modItemBlueprintName == self.SelectedItemBlueprint ) then
 
             goto continue
         end
@@ -119,11 +118,11 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
         if ( modItem ~= nil ) then
 
-            local modItemBlueprint = EntityService:GetBlueprintName(modItem)
+            local modItemBlueprintName = EntityService:GetBlueprintName(modItem) or ""
 
             local selectorDB = EntityService:GetDatabase( self.selector )
 
-            selectorDB:SetString( "cultivator_sapling_picker_tool.selecteditem", modItemBlueprint or "" )
+            selectorDB:SetString( "cultivator_sapling_picker_tool.selecteditem", modItemBlueprintName )
 
 
 
