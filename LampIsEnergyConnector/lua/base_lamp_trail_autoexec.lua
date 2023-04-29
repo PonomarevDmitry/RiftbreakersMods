@@ -8,7 +8,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(arg)
 
     local skillName = "items/skills/base_lamp_trail"
 
-    if ( ItemService:GetItemCount( player, skillName ) > 0 ) then
+    local itemCount = ItemService:GetItemCount( player, skillName )
+
+    --LogService:Log("skillName " .. skillName .. " itemCount " .. tostring(itemCount))
+
+    if ( itemCount > 0 ) then
         return
     end
 

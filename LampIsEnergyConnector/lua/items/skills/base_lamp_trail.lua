@@ -92,7 +92,7 @@ function base_lamp_trail:FindMinDistance()
 
     local lowName = BuildingService:FindLowUpgrade( blueprint )
 
-    LogService:Log("FindMinDistance " .. blueprint .. " " .. lowName )
+    --LogService:Log("FindMinDistance " .. blueprint .. " " .. lowName )
 
     self.radius = BuildingService:FindEnergyRadius( blueprint )
 
@@ -231,8 +231,10 @@ function base_lamp_trail:OnRelease()
 
         self:StopWorking()
     end
-    
-    item.OnRelease(self)
+
+    if ( item.OnRelease ) then
+        item.OnRelease(self)
+    end
 end
 
 function base_lamp_trail:InitStateMachine()
