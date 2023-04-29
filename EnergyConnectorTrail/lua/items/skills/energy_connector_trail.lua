@@ -183,8 +183,10 @@ function energy_connector_trail:OnRelease()
 
         self:StopWorking()
     end
-    
-    item.OnRelease(self)
+
+    if ( item.OnRelease ) then
+        item.OnRelease(self)
+    end
 end
 
 function energy_connector_trail:InitStateMachine()
