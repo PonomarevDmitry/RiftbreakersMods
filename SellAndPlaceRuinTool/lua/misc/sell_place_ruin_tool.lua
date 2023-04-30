@@ -18,7 +18,7 @@ function sell_place_ruin_tool:SpawnCornerBlueprint()
 end
 
 function sell_place_ruin_tool:GetScaleFromDatabase()
-    return { x=4, y=1, z=4 }
+    return { x=1, y=1, z=1 }
 end
 
 function sell_place_ruin_tool:AddedToSelection( entity )
@@ -125,12 +125,12 @@ function sell_place_ruin_tool:OnActivateEntity( entity )
 
     local team = EntityService:GetTeam( entity )
 
-    QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
-
     local transform = EntityService:GetWorldTransform( entity )
 
     local position = transform.position
     local orientation = transform.orientation
+
+    QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
 
     local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, position, team )
     EntityService:SetOrientation( newRuinsEntity, orientation )
