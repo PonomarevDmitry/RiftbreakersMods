@@ -1,4 +1,3 @@
-
 local tool = require("lua/misc/tool.lua")
 
 class 'repair_tool' ( tool )
@@ -15,11 +14,15 @@ function repair_tool:OnInit()
     self.radiusShowRuins = 100.0
 end
 function repair_tool:OnPreInit()
-    self.initialScale = {x=8,y=1,z=8}
+    self.initialScale = { x=8, y=1, z=8 }
 end
 
 function repair_tool:AddedToSelection( entity )
 
+end
+
+function repair_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial(entity, "selected" )
 end
 
 function repair_tool:FindEntitiesToSelect( selectorComponent )
@@ -42,17 +45,13 @@ function repair_tool:SpawnCornerBlueprint()
     end
 end
 
-function repair_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
-end
-
 function repair_tool:FilterSelectedEntities( selectedEntities ) 
 
     local entities = {}
 
-    for  ent in Iter(selectedEntities ) do
+    for ent in Iter( selectedEntities ) do
 
-        local healthComponent = EntityService:GetComponent(ent, "HealthComponent") 
+        local healthComponent = EntityService:GetComponent(ent, "HealthComponent")
         if ( healthComponent == nil ) then
             goto continue
         end
@@ -98,10 +97,10 @@ function repair_tool:OnUpdate()
 
     self.repairCosts = {}
 
-    for entity in Iter(self.selectedEntities ) do
+    for entity in Iter( self.selectedEntities ) do
 
         local skinned = EntityService:IsSkinned(entity)
-        local child = EntityService:GetChildByName(entity, "##repair##") 
+        local child = EntityService:GetChildByName( entity, "##repair##" )
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
         
         local ruins = false
@@ -114,7 +113,7 @@ function repair_tool:OnUpdate()
             if ( mode ~= 2 ) then
                 canRepair = false
             end
-        elseif( EntityService:GetGroup( entity ) == "##ruins##" ) then
+        elseif ( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
             local database = EntityService:GetDatabase( entity )
             if ( database ) then
@@ -138,31 +137,34 @@ function repair_tool:OnUpdate()
             end
         end
 
-        if(canRepair and not EntityService:IsAlive(child)) then
+        if ( canRepair and not EntityService:IsAlive(child) ) then
 
             local list = {}
-            if (ruins ) then
+
+            if ( ruins ) then
                 list = BuildingService:GetBuildCosts( ruinsBlueprint, self.playerId )
             else
                 list = BuildingService:GetRepairCosts( entity )
             end
-            for resourceCost in Iter(list) do
+
+            for resourceCost in Iter( list ) do
+
                 if ( self.repairCosts[resourceCost.first] == nil ) then
-                   self.repairCosts[resourceCost.first ] = resourceCost.second 
-                else
-                   self.repairCosts[resourceCost.first ] = self.repairCosts[resourceCost.first ] + resourceCost.second 
+                   self.repairCosts[resourceCost.first] = 0 
                 end
+
+                self.repairCosts[resourceCost.first] = self.repairCosts[resourceCost.first] + resourceCost.second
             end
         end
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
     if ( onScreen ) then
-        BuildingService:OperateRepairCosts( self.infoChild, self.playerId, self.repairCosts)
-        BuildingService:OperateRepairCosts( self.corners, self.playerId, {})
+        BuildingService:OperateRepairCosts( self.infoChild, self.playerId, self.repairCosts )
+        BuildingService:OperateRepairCosts( self.corners, self.playerId, {} )
     else
-        BuildingService:OperateRepairCosts( self.infoChild , self.playerId,{})
-        BuildingService:OperateRepairCosts( self.corners, self.playerId, self.repairCosts)
+        BuildingService:OperateRepairCosts( self.infoChild , self.playerId, {} )
+        BuildingService:OperateRepairCosts( self.corners, self.playerId, self.repairCosts )
     end
 end
 
@@ -207,22 +209,22 @@ end
 
 function repair_tool:OnActivateEntity( entity )
 
-    if( EntityService:GetGroup( entity ) == "##ruins##" ) then
+    if ( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
         local database = EntityService:GetDatabase( entity )
         if ( database ) then
 
-            ruinsBlueprint = database:GetString("blueprint")
-            canRepair = BuildingService:CanAffordBuilding( ruinsBlueprint, self.playerId)
+            local ruinsBlueprint = database:GetString("blueprint")
+            local canRepair = BuildingService:CanAffordBuilding( ruinsBlueprint, self.playerId)
 
             local transform = EntityService:GetWorldTransform( entity )
 
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
+            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
         end
     else
         local child = EntityService:GetChildByName(entity, "##repair##")
 
-        if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(child)) then
+        if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(child) ) then
 
             local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
             if ( buildingComponent ~= nil ) then
@@ -233,13 +235,16 @@ function repair_tool:OnActivateEntity( entity )
                 end
             end
 
-            QueueEvent("ScheduleRepairBuildingRequest", entity, self.playerId)
+            QueueEvent( "ScheduleRepairBuildingRequest", entity, self.playerId )
         end
     end
 end
 
 function repair_tool:OnRelease()
-    tool.OnRelease(self)
+
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
     
     -- Remove highlighting from ruins
     if ( self.previousMarkedRuins ~= nil) then
