@@ -1,0 +1,517 @@
+EntityBlueprint
+{
+	name "items/weapons/chainsaw"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/chainsaw_lvl_1.mesh"
+		material 	"items/weapons/chainsaw_lvl_1"
+	}
+
+	SkeletonDesc
+	{
+	  name "meshes/items/weapons/chainsaw_lvl_1"
+	}
+
+	AnimationDesc
+	{
+	}
+
+	WeaponMovementDataComponent
+	{
+		melee_damage_lock_aiming			"0"
+		melee_attack_lock_movement			"0"
+		attack_movement_factor				"1"
+		attack_aiming_max_angle_speed		"360"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_factor "4"
+		}
+
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"chainsaw_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_chainsaw/chainsaw_attack"
+				slash_effect 					"items/weapons/chainsaw_slash"
+				//slash_immediately				1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"chainsaw_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_chainsaw/chainsaw_attack"
+				slash_effect 					"items/weapons/chainsaw_slash"
+				//slash_immediately				1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"chainsaw_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_chainsaw/chainsaw_attack"
+				slash_effect 					"items/weapons/chainsaw_slash"
+				//slash_immediately				1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"chainsaw_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_chainsaw/chainsaw_attack"
+				slash_effect 					"items/weapons/chainsaw_slash"
+				//slash_immediately				1
+				melee_damage_name				"chainsaw_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"chainsaw_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_chainsaw/chainsaw_attack"
+				slash_effect 					"items/weapons/chainsaw_slash"
+				//slash_immediately				1
+				melee_damage_name				"chainsaw_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"chainsaw_attack_right_1"
+				damage_effect 				"effects/weapons_melee_chainsaw/chainsaw_swing"
+				attachment 					"att_top"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+					force_stagger			"1"
+					damage_continouos_step	"0.1"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"chainsaw_attack_left_1"
+				damage_effect 				"effects/weapons_melee_chainsaw/chainsaw_swing"
+				attachment 					"att_top"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+					force_stagger			"1"
+					damage_continouos_step	"0.1"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"chainsaw_attack_double_1"
+				damage_effect 				"effects/weapons_melee_chainsaw/chainsaw_swing"
+				attachment 					"att_top"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+					force_stagger			"1"
+					damage_continouos_step	"0.1"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				damage_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_top"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+					force_stagger			"1"
+					damage_continouos_step	"0.1"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				damage_effect 				"effects/weapons_melee_sharp/mech_sword"
+				attachment 					"att_top"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+					force_stagger			"1"
+					damage_continouos_step	"0.1"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				damage_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_top"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+					force_stagger			"1"
+					damage_step				"0.1"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				damage_effect 				"effects/weapons_melee_sharp/mech_sword"
+				attachment 					"att_top"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+					force_stagger			"1"
+					damage_step				"0.1"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsBoxShape
+			{
+				x "5.5"
+				y "1.5"
+				z "1.5"
+
+				position
+				{
+					x "-0.8"
+					y "0"
+					z "0"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_chainsaw/chainsaw_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_deactivated"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_chainsaw/chainsaw_stop"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_advanced"
+
+	base_blueprint "items/weapons/chainsaw"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/chainsaw_lvl_2.mesh"
+		material 	"items/weapons/chainsaw_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+	  name "meshes/items/weapons/chainsaw_lvl_2"
+	}
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/chainsaw"
+		item_bp		"items/weapons/chainsaw_advanced"
+		icon		"gui/hud/items_icons/weapons/chainsaw_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/chainsaw_advanced"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/chainsaw_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_extreme"
+
+	base_blueprint "items/weapons/chainsaw"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/chainsaw_lvl_4.mesh"
+		material 	"items/weapons/chainsaw_lvl_4"
+	}
+
+	SkeletonDesc
+	{
+	  name "meshes/items/weapons/chainsaw_lvl_4"
+	}
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/chainsaw"
+		item_bp		"items/weapons/chainsaw_extreme"
+		icon		"gui/hud/items_icons/weapons/chainsaw_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/chainsaw_extreme"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/chainsaw_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/chainsaw"
+		item_bp		"items/weapons/chainsaw"
+		icon		"gui/hud/items_icons/weapons/chainsaw"
+		bigger_icon "gui/menu/items_icons/weapons/chainsaw"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/chainsaw_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_superior"
+
+	base_blueprint "items/weapons/chainsaw"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/chainsaw_lvl_3.mesh"
+		material 	"items/weapons/chainsaw_lvl_3"
+	}
+
+	SkeletonDesc
+	{
+	  name "meshes/items/weapons/chainsaw_lvl_3"
+	}
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/chainsaw"
+		item_bp		"items/weapons/chainsaw_superior"
+		icon		"gui/hud/items_icons/weapons/chainsaw_superior"
+		bigger_icon "gui/menu/items_icons/weapons/chainsaw_superior"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/chainsaw_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/chainsaw_slash"
+	
+	RibbonComponent
+	{
+		material 			"ribbon/laser_sword_slash_orange"
+		update_bounds 		1
+		fade_out_time		0.34
+		tesselation_step 	0.025
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
