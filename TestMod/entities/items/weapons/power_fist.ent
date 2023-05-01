@@ -1,0 +1,1412 @@
+EntityBlueprint
+{
+	name "items/weapons/power_fist"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/power_fist_lvl_1.mesh"
+		material 	"items/weapons/power_fist_lvl_1"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/power_fist"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor				"1"
+
+		//melee_attack_angle_threshold		"60"
+		//melee_attack_speed_function
+		//{
+		//	type "0"
+		//	points
+		//	{
+		//		Vector2
+		//		{
+		//			x "0.0"
+		//			y "0.35"
+		//		}
+		//		Vector2
+		//		{
+		//			x "0.04"
+		//			y "1.25"
+		//		}
+		//		Vector2
+		//		{
+		//			x "0.08"
+		//			y "1.2"
+		//		}
+		//		Vector2
+		//		{
+		//			x "0.14"
+		//			y "0.4"
+		//		}
+		//		Vector2
+		//		{
+		//			x "0.20"
+		//			y "0.5"
+		//		}
+		//	}
+		//}
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "2"
+		}	
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_grey"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_grey"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_grey"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_grey"
+				slash_immediately				1
+				melee_damage_name				"fist_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_grey"
+				slash_immediately				1
+				melee_damage_name				"fist_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_grey"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsBoxShape
+			{
+				x "2.5"
+				y "1.0"
+				z "2.0"
+
+				position
+				{
+					x "0.67"
+					y "0.0"
+					z "-0.17"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/equipped_melee_sharp_weapon"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_slash"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_blue"
+		update_bounds 		1
+		fade_out_time		0.15
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "1 0.75 0"
+			}
+
+			Ribbon
+			{
+				offset "1 -0.75 0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_slash_grey"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_grey"
+		update_bounds 		1
+		fade_out_time		0.15
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "1 0.75 0"
+			}
+
+			Ribbon
+			{
+				offset "1 -0.75 0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_slash_violet"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_violet"
+		update_bounds 		1
+		fade_out_time		0.15
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "1 0.75 0"
+			}
+
+			Ribbon
+			{
+				offset "1 -0.75 0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_slash_red"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_red"
+		update_bounds 		1
+		fade_out_time		0.15
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "1 0.75 0"
+			}
+
+			Ribbon
+			{
+				offset "1 -0.75 0"
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_advanced"
+
+	base_blueprint "items/weapons/power_fist"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/power_fist_lvl_2.mesh"
+		material 	"items/weapons/power_fist_lvl_2"
+	}
+	
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "2"
+		}	
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash"
+				slash_immediately				1
+				melee_damage_name				"fist_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash"
+				slash_immediately				1
+				melee_damage_name				"fist_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsBoxShape
+			{
+				x "2.5"
+				y "1.0"
+				z "2.0"
+
+				position
+				{
+					x "0.67"
+					y "0.0"
+					z "-0.17"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/power_fist"
+		item_bp		"items/weapons/power_fist_advanced"
+		icon		"gui/hud/items_icons/weapons/power_fist_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/power_fist_advanced"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/fist_weapon.lua"
+		database
+		{
+			pad_melee_start_feedback 	string:"vibration,4,7,200"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_extreme"
+
+	base_blueprint "items/weapons/power_fist"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/power_fist_lvl_4.mesh"
+		material 	"items/weapons/power_fist_lvl_4"
+	}
+	
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "2"
+		}	
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_red"
+				slash_immediately				1
+				melee_damage_name				"fist_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_red"
+				slash_immediately				1
+				melee_damage_name				"fist_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_red"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsBoxShape
+			{
+				x "2.5"
+				y "1.0"
+				z "2.0"
+
+				position
+				{
+					x "0.67"
+					y "0.0"
+					z "-0.17"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/power_fist"
+		item_bp		"items/weapons/power_fist_extreme"
+		icon		"gui/hud/items_icons/weapons/power_fist_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/power_fist_extreme"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/fist_weapon.lua"
+		database
+		{
+			pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/power_fist"
+		item_bp		"items/weapons/power_fist"
+		icon		"gui/hud/items_icons/weapons/power_fist"
+		bigger_icon "gui/menu/items_icons/weapons/power_fist"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/fist_weapon.lua"
+		database
+		{
+			pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_superior"
+
+	base_blueprint "items/weapons/power_fist"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/power_fist_lvl_3.mesh"
+		material 	"items/weapons/power_fist_lvl_3"
+	}
+	
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "2"
+		}	
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"fist_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_violet"
+				slash_immediately				1
+				melee_damage_name				"fist_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"fist_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/power_fist_slash_violet"
+				slash_immediately				1
+				melee_damage_name				"fist_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_right_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_left_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_1"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"fist_attack_double_2"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_power_fist/power_fist_attack_violet"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_power_fist/power_fist_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|destructible|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsBoxShape
+			{
+				x "2.5"
+				y "1.0"
+				z "2.0"
+
+				position
+				{
+					x "0.67"
+					y "0.0"
+					z "-0.17"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/power_fist"
+		item_bp		"items/weapons/power_fist_superior"
+		icon		"gui/hud/items_icons/weapons/power_fist_superior"
+		bigger_icon "gui/menu/items_icons/weapons/power_fist_superior"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/fist_weapon.lua"
+		database
+		{
+			pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_basic"
+
+	base_blueprint "items/weapons/power_fist"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/power_fist_basic.mesh"
+		material 	"items/weapons/power_fist_basic"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/power_fist_basic_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/power_fist"
+		item_bp		"items/weapons/power_fist_basic"
+		icon		"gui/hud/items_icons/weapons/power_fist"
+		bigger_icon "gui/menu/items_icons/weapons/power_fist"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/fist_weapon_basic.lua"
+		database
+		{
+			pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

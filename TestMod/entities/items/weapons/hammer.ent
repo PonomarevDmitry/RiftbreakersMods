@@ -1,0 +1,1537 @@
+EntityBlueprint
+{
+	name "items/weapons/hammer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/hammer_lvl_1.mesh"
+		material 	"items/weapons/hammer_lvl_1"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/hammer"
+	}
+
+	WeaponMovementDataComponent
+	{
+		melee_attack_lock_aiming			"1"
+		melee_attack_lock_movement			"0"
+		attack_movement_factor				"1"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1"
+			emissive_factor "4"
+		}
+				
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_grey"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_grey"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_grey"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_grey"
+				slash_immediately				1
+				melee_damage_name				"blunt_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_grey"
+				slash_immediately				1
+				melee_damage_name				"blunt_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.2"
+
+				position
+				{
+					x "3.4"
+					y "0.0"
+					z "0.0"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/equipped_melee_sharp_weapon"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_slash"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_blue"
+		update_bounds 		1
+		fade_out_time		0.25
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_slash_violet"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_violet"
+		update_bounds 		1
+		fade_out_time		0.25
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_slash_red"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_red"
+		update_bounds 		1
+		fade_out_time		0.25
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_slash_grey"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_slash_grey"
+		update_bounds 		1
+		fade_out_time		0.25
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_advanced"
+
+	base_blueprint "items/weapons/hammer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/hammer_lvl_2.mesh"
+		material 	"items/weapons/hammer_lvl_2"
+	}
+	
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1"
+			emissive_factor "4"
+		}
+				
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash"
+				slash_immediately				1
+				melee_damage_name				"blunt_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash"
+				slash_immediately				1
+				melee_damage_name				"blunt_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.2"
+
+				position
+				{
+					x "3.4"
+					y "0.0"
+					z "0.0"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/hammer"
+		item_bp		"items/weapons/hammer_advanced"
+		icon		"gui/hud/items_icons/weapons/hammer_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/hammer_advanced"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/blunt_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_extreme"
+
+	base_blueprint "items/weapons/hammer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/hammer_lvl_4.mesh"
+		material 	"items/weapons/hammer_lvl_4"
+	}
+	
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1"
+			emissive_factor "4"
+		}
+				
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_red"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_red"
+				slash_immediately				1
+				melee_damage_name				"blunt_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_red"
+				slash_immediately				1
+				melee_damage_name				"blunt_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.2"
+
+				position
+				{
+					x "3.4"
+					y "0.0"
+					z "0.0"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/hammer"
+		item_bp		"items/weapons/hammer_extreme"
+		icon		"gui/hud/items_icons/weapons/hammer_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/hammer_extreme"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/blunt_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/hammer"
+		item_bp		"items/weapons/hammer"
+		icon		"gui/hud/items_icons/weapons/hammer"
+		bigger_icon "gui/menu/items_icons/weapons/hammer"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/blunt_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+
+
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_superior"
+
+	base_blueprint "items/weapons/hammer"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/hammer_lvl_3.mesh"
+		material 	"items/weapons/hammer_lvl_3"
+	}
+	
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "1"
+			emissive_factor "4"
+		}
+				
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"blunt_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_violet"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_violet"
+				slash_immediately				1
+				melee_damage_name				"blunt_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"blunt_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_blunt/hammer_attack"
+				slash_effect 					"items/weapons/hammer_slash_violet"
+				slash_immediately				1
+				melee_damage_name				"blunt_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_right_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_left_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_1"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"blunt_attack_double_2"
+				//attack_effect 				"effects/weapons_melee_blunt/hammer_attack"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+					on_world_hit_effect 	"effects/weapons_melee_blunt/hammer_hit"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "world"
+					collision_3d 			"world|destructible|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type		"normal"
+					}
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.2"
+
+				position
+				{
+					x "3.4"
+					y "0.0"
+					z "0.0"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/hammer_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		name 		"gui/menu/inventory/weapon_name/hammer"
+		item_bp		"items/weapons/hammer_superior"
+		icon		"gui/hud/items_icons/weapons/hammer_superior"
+		bigger_icon "gui/menu/items_icons/weapons/hammer_superior"
+		continuous  "1"
+		cooldown	"0.01"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/blunt_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
