@@ -146,54 +146,54 @@ function ghost_building_line:CheckConfigExists( wallLinesConfig )
     local scaleWallLines = {
         -- 1
         "1",
-        
+
         -- 2
         "11",
-        
+
         -- 3
-        "101",        
+        "101",
         "111",
-        
+
         -- 4
         "1011",
         "1111",
-        
+
         -- 5
         "10101",
         "11111",
-        
+
         -- 6
         "101011",
         "111111",
-        
+
         -- 7
         "1010101",
         "1111111",
-        
+
         -- 8
         "10101011",
         "11111111",
-        
+
         -- 9
         "101010101",
         "111111111",
-        
+
         -- 10
         "1010101011",
         "1111111111",
-        
+
         -- 11
         "10101010101",
         "11111111111",
     }
-    
+
     local index = IndexOf(scaleWallLines, wallLinesConfig )
-    
+
     if ( index == nil ) then 
-    
+
         return "1"
     end
-    
+
     return wallLinesConfig
 end
 
@@ -224,7 +224,7 @@ function ghost_building_line:PositionResult(positionX, positionZ)
     
     if (result > 0) then
     
-        return  1        
+        return  1
     elseif result < 0 then
     
         return -1
@@ -257,14 +257,14 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
         
         local cornerXSign, cornerZSign = self:GetXZSigns(cornerPosition, positionPlayer)
         
-        cornerType = cornerXSign * cornerX + cornerZSign * cornerZ        
+        cornerType = cornerXSign * cornerX + cornerZSign * cornerZ
         
         if ( cornerType == -2 ) then
         
             self.checkCollisionBox = true
 
             self.cornerPositionX = cornerPosition.x
-            self.cornerPositionZ = cornerPosition.z        
+            self.cornerPositionZ = cornerPosition.z
             self.cornerVectorX = cornerX
             self.cornerVectorZ = cornerZ
         
@@ -325,7 +325,7 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
                             local newPositionX = position.x + xSign * (xStep - 1) * deltaXZ
                             local newPositionZ = position.z + zSign * (zStep - 1) * deltaXZ
                             
-                            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)                     
+                            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
                         end
                     end
                 end
@@ -454,15 +454,15 @@ function ghost_building_line:GetCorner(pathFromStartPositionToEndPosition)
                 odds = i % 2
                 cornerTileNumber = i
                 break
-            end           
-        end      
+            end
+        end
     end
     
     return odds, cornerTileNumber
 end
 
 function ghost_building_line:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
-    
+
     -- Add if position has not been added yet
     if ( not self:HashContains(hashPositions, newPositionX, newPositionZ ) ) then
 
@@ -472,7 +472,7 @@ function ghost_building_line:AddNewPositionToResult(hashPositions, result, newPo
         newPosition.z = newPositionZ
 
         table.insert(result, newPosition)
-    end    
+    end
 end
 
 -- Check position has not already been added to hashPositions
@@ -480,17 +480,17 @@ function ghost_building_line:HashContains(hashPositions, newPositionX, newPositi
 
     if ( hashPositions[newPositionX] == nil) then
     
-        hashPositions[newPositionX] = {}    
+        hashPositions[newPositionX] = {}
     end
     
     local hashXPosition = hashPositions[newPositionX]
     
     if ( hashXPosition[newPositionZ] ~= nil ) then
         
-        return true    
+        return true
     end
     
-    hashXPosition[newPositionZ] = true    
+    hashXPosition[newPositionZ] = true
     
     return false
 end
@@ -562,7 +562,7 @@ function ghost_building_line:PerformCheckCollisionBox( newPositionX, newPosition
         end
         
         return true
-    end    
+    end
 end
 
 function ghost_building_line:FillCollisionBoxBounds( wallLinesConfigLen, cornerPosition, firstPosition, lastPosition )
@@ -604,15 +604,20 @@ end
 
 function ghost_building_line:FinishLineBuild()
     EntityService:SetVisible( self.entity , true )
+
     local count = #self.linesEntities -- 6
     local step = count
     if ( count > 5 )  then
         local additionalCubesCount = math.ceil( count / 5 ) 
         step = math.ceil( count / additionalCubesCount) 
     end
+
     for i=1,count do
+
         local ghost = self.linesEntities[i]
+
         local createCube = i == 1 or i == count or i % step == 0
+
         --LogService:Log(tostring(i) .. ":" .. tostring(step) .. ":" .. tostring(createCube))
         local transform = EntityService:GetWorldTransform( ghost )
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
@@ -629,25 +634,29 @@ function ghost_building_line:FinishLineBuild()
         elseif( testBuildable.flag == CBF_REPAIR  ) then
             QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
         end
+
         EntityService:RemoveEntity(ghost)
     end
+
     self.linesEntities = {}
     self.buildStartPosition = nil
     self.positionPlayer = nil
 end
 
 function ghost_building_line:OnActivate()
+
     if ( self.buildStartPosition == nil ) then
+
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
         EntityService:SetVisible( self.entity , false )
-        
+
         local player = PlayerService:GetPlayerControlledEnt(0)
         self.positionPlayer = EntityService:GetPosition( player )
 
         self:OnUpdate()
     else
-        self:FinishLineBuild() 
+        self:FinishLineBuild()
     end
 
 end
@@ -657,6 +666,7 @@ function ghost_building_line:OnDeactivate()
 end
 
 function ghost_building_line:OnRelease()
+
     for ghost in Iter(self.linesEntities) do
         EntityService:RemoveEntity(ghost)
     end
@@ -667,7 +677,7 @@ function ghost_building_line:OnRelease()
     end
     
     -- Destroy Marker with layers count
-    if (self.currentMarkerLines ~= nil) then        
+    if (self.currentMarkerLines ~= nil) then
     
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
@@ -675,4 +685,3 @@ function ghost_building_line:OnRelease()
 end
 
 return ghost_building_line
- 
