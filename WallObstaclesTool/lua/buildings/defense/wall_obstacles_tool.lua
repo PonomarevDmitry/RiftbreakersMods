@@ -614,6 +614,41 @@ end
 
 function wall_obstacles_tool:OnRotateSelectorRequest(evt)
 
+    local degree = evt:GetDegree()
+
+    local scaleWallLines = self:GetWallConfigArray()
+
+    local currentLinesConfig = self.wallLinesCount
+    currentLinesConfig = self:CheckConfigExists(currentLinesConfig)
+    
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+    
+    local index = IndexOf( scaleWallLines, currentLinesConfig )
+    if ( index == nil ) then 
+        index = 1 
+    end
+    
+    local maxIndex = #scaleWallLines
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = 1
+    elseif( newIndex == 0 ) then
+        newIndex = maxIndex
+    end
+    
+    local newValue = scaleWallLines[newIndex]
+
+    self.wallLinesCount = newValue
+
+    -- Wall layers config
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetInt("$wall_obstacles_lines_count", newValue)
+
+    self:OnWorkExecute()
 end
 
 function wall_obstacles_tool:FinishLineBuild()
@@ -676,45 +711,6 @@ function wall_obstacles_tool:GetAllEntities()
     end
     
     return result
-end
-
-function wall_obstacles_tool:OnRotateSelectorRequest(evt)
-
-    local degree = evt:GetDegree()
-
-    local scaleWallLines = self:GetWallConfigArray()
-
-    local currentLinesConfig = self.wallLinesCount
-    currentLinesConfig = self:CheckConfigExists(currentLinesConfig)
-    
-    local change = 1
-    if ( degree > 0 ) then
-        change = -1
-    end
-    
-    local index = IndexOf( scaleWallLines, currentLinesConfig )
-    if ( index == nil ) then 
-        index = 1 
-    end
-    
-    local maxIndex = #scaleWallLines
-
-    local newIndex = index + change
-    if ( newIndex > maxIndex ) then
-        newIndex = 1
-    elseif( newIndex == 0 ) then
-        newIndex = maxIndex
-    end
-    
-    local newValue = scaleWallLines[newIndex]
-
-    self.wallLinesCount = newValue
-
-    -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
-    selectorDB:SetInt("$wall_obstacles_lines_count", newValue)
-
-    self:OnWorkExecute()
 end
 
 function wall_obstacles_tool:RemoveMaterialFromOldBuildingsToSell()
