@@ -62,8 +62,10 @@ function thorns_walls_tool:InitializeValues()
     self.markerLinesConfig = 0
     self.currentMarkerLines = nil
 
+    self.configNameWallsCount = "$thorns_walls_count"
+
     -- Wall layers config
-    self.wallLinesCount = selectorDB:GetIntOrDefault("$thorns_walls_count", 2)
+    self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsCount, 2)
     self.wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
 end
 
@@ -134,9 +136,7 @@ function thorns_walls_tool:OnWorkExecute()
     self.buildCost = {}
 
     -- Wall layers config
-    local wallLinesCount = self.wallLinesCount
-    
-    wallLinesCount = self:CheckConfigExists(wallLinesCount)
+    local wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
     
     -- Correct Marker to show right number of wall layers
     if ( self.markerLinesConfig ~= wallLinesCount or self.currentMarkerLines == nil) then
@@ -653,9 +653,11 @@ end
 
 function thorns_walls_tool:CheckConfigExists( wallLinesCount )
 
+    wallLinesCount = wallLinesCount or 2
+
     local scaleWallLines = self:GetWallConfigArray()
     
-    local index = IndexOf(scaleWallLines, wallLinesCount )
+    local index = IndexOf( scaleWallLines, wallLinesCount )
     
     if ( index == nil ) then 
     
@@ -674,7 +676,7 @@ function thorns_walls_tool:GetWallConfigArray()
         5,
         6,
         8,
-        10,
+        10
     }
 
     return scaleWallLines
@@ -802,8 +804,7 @@ function thorns_walls_tool:OnRotateSelectorRequest(evt)
 
     local scaleWallLines = self:GetWallConfigArray()
 
-    local currentLinesConfig = self.wallLinesCount
-    currentLinesConfig = self:CheckConfigExists(currentLinesConfig)
+    local currentLinesConfig = self:CheckConfigExists(self.wallLinesCount)
     
     local change = 1
     if ( degree > 0 ) then
@@ -830,7 +831,7 @@ function thorns_walls_tool:OnRotateSelectorRequest(evt)
 
     -- Wall layers config
     local selectorDB = EntityService:GetDatabase( self.selector )
-    selectorDB:SetInt("$thorns_walls_count", newValue)
+    selectorDB:SetInt(self.configNameWallsCount, newValue)
 
     self:OnWorkExecute()
 end
