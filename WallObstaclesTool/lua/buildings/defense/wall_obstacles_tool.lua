@@ -34,21 +34,16 @@ function wall_obstacles_tool:InitializeValues()
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
     EntityService:SetVisible( self.entity , false )
-    
-    self.ghostWall = nil
 
-    self.linesEntities = {}
-    self.linesEntityInfo = {}
+    self.nowBuildingLine = false
     self.gridEntities = {}
-
-    self.buildStartPosition = nil
-    self.positionPlayer = nil
+    self.oldBuildingsToSell = {}
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.wallBlueprint = self:GetWallBlueprint( selectorDB )
+    self.wallBlueprintName = self:GetWallBlueprintName( selectorDB )
 
-    self:SpawnWallTemplates()
+    self:SpawnWallTemplates( self.wallBlueprintName )
 
     -- Marker with number of wall layers
     self.markerLinesConfig = 0
@@ -58,11 +53,11 @@ function wall_obstacles_tool:InitializeValues()
     self.wallLinesCount = selectorDB:GetIntOrDefault("$wall_obstacles_lines_count", 1)
     self.wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
 
-    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
 end
 
-function wall_obstacles_tool:GetWallBlueprint( selectorDB )
+function wall_obstacles_tool:GetWallBlueprintName( selectorDB )
 
     local defaultWall = "buildings/defense/wall_small_straight_01"
 
@@ -94,44 +89,53 @@ function wall_obstacles_tool:GetWallBlueprint( selectorDB )
     return blueprintName
 end
 
-function wall_obstacles_tool:SpawnWallTemplates()
+function wall_obstacles_tool:SpawnWallTemplates(wallBlueprintName)
 
     --local markerDB = EntityService:GetDatabase( self.markerEntity )
     --markerDB:SetString("message_text", "")
     --markerDB:SetInt("message_visible", 0)
 
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.wallBlueprint ) )
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( wallBlueprintName ) )
+
+    self.ghostBlueprintName = buildingDesc.ghost_bp
+    self.buildingDesc = buildingDesc
+
+    self:SpawnGhostWallEntity()
+end
+
+function wall_obstacles_tool:SpawnGhostWallEntity()
+
+    if ( self.ghostWall ~= nil) then
+        return
+    end
 
     local transform = EntityService:GetWorldTransform( self.entity )
 
-    local position = transform.position
     local orientation = transform.orientation
 
     local team = EntityService:GetTeam( self.entity )
 
-    local newPosition = EntityService:GetWorldTransform( self.entity ).position
-
-    local buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.ghost_bp, self.selector )
+    local buildingEntity = EntityService:SpawnAndAttachEntity( self.ghostBlueprintName, self.selector )
 
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
     EntityService:SetOrientation( buildingEntity, orientation )
-
     EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
 
-    self.ghostBlueprint = buildingDesc.ghost_bp
-    
-    self.buildingDesc = buildingDesc
     self.ghostWall = buildingEntity
+end
+
+function wall_obstacles_tool:DestroyGhostWall()
+
+    if ( self.ghostWall ~= nil) then
+        EntityService:RemoveEntity(self.ghostWall)
+        self.ghostWall = nil
+    end
 end
 
 function wall_obstacles_tool:OnWorkExecute()
 
-    self.buildCost = {}
-
     -- Wall layers config
-    local wallLinesCount = self.wallLinesCount
-    
-    wallLinesCount = self:CheckConfigExists(wallLinesCount)
+    local wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
     
     -- Correct Marker to show right number of wall layers
     if ( self.markerLinesConfig ~= wallLinesCount or self.currentMarkerLines == nil) then
@@ -152,118 +156,165 @@ function wall_obstacles_tool:OnWorkExecute()
         self.markerLinesConfig = wallLinesCount
     end
 
-    if ( self.buildStartPosition ) then
+    self:RemoveMaterialFromOldBuildingsToSell()
 
+    self.oldBuildingsToSell = {}
+
+    self.buildCost = {}
+
+    if ( self.nowBuildingLine and self.buildStartPosition ) then
+
+        local positionY = self.buildStartPosition.position.y
+    
         local team = EntityService:GetTeam(self.entity)
+    
+        local currentTransform = EntityService:GetWorldTransform( self.entity )
         
-        local currentTransform = EntityService:GetWorldTransform( self.ghostWall )
-
         local buildEndPosition = currentTransform.position
-
-        local newPositionsArray, hashPositions = self:FindPositionsToBuildLine( buildEndPosition, wallLinesCount )
-
-        local oldLinesEntities = self.linesEntities
-        local oldLinesEntityInfo = self.linesEntityInfo
-        local oldGridEntities = self.gridEntities
-
-        local newLinesEntities = {}
-        local newLinesEntityInfo = {}
-        local newGridEntities = {}
-
-        --local isLogNeeded = (#oldLinesEntities ~= #newPositionsArray)
-
-        --if ( isLogNeeded ) then
-        --    LogService:Log("OnWorkExecute Start")
-        --end
-
-        for i=1,#newPositionsArray do
-
-            local newPosition = newPositionsArray[i]
-
-            local lineEnt = self:GetEntityFromGrid( oldGridEntities, newPosition.x, newPosition.z )
-
-            if ( lineEnt == nil ) then
-
-                lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
-                EntityService:RemoveComponent(lineEnt, "LuaComponent")
-
-                EntityService:SetOrientation(lineEnt, currentTransform.orientation )
-                EntityService:SetPosition( lineEnt, newPosition)
-
-                --if ( isLogNeeded ) then
-                --    LogService:Log("OnWorkExecute Spawn position.x " .. tostring(newPosition.x) .. " position.z " .. tostring(newPosition.z) .. " lineEnt " .. tostring(lineEnt) )
-                --end
-            --else
-            --
-            --    if ( isLogNeeded ) then
-            --        LogService:Log("OnWorkExecute Exists position.x " .. tostring(newPosition.x) .. " position.z " .. tostring(newPosition.z) .. " lineEnt " .. tostring(lineEnt) )
-            --    end
-            end
-
-            Insert( newLinesEntities, lineEnt )
-            self:InsertEntityToGrid( newGridEntities, lineEnt, newPosition.x, newPosition.z  )
-
-            local entityInfo = {}
-
-            entityInfo.position = newPosition
-            entityInfo.entity = lineEnt
-
-            Insert( newLinesEntityInfo, entityInfo )
-        end
-
-        for i=#oldLinesEntityInfo,1,-1 do
-
-            local entityInfo = oldLinesEntityInfo[i]
-
-            local lineEnt = entityInfo.entity
-
-            local lineEntPosition = entityInfo.position
-
-            if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
-
-                --if ( isLogNeeded ) then
-                --    LogService:Log("OnWorkExecute Destroy position.x " .. tostring(lineEntPosition.x) .. " position.z " .. tostring(lineEntPosition.z) .. " lineEnt " .. tostring(lineEnt) )
-                --end
-
-                EntityService:RemoveEntity( lineEnt )
-                oldLinesEntityInfo[i] = nil
-            end
-        end
-
-        for i=1,#newLinesEntities do
-
-            local lineEnt = newLinesEntities[i]
-
-            local transform = EntityService:GetWorldTransform( lineEnt )
-
-            self:CheckEntityBuildable( lineEnt, transform, i )
-            BuildingService:CheckAndFixBuildingConnection( lineEnt )
-        end
-
-        self.linesEntities = newLinesEntities
-        self.linesEntityInfo = newLinesEntityInfo
-        self.gridEntities = newGridEntities
-
-        --if ( isLogNeeded ) then
-        --    LogService:Log("OnWorkExecute End")
-        --end
         
-        local list = BuildingService:GetBuildCosts( self.wallBlueprint, self.playerId )
+        local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition, wallLinesCount )
+        
+        if ( self.gridEntities == nil ) then
+            self.gridEntities = {}
+        end
+        
+        local positionX, positionZ
+
+        if ( #self.gridEntities > #arrayX ) then
+        
+            for xIndex=#self.gridEntities,#arrayX + 1,-1 do
+            
+                local gridEntitiesZ = self.gridEntities[xIndex]
+                
+                for zIndex=1,#gridEntitiesZ do
+                
+                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+                    
+                    gridEntitiesZ[zIndex] = nil
+                end
+                
+                self.gridEntities[xIndex] = nil
+            end
+            
+        elseif ( #self.gridEntities < #arrayX ) then
+        
+            for xIndex=#self.gridEntities + 1 ,#arrayX do
+                
+                positionX = arrayX[xIndex]
+            
+                local gridEntitiesZ = {}
+                
+                self.gridEntities[xIndex] = gridEntitiesZ
+                
+                for zIndex=1,#arrayZ do
+                
+                    positionZ = arrayZ[zIndex]
+            
+                    local newPosition = {}
+                    
+                    newPosition.x = positionX
+                    newPosition.y = positionY
+                    newPosition.z = positionZ
+
+                    local lineEnt = self:CreateNewEntity(newPosition, currentTransform.orientation, team)
+                    
+                    Insert(gridEntitiesZ, lineEnt)
+                end
+            end
+        end
+        
+        for xIndex=1,#arrayX do
+                
+            positionX = arrayX[xIndex]
+        
+            local gridEntitiesZ = self.gridEntities[xIndex]
+            
+            if ( #gridEntitiesZ > #arrayZ ) then
+            
+                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do 
+                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+                    gridEntitiesZ[zIndex] = nil
+                end
+                
+            elseif ( #gridEntitiesZ < #arrayZ ) then
+            
+                for zIndex=#gridEntitiesZ + 1 ,#arrayZ do
+                
+                    positionZ = arrayZ[zIndex]
+            
+                    local newPosition = {}
+                    
+                    newPosition.x = positionX
+                    newPosition.y = positionY
+                    newPosition.z = positionZ
+
+                    local lineEnt = self:CreateNewEntity(newPosition, currentTransform.orientation, team)
+                    
+                    Insert(gridEntitiesZ, lineEnt)
+                end
+            end
+        end
+        
+        for xIndex=1,#arrayX do
+        
+            positionX = arrayX[xIndex]
+            
+            local gridEntitiesZ = self.gridEntities[xIndex]
+            
+            for zIndex=1,#arrayZ do
+                
+                positionZ = arrayZ[zIndex]
+        
+                local newPosition = {}
+                
+                newPosition.x = positionX
+                newPosition.y = positionY
+                newPosition.z = positionZ
+                
+                local transform = {}
+                transform.scale = currentTransform.scale
+                transform.orientation = currentTransform.orientation
+                transform.position = newPosition
+                
+                local lineEnt = gridEntitiesZ[zIndex];
+                EntityService:SetPosition( lineEnt, newPosition)
+                EntityService:SetOrientation( lineEnt, transform.orientation )
+                
+                local id = (xIndex -1 ) * #arrayX + zIndex
+                
+                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, id )
+
+                if ( testBuildable ~= nil) then    
+                    self:AddToEntitiesToSellList(testBuildable)
+                end
+                
+                BuildingService:CheckAndFixBuildingConnection(lineEnt)
+            end
+        end
+
+        local list = BuildingService:GetBuildCosts( self.wallBlueprintName, self.playerId )
         for resourceCost in Iter(list) do
 
             if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0 
+               self.buildCost[resourceCost.first] = 0
             end
 
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #newPositionsArray )
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ ) 
         end
     else
-        local transform = EntityService:GetWorldTransform( self.ghostWall )
-        local testBuildable = self:CheckEntityBuildable( self.ghostWall, transform )
+
+        if ( self.ghostWall ~= nil ) then
+
+            local currentTransform = EntityService:GetWorldTransform( self.ghostWall )
+            local testBuildable = self:CheckEntityBuildable( self.ghostWall, currentTransform )
+    
+            if ( testBuildable ~= nil) then
+                self:AddToEntitiesToSellList(testBuildable)
+            end
+        
+            --BuildingService:CheckAndFixBuildingConnection(self.ghostWall)
+        end
     end
-
-
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
@@ -279,372 +330,92 @@ function wall_obstacles_tool:OnWorkExecute()
     end
 end
 
-function wall_obstacles_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
+function wall_obstacles_tool:CreateNewEntity(newPosition, orientation, team)
 
-    if ( gridEntities[newPositionX] == nil) then
-    
-        return nil
-    end
-    
-    local arrayXPosition = gridEntities[newPositionX]
-    
-    if ( arrayXPosition[newPositionZ] == nil ) then
-        
-        return nil
+    local result = nil
+
+    if ( self.ghostBlueprintName ~= "" and self.ghostBlueprintName ~= nil ) then
+
+        result = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
+    else
+        result = EntityService:SpawnEntity( self.wallBlueprintName, newPosition, team )
     end
 
-    return arrayXPosition[newPositionZ]
-end
+    EntityService:RemoveComponent( result, "LuaComponent" )
+    EntityService:SetOrientation( result, orientation )
 
-function wall_obstacles_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
-
-    if ( gridEntities[newPositionX] == nil) then
-    
-        gridEntities[newPositionX] = {}
-    end
-    
-    local arrayXPosition = gridEntities[newPositionX]
-    
-    arrayXPosition[newPositionZ] = lineEnt
-end
-
-function wall_obstacles_tool:HashContains( hashPositions, newPositionX, newPositionZ )
-
-    if ( hashPositions[newPositionX] == nil) then
-    
-        return false
-    end
-    
-    local hashXPosition = hashPositions[newPositionX]
-    
-    if ( hashXPosition[newPositionZ] == nil ) then
-        
-        return false
-    end
-    
-    return true
-end
-
-function wall_obstacles_tool:FindPositionsToBuildLine( buildEndPosition, wallLinesCount )
-    
-    local positionPlayer = self.positionPlayer
-    if (positionPlayer == nil) then
-        local player = PlayerService:GetPlayerControlledEnt(0)
-        positionPlayer = EntityService:GetPosition( player )    
-    end
-    
-    local hashPositions = {}
-
-    local pathFromStartPositionToEndPosition = self:FindSingleDiagonalLine( self.buildStartPosition.position, buildEndPosition, positionPlayer )
-    if ( wallLinesCount == 1 ) then
-
-        for i=1,#pathFromStartPositionToEndPosition do
-    
-            local position = pathFromStartPositionToEndPosition[i]
-
-            self:AddToHash( hashPositions, position.x, position.z )
-        end
-
-        return pathFromStartPositionToEndPosition, hashPositions
-    end
-
-    local x0 = self.buildStartPosition.position.x
-    local z0 = self.buildStartPosition.position.z
-
-    local x1 = buildEndPosition.x
-    local z1 = buildEndPosition.z
-
-    self.coefX = (z1 - z0)
-    self.coefZ = -(x1 - x0)
-    self.const = x1*z0 - x0*z1
-
-    local playerValue = self:CalcFunction( positionPlayer.x, positionPlayer.z )
-
-    local newPositionX = x0 + self.coefX * 3
-    local newPositionZ = z0 + self.coefZ * 3
-
-    local secondValue = self:CalcFunction( newPositionX, newPositionZ )
-    
-    if ( secondValue * playerValue > 0 ) then
-
-        newPositionX = x0 - self.coefX * 3
-        newPositionZ = z0 - self.coefZ * 3
-    end
-
-    local endPositionMulti = {}
-    endPositionMulti.x = newPositionX
-    endPositionMulti.y = self.buildStartPosition.position.y
-    endPositionMulti.z = newPositionZ
-
-    local pathMulti = self:FindSingleDiagonalLine( self.buildStartPosition.position, endPositionMulti, positionPlayer )
-
-    self:MakeRelativePath( pathMulti, x0, z0 )
-
-    local multiWallsArray = self:GetPathWithNumberChanges( pathMulti, wallLinesCount - 1 )
-
-
-
-    local result = {}
-
-    for i=1,#pathFromStartPositionToEndPosition do
-    
-        local position = pathFromStartPositionToEndPosition[i]
-        
-        -- Add if position has not been added yet
-        if ( self:AddToHash( hashPositions, position.x, position.z ) ) then
-        
-            table.insert(result, position)
-        end
-
-        for vector in Iter( multiWallsArray ) do
-
-            local newPositionX = position.x + vector.x
-            local newPositionZ = position.z + vector.z
-
-            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
-        end
-    end
-
-    return result, hashPositions
-end
-
-function wall_obstacles_tool:GetPathWithNumberChanges( pathMulti, changesCount )
-
-    if ( #pathMulti == 0 or #pathMulti == 1 ) then
-        return pathMulti
-    end
-
-    local x0 = 0
-    local z0 = 0
-
-    local changesX = 0
-    local changesZ = 0
-
-    local index = 1
-    local previousPosition = nil
-
-
-    local result = {}
-
-    local countCalcs = 0
-
-    while ( true ) do
-       
-        local position = pathMulti[index]
-
-        local newPositionX = x0 + position.x
-        local newPositionZ = z0 + position.z
-
-        local vector = {}
-        vector.x = newPositionX
-        vector.z = newPositionZ
-
-        Insert( result, vector )
-
-        if (previousPosition ~= nil) then
-            
-            if ( previousPosition.x ~= newPositionX ) then
-                changesX = changesX + 1
-            end
-            
-            if ( previousPosition.z ~= newPositionZ ) then
-                changesZ = changesZ + 1
-            end
-        end
-
-        if ( changesX >= changesCount or changesZ >= changesCount ) then
-            break;
-        end
-
-        previousPosition = vector
-
-        index = index + 1
-
-        if ( index > #pathMulti ) then
-            index = 2;
-
-            x0 = newPositionX
-            z0 = newPositionZ
-        end
-
-        countCalcs = countCalcs + 1
-
-        if ( countCalcs > 50 ) then
-            break
-        end
-    end
+    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
 
     return result
 end
 
-function wall_obstacles_tool:MakeRelativePath( pathMulti, x0, z0 )
+function wall_obstacles_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition, wallLinesCount)
 
-    for position in Iter( pathMulti ) do
+    local gridSize = BuildingService:GetBuildingGridSize(self.entity)
 
-        local newPositionX = position.x - x0
-        local newPositionZ = position.z - z0
-
-        position.x = newPositionX
-        position.z = newPositionZ
-    end
-end
-
-function wall_obstacles_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
-    
-    -- Add if position has not been added yet
-    if ( not self:AddToHash(hashPositions, newPositionX, newPositionZ ) ) then
-        return
-    end
-
-    local newPosition = {}
-    newPosition.x = newPositionX
-    newPosition.y = newPositionY
-    newPosition.z = newPositionZ
-
-    table.insert(result, newPosition)
-end
-
--- Check position has not already been added to hashPositions
-function wall_obstacles_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
-
-    if ( hashPositions[newPositionX] == nil) then
-    
-        hashPositions[newPositionX] = {}
-    end
-    
-    local hashXPosition = hashPositions[newPositionX]
-    
-    if ( hashXPosition[newPositionZ] ~= nil ) then
-        
-        return false
-    end
-    
-    hashXPosition[newPositionZ] = true
-    
-    return true
-end
-
-function wall_obstacles_tool:CalcFunction( positionX, positionZ )
-
-    local result = self.coefX * positionX + self.coefZ * positionZ + self.const
-
-    if ( result > 0 ) then
-        return 1
-    elseif ( result < 0 ) then
-        return -1
-    end
-
-    return 0
-end
-
-function wall_obstacles_tool:SetLineParameters( buildStartPosition, buildEndPosition )
-
-    local x0 = buildStartPosition.x
-    local z0 = buildStartPosition.z
-
-    local x1 = buildEndPosition.x
-    local z1 = buildEndPosition.z
-
-    self.coefX = (z1 - z0)
-    self.coefZ = -(x1 - x0)
-    self.const = x1*z0 - x0*z1
-
-end
-
-function wall_obstacles_tool:FindSingleDiagonalLine( buildStartPosition, buildEndPosition, positionPlayer )
-
-    local xSignPlayer, zSignPlayer = self:GetXZSigns(positionPlayer, buildStartPosition)
-    
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
-
-    local zPriority = (xSignPlayer * xSign) < 0 and (zSignPlayer * zSign) > 0
-
-    local x0 = buildStartPosition.x
-    local z0 = buildStartPosition.z
-
-    local x1 = buildEndPosition.x
-    local z1 = buildEndPosition.z
-
-    local deltaX = 2 * xSign
-    local deltaZ = 2 * zSign
-
-    local dx = math.abs(x1 - x0)
-    local dz = -math.abs(z1 - z0)
-
-    local dzAbs = math.abs(z1 - z0)
-
-    local result = {}
-
-    local positionY = buildStartPosition.y
-
-    local positionX = x0
-    local positionZ = z0
-
-    local error = dx + dz
-
-    while ( true ) do
     
-        local position = {}
+    local deltaX = gridSize.x * 2 * xSign
+    local deltaZ = gridSize.z * 2 * zSign
 
-        position.x = positionX
-        position.y = positionY
-        position.z = positionZ
+    local smallDeltaX = (gridSize.x * xSign) / 2
+    local smallDeltaZ = (gridSize.z * zSign) / 2
 
-        Insert(result, position)
+    local buildEndPositionX = buildEndPosition.x + smallDeltaX
+    local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
+    
+    local minX = math.min( buildStartPosition.x, buildEndPositionX )
+    local maxX = math.max( buildStartPosition.x, buildEndPositionX )
+    
+    local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
+    local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
+    
+    local arrayX = {}
+    
+    local positionX = buildStartPosition.x
 
-        if ( positionX == x1 and positionZ == z1 ) then
-            break
-        end
+    local index = 0
 
-        local errorMul2 = 2 * error
+    local odds = wallLinesCount - 1
+    
+    while (minX <= positionX and positionX <= maxX) do
+    
+        Insert(arrayX, positionX)
+        
+        positionX = positionX + deltaX
 
-        if ( zPriority ) then
-
-            if ( errorMul2 <= dx ) then
-                if ( positionZ == z1 ) then
-                    break
-                end
-                error = error +  dx
-                positionZ = positionZ + deltaZ
-                goto continue
-            end
-
-            if ( errorMul2 >= dz ) then
-                if positionX == x1 then
-                    break
-                end
-                error = error + dz
-                positionX = positionX + deltaX
-                goto continue
-            end
+        if ( index % wallLinesCount == odds ) then
+            positionX = positionX + deltaX
+            index = 0
         else
-
-            if ( errorMul2 >= dz ) then
-                if positionX == x1 then
-                    break
-                end
-                error = error + dz
-                positionX = positionX + deltaX
-                goto continue
-            end
-
-            if ( errorMul2 <= dx ) then
-                if ( positionZ == z1 ) then
-                    break
-                end
-                error = error +  dx
-                positionZ = positionZ + deltaZ
-                goto continue
-            end
+            index = index + 1
         end
-            
-        ::continue::
     end
+    
+    local arrayZ = {}
+    
+    local positionZ = buildStartPosition.z
 
-    return result
+    index = 0
+
+    while (minZ <= positionZ and positionZ <= maxZ) do
+    
+        Insert(arrayZ, positionZ)
+        
+        positionZ = positionZ + deltaZ
+
+        if ( index % wallLinesCount == odds ) then
+            positionZ = positionZ + deltaZ
+            index = 0
+        else
+            index = index + 1
+        end
+    end
+    
+    return arrayX, arrayZ
 end
 
-function wall_obstacles_tool:GetXZSigns(positionStart, positionEnd, playerValue)
+function wall_obstacles_tool:GetXZSigns(positionStart, positionEnd)
                 
     local xSign = -1
     local zSign = -1
@@ -660,7 +431,40 @@ function wall_obstacles_tool:GetXZSigns(positionStart, positionEnd, playerValue)
     return xSign, zSign
 end
 
+function wall_obstacles_tool:AddToEntitiesToSellList(testBuildable)
+
+    if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
+    
+        return
+    end
+    
+    local buildingToSellCount = testBuildable.entities_to_sell.count
+
+    for i = 1,buildingToSellCount do
+
+        local entityToSell = testBuildable.entities_to_sell[i]
+
+        if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
+
+            if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
+
+                local skinned = EntityService:IsSkinned(entityToSell)
+
+                if ( skinned ) then
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
+                else
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
+                end
+            
+                Insert(self.oldBuildingsToSell, entityToSell)
+            end
+        end
+    end
+end
+
 function wall_obstacles_tool:CheckConfigExists( wallLinesCount )
+
+    wallLinesCount = wallLinesCount or 1
 
     local scaleWallLines = self:GetWallConfigArray()
     
@@ -689,10 +493,11 @@ function wall_obstacles_tool:GetWallConfigArray()
 end
 
 function wall_obstacles_tool:CheckEntityBuildable( entity, transform, id )
+
     id = id or 1
     local test = nil
 
-    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.wallBlueprint, id )
+    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.wallBlueprintName, id )
 
     if ( test == nil ) then
         return
@@ -736,69 +541,141 @@ function wall_obstacles_tool:CheckEntityBuildable( entity, transform, id )
     return testBuildable
 end
 
+function wall_obstacles_tool:BuildEntity(entity, createCube)
+
+    createCube = createCube or false
+
+    local transform = EntityService:GetWorldTransform( entity )
+       
+    local testBuildable = self:CheckEntityBuildable( entity , transform )
+
+    if ( testBuildable == nil ) then
+
+        return
+    end
+
+    local missingResources = testBuildable.missing_resources
+    if ( missingResources.count  > 0 ) then
+        if ( missingResources.count  > 1 ) then
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", entity, false )
+        elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
+            QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
+        end
+
+        return testBuildable.flag
+    end
+
+    local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
+
+    if ( testBuildable.flag == CBF_CAN_BUILD ) then
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+
+    elseif( testBuildable.flag == CBF_OVERRIDES ) then
+
+        for entityToSell in Iter(testBuildable.entities_to_sell) do
+            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+        end
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+
+    elseif( testBuildable.flag == CBF_REPAIR  ) then
+
+        QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
+
+    end
+
+    return testBuildable.flag
+end
+
 function wall_obstacles_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
-
+    
+        self.nowBuildingLine = true;
+    
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
-        EntityService:SetVisible( self.ghostWall , false )
-        
-        local player = PlayerService:GetPlayerControlledEnt(0)
-        self.positionPlayer = EntityService:GetPosition( player )
 
+
+        self:DestroyGhostWall()
+        
         self:OnWorkExecute()
     else
-        self:FinishLineBuild()
+        self:FinishLineBuild() 
     end
 end
 
 function wall_obstacles_tool:OnDeactivateSelectorRequest()
     self:FinishLineBuild()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+end
+
+function wall_obstacles_tool:OnRotateSelectorRequest(evt)
+
 end
 
 function wall_obstacles_tool:FinishLineBuild()
 
-    EntityService:SetVisible( self.ghostWall , true )
-
-    local count = #self.linesEntities
-    local step = count
-
-    if ( count > 5 ) then
-        local additionalCubesCount = math.ceil( count / 5 ) 
-        step = math.ceil( count / additionalCubesCount) 
+    if ( self.nowBuildingLine == nil ) then
+        self.nowBuildingLine = false
     end
 
-    for i=1,count do
+    if ( self.nowBuildingLine ~= true ) then
+    
+        return
+    end
+    
+    local allEntities = self:GetAllEntities()
+    
+    local count = #allEntities
+    
+    if ( count > 0 ) then
 
-        local ghost = self.linesEntities[i]
-        local createCube = i == 1 or i == count or i % step == 0
+        local step = count
 
-        local transform = EntityService:GetWorldTransform( ghost )
-        local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
-       
-        local testBuildable = self:CheckEntityBuildable( ghost, transform, i )
-
-        if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
-        elseif( testBuildable.flag == CBF_OVERRIDES ) then
-            for entityToSell in Iter(testBuildable.entities_to_sell) do
-                QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
-            end
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
-            
-        elseif( testBuildable.flag == CBF_REPAIR ) then
-            QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
+        if ( count > 5 )  then
+            local additionalCubesCount = math.ceil( count / 5 ) 
+            step = math.ceil( count / additionalCubesCount) 
         end
 
-        EntityService:RemoveEntity(ghost)
+        for i=1,count do
+
+            local createCube = (i == 1 or i == count or i % step == 0)
+            
+            local ghost = allEntities[i]
+            
+            self:BuildEntity(ghost, createCube)
+            
+            EntityService:RemoveEntity(ghost)
+        end
     end
 
-    self.linesEntities = {}
-    self.linesEntityInfo = {}
+    self:SpawnGhostWallEntity()
+
     self.gridEntities = {}
     self.buildStartPosition = nil
-    self.positionPlayer = nil
+    self.nowBuildingLine = false;
+end
+
+function wall_obstacles_tool:GetAllEntities()
+
+    local result = {}
+
+    for xIndex=1,#self.gridEntities do
+        
+        local gridEntitiesZ = self.gridEntities[xIndex]
+        
+        for zIndex=1,#gridEntitiesZ do
+        
+            local entity = gridEntitiesZ[zIndex]
+            
+            Insert(result, entity)
+        end
+    end
+    
+    return result
 end
 
 function wall_obstacles_tool:OnRotateSelectorRequest(evt)
@@ -840,24 +717,39 @@ function wall_obstacles_tool:OnRotateSelectorRequest(evt)
     self:OnWorkExecute()
 end
 
+function wall_obstacles_tool:RemoveMaterialFromOldBuildingsToSell()
+
+    if ( self.oldBuildingsToSell ~= nil ) then
+        for entityToSell in Iter( self.oldBuildingsToSell ) do
+            EntityService:RemoveMaterial(entityToSell, "selected" )
+        end
+    end
+end
+
 function wall_obstacles_tool:OnRelease()
 
-    for ghost in Iter(self.linesEntities) do
-        EntityService:RemoveEntity(ghost)
+    if ( self.gridEntities ~= nil) then
+        for gridEntitiesZ in Iter(self.gridEntities) do
+            for ghost in Iter(gridEntitiesZ) do
+                EntityService:RemoveEntity(ghost)
+            end
+        end
     end
-    self.linesEntities = {}
-    self.linesEntityInfo = {}
+    
     self.gridEntities = {}
+    self.nowBuildingLine = false
+    self.buildStartPosition = nil
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+
+    self.oldBuildingsToSell = {}
 
     if ( self.infoChild ~= nil) then
         EntityService:RemoveEntity(self.infoChild)
         self.infoChild = nil
     end
 
-    if ( self.ghostWall ~= nil) then
-        EntityService:RemoveEntity(self.ghostWall)
-        self.ghostWall = nil
-    end
+    self:DestroyGhostWall()
     
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
