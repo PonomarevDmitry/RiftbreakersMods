@@ -61,18 +61,7 @@ function sell_by_type_seller_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
-        if (baseBuildingDesc ~= nil ) then
-            buildingDesc = baseBuildingDesc
-        end
-
-        local buildingDescRef = reflection_helper(buildingDesc)
-
-        blueprintName = buildingDescRef.bp
-
-        local lowName = BuildingService:FindLowUpgrade( blueprintName )
-
-        if ( IndexOf( self.SelectedLowUpgrade, lowName ) == nil ) then
+        if ( not self:IsBlueprintInList(blueprintName) ) then
             goto continue
         end
 
