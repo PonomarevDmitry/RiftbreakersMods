@@ -71,7 +71,7 @@ function thorns_walls_tool:GetWallBlueprint( selectorDB )
 
     local defaultWall = "buildings/defense/wall_small_straight_01"
 
-    local blueprintName = selectorDB:GetStringOrDefault("$thorns_walls_blueprint", defaultWall)
+    local blueprintName = selectorDB:GetStringOrDefault("$selected_wall_small_blueprint", defaultWall)
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return defaultWall
