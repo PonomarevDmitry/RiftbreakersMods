@@ -46,9 +46,9 @@ function wall_perimeter_tool:InitializeValues()
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.wallBlueprint = self:GetWallBlueprint( selectorDB )
+    self.wallBlueprintName = self:GetWallBlueprintName( selectorDB )
 
-    self:SpawnWallTemplates()
+    self:SpawnWallTemplates(self.wallBlueprintName)
 
     -- Marker with number of wall layers
     self.markerLinesConfig = "0"
@@ -64,7 +64,7 @@ function wall_perimeter_tool:InitializeValues()
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
 end
 
-function wall_perimeter_tool:GetWallBlueprint( selectorDB )
+function wall_perimeter_tool:GetWallBlueprintName( selectorDB )
 
     local defaultWall = "buildings/defense/wall_small_straight_01"
 
@@ -96,13 +96,13 @@ function wall_perimeter_tool:GetWallBlueprint( selectorDB )
     return blueprintName
 end
 
-function wall_perimeter_tool:SpawnWallTemplates()
+function wall_perimeter_tool:SpawnWallTemplates(wallBlueprintName)
 
     --local markerDB = EntityService:GetDatabase( self.markerEntity )
     --markerDB:SetString("message_text", "")
     --markerDB:SetInt("message_visible", 0)
 
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.wallBlueprint ) )
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( wallBlueprintName ) )
 
     local transform = EntityService:GetWorldTransform( self.entity )
 
@@ -232,7 +232,7 @@ function wall_perimeter_tool:OnWorkExecute()
         self.linesEntityInfo = newLinesEntityInfo
         self.gridEntities = newGridEntities
         
-        local list = BuildingService:GetBuildCosts( self.wallBlueprint, self.playerId )
+        local list = BuildingService:GetBuildCosts( self.wallBlueprintName, self.playerId )
         for resourceCost in Iter(list) do
 
             if ( self.buildCost[resourceCost.first] == nil ) then
@@ -639,7 +639,7 @@ function wall_perimeter_tool:CheckEntityBuildable( entity, transform, id )
     id = id or 1
     local test = nil
 
-    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.wallBlueprint, id )
+    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.wallBlueprintName, id )
 
     if ( test == nil ) then
         return
