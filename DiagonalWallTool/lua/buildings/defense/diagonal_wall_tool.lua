@@ -57,8 +57,10 @@ function diagonal_wall_tool:InitializeValues()
     self.markerLinesConfig = 0
     self.currentMarkerLines = nil
 
+    self.configNameWallsCount = "$diagonal_wall_lines_count"
+
     -- Wall layers config
-    self.wallLinesCount = selectorDB:GetIntOrDefault("$diagonal_wall_lines_count", 1)
+    self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsCount, 1)
     self.wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
 end
 
@@ -662,9 +664,11 @@ end
 
 function diagonal_wall_tool:CheckConfigExists( wallLinesCount )
 
+    wallLinesCount = wallLinesCount or 1
+
     local scaleWallLines = self:GetWallConfigArray()
     
-    local index = IndexOf(scaleWallLines, wallLinesCount )
+    local index = IndexOf( scaleWallLines, wallLinesCount )
     
     if ( index == nil ) then 
     
@@ -807,8 +811,7 @@ function diagonal_wall_tool:OnRotateSelectorRequest(evt)
 
     local scaleWallLines = self:GetWallConfigArray()
 
-    local currentLinesConfig = self.wallLinesCount
-    currentLinesConfig = self:CheckConfigExists(currentLinesConfig)
+    local currentLinesConfig = self:CheckConfigExists(self.wallLinesCount)
     
     local change = 1
     if ( degree > 0 ) then
@@ -835,7 +838,7 @@ function diagonal_wall_tool:OnRotateSelectorRequest(evt)
 
     -- Wall layers config
     local selectorDB = EntityService:GetDatabase( self.selector )
-    selectorDB:SetInt("$diagonal_wall_lines_count", newValue)
+    selectorDB:SetInt(self.configNameWallsCount, newValue)
 
     self:OnWorkExecute()
 end
