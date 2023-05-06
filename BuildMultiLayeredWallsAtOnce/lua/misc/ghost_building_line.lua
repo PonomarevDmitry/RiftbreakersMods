@@ -79,7 +79,7 @@ function ghost_building_line:OnUpdate()
         
         local currentTransform = EntityService:GetWorldTransform( self.entity )
 
-        local newPositions = self:FindPositionsToBuildLine(currentTransform, wallLinesConfig )
+        local newPositions = self:FindPositionsToBuildLine( currentTransform, wallLinesConfig )
 
         if ( #self.linesEntities > #newPositions ) then
         
@@ -142,6 +142,8 @@ function ghost_building_line:OnUpdate()
 end
 
 function ghost_building_line:CheckConfigExists( wallLinesConfig )
+
+    wallLinesConfig = wallLinesConfig or "1"
 
     local scaleWallLines = {
         -- 1
@@ -314,11 +316,12 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
             if (cornerType == 2) then
             
                 for zStep=1,wallLinesConfigLen do
+
+                    local subStrZ = string.sub(wallLinesConfig, zStep, zStep)
                     
                     for xStep=1,wallLinesConfigLen do
                     
                         local subStrX = string.sub(wallLinesConfig, xStep, xStep)
-                        local subStrZ = string.sub(wallLinesConfig, zStep, zStep)
                     
                         if ( (subStrZ == "1" and xStep <= zStep) or (subStrX == "1" and zStep <= xStep) ) then
                             
