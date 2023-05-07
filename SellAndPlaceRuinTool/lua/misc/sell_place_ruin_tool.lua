@@ -121,7 +121,7 @@ function sell_place_ruin_tool:OnActivateEntity( entity )
     LogService:Log("blueprintName " .. blueprintName .. " SelectableComponent " .. tostring(reflection_helper( EntityService:GetComponent( entity, "SelectableComponent") )) )
 
     LogService:Log("blueprintName " .. blueprintName .. " MeshComponent " .. tostring(reflection_helper( EntityService:GetComponent( entity, "MeshComponent") )) )
-    
+
 
     local team = EntityService:GetTeam( entity )
 
