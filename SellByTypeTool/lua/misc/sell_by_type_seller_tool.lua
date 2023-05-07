@@ -14,6 +14,8 @@ function sell_by_type_seller_tool:OnInit()
     self:InitLowUpgradeList()
 
     self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
+
+    self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
 end
 
 function sell_by_type_seller_tool:GetScaleFromDatabase()
@@ -118,7 +120,28 @@ end
 
 function sell_by_type_seller_tool:OnActivateEntity( entity )
 
+    local team = EntityService:GetTeam( entity )
+
+    local transform = EntityService:GetWorldTransform( entity )
+
+    local position = transform.position
+    local orientation = transform.orientation
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
     QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
+
+    if ( self.placeRuins ) then
+
+        local ruinsBlueprint = blueprintName .. "_ruins"
+
+        if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
+
+            local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, position, team )
+
+            EntityService:SetOrientation( newRuinsEntity, orientation )
+        end
+    end
 end
 
 return sell_by_type_seller_tool
