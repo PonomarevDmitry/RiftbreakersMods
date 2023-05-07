@@ -53,6 +53,8 @@ EntityBlueprint
 	}
 }
 
+
+
 EntityBlueprint
 {
 	name					"buildings/tools/sell_by_type_seller"
@@ -99,6 +101,67 @@ EntityBlueprint
 		{
 			action			string:"sell_by_type_seller_tool"
 			template_name	string:"$sell_by_type_picker_tool.selectedbuilding"
+			is_group		int:"0"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material	"selector/hologram_active"
+		flags		"2"
+	}
+}
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/sell_by_type_seller_group"
+
+	BuildingDesc
+	{
+		name				"sell_by_type_seller_group"
+		bp					"buildings/tools/sell_by_type_seller_group"
+		ghost_bp			"buildings/tools/sell_by_type_seller_group_ghost"
+		category			"tools"
+		localization_id		"gui/hud/building_name/sell_by_type_seller_group_tool"
+		description			"gui/hud/building_description/sell_by_type_seller_group_tool"
+		menu_icon			"gui/hud/tools_icons/sell_by_type_seller_group_tool"
+		order				"50"
+		type				"sell_by_type_seller_group"
+		building_group		"sell_by_type_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material	"buildings/metal_plate_1x1"
+		flags		"2"
+	}
+}
+
+EntityBlueprint
+{
+	name			"buildings/tools/sell_by_type_seller_group_ghost"
+
+	BuildingDesc
+	{
+		name		"sell_by_type_seller_group_ghost"
+		buildable	"0"
+		type		"sell_by_type_seller_group"
+		category	"tools"
+	}
+
+	LuaDesc
+	{
+		script		"lua/misc/sell_by_type_seller_tool.lua"
+		database
+		{
+			action			string:"sell_by_type_seller_group_tool"
+			template_name	string:"$sell_by_type_picker_tool.selectedbuilding"
+			is_group		int:"1"
 		}
 	}
 

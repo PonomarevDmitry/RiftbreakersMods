@@ -12,6 +12,8 @@ function sell_by_type_seller_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_by_type_seller_tool", self.entity)
 
     self:InitLowUpgradeList()
+
+    self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
 end
 
 function sell_by_type_seller_tool:GetScaleFromDatabase()
@@ -61,8 +63,16 @@ function sell_by_type_seller_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        if ( not self:IsBlueprintInList(blueprintName) ) then
-            goto continue
+        if ( self.isGroup ) then
+
+            if ( not self:IsBlueprintInLowNameList(blueprintName) ) then
+                goto continue
+            end
+        else
+
+            if ( not self:IsBlueprintInList(blueprintName) ) then
+                goto continue
+            end
         end
 
 

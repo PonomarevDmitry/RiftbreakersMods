@@ -16,15 +16,17 @@ function sell_by_type_base:InitLowUpgradeList()
 
     local selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
-    self.cacheBlueprints = {}
-
     self.selectedBlueprints = {}
+
+    self.selectedLowUpgrade = {}
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     if ( selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", selectedBuildingBlueprint ) ) then
 
         self:FillSelectedBlueprintsList(self.selectedBlueprints, selectedBuildingBlueprint)
+
+        self:FillLowUpgradeList(self.selectedLowUpgrade, selectedBuildingBlueprint)
 
         self:FillCache()
 
@@ -45,10 +47,88 @@ end
 
 function sell_by_type_base:FillCache()
 
+    self.cacheBlueprintsLowNames = {}
+
+    self.cacheBlueprints = {}
+
     for blueprintName in Iter( self.selectedBlueprints ) do
 
         self.cacheBlueprints[blueprintName] = true
     end
+end
+
+function sell_by_type_base:FillLowUpgradeList( list, blueprintName, seenBlueprintList )
+
+    seenBlueprintList = seenBlueprintList or {}
+
+    if ( seenBlueprintList[blueprintName] == true ) then
+        return
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc ~= nil ) then
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+
+        self:AddToLowUpgradeList( list, buildingDescRef )
+
+        seenBlueprintList[blueprintName] = true
+
+        if ( buildingDescRef.upgrade ~= "" and buildingDescRef.upgrade ~= nil ) then
+
+            self:FillLowUpgradeList( list, buildingDescRef.upgrade, seenBlueprintList )
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+
+        for i=1,buildingDescRef.connect.count do
+
+            local connectRecord = buildingDescRef.connect[i]
+
+            for j=1,connectRecord.value.count do
+
+                local connectBlueprintName = connectRecord.value[j]
+
+                self:FillLowUpgradeList( list, connectBlueprintName, seenBlueprintList )
+            end
+        end
+    end
+
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if (baseBuildingDesc ~= nil ) then
+
+        local baseBuildingDescRef = reflection_helper(baseBuildingDesc)
+
+        if ( baseBuildingDescRef.bp ~= blueprintName ) then
+
+            self:FillLowUpgradeList( list, baseBuildingDescRef.bp, seenBlueprintList )
+        end
+    end
+end
+
+function sell_by_type_base:AddToLowUpgradeList( list, buildingDescRef )
+
+    local lowName = BuildingService:FindLowUpgrade( buildingDescRef.bp )
+
+    if ( IndexOf( list, lowName ) == nil ) then
+        Insert( list, lowName )
+    end
+
+    for i=1,buildingDescRef.connect.count do
+
+        local connectRecord = buildingDescRef.connect[i]
+
+        for j=1,connectRecord.value.count do
+
+            local connectBlueprintName = connectRecord.value[j]
+
+            lowName = BuildingService:FindLowUpgrade( connectBlueprintName )
+
+            if ( IndexOf( list, lowName ) == nil ) then
+                Insert( list, lowName )
+            end
+        end
+    end    
 end
 
 function sell_by_type_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )
@@ -157,6 +237,44 @@ function sell_by_type_base:CalcIsBlueprintInList( blueprintName )
     for itemBlueprintName in Iter( list ) do
 
         if ( IndexOf( self.selectedBlueprints, itemBlueprintName ) ~= nil ) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function sell_by_type_base:IsBlueprintInLowNameList( blueprintName )
+
+    if ( #self.selectedLowUpgrade == 0 ) then
+        return false
+    end
+
+    if ( self.cacheBlueprintsLowNames[blueprintName] ~= nil ) then
+
+        return self.cacheBlueprintsLowNames[blueprintName]
+    end
+
+    local result = self:CalcIsBlueprintInLowNameList( blueprintName )
+
+    self.cacheBlueprintsLowNames[blueprintName] = result
+
+    return result
+end
+
+function sell_by_type_base:CalcIsBlueprintInLowNameList( blueprintName )
+
+    if ( #self.selectedLowUpgrade == 0 ) then
+        return false
+    end
+
+    local list = {}
+
+    self:FillLowUpgradeList(list, blueprintName)
+
+    for lowName in Iter( list ) do
+
+        if ( IndexOf( self.selectedLowUpgrade, lowName ) ~= nil ) then
             return true
         end
     end
