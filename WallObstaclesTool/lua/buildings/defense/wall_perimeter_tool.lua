@@ -1,41 +1,16 @@
+local wall_base_tool = require("lua/buildings/defense/wall_base_tool.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'wall_perimeter_tool' ( LuaEntityObject )
+class 'wall_perimeter_tool' ( wall_base_tool )
 
 function wall_perimeter_tool:__init()
-    LuaEntityObject.__init(self,self)
+    wall_base_tool.__init(self,self)
 end
 
-function wall_perimeter_tool:init()
-    
-    self.stateMachine = self:CreateStateMachine()
-    self.stateMachine:AddState( "working", { execute="OnWorkExecute" } )
-    self.stateMachine:ChangeState("working")
-
-    self:InitializeValues()
-end
-
-function wall_perimeter_tool:InitializeValues()
-
-    self.selector = EntityService:GetParent( self.entity )
-
-    self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
-    self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
-    self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
-
-    local playerReferenceComponent = reflection_helper( EntityService:GetComponent( self.selector, "PlayerReferenceComponent" ) )
-    self.playerId = playerReferenceComponent.player_id
-
-    local boundsSize = EntityService:GetBoundsSize( self.selector )
-    self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
-
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
-    EntityService:SetVisible( self.entity , false )
-    
-    self.ghostWall = nil
+function wall_perimeter_tool:OnInit()
 
     self.linesEntities = {}
     self.linesEntityInfo = {}
@@ -44,89 +19,20 @@ function wall_perimeter_tool:InitializeValues()
     self.buildStartPosition = nil
     self.positionPlayer = nil
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
-
-    self.wallBlueprintName = self:GetWallBlueprintName( selectorDB )
-
-    self:SpawnWallTemplates(self.wallBlueprintName)
-
     -- Marker with number of wall layers
     self.markerLinesConfig = "0"
     self.currentMarkerLines = nil
 
     self.configNameWallsConfig = "$wall_perimeter_lines_config"
 
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
     -- Wall layers config
     self.wallLinesConfig = selectorDB:GetStringOrDefault(self.configNameWallsConfig, "1")
     self.wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
-
-    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1)
 end
 
-function wall_perimeter_tool:GetWallBlueprintName( selectorDB )
-
-    local defaultWall = "buildings/defense/wall_small_straight_01"
-
-    local blueprintName = selectorDB:GetStringOrDefault("$selected_wall_small_blueprint", defaultWall)
-
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-        return defaultWall
-    end
-
-    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
-        return defaultWall
-    end
-
-    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( buildingDesc == nil ) then
-        return defaultWall
-    end
-
-    local buildingRef = reflection_helper( buildingDesc )
-    if ( buildingRef == nil ) then
-        return defaultWall
-    end
-
-    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    if ( #list == 0 ) then
-        return defaultWall
-    end
-
-    return blueprintName
-end
-
-function wall_perimeter_tool:SpawnWallTemplates(wallBlueprintName)
-
-    --local markerDB = EntityService:GetDatabase( self.markerEntity )
-    --markerDB:SetString("message_text", "")
-    --markerDB:SetInt("message_visible", 0)
-
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( wallBlueprintName ) )
-
-    local transform = EntityService:GetWorldTransform( self.entity )
-
-    local position = transform.position
-    local orientation = transform.orientation
-
-    local team = EntityService:GetTeam( self.entity )
-
-    local newPosition = EntityService:GetWorldTransform( self.entity ).position
-
-    local buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.ghost_bp, self.selector )
-
-    EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
-    EntityService:SetOrientation( buildingEntity, orientation )
-
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
-
-    self.ghostBlueprint = buildingDesc.ghost_bp
-    
-    self.buildingDesc = buildingDesc
-    self.ghostWall = buildingEntity
-end
-
-function wall_perimeter_tool:OnWorkExecute()
+function wall_perimeter_tool:OnUpdate()
 
     self.buildCost = {}
 
@@ -135,27 +41,29 @@ function wall_perimeter_tool:OnWorkExecute()
 
         -- Correct Marker to show right number of wall layers
     if ( self.markerLinesConfig ~= wallLinesConfig or self.currentMarkerLines == nil) then
-        
+
         -- Destroy old marker
         if (self.currentMarkerLines ~= nil) then
-            
+
             EntityService:RemoveEntity(self.currentMarkerLines)
             self.currentMarkerLines = nil
         end
-            
+
         local markerBlueprint = "misc/marker_selector_wall_lines_" .. wallLinesConfig
-            
+
         -- Create new marker
         self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
-            
+
         -- Save number of wall layers
         self.markerLinesConfig = wallLinesConfig
     end
 
+    self:RemoveMaterialFromOldBuildingsToSell()
+
     if ( self.buildStartPosition ) then
 
         local team = EntityService:GetTeam(self.entity)
-        
+
         local currentTransform = EntityService:GetWorldTransform( self.ghostWall )
 
         local buildEndPosition = currentTransform.position
@@ -170,12 +78,6 @@ function wall_perimeter_tool:OnWorkExecute()
         local newLinesEntityInfo = {}
         local newGridEntities = {}
 
-        --local isLogNeeded = (#oldLinesEntities ~= #newPositionsArray)
-
-        --if ( isLogNeeded ) then
-        --    LogService:Log("OnWorkExecute Start")
-        --end
-
         for i=1,#newPositionsArray do
 
             local newPosition = newPositionsArray[i]
@@ -184,7 +86,7 @@ function wall_perimeter_tool:OnWorkExecute()
 
             if ( lineEnt == nil ) then
 
-                lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
+                lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
 
@@ -224,14 +126,19 @@ function wall_perimeter_tool:OnWorkExecute()
 
             local transform = EntityService:GetWorldTransform( lineEnt )
 
-            self:CheckEntityBuildable( lineEnt, transform, i )
+            local testBuildable = self:CheckEntityBuildable( lineEnt, transform, i )
+
+            if ( testBuildable ~= nil) then
+                self:AddToEntitiesToSellList(testBuildable)
+            end
+
             BuildingService:CheckAndFixBuildingConnection( lineEnt )
         end
 
         self.linesEntities = newLinesEntities
         self.linesEntityInfo = newLinesEntityInfo
         self.gridEntities = newGridEntities
-        
+
         local list = BuildingService:GetBuildCosts( self.wallBlueprintName, self.playerId )
         for resourceCost in Iter(list) do
 
@@ -244,14 +151,15 @@ function wall_perimeter_tool:OnWorkExecute()
     else
         local transform = EntityService:GetWorldTransform( self.ghostWall )
         local testBuildable = self:CheckEntityBuildable( self.ghostWall, transform )
+
+        if ( testBuildable ~= nil) then
+            self:AddToEntitiesToSellList(testBuildable)
+        end
     end
 
 
 
-    if ( self.infoChild == nil ) then
-        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
-    end
+    self:CreateInfoChild()
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
@@ -324,13 +232,13 @@ function wall_perimeter_tool:FindPositionsToBuildLine( buildEndPosition, wallLin
 
     local result = {}
     local hashPositions = {}
-    
+
     local deltaXZ = 2
 
     self:AddCornerPositions(wallLinesConfig, buildStartPositionX, positionY, buildStartPositionZ, -xSign, -zSign, deltaXZ, hashPositions, result)
 
 
-    
+
     self:AddNewPositionsByZArray(wallLinesConfig, buildStartPositionX, positionY, arrayZ, -xSign, deltaXZ, hashPositions, result)
 
     self:AddCornerPositions(wallLinesConfig, buildStartPositionX, positionY, buildEndPositionZ, -xSign, zSign, deltaXZ, hashPositions, result)
@@ -441,7 +349,7 @@ function wall_perimeter_tool:FindGridArrays(buildStartPosition, buildEndPosition
     local gridSize = BuildingService:GetBuildingGridSize(self.ghostWall)
 
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
-    
+
     local deltaX = gridSize.x * 2 * xSign
     local deltaZ = gridSize.z * 2 * zSign
 
@@ -450,35 +358,35 @@ function wall_perimeter_tool:FindGridArrays(buildStartPosition, buildEndPosition
 
     local buildEndPositionX = buildEndPosition.x + smallDeltaX
     local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
-    
+
     local minX = math.min( buildStartPosition.x, buildEndPositionX )
     local maxX = math.max( buildStartPosition.x, buildEndPositionX )
-    
+
     local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
     local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
-    
+
     local arrayX = {}
-    
+
     local positionX = buildStartPosition.x
-    
+
     while (minX <= positionX and positionX <= maxX) do
-    
+
         Insert(arrayX, positionX)
-        
+
         positionX = positionX + deltaX
     end
-    
+
     local arrayZ = {}
-    
+
     local positionZ = buildStartPosition.z
 
     while (minZ <= positionZ and positionZ <= maxZ) do
-    
+
         Insert(arrayZ, positionZ)
-        
+
         positionZ = positionZ + deltaZ
     end
-    
+
     return arrayX, arrayZ
 end
 
@@ -515,22 +423,6 @@ function wall_perimeter_tool:AddToHash(hashPositions, newPositionX, newPositionZ
     hashXPosition[newPositionZ] = true
     
     return true
-end
-
-function wall_perimeter_tool:GetXZSigns(positionStart, positionEnd)
-                
-    local xSign = -1
-    local zSign = -1
-    
-    if( positionEnd.x >= positionStart.x ) then
-        xSign = 1
-    end
-    
-    if( positionEnd.z >= positionStart.z ) then
-        zSign = 1
-    end
-
-    return xSign, zSign
 end
 
 function wall_perimeter_tool:CheckConfigExists( wallLinesConfig )
@@ -635,54 +527,6 @@ function wall_perimeter_tool:GetWallConfigArray()
     return scaleWallLines
 end
 
-function wall_perimeter_tool:CheckEntityBuildable( entity, transform, id )
-    id = id or 1
-    local test = nil
-
-    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.wallBlueprintName, id )
-
-    if ( test == nil ) then
-        return
-    end
-
-    local testBuildable = reflection_helper(test:ToTypeInstance(), test )
-
-    local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
-    local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
-    
-    local skinned = EntityService:IsSkinned(entity)
-
-    if ( testBuildable.flag == CBF_REPAIR ) then
-        if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
-        else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
-        end
-    else
-        if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
-        elseif ( canBuild ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
-        else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
-        end
-    end
-
-    return testBuildable
-end
-
 function wall_perimeter_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
@@ -694,7 +538,7 @@ function wall_perimeter_tool:OnActivateSelectorRequest()
         local player = PlayerService:GetPlayerControlledEnt(0)
         self.positionPlayer = EntityService:GetPosition( player )
 
-        self:OnWorkExecute()
+        self:OnUpdate()
     else
         self:FinishLineBuild()
     end
@@ -783,7 +627,7 @@ function wall_perimeter_tool:OnRotateSelectorRequest(evt)
     local selectorDB = EntityService:GetDatabase( self.selector )
     selectorDB:SetString(self.configNameWallsConfig, newValue)
 
-    self:OnWorkExecute()
+    self:OnUpdate()
 end
 
 function wall_perimeter_tool:OnRelease()
@@ -794,22 +638,16 @@ function wall_perimeter_tool:OnRelease()
     self.linesEntities = {}
     self.linesEntityInfo = {}
     self.gridEntities = {}
-
-    if ( self.infoChild ~= nil) then
-        EntityService:RemoveEntity(self.infoChild)
-        self.infoChild = nil
-    end
-
-    if ( self.ghostWall ~= nil) then
-        EntityService:RemoveEntity(self.ghostWall)
-        self.ghostWall = nil
-    end
     
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
     
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
+    end
+
+    if ( wall_base_tool.OnRelease ) then
+        wall_base_tool.OnRelease(self)
     end
 end
 
