@@ -49,8 +49,10 @@ function wall_obstacles_tool:InitializeValues()
     self.markerLinesConfig = 0
     self.currentMarkerLines = nil
 
+    self.configNameWallsConfig = "$wall_obstacles_lines_count"
+
     -- Wall layers config
-    self.wallLinesCount = selectorDB:GetIntOrDefault("$wall_obstacles_lines_count", 1)
+    self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsConfig, 1)
     self.wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
@@ -646,7 +648,7 @@ function wall_obstacles_tool:OnRotateSelectorRequest(evt)
 
     -- Wall layers config
     local selectorDB = EntityService:GetDatabase( self.selector )
-    selectorDB:SetInt("$wall_obstacles_lines_count", newValue)
+    selectorDB:SetInt(self.configNameWallsConfig, newValue)
 
     self:OnWorkExecute()
 end
