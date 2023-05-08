@@ -629,10 +629,7 @@ end
 
 function wall_thorns_tool:FinishLineBuild()
 
-    for floorGhost in Iter(self.floorEntities) do
-        EntityService:RemoveEntity(floorGhost)
-    end
-    self.floorEntities = {}
+    self:ClearFloorEntities()
 
     local count = #self.linesEntities
     local step = count
@@ -672,6 +669,14 @@ function wall_thorns_tool:FinishLineBuild()
     self.linesEntities = {}
     self.buildStartPosition = nil
     self.positionPlayer = nil
+end
+
+function wall_thorns_tool:ClearFloorEntities()
+
+    for floorGhost in Iter(self.floorEntities) do
+        EntityService:RemoveEntity(floorGhost)
+    end
+    self.floorEntities = {}
 end
 
 function wall_thorns_tool:OnRotateSelectorRequest(evt)
@@ -719,10 +724,7 @@ function wall_thorns_tool:OnRelease()
     end
     self.linesEntities = {}
 
-    for floorGhost in Iter(self.floorEntities) do
-        EntityService:RemoveEntity(floorGhost)
-    end
-    self.floorEntities = {}
+    self:ClearFloorEntities()
 
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
