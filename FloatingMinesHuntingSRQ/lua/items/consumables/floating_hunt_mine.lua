@@ -11,8 +11,8 @@ end
 function floating_hunt_mine:init()
 
     self:RegisterHandler( self.entity, "DestroyRequest", "OnDestroyRequest" )
-    self:RegisterHandler( self.entity, "EnteredTriggerEvent", 	 "OnEnteredTriggerEvent" )
-    self:RegisterHandler( self.entity, "LeftTriggerEvent", 	 "OnLeftTriggerEvent" )
+    self:RegisterHandler( self.entity, "EnteredTriggerEvent", "OnEnteredTriggerEvent" )
+    self:RegisterHandler( self.entity, "LeftTriggerEvent", "OnLeftTriggerEvent" )
     self.bp = self.data:GetString( "bp" )
     self.item_blueprint = self.data:GetStringOrDefault( "item_blueprint", "" )
     self.delay = self.data:GetFloatOrDefault( "delay", 0 )
