@@ -82,13 +82,6 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
         return sorter(possibleSelectedEnts, a, b) 
     end)
 
-    local selectedEntities = {}
-
-    for entity in Iter( possibleSelectedEnts ) do
-
-        Insert( selectedEntities, entity )
-    end
-
     return possibleSelectedEnts
 end
 
