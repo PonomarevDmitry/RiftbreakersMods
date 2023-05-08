@@ -143,7 +143,7 @@ function wall_diagonal_tool:OnUpdate()
         for resourceCost in Iter(list) do
 
             if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0 
+               self.buildCost[resourceCost.first] = 0
             end
 
             self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #newPositionsArray )
@@ -173,14 +173,14 @@ end
 function wall_diagonal_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
-    
+
         return nil
     end
-    
+
     local arrayXPosition = gridEntities[newPositionX]
-    
+
     if ( arrayXPosition[newPositionZ] == nil ) then
-        
+
         return nil
     end
 
@@ -190,47 +190,47 @@ end
 function wall_diagonal_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
-    
+
         gridEntities[newPositionX] = {}
     end
-    
+
     local arrayXPosition = gridEntities[newPositionX]
-    
+
     arrayXPosition[newPositionZ] = lineEnt
 end
 
 function wall_diagonal_tool:HashContains( hashPositions, newPositionX, newPositionZ )
 
     if ( hashPositions[newPositionX] == nil) then
-    
+
         return false
     end
-    
+
     local hashXPosition = hashPositions[newPositionX]
-    
+
     if ( hashXPosition[newPositionZ] == nil ) then
-        
+
         return false
     end
-    
+
     return true
 end
 
 function wall_diagonal_tool:FindPositionsToBuildLine( buildEndPosition, wallLinesCount )
-    
+
     local positionPlayer = self.positionPlayer
     if (positionPlayer == nil) then
         local player = PlayerService:GetPlayerControlledEnt(0)
-        positionPlayer = EntityService:GetPosition( player )    
+        positionPlayer = EntityService:GetPosition( player )
     end
-    
+
     local hashPositions = {}
 
     local pathFromStartPositionToEndPosition = self:FindSingleDiagonalLine( self.buildStartPosition.position, buildEndPosition, positionPlayer )
     if ( wallLinesCount == 1 ) then
 
         for i=1,#pathFromStartPositionToEndPosition do
-    
+
             local position = pathFromStartPositionToEndPosition[i]
 
             self:AddToHash( hashPositions, position.x, position.z )
@@ -255,7 +255,7 @@ function wall_diagonal_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
     local newPositionZ = z0 + self.coefZ * 3
 
     local secondValue = self:CalcFunction( newPositionX, newPositionZ )
-    
+
     if ( secondValue * playerValue > 0 ) then
 
         newPositionX = x0 - self.coefX * 3
@@ -278,12 +278,12 @@ function wall_diagonal_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
     local result = {}
 
     for i=1,#pathFromStartPositionToEndPosition do
-    
+
         local position = pathFromStartPositionToEndPosition[i]
-        
+
         -- Add if position has not been added yet
         if ( self:AddToHash( hashPositions, position.x, position.z ) ) then
-        
+
             table.insert(result, position)
         end
 
@@ -320,7 +320,7 @@ function wall_diagonal_tool:GetPathWithNumberChanges( pathMulti, changesCount )
     local countCalcs = 0
 
     while ( true ) do
-       
+
         local position = pathMulti[index]
 
         local newPositionX = x0 + position.x
@@ -333,11 +333,11 @@ function wall_diagonal_tool:GetPathWithNumberChanges( pathMulti, changesCount )
         Insert( result, vector )
 
         if (previousPosition ~= nil) then
-            
+
             if ( previousPosition.x ~= newPositionX ) then
                 changesX = changesX + 1
             end
-            
+
             if ( previousPosition.z ~= newPositionZ ) then
                 changesZ = changesZ + 1
             end
@@ -381,7 +381,7 @@ function wall_diagonal_tool:MakeRelativePath( pathMulti, x0, z0 )
 end
 
 function wall_diagonal_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
-    
+
     -- Add if position has not been added yet
     if ( not self:AddToHash(hashPositions, newPositionX, newPositionZ ) ) then
         return
@@ -399,19 +399,19 @@ end
 function wall_diagonal_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
 
     if ( hashPositions[newPositionX] == nil) then
-    
+
         hashPositions[newPositionX] = {}
     end
-    
+
     local hashXPosition = hashPositions[newPositionX]
-    
+
     if ( hashXPosition[newPositionZ] ~= nil ) then
-        
+
         return false
     end
-    
+
     hashXPosition[newPositionZ] = true
-    
+
     return true
 end
 
@@ -542,7 +542,7 @@ function wall_diagonal_tool:CheckConfigExists( wallLinesCount )
 
     local index = IndexOf( scaleWallLines, wallLinesCount )
 
-    if ( index == nil ) then 
+    if ( index == nil ) then
 
         return scaleWallLines[1]
     end
@@ -586,6 +586,8 @@ end
 
 function wall_diagonal_tool:OnDeactivateSelectorRequest()
     self:FinishLineBuild()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
 end
 
 function wall_diagonal_tool:FinishLineBuild()
@@ -596,8 +598,8 @@ function wall_diagonal_tool:FinishLineBuild()
     local step = count
 
     if ( count > 5 ) then
-        local additionalCubesCount = math.ceil( count / 5 ) 
-        step = math.ceil( count / additionalCubesCount) 
+        local additionalCubesCount = math.ceil( count / 5 )
+        step = math.ceil( count / additionalCubesCount)
     end
 
     for i=1,count do
@@ -646,8 +648,8 @@ function wall_diagonal_tool:OnRotateSelectorRequest(evt)
     local scaleWallLines = self:GetWallConfigArray()
 
     local index = IndexOf( scaleWallLines, currentLinesConfig )
-    if ( index == nil ) then 
-        index = 1 
+    if ( index == nil ) then
+        index = 1
     end
 
     local maxIndex = #scaleWallLines
@@ -678,10 +680,10 @@ function wall_diagonal_tool:OnRelease()
     self.linesEntities = {}
     self.linesEntityInfo = {}
     self.gridEntities = {}
-    
+
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
-    
+
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
     end
