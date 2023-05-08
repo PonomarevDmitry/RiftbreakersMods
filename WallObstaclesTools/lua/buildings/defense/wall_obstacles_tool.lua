@@ -324,16 +324,19 @@ end
 
 function wall_obstacles_tool:GetWallConfigArray()
 
-    local scaleWallLines = {
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-    }
+    if ( self.scaleWallLines == nil ) then
 
-    return scaleWallLines
+        self.scaleWallLines = {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+        }
+    end
+
+    return self.scaleWallLines
 end
 
 function wall_obstacles_tool:OnActivateSelectorRequest()

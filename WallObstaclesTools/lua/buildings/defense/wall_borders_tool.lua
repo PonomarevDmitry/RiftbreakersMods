@@ -429,55 +429,13 @@ function wall_borders_tool:CheckConfigExists( wallLinesConfig )
 
     wallLinesConfig = wallLinesConfig or "1"
 
-    local scaleWallLines = {
-        -- 1
-        "1",
-
-        -- 2
-        "11",
-
-        -- 3
-        "101",
-        "111",
-
-        -- 4
-        "1011",
-        "1111",
-
-        -- 5
-        "10101",
-        "11111",
-
-        -- 6
-        "101011",
-        "111111",
-
-        -- 7
-        "1010101",
-        "1111111",
-
-        -- 8
-        "10101011",
-        "11111111",
-
-        -- 9
-        "101010101",
-        "111111111",
-
-        -- 10
-        "1010101011",
-        "1111111111",
-
-        -- 11
-        "10101010101",
-        "11111111111",
-    }
+    local scaleWallLines = self:GetWallConfigArray()
 
     local index = IndexOf(scaleWallLines, wallLinesConfig )
 
     if ( index == nil ) then 
 
-        return "1"
+        return scaleWallLines[1]
     end
 
     return wallLinesConfig
@@ -485,46 +443,49 @@ end
 
 function wall_borders_tool:GetWallConfigArray()
 
-    local scaleWallLines = {
-        -- 1
-        "1",
+    if ( self.scaleWallLines == nil ) then
 
-        -- 2
-        "11",
+        self.scaleWallLines = {
+            -- 1
+            "1",
 
-        -- 3
-        "101",
-        "111",
+            -- 2
+            "11",
 
-        -- 4
-        "1011",
-        "1111",
+            -- 3
+            "101",
+            "111",
 
-        -- 5
-        "10101",
-        "11111",
+            -- 4
+            "1011",
+            "1111",
 
-        -- 6
-        "101011",
-        "111111",
+            -- 5
+            "10101",
+            "11111",
 
-        -- 7
-        "1010101",
+            -- 6
+            "101011",
+            "111111",
 
-        -- 8
-        "10101011",
+            -- 7
+            "1010101",
 
-        -- 9
-        "101010101",
+            -- 8
+            "10101011",
 
-        -- 10
-        "1010101011",
+            -- 9
+            "101010101",
 
-        -- 11
-        "10101010101"
-    }
+            -- 10
+            "1010101011",
 
-    return scaleWallLines
+            -- 11
+            "10101010101"
+        }
+    end
+
+    return self.scaleWallLines
 end
 
 function wall_borders_tool:OnActivateSelectorRequest()
@@ -601,9 +562,9 @@ function wall_borders_tool:OnRotateSelectorRequest(evt)
         change = -1
     end
 
-    local scaleWallLines = self:GetWallConfigArray()
-
     local currentLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
+
+    local scaleWallLines = self:GetWallConfigArray()
     
     local index = IndexOf( scaleWallLines, currentLinesConfig )
     if ( index == nil ) then 
