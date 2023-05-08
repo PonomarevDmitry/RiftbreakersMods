@@ -41,7 +41,7 @@ function wall_area_tool:OnUpdate()
         local positionX, positionZ
 
         if ( #self.gridEntities > #arrayX ) then
-        
+
             for xIndex=#self.gridEntities,#arrayX + 1,-1 do
 
                 local gridEntitiesZ = self.gridEntities[xIndex]
@@ -91,7 +91,7 @@ function wall_area_tool:OnUpdate()
 
             if ( #gridEntitiesZ > #arrayZ ) then
 
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do 
+                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
                     EntityService:RemoveEntity(gridEntitiesZ[zIndex])
                     gridEntitiesZ[zIndex] = nil
                 end
@@ -144,7 +144,7 @@ function wall_area_tool:OnUpdate()
 
                 local testBuildable = self:CheckEntityBuildable( lineEnt, transform, id )
 
-                if ( testBuildable ~= nil) then    
+                if ( testBuildable ~= nil) then
                     self:AddToEntitiesToSellList(testBuildable)
                 end
 

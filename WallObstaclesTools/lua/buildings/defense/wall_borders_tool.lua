@@ -143,7 +143,7 @@ function wall_borders_tool:OnUpdate()
         for resourceCost in Iter(list) do
 
             if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0 
+               self.buildCost[resourceCost.first] = 0
             end
 
             self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #newPositionsArray )
@@ -173,14 +173,14 @@ end
 function wall_borders_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
-    
+
         return nil
     end
-    
+
     local arrayXPosition = gridEntities[newPositionX]
-    
+
     if ( arrayXPosition[newPositionZ] == nil ) then
-        
+
         return nil
     end
 
@@ -190,29 +190,29 @@ end
 function wall_borders_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
-    
+
         gridEntities[newPositionX] = {}
     end
-    
+
     local arrayXPosition = gridEntities[newPositionX]
-    
+
     arrayXPosition[newPositionZ] = lineEnt
 end
 
 function wall_borders_tool:HashContains( hashPositions, newPositionX, newPositionZ )
 
     if ( hashPositions[newPositionX] == nil) then
-    
+
         return false
     end
-    
+
     local hashXPosition = hashPositions[newPositionX]
-    
+
     if ( hashXPosition[newPositionZ] == nil ) then
-        
+
         return false
     end
-    
+
     return true
 end
 
@@ -266,16 +266,16 @@ function wall_borders_tool:AddCornerPositions(wallLinesConfig, positionX, positi
     for zStep=1,#wallLinesConfig do
 
         local subStrZ = string.sub(wallLinesConfig, zStep, zStep)
-                    
+
         for xStep=1,#wallLinesConfig do
-                    
+
             local subStrX = string.sub(wallLinesConfig, xStep, xStep)
-                    
+
             if ( (subStrZ == "1" and xStep <= zStep) or (subStrX == "1" and zStep <= xStep) ) then
-                            
+
                 local newPositionX = positionX + xSign * (xStep - 1) * deltaXZ
                 local newPositionZ = positionZ + zSign * (zStep - 1) * deltaXZ
-                            
+
                 self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, positionY)
             end
         end
@@ -285,11 +285,11 @@ end
 function wall_borders_tool:AddNewPositionsByXArray(wallLinesConfig, arrayX, positionY, positionZ, zSign, deltaXZ, hashPositions, result)
 
     for xIndex=1,#arrayX do
-                
+
         local positionX = arrayX[xIndex]
-        
+
         local position = {}
-                
+
         position.x = positionX
         position.y = positionY
         position.z = positionZ
@@ -301,11 +301,11 @@ end
 function wall_borders_tool:AddNewPositionsByZArray(wallLinesConfig, positionX, positionY, arrayZ, xSign, deltaXZ, hashPositions, result)
 
     for zIndex=1,#arrayZ do
-                
+
         local positionZ = arrayZ[zIndex]
-        
+
         local position = {}
-                
+
         position.x = positionX
         position.y = positionY
         position.z = positionZ
@@ -319,24 +319,24 @@ function wall_borders_tool:AddNewPositionsByConfigByX(position, wallLinesConfig,
     for step=1,#wallLinesConfig do
 
         local subStr = string.sub(wallLinesConfig, step, step)
-    
+
         if ( subStr == "1" ) then
 
             local newPositionX = position.x + xSign * (step - 1) * deltaXZ
-            
+
             self:AddNewPositionToResult(hashPositions, result, newPositionX, position.z, position.y)
         end
-    end  
+    end
 end
 
 function wall_borders_tool:AddNewPositionsByConfigByZ(position, wallLinesConfig, zSign, deltaXZ, hashPositions, result)
 
     for step=1,#wallLinesConfig do
-    
+
         local subStr = string.sub(wallLinesConfig, step, step)
-    
+
         if ( subStr == "1" ) then
-        
+
             local newPositionZ = position.z + zSign * (step - 1) * deltaXZ
 
             self:AddNewPositionToResult(hashPositions, result, position.x, newPositionZ, position.y)
@@ -391,7 +391,7 @@ function wall_borders_tool:FindGridArrays(buildStartPosition, buildEndPosition)
 end
 
 function wall_borders_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
-    
+
     -- Add if position has not been added yet
     if ( not self:AddToHash( hashPositions, newPositionX, newPositionZ ) ) then
         return
@@ -409,19 +409,19 @@ end
 function wall_borders_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
 
     if ( hashPositions[newPositionX] == nil) then
-    
+
         hashPositions[newPositionX] = {}
     end
-    
+
     local hashXPosition = hashPositions[newPositionX]
-    
+
     if ( hashXPosition[newPositionZ] ~= nil ) then
-        
+
         return false
     end
-    
+
     hashXPosition[newPositionZ] = true
-    
+
     return true
 end
 
@@ -433,7 +433,7 @@ function wall_borders_tool:CheckConfigExists( wallLinesConfig )
 
     local index = IndexOf(scaleWallLines, wallLinesConfig )
 
-    if ( index == nil ) then 
+    if ( index == nil ) then
 
         return scaleWallLines[1]
     end
@@ -495,7 +495,7 @@ function wall_borders_tool:OnActivateSelectorRequest()
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
         EntityService:SetVisible( self.ghostWall , false )
-        
+
         local player = PlayerService:GetPlayerControlledEnt(0)
         self.positionPlayer = EntityService:GetPosition( player )
 
@@ -507,6 +507,8 @@ end
 
 function wall_borders_tool:OnDeactivateSelectorRequest()
     self:FinishLineBuild()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
 end
 
 function wall_borders_tool:FinishLineBuild()
@@ -517,8 +519,8 @@ function wall_borders_tool:FinishLineBuild()
     local step = count
 
     if ( count > 5 ) then
-        local additionalCubesCount = math.ceil( count / 5 ) 
-        step = math.ceil( count / additionalCubesCount) 
+        local additionalCubesCount = math.ceil( count / 5 )
+        step = math.ceil( count / additionalCubesCount)
     end
 
     for i=1,count do
@@ -528,7 +530,7 @@ function wall_borders_tool:FinishLineBuild()
 
         local transform = EntityService:GetWorldTransform( ghost )
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
-       
+
         local testBuildable = self:CheckEntityBuildable( ghost, transform, i )
 
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
@@ -538,7 +540,7 @@ function wall_borders_tool:FinishLineBuild()
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
             end
             QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
-            
+
         elseif( testBuildable.flag == CBF_REPAIR ) then
             QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
         end
@@ -556,7 +558,7 @@ end
 function wall_borders_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
-    
+
     local change = 1
     if ( degree > 0 ) then
         change = -1
@@ -565,12 +567,12 @@ function wall_borders_tool:OnRotateSelectorRequest(evt)
     local currentLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
 
     local scaleWallLines = self:GetWallConfigArray()
-    
+
     local index = IndexOf( scaleWallLines, currentLinesConfig )
-    if ( index == nil ) then 
-        index = 1 
+    if ( index == nil ) then
+        index = 1
     end
-    
+
     local maxIndex = #scaleWallLines
 
     local newIndex = index + change
@@ -579,7 +581,7 @@ function wall_borders_tool:OnRotateSelectorRequest(evt)
     elseif( newIndex == 0 ) then
         newIndex = maxIndex
     end
-    
+
     local newValue = scaleWallLines[newIndex]
 
     self.wallLinesConfig = newValue
@@ -599,10 +601,10 @@ function wall_borders_tool:OnRelease()
     self.linesEntities = {}
     self.linesEntityInfo = {}
     self.gridEntities = {}
-    
+
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
-    
+
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
     end
