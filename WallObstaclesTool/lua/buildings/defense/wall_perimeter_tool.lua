@@ -4,13 +4,13 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'wall_perimeter_tool' ( wall_base_tool )
+class 'wall_borders_tool' ( wall_base_tool )
 
-function wall_perimeter_tool:__init()
+function wall_borders_tool:__init()
     wall_base_tool.__init(self,self)
 end
 
-function wall_perimeter_tool:OnInit()
+function wall_borders_tool:OnInit()
 
     self.linesEntities = {}
     self.linesEntityInfo = {}
@@ -23,7 +23,7 @@ function wall_perimeter_tool:OnInit()
     self.markerLinesConfig = "0"
     self.currentMarkerLines = nil
 
-    self.configNameWallsConfig = "$wall_perimeter_lines_config"
+    self.configNameWallsConfig = "$wall_borders_lines_config"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -32,7 +32,7 @@ function wall_perimeter_tool:OnInit()
     self.wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
 end
 
-function wall_perimeter_tool:OnUpdate()
+function wall_borders_tool:OnUpdate()
 
     self.buildCost = {}
 
@@ -170,7 +170,7 @@ function wall_perimeter_tool:OnUpdate()
     end
 end
 
-function wall_perimeter_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
+function wall_borders_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
     
@@ -187,7 +187,7 @@ function wall_perimeter_tool:GetEntityFromGrid( gridEntities, newPositionX, newP
     return arrayXPosition[newPositionZ]
 end
 
-function wall_perimeter_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
+function wall_borders_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
     
@@ -199,7 +199,7 @@ function wall_perimeter_tool:InsertEntityToGrid( gridEntities, lineEnt, newPosit
     arrayXPosition[newPositionZ] = lineEnt
 end
 
-function wall_perimeter_tool:HashContains( hashPositions, newPositionX, newPositionZ )
+function wall_borders_tool:HashContains( hashPositions, newPositionX, newPositionZ )
 
     if ( hashPositions[newPositionX] == nil) then
     
@@ -216,7 +216,7 @@ function wall_perimeter_tool:HashContains( hashPositions, newPositionX, newPosit
     return true
 end
 
-function wall_perimeter_tool:FindPositionsToBuildLine( buildEndPosition, wallLinesConfig )
+function wall_borders_tool:FindPositionsToBuildLine( buildEndPosition, wallLinesConfig )
 
     local xSign, zSign = self:GetXZSigns( self.buildStartPosition.position, buildEndPosition)
 
@@ -261,7 +261,7 @@ function wall_perimeter_tool:FindPositionsToBuildLine( buildEndPosition, wallLin
     return result, hashPositions
 end
 
-function wall_perimeter_tool:AddCornerPositions(wallLinesConfig, positionX, positionY, positionZ, xSign, zSign, deltaXZ, hashPositions, result)
+function wall_borders_tool:AddCornerPositions(wallLinesConfig, positionX, positionY, positionZ, xSign, zSign, deltaXZ, hashPositions, result)
 
     for zStep=1,#wallLinesConfig do
 
@@ -282,7 +282,7 @@ function wall_perimeter_tool:AddCornerPositions(wallLinesConfig, positionX, posi
     end
 end
 
-function wall_perimeter_tool:AddNewPositionsByXArray(wallLinesConfig, arrayX, positionY, positionZ, zSign, deltaXZ, hashPositions, result)
+function wall_borders_tool:AddNewPositionsByXArray(wallLinesConfig, arrayX, positionY, positionZ, zSign, deltaXZ, hashPositions, result)
 
     for xIndex=1,#arrayX do
                 
@@ -298,7 +298,7 @@ function wall_perimeter_tool:AddNewPositionsByXArray(wallLinesConfig, arrayX, po
     end
 end
 
-function wall_perimeter_tool:AddNewPositionsByZArray(wallLinesConfig, positionX, positionY, arrayZ, xSign, deltaXZ, hashPositions, result)
+function wall_borders_tool:AddNewPositionsByZArray(wallLinesConfig, positionX, positionY, arrayZ, xSign, deltaXZ, hashPositions, result)
 
     for zIndex=1,#arrayZ do
                 
@@ -314,7 +314,7 @@ function wall_perimeter_tool:AddNewPositionsByZArray(wallLinesConfig, positionX,
     end
 end
 
-function wall_perimeter_tool:AddNewPositionsByConfigByX(position, wallLinesConfig, xSign, deltaXZ, hashPositions, result)
+function wall_borders_tool:AddNewPositionsByConfigByX(position, wallLinesConfig, xSign, deltaXZ, hashPositions, result)
 
     for step=1,#wallLinesConfig do
 
@@ -329,7 +329,7 @@ function wall_perimeter_tool:AddNewPositionsByConfigByX(position, wallLinesConfi
     end  
 end
 
-function wall_perimeter_tool:AddNewPositionsByConfigByZ(position, wallLinesConfig, zSign, deltaXZ, hashPositions, result)
+function wall_borders_tool:AddNewPositionsByConfigByZ(position, wallLinesConfig, zSign, deltaXZ, hashPositions, result)
 
     for step=1,#wallLinesConfig do
     
@@ -344,7 +344,7 @@ function wall_perimeter_tool:AddNewPositionsByConfigByZ(position, wallLinesConfi
     end
 end
 
-function wall_perimeter_tool:FindGridArrays(buildStartPosition, buildEndPosition)
+function wall_borders_tool:FindGridArrays(buildStartPosition, buildEndPosition)
 
     local gridSize = BuildingService:GetBuildingGridSize(self.ghostWall)
 
@@ -390,7 +390,7 @@ function wall_perimeter_tool:FindGridArrays(buildStartPosition, buildEndPosition
     return arrayX, arrayZ
 end
 
-function wall_perimeter_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
+function wall_borders_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
     
     -- Add if position has not been added yet
     if ( not self:AddToHash( hashPositions, newPositionX, newPositionZ ) ) then
@@ -406,7 +406,7 @@ function wall_perimeter_tool:AddNewPositionToResult(hashPositions, result, newPo
 end
 
 -- Check position has not already been added to hashPositions
-function wall_perimeter_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
+function wall_borders_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
 
     if ( hashPositions[newPositionX] == nil) then
     
@@ -425,7 +425,7 @@ function wall_perimeter_tool:AddToHash(hashPositions, newPositionX, newPositionZ
     return true
 end
 
-function wall_perimeter_tool:CheckConfigExists( wallLinesConfig )
+function wall_borders_tool:CheckConfigExists( wallLinesConfig )
 
     wallLinesConfig = wallLinesConfig or "1"
 
@@ -483,7 +483,7 @@ function wall_perimeter_tool:CheckConfigExists( wallLinesConfig )
     return wallLinesConfig
 end
 
-function wall_perimeter_tool:GetWallConfigArray()
+function wall_borders_tool:GetWallConfigArray()
 
     local scaleWallLines = {
         -- 1
@@ -527,7 +527,7 @@ function wall_perimeter_tool:GetWallConfigArray()
     return scaleWallLines
 end
 
-function wall_perimeter_tool:OnActivateSelectorRequest()
+function wall_borders_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
@@ -544,11 +544,11 @@ function wall_perimeter_tool:OnActivateSelectorRequest()
     end
 end
 
-function wall_perimeter_tool:OnDeactivateSelectorRequest()
+function wall_borders_tool:OnDeactivateSelectorRequest()
     self:FinishLineBuild()
 end
 
-function wall_perimeter_tool:FinishLineBuild()
+function wall_borders_tool:FinishLineBuild()
 
     EntityService:SetVisible( self.ghostWall , true )
 
@@ -592,7 +592,7 @@ function wall_perimeter_tool:FinishLineBuild()
     self.positionPlayer = nil
 end
 
-function wall_perimeter_tool:OnRotateSelectorRequest(evt)
+function wall_borders_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
     
@@ -630,7 +630,7 @@ function wall_perimeter_tool:OnRotateSelectorRequest(evt)
     self:OnUpdate()
 end
 
-function wall_perimeter_tool:OnRelease()
+function wall_borders_tool:OnRelease()
 
     for ghost in Iter(self.linesEntities) do
         EntityService:RemoveEntity(ghost)
@@ -651,4 +651,4 @@ function wall_perimeter_tool:OnRelease()
     end
 end
 
-return wall_perimeter_tool
+return wall_borders_tool
