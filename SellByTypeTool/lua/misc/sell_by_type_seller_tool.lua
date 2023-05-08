@@ -9,11 +9,20 @@ function sell_by_type_seller_tool:__init()
 end
 
 function sell_by_type_seller_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_by_type_seller_tool", self.entity)
+
+    self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
+
+    if ( self.isGroup ) then
+
+        self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_by_type_seller_group_tool", self.entity)
+    else
+
+        self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_by_type_seller_tool", self.entity)
+    end
 
     self:InitLowUpgradeList()
 
-    self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
+    
 
     self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
 
