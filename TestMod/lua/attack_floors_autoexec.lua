@@ -1,4 +1,22 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    local player = PlayerService:GetPlayerControlledEnt( 0 )
+
+    if ( player == nil ) then
+        return
+    end
+
+    local skillName = "items/skills/wall_pulse_item"
+
+    local itemCount = ItemService:GetItemCount( player, skillName )
+
+    --LogService:Log("skillName " .. skillName .. " itemCount " .. tostring(itemCount))
+
+    if ( itemCount > 0 ) then
+        return
+    end
+
+    PlayerService:AddItemToInventory( 0, skillName )
     
     --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_1x1")
     --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_2x2")
