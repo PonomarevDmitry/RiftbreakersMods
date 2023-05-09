@@ -2,7 +2,7 @@
 class 'wreck_ground_unit' ( LuaEntityObject )
 
 function wreck_ground_unit:__init()
-    LuaEntityObject.__init(self,self)
+	LuaEntityObject.__init(self,self)
 end
 
 -- INIT
@@ -16,7 +16,7 @@ function wreck_ground_unit:init()
 
     self:initDefaultParams()
     self:initParams()
-        
+    	
     if EntityService:CompareType( self.entity, "ground_unit_small" ) then
         EntityService:ChangeType( self.entity, "prop|wreck_small" )
     elseif EntityService:CompareType( self.entity, "ground_unit_medium" ) then 
@@ -32,8 +32,8 @@ function wreck_ground_unit:init()
 
     if damageType == 'melee' then
         self:CreateNormalWreck()
-    elseif ( ( damageType == 'fire' ) and ( self.leaveBodyProbability ~= 0 ) ) then 
-        self:LeaveBody()
+	elseif ( ( damageType == 'fire' ) and ( self.leaveBodyProbability ~= 0 ) ) then 
+		self:LeaveBody()
     elseif damageType == 'gravity' then 
         self:CreateNormalExplode()
     else
@@ -70,7 +70,7 @@ end
 
 -- NORMAL WRECK
 function wreck_ground_unit:LeaveBody()
-    EffectService:AttachEffects(self.entity, "death")
+	EffectService:AttachEffects(self.entity, "death")
 
     UnitService:CreateFindTargetRequest( self.entity, "check_building", 10.0, "", "building", true );
 end
@@ -118,7 +118,11 @@ function wreck_ground_unit:CreateNormalExplode()
 end
     
 function wreck_ground_unit:OnDestroyRequest( state )
-    EntityService:RequestDestroyPattern( self.entity, "wreck" )	
+    if self._OnDestroyRequest then
+        self:_OnDestroyRequest( state )
+    else
+        EntityService:RequestDestroyPattern( self.entity, "wreck" )
+    end
 end
 
 function wreck_ground_unit:ChangeMeshAndSpawnEffects( name )
@@ -139,12 +143,12 @@ end
 
 function wreck_ground_unit:CheckChangeMeshRequest( checkTable, checkWithEventName )
     if ( self.meshChanged == false ) then
-        for i = 1, #checkTable, 1 do 			
+	    for i = 1, #checkTable, 1 do 			
             --LogService:Log( "wreck_ground_unit:CheckChangeMeshRequest :" .. checkTable[i] )
-            if ( checkTable[i] == checkWithEventName ) then
+		    if ( checkTable[i] == checkWithEventName ) then
                 return true
             end
-        end
+	    end
     end
 
     return false
@@ -158,12 +162,16 @@ function wreck_ground_unit:OnAnimationStateChanged( evt )
         self:ChangeMeshAndSpawnEffects( stateName )
     end
 
+    if self._OnAnimationStateChanged then
+        self:_OnAnimationStateChanged( evt )
+    end
+
     --LogService:Log( "wreck_ground_unit:OnAnimationMarkerReached :" .. stateName )
 end
 
 function wreck_ground_unit:OnAnimationMarkerReached( evt )
-    
-    local markerName = evt:GetMarkerName() 
+	
+	local markerName = evt:GetMarkerName() 
 
     if ( self:CheckChangeMeshRequest( self.deathAnimationMarkers, markerName ) ) then
         self:ChangeMeshAndSpawnEffects( markerName )
@@ -174,7 +182,7 @@ function wreck_ground_unit:OnAnimationMarkerReached( evt )
         EffectService:AttachEffects( self.entity, markerName  )
     end
 
-    --LogService:Log( "wreck_ground_unit:OnAnimationMarkerReached :" .. markerName )
+	--LogService:Log( "wreck_ground_unit:OnAnimationMarkerReached :" .. markerName )
 
 end
 
