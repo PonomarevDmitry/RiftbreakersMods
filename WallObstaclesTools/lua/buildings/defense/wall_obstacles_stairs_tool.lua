@@ -196,6 +196,8 @@ function wall_obstacles_stairs_tool:OnUpdate()
             end
         end
 
+        local hashBlueprintsNumber = {}
+
         for xIndex=1,#arrayX do
 
             positionX = arrayX[xIndex]
@@ -221,6 +223,12 @@ function wall_obstacles_stairs_tool:OnUpdate()
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetOrientation( lineEnt, transform.orientation )
 
+                local buildingComponent = reflection_helper( EntityService:GetComponent( lineEnt, "BuildingComponent" ) )
+
+                local blueprintName = buildingComponent.bp
+
+                hashBlueprintsNumber[blueprintName] = (hashBlueprintsNumber[blueprintName] or 0) + 1
+
                 local id = (xIndex -1 ) * #arrayX + zIndex
 
                 local testBuildable = self:CheckEntityBuildable( lineEnt, transform, id )
@@ -233,14 +241,18 @@ function wall_obstacles_stairs_tool:OnUpdate()
             end
         end
 
-        local list = BuildingService:GetBuildCosts( self.wallBlueprintName, self.playerId )
-        for resourceCost in Iter(list) do
+        for blueprintName,blueprintCount in pairs( hashBlueprintsNumber ) do
 
-            if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0
+            local list = self:GetBuildCosts( blueprintName )
+
+            for resourceCost in Iter(list) do
+
+                if ( self.buildCost[resourceCost.first] == nil ) then
+                    self.buildCost[resourceCost.first] = 0
+                end
+
+                self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + resourceCost.second * blueprintCount
             end
-
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ )
         end
     else
 
@@ -266,6 +278,22 @@ function wall_obstacles_stairs_tool:OnUpdate()
     else
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
+end
+
+function wall_obstacles_stairs_tool:GetBuildCosts( blueprintName )
+
+    self.cacheBuildCosts = self.cacheBuildCosts or {}
+
+    if ( self.cacheBuildCosts[blueprintName] ~= nil ) then
+
+        return self.cacheBuildCosts[blueprintName]
+    end
+
+    local result = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+
+    self.cacheBuildCosts[blueprintName] = result
+
+    return result
 end
 
 function wall_obstacles_stairs_tool:CreateNewEntity(newPosition, orientation, team, xIndex, zIndex, wallLinesCount)
