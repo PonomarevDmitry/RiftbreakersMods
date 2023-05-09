@@ -91,10 +91,10 @@ function wall_obstacles_stairs_tool:OnUpdate()
         end
 
         local markerBlueprint = "misc/marker_selector_diagonal_wall_lines_" .. tostring( wallLinesCount )
-            
+
         -- Create new marker
         self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
-            
+
         -- Save number of wall layers
         self.markerLinesConfig = wallLinesCount
 
@@ -172,7 +172,7 @@ function wall_obstacles_stairs_tool:OnUpdate()
 
             if ( #gridEntitiesZ > #arrayZ ) then
 
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do 
+                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
                     EntityService:RemoveEntity(gridEntitiesZ[zIndex])
                     gridEntitiesZ[zIndex] = nil
                 end
@@ -240,7 +240,7 @@ function wall_obstacles_stairs_tool:OnUpdate()
                self.buildCost[resourceCost.first] = 0
             end
 
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ ) 
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ )
         end
     else
 
@@ -359,7 +359,7 @@ function wall_obstacles_stairs_tool:CheckConfigExists( wallLinesCount )
 
     local index = IndexOf(scaleWallLines, wallLinesCount )
 
-    if ( index == nil ) then 
+    if ( index == nil ) then
 
         return scaleWallLines[1]
     end
@@ -369,16 +369,19 @@ end
 
 function wall_obstacles_stairs_tool:GetWallConfigArray()
 
-    local scaleWallLines = {
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-    }
+    if ( self.scaleWallLines == nil ) then
 
-    return scaleWallLines
+        self.scaleWallLines = {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+        }
+    end
+
+    return self.scaleWallLines
 end
 
 function wall_obstacles_stairs_tool:OnActivateSelectorRequest()
@@ -462,8 +465,8 @@ function wall_obstacles_stairs_tool:FinishLineBuild()
         local step = count
 
         if ( count > 5 )  then
-            local additionalCubesCount = math.ceil( count / 5 ) 
-            step = math.ceil( count / additionalCubesCount) 
+            local additionalCubesCount = math.ceil( count / 5 )
+            step = math.ceil( count / additionalCubesCount)
         end
 
         for i=1,count do
@@ -494,7 +497,7 @@ function wall_obstacles_stairs_tool:GetAllEntities()
         local gridEntitiesZ = self.gridEntities[xIndex]
 
         for zIndex=1,#gridEntitiesZ do
-        
+
             local entity = gridEntitiesZ[zIndex]
 
             Insert(result, entity)
@@ -526,7 +529,7 @@ function wall_obstacles_stairs_tool:OnRelease()
 
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
-    
+
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
     end

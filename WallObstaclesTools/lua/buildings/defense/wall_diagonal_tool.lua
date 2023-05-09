@@ -4,13 +4,13 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'wall_borders_tool' ( wall_base_tool )
+class 'wall_diagonal_tool' ( wall_base_tool )
 
-function wall_borders_tool:__init()
+function wall_diagonal_tool:__init()
     wall_base_tool.__init(self,self)
 end
 
-function wall_borders_tool:OnInit()
+function wall_diagonal_tool:OnInit()
 
     self.linesEntities = {}
     self.linesEntityInfo = {}
@@ -20,27 +20,27 @@ function wall_borders_tool:OnInit()
     self.positionPlayer = nil
 
     -- Marker with number of wall layers
-    self.markerLinesConfig = "0"
+    self.markerLinesConfig = 0
     self.currentMarkerLines = nil
 
-    self.configNameWallsConfig = "$wall_borders_lines_config"
+    self.configNameWallsCount = "$diagonal_wall_lines_count"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     -- Wall layers config
-    self.wallLinesConfig = selectorDB:GetStringOrDefault(self.configNameWallsConfig, "1")
-    self.wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
+    self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsCount, 1)
+    self.wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
 end
 
-function wall_borders_tool:OnUpdate()
+function wall_diagonal_tool:OnUpdate()
 
     self.buildCost = {}
 
     -- Wall layers config
-    local wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
+    local wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
 
-        -- Correct Marker to show right number of wall layers
-    if ( self.markerLinesConfig ~= wallLinesConfig or self.currentMarkerLines == nil) then
+    -- Correct Marker to show right number of wall layers
+    if ( self.markerLinesConfig ~= wallLinesCount or self.currentMarkerLines == nil) then
 
         -- Destroy old marker
         if (self.currentMarkerLines ~= nil) then
@@ -49,13 +49,13 @@ function wall_borders_tool:OnUpdate()
             self.currentMarkerLines = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_wall_lines_" .. wallLinesConfig
+        local markerBlueprint = "misc/marker_selector_diagonal_wall_lines_" .. tostring( wallLinesCount )
 
         -- Create new marker
         self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
 
         -- Save number of wall layers
-        self.markerLinesConfig = wallLinesConfig
+        self.markerLinesConfig = wallLinesCount
     end
 
     self:RemoveMaterialFromOldBuildingsToSell()
@@ -68,7 +68,7 @@ function wall_borders_tool:OnUpdate()
 
         local buildEndPosition = currentTransform.position
 
-        local newPositionsArray, hashPositions = self:FindPositionsToBuildLine( buildEndPosition, wallLinesConfig )
+        local newPositionsArray, hashPositions = self:FindPositionsToBuildLine( buildEndPosition, wallLinesCount )
 
         local oldLinesEntities = self.linesEntities
         local oldLinesEntityInfo = self.linesEntityInfo
@@ -170,7 +170,7 @@ function wall_borders_tool:OnUpdate()
     end
 end
 
-function wall_borders_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
+function wall_diagonal_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
 
@@ -187,7 +187,7 @@ function wall_borders_tool:GetEntityFromGrid( gridEntities, newPositionX, newPos
     return arrayXPosition[newPositionZ]
 end
 
-function wall_borders_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
+function wall_diagonal_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
 
@@ -199,7 +199,7 @@ function wall_borders_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositio
     arrayXPosition[newPositionZ] = lineEnt
 end
 
-function wall_borders_tool:HashContains( hashPositions, newPositionX, newPositionZ )
+function wall_diagonal_tool:HashContains( hashPositions, newPositionX, newPositionZ )
 
     if ( hashPositions[newPositionX] == nil) then
 
@@ -216,184 +216,174 @@ function wall_borders_tool:HashContains( hashPositions, newPositionX, newPositio
     return true
 end
 
-function wall_borders_tool:FindPositionsToBuildLine( buildEndPosition, wallLinesConfig )
+function wall_diagonal_tool:FindPositionsToBuildLine( buildEndPosition, wallLinesCount )
 
-    local xSign, zSign = self:GetXZSigns( self.buildStartPosition.position, buildEndPosition)
+    local positionPlayer = self.positionPlayer
+    if (positionPlayer == nil) then
+        local player = PlayerService:GetPlayerControlledEnt(0)
+        positionPlayer = EntityService:GetPosition( player )
+    end
 
-    local arrayX, arrayZ = self:FindGridArrays( self.buildStartPosition.position, buildEndPosition )
-
-    local buildStartPositionX = self.buildStartPosition.position.x
-    local buildStartPositionZ = self.buildStartPosition.position.z
-
-    local buildEndPositionX = buildEndPosition.x
-    local buildEndPositionZ = buildEndPosition.z
-
-    local positionY = self.buildStartPosition.position.y
-
-    local result = {}
     local hashPositions = {}
 
-    local deltaXZ = 2
+    local pathFromStartPositionToEndPosition = self:FindSingleDiagonalLine( self.buildStartPosition.position, buildEndPosition, positionPlayer )
+    if ( wallLinesCount == 1 ) then
 
-    self:AddCornerPositions(wallLinesConfig, buildStartPositionX, positionY, buildStartPositionZ, -xSign, -zSign, deltaXZ, hashPositions, result)
+        for i=1,#pathFromStartPositionToEndPosition do
+
+            local position = pathFromStartPositionToEndPosition[i]
+
+            self:AddToHash( hashPositions, position.x, position.z )
+        end
+
+        return pathFromStartPositionToEndPosition, hashPositions
+    end
+
+    local x0 = self.buildStartPosition.position.x
+    local z0 = self.buildStartPosition.position.z
+
+    local x1 = buildEndPosition.x
+    local z1 = buildEndPosition.z
+
+    self.coefX = (z1 - z0)
+    self.coefZ = -(x1 - x0)
+    self.const = x1*z0 - x0*z1
+
+    local playerValue = self:CalcFunction( positionPlayer.x, positionPlayer.z )
+
+    local newPositionX = x0 + self.coefX * 3
+    local newPositionZ = z0 + self.coefZ * 3
+
+    local secondValue = self:CalcFunction( newPositionX, newPositionZ )
+
+    if ( secondValue * playerValue > 0 ) then
+
+        newPositionX = x0 - self.coefX * 3
+        newPositionZ = z0 - self.coefZ * 3
+    end
+
+    local endPositionMulti = {}
+    endPositionMulti.x = newPositionX
+    endPositionMulti.y = self.buildStartPosition.position.y
+    endPositionMulti.z = newPositionZ
+
+    local pathMulti = self:FindSingleDiagonalLine( self.buildStartPosition.position, endPositionMulti, positionPlayer )
+
+    self:MakeRelativePath( pathMulti, x0, z0 )
+
+    local multiWallsArray = self:GetPathWithNumberChanges( pathMulti, wallLinesCount - 1 )
 
 
 
-    self:AddNewPositionsByZArray(wallLinesConfig, buildStartPositionX, positionY, arrayZ, -xSign, deltaXZ, hashPositions, result)
+    local result = {}
 
-    self:AddCornerPositions(wallLinesConfig, buildStartPositionX, positionY, buildEndPositionZ, -xSign, zSign, deltaXZ, hashPositions, result)
+    for i=1,#pathFromStartPositionToEndPosition do
 
+        local position = pathFromStartPositionToEndPosition[i]
 
+        -- Add if position has not been added yet
+        if ( self:AddToHash( hashPositions, position.x, position.z ) ) then
 
-    self:AddNewPositionsByXArray(wallLinesConfig, arrayX, positionY, buildStartPositionZ, -zSign, deltaXZ, hashPositions, result)
+            table.insert(result, position)
+        end
 
-    self:AddCornerPositions(wallLinesConfig, buildEndPositionX, positionY, buildStartPositionZ, xSign, -zSign, deltaXZ, hashPositions, result)
+        for vector in Iter( multiWallsArray ) do
 
+            local newPositionX = position.x + vector.x
+            local newPositionZ = position.z + vector.z
 
-
-    self:AddNewPositionsByZArray(wallLinesConfig, buildEndPositionX, positionY, arrayZ, xSign, deltaXZ, hashPositions, result)
-
-    self:AddNewPositionsByXArray(wallLinesConfig, arrayX, positionY, buildEndPositionZ, zSign, deltaXZ, hashPositions, result)
-
-
-    self:AddCornerPositions(wallLinesConfig, buildEndPositionX, positionY, buildEndPositionZ, xSign, zSign, deltaXZ, hashPositions, result)
+            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
+        end
+    end
 
     return result, hashPositions
 end
 
-function wall_borders_tool:AddCornerPositions(wallLinesConfig, positionX, positionY, positionZ, xSign, zSign, deltaXZ, hashPositions, result)
+function wall_diagonal_tool:GetPathWithNumberChanges( pathMulti, changesCount )
 
-    for zStep=1,#wallLinesConfig do
+    if ( #pathMulti == 0 or #pathMulti == 1 ) then
+        return pathMulti
+    end
 
-        local subStrZ = string.sub(wallLinesConfig, zStep, zStep)
+    local x0 = 0
+    local z0 = 0
 
-        for xStep=1,#wallLinesConfig do
+    local changesX = 0
+    local changesZ = 0
 
-            local subStrX = string.sub(wallLinesConfig, xStep, xStep)
+    local index = 1
+    local previousPosition = nil
 
-            if ( (subStrZ == "1" and xStep <= zStep) or (subStrX == "1" and zStep <= xStep) ) then
 
-                local newPositionX = positionX + xSign * (xStep - 1) * deltaXZ
-                local newPositionZ = positionZ + zSign * (zStep - 1) * deltaXZ
+    local result = {}
 
-                self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, positionY)
+    local countCalcs = 0
+
+    while ( true ) do
+
+        local position = pathMulti[index]
+
+        local newPositionX = x0 + position.x
+        local newPositionZ = z0 + position.z
+
+        local vector = {}
+        vector.x = newPositionX
+        vector.z = newPositionZ
+
+        Insert( result, vector )
+
+        if (previousPosition ~= nil) then
+
+            if ( previousPosition.x ~= newPositionX ) then
+                changesX = changesX + 1
+            end
+
+            if ( previousPosition.z ~= newPositionZ ) then
+                changesZ = changesZ + 1
             end
         end
-    end
-end
 
-function wall_borders_tool:AddNewPositionsByXArray(wallLinesConfig, arrayX, positionY, positionZ, zSign, deltaXZ, hashPositions, result)
+        if ( changesX >= changesCount or changesZ >= changesCount ) then
+            break;
+        end
 
-    for xIndex=1,#arrayX do
+        previousPosition = vector
 
-        local positionX = arrayX[xIndex]
+        index = index + 1
 
-        local position = {}
+        if ( index > #pathMulti ) then
+            index = 2;
 
-        position.x = positionX
-        position.y = positionY
-        position.z = positionZ
+            x0 = newPositionX
+            z0 = newPositionZ
+        end
 
-        self:AddNewPositionsByConfigByZ(position, wallLinesConfig, zSign, deltaXZ, hashPositions, result)
-    end
-end
+        countCalcs = countCalcs + 1
 
-function wall_borders_tool:AddNewPositionsByZArray(wallLinesConfig, positionX, positionY, arrayZ, xSign, deltaXZ, hashPositions, result)
-
-    for zIndex=1,#arrayZ do
-
-        local positionZ = arrayZ[zIndex]
-
-        local position = {}
-
-        position.x = positionX
-        position.y = positionY
-        position.z = positionZ
-
-        self:AddNewPositionsByConfigByX(position, wallLinesConfig, xSign, deltaXZ, hashPositions, result)
-    end
-end
-
-function wall_borders_tool:AddNewPositionsByConfigByX(position, wallLinesConfig, xSign, deltaXZ, hashPositions, result)
-
-    for step=1,#wallLinesConfig do
-
-        local subStr = string.sub(wallLinesConfig, step, step)
-
-        if ( subStr == "1" ) then
-
-            local newPositionX = position.x + xSign * (step - 1) * deltaXZ
-
-            self:AddNewPositionToResult(hashPositions, result, newPositionX, position.z, position.y)
+        if ( countCalcs > 50 ) then
+            break
         end
     end
+
+    return result
 end
 
-function wall_borders_tool:AddNewPositionsByConfigByZ(position, wallLinesConfig, zSign, deltaXZ, hashPositions, result)
+function wall_diagonal_tool:MakeRelativePath( pathMulti, x0, z0 )
 
-    for step=1,#wallLinesConfig do
+    for position in Iter( pathMulti ) do
 
-        local subStr = string.sub(wallLinesConfig, step, step)
+        local newPositionX = position.x - x0
+        local newPositionZ = position.z - z0
 
-        if ( subStr == "1" ) then
-
-            local newPositionZ = position.z + zSign * (step - 1) * deltaXZ
-
-            self:AddNewPositionToResult(hashPositions, result, position.x, newPositionZ, position.y)
-        end
+        position.x = newPositionX
+        position.z = newPositionZ
     end
 end
 
-function wall_borders_tool:FindGridArrays(buildStartPosition, buildEndPosition)
-
-    local gridSize = BuildingService:GetBuildingGridSize(self.ghostWall)
-
-    local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
-
-    local deltaX = gridSize.x * 2 * xSign
-    local deltaZ = gridSize.z * 2 * zSign
-
-    local smallDeltaX = (gridSize.x * xSign) / 2
-    local smallDeltaZ = (gridSize.z * zSign) / 2
-
-    local buildEndPositionX = buildEndPosition.x + smallDeltaX
-    local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
-
-    local minX = math.min( buildStartPosition.x, buildEndPositionX )
-    local maxX = math.max( buildStartPosition.x, buildEndPositionX )
-
-    local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
-    local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
-
-    local arrayX = {}
-
-    local positionX = buildStartPosition.x
-
-    while (minX <= positionX and positionX <= maxX) do
-
-        Insert(arrayX, positionX)
-
-        positionX = positionX + deltaX
-    end
-
-    local arrayZ = {}
-
-    local positionZ = buildStartPosition.z
-
-    while (minZ <= positionZ and positionZ <= maxZ) do
-
-        Insert(arrayZ, positionZ)
-
-        positionZ = positionZ + deltaZ
-    end
-
-    return arrayX, arrayZ
-end
-
-function wall_borders_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
+function wall_diagonal_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
 
     -- Add if position has not been added yet
-    if ( not self:AddToHash( hashPositions, newPositionX, newPositionZ ) ) then
+    if ( not self:AddToHash(hashPositions, newPositionX, newPositionZ ) ) then
         return
     end
 
@@ -406,7 +396,7 @@ function wall_borders_tool:AddNewPositionToResult(hashPositions, result, newPosi
 end
 
 -- Check position has not already been added to hashPositions
-function wall_borders_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
+function wall_diagonal_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
 
     if ( hashPositions[newPositionX] == nil) then
 
@@ -425,70 +415,159 @@ function wall_borders_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
     return true
 end
 
-function wall_borders_tool:CheckConfigExists( wallLinesConfig )
+function wall_diagonal_tool:CalcFunction( positionX, positionZ )
 
-    wallLinesConfig = wallLinesConfig or "1"
+    local result = self.coefX * positionX + self.coefZ * positionZ + self.const
+
+    if ( result > 0 ) then
+        return 1
+    elseif ( result < 0 ) then
+        return -1
+    end
+
+    return 0
+end
+
+function wall_diagonal_tool:SetLineParameters( buildStartPosition, buildEndPosition )
+
+    local x0 = buildStartPosition.x
+    local z0 = buildStartPosition.z
+
+    local x1 = buildEndPosition.x
+    local z1 = buildEndPosition.z
+
+    self.coefX = (z1 - z0)
+    self.coefZ = -(x1 - x0)
+    self.const = x1*z0 - x0*z1
+end
+
+function wall_diagonal_tool:FindSingleDiagonalLine( buildStartPosition, buildEndPosition, positionPlayer )
+
+    local xSignPlayer, zSignPlayer = self:GetXZSigns(positionPlayer, buildStartPosition)
+
+    local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
+
+    local zPriority = (xSignPlayer * xSign) < 0 and (zSignPlayer * zSign) > 0
+
+    local x0 = buildStartPosition.x
+    local z0 = buildStartPosition.z
+
+    local x1 = buildEndPosition.x
+    local z1 = buildEndPosition.z
+
+    local deltaX = 2 * xSign
+    local deltaZ = 2 * zSign
+
+    local dx = math.abs(x1 - x0)
+    local dz = -math.abs(z1 - z0)
+
+    local dzAbs = math.abs(z1 - z0)
+
+    local result = {}
+
+    local positionY = buildStartPosition.y
+
+    local positionX = x0
+    local positionZ = z0
+
+    local error = dx + dz
+
+    while ( true ) do
+
+        local position = {}
+
+        position.x = positionX
+        position.y = positionY
+        position.z = positionZ
+
+        Insert(result, position)
+
+        if ( positionX == x1 and positionZ == z1 ) then
+            break
+        end
+
+        local errorMul2 = 2 * error
+
+        if ( zPriority ) then
+
+            if ( errorMul2 <= dx ) then
+                if ( positionZ == z1 ) then
+                    break
+                end
+                error = error +  dx
+                positionZ = positionZ + deltaZ
+                goto continue
+            end
+
+            if ( errorMul2 >= dz ) then
+                if positionX == x1 then
+                    break
+                end
+                error = error + dz
+                positionX = positionX + deltaX
+                goto continue
+            end
+        else
+
+            if ( errorMul2 >= dz ) then
+                if positionX == x1 then
+                    break
+                end
+                error = error + dz
+                positionX = positionX + deltaX
+                goto continue
+            end
+
+            if ( errorMul2 <= dx ) then
+                if ( positionZ == z1 ) then
+                    break
+                end
+                error = error +  dx
+                positionZ = positionZ + deltaZ
+                goto continue
+            end
+        end
+
+        ::continue::
+    end
+
+    return result
+end
+
+function wall_diagonal_tool:CheckConfigExists( wallLinesCount )
+
+    wallLinesCount = wallLinesCount or 1
 
     local scaleWallLines = self:GetWallConfigArray()
 
-    local index = IndexOf(scaleWallLines, wallLinesConfig )
+    local index = IndexOf( scaleWallLines, wallLinesCount )
 
     if ( index == nil ) then
 
         return scaleWallLines[1]
     end
 
-    return wallLinesConfig
+    return wallLinesCount
 end
 
-function wall_borders_tool:GetWallConfigArray()
+function wall_diagonal_tool:GetWallConfigArray()
 
     if ( self.scaleWallLines == nil ) then
 
         self.scaleWallLines = {
-            -- 1
-            "1",
-
-            -- 2
-            "11",
-
-            -- 3
-            "101",
-            "111",
-
-            -- 4
-            "1011",
-            "1111",
-
-            -- 5
-            "10101",
-            "11111",
-
-            -- 6
-            "101011",
-            "111111",
-
-            -- 7
-            "1010101",
-
-            -- 8
-            "10101011",
-
-            -- 9
-            "101010101",
-
-            -- 10
-            "1010101011",
-
-            -- 11
-            "10101010101"
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
         }
     end
 
     return self.scaleWallLines
 end
 
-function wall_borders_tool:OnActivateSelectorRequest()
+function wall_diagonal_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
@@ -505,13 +584,13 @@ function wall_borders_tool:OnActivateSelectorRequest()
     end
 end
 
-function wall_borders_tool:OnDeactivateSelectorRequest()
+function wall_diagonal_tool:OnDeactivateSelectorRequest()
     self:FinishLineBuild()
 
     self:RemoveMaterialFromOldBuildingsToSell()
 end
 
-function wall_borders_tool:FinishLineBuild()
+function wall_diagonal_tool:FinishLineBuild()
 
     EntityService:SetVisible( self.ghostWall , true )
 
@@ -555,7 +634,7 @@ function wall_borders_tool:FinishLineBuild()
     self.positionPlayer = nil
 end
 
-function wall_borders_tool:OnRotateSelectorRequest(evt)
+function wall_diagonal_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
@@ -564,7 +643,7 @@ function wall_borders_tool:OnRotateSelectorRequest(evt)
         change = -1
     end
 
-    local currentLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
+    local currentLinesConfig = self:CheckConfigExists(self.wallLinesCount)
 
     local scaleWallLines = self:GetWallConfigArray()
 
@@ -584,16 +663,16 @@ function wall_borders_tool:OnRotateSelectorRequest(evt)
 
     local newValue = scaleWallLines[newIndex]
 
-    self.wallLinesConfig = newValue
+    self.wallLinesCount = newValue
 
     -- Wall layers config
     local selectorDB = EntityService:GetDatabase( self.selector )
-    selectorDB:SetString(self.configNameWallsConfig, newValue)
+    selectorDB:SetInt(self.configNameWallsCount, newValue)
 
     self:OnUpdate()
 end
 
-function wall_borders_tool:OnRelease()
+function wall_diagonal_tool:OnRelease()
 
     for ghost in Iter(self.linesEntities) do
         EntityService:RemoveEntity(ghost)
@@ -614,4 +693,4 @@ function wall_borders_tool:OnRelease()
     end
 end
 
-return wall_borders_tool
+return wall_diagonal_tool

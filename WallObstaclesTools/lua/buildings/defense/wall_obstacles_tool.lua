@@ -125,7 +125,7 @@ function wall_obstacles_tool:OnUpdate()
 
             if ( #gridEntitiesZ > #arrayZ ) then
 
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do 
+                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
                     EntityService:RemoveEntity(gridEntitiesZ[zIndex])
                     gridEntitiesZ[zIndex] = nil
                 end
@@ -181,7 +181,7 @@ function wall_obstacles_tool:OnUpdate()
                 if ( testBuildable ~= nil) then
                     self:AddToEntitiesToSellList(testBuildable)
                 end
-                
+
                 BuildingService:CheckAndFixBuildingConnection(lineEnt)
             end
         end
@@ -193,7 +193,7 @@ function wall_obstacles_tool:OnUpdate()
                self.buildCost[resourceCost.first] = 0
             end
 
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ ) 
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ )
         end
     else
 
@@ -201,12 +201,10 @@ function wall_obstacles_tool:OnUpdate()
 
             local currentTransform = EntityService:GetWorldTransform( self.ghostWall )
             local testBuildable = self:CheckEntityBuildable( self.ghostWall, currentTransform )
-    
+
             if ( testBuildable ~= nil) then
                 self:AddToEntitiesToSellList(testBuildable)
             end
-        
-            --BuildingService:CheckAndFixBuildingConnection(self.ghostWall)
         end
     end
 
@@ -311,29 +309,32 @@ function wall_obstacles_tool:CheckConfigExists( wallLinesCount )
     wallLinesCount = wallLinesCount or 1
 
     local scaleWallLines = self:GetWallConfigArray()
-    
+
     local index = IndexOf(scaleWallLines, wallLinesCount )
-    
-    if ( index == nil ) then 
-    
+
+    if ( index == nil ) then
+
         return scaleWallLines[1]
     end
-    
+
     return wallLinesCount
 end
 
 function wall_obstacles_tool:GetWallConfigArray()
 
-    local scaleWallLines = {
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-    }
+    if ( self.scaleWallLines == nil ) then
 
-    return scaleWallLines
+        self.scaleWallLines = {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+        }
+    end
+
+    return self.scaleWallLines
 end
 
 function wall_obstacles_tool:OnActivateSelectorRequest()
@@ -374,8 +375,8 @@ function wall_obstacles_tool:OnRotateSelectorRequest(evt)
     local scaleWallLines = self:GetWallConfigArray()
 
     local index = IndexOf( scaleWallLines, currentLinesConfig )
-    if ( index == nil ) then 
-        index = 1 
+    if ( index == nil ) then
+        index = 1
     end
 
     local maxIndex = #scaleWallLines
@@ -418,8 +419,8 @@ function wall_obstacles_tool:FinishLineBuild()
         local step = count
 
         if ( count > 5 )  then
-            local additionalCubesCount = math.ceil( count / 5 ) 
-            step = math.ceil( count / additionalCubesCount) 
+            local additionalCubesCount = math.ceil( count / 5 )
+            step = math.ceil( count / additionalCubesCount)
         end
 
         for i=1,count do
@@ -438,7 +439,7 @@ function wall_obstacles_tool:FinishLineBuild()
 
     self.gridEntities = {}
     self.buildStartPosition = nil
-    self.nowBuildingLine = false;
+    self.nowBuildingLine = false
 end
 
 function wall_obstacles_tool:GetAllEntities()
@@ -446,17 +447,17 @@ function wall_obstacles_tool:GetAllEntities()
     local result = {}
 
     for xIndex=1,#self.gridEntities do
-        
+
         local gridEntitiesZ = self.gridEntities[xIndex]
-        
+
         for zIndex=1,#gridEntitiesZ do
-        
+
             local entity = gridEntitiesZ[zIndex]
-            
+
             Insert(result, entity)
         end
     end
-    
+
     return result
 end
 
@@ -469,14 +470,14 @@ function wall_obstacles_tool:OnRelease()
             end
         end
     end
-    
+
     self.gridEntities = {}
     self.nowBuildingLine = false
     self.buildStartPosition = nil
-    
+
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
-    
+
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
     end

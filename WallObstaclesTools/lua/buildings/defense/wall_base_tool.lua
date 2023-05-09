@@ -204,7 +204,7 @@ function wall_base_tool:CheckEntityBuildable( entity, transform, id )
 
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
     local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
-    
+
     local skinned = EntityService:IsSkinned(entity)
 
     if ( testBuildable.flag == CBF_REPAIR ) then
