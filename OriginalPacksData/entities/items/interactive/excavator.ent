@@ -13,6 +13,11 @@ EntityBlueprint
 		name "meshes/items/interactive/drill"
 	}
 
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.45"
+	}
+
 	EffectDesc
 	{
         EffectGroup
@@ -28,12 +33,12 @@ EntityBlueprint
 				}
 			}
 		}
-		
+
 		EffectGroup
 		{
 			group "item_activated_once"
 			enabled "0"
-
+    
 			Effects
 			{
 				Effect
@@ -42,30 +47,60 @@ EntityBlueprint
 				}
 			}
 		}
-        EffectGroup
+
+		EffectGroup
 		{
-			group "dig"
+			group "item_deactivated"
 			enabled "0"
     
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/mech_dig"
-					bone "att_drill_effect"
-					//delay "1.2"
-				}			
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/mech_dig_2nd_layer"
-					bone "att_drill_effect"
-					//delay "1.0"
+					blueprint "effects/items/mech_drill_equipped"
 				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_active_loop"
+			enabled "0"
+    
+			Effects
+			{
 				Effect
 				{
 					blueprint "effects/buildings_and_machines/mech_dig_3rd_layer"
-					bone "att_drill_effect"
-					//delay "1.0"
+				}
+			}
+		}
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"hitbox"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "3"
+						y "2"
+						z "2"
+						
+						position 
+						{
+							x "2.0"
+							y "0.0"
+							z "0.0"
+						}
+					}
 				}
 			}
 		}
@@ -91,6 +126,12 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/interactive/extractor.lua"
+		script "lua/items/interactive/excavator.lua"
+		database
+		{
+			"excavate_effect"			string:"effects/weapons_melee_chainsaw/chainsaw_hit_object"
+			"excavate_swing_speed" 		float:"0.25"
+			"excavate_activate_speed"	float:"1.0"
+		}
 	}
 }

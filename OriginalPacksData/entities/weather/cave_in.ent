@@ -1,0 +1,40 @@
+EntityBlueprint
+{
+	name  "weather/cave_in"
+
+	LuaDesc
+	{
+		script "lua/weather/earthquake.lua"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		time_of_day 							"biomes/caverns/scene_params/caverns.td"
+		effect_intesity_distance				"30"
+		max_health_percentage_damage_threshold	"66"
+		damage_type								"earthquake"
+		size									"as_radius"
+		radius									"50"
+		local_effects							"effects/world/earthquake"
+		local_effects_random_offset				"5"
+		minimum_distance_per_local_effect		"5"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"10"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"250"
+		frequency 		"20"
+		group			"ambient"
+	}
+
+	LifeTimeDesc
+	{
+		time 		10
+	}	
+}
+

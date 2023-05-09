@@ -53,27 +53,20 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "logic/spawn_grid_culler"
+	name "logic/spawn_enemy_grid_culler"
 
 	GridCullerDesc
 	{
+		type 8
+
 		Shapes
 		{
-			PhysicsBoxShape
+			PhysicsSphereShape
 			{
-				x	4
-				y	4
-				z	4
+				r "8.0"
 			}
 		}
 	}	
-
-	MinimapItemDesc
-	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/headquarters"
-		additional_z_order 1
-	}
 }
 
 EntityBlueprint 
@@ -81,3 +74,22 @@ EntityBlueprint
 	name "logic/spawn_enemy_dynamic"
 }
 
+EntityBlueprint 
+{	
+	name "logic/spawn_enemy_spline"
+
+	SceneEditorDesc
+	{
+		mesh		"meshes/units/ground/crawlog.mesh"
+	}
+
+	IdDesc
+	{
+		group 		"spawn_cavern_spline"
+	}
+
+	WaveSpawnerSplineComponent
+	{
+		path_mode 	"local"
+	}
+}

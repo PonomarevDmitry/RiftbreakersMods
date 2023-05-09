@@ -181,7 +181,7 @@ EntityBlueprint
 		non_walkable_mode		"0"
 		physics_material 		"default"
 		group_id				"character"
-		collide_mask			"world|world_blocker|building|building_floor|destructible|player_blocker"
+		collide_mask			"world|world_blocker|world_destructible|building|building_floor|destructible|player_blocker"
 	}
 
 	MovementDataComponent
@@ -1396,6 +1396,123 @@ EntityBlueprint
 		}
 
 		EntityBlueprint
+		{		
+			IdDesc
+			{
+				name "player_camera_culler"
+			}
+
+			children 
+			{			
+				EntityBlueprint
+				{						
+					MeshDesc
+					{
+						mesh "meshes/quad.mesh"
+						material "culling/camera_dithering"
+					}
+
+					LuaDesc
+					{
+						script "lua/misc/camera_culling.lua"
+
+						database
+						{
+							culler_distance	      		float:"0.1"
+							look_at_target		  		int:"1"
+							check_pivot           		int:"1"
+							check_pivot_threshold 		float:"5"
+						}	
+					}
+
+					TriggerDesc
+					{
+						owner 		"self"
+						collision 	"world|world_blocker"
+
+						Shapes
+						{
+							PhysicsMeshShape
+		                    {
+		                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
+		                    }
+						}
+					}
+				}
+
+				EntityBlueprint
+				{		
+					LuaDesc
+					{
+						script "lua/misc/camera_culling.lua"
+
+						database
+						{
+							culler_distance	      		float:"0.1"
+							look_at_target		  		int:"1"
+							check_pivot           		int:"1"
+							check_pivot_threshold 		float:"10"
+						}	
+					}
+
+					TriggerDesc
+					{
+						owner 		"self"
+						collision 	"destructible|vegetation"
+
+						Shapes
+						{
+							PhysicsMeshShape
+		                    {
+		                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
+		                    }
+						}
+					}
+				}
+
+				EntityBlueprint
+				{
+					LuaDesc
+					{
+						script "lua/misc/camera_culling.lua"
+
+						database
+						{
+							culler_distance	      		float:"-25.1"
+							look_at_target		  		int:"1"
+							mark_children		  		int:"1"
+							check_child_pivot     		int:"1"
+							check_child_pivot_threshold float:"4"
+						}	
+					}
+
+					TriggerDesc
+					{
+						owner 		"self"
+						collision 	"world_destructible"
+
+						Filters
+						{
+							TypeTriggerFilter
+							{
+								type		"cavern_wall"
+							}
+						}
+
+						Shapes
+						{
+							PhysicsMeshShape
+		                    {
+		                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
+		                    }
+						}
+					}
+				}
+			}
+		}
+
+
+		EntityBlueprint
 		{
 			AttachmentDesc
 			{
@@ -1408,7 +1525,10 @@ EntityBlueprint
 				icon_material 	"gui/hud/minimap_icons/gui_map_icon_player"
 				rotation_mode 	"1"
 				additional_z_order "100"
+				visibility		"always"
 			}
+
+			NetAlwaysRevelantComponent
 		}
 		//////////////////// MECH PARTS///////////
 		//EntityBlueprint

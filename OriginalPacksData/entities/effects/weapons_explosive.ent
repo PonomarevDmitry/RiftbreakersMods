@@ -37,7 +37,7 @@ EntityBlueprint
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/explosion_hole_random"
+		blueprint "effects/decals/cryo_stain"
 		scale
 		{
 			x		2.5
@@ -45,9 +45,120 @@ EntityBlueprint
 			z		2.5
 			
 		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapon_hit/acid_mine_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_green_medium
+		effects/default
 	}
 
-	
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_explosion_big"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_acid_random"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+			
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapon_hit/incendiary_mine_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_big"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_fire_random"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+			
+		}
+	}	
+	BurningComponent
+	{
+		spread_radius 			"20.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
 }
 
 EntityBlueprint
@@ -167,6 +278,16 @@ EntityBlueprint
 	{
 		name "items/weapons/explosive/explosion_big"
 	}
+	
+	FogOfWarRevealerComponentDesc
+	{
+		radius "50"
+	}
+
+	LifeTimeDesc
+	{
+		time 5
+	}	
 
 	DecalDesc
 	{	
@@ -227,7 +348,7 @@ EntityBlueprint
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/explosion_hole_big_01"
+		blueprint "effects/decals/explosion_hole_big_01_timeout"
 		scale
 		{
 			x		1.0
@@ -236,6 +357,20 @@ EntityBlueprint
 			
 		}
 	}	
+	BurningComponent
+	{
+		spread_radius 			"15.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
+	
 }
 
 EntityBlueprint
@@ -278,7 +413,7 @@ EntityBlueprint
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/explosion_hole_big_blue_01"
+		blueprint "effects/decals/explosion_hole_big_blue_01_timeout"
 		scale
 		{
 			x		1.0
@@ -336,7 +471,7 @@ EntityBlueprint
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/explosion_hole_big_01"
+		blueprint "effects/decals/explosion_hole_big_01_timeout"
 		scale
 		{
 			x		2.5
@@ -344,6 +479,19 @@ EntityBlueprint
 			z		2.5	
 		}
 	}
+	BurningComponent
+	{
+		spread_radius 			"20.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}		
 }
 
 EntityBlueprint
@@ -386,7 +534,7 @@ EntityBlueprint
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/explosion_hole_big_blue_01"
+		blueprint "effects/decals/explosion_hole_big_blue_01_timeout"
 		scale
 		{
 			x		2.5
@@ -443,7 +591,20 @@ EntityBlueprint
 			y		4.0
 			z		4.0
 		}
-	}		
+	}
+	BurningComponent
+	{
+		spread_radius 			"10.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
 }
 
 EntityBlueprint
@@ -495,8 +656,19 @@ EntityBlueprint
 			
 		}
 	}
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
 
-	
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
 }
 
 EntityBlueprint
@@ -547,14 +719,25 @@ EntityBlueprint
 			z		1
 		}
 	}
+	BurningComponent
+	{
+		spread_radius 			"1.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
 
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
 	
 }
 
 EntityBlueprint
 {
-
-		name effects/weapons_explosive/grenade_launcher_fire_medium
+	name effects/weapons_explosive/grenade_launcher_fire_medium
 
 	base_blueprints
 	{
@@ -588,9 +771,7 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/weapons/explosive/grenade_launcher_fire"
-	}
-
-	
+	}	
 }
 
 EntityBlueprint
@@ -617,6 +798,41 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/weapons/explosive/hand_grenade_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/flare_projectile
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/flare
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_flare_projectile"
 	}
 }
 

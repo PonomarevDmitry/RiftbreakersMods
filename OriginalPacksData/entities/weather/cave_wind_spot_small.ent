@@ -1,0 +1,159 @@
+EntityBlueprint
+{
+	name  "weather/cave_wind_spot_small"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/resources/resource_wind_spot.mesh"
+		material 	"resources/resource_wind_spot"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/resources/resource_wind_spot"
+	}	
+	
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/resources/resource_wind_spot_c1.nxs"
+			}
+		}	
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"world_blocker"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/resources/resource_wind_spot_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}	
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		time_of_day 							"scripts/scene_params/caverns_wind_spot.td"
+		effect_intesity_distance				"0"
+		max_health_percentage_damage_threshold	"66"
+		damage_type								"earthquake"
+		size									"as_radius"
+		radius									"10"
+		local_effects							"effects/world/tornado_big_fire"
+		local_effects_random_offset				"100"
+		minimum_distance_per_local_effect		"100"
+	}
+
+	BiomeModificatorComponent
+	{
+		wind_power 	"1.25"
+		
+		id			"cave"
+	}
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/wind_spot"
+		unknown_until_visible 	"1"
+
+		visibility 			"discovered|radar"
+	}	
+		
+	EffectDesc
+	{	
+		EffectGroup
+		{							
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/decals/geothermal_vent"		
+					scale "7 0.4 7"	
+					bone "att_wind"
+				}	
+				Effect
+				{
+					blueprint "effects/world/wind_spot"		
+					bone "att_wind"
+				}									
+				Effect
+				{
+					blueprint "effects/world/wind_spot_vent_big"		
+					bone "att_wind_big"
+				}		
+				Effect
+				{
+					blueprint "effects/world/wind_spot_vent_medium"		
+					bone "att_wind_medium_1"
+				}	
+				Effect
+				{
+					blueprint "effects/world/wind_spot_vent_medium"		
+					bone "att_wind_medium_2"
+				}
+				Effect
+				{
+					blueprint "effects/world/wind_spot_vent_medium"		
+					bone "att_wind_medium_3"
+				}
+				Effect
+				{
+					blueprint "effects/world/wind_spot_vent_medium"		
+					bone "att_wind_medium_4"
+				}
+				Effect
+				{
+					blueprint "effects/world/wind_spot_vent_medium"		
+					bone "att_wind_medium_5"
+				}
+				Effect
+				{
+					blueprint "effects/world/wind_spot_vent_medium"		
+					bone "att_wind_medium_6"
+				}				
+			}
+		}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			GridCullerDesc
+			{
+				type 8
+
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "8.0"
+					}
+				}	
+			}
+		}
+	}
+}
+

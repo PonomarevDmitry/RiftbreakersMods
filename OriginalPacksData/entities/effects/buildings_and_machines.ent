@@ -601,7 +601,49 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/building_cube_build_cone_1x1"
+		name    "rift/drone_gather_resources"
+	}
+
+	SoundDesc
+	{
+		name "structures/drone_gather_resources"
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	name effects/buildings_and_machines/drone_cultivate_plants
+
+	ParticleDesc
+	{
+		name    "rift/drone_cultivate_plants"
+	}
+
+	SoundDesc
+	{
+		name "structures/drone_gather_resources"
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	name effects/buildings_and_machines/drone_loot_collect
+
+	ParticleDesc
+	{
+		name    "rift/drone_loot_collect"
 	}
 
 	SoundDesc
@@ -724,6 +766,44 @@ EntityBlueprint
 	}	
 }
 
+EntityBlueprint
+{
+	name effects/buildings_and_machines/drone_trail_loot
+
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/drone_trail_defensive"
+	//}
+
+	RibbonComponent
+	{
+		material 			"ribbon/drone_trail_gold"
+		update_bounds 		1
+		fade_out_time		1.9
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.6"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.6"
+			}
+		}
+	}	
+}
+
 
 EntityBlueprint
 {
@@ -740,6 +820,31 @@ EntityBlueprint
 	}	
 }
 
+
+EntityBlueprint
+{
+	name 			effects/buildings_and_machines/energy_pylon_lightning
+	base_blueprint  effects/buildings_and_machines/drone_defensive_lightning_base
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"1"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_defensive_drone_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
 EntityBlueprint
 {
 	name 			effects/buildings_and_machines/drone_defensive_lightning
@@ -1716,6 +1821,22 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/radar_energy"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/buildings_and_machines/repair_drone_healing_directional
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/repair_drone_healing_directional"
 	}
 }
 

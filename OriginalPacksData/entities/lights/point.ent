@@ -637,6 +637,30 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name lights/point/blue_very_small_weak
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0"
+			y "0.5"
+			z "1.0"
+			w "50.0"
+		}
+
+		light_range "5"
+	}
+}
+
+EntityBlueprint
+{
 	name lights/point/blue_super_small
 
 	SceneEditorDesc
@@ -857,6 +881,35 @@ EntityBlueprint
 
 	UniqueShadowComponent
 	{
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/crystal_blue_big
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0.00"
+			y "0.54"
+			z "1.00"
+			w "500"
+		}
+
+		light_range "30"
+	}
+
+	LightDayAndNightAffector
+	{
+		instant 0
 	}
 }
 
@@ -2652,6 +2705,49 @@ EntityBlueprint
 	}
 
 
+}
+
+EntityBlueprint
+{
+	name lights/point/flare
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0.918"
+			y "0.698"
+			z "0.259"
+			w "1000"
+		}
+
+		light_range "30"
+
+		light_world_offset
+		{
+			y "3"
+		}
+	}
+
+	AffectorDesc
+	{
+	 	AffectorLambdaDesc
+	 	{
+		 	affector_lambda LightPerlinAffector
+			{
+				const_value 	"1"
+				frequency    	"2"
+				persistance    	"0.1"
+				steps 			"5"
+			}
+	 	}
+	}
 }
 
 EntityBlueprint
@@ -5291,5 +5387,75 @@ EntityBlueprint
 		}
 
 		light_range "100"
+	}
+}
+
+///////////// CAVERN WALL CRYSTALS ///////
+EntityBlueprint
+{
+	name lights/point/cavern_wall_crystals_big
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0.118"
+			y "0.596"
+			z "1.000"
+			w "500"
+		}
+
+		light_range "25"
+	}
+}
+EntityBlueprint
+{
+	name lights/point/cavern_wall_crystals_medium
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0.118"
+			y "0.596"
+			z "1.000"
+			w "150"
+		}
+
+		light_range "15"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/cavern_wall_crystals_small
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0.118"
+			y "0.596"
+			z "1.000"
+			w "50"
+		}
+
+		light_range "8"
 	}
 }

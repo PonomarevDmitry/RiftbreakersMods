@@ -1,0 +1,209 @@
+EntityBlueprint
+{
+	name  "weather/crystal_growth"
+
+	LuaDesc
+	{
+		script "lua/weather/earthquake.lua"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		time_of_day 							"biomes/caverns/scene_params/caverns.td"
+		effect_intesity_distance				"30"
+		max_health_percentage_damage_threshold	"66"
+		damage_type								"earthquake"
+		size									"as_radius"
+		radius									"60"
+		local_effects							"weather/crystal_growth_crystal"
+		local_effects_random_offset				"1"
+		local_effects_dissolve					"5"
+		local_effects_cooldown					"5"
+		local_effects_infinite					"1"
+		minimum_distance_per_local_effect		"1"
+		
+	}
+
+	LifeTimeDesc
+	{
+		time 		60
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name  "weather/crystal_growth_crystal_01"
+
+	HealthDesc
+	{
+		max_health 				"99"
+		health 					"99"
+	}
+	
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0"
+			y "0.5"
+			z "1.0"
+			w "500.0"
+		}
+
+		light_range "15"
+	}	
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_01.mesh"
+		material "units/ground/gulgor_crystal"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora|quelver"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_blue"
+					explosion_effect_scale 	"0.5"
+					part_material	 		"units/ground/gulgor_crystal"
+					part_prefix 			"meshes/units/ground/gulgor_crystal_01"
+					part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "debris_heavy"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/gulgor_crystal_01_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}	
+	
+}
+
+EntityBlueprint
+{
+	name  "weather/crystal_growth_crystal_02"
+
+	base_blueprint weather/crystal_growth_crystal_01
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_02.mesh"
+		material "units/ground/gulgor_crystal"
+	}
+}
+
+EntityBlueprint
+{
+	name  "weather/crystal_growth_crystal_03"
+
+	base_blueprint weather/crystal_growth_crystal_01
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_03.mesh"
+		material "units/ground/gulgor_crystal"
+	}
+}
+
+EntityBlueprint
+{
+	name  "weather/crystal_growth_crystal_04"
+
+	base_blueprint weather/crystal_growth_crystal_01
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_04.mesh"
+		material "units/ground/gulgor_crystal"
+	}
+}
+
+EntityBlueprint
+{
+	name  "weather/crystal_growth_crystal_05"
+
+	base_blueprint weather/crystal_growth_crystal_01
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_05.mesh"
+		material "units/ground/gulgor_crystal"
+	}
+}
+
+EntityBlueprint
+{
+	name "weather/crystal_growth_crystal"
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "weather/crystal_growth_crystal_01"
+		}
+		Blueprint
+		{
+			blueprint "weather/crystal_growth_crystal_02"
+		}
+		Blueprint
+		{
+			blueprint "weather/crystal_growth_crystal_03"
+		}
+		Blueprint
+		{
+			blueprint "weather/crystal_growth_crystal_04"
+		}
+		Blueprint
+		{
+			blueprint "weather/crystal_growth_crystal_05"
+		}		
+	}
+}

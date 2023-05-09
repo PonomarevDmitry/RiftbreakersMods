@@ -1,0 +1,35 @@
+EntityBlueprint
+{
+	name  "weather/anoryx_blast"
+
+	LuaDesc
+	{
+		script "lua/weather/earthquake.lua"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		time_of_day 							"scripts/scene_params/anoryx_blast.td"
+		effect_intesity_distance				"40"
+		max_health_percentage_damage_threshold	"66"
+		damage_type								"earthquake"
+		size									"as_radius"
+		radius									"250"
+		local_effects							"effects/world/earthquake"
+		local_effects_random_offset				"15"
+		minimum_distance_per_local_effect		"5"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"15"
+		power   		"2"
+		falloff_radius 	"30"
+		radius   		"60"
+		frequency 		"1"
+		group			"ambient"
+	}
+}
+

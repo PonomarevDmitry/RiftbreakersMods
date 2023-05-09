@@ -37,7 +37,7 @@ EntityBlueprint
 	
 	DecalDesc
 	{	
-		blueprint "effects/decals/explosion_hole_big_blue_01"
+		blueprint "effects/decals/explosion_hole_big_blue_01_timeout"
 		scale
 		{
 			x		2.0
@@ -86,7 +86,7 @@ EntityBlueprint
 	
 	DecalDesc
 	{	
-		blueprint "effects/decals/explosion_hole_big_01"
+		blueprint "effects/decals/explosion_hole_big_01_timeout"
 		scale
 		{
 			x		1.0
@@ -520,3 +520,105 @@ EntityBlueprint "effects/default"
 	}
 }
 
+EntityBlueprint
+{
+	name effects/items/holo_decoy_explosion
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_blue_big
+		effects/default
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"energy"
+				}
+			}
+		}
+	}	
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"40"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_blaster_charged_explosion_lvl1"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.4"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/items/flamewave
+
+	base_blueprints
+	{
+		 lights/point/fire_orange_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/flamewave"
+	}
+
+	SoundDesc
+	{
+		name items/skills/flamewave
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2.0"			// radius to spread fire
+		spread_chance_override 	"1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"1"	// how long it will burn in seconds
+	}	
+}

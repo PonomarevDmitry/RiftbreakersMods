@@ -9,7 +9,7 @@ skill,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,movement_
 shield,melee_weapon|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
 move_dir,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
 dash_skill,|ALL,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|BLOCK
-equipment,|BLOCK,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
+equipment,|BLOCK,|BLOCK,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|BLOCK,|ALL,|ALL,|ALL
 enemy_range_weapon,melee_weapon|INTERRUPT,|ALL,|ALL,|ALL,interactive|INTERRUPT,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
 barrier,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL,|ALL
 movement_skill,melee_weapon|INTERRUPT,range_weapon|INTERRUPT,|ALL,|ALL,interactive|INTERRUPT,movement_skill|INTERRUPT,movement_skill|INTERRUPT,|ALL,|ALL,|BLOCK,|ALL,|ALL,|ALL,|ALL

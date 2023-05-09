@@ -41,7 +41,7 @@ EntityBlueprint
 {
 	base_blueprints
 	{
-		 lights/point/explosion_orange_big
+		 lights/point/fire_violet_very_small
 		 effects/no_lifetime
 	}
 
@@ -55,7 +55,14 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "enemies/necrodon/resurrect"
-	}		
+	}	
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/necrodon"
+		visibility 		"always"		
+	}	
 }
 
 EntityBlueprint
@@ -76,7 +83,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "enemies/necrodon/resurrect"
+		name "enemies/necrodon/resurrect_body"
 	}		
 }
 
@@ -150,3 +157,97 @@ EntityBlueprint "effects/no_lifetime"
 	}
 }
 
+EntityBlueprint
+{
+	name "effects/enemies_necrodon/laser_muzzle"
+
+	base_blueprints
+	{
+		 lights/point/fire_violet_very_small
+		 effects/no_lifetime
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"3.0"
+		beam_min_width 			"0.04"
+		beam_max_width 			"0.08"
+		beam_count 				"6"
+
+		Lightnings
+		{
+			Lightning
+			{
+				parent_start_attachment 	"tip_left_hand"
+				parent_end_attachment 		"tip_right_hand"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_laser_muzzle"
+	}
+	SoundDesc
+	{
+		name 		"enemies/necrodon/laser_muzzle"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_necrodon/laser_hit"
+	
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_laser_hit"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/necrodon/laser_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_necrodon/healing"
+
+	base_blueprints
+	{
+		 lights/point/fire_violet_very_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_healing"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_necrodon/healing_finished"
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_healing_finished"
+	}
+}

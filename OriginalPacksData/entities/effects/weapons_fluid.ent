@@ -128,7 +128,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/weapons_fluid/acid_weapon_hit"
+	name "effects/weapons_fluid/spitter_acid_hit"
 
 	base_blueprints
 	{
@@ -143,14 +143,14 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/fluid/corrosive_gun_hit"
+		name "items/weapons/fluid/acid_spitter_hit"
 	}
 
 	GridMarkerComponent
 	{
 		mode			"bounds"
-		terrain_type  	"acid_stain_friendly"	
-		extend  		"2"
+		terrain_type  	"spitter_acid_stain"	
+		extend  		"4"
 	}
 	
 	DecalDesc
@@ -158,10 +158,254 @@ EntityBlueprint
 		blueprint "effects/decals/blood_splat_acid_random"
 		scale
 		{
-			x		1.5
-			y		1.5
-			z		1.5
+			x		2.5
+			y		2.5
+			z		2.5
 		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_acid_hit_advanced"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_acid_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_acid_stain_advanced"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_acid_hit_superior"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_acid_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_acid_stain_superior"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_acid_hit_extreme"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_acid_hit
+	}
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_acid_stain_extreme"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_fire_hit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_orange_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/fire_spitter_hit"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_fire_stain"	
+		extend  		"4"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_fire_random"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+		}
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"1.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}		
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_fire_hit_advanced"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_fire_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_fire_stain_advanced"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_fire_hit_superior"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_fire_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_fire_stain_superior"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_fire_hit_extreme"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_fire_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_fire_stain_extreme"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_cryo_hit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_blue_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cryo_explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/cryo_spitter_hit"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_cryo_stain"	
+		extend  		"4"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/cryo_stain"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_cryo_hit_advanced"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_cryo_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_cryo_stain_advanced"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_cryo_hit_superior"
+
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_cryo_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_cryo_stain_superior"	
+		extend  		"4"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/spitter_cryo_hit_extreme"
+	
+	base_blueprints
+	{
+		effects/weapons_fluid/spitter_cryo_hit
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"spitter_cryo_stain_extreme"	
+		extend  		"4"
 	}
 }
 
@@ -206,6 +450,74 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	base_blueprints
+	{
+		lights/point/explosion_green_big
+		effects/default
+	}	
+
+	name "effects/weapons_fluid/acid_explosion_big"
+
+	ParticleDesc
+	{
+		name    "rift/acid_explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_acid_random"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/lava_gun_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_hit"
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
+}	
+
+
+EntityBlueprint
+{
 	name "effects/weapons_fluid/corrosive_gun_projectile"
 
 	base_blueprints 
@@ -232,11 +544,6 @@ EntityBlueprint
 		}
 		visibility		"discovered"
 	}
-
-	//ParticleDesc
-	//{
-	//	name    "rift/mech_acid_projectile_big"
-	//}
 }
 
 EntityBlueprint
@@ -251,5 +558,177 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/weapons/fluid/corrosive_gun_equipped"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/lava_gun_fire
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"100"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_missile_launch"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.2"
+		falloff_radius 	"3"
+		radius   		"25"
+		frequency 		"10"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/lava_gun_equipped
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_equipped"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/empty_fluid_weapon_no_loop
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/empty_fluid_weapon_no_loop"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/acid_spitter_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_green_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_sentinel_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.1"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/spitter_muzzle"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/cryo_spitter_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_green_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_sentinel_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.1"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/spitter_muzzle"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/fire_spitter_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_green_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_sentinel_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.1"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/spitter_muzzle"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/spitter_equipped
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/spitter_equipped"
 	}
 }

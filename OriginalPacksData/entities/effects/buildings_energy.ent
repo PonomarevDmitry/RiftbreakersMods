@@ -32,6 +32,77 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/buildings_energy/explosion_building_energy_big
+
+	base_blueprints
+	{
+		 lights/point/atomic_explosion_blue
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "none"
+	}
+
+	BombAmmoComponent
+	{	
+		DamagePattern
+		{
+			area_damage_radius	"8"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"66"
+					type			"area"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"10000"
+		speed 	"40"
+		radius 	"80"
+	}
+	ParticleDesc
+	{
+		name    "rift/atomic_explosion_blue"
+	}
+	
+	CameraShakeDesc
+	{
+		duration 		"1"
+		power   		"3"
+		falloff_radius 	"40"
+		radius   		"60"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "buildings_generic/explosion_building_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_big_blue_01"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5		
+		}
+	}
+}
+
+EntityBlueprint
+{
 	name effects/buildings_energy/explosion_building_energy_medium
 
 	base_blueprints

@@ -4,23 +4,96 @@ EntityBlueprint
 	
 	MeshDesc
 	{
-		mesh "meshes/props/rocks/metallic_mineral/metallic_mineral_small_06.mesh"
-		material "props/rocks/metallic_mineral/metallic_mineral_small_04_07"
+		mesh 		"meshes/resources/resource_wind_spot.mesh"
+		material 	"resources/resource_wind_spot"
 	}
+	
+	SkeletonDesc
+	{
+		name "meshes/resources/resource_wind_spot"
+	}		
 
 	WorldEffectComponent
 	{
 		damage_per_sec							"0"
 		type									"local"
-		time_of_day 							"scripts/scene_params/wind_strong.td"
-		effect_intesity_distance				"30"
+		time_of_day 							"scripts/scene_params/caverns_wind_spot.td"
+		effect_intesity_distance				"5"
 		max_health_percentage_damage_threshold	"66"
 		damage_type								"earthquake"
 		size									"as_radius"
 		radius									"40"
-		local_effects							"effects/weather/wind_strong"
-		local_effects_random_offset				"15"
-		minimum_distance_per_local_effect		"5"
+		local_effects							"effects/world/tornado_big_fire"
+		local_effects_random_offset				"100"
+		minimum_distance_per_local_effect		"100"
+	}
+
+	BiomeModificatorComponent
+	{
+		wind_power 	"1.25"
+		
+		id			"cave"
+	}
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/wind_spot"
+
+		unknown_until_visible 	"1"
+		visibility 				"discovered|radar"
+	}	
+	
+	ParticleDesc
+	{
+		name    "rift/wind_spot_small"
+	}
+
+	
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/resources/resource_wind_spot_c1.nxs"
+			}
+		}
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{							
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/decals/geothermal_vent"		
+					scale "7 0.4 7"	
+					bone "att_wind"
+				}				
+			}
+		}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			GridCullerDesc
+			{
+				type 8
+
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "8.0"
+					}
+				}	
+			}
+		}
 	}
 }
 
