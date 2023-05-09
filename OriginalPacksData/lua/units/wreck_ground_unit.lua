@@ -102,7 +102,11 @@ function wreck_ground_unit:CreateNormalExplode()
 end
     
 function wreck_ground_unit:OnDestroyRequest( state )
-    EntityService:RequestDestroyPattern( self.entity, "wreck" )	
+    if self._OnDestroyRequest then
+        self:_OnDestroyRequest( state )
+    else
+        EntityService:RequestDestroyPattern( self.entity, "wreck" )
+    end
 end
 
 function wreck_ground_unit:ChangeMeshAndSpawnEffects( name )
@@ -140,6 +144,10 @@ function wreck_ground_unit:OnAnimationStateChanged( evt )
     
     if ( self:CheckChangeMeshRequest( self.deathAnimationStates, stateName ) ) then
         self:ChangeMeshAndSpawnEffects( stateName )
+    end
+
+    if self._OnAnimationStateChanged then
+        self:_OnAnimationStateChanged( evt )
     end
 
     --LogService:Log( "wreck_ground_unit:OnAnimationMarkerReached :" .. stateName )

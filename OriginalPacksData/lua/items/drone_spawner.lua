@@ -108,9 +108,11 @@ end
 
 function drone_spawner:DespawnDrones()
     for drone in Iter(self.spawned_drones) do
-        QueueEvent( "DisableDroneRequest", drone )
-        QueueEvent( "EmitStateMachineEventRequest", drone, "state_dead" )
-        QueueEvent( "DissolveEntityRequest", drone, 0.5, 0.0 )
+        if UnitService:GetCurrentTarget( drone, "owner" ) ~= INVALID_ID then
+            QueueEvent( "DisableDroneRequest", drone )
+            QueueEvent( "EmitStateMachineEventRequest", drone, "state_dead" )
+            QueueEvent( "DissolveEntityRequest", drone, 0.5, 0.0 )
+        end
     end
 
     self.spawned_drones = {}

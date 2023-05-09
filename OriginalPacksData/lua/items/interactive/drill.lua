@@ -100,20 +100,10 @@ end
 function drill:OnExecuteDrilling()
 	local interactive = GetInteractiveEntity( self.owner )
 	local database = EntityService:GetDatabase( interactive )
-	local duration = 0.0
-	if (database ~= nil ) then
-		duration = database:GetFloatOrDefault("harvest_duration",0.0 )
-	end
 	local cooldown =  ItemService:GetCooldown( self.entity)
-	self.duration = self.duration + cooldown
-
-	--LogService:Log(tostring(duration))
-	if ( self.timer == nil and duration > 2.0 ) then
-		-- Enable if you need timer on drilling
-		--self.timer = BuildingService:AttachGuiTimer( entity, duration - self.duration - cooldown, true )
-	end
+	self.duration = self.duration +  (1.0 / 30.0)
 	
-	if ( self.duration < duration ) then
+	if ( self.duration < cooldown ) then
 		return
 	end
 

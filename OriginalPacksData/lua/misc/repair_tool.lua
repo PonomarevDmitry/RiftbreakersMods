@@ -135,7 +135,6 @@ function repair_tool:OnActivateEntity( entity )
         local database = EntityService:GetDatabase( entity )
         if ( database ) then
             ruinsBlueprint = database:GetString("blueprint")
-            canRepair = BuildingService:CanAffordBuilding( ruinsBlueprint, self.playerId)
             local transform = EntityService:GetWorldTransform( entity )
             QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
         end

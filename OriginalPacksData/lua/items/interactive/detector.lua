@@ -107,6 +107,14 @@ function detector:CheckAndSpawnEffect( ent, type, factor)
 	return mode
 end
 
+function detector:CanActivate()
+	if MissionService.IsPlayerDetectorBlocked then
+		return not MissionService:IsPlayerDetectorBlocked()
+	end
+
+	return true
+end
+
 function detector:OnExecuteDetecting()
 	local enemyEntities = FindService:FindEntitiesByPredicateInRadius( self.item, self.enemyRadius, {
 		signature = "TreasureComponent",

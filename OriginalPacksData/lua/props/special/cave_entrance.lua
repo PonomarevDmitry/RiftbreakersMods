@@ -6,6 +6,16 @@ end
 
 function cave_entrance:init()	
 	self:RegisterHandler( self.entity, "InteractWithEntityRequest",  "OnInteractWithEntityRequest" )
+	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
+end
+
+function cave_entrance:OnLuaGlobalEvent( event )
+	if "CaveEntranceEnabled" == event:GetEvent() then
+        local component = reflection_helper( EntityService:CreateComponent(self.entity,"InteractiveComponent") );
+        component.slot = "HARVESTER"
+        component.radius = 10 
+        component.remove_entity = 0
+    end
 end
 
 

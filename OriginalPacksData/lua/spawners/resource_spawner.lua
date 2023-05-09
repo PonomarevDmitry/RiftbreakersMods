@@ -8,6 +8,11 @@ function resource_spawner:__init()
 end
 
 function resource_spawner:init()
+	self.removeEntity = false
+	if self.data:HasString("blueprint") then
+		loot_spawner.init( self )
+	end
+
 	local target_entity = self.entity
 	local target_blueprint = "resources/volume_template_resource"
 
@@ -28,12 +33,12 @@ function resource_spawner:init()
 		ResourceService:SpawnResourcesInfinite( target_entity, target_blueprint, resource_name  )
 	end
 	
-	if self.data:HasString("blueprint") then
-		loot_spawner.SpawnLoot( self )
-	end
-	
 	if target_entity ~= self.entity then
-		EntityService:RemoveEntity( self.entity )
+		if self.lootSpawn ~= nil then
+			self.removeEntity = true
+		else
+			EntityService:RemoveEntity( self.entity )
+		end
 	end
 end
 

@@ -108,7 +108,10 @@ end
 function extractor:OnExecuteHarvesting()
 	local entity = GetInteractiveEntity( self.owner )
 	local database = EntityService:GetDatabase( entity )
-	local duration =  database:GetFloatOrDefault("harvest_duration", 2.0 )
+	local duration = 2.0
+	if ( database ~= nil ) then
+		duration =  database:GetFloatOrDefault("harvest_duration", 2.0 )
+	end
 	local cooldown =  ItemService:GetCooldown( self.entity)
 	self.duration = self.duration + cooldown
 

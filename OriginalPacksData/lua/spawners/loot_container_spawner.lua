@@ -1,5 +1,6 @@
 require("lua/units/units_utils.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/reflection.lua")
 class 'loot_container_spawner' ( LuaEntityObject )
 
 function loot_container_spawner:__init()
@@ -44,9 +45,16 @@ function loot_container_spawner:OnInteractWithEntityRequest( evt )
 	if string.find(blueprintName, "metallic" ) ~= nil then
 		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1)
 	end
-
-	QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity )
+	local owner = evt:GetOwner()
+	local playerReferenceComponent = EntityService:GetComponent( owner, "PlayerReferenceComponent")
+	if ( playerReferenceComponent ) then
+		local helper = reflection_helper(playerReferenceComponent)
+		QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity, helper.player_id )
+	end
 	QueueEvent("DestroyRequest", self.entity, "default", 100 )
+	
+	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
+	QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyClose", params )
 end
 
 function loot_container_spawner:OnHarvestStartEvent( evt )
@@ -66,12 +74,19 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 			end
 
 			local spawnPoint = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul )
-		
+			local params = { target = tostring( EntityService:GetName( self.entity ) ) }
+			QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyOpen", params )
 
 			for i = 1, #spawnPoint do
 				if ( spawnPoint[i] ~= INVALID_ID ) then
 					self.data:SetString( "spawn_point", EntityService:GetName( spawnPoint[i] ) )
 					MissionService:ActivateMissionFlow( "", waveLogic, "default", self.data )
+
+					local pathCleaner = EntityService:SpawnEntity( "misc/path_cleaner", self.entity, "" )
+					local db = EntityService:GetDatabase( pathCleaner )			
+					db:SetString( "to_entity", tostring( spawnPoint[i] ) )
+					db:SetString( "from_entity", tostring( self.entity ) )
+
 				else
 					LogService:Log( "loot_container_spawner:OnHarvestStartEvent - could not create a spawn point." )
 				end

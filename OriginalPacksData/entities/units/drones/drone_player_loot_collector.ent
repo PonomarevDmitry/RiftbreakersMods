@@ -1,25 +1,6 @@
 
 EntityBlueprint
 {
-	name  			"units/drones/drone_player_loot_collector_picker"
-
-	TriggerDesc
-	{
-		owner 		"parent"
-		collision 	"loot"
-
-		Shapes
-		{
-			PhysicsSphereShape
-			{
-				r "1.0"
-			}
-		}
-	}
-}
-
-EntityBlueprint
-{
 	name  			"units/drones/drone_player_loot_collector_standard"
 	base_blueprint 	"units/drones/drone_base"
 
@@ -33,7 +14,7 @@ EntityBlueprint
 			hover_min_height		float:"7"
 
 			owner_movement							string:"follow"
-			owner_movement_speed_near       		float:"0.75"
+			owner_movement_speed_near       		float:"1.5"
 			owner_movement_speed_far          	 	float:"1.5"
 			owner_movement_trigger_distance 		float:"12.0"
 			
@@ -50,22 +31,28 @@ EntityBlueprint
 		{
 			search_radius 		float:"30.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
 			pickup_radius		float:"5.0"
-			min_scale			float:"1"
-			max_scale			float:"1"			
+			min_scale			float:"0.7"
+			max_scale			float:"0.7"			
 		}
 	}
+	
+	VegetationBendingComponentDesc
+	{
+		bending_power	"500.0"
+		bending_radius	"5.0"
+	}	
 
 	MeshDesc
 	{
-		mesh "meshes/units/drones/drone_crystal_collector.mesh"
-		material "units/drones/drone_crystal_collector"
+		mesh "meshes/units/drones/drone_player_loot_collector.mesh"
+		material "units/drones/drone_player_loot_collector"
 	}
 
 	MovementDataComponent
 	{
 		acceleration 			
 		{
-			base 	"5"
+			base 	"25"
 		}		
 		
 		max_speed
@@ -86,7 +73,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/drone_trail_defensive"
+					blueprint "effects/buildings_and_machines/drone_trail_loot"
 				}
 			}
 		}
@@ -101,7 +88,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/drone_gather_resources"
+					blueprint "effects/buildings_and_machines/drone_loot_collect"
 				}
 			}
 		}

@@ -25,6 +25,10 @@ function sentry_gun:OnActivate()
 end
 
 function  sentry_gun:CanActivate()
+	item.CanActivate( self )
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        return false
+    end
     local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, self.bp, "", "")
     return pos.first
 end

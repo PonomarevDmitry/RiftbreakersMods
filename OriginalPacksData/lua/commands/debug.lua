@@ -29,6 +29,22 @@ ConsoleService:RegisterCommand( "debug_dom_manager", function( args )
     g_debug_dom_manager = args[1] == "1"
 end)
 
+g_verbose_dom_manager = false
+
+ConsoleService:RegisterCommand( "verbose_dom_manager", function( args )
+    if not Assert( #args == 1, "Command requires one argument! [bool]" ) then return end
+
+    g_verbose_dom_manager = args[1] == "1"
+end)
+
+g_debug_dom_manager_spawn_wave_levels = {}
+
+ConsoleService:RegisterCommand( "debug_dom_manager_spawn_wave_level", function( args )
+    if not Assert( #args == 1, "Command requires one argument! [level]" ) then return end
+
+    table.insert(g_debug_dom_manager_spawn_wave_levels, tonumber( args[1] ) )
+end)
+
 ConsoleService:RegisterCommand( "debug_spawn_resource_loot", function( args )
     if not Assert( #args == 2, "Command requires one argument! [resource] [count]" ) then return end
 

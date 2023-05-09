@@ -135,7 +135,7 @@ function spreader:Spread( state )
 	local blocked = false
 	for i=self.currentIdx,#self.spots 
 	do
-		blocked = BuildingService:IsSpaceOccupied( self.spots[i], self.type, self.terrainExclude ) or FindService:IsGridMarkedWithLayer( self.spots[i], "SpreaderCullerLayer")
+		blocked = BuildingService:IsSpaceOccupied( self.spots[i], self.type, self.terrainExclude ) or FindService:IsGridMarkedWithLayer( self.spots[i], "SpreaderCullerLayerComponent")
 		if ( blocked == false ) then
 			self.currentIdx = i
 			break
@@ -168,7 +168,7 @@ function spreader:Spread( state )
 
 					local testSpots = FindService:FindEmptySpotsInRadius(  self.entity, 0,  self.max_radius + self.grow_size, self.type, self.terrainExclude, 0.0, 0.0, 3 )
 					for spot in Iter( testSpots ) do
-						if not FindService:IsGridMarkedWithLayer( spot, "SpreaderCullerLayer") then
+						if not FindService:IsGridMarkedWithLayer( spot, "SpreaderCullerLayerComponent") then
 							table.insert(spots, spot)
 						end
 					end
@@ -280,12 +280,15 @@ function spreader:OnChildDestroyRequest( evt )
 	self.currentIdx = 1;
 	local child = evt:GetEntity();
 	Remove(self.branches, child)
-	if ( EntityService:IsAlive( child ) ) then
+	if ( EntityService:IsAlive( child ) and EntityService:GetType(child) == "ground_unit" ) then
 		EntityService:RemoveComponent( child, "TypeComponent" )
 		EntityService:ChangeType( child, "prop" )
 		EntityService:RemoveComponent( child, "TeamComponent" )
 	end	
 	EntityService:DissolveEntity( child, 1.0, 15.0 )
+	if ( EntityService:GetComponent( child, "VegetationComponent") == nil) then
+		EntityService:RequestDestroyPattern( child, "default")
+	end
 	self:UnregisterHandler( child, "DestroyRequest", "OnChildDestroyRequest" )
 end
 

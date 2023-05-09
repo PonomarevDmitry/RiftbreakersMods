@@ -1,5 +1,10 @@
 require( "lua/utils/table_utils.lua")
 
+FIND_TYPE_NAME        = "Name";
+FIND_TYPE_GROUP       = "Group";
+FIND_TYPE_BLUEPRINT   = "Blueprint";
+FIND_TYPE_TYPE        = "Type";
+
 function FindEntity( searchRadius, searchTargetName, targetName, targetGroup, targetType, targetBlueprint )  
 	--LogService:Log("FindEntity: " .. tostring(searchRadius) .. ", " .. tostring(searchTarget) .. ", " .. tostring(targetName) .. ", " .. tostring(targetGroup) .. ", " .. tostring(targetType) .. ", " .. tostring(targetBlueprint) )   
     if ( searchTargetName ~= nil ) then
@@ -42,13 +47,13 @@ end
 
 function FindEntities( findType, findValue)  
     --LogService:Log( "PlainFindEntities: " .. findType .. ":" .. findValue )
-    if ( findType == "Name" ) then
+    if ( findType == FIND_TYPE_NAME ) then
         return FindService:FindEntitiesByName( findValue )     
-    elseif ( findType == "Group" ) then
+    elseif ( findType == FIND_TYPE_GROUP ) then
         return FindService:FindEntitiesByGroup( findValue )  
-    elseif ( findType == "Blueprint" ) then
+    elseif ( findType == FIND_TYPE_BLUEPRINT ) then
         return FindService:FindEntitiesByBlueprint( findValue )   
-    elseif ( findType == "Type" ) then
+    elseif ( findType == FIND_TYPE_TYPE ) then
         return FindService:FindEntitiesByType( findValue )
     else
         Assert( false, "ERROR: Invalid or unsupported find type: '" .. findType .. "', find value: '" .. findValue .. "' returning empty list!")
@@ -56,7 +61,7 @@ function FindEntities( findType, findValue)
     end
 end
 
-function FindEntitiesInDinstance( findType, findValue, findTarget, searchRadius)  
+function FindEntitiesInDinstance( findType, findValue, findTarget, searchMinRadius, searchMaxRadius)  
     --LogService:Log( "FindEntitiesInDinstance: " .. findType .. ":" .. findValue .. ":" .. tostring(findTarget) .. ":" .. tostring(searchRadius) )
 
     local targets = {}
@@ -66,32 +71,51 @@ function FindEntitiesInDinstance( findType, findValue, findTarget, searchRadius)
         targets = { findTarget }
     end
 
+    local FilterEntities = function( source, entities )
+        if searchMinRadius == 0 then
+            return entities
+        end
+
+        local selected = {}
+        for entity in Iter( entities ) do
+            if EntityService:GetDistanceBetween( source, entity ) > searchMinRadius then
+                table.insert(selected,entity)
+            end
+        end
+
+        return selected
+    end
+
     local found = {}
     for target in Iter( targets ) do
-        if ( findType == "Name" ) then   
-            ConcatUnique( found, FindService:FindEntitiesByNameInRadius( target, findValue, searchRadius ) )   
-        elseif ( findType == "Group" ) then       
-            ConcatUnique( found, FindService:FindEntitiesByGroupInRadius( target, findValue, searchRadius ) )   
-        elseif ( findType == "Type" ) then               
-            ConcatUnique( found, FindService:FindEntitiesByTypeInRadius( target, findValue, searchRadius ) )
-        elseif ( findType == "Blueprint" ) then
-            ConcatUnique( found, FindService:FindEntitiesByBlueprintInRadius( target, findValue, searchRadius ) )  
+        if ( findType == FIND_TYPE_NAME ) then   
+            ConcatUnique( found, FilterEntities(target, FindService:FindEntitiesByNameInRadius( target, findValue, searchMaxRadius ) ))   
+        elseif ( findType == FIND_TYPE_GROUP ) then       
+            ConcatUnique( found, FilterEntities(target, FindService:FindEntitiesByGroupInRadius( target, findValue, searchMaxRadius ) ))   
+        elseif ( findType == FIND_TYPE_TYPE ) then               
+            ConcatUnique( found, FilterEntities(target, FindService:FindEntitiesByTypeInRadius( target, findValue, searchMaxRadius ) ))
+        elseif ( findType == FIND_TYPE_BLUEPRINT ) then
+            ConcatUnique( found, FilterEntities(target, FindService:FindEntitiesByBlueprintInRadius( target, findValue, searchMaxRadius ) ))  
         end
     end
 
     return found
 end
 
-function FindEntitiesByTarget( findType, findValue, searchRadius, searchFindTargetType, searchFindTargetValue)  
+function FindEntitiesByTarget( findType, findValue, searchMinRadius, searchMaxRadius, searchFindTargetType, searchFindTargetValue)  
 	--LogService:Log("FindEntities: " .. tostring(searchFindTargetType) .. ", " .. tostring(searchFindTargetValue) .. ", " .. tostring(searchRadius) .. ", " .. tostring(findType) .. ", " .. tostring(findValue)  )   
     if ( searchFindTargetType ~= nil and searchFindTargetType ~= "" ) then
         searchTarget = FindEntities( searchFindTargetType, searchFindTargetValue )
     end
     
-    if searchRadius == 0 then
+    if searchMaxRadius == 0 and searchMinRadius == 0 then
         return FindEntities( findType, findValue )
-    else 
-        return FindEntitiesInDinstance( findType, findValue, searchTarget, searchRadius )
+    else
+        if searchMaxRadius == 0 then
+            searchMaxRadius = 1000000.0
+        end
+
+        return FindEntitiesInDinstance( findType, findValue, searchTarget, searchMinRadius, searchMaxRadius )
     end
 end
 
@@ -112,7 +136,6 @@ function FindClosestEntity( source, entities )
     return closest.entity;
 end
 
-
 function FindClosestEntityWithDistance( source, entities )
     local closest = {
         entity = INVALID_ID,
@@ -129,7 +152,6 @@ function FindClosestEntityWithDistance( source, entities )
 
     return closest;
 end
-
 
 function FindObjectiveSpot(borderMargin)
 	local playable_min = MissionService:GetPlayableRegionMin();
@@ -198,8 +220,6 @@ function FindAllAvailableObjectiveSpots()
 	return entities
 end
 
-
-
 function FindResourcePoolSpot( veins, specificType)
 	local playable_min = MissionService:GetPlayableRegionMin();
     local playable_max = MissionService:GetPlayableRegionMax();
@@ -245,7 +265,7 @@ function FindBuilding(findType, findValue, searchRadius, searchFindTargetType, s
 			entities = BuildingService:GetFinishedBuildingByBp(findValue)
 		end
 	else
-		entities = FindEntitiesByTarget(findType, findValue, searchRadius, searchFindTargetType, searchFindTargetValue);
+		entities = FindEntitiesByTarget(findType, findValue, 0.0, searchRadius, searchFindTargetType, searchFindTargetValue);
 	end    
     return entities
 end

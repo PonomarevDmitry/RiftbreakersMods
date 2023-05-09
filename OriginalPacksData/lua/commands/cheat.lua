@@ -147,7 +147,7 @@ end)
 
 ConsoleService:RegisterCommand( "cheat_unlock_award", function( args )
     if not Assert( #args == 1, "Command requires one argument!" ) then return end
-    QueueEvent("NewAwardEvent", INVALID_ID, args[1], false )	
+    QueueEvent("NewAwardEvent", INVALID_ID, args[1], false, EntityService:GetTeam( "player") )	
 end)
 
 
@@ -161,5 +161,33 @@ ConsoleService:RegisterCommand( "cheat_add_resource", function( args )
     local value = tonumber(args[ 2 ])
     if Assert( value ~= nil, "ERROR: argument must be a number!" ) then
         PlayerService:AddResourceAmount( resourceName, value )
+    end
+end)
+
+
+ConsoleService:RegisterCommand( "cheat_remove_all_cultivator_plants", function( args )
+    local playable_min = MissionService:GetPlayableRegionMin();
+    local playable_max = MissionService:GetPlayableRegionMax();
+    local predicate = {
+        signature="VegetationLifecycleEnablerComponent",
+    };
+	local entities = FindService:FindEntitiesByPredicateInBox( playable_min, playable_max, predicate );
+
+    LogService:Log(tostring( CalcHash("cultivator")))
+    for entity in Iter(entities) do
+        
+        local component = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
+        if ( component ~= nil ) then
+            
+            local componentHelper = reflection_helper(component)
+            LogService:Log( tostring( componentHelper.chain_data) )
+            if ( componentHelper.chain_data.hash == CalcHash("cultivator")) then
+                local propsInPlace = FindService:FindEntitiesByTypeInRadius( entity, "prop", 0.05 )
+                for prop in Iter(propsInPlace) do
+                    EntityService:RemoveEntity( prop )
+                end
+            end
+
+        end
     end
 end)

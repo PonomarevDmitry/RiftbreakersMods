@@ -53,6 +53,17 @@ function repair_drone:OnLoad()
     base_drone.OnLoad( self )
 end
 
+function repair_drone:FinishTargetAction( state )
+    EffectService:DestroyEffectsByGroup(self.entity, "work");
+
+    self:UnlockAllTargets();
+    self:SetTargetActionFinished();
+
+    if state then
+        state:Exit()
+    end
+end
+
 function repair_drone:FindActionTarget()
     self.fsm:Deactivate()
 
@@ -62,6 +73,10 @@ function repair_drone:FindActionTarget()
         filter = function(entity)
             if self:IsTargetLocked(entity, LOCK_TYPE_REPAIR) then
                return false
+            end
+
+            if not HealthService:IsAlive(entity) then
+                return false
             end
 
             local health = HealthService:GetHealthInPercentage( entity )
@@ -113,7 +128,7 @@ end
 function repair_drone:OnFollowExecute(state)
     local target = self:GetDroneActionTarget();
     if target == INVALID_ID or self:HasTargetMoved( target ) then
-        return state:Exit()
+        return self:FinishTargetAction(state)
     end
 end
 
@@ -143,21 +158,23 @@ end
 function repair_drone:OnRepairEnter(state)
     local target = self:GetDroneActionTarget();
     self.target_last_position = EntityService:GetPosition(target)
+	
+	self:OnRepairExecute(state)
 end
 
 function repair_drone:OnRepairExecute( state )
     local target = self:GetDroneActionTarget();
     if self:HasTargetMoved( target ) then
-        return state:Exit()
+        return self:FinishTargetAction(state)
     end
 
-    if not EntityService:IsAlive(target) then
-        return state:Exit()
+    if not HealthService:IsAlive(target) then
+        return self:FinishTargetAction(state)
     end
 
     local owner = self:GetDroneOwnerTarget();
     if EntityService:GetDistance2DBetween( owner, target ) > ( self.search_radius * 1.1 ) then
-        return state:Exit()
+        return self:FinishTargetAction(state)
     end
 
     if not EffectService:HasEffectByGroup(self.entity, "work") then
@@ -177,15 +194,12 @@ function repair_drone:OnRepairExecute( state )
 
     HealthService:SetHealth(target, math.min( health, maxHealth ));
     if health >= maxHealth then
-        state:Exit()
+        return self:FinishTargetAction(state)
     end
 end
 
 function repair_drone:OnRepairExit()
-    EffectService:DestroyEffectsByGroup(self.entity, "work");
-
-    self:UnlockAllTargets();
-    self:SetTargetActionFinished();
+    self:FinishTargetAction()
 end
 
 return repair_drone;

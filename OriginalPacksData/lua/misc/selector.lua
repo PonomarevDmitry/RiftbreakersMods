@@ -36,12 +36,14 @@ end
 function selector:InitializeValues()
     self.mode = SM_INVALID
     self.selector = INVALID_ID
+    self.cameraCuller = INVALID_ID
     self.blueprint = ""
     self.ghostBlueprint = ""
     self.selectedEntities = {}
     self.activatedEntities = {}
     self.baseBlueprint = "misc/marker_selector"
     self.cornerBlueprint = "misc/marker_selector_corner"
+    self.cameraCullerBlueprint = "misc/selector_camera_culler"
     self.boundsSize = {x=0,y=0,z=0}
     self.transform = EntityService:GetWorldTransform( self.entity )
     self.selectorPosition = nil
@@ -89,20 +91,27 @@ function selector:OnInvalidEnter()
     self:DeselectAllEntities()
     self:DeactivateAllEntities()
 
-    QueueEvent("RemoveEntityToTraceRequest", self.selector)
-    QueueEvent("EnterFighterModeEvent", PlayerService:GetPlayerControlledEnt(self.playerId ) , self.playerId)
+    QueueEvent("RemoveEntityToTraceRequest", self.selector )
+    QueueEvent("EnterFighterModeEvent", PlayerService:GetPlayerControlledEnt( self.playerId ) , self.playerId )
     self:RemoveCurrentSelector()
-    PlayerService:OperateActionMapper( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, false  )
+    PlayerService:OperateActionMapper( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, false )
     self:RemoveScaleInfo()
-end
 
+    if EntityService:IsAlive( self.cameraCuller ) then
+        EntityService:RemoveEntity( self.cameraCuller )
+        self.cameraCuller = INVALID_ID
+    end
+end
 
 function selector:OnInvalidExit()
     QueueEvent("EnterBuildModeEvent",  PlayerService:GetPlayerControlledEnt(self.playerId ) , self.playerId, self.entity, self.blueprint )
-    QueueEvent("EnterBuildMenuEvent", self.selector)
+    QueueEvent("EnterBuildMenuEvent", self.selector )
     PlayerService:OperateActionMapper(  self.entity, BUILD_MODE_ACTION_MAPPER_NAME, true )
-end
 
+    if not EntityService:IsAlive( self.cameraCuller ) then
+        self.cameraCuller = EntityService:SpawnAndAttachEntity( self.cameraCullerBlueprint, self.entity )
+    end
+end
 
 function selector:ChangeBlueprint( blueprintName, ghostBlueprint )
     self:RemoveCurrentSelector()
@@ -534,7 +543,13 @@ function selector:OnLoad( )
     if ( self.rotations == nil ) then
         self.rotations = {}
     end
-
+    if ( self.cameraCuller == nil ) then
+        self.cameraCuller = INVALID_ID
+    end
+    if ( self.cameraCullerBlueprint == nil ) then
+        self.cameraCullerBlueprint = "misc/selector_camera_culler"   
+    end
 end
+
 return selector
  

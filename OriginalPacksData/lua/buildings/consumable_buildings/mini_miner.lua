@@ -56,6 +56,7 @@ function mini_miner:OnWorkInProgress()
     position.y = position.y + size.y + 0.5
     local shard = ItemService:SpawnLoot( position, resourceBlueprint, 5 , 5000, 6000, "normal" )
     QueueEvent("DissolveEntityRequest", shard, 1.0, 0.1 )
+    EntityService:SetGraphicsUniform( shard, "cGlowFactor", 0.4 )
 end
 
 

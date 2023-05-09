@@ -18,7 +18,9 @@ function spreader_cleaner:init()
 
 	for key in Iter(keys) do
 		if ( string.find( key, "branch_")) then
-			Insert(self.branches, self.data:GetInt(key) )
+			local branch = self.data:GetInt(key)
+			self:RegisterHandler( branch, "DestroyRequest", "OnChildDestroyRequest" )
+			Insert(self.branches, branch )
 		end
 	end
 end
@@ -40,6 +42,22 @@ function spreader_cleaner:OnCollapseExecute( state )
 		state:Exit();
 		return;
 	end
+end
+
+function spreader_cleaner:OnChildDestroyRequest( evt )
+	self.currentIdx = 1;
+	local child = evt:GetEntity();
+	Remove(self.branches, child)
+	if ( EntityService:IsAlive( child ) and EntityService:GetType(child) == "ground_unit" ) then
+		EntityService:RemoveComponent( child, "TypeComponent" )
+		EntityService:ChangeType( child, "prop" )
+		EntityService:RemoveComponent( child, "TeamComponent" )
+	end	
+	EntityService:DissolveEntity( child, 1.0, 15.0 )
+	if ( EntityService:GetComponent( child, "VegetationComponent") == nil) then
+		EntityService:RequestDestroyPattern( child, "default")
+	end
+	self:UnregisterHandler( child, "DestroyRequest", "OnChildDestroyRequest" )
 end
 
 return spreader_cleaner

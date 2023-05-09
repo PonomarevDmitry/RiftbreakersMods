@@ -8,13 +8,6 @@ function solar_panels:__init()
 end
 
 function solar_panels:OnBuildingEnd()
-	local timeOfDay = EnvironmentService:GetTimeOfDay()
-	if ( timeOfDay == "day" ) then
-		self.timeOfDayOk = true
-	else
-		self.timeOfDayOk = false
-	end
-
 	self:Recalculate()
 end
 
@@ -35,20 +28,16 @@ function solar_panels:OnInit()
 end 
 
 function solar_panels:OnDayStartedEvent(evt)
-	self.timeOfDayOk = true
 end
-
 function solar_panels:OnRecalculateModifiersEvent(evt)
 	self:Recalculate()
 	self.cfsm:ChangeState("biom_modifier")
 end
 
 function solar_panels:OnSunsetStartedEvent(evt)
-	self.timeOfDayOk = false
 end
 
 function solar_panels:OnNightStartedEvent(evt)
-	self.timeOfDayOk = false
 end
 
 function solar_panels:OnActivate()
@@ -73,7 +62,9 @@ function solar_panels:OnWorking( state , dt)
 	end		
 
 	local isRaining =  not EnvironmentService:IsRaining()
-	local currentWorking = self.timeOfDayOk and self.lastAcidDamage >= 0 and isRaining
+	self.timeOfDayOk = EnvironmentService:GetLightIntensity() >= 1.00
+	local modificator = BuildingService:GetSolarPowerModificator( self.entity )
+	local currentWorking = self.timeOfDayOk and self.lastAcidDamage >= 0 and isRaining and modificator > 0
 	if ( currentWorking ~= self.working ) then
 		self.working = currentWorking
 		if (self.working) then
@@ -93,7 +84,7 @@ function solar_panels:OnUpdateBiomModifier()
 end
 
 function solar_panels:Recalculate()
-	local modificator = BuildingService:GetSolarPowerModificator()
+	local modificator = BuildingService:GetSolarPowerModificator( self.entity )
 	BuildingService:RemoveResourceConverterEfficientyModificator( self.entity, "biome" )
 	BuildingService:SetResourceConverterEfficientyModificator( self.entity, modificator, "biome" )
 end

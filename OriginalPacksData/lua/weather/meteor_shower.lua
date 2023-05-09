@@ -13,6 +13,8 @@ function meteor_shower:init()
 	self.delay				= self.data:GetFloat( "delay" )
 	self.radius				= self.data:GetInt( "radius" )
 	self.meteorsInOneSpawn	= self.data:GetInt( "meteors_in_one_spawn" )
+	self.speed				= self.data:GetFloatOrDefault( "speed", 140 )
+	self.spread				= self.data:GetFloatOrDefault( "spread", 15 )
 
 	self.timeBound = 4.0
 	self.currentTime = 0
@@ -27,6 +29,11 @@ function meteor_shower:init()
     self.interpolation = self:CreateStateMachine()
     self.interpolation:AddState( "interpolation", { execute="OnEecuteInterpolation" } )
 	self.interpolation:ChangeState( "interpolation" )
+end
+
+function meteor_shower:OnLoad()
+	self.speed				= self.data:GetFloatOrDefault( "speed", 140 )
+	self.spread				= self.data:GetFloatOrDefault( "spread", 15 )
 end
 
 function meteor_shower:OnEecuteInterpolation( state, dt )
@@ -64,15 +71,15 @@ function meteor_shower:OnEnterSpawn( state )
 
 	for i = 1, self.meteorsInOneSpawn, 1 do 
 		if ( self.type == METEOR_SPAWN_IN_PLACE ) then
-			MeteorService:SpawnMeteorInRadius( self.entity, self.meteorBp, self.radius, 50, 140, 15, self.delay, self.warningBp )
+			MeteorService:SpawnMeteorInRadius( self.entity, self.meteorBp, self.radius, 50, self.speed, self.spread, self.delay, self.warningBp )
 		elseif ( self.type == METEOR_FOLLOW_PLAYER ) then
 			
 			local player = PlayerService:GetPlayerControlledEnt( 0 )
 
 			if ( player ~= INVALID_ID ) then
-				MeteorService:SpawnMeteorInRadius( player, self.meteorBp, self.radius, 50, 140, 15, self.delay, self.warningBp )
+				MeteorService:SpawnMeteorInRadius( player, self.meteorBp, self.radius, 50, self.speed, self.spread, self.delay, self.warningBp )
 			else
-				MeteorService:SpawnMeteorInRadius( CameraService:GetActiveCamera(), self.meteorBp, self.radius, 50, 140, 15, self.delay, self.warningBp )
+				MeteorService:SpawnMeteorInRadius( CameraService:GetActiveCamera(), self.meteorBp, self.radius, 50, self.speed, self.spread, self.delay, self.warningBp )
 			end
 
 		end

@@ -7,6 +7,14 @@ function loot_collector_drone:__init()
 	base_drone.__init(self,self)
 end
 
+local function GetPlayerForEntity( entity )
+    if PlayerService.GetPlayerForEntity then
+        return PlayerService:GetPlayerForEntity( entity )
+    end
+
+    return 0
+end
+
 function FindFarthestEntity( source, entities )
     local closest = {
         entity = INVALID_ID,
@@ -39,22 +47,23 @@ function loot_collector_drone:OnInit()
 
     self:RegisterHandler( self.entity, "EnteredTriggerEvent",  "OnEnteredTriggerEvent" )
 
-    self.loot_picker = EntityService:SpawnAndAttachEntity( "units/drones/drone_player_loot_collector_picker", self.entity, "" )
+    self.loot_picker = EntityService:SpawnAndAttachEntity( "units/drones/drone_loot_collector_picker", self.entity, "" )
     self.is_working = false
 
     EntityService:SetScale( self.loot_picker, self.pickup_radius, 2.0,  self.pickup_radius );
 
     self.fsm = self:CreateStateMachine()
-    self.fsm:AddState("updater", { execute = "OnUpdate", interval = 1.0 })
+    self.fsm:AddState("updater", { execute = "OnUpdate", interval = 0.1 })
     self.fsm:ChangeState("updater")
 end
 
 function loot_collector_drone:OnEnteredTriggerEvent( evt )
-    local owner = self:GetDroneOwnerTarget()
-
-    if ItemService:CanFitResourceGiver( owner, evt:GetOtherEntity() ) then
+    if self:ValidateTarget( evt:GetOtherEntity() ) then
         EffectService:SpawnEffects(evt:GetOtherEntity(), "loot_collect")
-        ItemService:FlyItemToInventory(owner, evt:GetOtherEntity())
+
+        local owner = self:GetDroneOwnerTarget()
+        local pawn = PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(owner))
+        ItemService:FlyItemToInventory(pawn, evt:GetOtherEntity())
     end
 end
 
@@ -86,7 +95,12 @@ function loot_collector_drone:OnUpdate()
     if EntityService:IsAlive(loot_target) then
         self:EnableEffect()
     else
-        self:DisableEffect()
+        local target = self:FindActionTarget()
+        UnitService:SetCurrentTarget( self.entity, "action", target );
+        if not self:ValidateTarget( target ) then
+            self:SetTargetActionFinished()
+            self:DisableEffect()
+        end
     end
 end
 
@@ -96,8 +110,19 @@ function loot_collector_drone:OnLoad()
     base_drone.OnLoad( self )
 end
 
+function loot_collector_drone:ValidateTarget( entity, pawn )
+    if entity == INVALID_ID then
+        return false
+    end
+
+    local test_owner = pawn or PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(self:GetDroneOwnerTarget()))
+    return ItemService:CanFitResourceGiver( test_owner, EntityService:GetParent( entity ) )
+end
+
 function loot_collector_drone:FindActionTarget()
     local owner = self:GetDroneOwnerTarget()
+    local pawn = PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(owner))
+
     local predicate = {
         signature="BlueprintComponent,IdComponent,ParentComponent",
         filter = function(entity)
@@ -106,11 +131,9 @@ function loot_collector_drone:FindActionTarget()
                 return false;
             end
 
-            return ItemService:CanFitResourceGiver( owner, EntityService:GetParent( entity ) );
+            return self:ValidateTarget( entity, pawn);
         end
     };
-
-    local owner = self:GetDroneOwnerTarget()
 
     local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
     

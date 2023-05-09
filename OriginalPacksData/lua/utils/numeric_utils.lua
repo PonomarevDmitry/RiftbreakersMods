@@ -24,6 +24,7 @@ end
 function Lerp( minValue, maxValue, t )
 	return (minValue * (1 - t) + maxValue * t);
 end
+
 function Clamp( x, minValue, maxValue )
 	return math.min(math.max(x, minValue), maxValue);
 end
@@ -42,6 +43,10 @@ end
 
 function Normalize( vector )
 	return VectorMulByNumber( vector, 1.0 / Length(vector))
+end
+
+function DotProduct( vector1, vector2 )
+ 	return vector1.x * vector2.x + vector1.y * vector2.y + vector1.z * vector2.z;
 end
 
 function  VectorSub( vector1, vector2 )
@@ -76,6 +81,9 @@ function  VectorMulByNumber( vector1, value )
 	return vector
 end
 
+function VectorLerp( minVector1, maxVector2, t )
+	return VectorAdd( VectorMulByNumber( minVector1, (1 - t) ), VectorMulByNumber( maxVector2, t ) );
+end
 
 return function(...)
 end

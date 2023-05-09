@@ -12,12 +12,26 @@ function building_creator:__init()
 	day_cycle_machine.__init(self,self)
 end
 
-local function CalculateBuildingBuildTime( entity )
-	if ( BuildingService.CalculateBuildTime ) then
-		return BuildingService:CalculateBuildTime( entity );
+function building_creator:CalculateBuildingBuildTime( database )
+	if ( database:HasFloat( "building_time_left") == true ) then
+		return database:GetFloat( "building_time_left"  )
 	end
-	local time self.data:GetFloatOrDefault( "building_time", 1 )
+
+	if ( BuildingService.CalculateBuildTime ) then
+		return BuildingService:CalculateBuildTime( self.parent );
+	end
+	
+	local time = self.data:GetFloatOrDefault( "building_time", 1 )
 	return time * BuildingService:GetBuildingSpeedMultiplier() * DifficultyService:GetBuildingSpeedMultiplier()
+end
+
+function GetOwner( entity )
+	local buildingComponent = EntityService:GetComponent( entity ,"BuildingComponent")
+	if buildingComponent == nil then
+		return 0
+	end
+	local helper = reflection_helper(buildingComponent)
+	return helper.owner
 end
 
 function building_creator:init()
@@ -26,6 +40,7 @@ function building_creator:init()
 	self.parent = EntityService:GetParent( self.entity )
 	self:RegisterHandler( self.parent, "BuildingStartEvent",  "_OnBuild" )
 	self:RegisterHandler( self.parent, "BuildingFastForwardEvent", "_OnBuildingFastForwardEvent" )
+	self:RegisterHandler( self.parent, "BuildingBuildEvent", "OnBuildingBuildEvent" )
 	
 	local database = EntityService:GetDatabase( self.parent )
 	DatabaseConcatenate( self.data , database )
@@ -35,9 +50,10 @@ function building_creator:init()
 	self.buildingName = buildingComponent:GetField("name"):GetValue()
 
 	self.meshEnt = BuildingService:GetMeshEntity(self.parent);
-	self.buildingTime = CalculateBuildingBuildTime( self.parent );
+	self.buildingTime = self:CalculateBuildingBuildTime( self.data );
 	self.materials = self:GetMaterials()
-	
+	self.buildingMultiplier =  ConsoleService:GetConfig("building_speed_multiplier")
+
 	self:CreateBuildingStateMachine()
 	self.extendLength = 0.5
 	self.lastProgress = 0
@@ -56,6 +72,7 @@ function building_creator:init()
 	self.isFloor = self.buildingType == "floor"
 	self.checkCollision = self.isFloor == false and  self.data:GetIntOrDefault("check_collison", 1 )
 	self.nextState = ""
+	self.owner = GetOwner( self.parent )
 
 end
 
@@ -101,7 +118,7 @@ end
 
 function building_creator:CreateBaseCubes()
 	local createCubes = self.data:GetIntOrDefault("create_cubes", 1) == 1
-	local cubes =  BuildingService:FlyCubesToBuilding(self.parent, self.data:GetIntOrDefault( "owner", 0), not self.isFloor and createCubes , not self.isFloor and createCubes)		
+	local cubes =  BuildingService:FlyCubesToBuilding(self.parent, self.owner , not self.isFloor and createCubes , not self.isFloor and createCubes)		
 	self.cubeEnt = cubes.first
 	self.endCubeEnt = cubes.second
 end
@@ -109,7 +126,7 @@ end
 function building_creator:_OnBuild(evt)
 	self.buildingFinished = 2;
 	self.upgrading = evt:GetUpgrading()
-	self.data:SetInt( "owner", evt:GetPlayerId() )
+	self.data:SetInt( "owner", self.owner  )
 	self.cubeEnt = evt:GetCubeEnt()
 	self.endCubeEnt = evt:GetEndCubeEnt()
 	self.cubeEffects = evt:GetEffects()
@@ -120,10 +137,7 @@ function building_creator:_OnBuild(evt)
 		EffectService:AttachEffect(self.parent,  "effects/buildings_and_machines/building_upgrade")
 	end
 	
-	local timer = self.buildingTime + 1.3;
-	if ( EntityService:IsAlive( self.endCubeEnt ) == true ) then
-		timer = timer + 3.85
-	end
+	local timer = self.buildingTime ;
 	self.timerEnt = nil
 	if ( timer > 10 ) then
 		if ( self.upgrading ) then
@@ -137,6 +151,9 @@ end
 
 function building_creator:_OnWaitEnter( state )
 	state:SetDurationLimit( self.nextStateWaitDuration )
+end
+
+function building_creator:OnBuildingBuildEvent()
 end
 
 function building_creator:_OnWaitExit( state )
@@ -176,8 +193,6 @@ function building_creator:_OnCubeFlyExit( state )
 		local spaceOccupied = BuildingService:IsBuildingSpaceOccupied( self.parent )
 		if ( spaceOccupied == false or self.checkCollision == false ) then
 
-			BuildingService:EnablePhysics( self.parent )
-			
 			if ( EntityService:IsAlive( self.endCubeEnt ) == true and self.forwardTime <= 0 and not BuildingService:IsFloor( self.parent )  ) then
 				self.height = EntityService:GetPositionY( self.endCubeEnt )
 				local x1 = EntityService:GetPositionX( self.cubeEnt )
@@ -250,8 +265,10 @@ function building_creator:_OnBuildingEnter( state )
 			EffectService:AttachEffects(self.cubeEnt, "build_cube_laser")
 		end
 	end
-
-	state:SetDurationLimit( self.buildingTime  )
+	local database = EntityService:GetDatabase( self.parent )
+	self.buildingTime = self:CalculateBuildingBuildTime( database );
+	
+	state:SetDurationLimit( self.buildingTime )
 
 	for i, material in ipairs(self:GetMaterials()) do
 		EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default" )
@@ -302,8 +319,8 @@ function building_creator:_OnBuildingExit( state )
 	end
 	
 	EntityService:RemoveMaterial( self.meshEnt, "dissolve" )
-	if self.materials[1] then 
-		EntityService:SetSubMeshMaterial( self.meshEnt, self.materials[1], 0, "default" )
+	for i, material in ipairs( self.materials ) do
+		EntityService:SetSubMeshMaterial( self.meshEnt, material, i - 1, "default" )
 	end
 
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
@@ -375,7 +392,7 @@ function building_creator:_CreateLine( ent1, ent2, dir, lengthMultiplier )
 end
 
 function building_creator:_OnBigBuildingEnterState1( state )
-    state:SetDurationLimit( self.extendLength )
+    state:SetDurationLimit( self.extendLength * self.buildingMultiplier )
 	self:_CreateLine(self.cubeEnt, self.endCubeEnt, 0, 1 )
 	self:_CreateLine(self.cubeEnt, self.endCubeEnt, 1, 1 )
 	self:_CreateLine(self.cubeEnt, self.endCubeEnt, 2, 1 )
@@ -426,7 +443,7 @@ function building_creator:_OnBigBuildingExitState1( state )
 end
 
 function building_creator:_OnBigBuildingEnterState2( state )
-    state:SetDurationLimit( self.extendLength )
+    state:SetDurationLimit( self.extendLength * self.buildingMultiplier )
 	local i = 0
 	for cube in Iter( self.currentCubes ) do 
 		if ( i == 0 ) then
@@ -486,7 +503,7 @@ function building_creator:_OnBigBuildingExitState2( state )
 end
 
 function building_creator:_OnBigBuildingEnterState3( state )
-    state:SetDurationLimit( self.extendLength )
+    state:SetDurationLimit( self.extendLength* self.buildingMultiplier )
 	local i = 0
 	--LogService:Log( "Ile kjubow: " .. tostring( #self.currentCubes ) ) 
 	for cube in Iter( self.currentCubes ) do 
@@ -568,7 +585,7 @@ end
 function building_creator:_OnBigBuildingEnterState4( state )
 	--LogService:Log("_OnBigBuildingEnterState4")
 
-	state:SetDurationLimit( self.extendLength / 2.0 )
+	state:SetDurationLimit( (self.extendLength / 2.0) * self.buildingMultiplier )
 	self.printingLine1 = self:_CreateLine(self.currentCubes[1], self.currentCubes[2], 2, 0.5 )
 	self.printingLine2 = self:_CreateLine(self.currentCubes[2], self.currentCubes[1], 2, 0.5 )
 	Insert(self.cubes, self.currentCubes[1] )

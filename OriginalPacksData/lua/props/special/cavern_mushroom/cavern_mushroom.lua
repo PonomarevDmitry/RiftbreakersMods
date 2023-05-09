@@ -1,12 +1,13 @@
- class 'acid_undergound_mushroom' ( LuaEntityObject )
+class 'cavern_mushroom' ( LuaEntityObject )
 
-function acid_undergound_mushroom:__init()
+function cavern_mushroom:__init()
 	LuaEntityObject.__init(self,self)
 end
 
-function acid_undergound_mushroom:init()
+function cavern_mushroom:init()
 	self:RegisterHandler( self.entity, "EnteredTriggerEvent", 	 "OnEnteredTriggerEvent" )
 	self:RegisterHandler( self.entity, "InteractWithEntityRequest", 	 "OnInteractWithEntityRequest" )
+	self:RegisterHandler( self.entity, "DamageEvent",  "OnDamageEvent" )	
 	self.bp = self.data:GetString( "bp" )
 	self.delay = self.data:GetFloatOrDefault( "delay", 0 )
 	self.delayBeforeArmoed = self.data:GetFloatOrDefault( "delay_before_armed", 1 )
@@ -20,7 +21,7 @@ function acid_undergound_mushroom:init()
 	self.sm:ChangeState("armed")
 end
 
-function acid_undergound_mushroom:OnEnteredTriggerEvent( evt )
+function cavern_mushroom:Explode()
 	if self.exploded == true or self.armed == false then 
 		return
 	end
@@ -28,24 +29,33 @@ function acid_undergound_mushroom:OnEnteredTriggerEvent( evt )
 	self.sm:ChangeState("explode")
 	EffectService:DestroyEffectsByGroup( self.entity, "mine_unarmed" )
 	self.exploded = true
+	
+	AnimationService:StartAnim( self.entity, "exploding", false )
 end
 
-function acid_undergound_mushroom:OnInteractWithEntityRequest( evt )
+function cavern_mushroom:OnEnteredTriggerEvent( evt )
+	self:Explode()
+end
+
+function cavern_mushroom:OnInteractWithEntityRequest( evt )
 	self.armed = false;
 	QueueEvent( "LuaGlobalEvent", event_sink, "UndergroundMushroomDetection", self.data )
 end
 
+function cavern_mushroom:OnDamageEvent( evt )
+	self:Explode()
+end
 
-function acid_undergound_mushroom:OnArmedStart( state )
+function cavern_mushroom:OnArmedStart( state )
 	state:SetDurationLimit( self.delayBeforeArmoed )
 end
 
-function acid_undergound_mushroom:OnArmedEnd( state )
+function cavern_mushroom:OnArmedEnd( state )
 	self.armed = true
 	EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 1.0 )
 end
 
-function acid_undergound_mushroom:OnExplodeStart( state )
+function cavern_mushroom:OnExplodeStart( state )
 	self.meshBp = self.data:GetStringOrDefault("mesh_bp","");
 	if ( self.meshBp ~= "" ) then
 		self.mesh = EntityService:SpawnAndAttachEntity(self.meshBp, self.entity )
@@ -56,7 +66,7 @@ function acid_undergound_mushroom:OnExplodeStart( state )
 	state:SetDurationLimit( self.delay )
 end
 
-function acid_undergound_mushroom:OnExplodeExecute( state )
+function cavern_mushroom:OnExplodeExecute( state )
 	local progres = 0
 	if ( state:GetDurationLimit() ~= 0 ) then
 		progres = state:GetDuration() / state:GetDurationLimit()
@@ -66,13 +76,14 @@ function acid_undergound_mushroom:OnExplodeExecute( state )
 	EntityService:SetScale( self.mesh, 1, 1, 1 )
 end
 
-function acid_undergound_mushroom:OnExplodeEnd(  )
+function cavern_mushroom:OnExplodeEnd(  )
 
 	QueueEvent( "LuaGlobalEvent", event_sink, "UndergroundMushroomExplosion", self.data )
-	EntityService:SpawnEntity( self.bp, self.entity, EntityService:GetTeam( self.entity ))
+	QueueEvent("DestroyRequest", self.entity, "default", 100 )
+    QueueEvent("DissolveEntityRequest", self.entity, 4.0, 0.0 )	
 	EntityService:DissolveEntity( self.mesh, 0.2 ) 
 	EntityService:DissolveEntity( self.entity, 0.2 ) 
 end
 
-return acid_undergound_mushroom
+return cavern_mushroom
  

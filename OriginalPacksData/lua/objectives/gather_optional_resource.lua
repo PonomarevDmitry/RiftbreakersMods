@@ -32,7 +32,7 @@ function gather_optional_resource:init()
 		end
 	end
 
-	self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+	self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
     
 end
 
@@ -40,7 +40,7 @@ function gather_optional_resource:onUpdate()
 	if ( #self.entities == 0 ) then
 		ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_IN_PROGRESS )
 		self.data:SetInt( "progress_current", 0 )
-		self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+		self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
 		return
 	end
 	

@@ -1,9 +1,9 @@
 local building_base = require("lua/buildings/building_base.lua")
 
-class 'passive_skill_building' ( building )
+class 'passive_skill_building' ( building_base )
 
 function passive_skill_building:__init()
-	building.__init(self,self)
+	building_base.__init(self,self)
 end
 
 function passive_skill_building:OnInit()

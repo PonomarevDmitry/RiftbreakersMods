@@ -53,24 +53,31 @@ function resource_giver:OnDrop()
 
 end
 
-function resource_giver:OnPickUp()
-	self:AddResources()
+function resource_giver:OnPickUp( owner )
+	self:AddResources(owner)
 	EntityService:RemoveEntity( self.entity )
 end
 
-function resource_giver:AddResources()
+function resource_giver:AddResources(owner)
 	if ( self.added ) then
 		return
 	end
 	self.added = true
 	local resource = EntityService:GetResourceAmount( self.entity )
 	if resource.second > 0 then
-		PlayerService:AddResourceAmount(resource.first, resource.second)
+
+		local playerReferenceComponent = EntityService:GetComponent(owner, "PlayerReferenceComponent")
+		local owner = 0
+		if (playerReferenceComponent) then
+			local helper = reflection_helper(playerReferenceComponent)
+			owner = helper.player_id
+		end
+		PlayerService:AddResourceAmount( owner , resource.first, resource.second, false )
 	end
 end
 
-function resource_giver:OnPickedUpItemRequest()
-	self:AddResources()
+function resource_giver:OnPickedUpItemRequest( evt )
+	self:AddResources( evt:GetInventory() )
 end
 
 function resource_giver:IsPickable( owner )

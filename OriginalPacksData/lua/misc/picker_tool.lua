@@ -60,7 +60,7 @@ function picker_tool:FilterSelectedEntities( selectedEntities )
 
         local buildingDescHelper = reflection_helper(buildingDesc)
         
-        if ( BuildingService:IsBuildingAvailable( blueprint ) == false ) then goto continue end
+        if ( BuildingService:IsBuildingAvailable(self.playerId , blueprint ) == false ) then goto continue end
 
         Insert(entities, ent)
 

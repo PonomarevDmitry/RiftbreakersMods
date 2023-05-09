@@ -15,6 +15,7 @@ function base_lamp:OnBuildingEnd()
 	local timeOfDay = EnvironmentService:GetTimeOfDay()
 	if ( timeOfDay == "day" or timeOfDay == "sunrise" ) then
 		BuildingService:DisableBuilding( self.entity )
+		self.data:SetInt("is_working", 0 )
 	else
 		BuildingService:EnableBuilding( self.entity )
 	end

@@ -211,12 +211,13 @@ function building_base:_OnSell(evt)
 
 	self:CreateBuildingStateMachine()
 	self.cubeEnt = evt:GetCubeEnt()
+	local playerId = evt:GetPlayerId()
 	if(  not EntityService:IsAlive( self.cubeEnt ) ) then
 		local cubes	= nil
 		if ( self.isFloor )then
-			cubes =  BuildingService:FlyCubesToBuilding(self.entity, self.data:GetIntOrDefault( "owner", 0), false, false )		
+			cubes =  BuildingService:FlyCubesToBuilding(self.entity, playerId, false, false )		
 		else
-			cubes =  BuildingService:FlyCubesToBuilding(self.entity, self.data:GetIntOrDefault( "owner", 0), true , false )		
+			cubes =  BuildingService:FlyCubesToBuilding(self.entity, playerId, true , false )		
 		end
 		self.cubeEnt = cubes.first
 	end
@@ -443,8 +444,8 @@ function building_base:_OnBuildingExit( state )
 	end
 	
 	EntityService:RemoveMaterial( self.meshEnt, "dissolve" )
-	if self.materials[1] then 
-		EntityService:SetSubMeshMaterial( self.meshEnt, self.materials[1], 0, "default" )
+	for i, material in ipairs( self.materials ) do
+		EntityService:SetSubMeshMaterial( self.meshEnt, material, i - 1, "default" )
 	end
 
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")

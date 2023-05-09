@@ -1,4 +1,6 @@
 class 'item' ( LuaEntityObject )
+require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
 
 function item:__init()
 	LuaEntityObject.__init(self,self)
@@ -158,16 +160,16 @@ end
 
 function item:_OnPickEventLua( evt )
 	self.item = INVALID_ID
+	local owner = evt:GetInventory()
 
 	if ( self.data:HasInt("#subslot#") ) then
 		local subslot = self.data:GetInt("#subslot#")
 		local slot = self.data:GetString("#slot#")
-		local owner = evt:GetInventory()
 		ItemService:TryEquipItemInSlot( owner, self.entity, slot, subslot)
 		ItemService:ClearNewItemMark( owner, self.entity )
 	end
 	
-	self:OnPickUp()
+	self:OnPickUp( owner)
 end
 
 function item:OnInit()
@@ -230,6 +232,27 @@ end
 function item:OnDissolveShowExit( state )
 	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 0 )
 	self:RemoveDissolveStateMachine()
+end
+
+function item:CanActivate()
+
+	if ( self.data:HasString("disabled_conditions") == true ) then
+		local disabledConditions = self.data:GetString("disabled_conditions")
+		local conditions = Split( disabledConditions, "," )
+
+		local disabledValues = self.data:GetStringOrDefault("disabled_values", "")
+		local values = Split( disabledValues, "," )
+
+		for condition  in Iter( conditions ) do
+			if ( condition == "biome") then
+				local currentBiome = MissionService:GetCurrentBiomeName()
+				if ( IndexOf( values, currentBiome ) ~= nil ) then
+					return false
+				end
+			end
+		end
+	end
+	return true
 end
 
 return item

@@ -25,11 +25,15 @@ function mini_miner:OnActivate()
 end
 
 function  mini_miner:CanActivate()
-    if ( self.owner ~= nil ) then
-        local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, self.bp, "", "")
-        return pos.first
+	item.CanActivate( self )
+
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        return false
     end
-    return false
+
+    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, self.bp, "", "")
+    return pos.first
+        
 end
 
 function mini_miner:OnLoad()

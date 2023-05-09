@@ -16,6 +16,7 @@ function melee_weapon:OnEquipped()
 	self.dash_attacking = 0
 	self.is_attacking = 0
 	self.is_deactivating = 0
+	self.combo_count = 0
 	self.fsm:ChangeState( "update" )
 
 	self.leftAttack = "melee_left_attack_1"

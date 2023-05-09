@@ -7,12 +7,22 @@ function grenade_weapon:__init()
 end
 
 function grenade_weapon:OnInit()
-    self.bp = self.data:GetString( "bp" )
-    self.aimBp = self.data:GetString( "aim_bp" )
+	self:Init()
 	self.sm = self:CreateStateMachine()
 	self.sm:AddState( "execute", { enter="OnEnter",execute="OnExecute", exit="OnExit" } )
 	self.sm:AddState( "dummy", {} )
 	self.aimEnt = nil
+end
+
+function grenade_weapon:OnLoad()
+    weapon.OnLoad(self)
+    self:Init()
+end
+
+function grenade_weapon:Init()
+    self.bp = self.data:GetString( "bp" )
+    self.aimBp = self.data:GetString( "aim_bp" )
+    self.maxDistance = self.data:GetFloatOrDefault( "max_distance", 0.0 )
 end
 
 function grenade_weapon:OnEnter( state )
@@ -24,7 +34,7 @@ function grenade_weapon:OnExecute( state )
 		self.aimEnt = EntityService:SpawnEntity( self.aimBp, 0, 0, 0, "" )
 	end
 
-	WeaponService:UpdateGrenadeAiming( self.aimEnt, self.owner, self.item )
+	WeaponService:UpdateGrenadeAiming( self.aimEnt, self.owner, self.item, self.maxDistance )
 	EntityService:SetVisible( self.aimEnt, PlayerService:IsInFighterMode( self.owner ) )
 end
 
