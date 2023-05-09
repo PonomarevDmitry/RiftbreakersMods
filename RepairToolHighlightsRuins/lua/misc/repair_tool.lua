@@ -8,7 +8,7 @@ end
 
 function repair_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_repair", self.entity)
-    
+
     self.previousMarkedRuins = {}
     -- Radius from player to highlight
     self.radiusShowRuins = 100.0
@@ -69,22 +69,22 @@ function repair_tool:FilterSelectedEntities( selectedEntities )
 end
 
 function repair_tool:OnUpdate()
-    
+
     local ruinsList = self:FindBuildingRuins()
 
     self.previousMarkedRuins = self.previousMarkedRuins or {}
-    
+
     -- Remove highlighting from previous ruins
     for entity in Iter( self.previousMarkedRuins ) do
-    
+
         -- If the ruin is not included in the new list
         if ( IndexOf( ruinsList, entity ) == nil ) then
             self:RemovedFromSelection( entity )
         end
     end
-    
+
     for entity in Iter( ruinsList ) do
-        
+
         local skinned = EntityService:IsSkinned( entity )
         if ( skinned ) then
             EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
@@ -92,7 +92,7 @@ function repair_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
         end
     end
-    
+
     self.previousMarkedRuins = ruinsList
 
     self.repairCosts = {}
@@ -102,7 +102,7 @@ function repair_tool:OnUpdate()
         local skinned = EntityService:IsSkinned(entity)
         local child = EntityService:GetChildByName( entity, "##repair##" )
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        
+
         local ruins = false
         local ruinsBlueprint = ""
         local canRepair = true
@@ -173,11 +173,11 @@ function repair_tool:FindBuildingRuins()
     local player = PlayerService:GetPlayerControlledEnt(0)
 
     local buildings = FindService:FindEntitiesByGroupInRadius( player, "##ruins##", self.radiusShowRuins )
-    
+
     local result = {}
-    
+
     for entity in Iter( buildings ) do
-    
+
         if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
             goto continue
         end
@@ -200,7 +200,7 @@ function repair_tool:FindBuildingRuins()
 
         ::continue::
     end
-    
+
     return result
 end
 
@@ -242,18 +242,18 @@ end
 
 function repair_tool:OnRelease()
 
-    if ( tool.OnRelease ) then
-        tool.OnRelease(self)
-    end
-    
     -- Remove highlighting from ruins
     if ( self.previousMarkedRuins ~= nil) then
         for ent in Iter( self.previousMarkedRuins ) do
-        
+
             self:RemovedFromSelection( ent )
         end
     end
     self.previousMarkedRuins = {}
+
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
 end
 
 return repair_tool
