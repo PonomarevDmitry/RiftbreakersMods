@@ -25,7 +25,6 @@ system rift/earthquake
         }
         emitter                                 Circle water
         {
-            emission_rate                       5
             angle                               10
             time_to_live                        dyn_random
             {
@@ -43,15 +42,14 @@ system rift/earthquake
                 max                             100
             }
             colour                              0.992157 0.992157 0.984314 1
-            radius                              25
         }
         affector                                TextureRotator 
         {
             use_own_rotation                    true
             rotation                            dyn_random
             {
-                min                             -0.1
-                max                             0.1
+                min                             -2
+                max                             2
             }
             rotation_speed                      dyn_random
             {
@@ -61,10 +59,10 @@ system rift/earthquake
         }
         affector                                Colour 
         {
-            time_colour                         0    0.501961 0.501961 0.501961 0
-            time_colour                         0.0978261  0.501961 0.501961 0.501961 1
-            time_colour                         0.61087  0.501961 0.501961 0.501961 1
-            time_colour                         1    0.501961 0.501961 0.501961 0
+            time_colour                         0    0.568627 0.384314 0.247059 0
+            time_colour                         0.0978261  0.568627 0.384314 0.247059 0.494118
+            time_colour                         0.61087  0.568627 0.384314 0.247059 0.494118
+            time_colour                         1    0.568627 0.384314 0.247059 0
         }
         affector                                ScaleVelocity 
         {
@@ -98,7 +96,7 @@ system rift/earthquake
             texture_start_random                false
         }
     }
-    technique smoke_ring
+    technique smoke_box
     {
         visual_particle_quota                   200
         emitted_emitter_quota                   0
@@ -138,15 +136,87 @@ system rift/earthquake
             end_colour_range                    0.207843 0.207843 0.207843 1
             colour                              0 0 0 1
             auto_direction                      true
-            box_width                           300
+            box_width                           500
             box_height                          10
-            box_depth                           300
+            box_depth                           500
         }
         affector                                Colour 
         {
-            time_colour                         0    0.501961 0.501961 0.501961 0
-            time_colour                         0.3  0.501961 0.501961 0.501961 0.494118
-            time_colour                         1    0.501961 0.501961 0.501961 0
+            time_colour                         0    0.568627 0.384314 0.247059 0
+            time_colour                         0.3  0.568627 0.384314 0.247059 0.5
+            time_colour                         1    0.568627 0.384314 0.247059 0
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           30
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.4
+                max                             0.4
+            }
+            rotation_speed                      0
+        }
+        affector                                ScaleVelocity Affector33
+        {
+            velocity_scale                      dyn_curved_linear
+            {
+                control_point                   0 -0.31025
+                control_point                   1 -140.9
+            }
+            stop_at_flip                        true
+        }
+    }
+    technique smoke_ring
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_03_alpha_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle smoke_ring
+        {
+            emission_rate                       20
+            angle                               15
+            time_to_live                        dyn_random
+            {
+                min                             4
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             50
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             80
+            }
+            position                            0 25 0
+            end_texture_coords_range            3
+            start_colour_range                  0.333333 0.333333 0.333333 1
+            end_colour_range                    0.207843 0.207843 0.207843 1
+            colour                              0 0 0 1
+            auto_direction                      true
+            radius                              350
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.568627 0.384314 0.247059 0
+            time_colour                         0.3  0.568627 0.384314 0.247059 0.247059
+            time_colour                         1    0.568627 0.384314 0.247059 0
         }
         affector                                Scale 
         {

@@ -1,0 +1,230 @@
+system rift/enemy_green_projectile_medium
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.01 0.01 0.01
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 20
+    technique trail0
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_alien_plasma_hit_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       15
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            particle_width                      80
+            particle_height                     80
+            keep_local                          true
+            direction                           -1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Scale 
+        {
+            x_scale                             -15
+            y_scale                             75
+            since_start_system                  true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.508696  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique trail
+    {
+        visual_particle_quota                   60
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_alien_plasma_hit_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             400
+            }
+            particle_width                      20
+            particle_height                     80
+            keep_local                          true
+            direction                           -1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Scale 
+        {
+            x_scale                             -10
+            y_scale                             75
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.504348  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique trail2
+    {
+        visual_particle_quota                   60
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_alien_plasma_hit_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       8
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             400
+            }
+            particle_width                      10
+            particle_height                     40
+            keep_local                          true
+            direction                           -1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Scale 
+        {
+            x_scale                             -10
+            y_scale                             100
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+    }
+    technique sparks_trail
+    {
+        visual_particle_quota                   45
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       100
+            angle                               80
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             8
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           300
+            box_height                          50
+            box_depth                           50
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                LinearForce Affector17
+        {
+            force_vector                        0 -1000 0
+        }
+        affector                                Scale Affector77
+        {
+            y_scale                             10
+        }
+    }
+    technique ribbon
+    {
+        enabled                                 false
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/green_rocket_ribbon
+        renderer                                RibbonTrail
+        {
+            render_queue_group                  65
+            max_elements                        50
+            ribbontrail_length                  500
+            ribbontrail_width                   200
+            random_initial_colour               false
+            initial_colour                      1 1 1 0.501961
+            colour_change                       0 0 0 0.909804
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       10000
+            angle                               0
+            time_to_live                        1
+            velocity                            0.0001
+            position                            20 0 0
+            direction                           1 0 0
+            force_emission                      true
+        }
+    }
+}

@@ -9,19 +9,36 @@ end
 
 function necrodon:OnInit()
 	self:RegisterHandler( self.entity, "FinishResurrectEvent",  "OnFinishResurrectEvent" )
-	self:RegisterHandler( self.entity, "StartLeechEvent",  "OnStartLeechEvent" )
-	self:RegisterHandler( self.entity, "EndLeechEvent",  "OnEndLeechEvent" )
+	self:RegisterHandler( self.entity, "FinishSummonEvent",  "OnFinishSummonEvent" )
 	
+	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
+	self:RegisterHandler( self.entity, "StopShootEvent",  "OnStopShootEvent" )
+	self:RegisterHandler( self.entity, "ChargeAttackStartEvent",  "OnChargeAttackStartEvent" )
+	self:RegisterHandler( self.entity, "ChargeAttackEndEvent",  "OnChargeAttackEndEvent" )	
+
 	self.wreck_type = "wreck_big";
 	self.wreckMinSpeed = 4
 
-	self.resurrectEffect = false; 
-	self.currentLeechTarget = INVALID_ID
-	self.leechDmg = 0
+	self.resurrectEffect = false;
+	self.summonEffect = false; 
 
-	self.leechFSM = self:CreateStateMachine()
-	self.leechFSM:AddState( "start_leech", { execute="OnLeechExecute" } )
-	self.leechFSM:AddState( "stop_leech", {  } )
+	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
+end
+
+function necrodon:OnShootEvent( evt )
+	WeaponService:StartShoot( self.entity )
+end
+
+function necrodon:OnStopShootEvent( evt )
+	WeaponService:StopShoot( self.entity )
+end
+
+function necrodon:OnChargeAttackStartEvent( evt )
+	EffectService:AttachEffects( self.entity, "laser_pointer" )	
+end
+
+function necrodon:OnChargeAttackEndEvent( evt )
+	EffectService:DestroyEffectsByGroup( self.entity, "laser_pointer" )
 end
 
 function necrodon:OnFinishResurrectEvent( evt )
@@ -33,48 +50,24 @@ function necrodon:OnFinishResurrectEvent( evt )
 
 end
 
-function necrodon:OnLeechExecute( state, dt )
-	if ( self.currentLeechTarget ~= INVALID_ID ) then
-		QueueEvent( "DamageRequest", self.currentLeechTarget, self.leechDmg * dt, "energy", 1, 0 )
+function necrodon:OnFinishSummonEvent( evt )
+	
+	if ( self.summonEffect == true ) then
+		EffectService:DestroyEffectsByGroup( self.entity, "summon_effect"  )
+		self.summonEffect = false
 	end
+
 end
 
-function necrodon:OnStartLeechEvent( evt )
-	local target = UnitService:GetCurrentTarget( evt:GetEntity(), evt:GetTargetTag() )
-
-	if ( ( target ~= self.currentLeechTarget ) and ( self.currentLeechTarget ~= INVALID_ID ) ) then
-
-		if ( EffectService:HasEffectByGroup( self.currentLeechTarget, "leech" ) == true ) then
-			EffectService:DestroyEffectsByGroup( self.currentLeechTarget, "leech" )
-		end
-
-	end
-
-	self.currentLeechTarget = target
-	self.leechDmg = evt:GetLeechDamage()
-
-	if ( self.currentLeechTarget ~= INVALID_ID ) then
-		if ( EffectService:HasEffectByGroup( self.currentLeechTarget, "leech" ) == false ) then
-			EffectService:AttachEffects( self.currentLeechTarget, "leech" )
-
-		self.leechFSM:ChangeState( "start_leech" )
-		end
-	end
-end
-
-function necrodon:OnEndLeechEvent( evt )
-	if ( EffectService:HasEffectByGroup( self.currentLeechTarget, "leech" ) == true ) then
-		EffectService:DestroyEffectsByGroup( self.currentLeechTarget, "leech" )
-	end
-
-	self.leechFSM:ChangeState( "stop_leech" )
-end
 
 function necrodon:OnAnimationStateChanged( evt )
 	local stateName = evt:GetNewStateName() 
 	if ( stateName == "resurrect_loop" ) then
 		EffectService:AttachEffects( self.entity, "resurrect_effect"  )
 		self.resurrectEffect = true
+	elseif ( stateName == "summon_loop" ) then
+		EffectService:AttachEffects( self.entity, "summon_effect"  )
+		self.summonEffect = true
 	end
 end
 

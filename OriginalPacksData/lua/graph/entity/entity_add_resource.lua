@@ -9,11 +9,13 @@ end
 
 function entity_add_resource:Activated()
     local tempList = self.data:GetStringKeys()
-    LogService:Log( tostring( #tempList ) )
+    --LogService:Log( tostring( #tempList ) )
+	local playerId = self.parent:GetDatabase():GetIntOrDefault("player_id", 0 )
+
     for i = 1, #tempList do 
         local resourceAmount = tonumber( self.data:GetString( tempList[i] ) )
         local resourceName = tostring( tempList[i] )
-        PlayerService:AddResourceAmount( resourceName, resourceAmount )
+        PlayerService:AddResourceAmount(playerId, resourceName, resourceAmount, false )
     end
 
     self:SetFinished()

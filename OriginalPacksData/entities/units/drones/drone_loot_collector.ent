@@ -1,0 +1,115 @@
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_loot_collector_picker"
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"loot"
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "1.0"
+				y "100"
+				z "1.0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_loot_collector"
+	base_blueprint 	"units/drones/drone_base"
+
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height							float:"1"
+			hover_min_height						float:"7"
+			owner_movement_speed_near       		float:"1"
+			owner_movement_speed_far          	 	float:"1"
+			owner_movement_trigger_distance 		float:"12.0"
+			owner_movement							string:"land"
+			target_movement							string:"hover"
+			target_search_mode						string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/loot_collector_drone.lua"
+
+		database
+		{
+			search_radius 		float:"30.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			pickup_radius		float:"5.0"
+			min_scale			float:"0.7"
+			max_scale			float:"0.7"			
+		}
+	}
+	
+	VegetationBendingComponentDesc
+	{
+		bending_power	"500.0"
+		bending_radius	"5.0"
+	}	
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_player_loot_collector.mesh"
+		material "units/drones/drone_player_loot_collector"
+	}
+
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"5"
+		}		
+		
+		max_speed
+		{
+			base 	"10"
+		}
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail_loot"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "working"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_loot_collect"
+				}
+			}
+		}
+	}
+}

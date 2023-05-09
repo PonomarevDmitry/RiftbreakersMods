@@ -1,0 +1,382 @@
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_gravity"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/floating_mines"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.0"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"mech/floating_mines_gravity_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/floating_mines_gravity_advanced"
+
+	base_blueprint "items/weapons/floating_mines"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_gravity_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp			"items/weapons/floating_mines_gravity_advanced"
+		icon			"gui/hud/items_icons/weapons/floating_mines_gravity_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/floating_mines_gravity_extreme"
+
+	base_blueprint "items/weapons/floating_mines_gravity"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_gravity_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp			"items/weapons/floating_mines_gravity_extreme"
+		icon			"gui/hud/items_icons/weapons/floating_mines_gravity_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_gravity_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp			"items/weapons/floating_mines_gravity"
+		icon			"gui/hud/items_icons/weapons/floating_mines_gravity"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/floating_mines_gravity_superior"
+
+	base_blueprint "items/weapons/floating_mines_gravity"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_gravity_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp			"items/weapons/floating_mines_gravity_superior"
+		icon			"gui/hud/items_icons/weapons/floating_mines_gravity_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "mech/floating_mines_gravity_projectile"
+	
+	base_blueprint "items/consumables/proximity_mine_base"
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+	
+		database
+		{
+			bp					string:"items/projectiles/floating_mines_gravity_explosion"
+			delay				float:"3.0"
+			delay_before_armed	float:"1.0"
+		}			
+	}	
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/floating_mine.mesh"
+		material "items/weapons/floating_mines"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/floating_mine"
+	}
+	
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"ground_unit"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				team		"hostility"
+				check_parent "0"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "5"
+			}
+		}
+	}	
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"items/consumables/gravity_hole_standard"
+		on_world_hit_effect 	"items/consumables/gravity_hole_standard"
+		on_resisted_hit_effect 	"items/consumables/gravity_hole_standard"		
+		hit_effect_direction	"up"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		180
+	}
+}
+
+EntityBlueprint
+{
+	name "items/projectiles/floating_mines_gravity_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"items/consumables/gravity_hole_standard"
+	
+		DamagePattern
+		{
+			area_damage_radius	"8"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"physical"
+				}
+			}
+		}
+	}
+}

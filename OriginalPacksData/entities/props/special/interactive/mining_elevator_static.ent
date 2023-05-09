@@ -1,0 +1,95 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/mining_elevator_static"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/resources/rare_element_mine_lvl_3.mesh"
+		material "buildings/resources/rare_element_mine_lvl_3"
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/resources/rare_element_mine_lvl_3"
+	}
+
+	TypeDesc
+	{
+		type "building"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "2.45"
+						half_height "2"
+
+						position
+						{
+							x "0.0"
+							y "1.5"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	6
+    				y	6
+    				z	6
+   			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "0.5"
+			y "0.5"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "3"
+			y "3"
+		}
+
+		visibility			"always"
+	}
+}

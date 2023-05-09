@@ -1,0 +1,74 @@
+EntityBlueprint
+{
+	name "units/ground/viremoth_alpha"
+
+	base_blueprint "units/ground/viremoth_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/viremoth.lua"
+		database
+		{
+			children_count					int:"20"
+			child_bp                        string:"units/ground/viremoth_child_alpha"
+		    bp_on_range_attack			    string:"units/ground/lesigian/lightning"
+			warning_effect_on_range_attack	string:"effects/enemies_gnerot/spike_warning"
+			lightning_spawn_radius			float:"8.0"
+			lightning_count					int:"4"
+			lightning_delay_min_time		float:"1.0"
+			lightning_delay_max_time		float:"2.0"
+			storm_effect					string:"units/ground/viremoth_storm"
+			create_child_timer				float:"3.0"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"3500"
+		health 						"3500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/lesigian.mesh"
+		material	"units/ground/viremoth"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/viremoth_alpha"
+		can_activate 0
+	}
+
+	//AnimationDesc
+	//{
+	//	animations
+	//	{
+	//		Anim
+	//		{
+	//			animName "idle_1"
+	//			animTime "0.0"
+	//		}
+	//	}
+	//}
+}
+

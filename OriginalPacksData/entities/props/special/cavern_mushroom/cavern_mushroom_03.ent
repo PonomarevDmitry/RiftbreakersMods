@@ -1,0 +1,91 @@
+EntityBlueprint
+{
+	name  "props/special/cavern_mushroom/cavern_mushroom_03"
+
+	base_blueprints
+	{
+		 props/special/cavern_mushroom/cavern_mushroom_01
+	}
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"character"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "6"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/cavern_mushroom/cavern_mushroom_03.mesh"
+		material "props/special/cavern_mushroom/cavern_mushroom"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/special/cavern_mushroom/cavern_mushroom_03"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/cavern_mushroom/cavern_mushroom_03_c1.nxs"
+					}
+
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"12000"
+					explosion_min_power 	"6000"
+					explosion_effect 		"effects/destructibles/cavern_mushroom_explosion"
+
+					part_material	 		"props/special/cavern_mushroom/cavern_mushroom"
+					part_prefix 			"meshes/props/special/cavern_mushroom/cavern_mushroom_03"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_medium"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/special/cavern_mushroom/cavern_mushroom"
+					part_prefix 			"meshes/props/special/cavern_mushroom/cavern_mushroom_03"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}
+	}
+}

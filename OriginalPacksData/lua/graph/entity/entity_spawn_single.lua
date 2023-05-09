@@ -28,7 +28,7 @@ function entity_spawn_single:init()
 end
 
 function entity_spawn_single:Activated()	
-    self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+    self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
 	if ( #self.entities == 0 ) then
 		Assert( self.entities ~= 0, "ERROR: Spawn Entity block failed to find a target - skipping block" )
 		self:SetFinished()

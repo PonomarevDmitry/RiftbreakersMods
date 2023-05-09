@@ -10,7 +10,8 @@ function mission_block_respawn:init()
 end
 
 function mission_block_respawn:Activated()   
-	MissionService:SetBlockPlayerRespawn( true );
+	local blockRespawn = self.data:GetIntOrDefault("status", 1 ) == 1
+	MissionService:SetBlockPlayerRespawn( blockRespawn );
 	self:SetFinished();
 end
 

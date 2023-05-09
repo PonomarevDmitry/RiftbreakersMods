@@ -1,0 +1,46 @@
+system rift/necrodon_healing
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    technique fire_alpha
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/health_sign_add_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface fire_alpha
+        {
+            emission_rate                       120
+            angle                               1
+            time_to_live                        0.25
+            velocity                            dyn_random
+            {
+                min                             16
+                max                             18
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            position                            0 75 0
+            colour                              0.501961 0 1 1
+            auto_direction                      true
+            radius                              220
+        }
+        affector                                Gravity Affector13
+        {
+            mass_affector                       2000
+            gravity                             2000
+        }
+    }
+}

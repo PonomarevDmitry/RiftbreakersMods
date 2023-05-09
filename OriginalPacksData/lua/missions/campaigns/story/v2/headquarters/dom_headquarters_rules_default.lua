@@ -447,6 +447,71 @@ return function()
 				"logic/missions/survival/attack_level_8_id_2_magma.logic",
 			},
 		},
+		
+		["metallic"] =
+		{
+			-- difficulty level 1		
+			{ 
+				"logic/missions/survival/metallic/attack_level_1_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_1_id_2_metallic.logic",
+			},
+	
+			 -- difficulty level 2
+			{ 			
+				"logic/missions/survival/metallic/attack_level_2_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_2_id_2_metallic.logic",
+			},
+
+			 -- difficulty level 3
+			{ 
+				"logic/missions/survival/metallic/attack_level_3_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_3_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_3_id_3_metallic.logic", -- double wave to increase octabit probability
+				"logic/missions/survival/metallic/attack_level_3_id_3_metallic.logic", -- double wave to increase octabit probability
+			},
+
+			 -- difficulty level 4
+			{ 			
+				"logic/missions/survival/metallic/attack_level_4_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_4_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_4_id_3_metallic.logic",				
+			},
+
+			 -- difficulty level 5
+			{ 
+				"logic/missions/survival/metallic/attack_level_5_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_5_id_2_metallic.logic",			
+				"logic/missions/survival/metallic/attack_level_5_id_3_metallic.logic",								
+			},
+
+			 -- difficulty level 6
+			{ 
+				"logic/missions/survival/metallic/attack_level_6_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_6_id_2_metallic.logic",			
+				"logic/missions/survival/metallic/attack_level_6_id_3_metallic.logic",									
+			},
+
+			 -- difficulty level 7
+			{ 
+				"logic/missions/survival/metallic/attack_level_7_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_3_metallic.logic",				
+			},
+
+			 -- difficulty level 8
+			{ 
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic.logic",				
+			},
+
+			 -- difficulty level 9
+			{ 
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic.logic",				
+			},
+		},
 	}
 
 	rules.extraWaves = 

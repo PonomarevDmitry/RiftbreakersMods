@@ -8,8 +8,6 @@ function camera_teleport:init()
 end
 
 function camera_teleport:Activated()		
-	SoundService:SetEarsMode( "3rd_person" )
-	
 	self.targetName = self.data:GetString("target_name")	
 	self.targetGroup = self.data:GetString("target_group")	
 	self.targetType = self.data:GetString("target_type")	

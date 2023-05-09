@@ -512,7 +512,7 @@ function dom_mananger:OnRespawnFailedEvent()
 	end
 end
 
-function dom_mananger:DestroyPlayerItems( owner )
+function dom_mananger:DestroyPlayerItems( owner, playerId )
 	local count = DifficultyService:GetNumberOfItemsRemovedOnDeath();
 
 	if ( count == 0 ) then
@@ -524,8 +524,8 @@ function dom_mananger:DestroyPlayerItems( owner )
 		return
 	end
 
-	local items = PlayerService:GetAllEquippedItemsInSlot( "LEFT_HAND" )
-	ConcatUnique( items, PlayerService:GetAllEquippedItemsInSlot( "RIGHT_HAND" ) )   
+	local items = PlayerService:GetAllEquippedItemsInSlot( "LEFT_HAND", playerId )
+	ConcatUnique( items, PlayerService:GetAllEquippedItemsInSlot( "RIGHT_HAND", playerId ) )   
 	count = math.min( count, #items )
 
 	local name = ""
@@ -541,7 +541,7 @@ function dom_mananger:DestroyPlayerItems( owner )
 
 end
 
-function dom_mananger:DropPlayerItems( owner )
+function dom_mananger:DropPlayerItems( owner, playerId )
 	local dropItemsCount = DifficultyService:GetNumberOfItemsDroppedOnDeath();
 	if ( dropItemsCount == 0 ) then
 		return
@@ -552,8 +552,8 @@ function dom_mananger:DropPlayerItems( owner )
 	--	return
 	--end
 
-	local items = PlayerService:GetAllEquippedItemsInSlot( "LEFT_HAND" )
-	ConcatUnique( items, PlayerService:GetAllEquippedItemsInSlot( "RIGHT_HAND" ) )   
+	local items = PlayerService:GetAllEquippedItemsInSlot( "LEFT_HAND", playerId )
+	ConcatUnique( items, PlayerService:GetAllEquippedItemsInSlot( "RIGHT_HAND", playerId ) )   
 	dropItemsCount = math.min( dropItemsCount, #items )
 
 	local dropped = {}
@@ -576,8 +576,8 @@ end
 
 function dom_mananger:OnPlayerDiedEvent( evt )
 	--LogService:Log("OnPlayerDiedEvent")
-	self:DestroyPlayerItems(evt:GetEntity())
-	self:DropPlayerItems(evt:GetEntity())
+	self:DestroyPlayerItems(evt:GetEntity(), evt:GetPlayerId())
+	self:DropPlayerItems(evt:GetEntity(), evt:GetPlayerId())
 end
 
 return dom_mananger

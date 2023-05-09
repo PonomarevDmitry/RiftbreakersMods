@@ -14,20 +14,20 @@ EntityBlueprint
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"4"
 			evade_speed							float:"10"
-			evade_acceleration					float:"10"
+			evade_acceleration					float:"20"
 			rotate_speed						float:"350"
+			shoot_rotate_speed					float:"50"
+			charge_time							float:"0.1"	
 			priority_target						string:"headquarters|energy|tower"
 			priority_target_distance			float:"40"
-			ignore_move_to_type					string:"wall|invisible|player|not_move_to_target"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
 			melee_attack_name					string:"attack_1|attack_2"
 			min_idle_time						float:"4.0"
 			max_idle_time						float:"8.0"
-			search_corpses_distance				float:"100.0"
-			start_to_resurrect_distance			float:"30.0"
+			search_corpses_distance				float:"50"
 			evade_from							string:"player"
-			evade_check_distance				float:"15.0"
-			evade_escape_distance				float:"35.0"
-			leech_damage						float:"10.0"
+			evade_check_distance				float:"16"
+			evade_escape_distance				float:"35"
 		}		
 	}
 
@@ -43,15 +43,21 @@ EntityBlueprint
 
 	DatabaseComponent
 	{
-		version int:"1"	
+		version int:"2"	
+	}
+
+	RegenerationComponent
+	{
+		regeneration 				"100"
+		regeneration_cooldown 		"3"
+		regeneration_effect			"effects/enemies_necrodon/healing"
+		regeneration_end_effect     "effects/enemies_necrodon/healing_finished"
 	}
 
 	HealthDesc
 	{
 		max_health 					"500"
 		health 						"500"
-		regeneration 				"100"
-		regeneration_cooldown 		"1"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -83,13 +89,13 @@ EntityBlueprint
 	TurretDesc
 	{
 		name   "range"
-		target "building"
-		target_ignore "wall|invisible|player"
+		target "ground_unit|building"
+		target_ignore "wall|invisible"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "8"
-			range_max "18"
+			range_min "10"
+			range_max "36"
 		}
 
 		aiming_cooldown "1"
@@ -103,15 +109,97 @@ EntityBlueprint
 
 	ResurrectUnitDesc
 	{
-		pool					"1700"
-		pool_regeneration		"500"
-		resurrect_time			"3.0"
-		resurrect_radius		"20.0"
-		body_ressurect_effect	"effects/enemies_necrodon/resurrect_body"
+		pool					   "1700"
+		pool_regeneration		   "500"
+		resurrect_time			   "3.0"
+		resurrect_radius		   "12"
+		summon_time				   "3.0"
+		summon_radius			   "8"
+		body_ressurect_effect	   "effects/enemies_necrodon/resurrect_body"
+		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
+		summon_effect			   "effects/enemies_necrodon/resurrect_body"
+		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
+		summon_bp				   "units/ground/canoptrix_crystal"
+		max_summon_counter	       "20"
+		dome_effect				   "units/ground/necrodon_dome_effect"
 	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"units/ground/necrodon/laser"
+
+		fire_effect 				"effects/enemies_necrodon/laser_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
 
 	children
 	{
+		EntityBlueprint
+		{
+		    name "units/ground/necrodon/interact"
+
+			SkeletonDesc
+			{
+				name "meshes/units/ground/necrodon"
+			}
+
+			TeamInheritanceDesc
+			{
+
+			}
+
+			TurretDesc
+			{
+				name   			"interact"
+				target 			"player|ground_unit|building"
+				target_ignore 	"wall|invisible"
+				speed 			"20000"
+				aim_volume 		"SphericalAimVolume"
+				{
+					range_min 	"0"
+					range_max 	"50"
+				}
+
+				aiming_cooldown 		"1"
+				aiming_target_time 		"2"
+				aiming_idle_angle 		"20"
+				pitch 					"att_muzzle"
+				yaw 					"att_muzzle"
+				check_target_visibility "0"
+				use_IK 					"0"
+			}
+		}
+
 		EntityBlueprint
 		{
 		    name "units/ground/necrodon/attack"
@@ -164,7 +252,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -207,7 +295,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters
@@ -243,7 +331,7 @@ EntityBlueprint
 		acid			"1.0"
 		energy			"1.0"
 		cryo			"0.0"
-		area			"1.0"	
+		area			"3.0"	
 	}
 
 	StunDataComponent
@@ -256,7 +344,7 @@ EntityBlueprint
 
 	TypeDesc
 	{
-		type "ground_unit|ground_unit_medium"
+		type "ground_unit_artillery|ground_unit|ground_unit_medium"
 	}
 
 	TeamDesc
@@ -298,25 +386,13 @@ EntityBlueprint
 			}
 		}
 	}
-
+	
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		
-		visibility "radar"
-	}
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/necrodon"
+		visibility 		"radar"		
+	}		
 
 	HighlightComponent
 	{
@@ -393,6 +469,19 @@ EntityBlueprint
 
 	EffectDesc
 	{
+		
+		//EffectGroup
+		//{			
+		//	group "leech"
+		//	enabled "0"		
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/buildings_defense/morphium_tower_energy"
+		//		}
+		//	}
+		//}
 		EffectGroup
 		{			
 			group "idle_random"
@@ -449,6 +538,19 @@ EntityBlueprint
 		EffectGroup
 		{
 			group 	"resurrect_effect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_hands"
+					bone "resurrect_effect"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"summon_effect"
 			enabled "0"
 			Effects
 			{
@@ -571,5 +673,83 @@ EntityBlueprint
 			}
 		}			
 	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/necrodon_resurrect_beam"
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"0.50" 	// lightning branching, step in meters
+		beam_min_width 			"0.02"
+		beam_max_width 			"0.07"
+		beam_count 				"3"
+		update_bounds			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/necrodon_dome_effect"
+
+	DisplayRadiusComponent
+	{
+		min_radius 				"0"
+		max_radius 				"10"
+		max_radius_blueprint    "effects/decals/necrodon_resurrect"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/necrodon_resurrect_spot"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/necrodon/laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"items/weapons/lightning_necrodon_ressurect_beam"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"26"
+	
+		on_enemy_hit_effect 	"effects/enemies_necrodon/laser_hit"
+		on_world_hit_effect 	"effects/enemies_necrodon/laser_hit"
+		on_shield_hit_effect	"effects/enemies_necrodon/laser_hit"
+	
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		friendly_fire			"pass"
+		collision_block 		"world|world_blocker"
+	
+        damage_factor_max       "1.0"
+        damage_factor_increase  "1"
+        damage_factor_decrease  "1.0"
+        damage_max_beam_scale 	"1.0"
+		damage_max_beam_glow 	"1.0"
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"1.0"
+		beam_min_width 			"0.05"
+		beam_max_width 			"0.1"
+		beam_count 				"6"
+	}
+	
+	//SoundDesc
+	//{
+	//	name 		"enemies/bradron/laser_muzzle"
+	//	//start_name 	"items/weapons/fluid/flamer_start"
+	//	//end_name 	"items/weapons/fluid/flamer_stop"
+	//}
 }
 

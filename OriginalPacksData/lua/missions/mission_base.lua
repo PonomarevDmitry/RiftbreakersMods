@@ -64,7 +64,7 @@ function mission_base:SelectWaveSpawnPoints()
         for entity in Iter( entities ) do
             EntityService:SetName( entity, group .. "/" .. tostring(entity) );
             EntityService:SetGroup( entity, group );
-            EntityService:SpawnAndAttachEntity(entity, "logic/spawn_grid_culler")
+            EntityService:SpawnAndAttachEntity("logic/spawn_enemy_grid_culler", entity)
         end
     end
 end

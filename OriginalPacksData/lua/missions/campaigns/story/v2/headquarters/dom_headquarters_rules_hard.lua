@@ -175,55 +175,87 @@ return function()
 			 -- difficulty level 1		
 			{ 
 				"logic/missions/survival/attack_level_1_id_1_desert.logic",
+				"logic/missions/survival/attack_level_1_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_1_id_2_desert.logic",
+				"logic/missions/survival/attack_level_1_id_2_desert_alpha.logic",
 			},
 	
 			 -- difficulty level 2
 			{ 			
 				"logic/missions/survival/attack_level_2_id_1_desert.logic",
+				"logic/missions/survival/attack_level_2_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_2_id_2_desert.logic",
+				"logic/missions/survival/attack_level_2_id_2_desert_alpha.logic",
 			},
 
 			 -- difficulty level 3
 			{ 
 				"logic/missions/survival/attack_level_3_id_1_desert.logic",
+				"logic/missions/survival/attack_level_3_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_3_id_2_desert.logic",
+				"logic/missions/survival/attack_level_3_id_2_desert_alpha.logic",				
 			},
 
 			 -- difficulty level 4
 			{ 			
 				"logic/missions/survival/attack_level_4_id_1_desert.logic",
+				"logic/missions/survival/attack_level_4_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_4_id_2_desert.logic",
+				"logic/missions/survival/attack_level_4_id_2_desert_alpha.logic",				
 			},
 
 			 -- difficulty level 5
 			{ 
 				"logic/missions/survival/attack_level_5_id_1_desert.logic",
+				"logic/missions/survival/attack_level_5_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_5_id_2_desert.logic",			
+				"logic/missions/survival/attack_level_5_id_2_desert_alpha.logic",							
 			},
 
 			 -- difficulty level 6
 			{ 
 				"logic/missions/survival/attack_level_6_id_1_desert.logic",
+				"logic/missions/survival/attack_level_6_id_1_desert.logic",
+				"logic/missions/survival/attack_level_6_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_6_id_2_desert.logic",			
+				"logic/missions/survival/attack_level_6_id_2_desert.logic",			
+				"logic/missions/survival/attack_level_6_id_2_desert_alpha.logic",					
 			},
 
 			 -- difficulty level 7
 			{ 
 				"logic/missions/survival/attack_level_7_id_1_desert.logic",
+				"logic/missions/survival/attack_level_7_id_1_desert.logic",
+				"logic/missions/survival/attack_level_7_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_7_id_2_desert.logic",
+				"logic/missions/survival/attack_level_7_id_2_desert.logic",
+				"logic/missions/survival/attack_level_7_id_2_desert_alpha.logic",				
 			},
 
 			 -- difficulty level 8
 			{ 
 				"logic/missions/survival/attack_level_8_id_1_desert.logic",
+				"logic/missions/survival/attack_level_8_id_1_desert.logic",
+				"logic/missions/survival/attack_level_8_id_1_desert_alpha.logic",
 				"logic/missions/survival/attack_level_8_id_2_desert.logic",
+				"logic/missions/survival/attack_level_8_id_2_desert.logic",
+				"logic/missions/survival/attack_level_8_id_2_desert_alpha.logic",				
 			},
 
 			 -- difficulty level 9
 			{ 
 				"logic/missions/survival/attack_level_8_id_1_desert.logic",
+				"logic/missions/survival/attack_level_8_id_1_desert.logic",
+				"logic/missions/survival/attack_level_8_id_1_desert.logic",
+				"logic/missions/survival/attack_level_8_id_1_desert_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_desert_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_desert_ultra.logic",
 				"logic/missions/survival/attack_level_8_id_2_desert.logic",
+				"logic/missions/survival/attack_level_8_id_2_desert.logic",
+				"logic/missions/survival/attack_level_8_id_2_desert.logic",				
+				"logic/missions/survival/attack_level_8_id_2_desert_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_desert_alpha.logic",				
+				"logic/missions/survival/attack_level_8_id_2_desert_ultra.logic",				
 			},
 		},
 
@@ -232,55 +264,87 @@ return function()
 			 -- difficulty level 1		
 			{ 
 				"logic/missions/survival/attack_level_1_id_1_acid.logic",
+				"logic/missions/survival/attack_level_1_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_1_id_2_acid.logic",
+				"logic/missions/survival/attack_level_1_id_2_acid_alpha.logic",
 			},
 	
 			 -- difficulty level 2
 			{ 			
 				"logic/missions/survival/attack_level_2_id_1_acid.logic",
+				"logic/missions/survival/attack_level_2_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_2_id_2_acid.logic",
+				"logic/missions/survival/attack_level_2_id_2_acid_alpha.logic",
 			},
 
 			 -- difficulty level 3
 			{ 
 				"logic/missions/survival/attack_level_3_id_1_acid.logic",
+				"logic/missions/survival/attack_level_3_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_3_id_2_acid.logic",
+				"logic/missions/survival/attack_level_3_id_2_acid_alpha.logic",				
 			},
 
 			 -- difficulty level 4
 			{ 			
 				"logic/missions/survival/attack_level_4_id_1_acid.logic",
+				"logic/missions/survival/attack_level_4_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_4_id_2_acid.logic",
+				"logic/missions/survival/attack_level_4_id_2_acid_alpha.logic",				
 			},
 
 			 -- difficulty level 5
 			{ 
 				"logic/missions/survival/attack_level_5_id_1_acid.logic",
+				"logic/missions/survival/attack_level_5_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_5_id_2_acid.logic",			
+				"logic/missions/survival/attack_level_5_id_2_acid_alpha.logic",							
 			},
 
 			 -- difficulty level 6
 			{ 
 				"logic/missions/survival/attack_level_6_id_1_acid.logic",
+				"logic/missions/survival/attack_level_6_id_1_acid.logic",
+				"logic/missions/survival/attack_level_6_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_6_id_2_acid.logic",			
+				"logic/missions/survival/attack_level_6_id_2_acid.logic",			
+				"logic/missions/survival/attack_level_6_id_2_acid_alpha.logic",					
 			},
 
 			 -- difficulty level 7
 			{ 
 				"logic/missions/survival/attack_level_7_id_1_acid.logic",
+				"logic/missions/survival/attack_level_7_id_1_acid.logic",
+				"logic/missions/survival/attack_level_7_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_7_id_2_acid.logic",
+				"logic/missions/survival/attack_level_7_id_2_acid.logic",
+				"logic/missions/survival/attack_level_7_id_2_acid_alpha.logic",				
 			},
 
 			 -- difficulty level 8
 			{ 
 				"logic/missions/survival/attack_level_8_id_1_acid.logic",
+				"logic/missions/survival/attack_level_8_id_1_acid.logic",
+				"logic/missions/survival/attack_level_8_id_1_acid_alpha.logic",
 				"logic/missions/survival/attack_level_8_id_2_acid.logic",
+				"logic/missions/survival/attack_level_8_id_2_acid.logic",
+				"logic/missions/survival/attack_level_8_id_2_acid_alpha.logic",				
 			},
 
 			 -- difficulty level 9
 			{ 
 				"logic/missions/survival/attack_level_8_id_1_acid.logic",
+				"logic/missions/survival/attack_level_8_id_1_acid.logic",
+				"logic/missions/survival/attack_level_8_id_1_acid.logic",
+				"logic/missions/survival/attack_level_8_id_1_acid_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_acid_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_acid_ultra.logic",
 				"logic/missions/survival/attack_level_8_id_2_acid.logic",
+				"logic/missions/survival/attack_level_8_id_2_acid.logic",
+				"logic/missions/survival/attack_level_8_id_2_acid.logic",				
+				"logic/missions/survival/attack_level_8_id_2_acid_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_acid_alpha.logic",				
+				"logic/missions/survival/attack_level_8_id_2_acid_ultra.logic",				
 			},
 		},
 
@@ -289,55 +353,193 @@ return function()
 			 -- difficulty level 1		
 			{ 
 				"logic/missions/survival/attack_level_1_id_1_magma.logic",
+				"logic/missions/survival/attack_level_1_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_1_id_2_magma.logic",
+				"logic/missions/survival/attack_level_1_id_2_magma_alpha.logic",
 			},
 	
 			 -- difficulty level 2
 			{ 			
 				"logic/missions/survival/attack_level_2_id_1_magma.logic",
+				"logic/missions/survival/attack_level_2_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_2_id_2_magma.logic",
+				"logic/missions/survival/attack_level_2_id_2_magma_alpha.logic",
 			},
 
 			 -- difficulty level 3
 			{ 
 				"logic/missions/survival/attack_level_3_id_1_magma.logic",
+				"logic/missions/survival/attack_level_3_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_3_id_2_magma.logic",
+				"logic/missions/survival/attack_level_3_id_2_magma_alpha.logic",				
 			},
 
 			 -- difficulty level 4
 			{ 			
 				"logic/missions/survival/attack_level_4_id_1_magma.logic",
+				"logic/missions/survival/attack_level_4_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_4_id_2_magma.logic",
+				"logic/missions/survival/attack_level_4_id_2_magma_alpha.logic",				
 			},
 
 			 -- difficulty level 5
 			{ 
 				"logic/missions/survival/attack_level_5_id_1_magma.logic",
+				"logic/missions/survival/attack_level_5_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_5_id_2_magma.logic",			
+				"logic/missions/survival/attack_level_5_id_2_magma_alpha.logic",							
 			},
 
 			 -- difficulty level 6
 			{ 
 				"logic/missions/survival/attack_level_6_id_1_magma.logic",
+				"logic/missions/survival/attack_level_6_id_1_magma.logic",
+				"logic/missions/survival/attack_level_6_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_6_id_2_magma.logic",			
+				"logic/missions/survival/attack_level_6_id_2_magma.logic",			
+				"logic/missions/survival/attack_level_6_id_2_magma_alpha.logic",					
 			},
 
 			 -- difficulty level 7
 			{ 
 				"logic/missions/survival/attack_level_7_id_1_magma.logic",
+				"logic/missions/survival/attack_level_7_id_1_magma.logic",
+				"logic/missions/survival/attack_level_7_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_7_id_2_magma.logic",
+				"logic/missions/survival/attack_level_7_id_2_magma.logic",
+				"logic/missions/survival/attack_level_7_id_2_magma_alpha.logic",				
 			},
 
 			 -- difficulty level 8
 			{ 
 				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_alpha.logic",
 				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma_alpha.logic",				
 			},
 
 			 -- difficulty level 9
 			{ 
 				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_ultra.logic",
 				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",				
+				"logic/missions/survival/attack_level_8_id_2_magma_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma_alpha.logic",				
+				"logic/missions/survival/attack_level_8_id_2_magma_ultra.logic",				
+			},
+		},
+		
+		["metallic"] =
+		{
+			 -- difficulty level 1		
+			{ 
+				"logic/missions/survival/metallic/attack_level_1_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_1_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_1_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_1_id_2_metallic_alpha.logic",
+			},
+	
+			 -- difficulty level 2
+			{ 			
+				"logic/missions/survival/metallic/attack_level_2_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_2_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_2_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_2_id_2_metallic_alpha.logic",
+			},
+
+			 -- difficulty level 3
+			{ 
+				"logic/missions/survival/metallic/attack_level_3_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_3_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_3_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_3_id_2_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_3_id_3_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_3_id_3_metallic_alpha.logic",
+			},
+
+			 -- difficulty level 4
+			{ 			
+				"logic/missions/survival/metallic/attack_level_4_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_4_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_4_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_4_id_2_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_4_id_3_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_4_id_3_metallic_alpha.logic",
+			},
+
+			 -- difficulty level 5
+			{ 
+				"logic/missions/survival/metallic/attack_level_5_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_5_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_5_id_2_metallic.logic",			
+				"logic/missions/survival/metallic/attack_level_5_id_2_metallic_alpha.logic",	
+				"logic/missions/survival/metallic/attack_level_5_id_3_metallic.logic",			
+				"logic/missions/survival/metallic/attack_level_5_id_3_metallic_alpha.logic",				
+			},
+
+			 -- difficulty level 6
+			{ 
+				"logic/missions/survival/metallic/attack_level_6_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_6_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_6_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_6_id_2_metallic.logic",			
+				"logic/missions/survival/metallic/attack_level_6_id_2_metallic.logic",			
+				"logic/missions/survival/metallic/attack_level_6_id_2_metallic_alpha.logic",	
+				"logic/missions/survival/metallic/attack_level_6_id_3_metallic.logic",			
+				"logic/missions/survival/metallic/attack_level_6_id_3_metallic_alpha.logic",
+			},
+
+			 -- difficulty level 7
+			{ 
+				"logic/missions/survival/metallic/attack_level_7_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_2_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_3_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_7_id_3_metallic_alpha.logic",
+			},
+
+			 -- difficulty level 8
+			{ 
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic_alpha.logic",
+			},
+
+			 -- difficulty level 9
+			{ 
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_1_metallic_ultra.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic_alpha.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_2_metallic_ultra.logic",
+				"logic/missions/survival/metallic/attack_level_8_id_3_metallic_ultra.logic",				
 			},
 		},
 	}

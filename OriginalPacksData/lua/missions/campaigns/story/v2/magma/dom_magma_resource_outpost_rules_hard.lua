@@ -44,6 +44,98 @@ return function()
 	{			
 		{ level = 2, minLevel = 6, prepareTime = 300, entryLogic = "logic/dom/major_attack_1_entry.logic", exitLogic = "logic/dom/major_attack_1_exit.logic" },     
 	}
+	
+	rules.waves = 
+	{
+		["default"] =
+		{
+			 -- difficulty level 1		
+			{ 
+				"logic/missions/survival/attack_level_1_id_1_magma.logic",
+				"logic/missions/survival/attack_level_1_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_1_id_2_magma.logic",
+				"logic/missions/survival/attack_level_1_id_2_magma_alpha.logic",
+			},
+	
+			 -- difficulty level 2
+			{ 			
+				"logic/missions/survival/attack_level_2_id_1_magma.logic",
+				"logic/missions/survival/attack_level_2_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_2_id_2_magma.logic",
+				"logic/missions/survival/attack_level_2_id_2_magma_alpha.logic",
+			},
+
+			 -- difficulty level 3
+			{ 
+				"logic/missions/survival/attack_level_3_id_1_magma.logic",
+				"logic/missions/survival/attack_level_3_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_3_id_2_magma.logic",
+				"logic/missions/survival/attack_level_3_id_2_magma_alpha.logic",				
+			},
+
+			 -- difficulty level 4
+			{ 			
+				"logic/missions/survival/attack_level_4_id_1_magma.logic",
+				"logic/missions/survival/attack_level_4_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_4_id_2_magma.logic",
+				"logic/missions/survival/attack_level_4_id_2_magma_alpha.logic",				
+			},
+
+			 -- difficulty level 5
+			{ 
+				"logic/missions/survival/attack_level_5_id_1_magma.logic",
+				"logic/missions/survival/attack_level_5_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_5_id_2_magma.logic",			
+				"logic/missions/survival/attack_level_5_id_2_magma_alpha.logic",							
+			},
+
+			 -- difficulty level 6
+			{ 
+				"logic/missions/survival/attack_level_6_id_1_magma.logic",
+				"logic/missions/survival/attack_level_6_id_1_magma.logic",
+				"logic/missions/survival/attack_level_6_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_6_id_2_magma.logic",			
+				"logic/missions/survival/attack_level_6_id_2_magma.logic",			
+				"logic/missions/survival/attack_level_6_id_2_magma_alpha.logic",					
+			},
+
+			 -- difficulty level 7
+			{ 
+				"logic/missions/survival/attack_level_7_id_1_magma.logic",
+				"logic/missions/survival/attack_level_7_id_1_magma.logic",
+				"logic/missions/survival/attack_level_7_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_7_id_2_magma.logic",
+				"logic/missions/survival/attack_level_7_id_2_magma.logic",
+				"logic/missions/survival/attack_level_7_id_2_magma_alpha.logic",				
+			},
+
+			 -- difficulty level 8
+			{ 
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma_alpha.logic",				
+			},
+
+			 -- difficulty level 9
+			{ 
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_magma_ultra.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma.logic",				
+				"logic/missions/survival/attack_level_8_id_2_magma_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_magma_alpha.logic",				
+				"logic/missions/survival/attack_level_8_id_2_magma_ultra.logic",				
+			},
+		},
+	}
 
     return rules;
 end

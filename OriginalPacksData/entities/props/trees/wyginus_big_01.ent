@@ -51,25 +51,6 @@ EntityBlueprint
         }
     }
 
-	NodeCullerDesc
-	{
-	       cost_type "prop"
-	       nav_mesh_cull_type "1"
-	}
-
-	GridCullerDesc
-	{
-		Shapes
-		{
-			PhysicsBoxShape
-			{
-				x "3"
-				y "3"
-				z "3"
-			}
-		}
-	}
-
 	VegetationComponentDesc
 	{
 		bending_wind_scale				"0.01"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
@@ -95,11 +76,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/destructibles/tree_leafs_destruction_big"
+					explosion_effect 		"effects/destructibles/tree_leafs_destruction_big_gold"
 
 					part_material	 		"props/trees/wyginus_big_01"
 					part_prefix 			"meshes/props/trees/wyginus_big_01"
-					part_effect 			"effects/destructibles/tree_leafs_part_trail"
+					part_effect 			"effects/destructibles/tree_leafs_part_trail_gold"
 				}
 			}
 			Pair
@@ -134,6 +115,18 @@ EntityBlueprint
 				}
 			}
 		}
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/tree_wyginus_big"
+                    offset "0 4 0"
+                }
+            }
+        }
 	}
 
 	VegetationDayAndNightAffector

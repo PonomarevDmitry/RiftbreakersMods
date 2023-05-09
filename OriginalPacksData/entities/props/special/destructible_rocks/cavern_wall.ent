@@ -1,0 +1,637 @@
+EntityBlueprint
+{
+	name  "props/special/destructible_rocks/cavern_wall"
+
+	DestructibleVolumeComponent
+	{
+		on_wall_hit_effect		"effects/enemies_generic/world_hit"
+		cover_material			"props/special/destructible_rocks/cavern_ceil"
+		navigation_cost_type 	"cavern_wall"
+
+		minimap_color
+		{
+			r "0.05"
+			g "0.15"
+			b "0.25"
+			a "1.000"
+		}
+	}
+
+	SceneEditorDesc
+	{
+		highlight_color
+		{
+			r "1.0"
+			g "1.0"
+			b "0.0"
+			a "1.0"
+		}
+	}
+
+	LocalAabbDesc
+	{
+		min
+		{
+			x "-0.5"
+			y "-0.5"
+			z "-0.5"
+		}
+
+		max
+		{
+			x "0.5"
+			y "0.5"
+			z "0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/destructible_rocks/cavern_wall_blocker"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_big_01"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_01"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+
+	DestructibleWallComponent
+
+	HealthDesc
+	{
+		max_health 				"100"
+		health 					"100"
+		is_manual				"1"
+	}
+
+	TeamDesc
+	{
+		team "none"
+	}
+
+	ResistanceComponent
+	{
+		min_damage_threshold 	"1000"
+		area					"5.0"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}
+
+	TypeDesc
+	{
+		type "cavern_wall"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    			x	2
+    			y	2
+    			z	2
+   			}
+		}
+	}
+	
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"world_destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.3"
+						half_height "5"
+
+						position 
+						{
+							x "0.0"
+							y "5"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
+				}
+			}
+		}
+	}
+
+	DatabaseComponent
+	{
+		harvest_duration float:"0.05"
+	}
+
+	InteractiveComponent 
+	{
+		slot 			"EXCAVATOR"
+		radius 			"6"
+		remove_entity	"0"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_big_01"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_01"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_big_01.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_big_02"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_02"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_big_02.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_big_02"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_02"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_big_03"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_03"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_big_03.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_big_03"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_03"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"props/special/destructible_rocks/cavern_wall_large"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_big_01"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_big_02"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_big_03"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_medium_01"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_01"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_medium_01.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_medium_01"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_01"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_medium_02"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_02"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_medium_02.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_medium_02"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_02"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_medium_03"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_03"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_medium_03.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_medium_03"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_03"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"props/special/destructible_rocks/cavern_wall_medium"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_medium_01"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_medium_02"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_medium_03"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_small_01"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_01"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_small_01.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_small_01"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_01"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_small_02"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_02"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_small_02.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_small_02"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_02"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/cavern_wall_small_03"
+	base_blueprint	"props/special/destructible_rocks/cavern_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/cavern_wall_set_03"
+		mesh 		"meshes/props/special/destructible_rocks/cavern_wall_small_03.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/cavern_wall_small_03"
+					part_material 			"props/special/destructible_rocks/cavern_wall_set_03"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"props/special/destructible_rocks/cavern_wall_small"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_small_01"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_small_02"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/cavern_wall_small_03"
+		}
+	}
+}

@@ -37,7 +37,6 @@ function interface_cutscene_end:CameraFollowPlayer()
 	self.camera = CameraService:GetLeadingPlayerCamera()
 	self.player = PlayerService:GetPlayerControlledEnt( 0 )
 	CameraService:SetFollowTarget( self.camera , self.player )
-	SoundService:SetEarsMode( "1st_person" )
 end
 
 function interface_cutscene_end:OnFade( state )

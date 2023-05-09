@@ -1,0 +1,352 @@
+EntityBlueprint
+{
+	name  "items/weapons/crystal_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/burst_rifle"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/burst_rifle"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "3"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone   "be_recoil_1"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+		}
+
+		ammo_blueprint 				"mech/crystal_gun_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_bullet/crystal_gun_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.08"
+		//burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/crystal_gun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_small_bullet_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/crystal_gun_advanced"
+
+	base_blueprint "items/weapons/crystal_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/burst_rifle_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/crystal_gun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		name 			"gui/menu/inventory/weapon_name/crystal_gun"
+		subtype			"high_caliber"
+		holding_pose 	"range"
+		item_bp			"items/weapons/crystal_gun_advanced"
+		icon			"gui/hud/items_icons/weapons/crystal_gun_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/crystal_gun_advanced"
+		description 	"gui/menu/inventory/weapon_charge_description/crystal_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/crystal_gun_extreme"
+
+	base_blueprint "items/weapons/crystal_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/burst_rifle_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/crystal_gun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		name 			"gui/menu/inventory/weapon_name/crystal_gun"
+		subtype			"high_caliber"
+		holding_pose 	"range"
+		item_bp			"items/weapons/crystal_gun_extreme"
+		icon			"gui/hud/items_icons/weapons/crystal_gun_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/crystal_gun_extreme"
+		description 	"gui/menu/inventory/weapon_charge_description/crystal_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/crystal_gun_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		name 			"gui/menu/inventory/weapon_name/crystal_gun"
+		subtype			"high_caliber"
+		holding_pose 	"range"
+		item_bp			"items/weapons/crystal_gun"
+		icon			"gui/hud/items_icons/weapons/crystal_gun"
+		bigger_icon 	"gui/menu/items_icons/weapons/crystal_gun"
+		description 	"gui/menu/inventory/weapon_charge_description/crystal_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/crystal_gun_superior"
+
+	base_blueprint "items/weapons/crystal_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/burst_rifle.mesh"
+		material 	"items/weapons/burst_rifle_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/crystal_gun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		name 			"gui/menu/inventory/weapon_name/crystal_gun"
+		subtype			"high_caliber"
+		holding_pose 	"range"
+		item_bp			"items/weapons/crystal_gun_superior"
+		icon			"gui/hud/items_icons/weapons/crystal_gun_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/crystal_gun_superior"
+		description 	"gui/menu/inventory/weapon_charge_description/crystal_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "mech/crystal_gun_projectile"
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/blue_very_small_weak
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/zorant_projectile.mesh"
+		material 	"projectiles/crystal_projectile"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/crystal_gun_projectile"
+	}
+
+	ProjectileAmmoComponent
+	{
+		//distribution 			"dissipation"
+		//dissipation_count 	"5"
+		cluster_enemy_spread    "180"
+		cluster_world_spread	"180"
+		cluster_max_life_time   "0.2"
+		on_enemy_hit_effect 	"effects/weapons_bullet/crystal_gun_hit_enemy"
+		on_world_hit_effect 	"effects/weapons_bullet/crystal_gun_hit_world"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.2
+		type 		"camera"
+	}
+}
+

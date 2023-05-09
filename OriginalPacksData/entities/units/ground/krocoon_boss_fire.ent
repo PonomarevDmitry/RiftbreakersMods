@@ -137,6 +137,20 @@ EntityBlueprint
 			}
 		}		
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2"			// radius to spread fire
+		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "500000" 						// how often e                    ntity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"10000000000"	// how long it will burn in seconds
+	}	
 
 	EffectDesc
 	{
@@ -282,7 +296,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_fire"	
+					blueprint "effects/enemies_generic/damage_generic_fire_metal"	
 					bone "att_death"
 				}
 			}
@@ -295,7 +309,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_fire"	
+					blueprint "effects/enemies_generic/damage_generic_fire_metal"	
 				}
 			}
 		}
@@ -393,7 +407,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{

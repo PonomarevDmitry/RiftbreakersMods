@@ -1,0 +1,107 @@
+EntityBlueprint
+{
+	name "props/crystals/edgy_small_06_skin1"
+
+	base_blueprints
+	{
+		props/base/crystal_vegetation_lifecycle
+	}
+	
+	HealthDesc
+	{
+		max_health 				"50"
+		health 					"50"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/crystals/edgy_small_06.mesh"
+		material "props/crystals/edgy_small_set_skin1"
+	}
+
+	TypeDesc
+	{
+		type "flora"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.4"
+						y "2"
+						z "2.8"
+
+						position
+						{
+							x "-0.2"
+							y "1"
+							z "-0.1"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_gold"
+					explosion_effect_scale 	"0.4"
+					part_material	 		"props/crystals/edgy_small_set_skin1"
+					part_prefix 			"meshes/props/crystals/edgy_small_06"
+					//part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "debris_heavy"
+
+				}
+			}
+		}
+	}
+	
+	EffectDesc
+    {
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/mushroom_exploding_small"
+                    offset "0 0 0"
+                }
+            }
+        }
+    }
+}
+

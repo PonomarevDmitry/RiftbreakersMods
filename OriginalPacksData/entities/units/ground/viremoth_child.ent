@@ -1,0 +1,326 @@
+EntityBlueprint
+{
+	name "units/ground/viremoth_child"
+
+	base_blueprint "units/ground/viremoth_child_base"
+
+
+	HealthDesc
+	{
+		max_health 					"400"
+		health 						"400"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"0"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/phirian.mesh"
+		material "units/ground/viremoth"	
+	}
+
+	//AnimationDesc
+	//{
+	//	animations
+	//	{
+	//		Anim
+	//		{
+	//			animName "idle_1"
+	//			animTime "0.0"
+	//		}
+	//	}
+	//}
+}
+
+EntityBlueprint
+{
+	name "units/ground/viremoth_child_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/viremoth_child.lua"
+		database
+		{
+			min_scale	   float:"0.95"
+			max_scale	   float:"1.05"
+		}			
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/phirian"
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"building|building_small|ground_unit|shield"
+		tag 		"mist"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "2.0"
+			}
+		}
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.0"
+		fire			"1.0"
+		acid			"0.0"
+		energy			"0.0"
+		cryo			"1.0"
+		area			"1.0"	
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"350"
+		unit_soft_radius				"2.0"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|height_path_blocker"
+		dominance_group				    "10"
+		max_speed						"5"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"hitbox"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "2.0"
+					}
+				}
+			}
+		}
+	}
+
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	AirGroundNavigationComponent
+	{
+
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "1.0"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/viremoth"
+		can_activate 0
+	}
+	
+
+	EffectDesc
+	{
+		EffectGroup
+		{			
+			enabled "1"		
+			Effects
+			{
+				Effect
+				{
+					blueprint 	"effects/enemies_viremoth/smoke"
+				}
+			}
+		}
+
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_viremoth/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"	
+				}
+			}
+		}			
+	
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_black"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 7 0"
+					scale "1 1 1"
+				}
+			}
+		}			
+	}
+}

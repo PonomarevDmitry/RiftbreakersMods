@@ -1,0 +1,254 @@
+system rift/tree_leafs_destruction_big_red
+{
+    fixed_timeout                               5
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.035
+    scale                                       0.035 0.035 0.035
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    technique smoke
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box smoke
+        {
+            emission_rate                       25
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             40
+                max                             50
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             100
+            }
+            position                            0 150 0
+            end_texture_coords_range            3
+            start_colour_range                  0.501961 0.501961 0.25098 1
+            end_colour_range                    0.501961 0.501961 0.50196 1
+            force_emission                      true
+            box_height                          300
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0 0 0.6
+            time_colour                         0.506522  0.501961 0 0 0.4
+            time_colour                         1    0.501961 0 0 0
+        }
+        affector                                LinearForce Affector10
+        {
+            force_vector                        0 -40 0
+        }
+        affector                                Scale Affector19
+        {
+            xyz_scale                           60
+            since_start_system                  true
+        }
+    }
+    technique branches
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/cloth_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box debris
+        {
+            emission_rate                       20
+            angle                               60
+            velocity                            dyn_random
+            {
+                min                             150
+                max                             250
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             60
+            }
+            position                            0 150 0
+            start_colour_range                  0.941176 0.941176 0.941176 1
+            end_colour_range                    0.878431 0.878431 0.878431 1
+            force_emission                      true
+            box_width                           125
+            box_height                          150
+            box_depth                           125
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -450 0
+        }
+        affector                                TextureRotator Affector25
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -2
+                max                             2
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+        }
+        affector                                Colour Affector46
+        {
+            time_colour                         0    0.501961 0 0 1
+            time_colour                         0.504348  0.501961 0 0 1
+            time_colour                         1    0.501961 0 0 0
+        }
+    }
+    technique leafs
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/wood_splinter03
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box debris
+        {
+            emission_rate                       20
+            angle                               90
+            velocity                            dyn_random
+            {
+                min                             20
+                max                             25
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             60
+            }
+            position                            0 150 0
+            start_colour_range                  0.376471 0.376471 0.376471 1
+            end_colour_range                    0.690196 0.690196 0.690196 1
+            force_emission                      true
+            box_width                           125
+            box_height                          150
+            box_depth                           125
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -50 0
+        }
+        affector                                TextureRotator Affector25
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                Colour Affector46
+        {
+            time_colour                         0    0.501961 0 0 1
+            time_colour                         0.504348  0.501961 0 0 1
+            time_colour                         1    0.501961 0 0 0
+        }
+    }
+    technique wood
+    {
+        visual_particle_quota                   25
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/wood_splinter_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box debris
+        {
+            emission_rate                       25
+            angle                               90
+            velocity                            dyn_random
+            {
+                min                             350
+                max                             500
+            }
+            particle_width                      dyn_random
+            {
+                min                             10
+                max                             25
+            }
+            particle_height                     dyn_random
+            {
+                min                             10
+                max                             40
+            }
+            position                            0 100 0
+            end_texture_coords_range            3
+            start_colour_range                  0 1 0 1
+            end_colour_range                    0 0.25098 0 1
+            colour                              0 0.501961 0 1
+            auto_direction                      true
+            force_emission                      true
+            box_width                           15
+            box_height                          150
+            box_depth                           15
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -700 0
+        }
+        affector                                TextureRotator Affector25
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                Colour Affector47
+        {
+            time_colour                         0    0.501961 0 0 1
+            time_colour                         0.508696  0.501961 0 0 1
+            time_colour                         1    0.501961 0 0 0
+        }
+    }
+}

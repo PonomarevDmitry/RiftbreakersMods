@@ -1,0 +1,102 @@
+EntityBlueprint
+{
+	name "units/ground/egg_anoryxian"
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		database
+		{
+			min_scale	float:"0.8"
+			max_scale	float:"1.2"
+			grow		int:"1"
+		}		
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/spawner_granan_eggs_01.mesh"
+		material "units/ground/spawner_granan_eggs"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "canoptrix"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "4"
+						z "2"
+					}
+				}
+			}
+		}
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_crawlog/death"
+					part_prefix 			"meshes/units/ground/spawner_granan_eggs_01"
+					part_material 			"units/ground/spawner_granan_eggs"
+					part_effect 			"effects/enemies_generic/blood_trail_blue"
+					part_physics_material	"gibs_light"								
+				}
+
+				key "default"
+			}					
+		}
+	
+	}
+
+	EggDesc
+	{
+		blueprint				"units/ground/canoptrix_crystal_alpha"
+		time_to_hatch			"7"
+		unit_state_spawn		"state_aggressive" // do not touch
+	}
+}

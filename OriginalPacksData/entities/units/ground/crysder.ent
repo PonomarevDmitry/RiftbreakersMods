@@ -1,0 +1,350 @@
+EntityBlueprint
+{
+	name "units/ground/crysder"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/crysder_01"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/crysder_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/crysder_03"
+		}
+		
+	}
+}
+
+EntityBlueprint
+{
+    name "units/ground/crysder_01"
+    base_blueprint units/ground/crysder_base
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/crysder_01.mesh"		
+
+		SubMeshes
+		{
+		SubMesh
+			{
+				id "0"
+				material "units/ground/crysder"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "units/ground/crysder_crystals"
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "units/ground/crysder_02"
+    base_blueprint units/ground/crysder_base
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/crysder_02.mesh"		
+
+		SubMeshes
+		{
+		SubMesh
+			{
+				id "0"
+				material "units/ground/crysder"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "units/ground/crysder_crystals"
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "units/ground/crysder_03"
+    base_blueprint units/ground/crysder_base
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/crysder_03.mesh"		
+
+		SubMeshes
+		{
+		SubMesh
+			{
+				id "0"
+				material "units/ground/crysder"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "units/ground/crysder_crystals"
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "units/ground/crysder_base"
+
+	StateMachineDesc
+	{
+		template_name "stonger"
+		params
+		{
+			aggressive_speed				float:"8"
+			aggressive_acceleration			float:"24"
+			evade_distance					float:"15"
+			max_search_origin_radius		float:"50"	
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/stonger.lua"
+		database
+		{
+			min_scale	float:"1.00"
+			max_scale	float:"1.00"
+		}			
+	}
+	
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"ground_unit"
+		tag 		"unit"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "0.6"
+			}
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	NeutralUnitDesc
+	{
+		life_time_out_of_screen			"10"
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"0"
+		update_health_uniform 		"1"		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"350"
+		unit_soft_radius				"0.40"
+		dominance_group				    "10"
+	}
+
+	MovementDatabaseUpdateComponent
+	{
+	}
+
+	DatabaseComponent
+	{
+
+	}
+
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/crysder"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "crysder"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small|quelver"
+	}
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "0.1"
+					}			
+				}
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.8"
+		max "1"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+	
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "2.0"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/crysder"
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.8"
+					explosion_effect 		"effects/enemies_neutral/stonger_death"
+				}
+
+				key "default"
+			}					
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_black"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}			
+	}
+}

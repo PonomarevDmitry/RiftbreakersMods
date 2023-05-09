@@ -36,7 +36,7 @@ TimeOfDayPreset
 		}
 
 		time_of_day "1"
-		skybox_diffuse_intensity "0.000"
+		skybox_diffuse_intensity "0.100"
 	}
 
 	timeofday_day
@@ -66,7 +66,7 @@ TimeOfDayPreset
 		}
 
 		time_of_day "0"
-		skybox_diffuse_intensity "0.000"
+		skybox_diffuse_intensity "0.100"
 	}
 
 	weather_day
@@ -105,7 +105,7 @@ TimeOfDayPreset
 		}
 
 		time_of_day "3"
-		skybox_diffuse_intensity "0.096"
+		skybox_diffuse_intensity "0.1"
 	}
 
 	timeofday_sunrise
@@ -135,7 +135,7 @@ TimeOfDayPreset
 		}
 
 		time_of_day "2"
-		skybox_diffuse_intensity "0.000"
+		skybox_diffuse_intensity "0.100"
 	}
 
 }

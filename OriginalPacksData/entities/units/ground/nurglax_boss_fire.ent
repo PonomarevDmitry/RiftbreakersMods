@@ -162,6 +162,20 @@ EntityBlueprint
 		}		
 	}	
 	
+	BurningComponent
+	{
+		spread_radius 			"2.5"			// radius to spread fire
+		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "500000" 						// how often e                    ntity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"10000000000"	// how long it will burn in seconds
+	}	
+	
 	EffectDesc
 	{		
 		EffectBaseBlueprints
@@ -332,7 +346,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -391,7 +405,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/enemies_nurglax/death_artillery_explosion_fire"
 		on_world_hit_effect 	"effects/enemies_nurglax/death_artillery_explosion_fire"	
 		on_shield_hit_effect 	"effects/enemies_nurglax/death_artillery_explosion_fire"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small"
 		
 		delay_update_time		"0.3"
 		manual_remove			"1"

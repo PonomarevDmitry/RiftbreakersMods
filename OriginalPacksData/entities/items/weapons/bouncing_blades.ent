@@ -1,0 +1,425 @@
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/bouncing_blades.mesh"
+		material 	"items/weapons/bouncing_blades"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/bouncing_blades"
+	}	
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle"
+				recoil_bone   "be_recoil"
+				recoil_time   	"0.15"
+				recoil_offset   "0.5"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "3.5"
+		}
+
+		ammo_blueprint 				"items/weapons/bouncing_blades_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_special/bouncing_blades_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		burst_column_angle 			"10"
+	}
+
+	ChargeWeaponComponent
+	{
+		ChargeLevels
+		{
+			ChargeLevel
+			{
+				name 						"charge_level_1"
+
+				ammo_blueprint 				"items/weapons/bouncing_blades_projectile"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_special/bouncing_blades_fire_charged"
+
+				charge_time_start           "0.3"
+				charge_time_end             "2"
+				charge_muzzle_idx           "0"
+
+				burst_column_spacing 		"0.5"
+				burst_rate 					"0.3"
+				//burst_column_angle_factor	"10"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_special/bouncing_blades_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_special/bouncing_blades_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_big_bullet_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_advanced"
+
+	base_blueprint "items/weapons/bouncing_blades"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/bouncing_blades.mesh"
+		material 	"items/weapons/bouncing_blades_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/bouncing_blades"
+		holding_pose "range"
+		item_bp		"items/weapons/bouncing_blades_advanced"
+		icon		"gui/hud/items_icons/weapons/bouncing_blades_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/bouncing_blades_advanced"
+		description "gui/menu/inventory/weapon_charge_description/bouncing_blades"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_extreme"
+
+	base_blueprint "items/weapons/bouncing_blades"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/bouncing_blades.mesh"
+		material 	"items/weapons/bouncing_blades_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/bouncing_blades"
+		holding_pose "range"
+		item_bp		"items/weapons/bouncing_blades_extreme"
+		icon		"gui/hud/items_icons/weapons/bouncing_blades_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/bouncing_blades_extreme"
+		description "gui/menu/inventory/weapon_charge_description/bouncing_blades"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/bouncing_blades"
+		holding_pose "range"
+		item_bp		"items/weapons/bouncing_blades"
+		icon		"gui/hud/items_icons/weapons/bouncing_blades"
+		bigger_icon "gui/menu/items_icons/weapons/bouncing_blades"
+		description "gui/menu/inventory/weapon_charge_description/bouncing_blades"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_projectile"
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/white_small
+		effects/no_lifetime
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}	
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/mech_blaster_projectile"
+	//}	
+	
+	RibbonComponent
+	{
+		material 			"ribbon/drone_trail_white"
+		update_bounds 		1
+		fade_out_time		1.9
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.6"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.6"
+			}
+		}
+	}		
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/bouncing_blades_projectile.mesh"
+		material "items/weapons/bouncing_blades"
+	}
+
+	ProjectileAmmoComponent
+	{
+		diameter					"1"
+
+		cluster_max_inherit_count 	1
+		cluster_max_generation 		50
+		
+		on_enemy_hit_effect 		"effects/weapons_special/bouncing_blades_hit_enemy_flesh"
+		on_world_hit_effect 		"effects/weapons_special/bouncing_blades_hit_world_rocks"
+		on_resisted_hit_effect 		"effects/weapons_generic/projectile_hit_resisted"	
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|vegetation|building|ground_unit|shield"
+		collision_2d 				"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.3
+		type 		"camera"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_superior"
+
+	base_blueprint "items/weapons/bouncing_blades"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/bouncing_blades.mesh"
+		material 	"items/weapons/bouncing_blades_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/bouncing_blades_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/bouncing_blades"
+		holding_pose "range"
+		item_bp		"items/weapons/bouncing_blades_superior"
+		icon		"gui/hud/items_icons/weapons/bouncing_blades_superior"
+		bigger_icon "gui/menu/items_icons/weapons/bouncing_blades_superior"
+		description "gui/menu/inventory/weapon_charge_description/bouncing_blades"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,1,2,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+

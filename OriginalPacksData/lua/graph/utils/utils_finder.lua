@@ -15,7 +15,7 @@ function utils_finder:init()
 end
 
 function utils_finder:Update( state )
-    self.foundEntities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+    self.foundEntities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
     self:OnEntitiesFound( self.foundEntities )
 end
 

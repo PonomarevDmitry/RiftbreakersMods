@@ -1,0 +1,82 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid_crystal"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/empty_weapon"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/arachnoid_crystal_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/crystal_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid_crystal_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"alien_acid_crystal"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/alien_acid_crystal"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+
+	}
+
+	
+	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons_enemy/arachnoid_crystal_projectile"
+
+	base_blueprint "effects/enemies_arachnoid/crystal_projectile"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_crystal_projectile.mesh"
+		material 	"projectiles/arachnoid_crystal_projectile"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 		"effects/enemies_arachnoid/crystal_hit"
+		on_world_hit_effect 		"effects/enemies_arachnoid/crystal_hit"
+		on_shield_hit_effect		"effects/enemies_generic/shield_hit"
+
+		friendly_fire				"pass"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+	}
+}
+

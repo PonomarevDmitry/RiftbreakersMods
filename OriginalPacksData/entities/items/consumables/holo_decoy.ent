@@ -1,0 +1,433 @@
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy"
+
+	MeshDesc
+	{
+		mesh 						"meshes/items/consumables/holo_decoy.mesh"
+		material 					"items/consumables/holo_decoy"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_10_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_world_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_resisted_hit_effect 		"items/consumables/holo_decoy_mech"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"0"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/grenade_projectile"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_explosive/grenade_throw"
+				}
+			}			
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_white"
+				update_bounds 		1
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.6"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.6"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_advanced"
+		base_blueprint "items/consumables/holo_decoy"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_world_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_resisted_hit_effect 		"items/consumables/holo_decoy_mech"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"0"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_superior"
+		base_blueprint "items/consumables/holo_decoy"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_world_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_resisted_hit_effect 		"items/consumables/holo_decoy_mech"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"0"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_extreme"
+		base_blueprint "items/consumables/holo_decoy"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_world_hit_effect 		"items/consumables/holo_decoy_mech"
+		on_resisted_hit_effect 		"items/consumables/holo_decoy_mech"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"0"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/holo_decoy"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/holo_decoy_advanced"
+		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_advanced"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/holo_decoy_upgraded"	
+		rarity						"ADVANCED"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/holo_decoy_advanced"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/holo_decoy_advanced"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/holo_decoy"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/holo_decoy_extreme"
+		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_extreme"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/holo_decoy_upgraded"
+		rarity						"EXTREME"
+		replace_lower_quality		"1"		
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/holo_decoy_extreme"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/holo_decoy_extreme"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_standard_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/holo_decoy"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/holo_decoy_standard"
+		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_standard"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/holo_decoy_standard"		
+		rarity						"STANDARD"
+		replace_lower_quality		"1"		
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/holo_decoy"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/holo_decoy"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_superior_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/holo_decoy"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/holo_decoy_superior"
+		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_superior"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/holo_decoy_upgraded"
+		rarity						"SUPERIOR"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"			
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/holo_decoy_superior"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/holo_decoy_superior"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/holo_decoy_mech"
+
+	HealthDesc
+	{
+		//is_manual				"1"
+		max_health 				"2000"
+		health 					"2000"
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/holo_decoy_mech.lua"
+	}
+	
+
+	MeshDesc
+	{
+		mesh "meshes/player/mech.mesh"
+		material "selector/hologram_skinned_blue"
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+	
+	TypeDesc
+	{
+		type "ground_unit|player"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/player/mech"
+	}
+	
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "inventor_ranged_melee"
+				animTime "0.0"
+			}
+		}
+	}	
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/player/mech_c1.nxs"
+					}
+				}
+			}
+			
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"character"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "1"
+					}
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"11000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/items/holo_decoy_explosion"
+				}
+			}
+		}
+	}
+	
+	EffectDesc
+    {
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/mushroom_exploding_big_skin1"
+                    offset "0 3 0"
+                }
+            }
+        }
+    }
+}

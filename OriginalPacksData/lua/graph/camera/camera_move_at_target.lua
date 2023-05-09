@@ -8,8 +8,6 @@ function camera_move_at_target:init()
 end
 
 function camera_move_at_target:Activated()		
-	SoundService:SetEarsMode( "3rd_person" )
-	
 	self.targetName = self.data:GetString("target_name")	
 	self.targetGroup = self.data:GetString("target_group")	
 	self.targetType = self.data:GetString("target_type")	
@@ -28,13 +26,14 @@ function camera_move_at_target:Activated()
 		self.target = FindService:FindEntityByBlueprint(self.targetBlueprint)
 	end
 	
-	self.oldTarget = CameraService:GetFollowTarget( self.camera  )
-	self.currentTarget = EntityService:SpawnEntity( self.oldTarget )
+	self.oldTargetPos = CameraService:GetLookAtPosition( self.camera )
+	self.currentTarget = EntityService:SpawnEntity( self.oldTargetPos )
 
-	self.speed = self.data:GetFloat("speed")
+	self.speed = self.data:GetFloat( "speed" )
+	self.acceleration = self.data:GetFloatOrDefault( "acceleration", 0.0 )
 	self.back_to_player = self.data:GetInt("lock_camera") == 1
 	
-	MoveService:MoveToTarget( self.currentTarget, self.target, self.speed )
+	MoveService:MoveToTarget( self.currentTarget, self.target, self.speed, self.acceleration )
 	CameraService:SetFollowTarget( self.camera , self.currentTarget )
 
 	self:RegisterHandler( self.currentTarget , "MoveEndEvent", "OnMoveEnd")	

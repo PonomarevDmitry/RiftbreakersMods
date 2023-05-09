@@ -1,0 +1,50 @@
+EntityBlueprint
+{
+	name "logic/interference_point"
+	
+	SceneEditorDesc
+	{
+		mesh 		"meshes/props/special/alien_structures/influence_pylon.mesh"
+		material 	"selector/hologram_blue"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/magnetic_boulder.lua"
+	}
+
+	//MeshDesc
+	//{
+	//	mesh "meshes/props/special/magnetic_rocks/magnetic_rock_big_01.mesh"
+	//	material "props/special/magnetic_big_01"
+	//}
+	
+	GridMarkerComponent
+	{
+		mode			"origin"
+		terrain_type  	"magnetic_rock"	
+		extend  		"64"
+	}	
+
+	TriggerDesc
+	{	
+		owner 		"self"
+		collision 	"ground_unit"
+
+		Filters
+		{
+			TeamTriggerFilter 
+			{
+				team		"player"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "64"
+			}				
+		}
+	}
+}

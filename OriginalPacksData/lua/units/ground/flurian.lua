@@ -21,7 +21,8 @@ end
 
 function flurian:OnShootArtilleryEvent( evt )
 	local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), evt:GetTargetTag() )
-	WeaponService:UpdateGrenadeAiming( self.entity,targetOrigin.x, targetOrigin.y + 1.0, targetOrigin.z )
+	targetOrigin.y = targetOrigin.y + 1.0
+	WeaponService:UpdateGrenadeAiming( self.entity, targetOrigin )
 	WeaponService:ShootOnce( self.entity )
 
 end

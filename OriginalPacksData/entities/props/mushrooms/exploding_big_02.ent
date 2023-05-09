@@ -1,0 +1,149 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/exploding_big_02"
+
+	base_blueprints
+	{
+		 props/base/flammable_big
+	}
+
+	HealthDesc
+	{
+	    is_manual				"1"
+		max_health 				"200"
+		health 					"200"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/exploding_big_02.mesh"
+		material "props/mushrooms/exploding_big"
+	}
+
+	TypeDesc
+	{
+		type "flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/exploding_big_02_c1.nxs"
+					}
+
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	    cost_type "prop"
+	    nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "6"
+				y "6"
+				z "6"
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.01"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.01"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+
+	}
+
+
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"11000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_big"
+
+					part_material	 		"props/mushrooms/exploding_big"
+					part_prefix 			"meshes/props/mushrooms/exploding_big_02"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_medium"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/mushrooms/exploding_big"
+					part_prefix 			"meshes/props/mushrooms/exploding_big_02"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/mushroom_exploding_big"
+                    offset "0 4 0"
+                }
+            }
+        }
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_medium"
+					offset "0 1 0"
+				}
+			}
+		}
+    }
+
+
+}

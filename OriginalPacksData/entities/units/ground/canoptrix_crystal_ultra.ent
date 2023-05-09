@@ -1,0 +1,211 @@
+EntityBlueprint
+{
+	name  "units/ground/canoptrix_crystal_ultra"
+
+	base_blueprint units/ground/canoptrix_ultra_base
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/canoptrix_crystal.mesh"
+		material 	"units/ground/canoptrix_crystal_ultra"
+	}
+	
+	SelectableDesc
+	{
+		content "monster_name/canoptrix_crystal_ultra"
+		can_activate 0
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/canoptrix_crystal.lua"
+		database
+		{
+			min_scale	float:"2.1"
+			max_scale	float:"2.2"
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 					"250"
+		health 						"250"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_generic/death_crystal_red_and_black"
+					explosion_effect_scale 	"0.4"
+					part_prefix 			"meshes/units/ground/canoptrix"
+					part_material			"units/ground/canoptrix_crystal_ultra"
+					part_effect 			"effects/enemies_generic/blood_trail_black_small"
+					part_physics_material	"gibs_light"
+				}
+
+				key "default"
+			}
+		}
+	}	
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"200"
+		unit_soft_radius				"0.76"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "1"
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/canoptrix_base"
+		}	
+////////////////////////MISC/////////////////////////			
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_crystal_red"	
+				}
+			}
+		}	
+	}		
+
+	children
+	{
+		EntityBlueprint
+		{
+
+			AttachmentDesc
+			{
+				attachment "att_muzzle"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_canoptrix/attack"
+						//attack_start_time			"0.73"
+						//attack_end_time				"0.93"
+						//attack_duration 			"2.17"
+						attack_start_time			"0.43"
+						attack_end_time				"0.63"
+						attack_duration 			"1.17"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_canoptrix/attack"
+						attack_start_time			"0.8"
+						attack_end_time				"1.0"
+						attack_duration 			"2.63"
+					}
+                    
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_canoptrix/attack"
+						attack_start_time			"0.63"
+						attack_end_time				"1.23"
+						attack_duration 			"2.83"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_small"
+							on_world_hit_effect 	"effects/enemies_generic/world_hit"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"30.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsSphereShape
+					{
+						r "0.6"
+					}
+				}
+			}
+		}
+	}
+}	
+

@@ -86,7 +86,7 @@ TimeOfDayPreset
 	{
 		skybox_specular_intensity "1.000"
 		time_of_day "3"
-		skybox_diffuse_intensity "0.096"
+		skybox_diffuse_intensity "0.1"
 		light_color
 		{
 			z "0.000"

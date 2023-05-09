@@ -1,0 +1,183 @@
+AnimationGraph
+{
+	name "building_activate"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "0_tilt"
+			blend_type "0"
+			bone_group
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationPlayAnimNode"
+						{
+							anim_name "working"
+							blend_funtion
+							{
+								funtion_type "0"
+							}
+
+							looped "1"
+							mirror "0"
+							normalize "0"
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									src_node_idx "3"
+									dst_slot "0"
+									src_slot "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1"
+							metadata
+							{
+								name
+								position
+								{
+									y "591"
+									x "1550"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									src_node_idx "0"
+									dst_slot "0"
+									src_slot "0"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1"
+							metadata
+							{
+								name
+								position
+								{
+									y "589"
+									x "1914"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetFloatParamNode"
+						{
+							param_name "is_activated"
+							dependency_vec
+							emit_progress_event "0"
+							evaluate_blend_threshold "1"
+							metadata
+							{
+								name
+								position
+								{
+									y "593"
+									x "768"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationFloatSmoothingNode"
+						{
+							smoothing "0.899999976"
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									src_node_idx "2"
+									dst_slot "0"
+									src_slot "1735549268"
+								}
+
+							}
+
+							emit_progress_event "0"
+							evaluate_blend_threshold "1"
+							metadata
+							{
+								name
+								position
+								{
+									y "593"
+									x "1125"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					emit_progress_event "0"
+					evaluate_blend_threshold "1"
+					metadata
+					{
+						name "is_activated"
+						position
+						{
+							y "-2848"
+							x "658"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			metadata
+			{
+				name
+				position
+				{
+					y "0"
+					x "0"
+				}
+
+			}
+
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "FloatParamDecl"
+		{
+			default "0"
+			min "0"
+			max "10"
+			is_const "0"
+			data_type "2"
+			param_name "is_activated"
+		}
+
+	}
+
+}
+

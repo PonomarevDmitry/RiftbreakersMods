@@ -22,7 +22,7 @@ function entity_destroy:init()
 end
 
 function entity_destroy:Activated()	
-    self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+    self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
     
 	if ( #self.entities == 0 ) then
 		Assert( self.entities ~= 0, "ERROR: Change name block failed to find a target - skipping block" )

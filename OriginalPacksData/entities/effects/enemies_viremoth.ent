@@ -1,0 +1,148 @@
+EntityBlueprint
+{
+	name "effects/enemies_viremoth/smoke"
+
+	base_blueprint "effects/no_lifetime"
+
+	ParticleDesc
+	{
+		name    "rift/viremoth_smoke"
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+
+	name "effects/enemies_viremoth/death"
+
+	ParticleDesc
+	{
+		name    "rift/death_black_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_black_random"
+		scale
+		{
+			x		3.0
+			y		3.0
+			z		3.0
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+
+	name "effects/enemies_viremoth/death_long"
+
+	ParticleDesc
+	{
+		name    "rift/death_black_big_long_up"
+	}
+
+	SoundDesc
+	{
+		name "enemies/viremoth/death"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_black_random"
+		scale
+		{
+			x		3.0
+			y		3.0
+			z		3.0
+		}
+	}	
+}
+
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_viremoth/idle"
+
+	SoundDesc
+	{
+		name "enemies/viremoth/idle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+		name "effects/enemies_viremoth/run"
+
+	SoundDesc
+	{
+		name "enemies/viremoth/run"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_viremoth/lightning_explosion"
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	TeamDesc
+	{
+		team "lesigian"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/lesigian_lightning_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.3"
+		power   		"0.75"
+		falloff_radius 	"35"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/viremoth/lightning_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
+}

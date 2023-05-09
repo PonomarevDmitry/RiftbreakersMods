@@ -33,7 +33,8 @@ function mech:init()
 	
 	self.invisibility = false;
 	local database = EntityService:GetDatabase( self.entity )
-	if ( database:GetIntOrDefault( "initial_spawn", 0 ) == 1 ) then
+	local isSkipPortal = MissionService:IsSkipSpawnPortalSequence()
+	if ( isSkipPortal == false and database:GetIntOrDefault( "initial_spawn", 0 ) == 1 ) then
 		HealthService:SetImmortality( self.entity, true )	
 		PlayerService:RemoveMechComponent( self.entity )
 
@@ -42,6 +43,10 @@ function mech:init()
 		self.fsm:AddState( "initial_spawn", {enter="OnInitialSpawnEnter", execute="OnInitialSpawnExecute", exit="OnInitialSpawnExit"} )
 		self.fsm:AddState( "shockwave", {enter="OnShockwaveEnter", exit="OnShockwaveExit"} )
 		self.fsm:ChangeState("portal_open")
+	elseif ( isSkipPortal == true ) then
+		self.fsm = self:CreateStateMachine()
+		self.fsm:AddState( "dissolve", {enter="OnDissolveStart", exit="OnDissolveEnd"} )
+		self.fsm:ChangeState("dissolve")
 	end
 
 	self.invisibilityFsm = self:CreateStateMachine()
@@ -59,6 +64,19 @@ end
 function mech:OnLeaveShadowEvent()
 	EnvironmentService:RemoveResistance( self.entity, "sunburn", "shadow")
 end
+
+function mech:OnDissolveStart( state)
+	EntityService:RemovePropsInEntityBounds( self.entity )
+	PlayerService:RemoveMechComponent( self.entity )
+	QueueEvent( "FadeEntityInRequest", self.entity, 1.0 )
+	state:SetDurationLimit( 1.0 )
+end
+
+function mech:OnDissolveEnd()
+	PlayerService:RecreateMechComponent( self.entity )
+	QueueEvent( "LuaGlobalEvent", event_sink, "InitialSpawnEnded", {} )
+end
+
 
 function mech:OnAnimationMarkerReached(evt)
 	if ( evt:GetMarkerName() == "servo" ) then

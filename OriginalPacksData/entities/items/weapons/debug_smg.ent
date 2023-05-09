@@ -1,0 +1,200 @@
+EntityBlueprint
+{
+	name  "items/weapons/debug_smg"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/small_machinegun.mesh"
+		material 	"items/weapons/small_machinegun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/small_machinegun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "6"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"mech/debug_smg_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_bullet/small_machinegun_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/small_machinegun_fire_loop"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/small_machinegun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_small_bullet_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "item_deactivated"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/small_machinegun_fire_stop"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/debug_smg_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/debug_smg"
+		holding_pose "range"
+		item_bp		"items/weapons/debug_smg"
+		icon		"gui/hud/items_icons/weapons/debug_smg"
+		bigger_icon "gui/menu/items_icons/weapons/debug_smg"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "mech/debug_smg_projectile"
+
+	base_blueprint "effects/weapons_bullet/small_machinegun_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+		friendly_fire			"damage"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+	}
+
+	LifeTimeDesc
+	{
+		time 		2
+		type 		"camera"
+	}
+}
+

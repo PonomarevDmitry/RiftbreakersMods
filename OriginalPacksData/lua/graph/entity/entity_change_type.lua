@@ -17,7 +17,7 @@ function entity_change_name:init()
 end
 
 function entity_change_name:Activated()	
-    self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue)
+    self.entities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue)
     --LogService:Log("Activate change name: " .. self.targetFindType .. ":" .. self.targetFindValue .. ":" .. tostring(self.searchRadius) .. ":" .. self.searchTargetType .. ":" .. self.searchTargetValue .. ":" .. tostring(#self.entities))
 
 	if ( #self.entities == 0 ) then

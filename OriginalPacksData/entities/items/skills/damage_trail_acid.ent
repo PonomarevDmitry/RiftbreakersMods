@@ -1,0 +1,284 @@
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/damage_trail_acid
+
+	base_blueprints 
+	{
+		lights/point/fire_green_very_small
+		effects/no_lifetime
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_acid_trail"	
+		mode 		  "1"
+		extend  		"3"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_dash_acid"
+	}
+
+	SoundDesc
+	{
+		name "items/skills/dash_acid"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/damage_trail_acid_advanced
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/damage_trail_acid
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_acid_trail_advanced"	
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/damage_trail_acid_superior
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/damage_trail_acid
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_acid_trail_superior"	
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/damage_trail_acid_extreme
+
+	base_blueprints 
+	{
+		effects/projectiles_and_trails/damage_trail_acid
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type  "mech_acid_trail_extreme"	
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/damage_trail_acid_effects"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"50"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "500"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "500"
+				}
+                
+				Vector2
+				{
+					x "0.5"
+					y "-500"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/damage_trail_acid_item"
+
+	InventoryItemDesc
+	{
+		type 		"skill"	
+		name 		"gui/menu/inventory/skill_name/damage_trail_acid"
+		cooldown	"20"
+		item_bp		"items/skills/damage_trail_acid_effects"
+		icon		"gui/hud/items_icons/skills/damage_trail_acid"
+        bigger_icon "gui/menu/items_icons/skills/damage_trail_acid"		
+		description 	"gui/menu/inventory/skill_description/damage_trail_acid_standard"
+		rarity			"STANDARD"	
+		replace_lower_quality		"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/damage_trail_acid"
+			stat_bp			string:"effects/projectiles_and_trails/damage_trail_acid"
+			trail_extend_time float:"10"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/damage_trail_acid_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"skill"	
+		name 		"gui/menu/inventory/skill_name/damage_trail_acid"
+		cooldown	"20"
+		item_bp		"items/skills/damage_trail_acid_effects"
+		icon		"gui/hud/items_icons/skills/damage_trail_acid"
+        bigger_icon "gui/menu/items_icons/skills/damage_trail_acid"		
+		description 	"gui/menu/inventory/skill_description/damage_trail_acid_upgraded"
+		rarity			"ADVANCED"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/damage_trail_acid_advanced"
+			stat_bp			string:"effects/projectiles_and_trails/damage_trail_acid_advanced"
+			trail_extend_time float:"10"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/damage_trail_acid_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"skill"	
+		name 		"gui/menu/inventory/skill_name/damage_trail_acid"
+		cooldown	"20"
+		item_bp		"items/skills/damage_trail_acid_effects"
+		icon		"gui/hud/items_icons/skills/damage_trail_acid"
+        bigger_icon "gui/menu/items_icons/skills/damage_trail_acid"		
+		description 	"gui/menu/inventory/skill_description/damage_trail_acid_upgraded"		
+		rarity			"SUPERIOR"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/damage_trail_acid_superior"
+			stat_bp			string:"effects/projectiles_and_trails/damage_trail_acid_superior"
+			trail_extend_time float:"10"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/damage_trail_acid_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"skill"	
+		name 		"gui/menu/inventory/skill_name/damage_trail_acid"
+		cooldown	"20"
+		item_bp		"items/skills/damage_trail_acid_effects"
+		icon		"gui/hud/items_icons/skills/damage_trail_acid"
+        bigger_icon "gui/menu/items_icons/skills/damage_trail_acid"		
+		description 	"gui/menu/inventory/skill_description/damage_trail_acid_upgraded"	
+		rarity			"EXTREME"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/damage_trail_acid_extreme"
+			stat_bp			string:"effects/projectiles_and_trails/damage_trail_acid_extreme"
+			trail_extend_time float:"10"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+

@@ -1,0 +1,333 @@
+EntityBlueprint
+{
+	name  "effects/enemies_anoryxian/mega_shockwave"
+
+	base_blueprints
+	{
+		 lights/point/mech_death
+		 effects/default
+	}
+	
+	TeamDesc
+	{
+		team "player"
+	}	
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"64"
+			area_damage_speed 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"20000"
+					type			"anoryxian_shockwave"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"32"
+		radius 	"50"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_mega_shockwave"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"1"
+		power   		"1"
+		falloff_radius 	"40"
+		radius   		"60"
+		frequency 		"15"
+		//group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/mega_shockwave"
+	}
+
+	TimeWarpDesc
+	{
+		desaturation	"0.4"
+		contrast   		"1.0"
+		brightness		"1.0"
+		bloom_scale		"1.0"
+		time_factor		"0.3"
+		
+		delay			"0.1"
+		fade_in_time	"0.3"
+		fade_out_time	"1.9"
+		duration		"5.5"
+	}
+	
+	children
+	{
+		EntityBlueprint "lights/point/mech_death_no_shadow"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/enemies_anoryxian/acid_projectile_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_violet_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_projectile_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/projectile_hit"
+	}
+}
+
+EntityBlueprint 
+{
+	name "effects/enemies_anoryxian/projectile_trail"
+
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_projectile_trail"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_anoryxian/projectile_muzzle"
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_big
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/arachnoid_sentinel_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/muzzle"
+	}
+}
+
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_anoryxian/attack_start"
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/attack"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_anoryxian/death"
+
+	base_blueprint "effects/default"
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/spawner_canoptrix_big_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"1"
+		power   		"2"
+		falloff_radius 	"30"
+		radius   		"60"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/death"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_anoryxian/laser_muzzle"
+
+	base_blueprints
+	{
+		 lights/point/fire_violet_very_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_laser_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name 		"enemies/anoryxian/laser_muzzle"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_anoryxian/tower_dig_down"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/shegret_dig_down"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/tower_dig_up"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_anoryxian/tower_dig_up"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/shegret_dig_up"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/tower_dig_up"
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/no_lifetime
+
+	name "effects/enemies_anoryxian/laser_pointer"
+
+	ParticleDesc
+	{
+		name    "rift/laser_pointer_violet"
+	}
+	SoundDesc
+	{
+		name 		"enemies/anoryxian/laser_charge_up"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_anoryxian/laser_hit"
+	
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_laser_hit"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/anoryxian/laser_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_anoryxian/falling_stalactite_explosion
+
+	base_blueprints
+	{
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_falling_stalactite"
+	}
+
+	SoundDesc
+	{
+		name "destructibles/crystal_stalactite_explosion"
+	}		
+	
+	CameraShakeDesc
+	{
+		duration 		"0.5"
+		power   		"0.75"
+		falloff_radius 	"15"
+		radius   		"40"
+		frequency 		"30"
+		group			"explosion_medium"
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"10"
+	}	
+}

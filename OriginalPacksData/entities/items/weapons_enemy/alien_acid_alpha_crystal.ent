@@ -1,0 +1,53 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid_alpha_crystal"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/empty_weapon"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/arachnoid_crystal_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/crystal_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_acid_alpha_crystal_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"alien_acid_alpha_cystal"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/alien_acid_alpha_crystal"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+
+	}	
+}

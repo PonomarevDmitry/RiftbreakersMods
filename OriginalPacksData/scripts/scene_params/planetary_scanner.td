@@ -2,9 +2,9 @@ TimeOfDayPreset
 {
 	timeofday_sunrise
 	{
-		skybox_specular_intensity "0.000"
+		skybox_specular_intensity "0.100"
 		time_of_day "2"
-		skybox_diffuse_intensity "0.000"
+		skybox_diffuse_intensity "0.100"
 		light_color
 		{
 			z "0.250"
@@ -41,9 +41,9 @@ TimeOfDayPreset
 
 	timeofday_day
 	{
-		skybox_specular_intensity "0.000"
+		skybox_specular_intensity "0.100"
 		time_of_day "0"
-		skybox_diffuse_intensity "0.103"
+		skybox_diffuse_intensity "0.100"
 		light_color
 		{
 			z "0.451"
@@ -80,9 +80,9 @@ TimeOfDayPreset
 
 	timeofday_night
 	{
-		skybox_specular_intensity "0.000"
+		skybox_specular_intensity "0.100"
 		time_of_day "3"
-		skybox_diffuse_intensity "0.000"
+		skybox_diffuse_intensity "0.100"
 		light_color
 		{
 			z "0.000"
@@ -110,9 +110,9 @@ TimeOfDayPreset
 
 	timeofday_sunset
 	{
-		skybox_specular_intensity "0.000"
+		skybox_specular_intensity "0.100"
 		time_of_day "1"
-		skybox_diffuse_intensity "0.000"
+		skybox_diffuse_intensity "0.100"
 		light_color
 		{
 			z "0.000"

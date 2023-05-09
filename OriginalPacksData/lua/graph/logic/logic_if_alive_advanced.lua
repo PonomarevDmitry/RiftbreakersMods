@@ -33,7 +33,7 @@ function logic_if_alive_advanced:OnExecuteWait( state )
         return
     end
 
-    local allEntities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+    local allEntities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
     local entitiesFound = {}
     for i,entity in ipairs(allEntities) do
         if HealthService:IsAlive( entity ) then 

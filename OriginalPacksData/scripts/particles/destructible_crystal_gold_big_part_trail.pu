@@ -1,0 +1,73 @@
+system rift/destructible_crystal_gold_big_part_trail
+{
+    fixed_timeout                               5
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.04
+    scale                                       0.04 0.04 0.04
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 150
+    technique smoke
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/impact_dust_anim_03_8x4
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box smoke
+        {
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             1.5
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             20
+                max                             30
+            }
+            duration                            2
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             50
+            }
+            end_texture_coords_range            15
+            start_colour_range                  0.501961 0.501961 0.25098 1
+            end_colour_range                    0.501961 0.501961 0.50196 1
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.572549 0.384314 0.25098 0
+            time_colour                         0.506522  0.572549 0.384314 0.25098 0.498039
+            time_colour                         1    0.572549 0.384314 0.25098 0
+        }
+        affector                                LinearForce Affector10
+        {
+            force_vector                        0 -40 0
+        }
+        affector                                Scale Affector19
+        {
+            xyz_scale                           60
+            since_start_system                  true
+        }
+        affector                                TextureAnimator Affector18
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+    }
+}

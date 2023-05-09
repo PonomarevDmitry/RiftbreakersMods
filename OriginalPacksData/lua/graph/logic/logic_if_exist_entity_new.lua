@@ -33,7 +33,7 @@ function logic_if_exist_entity_new:OnExecuteWait( state )
         return
     end
 
-    local entitiesFound = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+    local entitiesFound = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
     
     if self.comparisonType == "equal" and ( #entitiesFound == self.count ) then
         self:SetFinished("true")

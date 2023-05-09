@@ -20,7 +20,7 @@ function entity_highlight:init()
 end
 
 function entity_highlight:Activated()
-    local entitiesFound = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, self.searchRadius, self.searchTargetType, self.searchTargetValue)	
+    local entitiesFound = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue)	
 	
 	for entity in Iter(entitiesFound) do
 		LogService:Log("Highlighting target " ..   "id: " .. tostring(entity).. " HighlightTime: " .. tostring(self.highlightTime) )

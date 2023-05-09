@@ -10,7 +10,7 @@ system rift/destructible_wall
     cache_count                                 20
     technique smoke
     {
-        visual_particle_quota                   25
+        visual_particle_quota                   5
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -27,8 +27,8 @@ system rift/destructible_wall
             angle                               85
             time_to_live                        dyn_random
             {
-                min                             2
-                max                             3
+                min                             1
+                max                             1.5
             }
             velocity                            dyn_random
             {
@@ -46,13 +46,13 @@ system rift/destructible_wall
             end_colour_range                    0.501961 0.501961 0.50196 1
             auto_direction                      true
             force_emission                      true
-            box_height                          500
+            box_height                          400
         }
         affector                                Colour 
         {
-            time_colour                         0    0.12549 0.12549 0.12549 0
-            time_colour                         0.0978261  0.12549 0.12549 0.12549 0.8
-            time_colour                         1    0.12549 0.12549 0.12549 0
+            time_colour                         0    0.121569 0.121569 0.121569 0
+            time_colour                         0.0978261  0.121569 0.121569 0.121569 0.2
+            time_colour                         1    0.121569 0.121569 0.121569 0
         }
         affector                                LinearForce Affector10
         {
@@ -79,7 +79,7 @@ system rift/destructible_wall
     }
     technique parts_trail
     {
-        visual_particle_quota                   20
+        visual_particle_quota                   5
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -114,7 +114,7 @@ system rift/destructible_wall
             end_texture_coords_range            15
             colour                              0.501961 0.501961 0.501961 1
             force_emission                      true
-            box_height                          500
+            box_height                          400
         }
         affector                                LinearForce 
         {
@@ -134,10 +134,17 @@ system rift/destructible_wall
                 max                             5
             }
         }
+        affector                                Colour Affector79
+        {
+            time_colour                         0    0.247059 0.247059 0.247059 0
+            time_colour                         0.202174  0.247059 0.247059 0.247059 0.6
+            time_colour                         0.708696  0.247059 0.247059 0.247059 0.6
+            time_colour                         1    0.247059 0.247059 0.247059 0
+        }
     }
     technique falling_debris
     {
-        visual_particle_quota                   100
+        visual_particle_quota                   20
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -168,7 +175,7 @@ system rift/destructible_wall
             position                            0 25 0
             end_texture_coords_range            15
             colour                              0.501961 0.501961 0.501961 1
-            box_height                          500
+            box_height                          400
         }
         affector                                LinearForce 
         {
@@ -190,14 +197,15 @@ system rift/destructible_wall
         }
         affector                                Colour Affector79
         {
-            time_colour                         0    0.501961 0.501961 0.501961 1
-            time_colour                         0.756522  0.501961 0.501961 0.501961 1
-            time_colour                         1    0.501961 0.501961 0.501961 0
+            time_colour                         0    0.247059 0.247059 0.247059 0
+            time_colour                         0.202174  0.247059 0.247059 0.247059 0.6
+            time_colour                         0.708696  0.247059 0.247059 0.247059 0.6
+            time_colour                         1    0.247059 0.247059 0.247059 0
         }
     }
     technique falling_smoke
     {
-        visual_particle_quota                   35
+        visual_particle_quota                   5
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -213,7 +221,11 @@ system rift/destructible_wall
         {
             emission_rate                       35
             angle                               90
-            time_to_live                        2
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
             velocity                            dyn_random
             {
                 min                             3
@@ -224,11 +236,11 @@ system rift/destructible_wall
                 min                             10
                 max                             30
             }
-            position                            0 60 0
+            position                            0 20 0
             end_texture_coords_range            3
             colour                              0.501961 0.501961 0.501961 1
             force_emission                      true
-            box_height                          500
+            box_height                          400
         }
         affector                                LinearForce 
         {
@@ -236,10 +248,10 @@ system rift/destructible_wall
         }
         affector                                Colour Affector79
         {
-            time_colour                         0    0.25098 0.25098 0.25098 0
-            time_colour                         0.202174  0.25098 0.25098 0.25098 0.6
-            time_colour                         0.708696  0.25098 0.25098 0.25098 0.6
-            time_colour                         1    0.25098 0.25098 0.25098 0
+            time_colour                         0    0.247059 0.247059 0.247059 0
+            time_colour                         0.41087  0.247059 0.247059 0.247059 0.298039
+            time_colour                         0.708696  0.247059 0.247059 0.247059 0.298039
+            time_colour                         1    0.247059 0.247059 0.247059 0
         }
         affector                                Scale Affector325
         {
