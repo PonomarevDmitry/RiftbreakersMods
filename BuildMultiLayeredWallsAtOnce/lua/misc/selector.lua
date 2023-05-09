@@ -12,23 +12,23 @@ local BUILD_MODE_ACTION_MAPPER_NAME = BuildingService:GetBuildModeActionMapperNa
 
 
 function selector:__init()
-    LuaEntityObject.__init(self,self)
+	LuaEntityObject.__init(self,self)
 end
 
 function selector:init()
-    self:RegisterHandler( self.entity, "ChangeSelectorRequest",              "OnChangeSelectorRequest" )
-    self:RegisterHandler( self.entity, "ChangeSelectorModeRequest",          "OnChangeSelectorModeRequest" )
-    self:RegisterHandler( self.entity, "ActivateSelectorRequest",              "OnActivateSelectorRequest" )
-    self:RegisterHandler( self.entity, "DeactivateSelectorRequest",          "OnDeactivateSelectorRequest" )
-    self:RegisterHandler( self.entity, "LeaveBuildModeRequest",              "OnLeaveBuildModeRequest" )
-    self:RegisterHandler( self.entity, "RotateSelectorRequest",              "OnRotateSelectorRequest" )
-    self:RegisterHandler( INVALID_ID, "ActivateEntityRequest",                  "OnActivateEntityRequest" )
-    self:RegisterHandler( INVALID_ID, "DeactivateEntityRequest",              "OnDeactivateEntityRequest" )
+	self:RegisterHandler( self.entity, "ChangeSelectorRequest", 	         "OnChangeSelectorRequest" )
+	self:RegisterHandler( self.entity, "ChangeSelectorModeRequest", 	     "OnChangeSelectorModeRequest" )
+	self:RegisterHandler( self.entity, "ActivateSelectorRequest", 	         "OnActivateSelectorRequest" )
+	self:RegisterHandler( self.entity, "DeactivateSelectorRequest", 	     "OnDeactivateSelectorRequest" )
+	self:RegisterHandler( self.entity, "LeaveBuildModeRequest", 	         "OnLeaveBuildModeRequest" )
+	self:RegisterHandler( self.entity, "RotateSelectorRequest",              "OnRotateSelectorRequest" )
+	self:RegisterHandler( INVALID_ID, "ActivateEntityRequest", 	             "OnActivateEntityRequest" )
+	self:RegisterHandler( INVALID_ID, "DeactivateEntityRequest", 	         "OnDeactivateEntityRequest" )
     
-    self.stateMachine = self:CreateStateMachine()
-    self.stateMachine:AddState( "invalid", { enter="OnInvalidEnter", exit="OnInvalidExit"} )
-    self.stateMachine:AddState( "select", {enter="OnSelectEnter", execute="OnSelectInProgress", exit="OnSelectExit" } )
-    self.stateMachine:AddState( "build", {enter="OnBuildEnter", execute="OnBuildInProgress", exit="OnBuildExit"} )
+	self.stateMachine = self:CreateStateMachine()
+	self.stateMachine:AddState( "invalid", { enter="OnInvalidEnter", exit="OnInvalidExit"} )
+	self.stateMachine:AddState( "select", {enter="OnSelectEnter", execute="OnSelectInProgress", exit="OnSelectExit" } )
+	self.stateMachine:AddState( "build", {enter="OnBuildEnter", execute="OnBuildInProgress", exit="OnBuildExit"} )
 
     self:InitializeValues()
 end
@@ -36,12 +36,14 @@ end
 function selector:InitializeValues()
     self.mode = SM_INVALID
     self.selector = INVALID_ID
+    self.cameraCuller = INVALID_ID
     self.blueprint = ""
     self.ghostBlueprint = ""
     self.selectedEntities = {}
     self.activatedEntities = {}
     self.baseBlueprint = "misc/marker_selector"
     self.cornerBlueprint = "misc/marker_selector_corner"
+    self.cameraCullerBlueprint = "misc/selector_camera_culler"
     self.boundsSize = {x=0,y=0,z=0}
     self.transform = EntityService:GetWorldTransform( self.entity )
     self.selectorPosition = nil
@@ -92,20 +94,27 @@ function selector:OnInvalidEnter()
     self:DeselectAllEntities()
     self:DeactivateAllEntities()
 
-    QueueEvent("RemoveEntityToTraceRequest", self.selector)
-    QueueEvent("EnterFighterModeEvent", PlayerService:GetPlayerControlledEnt(self.playerId ) , self.playerId)
+    QueueEvent("RemoveEntityToTraceRequest", self.selector )
+    QueueEvent("EnterFighterModeEvent", PlayerService:GetPlayerControlledEnt( self.playerId ) , self.playerId )
     self:RemoveCurrentSelector()
-    PlayerService:OperateActionMapper( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, false  )
+    PlayerService:OperateActionMapper( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, false )
     self:RemoveScaleInfo()
-end
 
+    if EntityService:IsAlive( self.cameraCuller ) then
+        EntityService:RemoveEntity( self.cameraCuller )
+        self.cameraCuller = INVALID_ID
+    end
+end
 
 function selector:OnInvalidExit()
     QueueEvent("EnterBuildModeEvent",  PlayerService:GetPlayerControlledEnt(self.playerId ) , self.playerId, self.entity, self.blueprint )
-    QueueEvent("EnterBuildMenuEvent", self.selector)
+    QueueEvent("EnterBuildMenuEvent", self.selector )
     PlayerService:OperateActionMapper(  self.entity, BUILD_MODE_ACTION_MAPPER_NAME, true )
-end
 
+    if not EntityService:IsAlive( self.cameraCuller ) then
+        self.cameraCuller = EntityService:SpawnAndAttachEntity( self.cameraCullerBlueprint, self.entity )
+    end
+end
 
 function selector:ChangeBlueprint( blueprintName, ghostBlueprint )
     self:RemoveCurrentSelector()
@@ -449,7 +458,7 @@ end
 
 function selector:ChangeSelectorMode( mode )
     if ( mode == self.mode ) then return end
-    if ( mode ~= SM_BUILD and mode ~= SM_SELECT and mode ~= SM_INVALID ) then 
+	if ( mode ~= SM_BUILD and mode ~= SM_SELECT and mode ~= SM_INVALID ) then 
         --Assert( false, "Requested selector mode is out of range" )
         return 
     end
@@ -561,7 +570,7 @@ function selector:ResizeFloor( degree )
     }
     
     local currentScale = EntityService:GetScale(self.selector).x
-    
+
     local maxIndex = #self.scaleMapFloor
     
     local change = 1
@@ -698,10 +707,10 @@ function selector:OnRotateSelectorRequest( evt )
     if (self.showScaleInfo ~= nil and EntityService:IsAlive(self.showScaleInfo ) ) then
         EntityService:RemoveEntity(self.showScaleInfo)
         self.showScaleInfo = nil
-        ConsoleService:ExecuteCommand( "showed_change_info 1" )
+	    ConsoleService:ExecuteCommand( "showed_change_info 1" )
     end
 
-    local data = EntityService:GetDatabase( self.selector ) 
+    local data = EntityService:GetDatabase( self.selector) 
     local action = ""
     if ( data ) then
         action = data:GetStringOrDefault( "action", "")
@@ -726,15 +735,24 @@ function selector:OnRotateSelectorRequest( evt )
         
     elseif ( action == "floor" ) then
         self:ResizeFloor( degree )
-    elseif ( action == "" ) then
+    elseif (action == "" ) then
         self:RotateBuilding( degree )
     end
 
 end
 
 function selector:OnLoad( )
+    if  (self.resizeScale == nil ) then
+        self.resizeScale = {}
+    end
     if ( self.rotations == nil ) then
         self.rotations = {}
+    end
+    if ( self.cameraCuller == nil ) then
+        self.cameraCuller = INVALID_ID
+    end
+    if ( self.cameraCullerBlueprint == nil ) then
+        self.cameraCullerBlueprint = "misc/selector_camera_culler"   
     end
 end
 
