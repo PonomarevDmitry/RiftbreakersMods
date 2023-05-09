@@ -84,7 +84,7 @@ function replace_wall_tool:FillResearches()
     local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
 
     for i=1,#self.wallBluprintsArray do
-        
+
         local blueprintName = self.wallBluprintsArray[i]
 
         local researchName = self:GetResearchForUpgrade( researchComponent, blueprintName )
@@ -94,7 +94,7 @@ function replace_wall_tool:FillResearches()
 end
 
 function replace_wall_tool:GetResearchForUpgrade( researchComponent, blueprintName )
-    
+
     local categories = researchComponent.research
 
     for i=1,categories.count do
@@ -125,13 +125,13 @@ function replace_wall_tool:SetWallIcon()
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     for i=#self.wallBluprintsArray,1,-1 do
-        
+
         local blueprintName = self.wallBluprintsArray[i]
 
         if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
 
             local buildingRef = self.buildingDescHash[blueprintName]
-            
+
             markerDB:SetString("wall_name", buildingRef.localization_id)
             markerDB:SetString("wall_icon", buildingRef.menu_icon)
             markerDB:SetInt("wall_icon_visible", 1)
@@ -184,7 +184,7 @@ function replace_wall_tool:OnUpdate()
         if ( connectType == -1 ) then
             goto continue
         end
-        
+
         local level = BuildingService:GetBuildingLevel( entity )
 
         local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
@@ -194,7 +194,7 @@ function replace_wall_tool:OnUpdate()
         end
 
 
-        
+
         local list1 = self:GetBuildCosts( wallBlueprintLevel )
         for resourceName, amount in pairs( list1 ) do
 
@@ -233,7 +233,7 @@ function replace_wall_tool:OnUpdate()
     self.buildCost = {}
 
     for resourceName in Iter(costResourceList) do
-        
+
         local resourceValue = costValues[resourceName]
 
         if ( resourceValue ~= 0 ) then
@@ -268,7 +268,7 @@ function replace_wall_tool:GetConnectType( blueprintName, buildingRef )
         end
     end    
 
-    return -1 
+    return -1
 end
 
 function replace_wall_tool:GetWallBlueprintAndLevel( level, connectType )
@@ -438,8 +438,8 @@ function replace_wall_tool:OnActivateEntity( entity )
     if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations"  ) then
         return
     end
-    local connectType = self:GetConnectType( blueprintName, buildingRef )
 
+    local connectType = self:GetConnectType( blueprintName, buildingRef )
     if ( connectType == -1 ) then
         return
     end
