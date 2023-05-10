@@ -331,7 +331,7 @@ function diagonal_wall_tool:FindPositionsToBuildLine( buildEndPosition, wallLine
     
     local positionPlayer = self.positionPlayer
     if (positionPlayer == nil) then
-        local player = PlayerService:GetPlayerControlledEnt(0)
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         positionPlayer = EntityService:GetPosition( player )    
     end
     
@@ -748,7 +748,7 @@ function diagonal_wall_tool:OnActivateSelectorRequest()
         self.buildStartPosition = transform
         EntityService:SetVisible( self.ghostWall , false )
         
-        local player = PlayerService:GetPlayerControlledEnt(0)
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         self.positionPlayer = EntityService:GetPosition( player )
 
         self:OnWorkExecute()

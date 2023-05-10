@@ -496,7 +496,7 @@ function wall_borders_tool:OnActivateSelectorRequest()
         self.buildStartPosition = transform
         EntityService:SetVisible( self.ghostWall , false )
 
-        local player = PlayerService:GetPlayerControlledEnt(0)
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         self.positionPlayer = EntityService:GetPosition( player )
 
         self:OnUpdate()

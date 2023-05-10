@@ -161,7 +161,7 @@ end
 
 function sell_by_type_seller_tool:FindBuildingSellable()
 
-    local player = PlayerService:GetPlayerControlledEnt(0)
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
     local buildings = FindService:FindEntitiesByTypeInRadius( player, "building", self.radiusShowBuildings )
     

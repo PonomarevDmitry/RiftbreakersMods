@@ -115,7 +115,7 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
 
     local buildingLevel = BuildingService:GetBuildingLevel( entity )
 
-    local player = PlayerService:GetPlayerControlledEnt(0)
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
     local modItem1 = ItemService:GetEquippedItem( entity, "MOD_1" )
 

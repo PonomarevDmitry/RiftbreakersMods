@@ -290,9 +290,7 @@ function detector:spawnReplacement()
 
     if ( treasureSpotFind.first and treasureSpotFind.first ~= nil ) then
 
-        local player = PlayerService:GetPlayerControlledEnt(0)
-
-        EffectService:SpawnEffect( player, "effects/loot/treasure_reward_collect" )
+        EffectService:SpawnEffect( self.owner, "effects/loot/treasure_reward_collect" )
 
         local treasureSpot = treasureSpotFind.second
 

@@ -21,7 +21,7 @@ function ghost_building_line:OnInit()
     --    self.buildStartPosition.position.z = self.data:GetFloat("activation_position_z")
     --    EntityService:SetVisible( self.entity , false )
     --    
-    --    local player = PlayerService:GetPlayerControlledEnt(0)
+    --    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
     --    self.positionPlayer = EntityService:GetPosition( player )
     --end
 
@@ -213,7 +213,7 @@ function ghost_building_line:FindPositionsToBuildLine(currentTransform, wallLine
     
     local positionPlayer = self.positionPlayer
     if (positionPlayer == nil) then
-        local player = PlayerService:GetPlayerControlledEnt(0)
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         positionPlayer = EntityService:GetPosition( player )    
     end
 
@@ -654,7 +654,7 @@ function ghost_building_line:OnActivate()
         self.buildStartPosition = transform
         EntityService:SetVisible( self.entity , false )
 
-        local player = PlayerService:GetPlayerControlledEnt(0)
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         self.positionPlayer = EntityService:GetPosition( player )
 
         self:OnUpdate()

@@ -20,7 +20,7 @@ function wall_pulse:OnActivate()
 
 	local team = EntityService:GetTeam(self.entity)
 
-	local player = PlayerService:GetPlayerControlledEnt( 0 )
+	local player = self.owner
 
 	local playerPosition = EntityService:GetPosition( player )
 

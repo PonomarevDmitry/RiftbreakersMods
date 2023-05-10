@@ -115,7 +115,7 @@ end
 
 function eraser_ruins_tool:FindBuildingRuins()
 
-    local player = PlayerService:GetPlayerControlledEnt(0)
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
     local buildings = FindService:FindEntitiesByGroupInRadius( player, "##ruins##", self.radiusShowRuins )
     

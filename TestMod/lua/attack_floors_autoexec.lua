@@ -1,6 +1,8 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-    local player = PlayerService:GetPlayerControlledEnt( 0 )
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
 
     if ( player == nil ) then
         return
@@ -16,7 +18,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         return
     end
 
-    PlayerService:AddItemToInventory( 0, skillName )
+    PlayerService:AddItemToInventory( playerId, skillName )
     
     --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_1x1")
     --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_2x2")

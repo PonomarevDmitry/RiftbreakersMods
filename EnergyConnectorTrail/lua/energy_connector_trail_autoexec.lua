@@ -1,6 +1,8 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(arg)
 
-	local player = PlayerService:GetPlayerControlledEnt( 0 )
+	local playerId = evt:GetPlayerId()
+
+	local player = PlayerService:GetPlayerControlledEnt( playerId )
 
 	if	( player == nil ) then
 		return
@@ -16,5 +18,5 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(arg)
 		return
 	end
 
-	PlayerService:AddItemToInventory( 0, skillName )
+	PlayerService:AddItemToInventory( playerId, skillName )
 end)

@@ -1,6 +1,8 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    local playerId = evt:GetPlayerId()
     
-    local player = PlayerService:GetPlayerControlledEnt(0)
+    local player = PlayerService:GetPlayerControlledEnt(playerId)
     if player == INVALID_ID then
         return
     end

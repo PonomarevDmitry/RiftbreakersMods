@@ -267,7 +267,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
     
     local positionPlayer = self.positionPlayer
     if (positionPlayer == nil) then
-        local player = PlayerService:GetPlayerControlledEnt(0)
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         positionPlayer = EntityService:GetPosition( player )    
     end
     
@@ -738,7 +738,7 @@ function thorns_walls_tool:OnActivateSelectorRequest()
         self.buildStartPosition = transform
         EntityService:SetVisible( self.ghostWall , false )
         
-        local player = PlayerService:GetPlayerControlledEnt(0)
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         self.positionPlayer = EntityService:GetPosition( player )
 
         self:OnWorkExecute()
