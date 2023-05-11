@@ -1,4 +1,4 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(arg)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local playerId = evt:GetPlayerId()
 
