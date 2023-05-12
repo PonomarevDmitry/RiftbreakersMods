@@ -8,7 +8,7 @@ function sell_place_ruin_tool:__init()
 end
 
 function sell_place_ruin_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell", self.entity)
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_place_ruin_tool", self.entity)
 end
 
 function sell_place_ruin_tool:SpawnCornerBlueprint()
@@ -134,6 +134,7 @@ function sell_place_ruin_tool:OnActivateEntity( entity )
 
     local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, position, team )
     EntityService:SetOrientation( newRuinsEntity, orientation )
+    EntityService:RemoveComponent(newRuinsEntity, "LuaComponent")
 
     LogService:Log("ruinsBlueprint " .. ruinsBlueprint .. " SelectableComponent " .. tostring(reflection_helper( EntityService:GetComponent( newRuinsEntity, "SelectableComponent") )) )
 
