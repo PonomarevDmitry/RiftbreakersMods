@@ -17,6 +17,26 @@ function sell_by_type_picker_tool:OnInit()
     }
 
     self:InitLowUpgradeList()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    markerDB:SetString("message_text", "")
+
+    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        local menuIcon = self:GetMenuIcon( self.selectedBuildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            markerDB:SetString("building_icon", menuIcon)
+            markerDB:SetInt("building_visible", 1)
+        else
+
+            markerDB:SetInt("building_visible", 0)
+        end
+    else
+        markerDB:SetInt("building_visible", 0)
+    end
 end
 
 function sell_by_type_picker_tool:OnPreInit()

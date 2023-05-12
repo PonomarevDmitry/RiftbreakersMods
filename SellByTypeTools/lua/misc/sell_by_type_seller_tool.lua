@@ -22,6 +22,29 @@ function sell_by_type_seller_tool:OnInit()
 
     self:InitLowUpgradeList()
 
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    markerDB:SetInt("building_visible", 1)
+
+    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        local menuIcon = self:GetMenuIcon( self.selectedBuildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            markerDB:SetString("building_icon", menuIcon)
+            markerDB:SetString("message_text", "")
+        else
+
+            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+            markerDB:SetString("message_text", "gui/hud/sell_by_type/building_not_selected")
+        end
+    else
+
+        markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+        markerDB:SetString("message_text", "gui/hud/sell_by_type/building_not_selected")
+    end
+
     
 
     self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)

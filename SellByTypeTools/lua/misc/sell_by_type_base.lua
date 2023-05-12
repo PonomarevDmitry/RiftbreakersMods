@@ -14,35 +14,57 @@ function sell_by_type_base:InitLowUpgradeList()
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    local selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
+    self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
     self.selectedBlueprints = {}
 
     self.selectedLowUpgrade = {}
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
-    if ( selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", selectedBuildingBlueprint ) ) then
+        local blueprintName = self:GetFirstLevelBuilding(self.selectedBuildingBlueprint)
 
-        self:FillSelectedBlueprintsList(self.selectedBlueprints, selectedBuildingBlueprint)
+        self:FillSelectedBlueprintsList(self.selectedBlueprints, self.selectedBuildingBlueprint)
 
-        self:FillLowUpgradeList(self.selectedLowUpgrade, selectedBuildingBlueprint)
+        self:FillLowUpgradeList(self.selectedLowUpgrade, self.selectedBuildingBlueprint)
 
         self:FillCache()
-
-        local menuIcon = self:GetMenuIcon( selectedBuildingBlueprint )
-
-        if ( menuIcon ~= "" ) then
-
-            markerDB:SetString("building_icon", menuIcon)
-            markerDB:SetInt("building_visible", 1)
-        else
-
-            markerDB:SetInt("building_visible", 0)
-        end
-    else
-        markerDB:SetInt("building_visible", 0)
     end
+end
+
+function sell_by_type_base:GetFirstLevelBuilding(blueprintName)
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+
+        return blueprintName
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef.level == 1 ) then
+
+        return buildingDescRef.bp
+    end
+
+    blueprintName = buildingDescRef.bp
+
+    local suffix = "_lvl_" .. tostring(buildingDescRef.level)
+
+    if ( blueprintName:sub(-#suffix) == suffix ) then
+
+        local result = blueprintName:sub(1,-#suffix-1)
+
+        if ( ResourceManager:ResourceExists( "EntityBlueprint", result )  ) then
+
+            local buildingDesc = BuildingService:GetBuildingDesc( result )
+            if ( buildingDesc ~= nil ) then
+
+                return result
+            end
+        end
+    end
+
+    return blueprintName
 end
 
 function sell_by_type_base:FillCache()
@@ -230,9 +252,11 @@ function sell_by_type_base:CalcIsBlueprintInList( blueprintName )
         return true
     end
 
+    local firstLevelBlueprintName = self:GetFirstLevelBuilding(blueprintName)
+
     local list = {}
 
-    self:FillSelectedBlueprintsList(list, blueprintName)
+    self:FillSelectedBlueprintsList(list, firstLevelBlueprintName)
 
     for itemBlueprintName in Iter( list ) do
 
@@ -268,9 +292,11 @@ function sell_by_type_base:CalcIsBlueprintInLowNameList( blueprintName )
         return false
     end
 
+    local firstLevelBlueprintName = self:GetFirstLevelBuilding(blueprintName)
+
     local list = {}
 
-    self:FillLowUpgradeList(list, blueprintName)
+    self:FillLowUpgradeList(list, firstLevelBlueprintName)
 
     for lowName in Iter( list ) do
 
