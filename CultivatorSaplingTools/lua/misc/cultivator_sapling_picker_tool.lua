@@ -73,7 +73,7 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
 
     local entities = {}
 
-    for  entity in Iter(selectedEntities ) do
+    for entity in Iter(selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
 
