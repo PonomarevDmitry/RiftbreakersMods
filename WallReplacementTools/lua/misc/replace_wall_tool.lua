@@ -215,10 +215,10 @@ function replace_wall_tool:OnUpdate()
 
                 Insert( costResourceList, resourceCost.first )
 
-                costValues[resourceCost.first] = 0 
+                costValues[resourceCost.first] = 0
             end
 
-            costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second 
+            costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second
         end
 
         if ( skinned ) then
@@ -266,7 +266,7 @@ function replace_wall_tool:GetConnectType( blueprintName, buildingRef )
                 return connectRecord.key
             end
         end
-    end    
+    end
 
     return -1
 end
@@ -276,6 +276,7 @@ function replace_wall_tool:GetWallBlueprintAndLevel( level, connectType )
     local minNumber = math.min( level, #self.wallBluprintsArray )
 
     for i=minNumber,1,-1 do
+
         local blueprintName = self.wallBluprintsArray[i]
 
         if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
@@ -318,13 +319,10 @@ end
 
 function replace_wall_tool:GetBuildCosts( level )
 
-    if ( self.cacheBuildCosts == nil ) then
-
-        self.cacheBuildCosts = {}
-    end
+    self.cacheBuildCosts = self.cacheBuildCosts or {}
 
     if ( self.cacheBuildCosts[level] ~= nil ) then
-       
+
         return self.cacheBuildCosts[level]
     end
 
@@ -349,20 +347,6 @@ function replace_wall_tool:CalculateBuildCosts( level )
         end
 
         costValues[resourceCost.first] = costValues[resourceCost.first] + resourceCost.second
-    end
-
-    if ( level > 1 ) then
-        
-        local previousList = self:GetBuildCosts( level - 1 )
-
-        for resourceName, amount in pairs( previousList ) do
-
-            if ( costValues[resourceName] == nil ) then
-                costValues[resourceName] = 0
-            end
-
-            costValues[resourceName] = costValues[resourceName] + amount
-        end
     end
 
     return costValues
