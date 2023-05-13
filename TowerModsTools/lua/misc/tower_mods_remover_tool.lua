@@ -40,7 +40,7 @@ function tower_mods_remover_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    for  ent in Iter(selectedEntities ) do
+    for ent in Iter(selectedEntities ) do
 
         local blueprint = EntityService:GetBlueprintName(ent)
 
