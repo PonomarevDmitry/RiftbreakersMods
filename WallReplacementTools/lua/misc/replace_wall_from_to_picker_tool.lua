@@ -106,6 +106,7 @@ function replace_wall_from_to_picker_tool:FilterSelectedEntities( selectedEntiti
         end
 
         local buildingRef = reflection_helper(buildingDesc)
+
         if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations" ) then
             goto continue
         end

@@ -205,12 +205,21 @@ function replace_wall_from_to_replacer_tool:IsEntityApproved( entity )
 
     local blueprintName = EntityService:GetBlueprintName(entity)
 
+    local lowName = BuildingService:FindLowUpgrade( blueprintName )
+    if ( lowName == "wall_small_floor" ) then
+        return false
+    end
+
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return false
     end
 
     local buildingRef = reflection_helper( buildingDesc )
+
+    if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations" ) then
+        return false
+    end
 
     local connectType = self:GetConnectType( blueprintName, buildingRef )
     if ( connectType == -1 ) then
