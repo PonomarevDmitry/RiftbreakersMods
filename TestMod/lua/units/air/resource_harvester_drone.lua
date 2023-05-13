@@ -5,19 +5,72 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'harvester_drone' ( base_drone )
 
 local LOCK_TYPE_HARVESTER = "harvester";
-SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 10)
+SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 3)
+
+g_allocated_resource_drones = {}
+
+local function GetGatherableResources( target, is_vegetation )
+    if is_vegetation then
+        return EntityService:GetGatherableResources(target);
+    else
+        local result = EntityService:GetResourceAmount(target)
+        if result.second > 0 then
+            return { result }
+        end
+    end
+
+    return {}
+end
+
+local function GetGatherableResourceAmount( target, resource, is_vegetation )
+    if is_vegetation then
+        return EntityService:GetGatherResourceAmount(target, resource);
+    end
+
+    return EntityService:GetResourceAmount(target).second
+end
+
+local function ChangeGatherableResourceAmount( target, resource, amount, is_vegetation )
+    if is_vegetation then
+        return EntityService:ChangeGatherResourceAmount(target, resource, amount );
+    end
+
+    EntityService:ChangeResourceAmount(target, amount)
+end
 
 function harvester_drone:__init()
-    base_drone.__init(self,self)
+	base_drone.__init(self,self)
 end
 
-local function SetBestTarget( best, entity, distance, index )
-    best.entity = entity
-    best.distance = distance;
-    best.index = index
-end
+function harvester_drone:FindBestVegetationEntity(owner, source)
+    local predicate = {
+        type=self.search_type,
+        signature="LootComponent",
+        filter = function(entity) 
+            if self:IsTargetLocked(entity, LOCK_TYPE_HARVESTER) then
+                return false
+            end
 
-local function FindBestVegetationEntity(source, entities)
+            if IndexOf(self.exclude_targets, entity) ~= nil then
+                return false
+            end
+
+            
+            if not EntityService:IsInFinalVegetationChainPhase( entity ) then
+                return false
+            end
+
+            local lootComponent = EntityService:GetComponent(entity, "LootComponent")
+            if not lootComponent or not reflection_helper( lootComponent ).is_gatherable then
+                return false
+            end
+
+            return true
+        end
+    };
+
+    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
+
     local best = {
         entity = INVALID_ID,
         distance = nil,
@@ -43,38 +96,61 @@ local function FindBestVegetationEntity(source, entities)
         else
             index = 0
         end
+        local distance = EntityService:GetDistanceBetween( source, entity );
 
-        local distance = EntityService:GetDistanceBetween( source, entity )
-
-        if best.entity == INVALID_ID then
-
-            SetBestTarget(best, entity, distance, index)
-        else
-            
-            if index == best.index and best.distance > distance then
-
-                SetBestTarget(best, entity, distance, index)
-
-            elseif index > (best.index + 5) then
-
-                SetBestTarget(best, entity, distance, index)
-
-            elseif index > (best.index + 3) and ( distance <= (best.distance * 1.3) ) then
-
-                SetBestTarget(best, entity, distance, index)
-
-            elseif index > (best.index + 2) and ( distance <= (best.distance * 1.2) ) then
-
-                SetBestTarget(best, entity, distance, index)
-
-            elseif index > (best.index + 1) and ( distance <= (best.distance * 1.1) ) then
-
-                SetBestTarget(best, entity, distance, index)
-            end
+        if best.entity == INVALID_ID or index > best.index then
+            best.entity = entity
+            best.distance = distance;
+            best.index = index
+        elseif index == best.index and best.distance > distance then
+            best.entity = entity
+            best.distance = distance;
+            best.index = index
         end
     end
 
     return best.entity
+end
+
+function harvester_drone:FindResourceVeinEntity(owner, source)
+    local predicate = {
+        type=self.search_type,
+        signature="ResourceComponent,GridMarkerComponent",
+        filter = function(entity) 
+            if self:IsTargetLocked(entity, LOCK_TYPE_HARVESTER) then
+                return false
+            end
+
+            if IndexOf(self.exclude_targets, entity) ~= nil then
+                return false
+            end
+
+            local result = EntityService:GetResourceAmount(entity)
+            if not PlayerService:IsResourceUnlocked(result.first) then
+                return false
+            end
+
+            return true
+        end
+    };
+
+    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
+    if #entities > 0 then
+        local parents = {}
+        for entity in Iter(entities) do
+            table.insert(parents, { entity = entity, parent = EntityService:GetParent(entity), distance = EntityService:GetDistanceBetween(owner,entity)})
+        end
+
+        local sorter = function(lhs,rhs)
+            return #(g_allocated_resource_drones[lhs.parent] or { distance = 0.0 }) < #(g_allocated_resource_drones[rhs.parent] or {})
+        end
+
+        table.sort( parents, sorter )
+
+        return parents[1].entity
+    end
+
+    return INVALID_ID
 end
 
 function harvester_drone:FillInitialParams()
@@ -86,6 +162,7 @@ function harvester_drone:FillInitialParams()
 
     self.search_type = self.data:GetStringOrDefault("search_type","");
 
+    self.harvest_vegetation = self.data:GetIntOrDefault("harvest_vegetation", 1 ) == 1;
     self.harvest_storage = self.data:GetFloat("harvest_storage");
     self.harvest_duration = self.data:GetFloat("harvest_time");
     self.unload_duration = self.data:GetFloat("unload_time");
@@ -129,6 +206,44 @@ function harvester_drone:OnDebugExecute()
     end
 end
 
+function harvester_drone:LockTarget( target, lock_type )
+    base_drone.LockTarget( self, target, lock_type )
+
+    if self.harvest_vegetation then
+        return
+    end
+
+    local parent = EntityService:GetParent(target)
+    if parent ~= INVALID_ID then
+        target = parent
+    end
+
+    if g_allocated_resource_drones[ target ] == nil then
+        g_allocated_resource_drones[ target ] = {}
+    end
+
+    table.insert(g_allocated_resource_drones[ target ], self.entity )
+end
+
+function harvester_drone:UnlockTarget( target, lock_type )
+    base_drone.UnlockTarget( self, target, lock_type )
+
+    if self.harvest_vegetation then
+        return
+    end
+
+    local parent = EntityService:GetParent(target)
+    if parent ~= INVALID_ID then
+        target = parent
+    end
+
+    if g_allocated_resource_drones[ target ] == nil then
+        g_allocated_resource_drones[ target ] = {}
+    end
+
+    table.remove(g_allocated_resource_drones[ target ], self.entity )
+end
+
 function harvester_drone:OnLoad()
     self:FillInitialParams();
 
@@ -140,43 +255,6 @@ function harvester_drone:FindActionTarget()
         return INVALID_ID
     end
 
-    local predicate = {
-        type=self.search_type,
-        signature="LootComponent",
-        filter = function(entity) 
-            if self:IsTargetLocked(entity, LOCK_TYPE_HARVESTER) then
-                return false
-            end
-
-            if IndexOf(self.exclude_targets, entity) ~= nil then
-                return false
-            end
-            
-            if not EntityService:IsInFinalVegetationChainPhase( entity ) then
-                return false
-            end
-
-            local lootComponent = EntityService:GetComponent(entity, "LootComponent")
-            if not lootComponent or not reflection_helper( lootComponent ).is_gatherable then
-                return false
-            end
-
-            local isAlive = HealthService:IsAlive( entity )
-            
-            if ( EntityService:CompareType( entity, "ground_unit" ) and isAlive ) then
-            
-                return false
-            end
-            
-            if ( EntityService:CompareType( entity, "air_unit" ) and isAlive ) then
-            
-                return false
-            end
-
-            return true
-        end
-    };
-
     local owner = self:GetDroneOwnerTarget();
     if not HealthService:IsAlive( owner ) then
         return INVALID_ID
@@ -186,15 +264,22 @@ function harvester_drone:FindActionTarget()
         return INVALID_ID
     end
 
-    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
+    if self.harvest_vegetation then
+        local target = self:FindBestVegetationEntity(owner, self.entity)
+        if target ~= INVALID_ID then
+            EntityService:EnsureGatherableComponent( target )
+            self:LockTarget( target, LOCK_TYPE_HARVESTER );
+        end
 
-    local target = FindBestVegetationEntity( self.entity, entities );
-    if ( target ~= INVALID_ID and target ~= nil ) then
-        EntityService:EnsureGatherableComponent( target )
-        self:LockTarget( target, LOCK_TYPE_HARVESTER );
+        return target;
+    else
+        local target = self:FindResourceVeinEntity(owner, self.entity)
+        if target ~= INVALID_ID then
+            self:LockTarget( target, LOCK_TYPE_HARVESTER );
+        end
+
+        return target;
     end
-
-    return target;
 end
 
 function harvester_drone:OnDroneOwnerAction( target )
@@ -275,19 +360,13 @@ function harvester_drone:OnHarvestEnter(state)
     end
     state:SetDurationLimit(self.harvest_duration)
 
-    local target = self:GetDroneActionTarget()
-
-    if ( target == INVALID_ID or target == nil ) then
-        state:Exit()
-        return
-    end
-
+    local target = self:GetDroneActionTarget();
     Insert(self.exclude_targets, target)
 
-    local resources = EntityService:GetGatherableResources(target);
+    local resources = GetGatherableResources( target, self.harvest_vegetation )
     if #resources == 0 then
         state:Exit()
-        return
+        return;
     end
 
     for i=1,#resources do
@@ -320,60 +399,46 @@ function harvester_drone:UpdateResourceStorage( resource, change_amount )
     local current_amount = self.storage[ resource ];
     self.storage[ resource ] = current_amount + change_amount;
 
-    EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", math.max(0.1, (current_storage + change_amount) / self.harvest_storage ) );
+    EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", math.max( 0.5, (current_storage + change_amount) / self.harvest_storage ) );
 
     return change_amount;
 end
 
 function harvester_drone:ClearStorage()
     self.storage = {}
-    EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 0.1 );
+    EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 0.5 );
 end
 
 function harvester_drone:OnHarvestExecute(state, dt)
     local max_change_amount = ( self.harvest_storage / self.harvest_duration ) * dt;
 
-    local target = self:GetDroneActionTarget()
-
-    if ( target == INVALID_ID or target == nil ) then
-        state:Exit()
-        return 
-    end
+    local target = self:GetDroneActionTarget();
 
     if not EntityService:IsAlive( target ) then
         return state:Exit()
     end
 
     for resource, _ in pairs( self.storage ) do
-        local resourceAmount = EntityService:GetGatherResourceAmount(target, resource);
+        local resourceAmount = GetGatherableResourceAmount(target, resource, self.harvest_vegetation);
 
         local harvestAmount = self:UpdateResourceStorage( resource, math.min( resourceAmount, max_change_amount ) );
         if harvestAmount > 0.0 then
-            EntityService:ChangeGatherResourceAmount(target, resource, resourceAmount - harvestAmount );
+            ChangeGatherableResourceAmount( target, resource, resourceAmount - harvestAmount, self.harvest_vegetation )
         else
            state:Exit()
         end
+
     end
 end
 
 function harvester_drone:OnHarvestExit()
-
     local target = self:GetDroneActionTarget();
-
-    if ( target ~= nil and target ~= INVALID_ID and EntityService:IsAlive( target ) ) then
-        local resources = EntityService:GetGatherableResources(target);
+    if EntityService:IsAlive( target ) then
+        local resources = GetGatherableResources(target, self.harvest_vegetation);
         if #resources == 0 then
             EntityService:RemoveComponent(target, "GatherResourceComponent")
             EntityService:RemoveComponent(target, "LootComponent")
-
-            local scannableComponent = EntityService:GetComponent( target, "ScannableComponent" )
-            if ( scannableComponent ~= nil ) then
-
-                ItemService:ScanEntityByPlayer( target, self.data:GetIntOrDefault( "owner", 0) )
-
-                EntityService:RemoveComponent( target, "ScannableComponent" )
-                EffectService:SpawnEffect( target, "effects/loot/specimen_extracted")
-            end
+            EntityService:RemoveComponent(target, "ResourceComponent")
 
             EntityService:DissolveEntity(target, 2.0)
         end
