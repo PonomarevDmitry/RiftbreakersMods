@@ -1,0 +1,510 @@
+local replace_wall_from_to_base = require("lua/misc/replace_wall_from_to_base.lua")
+require("lua/utils/table_utils.lua")
+require("lua/utils/reflection.lua")
+
+class 'replace_wall_from_to_replacer_tool' ( replace_wall_from_to_base )
+
+function replace_wall_from_to_replacer_tool:__init()
+    replace_wall_from_to_base.__init(self,self)
+end
+
+function replace_wall_from_to_replacer_tool:OnInit()
+
+    self.marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(self.marker_name, self.entity)
+
+    self.missing_localization_from = self.data:GetString("missing_localization_from")
+    self.missing_localization_to = self.data:GetString("missing_localization_to")
+
+    self.template_name_from = self.data:GetString("template_name_from")
+    self.template_name_to = self.data:GetString("template_name_to")
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.fromBlueprintName = selectorDB:GetStringOrDefault( self.template_name_from, "" ) or ""
+    self.toBlueprintName = selectorDB:GetStringOrDefault( self.template_name_to, "" ) or ""
+
+    self.fromBlueprintsList = {}
+    self.fromCacheBlueprintsLowNames = {}
+
+    self:InitBlueprintList(self.fromBlueprintName, self.fromBlueprintsList, self.fromCacheBlueprintsLowNames)
+
+    self.toBlueprintsList = {}
+    self.toCacheBlueprintsLowNames = {}
+
+    self:InitBlueprintList(self.toBlueprintName, self.toBlueprintsList, self.toCacheBlueprintsLowNames)
+
+    self.buildingDescHash = {}
+    self.wallBluprintsArray = {}
+    self.wallBluprintsResearch = {}
+    self.cacheBuildCosts = {}
+
+    if ( self.toBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.toBlueprintName ) ) then
+
+        local blueprintName = self:GetFirstLevelBuilding(self.toBlueprintName)
+
+        self:FillAllBlueprints(blueprintName)
+        self:FillResearches()
+    end
+
+    self:SetBuildingIcon()
+
+    self.previousMarkedBuildings = {}
+    self.radiusShowBuildings = 100.0
+end
+
+function replace_wall_from_to_replacer_tool:FillAllBlueprints( blueprintName )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return
+    end
+
+    local buildingRef = reflection_helper(buildingDesc)
+
+    if ( IndexOf( self.wallBluprintsArray, blueprintName ) == nil ) then
+        Insert( self.wallBluprintsArray, blueprintName )
+
+        self.buildingDescHash[buildingRef.bp] = buildingRef
+    end
+
+    if ( buildingRef.upgrade ~= "" and buildingRef.upgrade ~= nil ) then
+
+        self:FillAllBlueprints( buildingRef.upgrade )
+    end
+end
+
+function replace_wall_from_to_replacer_tool:FillResearches()
+
+    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+
+    for i=1,#self.wallBluprintsArray do
+
+        local blueprintName = self.wallBluprintsArray[i]
+
+        local researchName = self:GetResearchForUpgrade( researchComponent, blueprintName )
+
+        self.wallBluprintsResearch[blueprintName] = researchName
+    end
+end
+
+function replace_wall_from_to_replacer_tool:GetResearchForUpgrade( researchComponent, blueprintName )
+
+    local categories = researchComponent.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+        local category_nodes = category.nodes
+
+        for j=1,category_nodes.count do
+
+            local node = category_nodes[j]
+
+            local awards = node.research_awards
+            for k=1,awards.count do
+
+                if awards[k].blueprint == blueprintName then
+
+                    return node.research_name
+                end
+            end
+        end
+    end
+
+    return ""
+end
+
+function replace_wall_from_to_replacer_tool:SetBuildingIcon()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    if ( self.fromBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.fromBlueprintName ) ) then
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( self.fromBlueprintName )
+
+        if ( menuIcon ~= "" ) then
+
+            markerDB:SetString("wall_1_icon", menuIcon)
+            markerDB:SetString("wall_1_name", buildingDescRef.localization_id)
+        else
+
+            markerDB:SetString("wall_1_icon", "gui/menu/research/icons/missing_icon_big")
+            markerDB:SetString("wall_1_name", self.missing_localization_from)
+        end
+    else
+
+        markerDB:SetString("wall_1_icon", "gui/menu/research/icons/missing_icon_big")
+        markerDB:SetString("wall_1_name", self.missing_localization_from)
+    end
+
+
+
+    if ( self.toBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.toBlueprintName ) ) then
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( self.toBlueprintName )
+
+        if ( menuIcon ~= "" ) then
+
+            markerDB:SetString("wall_2_icon", menuIcon)
+            markerDB:SetString("wall_2_name", buildingDescRef.localization_id)
+        else
+
+            markerDB:SetString("wall_2_icon", "gui/menu/research/icons/missing_icon_big")
+            markerDB:SetString("wall_2_name", self.missing_localization_to)
+        end
+    else
+
+        markerDB:SetString("wall_2_icon", "gui/menu/research/icons/missing_icon_big")
+        markerDB:SetString("wall_2_name", self.missing_localization_to)
+    end
+end
+
+function replace_wall_from_to_replacer_tool:AddedToSelection( entity )
+
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
+    end
+end
+
+function replace_wall_from_to_replacer_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial(entity, "selected" )
+end
+
+function replace_wall_from_to_replacer_tool:FilterSelectedEntities( selectedEntities )
+
+    local entities = {}
+
+    for entity in Iter( selectedEntities ) do
+
+        if ( not self:IsEntityApproved(entity) ) then
+            goto continue
+        end
+
+        Insert(entities, entity)
+
+        ::continue::
+    end
+
+    return entities
+end
+
+function replace_wall_from_to_replacer_tool:IsEntityApproved( entity )
+
+    local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+    if ( buildingComponent == nil ) then
+        return false
+    end
+
+    local blueprintName = EntityService:GetBlueprintName(entity)
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return false
+    end
+
+    local buildingRef = reflection_helper( buildingDesc )
+
+    local connectType = self:GetConnectType( blueprintName, buildingRef )
+    if ( connectType == -1 ) then
+        return false
+    end
+
+    local level = buildingRef.level
+
+    local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
+
+    if ( wallBlueprint == "" ) then
+        return false
+    end
+
+    if ( not self:IsBlueprintInList( self.fromBlueprintsList, self.fromCacheBlueprintsLowNames, blueprintName) ) then
+        return false
+    end
+
+    if ( self:IsBlueprintInList( self.toBlueprintsList, self.toCacheBlueprintsLowNames, blueprintName) ) then
+        return false
+    end
+
+    return true
+end
+
+function replace_wall_from_to_replacer_tool:OnUpdate()
+
+    local buildinsList = self:FindBuildingFrom()
+
+    self.previousMarkedBuildings = self.previousMarkedBuildings or {}
+
+    for entity in Iter( self.previousMarkedBuildings ) do
+
+        if ( IndexOf( buildinsList, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
+            self:RemovedFromSelection( entity )
+        end
+    end
+
+    for entity in Iter( buildinsList ) do
+
+        local skinned = EntityService:IsSkinned( entity )
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+        end
+    end
+
+    self.previousMarkedBuildings = buildinsList
+
+
+
+    local costResourceList = {}
+    local costValues = {}
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( not self:IsEntityApproved(entity) ) then
+            goto continue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+        local buildingRef = reflection_helper(buildingDesc)
+
+
+
+        local list1 = self:GetBuildCosts( buildingRef.level )
+        for resourceName, amount in pairs( list1 ) do
+
+            if ( costValues[resourceName] == nil ) then
+
+                Insert( costResourceList, resourceName )
+
+                costValues[resourceName] = 0
+            end
+
+            costValues[resourceName] = costValues[resourceName] + amount
+        end
+
+        local list2 = BuildingService:GetSellResourceAmount( entity )
+        for resourceCost in Iter(list2) do
+
+            if ( costValues[resourceCost.first] == nil ) then
+
+                Insert( costResourceList, resourceCost.first )
+
+                costValues[resourceCost.first] = 0
+            end
+
+            costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second
+        end
+
+        ::continue::
+    end
+
+
+    self.buildCost = {}
+
+    for resourceName in Iter(costResourceList) do
+
+        local resourceValue = costValues[resourceName]
+
+        if ( resourceValue ~= 0 ) then
+
+            self.buildCost[resourceName] = resourceValue
+        end
+    end
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
+    if ( onScreen ) then
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
+        BuildingService:OperateBuildCosts( self.corners, self.playerId, {} )
+    else
+        BuildingService:OperateBuildCosts( self.infoChild , self.playerId, {} )
+        BuildingService:OperateBuildCosts( self.corners, self.playerId, self.buildCost )
+    end
+end
+
+function replace_wall_from_to_replacer_tool:FindBuildingFrom()
+
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
+
+    local buildings = FindService:FindEntitiesByTypeInRadius( player, "building", self.radiusShowBuildings )
+
+    local result = {}
+
+    for entity in Iter( buildings ) do
+
+        if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
+        if ( not self:IsEntityApproved(entity) ) then
+            goto continue
+        end
+
+        Insert( result, entity )
+
+        ::continue::
+    end
+
+    return result
+end
+
+function replace_wall_from_to_replacer_tool:OnRotate()
+end
+
+function replace_wall_from_to_replacer_tool:OnRelease()
+
+    if ( self.previousMarkedBuildings ~= nil) then
+        for ent in Iter( self.previousMarkedBuildings ) do
+            self:RemovedFromSelection( ent )
+        end
+    end
+    self.previousMarkedBuildings = {}
+
+    if ( replace_wall_from_to_base.OnRelease ) then
+
+        replace_wall_from_to_base.OnRelease(self)
+    end
+end
+
+function replace_wall_from_to_replacer_tool:OnActivateEntity( entity )
+
+    if ( #self.wallBluprintsArray == 0 ) then
+        return
+    end
+
+    if ( not self:IsEntityApproved(entity) ) then
+        return
+    end
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+    local buildingRef = reflection_helper(buildingDesc)
+
+    local connectType = self:GetConnectType( blueprintName, buildingRef )
+    if ( connectType == -1 ) then
+        return
+    end
+
+    local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( buildingRef.level, connectType )
+    if ( wallBlueprint == "" ) then
+        return
+    end
+
+    local transform = EntityService:GetWorldTransform( entity )
+
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprint, transform, true )
+end
+
+function replace_wall_from_to_replacer_tool:GetConnectType( blueprintName, buildingRef )
+
+    for i=1,buildingRef.connect.count do
+
+        local connectRecord = buildingRef.connect[i]
+
+        for j=1,connectRecord.value.count do
+
+            local connectBlueprintName = connectRecord.value[j]
+
+            if ( connectBlueprintName == blueprintName ) then
+                return connectRecord.key
+            end
+        end
+    end
+
+    return -1
+end
+
+function replace_wall_from_to_replacer_tool:GetWallBlueprintAndLevel( level, connectType )
+
+    local minNumber = math.min( level, #self.wallBluprintsArray )
+
+    for i=minNumber,1,-1 do
+
+        local blueprintName = self.wallBluprintsArray[i]
+
+        if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
+
+            local buildingRef = self.buildingDescHash[blueprintName]
+
+            for i=1,buildingRef.connect.count do
+
+                local connectRecord = buildingRef.connect[i]
+
+                if ( connectRecord.key == connectType and connectRecord.value.count > 0 ) then
+
+                    local connectBlueprintName = connectRecord.value[1]
+
+                    return connectBlueprintName, buildingRef.level
+                end
+            end
+        end
+    end
+
+    return "", 0
+end
+
+function replace_wall_from_to_replacer_tool:IsWallBlueprintAvailable( blueprintName )
+
+    if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
+        return true
+    end
+
+    local researchName = self.wallBluprintsResearch[blueprintName] or ""
+    if ( researchName ~= "" ) then
+
+        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function replace_wall_from_to_replacer_tool:GetBuildCosts( level )
+
+    self.cacheBuildCosts = self.cacheBuildCosts or {}
+
+    if ( self.cacheBuildCosts[level] ~= nil ) then
+
+        return self.cacheBuildCosts[level]
+    end
+
+    local result = self:CalculateBuildCosts( level )
+
+    self.cacheBuildCosts[level] = result
+
+    return result
+end
+
+function replace_wall_from_to_replacer_tool:CalculateBuildCosts( level )
+
+    local blueprintName = self.wallBluprintsArray[level]
+
+    local costValues = {}
+
+    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    for resourceCost in Iter(list) do
+
+        if ( costValues[resourceCost.first] == nil ) then
+            costValues[resourceCost.first] = 0
+        end
+
+        costValues[resourceCost.first] = costValues[resourceCost.first] + resourceCost.second
+    end
+
+    return costValues
+end
+
+return replace_wall_from_to_replacer_tool
