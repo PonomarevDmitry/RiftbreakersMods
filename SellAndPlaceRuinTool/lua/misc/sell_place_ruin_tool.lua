@@ -133,8 +133,9 @@ function sell_place_ruin_tool:OnActivateEntity( entity )
     QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
 
     local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, position, team )
+
     EntityService:SetOrientation( newRuinsEntity, orientation )
-    EntityService:RemoveComponent(newRuinsEntity, "LuaComponent")
+    EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
 
     LogService:Log("ruinsBlueprint " .. ruinsBlueprint .. " SelectableComponent " .. tostring(reflection_helper( EntityService:GetComponent( newRuinsEntity, "SelectableComponent") )) )
 
