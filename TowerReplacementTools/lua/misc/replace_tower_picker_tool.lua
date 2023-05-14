@@ -58,7 +58,7 @@ function replace_tower_picker_tool:SetBuildingIcon()
             markerDB:SetString("tower_icon", menuIcon)
             markerDB:SetInt("tower_icon_visible", 1)
         else
-        
+
             markerDB:SetString("tower_name", "")
             markerDB:SetInt("tower_icon_visible", 0)
         end
