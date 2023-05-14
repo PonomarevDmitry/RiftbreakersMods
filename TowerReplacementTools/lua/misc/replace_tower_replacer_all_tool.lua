@@ -2,17 +2,17 @@ local replace_tower_base = require("lua/misc/replace_tower_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'replace_tower_all_replacer_tool' ( replace_tower_base )
+class 'replace_tower_replacer_all_tool' ( replace_tower_base )
 
-function replace_tower_all_replacer_tool:__init()
+function replace_tower_replacer_all_tool:__init()
     replace_tower_base.__init(self,self)
 end
 
-function replace_tower_all_replacer_tool:OnPreInit()
+function replace_tower_replacer_all_tool:OnPreInit()
     self.initialScale = { x=8, y=1, z=8 }
 end
 
-function replace_tower_all_replacer_tool:OnInit()
+function replace_tower_replacer_all_tool:OnInit()
 
     local marker_name = self.data:GetString("marker_name")
     self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
@@ -51,7 +51,7 @@ function replace_tower_all_replacer_tool:OnInit()
     self:SetBuildingIcon()
 end
 
-function replace_tower_all_replacer_tool:FillAllBlueprints( blueprintName )
+function replace_tower_replacer_all_tool:FillAllBlueprints( blueprintName )
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return
@@ -76,7 +76,7 @@ function replace_tower_all_replacer_tool:FillAllBlueprints( blueprintName )
     end
 end
 
-function replace_tower_all_replacer_tool:FillResearches()
+function replace_tower_replacer_all_tool:FillResearches()
 
     local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
 
@@ -90,7 +90,7 @@ function replace_tower_all_replacer_tool:FillResearches()
     end
 end
 
-function replace_tower_all_replacer_tool:GetResearchForUpgrade( researchComponent, blueprintName )
+function replace_tower_replacer_all_tool:GetResearchForUpgrade( researchComponent, blueprintName )
 
     local categories = researchComponent.research
 
@@ -117,7 +117,7 @@ function replace_tower_all_replacer_tool:GetResearchForUpgrade( researchComponen
     return ""
 end
 
-function replace_tower_all_replacer_tool:SetBuildingIcon()
+function replace_tower_replacer_all_tool:SetBuildingIcon()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
@@ -145,7 +145,7 @@ function replace_tower_all_replacer_tool:SetBuildingIcon()
     end
 end
 
-function replace_tower_all_replacer_tool:AddedToSelection( entity )
+function replace_tower_replacer_all_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
@@ -155,11 +155,11 @@ function replace_tower_all_replacer_tool:AddedToSelection( entity )
     end
 end
 
-function replace_tower_all_replacer_tool:RemovedFromSelection( entity )
+function replace_tower_replacer_all_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function replace_tower_all_replacer_tool:FilterSelectedEntities( selectedEntities )
+function replace_tower_replacer_all_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
@@ -181,7 +181,7 @@ function replace_tower_all_replacer_tool:FilterSelectedEntities( selectedEntitie
     return entities
 end
 
-function replace_tower_all_replacer_tool:IsEntityApproved( entity )
+function replace_tower_replacer_all_tool:IsEntityApproved( entity )
 
     local blueprintName = EntityService:GetBlueprintName(entity)
 
@@ -221,7 +221,7 @@ function replace_tower_all_replacer_tool:IsEntityApproved( entity )
     return true
 end
 
-function replace_tower_all_replacer_tool:OnUpdate()
+function replace_tower_replacer_all_tool:OnUpdate()
 
     local costResourceList = {}
     local costValues = {}
@@ -292,7 +292,7 @@ function replace_tower_all_replacer_tool:OnUpdate()
     end
 end
 
-function replace_tower_all_replacer_tool:OnActivateEntity( entity )
+function replace_tower_replacer_all_tool:OnActivateEntity( entity )
 
     if ( #self.wallBluprintsArray == 0 ) then
         return
@@ -318,7 +318,7 @@ function replace_tower_all_replacer_tool:OnActivateEntity( entity )
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprint, transform, true )
 end
 
-function replace_tower_all_replacer_tool:GetWallBlueprintAndLevel( level )
+function replace_tower_replacer_all_tool:GetWallBlueprintAndLevel( level )
 
     local minNumber = math.min( level, #self.wallBluprintsArray )
 
@@ -335,7 +335,7 @@ function replace_tower_all_replacer_tool:GetWallBlueprintAndLevel( level )
     return ""
 end
 
-function replace_tower_all_replacer_tool:IsWallBlueprintAvailable( blueprintName )
+function replace_tower_replacer_all_tool:IsWallBlueprintAvailable( blueprintName )
 
     if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
         return true
@@ -352,7 +352,7 @@ function replace_tower_all_replacer_tool:IsWallBlueprintAvailable( blueprintName
     return false
 end
 
-function replace_tower_all_replacer_tool:GetBuildCosts( level )
+function replace_tower_replacer_all_tool:GetBuildCosts( level )
 
     self.cacheBuildCosts = self.cacheBuildCosts or {}
 
@@ -368,7 +368,7 @@ function replace_tower_all_replacer_tool:GetBuildCosts( level )
     return result
 end
 
-function replace_tower_all_replacer_tool:CalculateBuildCosts( level )
+function replace_tower_replacer_all_tool:CalculateBuildCosts( level )
 
     local blueprintName = self.wallBluprintsArray[level]
 
@@ -387,4 +387,4 @@ function replace_tower_all_replacer_tool:CalculateBuildCosts( level )
     return costValues
 end
 
-return replace_tower_all_replacer_tool
+return replace_tower_replacer_all_tool
