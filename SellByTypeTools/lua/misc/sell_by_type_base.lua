@@ -150,7 +150,7 @@ function sell_by_type_base:AddToLowUpgradeList( list, buildingDescRef )
                 Insert( list, lowName )
             end
         end
-    end    
+    end
 end
 
 function sell_by_type_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )

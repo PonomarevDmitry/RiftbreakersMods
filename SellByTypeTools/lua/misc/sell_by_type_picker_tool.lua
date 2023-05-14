@@ -8,10 +8,21 @@ function sell_by_type_picker_tool:__init()
     sell_by_type_base.__init(self,self)
 end
 
+function sell_by_type_picker_tool:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
+function sell_by_type_picker_tool:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
+end
+
 function sell_by_type_picker_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_by_type_picker_tool", self.entity)
+
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
+
     self.popupShown = false
-    
+
     self.scaleMap = {
         1,
     }
@@ -37,14 +48,6 @@ function sell_by_type_picker_tool:OnInit()
     else
         markerDB:SetInt("building_visible", 0)
     end
-end
-
-function sell_by_type_picker_tool:OnPreInit()
-    self.initialScale = { x=1, y=1, z=1 }
-end
-
-function sell_by_type_picker_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
 end
 
 function sell_by_type_picker_tool:SpawnCornerBlueprint()
@@ -112,7 +115,7 @@ function sell_by_type_picker_tool:OnActivateSelectorRequest()
         if ( buildingDesc == nil ) then
             goto continue
         end
-        
+
         local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
         if (baseBuildingDesc ~= nil ) then
             buildingDesc = baseBuildingDesc
@@ -135,7 +138,7 @@ function sell_by_type_picker_tool:OnActivateSelectorRequest()
         local sellerToolBlueprintName = sellerToolBlueprintDesc.bp
 
         local lowName = BuildingService:FindLowUpgrade( sellerToolBlueprintName )
-                
+
         if ( lowName == sellerToolBlueprintName ) then
             lowName = sellerToolBlueprintDesc.name
         end

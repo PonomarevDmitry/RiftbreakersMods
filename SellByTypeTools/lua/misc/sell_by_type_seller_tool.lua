@@ -8,17 +8,14 @@ function sell_by_type_seller_tool:__init()
     sell_by_type_base.__init(self,self)
 end
 
+function sell_by_type_seller_tool:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
+end
+
 function sell_by_type_seller_tool:OnInit()
 
-    self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
-
-    if ( self.isGroup ) then
-
-        self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_by_type_seller_group_tool", self.entity)
-    else
-
-        self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_by_type_seller_tool", self.entity)
-    end
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
     self:InitLowUpgradeList()
 
@@ -45,16 +42,13 @@ function sell_by_type_seller_tool:OnInit()
         markerDB:SetString("message_text", "gui/hud/sell_by_type/building_not_selected")
     end
 
-    
+
 
     self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
+    self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
 
     self.previousMarkedBuildings = {}
     self.radiusShowBuildings = 100.0
-end
-
-function sell_by_type_seller_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
 end
 
 function sell_by_type_seller_tool:SpawnCornerBlueprint()
@@ -132,19 +126,18 @@ end
 function sell_by_type_seller_tool:OnUpdate()
 
     local sellableBuildinsList = self:FindBuildingSellable()
-    
+
     self.previousMarkedBuildings = self.previousMarkedBuildings or {}
-    
+
     for entity in Iter( self.previousMarkedBuildings ) do
-    
-        -- If the building is not included in the new list
+
         if ( IndexOf( sellableBuildinsList, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
             self:RemovedFromSelection( entity )
         end
     end
-    
+
     for entity in Iter( sellableBuildinsList ) do
-        
+
         local skinned = EntityService:IsSkinned( entity )
         if ( skinned ) then
             EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
@@ -152,22 +145,22 @@ function sell_by_type_seller_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
         end
     end
-    
+
     self.previousMarkedBuildings = sellableBuildinsList
 
 
     self.sellCosts = {}
-    
+
     for entity in Iter( self.selectedEntities ) do
-    
+
         local list = BuildingService:GetSellResourceAmount( entity )
-        
+
         for resourceCost in Iter(list) do
-        
+
             if ( self.sellCosts[resourceCost.first] == nil ) then
                self.sellCosts[resourceCost.first] = 0
             end
-            
+
            self.sellCosts[resourceCost.first] = self.sellCosts[resourceCost.first] + resourceCost.second
         end
     end
@@ -187,9 +180,9 @@ function sell_by_type_seller_tool:FindBuildingSellable()
     local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
     local buildings = FindService:FindEntitiesByTypeInRadius( player, "building", self.radiusShowBuildings )
-    
+
     local result = {}
-    
+
     for entity in Iter( buildings ) do
 
         if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
@@ -204,7 +197,7 @@ function sell_by_type_seller_tool:FindBuildingSellable()
 
         ::continue::
     end
-    
+
     return result
 end
 
@@ -212,7 +205,7 @@ function sell_by_type_seller_tool:OnRotate()
 end
 
 function sell_by_type_seller_tool:OnRelease()
-    
+
     if ( self.previousMarkedBuildings ~= nil) then
         for ent in Iter( self.previousMarkedBuildings ) do
             self:RemovedFromSelection( ent )
@@ -241,13 +234,14 @@ function sell_by_type_seller_tool:OnActivateEntity( entity )
 
     if ( self.placeRuins ) then
 
-        local ruinsBlueprint = blueprintName .. "_ruins"
+        local ruinsBlueprintName = blueprintName .. "_ruins"
 
-        if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
+        if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
 
-            local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, position, team )
+            local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprintName, position, team )
 
             EntityService:SetOrientation( newRuinsEntity, orientation )
+            EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
         end
     end
 end
