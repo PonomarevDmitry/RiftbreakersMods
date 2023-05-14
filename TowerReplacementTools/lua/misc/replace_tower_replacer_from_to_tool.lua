@@ -10,8 +10,8 @@ end
 
 function replace_tower_replacer_from_to_tool:OnInit()
 
-    self.marker_name = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity(self.marker_name, self.entity)
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
     self.missing_localization_from = self.data:GetStringOrDefault("missing_localization_from", "") or ""
     self.missing_localization_to = self.data:GetStringOrDefault("missing_localization_to", "") or ""

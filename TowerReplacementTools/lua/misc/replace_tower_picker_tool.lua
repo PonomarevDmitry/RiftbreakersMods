@@ -18,8 +18,8 @@ end
 
 function replace_tower_picker_tool:OnInit()
 
-    self.marker_name = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity(self.marker_name, self.entity)
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
     self.popupShown = false
 

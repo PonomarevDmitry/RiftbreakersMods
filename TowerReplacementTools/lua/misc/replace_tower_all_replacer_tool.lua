@@ -14,8 +14,8 @@ end
 
 function replace_tower_all_replacer_tool:OnInit()
 
-    self.marker_name = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity(self.marker_name, self.entity)
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
     self.popupShown = false
 
