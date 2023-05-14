@@ -29,6 +29,8 @@ function replace_trap_picker_tool:OnInit()
 
     self.template_name = self.data:GetStringOrDefault("template_name", "") or ""
 
+    self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
+
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
@@ -150,6 +152,25 @@ function replace_trap_picker_tool:OnActivateSelectorRequest()
         self:InitBlueprintList(self.selectedBuildingBlueprint, self.selectedBlueprints, self.cacheBlueprintsLowNames)
 
         self:SetBuildingIcon()
+
+        if ( self.next_tool ~= "" ) then
+
+            local nextToolBuildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( self.next_tool ) )
+
+            QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
+
+            local nextToolBlueprintName = nextToolBuildingDescRef.bp
+
+            local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
+
+            if ( lowName == nextToolBlueprintName ) then
+                lowName = nextToolBuildingDescRef.name
+            end
+
+            BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+
+            QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
+        end
 
         do
             return;
