@@ -10,8 +10,8 @@ end
 
 function replace_wall_from_to_replacer_tool:OnInit()
 
-    self.marker_name = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity(self.marker_name, self.entity)
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
     self.missing_localization_from = self.data:GetString("missing_localization_from")
     self.missing_localization_to = self.data:GetString("missing_localization_to")
