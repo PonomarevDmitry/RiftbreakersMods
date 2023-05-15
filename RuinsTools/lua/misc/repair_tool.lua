@@ -1,24 +1,20 @@
-local tool = require("lua/misc/tool.lua")
+local tool_highlight_ruins = require("lua/misc/tool_highlight_ruins.lua")
 
-class 'repair_tool' ( tool )
+class 'repair_tool' ( tool_highlight_ruins )
 
 function repair_tool:__init()
-    tool.__init(self,self)
+    tool_highlight_ruins.__init(self,self)
 end
 
 function repair_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_repair", self.entity)
-
-    self.previousMarkedRuins = {}
-    -- Radius from player to highlight
-    self.radiusShowRuins = 100.0
 end
+
 function repair_tool:OnPreInit()
     self.initialScale = { x=8, y=1, z=8 }
 end
 
 function repair_tool:AddedToSelection( entity )
-
 end
 
 function repair_tool:RemovedFromSelection( entity )
@@ -36,6 +32,7 @@ function repair_tool:FindEntitiesToSelect( selectorComponent )
     local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 
     ConcatUnique( selectedItems, ruins)
+
     return selectedItems
 end
 
@@ -70,30 +67,8 @@ end
 
 function repair_tool:OnUpdate()
 
-    local ruinsList = self:FindBuildingRuins()
+    self:HighlightRuins()
 
-    self.previousMarkedRuins = self.previousMarkedRuins or {}
-
-    -- Remove highlighting from previous ruins
-    for ruinEntity in Iter( self.previousMarkedRuins ) do
-
-        -- If the ruin is not included in the new list
-        if ( IndexOf( ruinsList, ruinEntity ) == nil ) then
-            self:RemovedFromSelection( ruinEntity )
-        end
-    end
-
-    for ruinEntity in Iter( ruinsList ) do
-
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_current_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_current", "selected")
-        end
-    end
-
-    self.previousMarkedRuins = ruinsList
 
     self.repairCosts = {}
 
@@ -168,42 +143,6 @@ function repair_tool:OnUpdate()
     end
 end
 
-function repair_tool:FindBuildingRuins()
-
-    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
-
-    local buildings = FindService:FindEntitiesByGroupInRadius( player, "##ruins##", self.radiusShowRuins )
-
-    local result = {}
-
-    for entity in Iter( buildings ) do
-
-        if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
-            goto continue
-        end
-
-        local database = EntityService:GetDatabase( entity )
-        if ( database == nil ) then
-            goto continue
-        end
-
-        if ( not database:HasString("blueprint") ) then
-            goto continue
-        end
-
-        local ruinsBlueprint = database:GetString("blueprint")
-        if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
-            goto continue
-        end
-
-        Insert( result, entity )
-
-        ::continue::
-    end
-
-    return result
-end
-
 function repair_tool:OnRotate()
 end
 
@@ -237,22 +176,6 @@ function repair_tool:OnActivateEntity( entity )
 
             QueueEvent( "ScheduleRepairBuildingRequest", entity, self.playerId )
         end
-    end
-end
-
-function repair_tool:OnRelease()
-
-    -- Remove highlighting from ruins
-    if ( self.previousMarkedRuins ~= nil) then
-        for ent in Iter( self.previousMarkedRuins ) do
-
-            self:RemovedFromSelection( ent )
-        end
-    end
-    self.previousMarkedRuins = {}
-
-    if ( tool.OnRelease ) then
-        tool.OnRelease(self)
     end
 end
 
