@@ -9,6 +9,9 @@ end
 
 function sell_place_ruins_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_place_ruins_tool", self.entity)
+
+    self.previousMarkedRuins = {}
+    self.radiusShowRuins = 100.0
 end
 
 function sell_place_ruins_tool:SpawnCornerBlueprint()
@@ -77,6 +80,31 @@ end
 
 function sell_place_ruins_tool:OnUpdate()
 
+    local ruinsList = self:FindBuildingRuins()
+
+    self.previousMarkedRuins = self.previousMarkedRuins or {}
+
+    for ruinEntity in Iter( self.previousMarkedRuins ) do
+
+        if ( IndexOf( ruinsList, ruinEntity ) == nil and IndexOf( self.selectedEntities, ruinEntity ) == nil ) then
+            self:RemovedFromSelection( ruinEntity )
+        end
+    end
+
+    for ruinEntity in Iter( ruinsList ) do
+
+        local skinned = EntityService:IsSkinned( ruinEntity )
+        if ( skinned ) then
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_current_skinned", "selected")
+        else
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_current", "selected")
+        end
+    end
+
+    self.previousMarkedRuins = ruinsList
+
+
+
     self.sellCosts = {}
 
     for entity in Iter( self.selectedEntities ) do
@@ -103,6 +131,28 @@ function sell_place_ruins_tool:OnUpdate()
     end
 end
 
+function sell_place_ruins_tool:FindBuildingRuins()
+
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
+
+    local buildings = FindService:FindEntitiesByGroupInRadius( player, "##ruins##", self.radiusShowRuins )
+
+    local result = {}
+
+    for entity in Iter( buildings ) do
+
+        if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
+        Insert( result, entity )
+
+        ::continue::
+    end
+
+    return result
+end
+
 function sell_place_ruins_tool:OnRotate()
 end
 
@@ -115,13 +165,6 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
         return
     end
-
-    LogService:Log("ruinsBlueprint " .. ruinsBlueprint )
-
-    LogService:Log("blueprintName " .. blueprintName .. " SelectableComponent " .. tostring(reflection_helper( EntityService:GetComponent( entity, "SelectableComponent") )) )
-
-    LogService:Log("blueprintName " .. blueprintName .. " MeshComponent " .. tostring(reflection_helper( EntityService:GetComponent( entity, "MeshComponent") )) )
-
 
     local team = EntityService:GetTeam( entity )
 
@@ -136,10 +179,21 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
 
     EntityService:SetOrientation( newRuinsEntity, orientation )
     EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
+end
 
-    LogService:Log("ruinsBlueprint " .. ruinsBlueprint .. " SelectableComponent " .. tostring(reflection_helper( EntityService:GetComponent( newRuinsEntity, "SelectableComponent") )) )
+function sell_place_ruins_tool:OnRelease()
 
-    LogService:Log("ruinsBlueprint " .. ruinsBlueprint .. " MeshComponent " .. tostring(reflection_helper( EntityService:GetComponent( newRuinsEntity, "MeshComponent") )) )
+    if ( self.previousMarkedRuins ~= nil) then
+        for ent in Iter( self.previousMarkedRuins ) do
+            self:RemovedFromSelection( ent )
+        end
+    end
+    self.previousMarkedRuins = {}
+
+    if ( tool.OnRelease ) then
+
+        tool.OnRelease(self)
+    end
 end
 
 return sell_place_ruins_tool

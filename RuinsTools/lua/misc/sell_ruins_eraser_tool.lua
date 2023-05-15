@@ -24,6 +24,22 @@ function sell_ruins_eraser_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
+function sell_ruins_eraser_tool:AddedToSelection( entity )
+
+    local skinned = EntityService:IsSkinned( entity )
+
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+    end
+end
+
+function sell_ruins_eraser_tool:RemovedFromSelection( entity )
+
+    EntityService:RemoveMaterial( entity, "selected" )
+end
+
 function sell_ruins_eraser_tool:FindEntitiesToSelect( selectorComponent )
 
     local possibleSelectedEnts = {}
@@ -70,43 +86,26 @@ function sell_ruins_eraser_tool:FindEntitiesToSelect( selectorComponent )
     return selectedEntities
 end
 
-function sell_ruins_eraser_tool:AddedToSelection( entity )
-
-    local skinned = EntityService:IsSkinned( entity )
-
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-    end
-end
-
-function sell_ruins_eraser_tool:RemovedFromSelection( entity )
-
-    EntityService:RemoveMaterial( entity, "selected" )
-end
-
 function sell_ruins_eraser_tool:OnUpdate()
 
     local ruinsList = self:FindBuildingRuins()
 
     self.previousMarkedRuins = self.previousMarkedRuins or {}
 
-    for entity in Iter( self.previousMarkedRuins ) do
+    for ruinEntity in Iter( self.previousMarkedRuins ) do
 
-        -- If the building is not included in the new list
-        if ( IndexOf( ruinsList, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
-            self:RemovedFromSelection( entity )
+        if ( IndexOf( ruinsList, ruinEntity ) == nil and IndexOf( self.selectedEntities, ruinEntity ) == nil ) then
+            self:RemovedFromSelection( ruinEntity )
         end
     end
 
-    for entity in Iter( ruinsList ) do
+    for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
+        local skinned = EntityService:IsSkinned( ruinEntity )
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_current_skinned", "selected")
         else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_current", "selected")
         end
     end
 
@@ -135,6 +134,9 @@ function sell_ruins_eraser_tool:FindBuildingRuins()
     return result
 end
 
+function sell_ruins_eraser_tool:OnRotate()
+end
+
 function sell_ruins_eraser_tool:OnActivateEntity( entity )
 
     EntityService:SetGroup( entity, "" )
@@ -157,9 +159,6 @@ function sell_ruins_eraser_tool:OnRelease()
 
         tool.OnRelease(self)
     end
-end
-
-function sell_ruins_eraser_tool:OnRotate()
 end
 
 return sell_ruins_eraser_tool

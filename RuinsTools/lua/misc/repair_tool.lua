@@ -75,21 +75,21 @@ function repair_tool:OnUpdate()
     self.previousMarkedRuins = self.previousMarkedRuins or {}
 
     -- Remove highlighting from previous ruins
-    for entity in Iter( self.previousMarkedRuins ) do
+    for ruinEntity in Iter( self.previousMarkedRuins ) do
 
         -- If the ruin is not included in the new list
-        if ( IndexOf( ruinsList, entity ) == nil ) then
-            self:RemovedFromSelection( entity )
+        if ( IndexOf( ruinsList, ruinEntity ) == nil ) then
+            self:RemovedFromSelection( ruinEntity )
         end
     end
 
-    for entity in Iter( ruinsList ) do
+    for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
+        local skinned = EntityService:IsSkinned( ruinEntity )
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_current_skinned", "selected")
         else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_current", "selected")
         end
     end
 
