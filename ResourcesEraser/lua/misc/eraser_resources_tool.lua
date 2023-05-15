@@ -36,7 +36,7 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
         signature="ResourceComponent,SelectableComponent,InteractiveComponent,GridMarkerComponent"
     };
-    
+
     local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
     for entity in Iter( tempCollection ) do
@@ -69,17 +69,17 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
     end
 
     local selectorPosition = selectorComponent.position
-    
+
     local sorter = function( t, lhs, rhs )
         local p1 = EntityService:GetPosition( lhs )
         local p2 = EntityService:GetPosition( rhs )
         local d1 = Distance( selectorPosition, p1 )
         local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2 
+        return d1 < d2
     end
 
-    table.sort(possibleSelectedEnts, function(a,b) 
-        return sorter(possibleSelectedEnts, a, b) 
+    table.sort(possibleSelectedEnts, function(a,b)
+        return sorter(possibleSelectedEnts, a, b)
     end)
 
     return possibleSelectedEnts
