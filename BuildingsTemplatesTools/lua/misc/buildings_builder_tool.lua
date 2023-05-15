@@ -10,7 +10,7 @@ function buildings_builder_tool:__init()
 end
 
 function buildings_builder_tool:init()
-    
+
     self.stateMachine = self:CreateStateMachine()
     self.stateMachine:AddState( "working", { enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
     self.stateMachine:ChangeState("working")
@@ -26,7 +26,7 @@ end
 function buildings_builder_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
-    
+
     local marker = self.data:GetString("marker")
     self.template_name = self.data:GetString("template_name")
 
@@ -43,7 +43,7 @@ function buildings_builder_tool:InitializeValues()
 
     self.transformZX = 0
     self.transformZZ = 1
-    
+
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
     self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
@@ -52,17 +52,20 @@ function buildings_builder_tool:InitializeValues()
     self.playerId = playerReferenceComponent.player_id
 
     local buildingComponent = reflection_helper( EntityService:GetComponent( self.entity, "BuildingComponent" ) )
-    self.blueprint = buildingComponent.bp 
+    self.blueprint = buildingComponent.bp
 
     self.activated = false
-    
-    self.annoucements = { 
+
+    self.annoucements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
+
         ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
         ["steel"] = "voice_over/announcement/not_enough_steel",
+
         ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
         ["palladium"] = "voice_over/announcement/not_enough_palladium",
-        ["titanium"] = "voice_over/announcement/not_enough_titanium" 
+        ["titanium"] = "voice_over/announcement/not_enough_titanium",
+        ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
 
     local boundsSize = EntityService:GetBoundsSize( self.selector )
@@ -160,7 +163,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
         end
 
         local buildingDesc = reflection_helper( blueprintBuildingDesc )
-                
+
         if ( buildingDesc == nil ) then
             goto continue
         end
@@ -192,7 +195,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
             for i=2,#self.templateEntities do
 
                 local buildingTemplate = self.templateEntities[i]
-            
+
                 EntityService:RemoveComponent( buildingTemplate.entity, "DisplayRadiusComponent" )
             end
         end
@@ -291,7 +294,7 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
 end
 
 function buildings_builder_tool:GetVectorDelta( positionX, positionZ )
-    
+
     local deltaX = self.transformXX * positionX + self.transformXZ * positionZ
     local deltaZ = self.transformZX * positionX + self.transformZZ * positionZ
 
@@ -301,7 +304,7 @@ end
 function buildings_builder_tool:GetBuildInfo( entity  )
     local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent")
     if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!") ) then
-        return nil 
+        return nil
     end
     if (buildInfoComponent == nil ) then
         return nil
@@ -322,10 +325,10 @@ function buildings_builder_tool:CheckEntityBuildable( entity, transform, bluepri
 
     local testBuildable = reflection_helper(checkStatus:ToTypeInstance(), checkStatus )
 
-    
+
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
     local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_OVERRIDES or testBuildable.flag == CBF_REPAIR)
-    
+
     local skinned = EntityService:IsSkinned(entity)
 
     if ( testBuildable.flag == CBF_REPAIR  ) then
@@ -368,27 +371,27 @@ function buildings_builder_tool:OnUpdate()
     for i=1,#self.templateEntities do
 
         local buildingTemplate = self.templateEntities[i]
-            
+
         local entity = buildingTemplate.entity
 
         local transform = EntityService:GetWorldTransform( entity )
 
         local testBuildable = self:CheckEntityBuildable( entity, transform, buildingTemplate.blueprint, i )
 
-        if ( testBuildable ~= nil ) then    
+        if ( testBuildable ~= nil ) then
             self:AddToEntitiesToSellList( testBuildable, buildingsToSell )
         end
     end
 
     for entity in Iter( self.oldBuildingsToSell ) do
-    
+
         if ( IndexOf( buildingsToSell, entity ) == nil ) then
             EntityService:RemoveMaterial(entity, "selected" )
         end
     end
-    
+
     for entity in Iter( buildingsToSell ) do
-        
+
         local skinned = EntityService:IsSkinned(entity)
 
         if ( skinned ) then
@@ -424,10 +427,10 @@ end
 function buildings_builder_tool:AddToEntitiesToSellList(testBuildable, buildingsToSell)
 
     if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
-    
+
         return
     end
-    
+
     local buildingToSellCount = testBuildable.entities_to_sell.count
 
     for i = 1,buildingToSellCount do
@@ -437,7 +440,7 @@ function buildings_builder_tool:AddToEntitiesToSellList(testBuildable, buildings
         if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
 
             if ( IndexOf( buildingsToSell, entityToSell ) == nil ) then
-            
+
                 Insert( buildingsToSell, entityToSell )
             end
         end
@@ -445,9 +448,9 @@ function buildings_builder_tool:AddToEntitiesToSellList(testBuildable, buildings
 end
 
 function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
-    
+
     local count = #self.templateEntities
-    
+
     if ( count == 0 ) then
         return
     end
@@ -460,7 +463,7 @@ function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
 
         for i=1,#limitedBuildingsQueuesByName do
 
-            Insert( self.limitedBuildingsQueue, limitedBuildingsQueuesByName[i] ) 
+            Insert( self.limitedBuildingsQueue, limitedBuildingsQueuesByName[i] )
         end
 
         self.massBuildLimitMachine:ChangeState("working")
@@ -471,14 +474,14 @@ function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
         for i=1,#unlimitedBuildings do
 
             local buildingTemplate = unlimitedBuildings[i]
-            
+
             self:BuildEntity(buildingTemplate)
         end
     end
 end
 
 function buildings_builder_tool:FilterLimitedAndUnimited( onlyUnlimited )
-    
+
     local limitedBuildingsQueuesByName = {}
     local limitedBuildingsHash = {}
 
@@ -573,7 +576,7 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     end
 
     local transform = EntityService:GetWorldTransform( entity )
-       
+
     local testBuildable = self:CheckEntityBuildable( entity , transform, buildingTemplate.blueprint )
 
     if ( testBuildable == nil ) then
@@ -581,7 +584,7 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     end
 
     if ( testBuildable.flag == CBF_TO_CLOSE ) then
-    
+
         if ( buildingDesc.min_radius_effect ~= "" ) then
             QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, buildingDesc.min_radius_effect, entity, false)
         end
@@ -591,7 +594,7 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
         QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
-        
+
         return testBuildable.flag
     end
 
@@ -602,10 +605,10 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
         elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
             QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
         end
-        
+
         return testBuildable.flag
     end
-        
+
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
@@ -650,7 +653,7 @@ end
 
 function buildings_builder_tool:OnActivate()
 
-    self:FinishLineBuild( false )    
+    self:FinishLineBuild( false )
 end
 
 function buildings_builder_tool:OnDeactivate()
@@ -680,7 +683,7 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
     --   A B
     -- A 1 0
     -- B 0 1
-    local coefAA = 1 
+    local coefAA = 1
     local coefAB = 0
     local coefBA = 0
     local coefBB = 1
@@ -692,7 +695,7 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
         -- A  0 1
         -- B -1 0
 
-        coefAA = 0 
+        coefAA = 0
         coefAB = 1
         coefBA = -1
         coefBB = 0
@@ -703,7 +706,7 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
         -- A 0 -1
         -- B 1  0
 
-        coefAA = 0 
+        coefAA = 0
         coefAB = -1
         coefBA = 1
         coefBB = 0
@@ -720,7 +723,7 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
     self.transformZZ = newtransformZZ
 
     for buildingTemplate in Iter(self.templateEntities) do
-    
+
         EntityService:Rotate( buildingTemplate.entity, 0.0, 1.0, 0.0, degree )
 
         local deltaX, deltaZ = self:GetVectorDelta( buildingTemplate.positionX, buildingTemplate.positionZ )
@@ -729,7 +732,7 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
         newPosition.x = deltaX
         newPosition.y = 0
         newPosition.z = deltaZ
-            
+
         local entity = buildingTemplate.entity
 
         EntityService:SetPosition( buildingTemplate.entity, newPosition )
