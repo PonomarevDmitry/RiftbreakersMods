@@ -7,7 +7,7 @@ function ghost:__init()
 end
 
 function ghost:init()
-    
+
     self.stateMachine = self:CreateStateMachine()
     self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
     self.stateMachine:ChangeState("working")
@@ -21,7 +21,7 @@ end
 
 function ghost:InitializeValues()
     self.selector = EntityService:GetParent( self.entity )
-    
+
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
     self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
@@ -30,7 +30,7 @@ function ghost:InitializeValues()
     self.playerId = playerReferenceComponent.player_id
 
     local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent"))
-    self.blueprint = buildingComponent.bp 
+    self.blueprint = buildingComponent.bp
 
     self.desc = reflection_helper(BuildingService:GetBuildingDesc( self.blueprint ))
 
@@ -44,13 +44,18 @@ function ghost:InitializeValues()
 
     local boundsSize = EntityService:GetBoundsSize( self.selector)
     self.activated = false
-    
-    self.annoucements = { ["ai"] = "voice_over/announcement/not_enough_ai_cores",
-    ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
-    ["steel"] = "voice_over/announcement/not_enough_steel",
-    ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
-    ["palladium"] = "voice_over/announcement/not_enough_palladium",
-    ["titanium"] = "voice_over/announcement/not_enough_titanium" }
+
+    self.annoucements = {
+        ["ai"] = "voice_over/announcement/not_enough_ai_cores",
+
+        ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
+        ["steel"] = "voice_over/announcement/not_enough_steel",
+
+        ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
+        ["palladium"] = "voice_over/announcement/not_enough_palladium",
+        ["titanium"] = "voice_over/announcement/not_enough_titanium",
+        ["uranium"] = "voice_over/announcement/not_enough_uranium"
+    }
 
     --showed_change_info
     if ( self.desc.rotate_info == true and ConsoleService:GetConfig( "showed_rotate_info" ) == "0" ) then
@@ -86,17 +91,17 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
     end
 
     local testReflection = reflection_helper(test:ToTypeInstance(), test )
-    
+
     --LogService:Log("Flag: " .. tostring(testReflection.flag ))
     --LogService:Log("Missing resources: " .. tostring(testReflection.missing_resources))
     --LogService:Log("Entity to repair: " .. tostring(testReflection.entity_to_repair )  )
     --LogService:Log("Entity to sell: " .. tostring(testReflection.entities_to_sell ))
     --LogService:Log("Free grids: " .. tostring(testReflection.free_grids ))
 
-    
+
     local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
     local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
-    
+
     local skinned = EntityService:IsSkinned(entity)
 
     if ( testReflection.flag == CBF_REPAIR  ) then
@@ -128,7 +133,7 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
     end
 
     if ( self.activated and checkActive ) then
-        if ( BuildingService:BlinkBuildingSelector(self.selector, entity ) ) then 
+        if ( BuildingService:BlinkBuildingSelector(self.selector, entity ) ) then
             if ( testReflection.flag == CBF_TO_CLOSE ) then
                 if ( self.toCloseAnnoucement ~= "" ) then
                     QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
@@ -142,7 +147,7 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
                     QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", entity, false )
                 elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
                     QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
-                end        
+                end
             end
         end
     end
