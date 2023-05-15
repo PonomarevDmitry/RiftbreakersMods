@@ -1,30 +1,30 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-class 'eraser_ruins_tool' ( tool )
+class 'sell_ruins_eraser_tool' ( tool )
 
-function eraser_ruins_tool:__init()
+function sell_ruins_eraser_tool:__init()
     tool.__init(self,self)
 end
 
-function eraser_ruins_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser_ruins_tool", self.entity)
+function sell_ruins_eraser_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_ruins_eraser_tool", self.entity)
 
     self.previousMarkedRuins = {}
     self.radiusShowRuins = 100.0
 end
 
-function eraser_ruins_tool:SpawnCornerBlueprint()
+function sell_ruins_eraser_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_gold", self.entity )
     end
 end
 
-function eraser_ruins_tool:GetScaleFromDatabase()
+function sell_ruins_eraser_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function eraser_ruins_tool:FindEntitiesToSelect( selectorComponent )
+function sell_ruins_eraser_tool:FindEntitiesToSelect( selectorComponent )
 
     local possibleSelectedEnts = {}
 
@@ -45,17 +45,17 @@ function eraser_ruins_tool:FindEntitiesToSelect( selectorComponent )
     end
 
     local selectorPosition = selectorComponent.position
-    
+
     local sorter = function( t, lhs, rhs )
         local p1 = EntityService:GetPosition( lhs )
         local p2 = EntityService:GetPosition( rhs )
         local d1 = Distance( selectorPosition, p1 )
         local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2 
+        return d1 < d2
     end
 
-    table.sort(possibleSelectedEnts, function(a,b) 
-        return sorter(possibleSelectedEnts, a, b) 
+    table.sort(possibleSelectedEnts, function(a,b)
+        return sorter(possibleSelectedEnts, a, b)
     end)
 
     local selectedEntities = {}
@@ -66,11 +66,11 @@ function eraser_ruins_tool:FindEntitiesToSelect( selectorComponent )
 
         ::continue::
     end
-    
+
     return selectedEntities
 end
 
-function eraser_ruins_tool:AddedToSelection( entity )
+function sell_ruins_eraser_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned( entity )
 
@@ -81,27 +81,27 @@ function eraser_ruins_tool:AddedToSelection( entity )
     end
 end
 
-function eraser_ruins_tool:RemovedFromSelection( entity )
+function sell_ruins_eraser_tool:RemovedFromSelection( entity )
 
     EntityService:RemoveMaterial( entity, "selected" )
 end
 
-function eraser_ruins_tool:OnUpdate()
-    
+function sell_ruins_eraser_tool:OnUpdate()
+
     local ruinsList = self:FindBuildingRuins()
-    
+
     self.previousMarkedRuins = self.previousMarkedRuins or {}
-    
+
     for entity in Iter( self.previousMarkedRuins ) do
-    
+
         -- If the building is not included in the new list
         if ( IndexOf( ruinsList, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
             self:RemovedFromSelection( entity )
         end
     end
-    
+
     for entity in Iter( ruinsList ) do
-        
+
         local skinned = EntityService:IsSkinned( entity )
         if ( skinned ) then
             EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
@@ -109,20 +109,20 @@ function eraser_ruins_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
         end
     end
-    
+
     self.previousMarkedRuins = ruinsList
 end
 
-function eraser_ruins_tool:FindBuildingRuins()
+function sell_ruins_eraser_tool:FindBuildingRuins()
 
     local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
     local buildings = FindService:FindEntitiesByGroupInRadius( player, "##ruins##", self.radiusShowRuins )
-    
+
     local result = {}
-    
+
     for entity in Iter( buildings ) do
-    
+
         if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
             goto continue
         end
@@ -131,21 +131,21 @@ function eraser_ruins_tool:FindBuildingRuins()
 
         ::continue::
     end
-    
+
     return result
 end
 
-function eraser_ruins_tool:OnActivateEntity( entity )
+function sell_ruins_eraser_tool:OnActivateEntity( entity )
 
     EntityService:SetGroup( entity, "" )
-        
+
     BuildingService:BlinkBuilding( entity )
-        
+
     QueueEvent( "DissolveEntityRequest", entity, 1.0, 0 )
 end
 
-function eraser_ruins_tool:OnRelease()
-    
+function sell_ruins_eraser_tool:OnRelease()
+
     if ( self.previousMarkedRuins ~= nil) then
         for ent in Iter( self.previousMarkedRuins ) do
             self:RemovedFromSelection( ent )
@@ -153,10 +153,13 @@ function eraser_ruins_tool:OnRelease()
     end
     self.previousMarkedRuins = {}
 
-    tool.OnRelease(self)
+    if ( tool.OnRelease ) then
+
+        tool.OnRelease(self)
+    end
 end
 
-function eraser_ruins_tool:OnRotate()
+function sell_ruins_eraser_tool:OnRotate()
 end
 
-return eraser_ruins_tool
+return sell_ruins_eraser_tool

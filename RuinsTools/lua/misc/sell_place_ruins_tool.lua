@@ -1,27 +1,27 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/reflection.lua")
 
-class 'sell_place_ruin_tool' ( tool )
+class 'sell_place_ruins_tool' ( tool )
 
-function sell_place_ruin_tool:__init()
+function sell_place_ruins_tool:__init()
     tool.__init(self,self)
 end
 
-function sell_place_ruin_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_place_ruin_tool", self.entity)
+function sell_place_ruins_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell_place_ruins_tool", self.entity)
 end
 
-function sell_place_ruin_tool:SpawnCornerBlueprint()
+function sell_place_ruins_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_gold", self.entity )
     end
 end
 
-function sell_place_ruin_tool:GetScaleFromDatabase()
+function sell_place_ruins_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function sell_place_ruin_tool:AddedToSelection( entity )
+function sell_place_ruins_tool:AddedToSelection( entity )
 
     local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
     if ( buildingComponent == nil ) then
@@ -49,11 +49,11 @@ function sell_place_ruin_tool:AddedToSelection( entity )
     end
 end
 
-function sell_place_ruin_tool:RemovedFromSelection( entity )
+function sell_place_ruins_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function sell_place_ruin_tool:FilterSelectedEntities( selectedEntities )
+function sell_place_ruins_tool:FilterSelectedEntities( selectedEntities )
 
     local result = {}
 
@@ -75,7 +75,7 @@ function sell_place_ruin_tool:FilterSelectedEntities( selectedEntities )
     return result
 end
 
-function sell_place_ruin_tool:OnUpdate()
+function sell_place_ruins_tool:OnUpdate()
 
     self.sellCosts = {}
 
@@ -103,10 +103,10 @@ function sell_place_ruin_tool:OnUpdate()
     end
 end
 
-function sell_place_ruin_tool:OnRotate()
+function sell_place_ruins_tool:OnRotate()
 end
 
-function sell_place_ruin_tool:OnActivateEntity( entity )
+function sell_place_ruins_tool:OnActivateEntity( entity )
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
@@ -142,4 +142,4 @@ function sell_place_ruin_tool:OnActivateEntity( entity )
     LogService:Log("ruinsBlueprint " .. ruinsBlueprint .. " MeshComponent " .. tostring(reflection_helper( EntityService:GetComponent( newRuinsEntity, "MeshComponent") )) )
 end
 
-return sell_place_ruin_tool
+return sell_place_ruins_tool
