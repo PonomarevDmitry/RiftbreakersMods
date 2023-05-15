@@ -10,7 +10,7 @@ function hq_move_tool:__init()
 end
 
 function hq_move_tool:init()
-    
+
     self.stateMachine = self:CreateStateMachine()
     self.stateMachine:AddState( "working", { execute="OnWorkExecute" } )
     self.stateMachine:ChangeState("working")
@@ -30,27 +30,30 @@ function hq_move_tool:InitializeValues()
     self.playerId = playerReferenceComponent.player_id
 
     local buildingComponent = reflection_helper( EntityService:GetComponent( self.entity, "BuildingComponent") )
-    self.blueprint = buildingComponent.bp 
+    self.blueprint = buildingComponent.bp
 
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
     EntityService:SetVisible( self.entity , false )
-    
+
     self.markerEntity = EntityService:SpawnAndAttachEntity( "misc/marker_selector_hq_move_tool", self.selector )
-    
+
     self.hq = nil
     self.ghostHQ = nil
     self.buildCost = {}
-    
-    self.annoucements = { 
+
+    self.annoucements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
+
         ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
         ["steel"] = "voice_over/announcement/not_enough_steel",
+
         ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
         ["palladium"] = "voice_over/announcement/not_enough_palladium",
-        ["titanium"] = "voice_over/announcement/not_enough_titanium" 
+        ["titanium"] = "voice_over/announcement/not_enough_titanium",
+        ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
 
     self:SpawnBuildinsTemplates()
@@ -62,7 +65,7 @@ end
 function hq_move_tool:SpawnBuildinsTemplates()
 
     local markerDB = EntityService:GetDatabase( self.markerEntity )
-    
+
     local findResult = FindService:FindEntityByName( "headquarters" )
 
     if ( findResult == nil or findResult == INVALID_ID ) then
@@ -140,7 +143,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
     EntityService:SetOrientation( buildingEntity, orientation )
 
     EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
-    
+
     self.buildingDesc = buildingDesc
     self.ghostHQ = buildingEntity
     self.hqBlueprint = hqBlueprint
@@ -290,7 +293,7 @@ function hq_move_tool:CheckEntityBuildable( entity, transform, blueprint, id )
     end
 
     local testBuildable = reflection_helper(checkStatus:ToTypeInstance(), checkStatus )
-    
+
     if ( testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_LIMITS  ) then
         EntityService:ChangeMaterial( entity, "selector/hologram_blue")
     else
@@ -377,29 +380,29 @@ function hq_move_tool:OnActivateSelectorRequest()
     local builder = EntityService:SpawnEntity( "buildings/main/hq_move_tool/builder", transformToNewHQ.position, EntityService:GetTeam(self.entity) )
 
     EntityService:SetOrientation( builder, transformToNewHQ.orientation )
-    
+
     local database = EntityService:GetDatabase( builder )
-    
+
     database:SetInt("playerId", self.playerId )
-    
+
     database:SetInt("hq", self.hq )
     database:SetInt("ghostHQ", self.ghostHQ )
-    
+
     database:SetString("paidResources", paidResources )
     database:SetString("hq_blueprint", self.buildingDesc.bp )
-    
+
     database:SetFloat("position.x", transformToNewHQ.position.x )
     database:SetFloat("position.y", transformToNewHQ.position.y )
     database:SetFloat("position.z", transformToNewHQ.position.z )
-    
+
     database:SetFloat("orientation.x", transformToNewHQ.orientation.x )
     database:SetFloat("orientation.y", transformToNewHQ.orientation.y )
     database:SetFloat("orientation.z", transformToNewHQ.orientation.z )
     database:SetFloat("orientation.w", transformToNewHQ.orientation.w )
-    
+
     self.ghostHQ = nil
     self.buildCost = {}
-    
+
     EntityService:RemoveMaterial( self.hq, "selected" )
     self.hq = nil
 
