@@ -19,9 +19,9 @@ function ghost_building:OnInit()
     self:CheckEntityBuildable( self.entity , transform )
     self:RegisterHandler( INVALID_ID, "BuildingStartEvent", "OnBuildingStartEvent" )
 
-    self.originalGhostBlueprint = self.ghostBlueprint;
+    self.originalGhostBlueprint = self.ghostBlueprint
 
-    self.ghostBlueprint = self.data:GetStringOrDefault("building_blueprint", "");
+    self.ghostBlueprint = self.data:GetStringOrDefault("building_blueprint", "")
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
 
     self.nowBuildingLine = false
@@ -30,13 +30,6 @@ function ghost_building:OnInit()
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
-
-    self.limitedBuildingsQueue = {}
-
-    self.massBuildLimitMachine = self:CreateStateMachine()
-    self.massBuildLimitMachine:AddState( "working", { execute = "_massBuildLimitMachineWorking", interval = 0.05 } )
-    self.massBuildLimitMachine:AddState( "idle", { interval = 10.0 } )
-    self.massBuildLimitMachine:ChangeState("idle")
 end
 
 function ghost_building:OnBuildingStartEvent( evt)
@@ -73,129 +66,129 @@ function ghost_building:OnUpdate()
     if ( self.nowBuildingLine and self.buildStartPosition ) then
 
         local positionY = self.buildStartPosition.position.y
-    
+
         local team = EntityService:GetTeam(self.entity)
-    
+
         local currentTransform = EntityService:GetWorldTransform( self.entity )
-        
+
         local buildEndPosition = currentTransform.position
-        
+
         local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition )
-        
+
         if ( self.gridEntities == nil ) then
             self.gridEntities = {}
         end
-        
+
         local positionX, positionZ
 
         if ( #self.gridEntities > #arrayX ) then
-        
+
             for xIndex=#self.gridEntities,#arrayX + 1,-1 do
-            
+
                 local gridEntitiesZ = self.gridEntities[xIndex]
-                
+
                 for zIndex=1,#gridEntitiesZ do
-                
+
                     EntityService:RemoveEntity(gridEntitiesZ[zIndex])
-                    
+
                     gridEntitiesZ[zIndex] = nil
                 end
-                
+
                 self.gridEntities[xIndex] = nil
             end
-            
+
         elseif ( #self.gridEntities < #arrayX ) then
-        
+
             for xIndex=#self.gridEntities + 1 ,#arrayX do
-                
+
                 positionX = arrayX[xIndex]
-            
+
                 local gridEntitiesZ = {}
-                
+
                 self.gridEntities[xIndex] = gridEntitiesZ
-                
+
                 for zIndex=1,#arrayZ do
-                
+
                     positionZ = arrayZ[zIndex]
-            
+
                     local newPosition = {}
-                    
+
                     newPosition.x = positionX
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
                     local lineEnt = self:CreateNewEntity(newPosition, currentTransform.orientation, team)
-                    
+
                     Insert(gridEntitiesZ, lineEnt)
                 end
             end
         end
-        
+
         for xIndex=1,#arrayX do
-                
+
             positionX = arrayX[xIndex]
-        
+
             local gridEntitiesZ = self.gridEntities[xIndex]
-            
+
             if ( #gridEntitiesZ > #arrayZ ) then
-            
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do 
+
+                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
                     EntityService:RemoveEntity(gridEntitiesZ[zIndex])
                     gridEntitiesZ[zIndex] = nil
                 end
-                
+
             elseif ( #gridEntitiesZ < #arrayZ ) then
-            
+
                 for zIndex=#gridEntitiesZ + 1 ,#arrayZ do
-                
+
                     positionZ = arrayZ[zIndex]
-            
+
                     local newPosition = {}
-                    
+
                     newPosition.x = positionX
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
                     local lineEnt = self:CreateNewEntity(newPosition, currentTransform.orientation, team)
-                    
+
                     Insert(gridEntitiesZ, lineEnt)
                 end
             end
         end
-        
+
         for xIndex=1,#arrayX do
-        
+
             positionX = arrayX[xIndex]
-            
+
             local gridEntitiesZ = self.gridEntities[xIndex]
-            
+
             for zIndex=1,#arrayZ do
-                
+
                 positionZ = arrayZ[zIndex]
-        
+
                 local newPosition = {}
-                
+
                 newPosition.x = positionX
                 newPosition.y = positionY
                 newPosition.z = positionZ
-                
+
                 local transform = {}
                 transform.scale = currentTransform.scale
                 transform.orientation = currentTransform.orientation
                 transform.position = newPosition
-                
-                local lineEnt = gridEntitiesZ[zIndex];
+
+                local lineEnt = gridEntitiesZ[zIndex]
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetOrientation( lineEnt, transform.orientation )
-                
+
                 local id = (xIndex -1 ) * #arrayX + zIndex
-                
+
                 local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, id, false )
 
-                if ( testBuildable ~= nil) then    
+                if ( testBuildable ~= nil) then
                     self:AddToEntitiesToSellList(testBuildable)
                 end
-                
+
                 BuildingService:CheckAndFixBuildingConnection(lineEnt)
             end
         end
@@ -207,17 +200,17 @@ function ghost_building:OnUpdate()
                self.buildCost[resourceCost.first] = 0
             end
 
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ ) 
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ )
         end
     else
 
         local currentTransform = EntityService:GetWorldTransform( self.entity )
         local testBuildable = self:CheckEntityBuildable( self.entity , currentTransform, false )
-    
+
         if ( testBuildable ~= nil) then
             self:AddToEntitiesToSellList(testBuildable)
         end
-        
+
         BuildingService:CheckAndFixBuildingConnection(self.entity)
     end
 
@@ -261,7 +254,7 @@ function ghost_building:FindPositionsToBuildLine(buildStartPosition, buildEndPos
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
 
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
-    
+
     local deltaX = gridSize.x * 2 * xSign
     local deltaZ = gridSize.z * 2 * zSign
 
@@ -270,47 +263,47 @@ function ghost_building:FindPositionsToBuildLine(buildStartPosition, buildEndPos
 
     local buildEndPositionX = buildEndPosition.x + smallDeltaX
     local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
-    
+
     local minX = math.min( buildStartPosition.x, buildEndPositionX )
     local maxX = math.max( buildStartPosition.x, buildEndPositionX )
-    
+
     local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
     local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
-    
+
     local arrayX = {}
-    
+
     local positionX = buildStartPosition.x
-    
+
     while (minX <= positionX and positionX <= maxX) do
-    
+
         Insert(arrayX, positionX)
-        
+
         positionX = positionX + deltaX
     end
-    
+
     local arrayZ = {}
-    
+
     local positionZ = buildStartPosition.z
 
     while (minZ <= positionZ and positionZ <= maxZ) do
-    
+
         Insert(arrayZ, positionZ)
-        
+
         positionZ = positionZ + deltaZ
     end
-    
+
     return arrayX, arrayZ
 end
 
 function ghost_building:GetXZSigns(positionStart, positionEnd)
-                
+
     local xSign = -1
     local zSign = -1
-    
+
     if( positionEnd.x >= positionStart.x ) then
         xSign = 1
     end
-    
+
     if( positionEnd.z >= positionStart.z ) then
         zSign = 1
     end
@@ -321,10 +314,10 @@ end
 function ghost_building:AddToEntitiesToSellList(testBuildable)
 
     if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
-    
+
         return
     end
-    
+
     local buildingToSellCount = testBuildable.entities_to_sell.count
 
     for i = 1,buildingToSellCount do
@@ -342,7 +335,7 @@ function ghost_building:AddToEntitiesToSellList(testBuildable)
                 else
                     EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
                 end
-            
+
                 Insert(self.oldBuildingsToSell, entityToSell)
             end
         end
@@ -352,7 +345,7 @@ end
 function ghost_building:BuildEntity(entity)
 
     local transform = EntityService:GetWorldTransform( entity )
-       
+
     local testBuildable = self:CheckEntityBuildable( entity , transform, false )
 
     if ( testBuildable == nil ) then
@@ -376,8 +369,8 @@ function ghost_building:BuildEntity(entity)
     end
 
     local missingResources = testBuildable.missing_resources
-    if ( missingResources.count  > 0 ) then
-        if ( missingResources.count  > 1 ) then
+    if ( missingResources.count > 0 ) then
+        if ( missingResources.count > 1 ) then
             QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", entity, false )
         elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
             QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
@@ -395,7 +388,7 @@ function ghost_building:BuildEntity(entity)
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
         QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
-    elseif( testBuildable.flag == CBF_REPAIR  ) then
+    elseif( testBuildable.flag == CBF_REPAIR ) then
         QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
     end
 
@@ -405,17 +398,17 @@ end
 function ghost_building:OnActivate()
 
     if ( self.buildStartPosition == nil ) then
-    
-        self.nowBuildingLine = true;
-    
+
+        self.nowBuildingLine = true
+
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
         EntityService:SetVisible( self.entity , false )
-        
+
         self:OnUpdate()
     else
-        self:FinishLineBuild() 
-    end   
+        self:FinishLineBuild()
+    end
 end
 
 function ghost_building:FinishLineBuild()
@@ -425,33 +418,52 @@ function ghost_building:FinishLineBuild()
     end
 
     if ( self.nowBuildingLine ~= true ) then
-    
+
         return
     end
-    
+
     local allEntities = self:GetAllEntities()
-    
+
     local count = #allEntities
-    
+
     if ( count > 0 ) then
 
         if ( self.desc ~= nil and ( (self.desc.limit ~= nil and self.desc.limit > 0) or (self.desc.map_limit ~= nil and self.desc.map_limit > 0) ) ) then
 
-            if ( self.limitedBuildingsQueue == nil ) then
-                self.limitedBuildingsQueue = {}
+            local delimiterEntities = "|"
+
+            local entitiesListArray = {}
+
+            for entityId in Iter( allEntities ) do
+
+                if ( #entitiesListArray > 0 ) then
+
+                    Insert( entitiesListArray, delimiterEntities )
+                end
+
+                local entityString = tostring(entityId)
+
+                Insert( entitiesListArray, entityString )
             end
 
-            Insert( self.limitedBuildingsQueue, allEntities )
+            local entitiesListString = table.concat( entitiesListArray )
 
-            self.massBuildLimitMachine:ChangeState("working")
+            local builder = EntityService:SpawnEntity( "misc/mass_limited_buildings_builder", self.entity, "" )
+
+            local database = EntityService:GetDatabase( builder )
+
+            database:SetInt( "playerId", self.playerId )
+
+            database:SetString( "entities_list", entitiesListString )
+
         else
 
             for i=1,count do
-            
+
                 local ghost = allEntities[i]
-            
+
                 self:BuildEntity(ghost)
-            
+
                 EntityService:RemoveEntity(ghost)
             end
         end
@@ -460,55 +472,10 @@ function ghost_building:FinishLineBuild()
     EntityService:SetVisible( self.entity , true )
 
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
-    
+
     self.gridEntities = {}
     self.buildStartPosition = nil
-    self.nowBuildingLine = false;
-end
-
-function ghost_building:_massBuildLimitMachineWorking( state )
-
-    if ( self.limitedBuildingsQueue == nil ) then
-        self.limitedBuildingsQueue = {}
-    end
-
-    if ( #self.limitedBuildingsQueue == 0 ) then
-        self.massBuildLimitMachine:ChangeState("idle")
-        return
-    end
-
-    local allEntities = self.limitedBuildingsQueue[1]
-
-    if ( #allEntities == 0) then
-
-        Remove( self.limitedBuildingsQueue, allEntities )
-        return
-    end
-
-    local ghost = allEntities[1]
-    Remove( allEntities, ghost )
-
-    local testBuildableFlag = self:BuildEntity(ghost)
-    EntityService:RemoveEntity(ghost)
-
-    if ( #allEntities == 0) then
-
-        Remove( self.limitedBuildingsQueue, allEntities )
-        return
-    end
-
-    if( testBuildableFlag == CBF_LIMITS ) then
-
-        if ( #allEntities > 0 ) then
-
-            for index=1,#allEntities do
-                local entity = allEntities[index]
-                EntityService:RemoveEntity(entity)
-            end
-
-            Remove( self.limitedBuildingsQueue, allEntities )
-        end
-    end
+    self.nowBuildingLine = false
 end
 
 function ghost_building:GetAllEntities()
@@ -516,17 +483,17 @@ function ghost_building:GetAllEntities()
     local result = {}
 
     for xIndex=1,#self.gridEntities do
-        
+
         local gridEntitiesZ = self.gridEntities[xIndex]
-        
+
         for zIndex=1,#gridEntitiesZ do
-        
+
             local entity = gridEntitiesZ[zIndex]
-            
+
             Insert(result, entity)
         end
     end
-    
+
     return result
 end
 
@@ -569,14 +536,6 @@ function ghost_building:OnRelease()
         end
     end
 
-    if ( self.limitedBuildingsQueue ~= nil) then
-        for arrayBuildings in Iter(self.limitedBuildingsQueue) do
-            for ghost in Iter(arrayBuildings) do
-                EntityService:RemoveEntity(ghost)
-            end
-        end
-    end
-    
     self.gridEntities = {}
     self.nowBuildingLine = false
     self.buildStartPosition = nil
