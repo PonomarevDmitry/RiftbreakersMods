@@ -7,6 +7,10 @@ function buildings_picker_tool:__init()
     tool.__init(self,self)
 end
 
+function buildings_picker_tool:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
 function buildings_picker_tool:OnInit()
 
     local marker = self.data:GetString("marker")
@@ -19,10 +23,20 @@ function buildings_picker_tool:OnInit()
 
     self.template_name = self.data:GetString("template_name")
 
-    self:FillMarkerMessage( true )
+    self:FillMarkerMessage()
 end
 
-function buildings_picker_tool:FillMarkerMessage( isInitialize )
+function buildings_picker_tool:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
+end
+
+function buildings_picker_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
+end
+
+function buildings_picker_tool:HideMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
@@ -33,9 +47,28 @@ function buildings_picker_tool:FillMarkerMessage( isInitialize )
         return
     end
 
-    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" )
-    if ( templateString == nil ) then
-        templateString = ""
+    markerDB:SetString("message_text", "")
+    markerDB:SetInt("message_visible", 0)
+end
+
+function buildings_picker_tool:FillMarkerMessage()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
+    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
+
+    if ( templateString == "" ) then
+
+        markerDB:SetString("message_text", "")
+        markerDB:SetInt("message_visible", 0)
+        return
     end
 
     local delimiterBlueprintsGroups = "|";
@@ -43,121 +76,111 @@ function buildings_picker_tool:FillMarkerMessage( isInitialize )
     local delimiterEntitiesArray = ";";
     local delimiterBetweenCoordinates = ",";
 
-    if ( templateString ~= "" ) then
+    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
 
-        if ( isInitialize ) then
+    local listIconsNames = {}
+    local hashIconsCount = {}
 
-            local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
+    for template in Iter( blueprintsGroupsArray ) do
 
-            local listIconsNames = {}
-            local hashIconsCount = {}
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
 
-            for template in Iter( blueprintsGroupsArray ) do
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
 
-                -- Split by ":" blueprint template
-                local blueprintValuesArray = Split( template, delimiterBlueprintName )
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
 
-                -- Only 2 values in blueprintValuesArray
-                if ( #blueprintValuesArray ~= 2 ) then
-                    goto continue
-                end
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
 
-                -- First blueprintName
-                local blueprintName = blueprintValuesArray[1]
-                -- Second array with entities coordinates
-                local entitiesCoordinatesString = blueprintValuesArray[2]
+        local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( blueprintBuildingDesc == nil ) then
+            goto continue
+        end
 
-                if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-                    goto continue
-                end
+        local buildingDesc = reflection_helper( blueprintBuildingDesc )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
 
-                local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-                if ( blueprintBuildingDesc == nil ) then
-                    goto continue
-                end
+        local menuIcon = buildingDesc.menu_icon or ""
 
-                local buildingDesc = reflection_helper( blueprintBuildingDesc )
-                if ( buildingDesc == nil ) then
-                    goto continue
-                end
+        if ( menuIcon == "" ) then
 
-                local menuIcon = buildingDesc.menu_icon or ""
+            for i=1,buildingDesc.connect.count do
 
-                if ( menuIcon == "" ) then
+                local connectRecord = buildingDesc.connect[i]
 
-                    for i=1,buildingDesc.connect.count do
+                for j=1,connectRecord.value.count do
 
-                        local connectRecord = buildingDesc.connect[i]
+                    local connectBlueprintName = connectRecord.value[j]
 
-                        for j=1,connectRecord.value.count do
+                    local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
 
-                            local connectBlueprintName = connectRecord.value[j]
-
-                            local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
-
-                            if ( connectMenuIcon ~= "" ) then
-                                menuIcon = connectMenuIcon
-                                goto icon_found
-                            end
-                        end
+                    if ( connectMenuIcon ~= "" ) then
+                        menuIcon = connectMenuIcon
+                        goto icon_found
                     end
-                end
-
-                ::icon_found::
-
-                if ( menuIcon == "" ) then
-                    goto continue
-                end
-
-                -- Split array of coordinates by ";"
-                local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
-                if ( #entitiesCoordinatesArray > 0) then
-
-                    if ( hashIconsCount[menuIcon] == nil ) then
-
-                        Insert( listIconsNames, menuIcon )
-
-                        hashIconsCount[menuIcon] = 0
-                    end
-
-                    hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + #entitiesCoordinatesArray
-                end
-
-                ::continue::
-            end
-
-            local markerText = ""
-
-            for menuIcon in Iter( listIconsNames ) do
-
-                local count = hashIconsCount[menuIcon]
-
-                if ( count > 0 ) then
-
-                    if ( string.len(markerText) > 0 ) then
-
-                        markerText = markerText .. ", "
-                    end
-
-                    markerText = markerText .. '<img="' .. menuIcon .. '"> ' .. tostring(count)
                 end
             end
+        end
+
+        ::icon_found::
+
+        if ( menuIcon == "" ) then
+            goto continue
+        end
+
+        -- Split array of coordinates by ";"
+        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
+        if ( #entitiesCoordinatesArray > 0) then
+
+            if ( hashIconsCount[menuIcon] == nil ) then
+
+                Insert( listIconsNames, menuIcon )
+
+                hashIconsCount[menuIcon] = 0
+            end
+
+            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + #entitiesCoordinatesArray
+        end
+
+        ::continue::
+    end
+
+    local markerText = ""
+
+    for menuIcon in Iter( listIconsNames ) do
+
+        local count = hashIconsCount[menuIcon]
+
+        if ( count > 0 ) then
 
             if ( string.len(markerText) > 0 ) then
 
-                markerDB:SetString("message_text", markerText)
-            else
-
-                markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/template_already_created")
+                markerText = markerText .. ", "
             end
 
-            markerDB:SetInt("message_visible", 1)
-            return
+            markerText = markerText .. '<img="' .. menuIcon .. '"> ' .. tostring(count)
         end
     end
 
-    markerDB:SetString("message_text", "")
-    markerDB:SetInt("message_visible", 0)
+    if ( string.len(markerText) > 0 ) then
+
+        markerDB:SetString("message_text", markerText)
+    else
+
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/template_already_created")
+    end
+
+    markerDB:SetInt("message_visible", 1)
 end
 
 function buildings_picker_tool:GetBuildingMenuIcon( blueprintName )
@@ -181,15 +204,11 @@ function buildings_picker_tool:GetBuildingMenuIcon( blueprintName )
     return menuIcon
 end
 
-function buildings_picker_tool:OnPreInit()
-    self.initialScale = { x=1, y=1, z=1 }
-end
-
-function buildings_picker_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
-end
-
 function buildings_picker_tool:AddedToSelection( entity )
+end
+
+function buildings_picker_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function buildings_picker_tool:OnUpdate()
@@ -251,16 +270,6 @@ function buildings_picker_tool:OnUpdate()
     end
 end
 
-function buildings_picker_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
-    end
-end
-
-function buildings_picker_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial( entity, "selected" )
-end
-
 function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
@@ -275,22 +284,6 @@ function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
     ruins = self:FilterSelectedEntities( ruins )
 
     ConcatUnique( selectedItems, ruins )
-
-    --for ent in Iter( self.selectedEntities ) do
-    --    if ( IndexOf( ruins, ent ) == nil and IndexOf( selectedItems, ent ) == nil ) then
-    --        self:RemovedFromSelection( entity )
-    --    end
-    --end
-    --
-    --for entity in Iter( ruins ) do
-    --
-    --    if ( IndexOf( self.selectedEntities, entity ) == nil ) then
-    --
-    --        if ( self.activated )  then
-    --            self:OnActivateEntity( entity )
-    --        end
-    --    end
-    --end
 
     return selectedItems
 end
@@ -364,7 +357,7 @@ function buildings_picker_tool:OnActivateSelectorRequest()
     end
 
     self:SaveEntitiesToDatabase()
-    self:FillMarkerMessage( false )
+    self:HideMarkerMessage( false )
 end
 
 function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreSaveToDatabase )
@@ -382,7 +375,7 @@ function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreS
 
     if ( not ignoreSaveToDatabase ) then
         self:SaveEntitiesToDatabase()
-        self:FillMarkerMessage( false )
+        self:HideMarkerMessage()
     end
 end
 
@@ -521,7 +514,9 @@ function buildings_picker_tool:OnRelease()
         EntityService:RemoveEntity(self.childEntity)
     end
 
-    tool.OnRelease(self)
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
 end
 
 return buildings_picker_tool
