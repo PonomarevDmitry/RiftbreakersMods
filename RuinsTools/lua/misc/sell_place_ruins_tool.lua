@@ -50,7 +50,7 @@ function sell_place_ruins_tool:AddedToSelection( entity )
 end
 
 function sell_place_ruins_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function sell_place_ruins_tool:FilterSelectedEntities( selectedEntities )
@@ -101,7 +101,7 @@ function sell_place_ruins_tool:OnUpdate()
         BuildingService:OperateSellCosts( self.infoChild, self.playerId, self.sellCosts )
         BuildingService:OperateSellCosts( self.corners, self.playerId, {} )
     else
-        BuildingService:OperateSellCosts( self.infoChild , self.playerId,{} )
+        BuildingService:OperateSellCosts( self.infoChild , self.playerId, {} )
         BuildingService:OperateSellCosts( self.corners, self.playerId, self.sellCosts )
     end
 end
