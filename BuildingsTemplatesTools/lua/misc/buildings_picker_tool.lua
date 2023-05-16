@@ -24,6 +24,10 @@ function buildings_picker_tool:OnInit()
     self.template_name = self.data:GetString("template_name")
 
     self:FillMarkerMessage()
+
+    self.previousMarkedRuins = {}
+    -- Radius from player to highlight
+    self.radiusShowRuins = 100.0
 end
 
 function buildings_picker_tool:GetScaleFromDatabase()
@@ -213,6 +217,10 @@ end
 
 function buildings_picker_tool:OnUpdate()
 
+    self:HighlightRuins()
+
+
+
     local firstEntity = nil
 
     if ( #self.templateEntities > 0 ) then
@@ -242,7 +250,7 @@ function buildings_picker_tool:OnUpdate()
         end
     end
 
-    for entity in Iter(self.selectedEntities ) do
+    for entity in Iter( self.selectedEntities ) do
 
         local skinned = EntityService:IsSkinned(entity)
 
@@ -268,6 +276,74 @@ function buildings_picker_tool:OnUpdate()
             end
         end
     end
+end
+
+function buildings_picker_tool:HighlightRuins()
+
+    local ruinsList = self:FindBuildingRuins()
+
+    self.previousMarkedRuins = self.previousMarkedRuins or {}
+
+    -- Remove highlighting from previous ruins
+    for ruinEntity in Iter( self.previousMarkedRuins ) do
+
+        -- If the ruin is not included in the new list
+        if ( IndexOf( ruinsList, ruinEntity ) == nil and IndexOf( self.selectedEntities, ruinEntity ) == nil and IndexOf( self.templateEntities, ruinEntity ) == nil ) then
+            EntityService:RemoveMaterial( ruinEntity, "selected" )
+        end
+    end
+
+    for ruinEntity in Iter( ruinsList ) do
+
+        local skinned = EntityService:IsSkinned( ruinEntity )
+        if ( skinned ) then
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
+        else
+            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
+        end
+    end
+
+    self.previousMarkedRuins = ruinsList
+end
+
+function buildings_picker_tool:FindBuildingRuins()
+
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
+
+    local ruinsList = FindService:FindEntitiesByGroupInRadius( player, "##ruins##", self.radiusShowRuins )
+
+    local result = {}
+
+    for ruinEntity in Iter( ruinsList ) do
+
+        if ( IndexOf( self.selectedEntities, ruinEntity ) ~= nil ) then
+            goto continue
+        end
+
+        if ( IndexOf( self.templateEntities, ruinEntity ) ~= nil ) then
+            goto continue
+        end
+
+        local database = EntityService:GetDatabase( ruinEntity )
+        if ( database == nil ) then
+            goto continue
+        end
+
+        if ( not database:HasString("blueprint") ) then
+            goto continue
+        end
+
+        local ruinsBlueprint = database:GetString("blueprint")
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
+            goto continue
+        end
+
+        Insert( result, ruinEntity )
+
+        ::continue::
+    end
+
+    return result
 end
 
 function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
@@ -509,6 +585,15 @@ function buildings_picker_tool:OnRelease()
     end
 
     self.templateEntities = {}
+
+    -- Remove highlighting from ruins
+    if ( self.previousMarkedRuins ~= nil) then
+
+        for ruinEntity in Iter( self.previousMarkedRuins ) do
+            EntityService:RemoveMaterial( ruinEntity, "selected" )
+        end
+    end
+    self.previousMarkedRuins = {}
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
