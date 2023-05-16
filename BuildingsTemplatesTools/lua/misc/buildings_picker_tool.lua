@@ -208,7 +208,7 @@ function buildings_picker_tool:OnUpdate()
         end
 
         if ( #self.templateEntities > 1 ) then
-            
+
             for i=2,#self.templateEntities do
 
                 local entity = self.templateEntities[i]
@@ -218,7 +218,7 @@ function buildings_picker_tool:OnUpdate()
                     EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
                 else
                     EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-                end 
+                end
             end
         end
     end
@@ -276,7 +276,7 @@ function buildings_picker_tool:FindEntitiesToSelect( selectorComponent )
 
     ConcatUnique( selectedItems, ruins )
 
-    --for ent in Iter( self.selectedEntities ) do 
+    --for ent in Iter( self.selectedEntities ) do
     --    if ( IndexOf( ruins, ent ) == nil and IndexOf( selectedItems, ent ) == nil ) then
     --        self:RemovedFromSelection( entity )
     --    end
@@ -407,7 +407,7 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
     -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
-    
+
     if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
         return
     end
@@ -506,9 +506,9 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 end
 
 function buildings_picker_tool:OnRelease()
-    
+
     self:SaveEntitiesToDatabase()
-    
+
     if ( self.templateEntities ~= nil) then
         for entity in Iter( self.templateEntities ) do
             self:RemovedFromSelection( entity )
@@ -525,4 +525,3 @@ function buildings_picker_tool:OnRelease()
 end
 
 return buildings_picker_tool
- 

@@ -15,11 +15,6 @@ function buildings_builder_tool:init()
     self.stateMachine:AddState( "working", { enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
     self.stateMachine:ChangeState("working")
 
-    self.massBuildLimitMachine = self:CreateStateMachine()
-    self.massBuildLimitMachine:AddState( "working", { execute = "OnMassBuildLimitMachineWorking", interval = 0.05 } )
-    self.massBuildLimitMachine:AddState( "idle", { interval = 10.0 } )
-    self.massBuildLimitMachine:ChangeState("idle")
-
     self:InitializeValues()
 end
 
@@ -31,7 +26,6 @@ function buildings_builder_tool:InitializeValues()
     self.template_name = self.data:GetString("template_name")
 
     self.templateEntities = {}
-    self.limitedBuildingsQueue = {}
     self.oldBuildingsToSell = {}
 
     -- Identity matrix
@@ -313,11 +307,11 @@ function buildings_builder_tool:GetBuildInfo( entity  )
     return helper.build_info
 end
 
-function buildings_builder_tool:CheckEntityBuildable( entity, transform, blueprint, id )
+function buildings_builder_tool:CheckEntityBuildable( entity, transform, blueprintName, id )
 
     id = id or 1
 
-    local checkStatus = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, blueprint, id)
+    local checkStatus = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, blueprintName, id)
 
     if ( checkStatus == nil ) then
         return nil
@@ -420,7 +414,7 @@ function buildings_builder_tool:OnUpdate()
 
     if ( self.activated  ) then
 
-        self:FinishLineBuild( true )
+        self:FinishLineBuild()
     end
 end
 
@@ -447,7 +441,7 @@ function buildings_builder_tool:AddToEntitiesToSellList(testBuildable, buildings
     end
 end
 
-function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
+function buildings_builder_tool:FinishLineBuild()
 
     local count = #self.templateEntities
 
@@ -455,18 +449,38 @@ function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
         return
     end
 
-    local limitedBuildingsQueuesByName, unlimitedBuildings = self:FilterLimitedAndUnimited( onlyUnlimited )
+    local limitedBuildingsQueuesByName, unlimitedBuildings = self:FilterLimitedAndUnimited()
 
     if ( #limitedBuildingsQueuesByName > 0 ) then
 
-        self.limitedBuildingsQueue = self.limitedBuildingsQueue or {}
+        for allEntities in Iter( limitedBuildingsQueuesByName ) do
 
-        for i=1,#limitedBuildingsQueuesByName do
+            local delimiterEntities = "|"
 
-            Insert( self.limitedBuildingsQueue, limitedBuildingsQueuesByName[i] )
+            local entitiesListArray = {}
+
+            for entityId in Iter( allEntities ) do
+
+                if ( #entitiesListArray > 0 ) then
+
+                    Insert( entitiesListArray, delimiterEntities )
+                end
+
+                local entityString = tostring(entityId)
+
+                Insert( entitiesListArray, entityString )
+            end
+
+            local entitiesListString = table.concat( entitiesListArray )
+
+            local builder = EntityService:SpawnEntity( "misc/mass_limited_buildings_builder", self.entity, "" )
+
+            local database = EntityService:GetDatabase( builder )
+
+            database:SetInt( "playerId", self.playerId )
+
+            database:SetString( "entities_list", entitiesListString )
         end
-
-        self.massBuildLimitMachine:ChangeState("working")
     end
 
     if ( #unlimitedBuildings > 0 ) then
@@ -480,20 +494,16 @@ function buildings_builder_tool:FinishLineBuild( onlyUnlimited )
     end
 end
 
-function buildings_builder_tool:FilterLimitedAndUnimited( onlyUnlimited )
+function buildings_builder_tool:FilterLimitedAndUnimited()
 
     local limitedBuildingsQueuesByName = {}
     local limitedBuildingsHash = {}
 
     local unlimitedBuildings = {}
 
-    local count = #self.templateEntities
-
     local team = EntityService:GetTeam( self.entity )
 
-    for i=1,count do
-
-        local buildingTemplate = self.templateEntities[i]
+    for buildingTemplate in Iter( self.templateEntities ) do
 
         local entity = buildingTemplate.entity
 
@@ -509,54 +519,49 @@ function buildings_builder_tool:FilterLimitedAndUnimited( onlyUnlimited )
 
             if ( buildingDesc ~= nil and ( (buildingDesc.limit ~= nil and buildingDesc.limit > 0) or (buildingDesc.map_limit ~= nil and buildingDesc.map_limit > 0) ) ) then
 
-                if ( not onlyUnlimited ) then
+                local entityTransform = EntityService:GetWorldTransform( buildingTemplate.entity )
 
-                    local blueprintLowName = BuildingService:FindLowUpgrade( buildingTemplate.blueprint )
+                local newPosition = entityTransform.position
+                local newOrientation = entityTransform.orientation
 
-                    if ( limitedBuildingsHash[blueprintLowName] == nil ) then
+                local doubleEntity = nil
 
-                        local newQueue = {}
+                if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
 
-                        Insert( limitedBuildingsQueuesByName, newQueue )
-
-                        limitedBuildingsHash[blueprintLowName] = newQueue
-                    end
-
-                    local lowNameQueue = limitedBuildingsHash[blueprintLowName]
-
-                    local entityTransform = EntityService:GetWorldTransform( buildingTemplate.entity )
-
-                    local newPosition = entityTransform.position
-                    local newOrientation = entityTransform.orientation
-
-                    local doubleEntity = nil
-
-                    if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
-
-                        doubleEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
-                    else
-                        doubleEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
-                    end
-
-                    EntityService:RemoveComponent( doubleEntity, "LuaComponent" )
-                    EntityService:SetPosition( doubleEntity, newPosition )
-                    EntityService:SetOrientation( doubleEntity, newOrientation )
-                    EntityService:ChangeMaterial( doubleEntity, "selector/hologram_blue" )
-
-                    local doubleBuildingTemplate = {}
-
-                    doubleBuildingTemplate.entity = doubleEntity
-                    doubleBuildingTemplate.buildingDesc = buildingTemplate.buildingDesc
-                    doubleBuildingTemplate.blueprint = buildingTemplate.blueprint
-                    doubleBuildingTemplate.createCube = buildingTemplate.createCube
-
-                    Insert( lowNameQueue, doubleBuildingTemplate )
-
+                    doubleEntity = EntityService:SpawnEntity( buildingDesc.ghost_bp, newPosition, team )
+                else
+                    doubleEntity = EntityService:SpawnEntity( buildingDesc.bp, newPosition, team )
                 end
+
+                EntityService:RemoveComponent( doubleEntity, "LuaComponent" )
+                EntityService:SetPosition( doubleEntity, newPosition )
+                EntityService:SetOrientation( doubleEntity, newOrientation )
+                EntityService:ChangeMaterial( doubleEntity, "selector/hologram_blue" )
+
+
+
+                local limitName = buildingDesc.limit_name or ""
+
+                if ( limitName == "" ) then
+
+                    limitName = BuildingService:FindLowUpgrade( buildingTemplate.blueprint )
+                end
+
+                if ( limitedBuildingsHash[limitName] == nil ) then
+
+                    local newQueue = {}
+
+                    Insert( limitedBuildingsQueuesByName, newQueue )
+
+                    limitedBuildingsHash[limitName] = newQueue
+                end
+
+                local limitNameQueue = limitedBuildingsHash[limitName]
+
+                Insert( limitNameQueue, doubleEntity )
             else
                 Insert( unlimitedBuildings, buildingTemplate )
             end
-
         end
     end
 
@@ -653,7 +658,7 @@ end
 
 function buildings_builder_tool:OnActivate()
 
-    self:FinishLineBuild( false )
+    self:FinishLineBuild()
 end
 
 function buildings_builder_tool:OnDeactivate()
@@ -761,63 +766,9 @@ function buildings_builder_tool:OnRelease()
 
     self.templateEntities = {}
 
-    if ( self.limitedBuildingsQueue ~= nil) then
-        for arrayBuildings in Iter(self.limitedBuildingsQueue) do
-            for ghostBuildingTemplate in Iter(arrayBuildings) do
-                EntityService:RemoveEntity(ghostBuildingTemplate.entity)
-                ghostBuildingTemplate.entity = nil
-            end
-        end
-    end
-
-    self.limitedBuildingsQueue = {}
-
     self:RemoveMaterialFromBuildingsToSell()
 
     self.oldBuildingsToSell = {}
-end
-
-function buildings_builder_tool:OnMassBuildLimitMachineWorking( state )
-
-    self.limitedBuildingsQueue = self.limitedBuildingsQueue or {}
-
-    if ( #self.limitedBuildingsQueue == 0 ) then
-        self.massBuildLimitMachine:ChangeState("idle")
-        return
-    end
-
-    local buildinsTemplatesArray = self.limitedBuildingsQueue[1]
-
-    if ( #buildinsTemplatesArray == 0) then
-
-        Remove( self.limitedBuildingsQueue, buildinsTemplatesArray )
-        return
-    end
-
-    local ghostBuildingTemplate = buildinsTemplatesArray[1]
-    Remove( buildinsTemplatesArray, ghostBuildingTemplate )
-
-    local testBuildableFlag = self:BuildEntity(ghostBuildingTemplate)
-    EntityService:RemoveEntity(ghostBuildingTemplate.entity)
-
-    if ( #buildinsTemplatesArray == 0) then
-
-        Remove( self.limitedBuildingsQueue, buildinsTemplatesArray )
-        return
-    end
-
-    if( testBuildableFlag == CBF_LIMITS ) then
-
-        if ( #buildinsTemplatesArray > 0 ) then
-
-            for index=1,#buildinsTemplatesArray do
-                local ghostBuildingTemplate = buildinsTemplatesArray[index]
-                EntityService:RemoveEntity(ghostBuildingTemplate.entity)
-            end
-
-            Remove( self.limitedBuildingsQueue, buildinsTemplatesArray )
-        end
-    end
 end
 
 return buildings_builder_tool

@@ -1,5 +1,5 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-    
+
     BuildingService:UnlockBuilding("buildings/tools/buildings_picker_01")
     BuildingService:UnlockBuilding("buildings/tools/buildings_picker_02")
     BuildingService:UnlockBuilding("buildings/tools/buildings_picker_03")
@@ -24,4 +24,3 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     BuildingService:UnlockBuilding("buildings/tools/buildings_builder_10")
     BuildingService:UnlockBuilding("buildings/tools/buildings_builder_11")
 end)
-
