@@ -25,12 +25,12 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
     local possibleSelectedEnts = {}
 
-    local position = selectorComponent.position
+    local selectorPosition = selectorComponent.position
 
     local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
-    local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
-    local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
+    local min = VectorSub(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
+    local max = VectorAdd(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
 
     local predicate = {
 
@@ -67,8 +67,6 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
         ::continue::
     end
-
-    local selectorPosition = selectorComponent.position
 
     local sorter = function( t, lhs, rhs )
         local p1 = EntityService:GetPosition( lhs )
