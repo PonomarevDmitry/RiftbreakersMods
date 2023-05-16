@@ -1,4 +1,3 @@
-
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
@@ -17,18 +16,18 @@ function tower_mods_remover_tool:OnPreInit()
     self.initialScale = { x=8, y=1, z=8 }
 end
 
+function tower_mods_remover_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
+end
+
 function tower_mods_remover_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
     else
         EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
-end
-
-function tower_mods_remover_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
@@ -40,34 +39,34 @@ function tower_mods_remover_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    for ent in Iter(selectedEntities ) do
+    for entity in Iter( selectedEntities ) do
 
-        local blueprint = EntityService:GetBlueprintName(ent)
+        local blueprintName = EntityService:GetBlueprintName(entity)
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprint )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
         end
 
-        local towerComponent = EntityService:GetComponent( ent, "TowerComponent")
+        local towerComponent = EntityService:GetComponent( entity, "TowerComponent")
         if ( towerComponent == nil ) then
             goto continue
         end
             
-        if ( not EntityService:CompareType( ent, "tower" ) ) then
+        if ( not EntityService:CompareType( entity, "tower" ) ) then
             goto continue
         end
 
-        local equipmentComponent = EntityService:GetComponent( ent, "EquipmentComponent")
+        local equipmentComponent = EntityService:GetComponent( entity, "EquipmentComponent")
         if ( equipmentComponent == nil ) then
             goto continue
         end
 
-        if ( not self:HasTowerMods( ent ) ) then
+        if ( not self:HasTowerMods( entity ) ) then
             goto continue
         end
 
-        Insert(entities, ent)
+        Insert(entities, entity)
 
         ::continue::
     end
@@ -76,8 +75,6 @@ function tower_mods_remover_tool:FilterSelectedEntities( selectedEntities )
 end
 
 function tower_mods_remover_tool:HasTowerMods( entity )
-
-    local blueprintMod = ""
 
     local modItem1 = ItemService:GetEquippedItem( entity, "MOD_1" )
 
