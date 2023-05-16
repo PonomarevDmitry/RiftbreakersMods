@@ -129,9 +129,12 @@ function mass_limited_buildings_builder:BuildEntity(entity)
         return testBuildable.flag
     end
 
+    --  Do not create cubes for building_mode "line"
+    local createCube = self:GetCreateCube( blueprintName )
+
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, true )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
 
@@ -139,7 +142,7 @@ function mass_limited_buildings_builder:BuildEntity(entity)
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, true )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
 
     elseif( testBuildable.flag == CBF_REPAIR ) then
 
@@ -207,11 +210,48 @@ function mass_limited_buildings_builder:GetTooCloseAnnoucement( blueprintName )
         return self.cacheTooCloseAnnoucement[blueprintName]
     end
 
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( blueprintName ) )
+    local buildingDesc = self:GetBuildingDesc( blueprintName )
 
     local result = buildingDesc.min_radius_effect or ""
 
     self.cacheTooCloseAnnoucement[blueprintName] = result
+
+    return result
+end
+
+function mass_limited_buildings_builder:GetCreateCube( blueprintName )
+
+    self.cacheGetCreateCube = self.cacheGetCreateCube or {}
+
+    if ( self.cacheGetCreateCube[blueprintName] ~= nil ) then
+
+        return self.cacheGetCreateCube[blueprintName]
+    end
+
+    local buildingDesc = self:GetBuildingDesc( blueprintName )
+
+    local buildingMode = buildingDesc.building_mode or ""
+
+    --  Do not create cubes for building_mode "line"
+    local result = not ( buildingMode == "line" )
+
+    self.cacheGetCreateCube[blueprintName] = result
+
+    return result
+end
+
+function mass_limited_buildings_builder:GetBuildingDesc( blueprintName )
+
+    self.cacheBuildingDesc = self.cacheBuildingDesc or {}
+
+    if ( self.cacheBuildingDesc[blueprintName] ~= nil ) then
+
+        return self.cacheBuildingDesc[blueprintName]
+    end
+
+    local result = reflection_helper( BuildingService:GetBuildingDesc( blueprintName ) )
+
+    self.cacheBuildingDesc[blueprintName] = result
 
     return result
 end
