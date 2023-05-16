@@ -15,17 +15,13 @@ function replace_wall_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_replace_wall_tool", self.entity)
     self.popupShown = false
 
-    local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.selector, "PlayerReferenceComponent") )
-    self.playerId = playerReferenceComponent.player_id
-
     self.buildingDescHash = {}
     self.wallBluprintsArray = {}
     self.wallBluprintsResearch = {}
     self.allWallBluprintsArray = {}
     self.cacheBuildCosts = {}
 
-    local wallBlueprint = self.data:GetStringOrDefault("wallBlueprint", "")
-    wallBlueprint = wallBlueprint or ""
+    local wallBlueprint = self.data:GetStringOrDefault("wallBlueprint", "") or ""
 
     if ( wallBlueprint ~= "" ) then
 
