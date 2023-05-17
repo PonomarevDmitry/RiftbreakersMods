@@ -1,0 +1,59 @@
+EntityBlueprint
+{
+	name					"buildings/tools/resource_miner_picker"
+
+	BuildingDesc
+	{
+		name				"resource_miner_picker"
+		bp					"buildings/tools/resource_miner_picker"
+		ghost_bp			"buildings/tools/resource_miner_picker_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/resource_miner_picker"
+		description			"gui/hud/building_description/resource_miner_picker"
+		menu_icon			"gui/hud/tools_icons/resource_miner_picker_tool"
+
+		order				"60"
+		type				"picker"
+
+		building_group		"picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/resource_miner_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"resource_miner_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/resource_miner_picker_tool.lua"
+		
+		database
+		{
+			action			string:"resource_miner_picker"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
