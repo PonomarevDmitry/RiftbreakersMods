@@ -33,7 +33,7 @@ function resource_miner_picker_tool:OnInit()
         ["acid_refinery"] = "buildings/resources/acid_refinery",
         ["magma_lifter"] = "buildings/resources/magma_lifter",
         ["supercoolant_siphon"] = "buildings/resources/supercoolant_siphon",
-        
+
         ["survival_acid_refinery"] = "buildings/resources/survival_acid_refinery",
         ["survival_magma_lifter"] = "buildings/resources/survival_magma_lifter",
         ["survival_supercoolant_siphon"] = "buildings/resources/survival_supercoolant_siphon",
@@ -172,7 +172,7 @@ function resource_miner_picker_tool:GetMineBlueprintName( entity )
 
     local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
 
-    if ( resourceVolumeComponentRef.type ~= nil and resourceVolumeComponentRef.type.resource ~= nil and  resourceVolumeComponentRef.type.resource.id ~= nil ) then
+    if ( resourceVolumeComponentRef.type ~= nil and resourceVolumeComponentRef.type.resource ~= nil and resourceVolumeComponentRef.type.resource.id ~= nil ) then
 
         local resourceId = resourceVolumeComponentRef.type.resource.id
 
@@ -233,7 +233,7 @@ function resource_miner_picker_tool:IsResourceRequired( resourceRequirement, res
             end
         end
     end
-    
+
     return false
 end
 
@@ -249,10 +249,6 @@ function resource_miner_picker_tool:GetSelectorBlueprintName( lowName, defaultBl
         return defaultBlueprintName
     end
 
-    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
-        return defaultBlueprintName
-    end
-
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return defaultBlueprintName
@@ -260,6 +256,10 @@ function resource_miner_picker_tool:GetSelectorBlueprintName( lowName, defaultBl
 
     local buildingRef = reflection_helper( buildingDesc )
     if ( buildingRef == nil ) then
+        return defaultBlueprintName
+    end
+
+    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
         return defaultBlueprintName
     end
 
