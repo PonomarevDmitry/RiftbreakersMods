@@ -131,7 +131,7 @@ function sell_depleted:CheckEntityOnResource( entity, resourceRequirement, bluep
 
             if ( BuildingService:IsOnResource(entity, resource) ) then
 
-            	return true
+                return true
             end
         end
     end
