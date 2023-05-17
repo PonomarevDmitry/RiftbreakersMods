@@ -43,7 +43,7 @@ function picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function sell_ruins_eraser_tool:OnUpdate()
+function picker_tool:OnUpdate()
 
     self:HighlightRuins()
 end
