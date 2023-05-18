@@ -144,7 +144,9 @@ function scanner_turret:OnRelease()
         EntityService:RemoveEntity( self.effect )
     end
     
-    tower.OnRelease(self)
+    if ( tower.OnRelease ) then
+        tower.OnRelease(self)
+    end
 end
 
 return scanner_turret

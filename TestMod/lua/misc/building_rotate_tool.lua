@@ -128,7 +128,9 @@ function building_rotate_tool:OnRelease()
         EntityService:RemoveEntity(self.childEntity)
     end
 
-    tool.OnRelease(self)
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
 end
 
 function building_rotate_tool:OnRotateSelectorRequest(evt)
