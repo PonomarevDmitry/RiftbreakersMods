@@ -10,7 +10,7 @@ end
 function upgrade_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_upgrade", self.entity)
     self.popupShown = false
-    
+
     -- List of buildings highlighted for upgrade
     self.previousMarkedBuildings = {}
     -- Radius from player to highlight buildings for upgrade
@@ -22,134 +22,148 @@ function upgrade_tool:OnPreInit()
 end
 
 function upgrade_tool:AddedToSelection( entity )
-
 end
 
 function upgrade_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function upgrade_tool:OnRelease()
-    tool.OnRelease(self)
-    
-    -- Remove highlighting from buildings
-    if ( self.previousMarkedBuildings ~= nil) then
-        for ent in Iter( self.previousMarkedBuildings ) do
-        
-            self:RemovedFromSelection( ent )
+function upgrade_tool:OnUpdate()
+
+    self:HighlightBuildingsToUpgrade()
+
+    self.upgradeCosts = {}
+
+    local upgradeCostsEntities = {}
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( upgradeCostsEntities[entity] == nil ) then
+
+            upgradeCostsEntities[entity] = true
+
+            local skinned = EntityService:IsSkinned(entity)
+
+            if ( BuildingService:CanUpgrade( entity, self.playerId ) ) then
+                if ( skinned ) then
+                    EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
+                else
+                    EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
+                end
+            else
+                if ( skinned ) then
+                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected" )
+                else
+                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected" )
+                end
+            end
+
+            local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
+            for resourceCost in Iter(list) do
+
+                if ( self.upgradeCosts[resourceCost.first] == nil ) then
+                   self.upgradeCosts[resourceCost.first] = 0
+                end
+
+                self.upgradeCosts[resourceCost.first] = self.upgradeCosts[resourceCost.first] + resourceCost.second
+            end
         end
     end
-    
-    self.previousMarkedBuildings = {}
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+    if ( onScreen ) then
+        BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, self.upgradeCosts )
+        BuildingService:OperateUpgradeCosts( self.corners, self.playerId, {} )
+    else
+        BuildingService:OperateUpgradeCosts( self.infoChild , self.playerId, {} )
+        BuildingService:OperateUpgradeCosts( self.corners, self.playerId, self.upgradeCosts )
+    end
 end
 
-function upgrade_tool:OnUpdate()
-    
+function upgrade_tool:HighlightBuildingsToUpgrade()
+
     -- Buildings within a radius radiusShowBuildingsToUpgrade from player to highlight
     local buildings = self:FindUpgradableBuildings()
-    
-    if ( self.previousMarkedBuildings == nil) then    
+
+    if ( self.previousMarkedBuildings == nil) then
         self.previousMarkedBuildings = {}
     end
-    
-    -- Remove highlighting from previous buildings    
-    for ent in Iter( self.previousMarkedBuildings ) do
-    
+
+    -- Remove highlighting from previous buildings
+    for entity in Iter( self.previousMarkedBuildings ) do
+
         -- If the building is not included in the new list
-        if ( IndexOf( buildings, ent ) == nil ) then
-            self:RemovedFromSelection( ent )
+        if ( IndexOf( buildings, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
+            self:RemovedFromSelection( entity )
         end
     end
-    
+
     for entity in Iter( buildings ) do
-        
+
         -- Highlight building if it can be upgraded
         local skinned = EntityService:IsSkinned(entity)
         if ( skinned ) then
             EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
         else
             EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-        end 
-    end
-    
-    self.previousMarkedBuildings = buildings
-    
-    self.repairCosts = {}
-    for entity in Iter(self.selectedEntities ) do
-        local skinned = EntityService:IsSkinned(entity)
-        if ( BuildingService:CanUpgrade( entity, self.playerId )) then
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-            end
-        else
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
-            end
-        end
-        
-        local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
-        for resourceCost in Iter(list) do
-            if ( self.repairCosts[resourceCost.first] == nil ) then
-               self.repairCosts[resourceCost.first ] = resourceCost.second 
-            else
-               self.repairCosts[resourceCost.first ] = self.repairCosts[resourceCost.first ] + resourceCost.second 
-            end
         end
     end
 
-    local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
-    if ( onScreen ) then
-        BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, self.repairCosts)
-        BuildingService:OperateUpgradeCosts( self.corners, self.playerId, {})
-    else
-        BuildingService:OperateUpgradeCosts( self.infoChild , self.playerId,{})
-        BuildingService:OperateUpgradeCosts( self.corners, self.playerId, self.repairCosts)
-    end
+    self.previousMarkedBuildings = buildings
 end
 
 function upgrade_tool:FindUpgradableBuildings()
 
-    local player = PlayerService:GetPlayerControlledEnt(self.playerId)    
-    
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
+
     -- Buildings within a radius radiusShowBuildingsToUpgrade from player to highlight
     local buildings = FindService:FindEntitiesByTypeInRadius( player, "building", self.radiusShowBuildingsToUpgrade )
-    
-    local markedAbleToUpgrade = {}
-    
+
+    local result = {}
+
     for entity in Iter( buildings ) do
-    
+
         -- Skip buildins from self.selectedEntities
-        if ( IndexOf( self.selectedEntities, entity ) == nil ) then
-        
-            -- Highlight building if it can be upgraded
-            if ( BuildingService:CanUpgrade( entity, self.playerId )) then
-            
-                Insert(markedAbleToUpgrade, entity )       
-            end
-        end       
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue
+        end
+
+        if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
+        -- Highlight building if it can be upgraded
+        if ( not BuildingService:CanUpgrade( entity, self.playerId )) then
+            goto continue
+        end
+
+        Insert(result, entity )
+
+        ::continue::
     end
-    
-    return markedAbleToUpgrade    
+
+    return result
 end
 
 function upgrade_tool:OnRotate()
 end
 
 function upgrade_tool:OnActivateEntity( entity )
-    if (  not BuildingService:CanUpgrade( entity, self.playerId )) then
+
+    if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
         return
     end
-    
+
     local buildingName = EntityService:GetBlueprintName( entity)
     local buildingDesc = BuildingService:GetBuildingDesc(buildingName )
+
     if ( buildingDesc and reflection_helper(buildingDesc).limit_name == "hq" ) then
+
         if( self.popupShown == false ) then
-            GuiService:OpenPopup(entity, "gui/popup/popup_ingame_2buttons", "gui/hud/tutorial/hq_upgrade_confirm")
+
             self.popupShown = true
+
+            GuiService:OpenPopup(entity, "gui/popup/popup_ingame_2buttons", "gui/hud/tutorial/hq_upgrade_confirm")
             self:RegisterHandler(entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
         end
     else
@@ -157,14 +171,29 @@ function upgrade_tool:OnActivateEntity( entity )
     end
 end
 
+function upgrade_tool:OnGuiPopupResultEvent( evt )
 
-function upgrade_tool:OnGuiPopupResultEvent( evt)
     if ( evt:GetResult() == "button_yes" ) then
-        QueueEvent("UpgradeBuildingRequest", evt:GetEntity(), self.playerId )
+        QueueEvent( "UpgradeBuildingRequest", evt:GetEntity(), self.playerId )
     end
+
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
     self.popupShown = false
 end
 
+function upgrade_tool:OnRelease()
+    -- Remove highlighting from buildings
+    if ( self.previousMarkedBuildings ~= nil) then
+        for ent in Iter( self.previousMarkedBuildings ) do
+
+            self:RemovedFromSelection( ent )
+        end
+    end
+    self.previousMarkedBuildings = {}
+
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
+end
+
 return upgrade_tool
- 
