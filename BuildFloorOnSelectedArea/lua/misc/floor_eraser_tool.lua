@@ -581,7 +581,9 @@ function floor_eraser:OnRelease()
     
     self.currentSize = 0
 
-    tool.OnRelease(self)
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
 end
 
 function floor_eraser:OnRotate()
