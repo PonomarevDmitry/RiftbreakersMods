@@ -380,7 +380,6 @@ function replace_wall_from_to_replacer_tool:OnRelease()
     self.previousMarkedBuildings = {}
 
     if ( replace_wall_from_to_base.OnRelease ) then
-
         replace_wall_from_to_base.OnRelease(self)
     end
 end
