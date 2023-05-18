@@ -214,7 +214,6 @@ function sell_by_type_seller_tool:OnRelease()
     self.previousMarkedBuildings = {}
 
     if ( sell_by_type_base.OnRelease ) then
-
         sell_by_type_base.OnRelease(self)
     end
 end
