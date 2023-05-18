@@ -20,7 +20,35 @@ function resource_miner_picker_tool:OnInit()
         1,
     }
 
+    self.selectedResourceComponents = {}
+
+    self:FillSelectedBlueprints()
+end
+
+function resource_miner_picker_tool:FillSelectedBlueprints()
+
     self.selectedBluprintsNames = {
+
+        "carbonium_factory",
+        "steel_factory",
+        "rare_element_mine",
+
+        "liquid_pump",
+
+        "geothermal_powerplant",
+    }
+
+    local isCampaignBiome = MissionService:IsCampaignBiome()
+
+    if ( isCampaignBiome ) then
+        self:AddCampaignEntities( self.selectedBluprintsNames )
+        self:AddSurvivalEntities( self.selectedBluprintsNames )
+    else
+        self:AddSurvivalEntities( self.selectedBluprintsNames )
+        self:AddCampaignEntities( self.selectedBluprintsNames )
+    end
+
+    self.selectedBluprintsHash = {
 
         ["carbonium_factory"] = "buildings/resources/carbonium_factory",
         ["steel_factory"] = "buildings/resources/steel_factory",
@@ -38,6 +66,20 @@ function resource_miner_picker_tool:OnInit()
         ["survival_magma_lifter"] = "buildings/resources/survival_magma_lifter",
         ["survival_supercoolant_siphon"] = "buildings/resources/survival_supercoolant_siphon",
     }
+end
+
+function resource_miner_picker_tool:AddCampaignEntities( list )
+
+    Insert( list, "acid_refinery" )
+    Insert( list, "magma_lifter" )
+    Insert( list, "supercoolant_siphon" )
+end
+
+function resource_miner_picker_tool:AddSurvivalEntities( list )
+
+    Insert( list, "survival_acid_refinery" )
+    Insert( list, "survival_magma_lifter" )
+    Insert( list, "survival_supercoolant_siphon" )
 end
 
 function resource_miner_picker_tool:SpawnCornerBlueprint()
@@ -99,14 +141,58 @@ function resource_miner_picker_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function resource_miner_picker_tool:AddedToSelection( entity )
-    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-        QueueEvent( "SelectEntityRequest", entity )
+
+    self.selectedResourceComponents = self.selectedResourceComponents or {}
+
+    local childrenList = EntityService:GetChildren( entity, false )
+
+    for childResource in Iter( childrenList ) do
+
+        if ( IndexOf( self.selectedResourceComponents, childResource ) ~= nil ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
+            goto continue
+        end
+
+        Insert( self.selectedResourceComponents, childResource )
+
+        QueueEvent( "SelectEntityRequest", childResource )
+
+        ::continue::
     end
 end
 
 function resource_miner_picker_tool:RemovedFromSelection( entity )
-    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-        QueueEvent( "DeselectEntityRequest", entity )
+
+    self.selectedResourceComponents = self.selectedResourceComponents or {}
+
+    local childrenList = EntityService:GetChildren( entity, false )
+
+    for childResource in Iter( childrenList ) do
+
+        if ( IndexOf( self.selectedResourceComponents, childResource ) == nil ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
+            goto continue
+        end
+
+        Remove( self.selectedResourceComponents, childResource )
+
+        QueueEvent( "DeselectEntityRequest", childResource )
+
+        ::continue::
     end
 end
 
@@ -179,12 +265,14 @@ function resource_miner_picker_tool:GetMineBlueprintName( entity )
         if ( EntityService:CompareType( entity, "water" ) ) then
 
             local lowName = "liquid_pump"
-            local defaultBlueprintName = self.selectedBluprintsNames[lowName]
+            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
 
             return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
         else
 
-            for lowName,defaultBlueprintName in pairs( self.selectedBluprintsNames ) do
+            for lowName in Iter( self.selectedBluprintsNames ) do
+
+                local defaultBlueprintName = self.selectedBluprintsHash[lowName]
 
                 if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
                     goto continue
@@ -269,6 +357,21 @@ function resource_miner_picker_tool:GetSelectorBlueprintName( lowName, defaultBl
     end
 
     return blueprintName
+end
+
+function resource_miner_picker_tool:OnRelease()
+
+    if ( self.selectedResourceComponents ~= nil) then
+
+        for childResource in Iter( self.selectedResourceComponents ) do
+            QueueEvent( "DeselectEntityRequest", childResource )
+        end
+    end
+    self.selectedResourceComponents = {}
+
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
 end
 
 return resource_miner_picker_tool
