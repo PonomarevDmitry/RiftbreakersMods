@@ -226,7 +226,9 @@ function drone_player_scanner:OnRelease()
 		self.effect = INVALID_ID
 	end
 	
-	base_drone.OnRelease(self)
+	if ( base_drone.OnRelease ) then
+		base_drone.OnRelease(self)
+	end
 end
 
 function drone_player_scanner:OnDroneTargetAction( target )

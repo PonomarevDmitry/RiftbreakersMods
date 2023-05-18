@@ -392,7 +392,9 @@ function drone_player_detector:OnRelease()
 	EntityService:RemoveEntity( self.effectScanner )
 	self.effectScanner = INVALID_ID
 	
-	base_drone.OnRelease(self)
+	if ( base_drone.OnRelease ) then
+		base_drone.OnRelease(self)
+	end
 end
 
 return drone_player_detector
