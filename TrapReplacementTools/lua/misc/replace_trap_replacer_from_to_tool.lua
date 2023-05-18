@@ -374,7 +374,6 @@ function replace_trap_replacer_from_to_tool:OnRelease()
     self.previousMarkedBuildings = {}
 
     if ( replace_trap_base.OnRelease ) then
-
         replace_trap_base.OnRelease(self)
     end
 end
