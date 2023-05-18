@@ -48,6 +48,10 @@ function tool_highlight_ruins:FindBuildingRuins()
 
     for ruinEntity in Iter( ruinsList ) do
 
+        if ( IndexOf( result, ruinEntity ) ~= nil ) then
+            goto continue
+        end
+
         if ( IndexOf( self.selectedEntities, ruinEntity ) ~= nil ) then
             goto continue
         end
