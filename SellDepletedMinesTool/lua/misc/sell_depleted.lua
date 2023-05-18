@@ -160,7 +160,9 @@ function sell_depleted:OnRelease()
         EntityService:RemoveEntity(self.childEntity)
     end
 
-    tool.OnRelease(self)
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
 end
 
 function sell_depleted:OnRotateSelectorRequest(evt)
