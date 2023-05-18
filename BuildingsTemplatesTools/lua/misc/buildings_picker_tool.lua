@@ -288,9 +288,21 @@ function buildings_picker_tool:HighlightRuins()
     for ruinEntity in Iter( self.previousMarkedRuins ) do
 
         -- If the ruin is not included in the new list
-        if ( IndexOf( ruinsList, ruinEntity ) == nil and IndexOf( self.selectedEntities, ruinEntity ) == nil and IndexOf( self.templateEntities, ruinEntity ) == nil ) then
-            EntityService:RemoveMaterial( ruinEntity, "selected" )
+        if ( IndexOf( ruinsList, ruinEntity ) ~= nil ) then
+            goto continue
         end
+
+        if ( IndexOf( self.selectedEntities, ruinEntity ) ~= nil ) then
+            goto continue
+        end
+
+        if ( IndexOf( self.templateEntities, ruinEntity ) ~= nil ) then
+            goto continue
+        end
+
+        EntityService:RemoveMaterial( ruinEntity, "selected" )
+
+        ::continue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
@@ -315,6 +327,10 @@ function buildings_picker_tool:FindBuildingRuins()
     local result = {}
 
     for ruinEntity in Iter( ruinsList ) do
+
+        if ( IndexOf( result, ruinEntity ) ~= nil ) then
+            goto continue
+        end
 
         if ( IndexOf( self.selectedEntities, ruinEntity ) ~= nil ) then
             goto continue
