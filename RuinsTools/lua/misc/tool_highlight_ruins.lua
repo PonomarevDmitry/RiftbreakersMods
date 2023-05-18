@@ -20,9 +20,17 @@ function tool_highlight_ruins:HighlightRuins()
     for ruinEntity in Iter( self.previousMarkedRuins ) do
 
         -- If the ruin is not included in the new list
-        if ( IndexOf( ruinsList, ruinEntity ) == nil and IndexOf( self.selectedEntities, ruinEntity ) == nil ) then
-            EntityService:RemoveMaterial( ruinEntity, "selected" )
+        if ( IndexOf( ruinsList, ruinEntity ) ~= nil ) then
+            goto continue
         end
+
+        if ( IndexOf( self.selectedEntities, ruinEntity ) ~= nil ) then
+            goto continue
+        end
+
+        EntityService:RemoveMaterial( ruinEntity, "selected" )
+
+        ::continue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
