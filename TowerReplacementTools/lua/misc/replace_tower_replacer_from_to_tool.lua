@@ -389,7 +389,6 @@ function replace_tower_replacer_from_to_tool:OnRelease()
     self.previousMarkedBuildings = {}
 
     if ( replace_tower_base.OnRelease ) then
-
         replace_tower_base.OnRelease(self)
     end
 end
