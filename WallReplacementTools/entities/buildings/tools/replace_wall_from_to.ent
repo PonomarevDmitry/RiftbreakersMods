@@ -1,5 +1,141 @@
 EntityBlueprint
 {
+	name					"buildings/tools/replace_wall_all_picker"
+
+	BuildingDesc
+	{
+		name				"replace_wall_all_picker"
+		bp					"buildings/tools/replace_wall_all_picker"
+		ghost_bp			"buildings/tools/replace_wall_all_picker_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/replace_wall_all_picker_tool"
+		description			"gui/hud/building_description/replace_wall_all_picker_tool"
+		menu_icon			"gui/hud/tools_icons/replace_wall_all_picker_tool"
+
+		order				"60.1"
+		type				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_all_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"replace_wall_all_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/replace_wall_picker_tool.lua"
+		database
+		{
+			action			string:"replace_wall_picker_tool"
+			marker_name		string:"misc/marker_selector_replace_wall_all_picker"
+
+			template_name	string:"$replace_wall_all.selectedwall"
+			template_grid	string:"$replace_wall_all.selectedwall_grid"
+
+			next_tool		string:"buildings/tools/replace_wall_all_replacer"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_all_replacer"
+
+	BuildingDesc
+	{
+		name				"replace_wall_all_replacer"
+		bp					"buildings/tools/replace_wall_all_replacer"
+		ghost_bp			"buildings/tools/replace_wall_all_replacer_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/replace_wall_all_replacer_tool"
+		description			"gui/hud/building_description/replace_wall_all_replacer_tool"
+		menu_icon			"gui/hud/tools_icons/replace_wall_all_replacer_tool"
+
+		order				"60.1"
+		type				"replace_wall_all_replacer"
+
+		require				"headquarters"
+		building_group		"replace_wall_all_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_all_replacer_ghost"
+
+	BuildingDesc
+	{
+		name				"replace_wall_all_replacer_ghost"
+		buildable			"0"
+		type				"replace_wall_all_replacer"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script							"lua/misc/replace_wall_replacer_all_tool.lua"
+		database
+		{
+			action						string:"replace_wall_replacer_all_tool"
+			marker_name					string:"misc/marker_selector_replace_wall_all_replacer"
+
+			template_name				string:"$replace_wall_all.selectedwall"
+			template_grid				string:"$replace_wall_all.selectedwall_grid"
+
+			missing_localization		string:"gui/hud/messages/replace_wall_tool/wall_not_selected"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
 	name					"buildings/tools/replace_wall_from_to_picker_1"
 
 	BuildingDesc
@@ -15,6 +151,9 @@ EntityBlueprint
 
 		order				"60.1"
 		type				"picker"
+
+		building_group		"replace_wall_all_picker"
+		buildable			"0"
 	}
 
 	MeshDesc
@@ -79,7 +218,7 @@ EntityBlueprint
 		order				"60.1"
 		type				"picker"
 
-		building_group		"replace_wall_from_to_picker_1"
+		building_group		"replace_wall_all_picker"
 		buildable			"0"
 	}
 
@@ -146,7 +285,7 @@ EntityBlueprint
 		type				"replace_wall_from_to_replacer_1_2"
 
 		require				"headquarters"
-		building_group		"replace_wall_from_to_picker_1"
+		building_group		"replace_wall_all_picker"
 		buildable			"0"
 	}
 
@@ -217,7 +356,7 @@ EntityBlueprint
 		type				"replace_wall_from_to_replacer_2_1"
 
 		require				"headquarters"
-		building_group		"replace_wall_from_to_picker_1"
+		building_group		"replace_wall_all_picker"
 		buildable			"0"
 	}
 
