@@ -1,21 +1,21 @@
 EntityBlueprint
 {
-	name	"buildings/tools/replace_wall_to_crystal"
+	name					"buildings/tools/replace_wall_to_1_energy"
 
 	BuildingDesc
 	{
-		name				"replace_wall_to_crystal"
-		bp					"buildings/tools/replace_wall_to_crystal"
-		ghost_bp			"buildings/tools/replace_wall_to_crystal_ghost"
+		name				"replace_wall_to_1_energy"
+		bp					"buildings/tools/replace_wall_to_1_energy"
+		ghost_bp			"buildings/tools/replace_wall_to_1_energy_ghost"
 		category			"tools"
 
-		localization_id		"gui/hud/building_name/replace_wall_to_crystal_tool"
-		description			"gui/hud/building_description/replace_wall_to_crystal_tool"
-		menu_icon			"gui/hud/tools_icons/replace_wall_to_crystal"
+		localization_id		"gui/hud/building_name/replace_wall_to_energy_tool"
+		description			"gui/hud/building_description/replace_wall_to_energy_tool"
+		menu_icon			"gui/hud/tools_icons/replace_wall_to_energy_tool"
 
 		require				"headquarters"
 		order				"60"
-		type				"replace_wall_to_crystal"
+		type				"replace_wall_to_energy"
 	}
 
 	MeshDesc
@@ -28,11 +28,76 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name	"buildings/tools/replace_wall_to_crystal_ghost"
+	name					"buildings/tools/replace_wall_to_1_energy_ghost"
 
 	BuildingDesc
 	{
-		name				"replace_wall_to_crystal_ghost"
+		name				"replace_wall_to_1_energy_ghost"
+		buildable			"0"
+		type				"replace_wall_to_energy"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/replace_wall_tool.lua"
+		database
+		{
+			action			string:"replace_wall_to_energy"
+			wallBlueprint	string:"buildings/defense/wall_energy_straight_01"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_to_2_crystal"
+
+	BuildingDesc
+	{
+		name				"replace_wall_to_2_crystal"
+		bp					"buildings/tools/replace_wall_to_2_crystal"
+		ghost_bp			"buildings/tools/replace_wall_to_2_crystal_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/replace_wall_to_crystal_tool"
+		description			"gui/hud/building_description/replace_wall_to_crystal_tool"
+		menu_icon			"gui/hud/tools_icons/replace_wall_to_crystal_tool"
+
+		require				"headquarters"
+		order				"60"
+		type				"replace_wall_to_crystal"
+
+		building_group		"replace_wall_to_1_energy"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_to_2_crystal_ghost"
+
+	BuildingDesc
+	{
+		name				"replace_wall_to_2_crystal_ghost"
 		buildable			"0"
 		type				"replace_wall_to_crystal"
 		category			"tools"
@@ -62,89 +127,24 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name	"buildings/tools/replace_wall_to_energy"
+	name					"buildings/tools/replace_wall_to_3_small"
 
 	BuildingDesc
 	{
-		name				"replace_wall_to_energy"
-		bp					"buildings/tools/replace_wall_to_energy"
-		ghost_bp			"buildings/tools/replace_wall_to_energy_ghost"
-		category			"tools"
-
-		localization_id		"gui/hud/building_name/replace_wall_to_energy_tool"
-		description			"gui/hud/building_description/replace_wall_to_energy_tool"
-		menu_icon			"gui/hud/tools_icons/replace_wall_to_energy"
-
-		require				"headquarters"
-		order				"60"
-		type				"replace_wall_to_crystal"
-
-		building_group		"replace_wall_to_crystal"
-		buildable			"0"
-	}
-
-	MeshDesc
-	{
-		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material			"buildings/metal_plate_1x1"
-		flags				"2"
-	}
-}
-
-EntityBlueprint
-{
-	name	"buildings/tools/replace_wall_to_energy_ghost"
-
-	BuildingDesc
-	{
-		name				"replace_wall_to_energy_ghost"
-		buildable			"0"
-		type				"replace_wall_to_crystal"
-		category			"tools"
-	}
-
-	LuaDesc
-	{
-		script				"lua/misc/replace_wall_tool.lua"
-		database
-		{
-			action			string:"replace_wall_to_energy"
-			wallBlueprint	string:"buildings/defense/wall_energy_straight_01"
-		}
-	}
-
-	MeshDesc
-	{
-		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material			"selector/hologram_blue"
-		flags				"2"
-	}
-}
-
-
-
-
-
-EntityBlueprint
-{
-	name	"buildings/tools/replace_wall_to_small"
-
-	BuildingDesc
-	{
-		name				"replace_wall_to_small"
-		bp					"buildings/tools/replace_wall_to_small"
-		ghost_bp			"buildings/tools/replace_wall_to_small_ghost"
+		name				"replace_wall_to_3_small"
+		bp					"buildings/tools/replace_wall_to_3_small"
+		ghost_bp			"buildings/tools/replace_wall_to_3_small_ghost"
 		category			"tools"
 
 		localization_id		"gui/hud/building_name/replace_wall_to_small_tool"
 		description			"gui/hud/building_description/replace_wall_to_small_tool"
-		menu_icon			"gui/hud/tools_icons/replace_wall_to_small"
+		menu_icon			"gui/hud/tools_icons/replace_wall_to_small_tool"
 
 		require				"headquarters"
 		order				"60"
-		type				"replace_wall_to_crystal"
+		type				"replace_wall_to_small"
 
-		building_group		"replace_wall_to_crystal"
+		building_group		"replace_wall_to_1_energy"
 		buildable			"0"
 	}
 
@@ -158,13 +158,13 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name					"buildings/tools/replace_wall_to_small_ghost"
+	name					"buildings/tools/replace_wall_to_3_small_ghost"
 
 	BuildingDesc
 	{
-		name				"replace_wall_to_small_ghost"
+		name				"replace_wall_to_3_small_ghost"
 		buildable			"0"
-		type				"replace_wall_to_crystal"
+		type				"replace_wall_to_small"
 		category			"tools"
 	}
 
