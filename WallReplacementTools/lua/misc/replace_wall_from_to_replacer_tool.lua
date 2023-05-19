@@ -1,11 +1,11 @@
-local replace_wall_from_to_base = require("lua/misc/replace_wall_from_to_base.lua")
+local replace_wall_base = require("lua/misc/replace_wall_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'replace_wall_from_to_replacer_tool' ( replace_wall_from_to_base )
+class 'replace_wall_from_to_replacer_tool' ( replace_wall_base )
 
 function replace_wall_from_to_replacer_tool:__init()
-    replace_wall_from_to_base.__init(self,self)
+    replace_wall_base.__init(self,self)
 end
 
 function replace_wall_from_to_replacer_tool:OnInit()
@@ -379,8 +379,8 @@ function replace_wall_from_to_replacer_tool:OnRelease()
     end
     self.previousMarkedBuildings = {}
 
-    if ( replace_wall_from_to_base.OnRelease ) then
-        replace_wall_from_to_base.OnRelease(self)
+    if ( replace_wall_base.OnRelease ) then
+        replace_wall_base.OnRelease(self)
     end
 end
 

@@ -2,13 +2,13 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'replace_wall_from_to_base' ( tool )
+class 'replace_wall_base' ( tool )
 
-function replace_wall_from_to_base:__init()
+function replace_wall_base:__init()
     tool.__init(self,self)
 end
 
-function replace_wall_from_to_base:InitBlueprintList(selectedBlueprintName, selectedBlueprints, cacheBlueprintsLowNames)
+function replace_wall_base:InitBlueprintList(selectedBlueprintName, selectedBlueprints, cacheBlueprintsLowNames)
 
     if ( selectedBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", selectedBlueprintName ) ) then
 
@@ -20,7 +20,7 @@ function replace_wall_from_to_base:InitBlueprintList(selectedBlueprintName, sele
     end
 end
 
-function replace_wall_from_to_base:GetFirstLevelBuilding(blueprintName)
+function replace_wall_base:GetFirstLevelBuilding(blueprintName)
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -55,7 +55,7 @@ function replace_wall_from_to_base:GetFirstLevelBuilding(blueprintName)
     return blueprintName
 end
 
-function replace_wall_from_to_base:FillCache(cacheBlueprints, selectedBlueprints)
+function replace_wall_base:FillCache(cacheBlueprints, selectedBlueprints)
 
     for blueprintName in Iter( selectedBlueprints ) do
 
@@ -63,7 +63,7 @@ function replace_wall_from_to_base:FillCache(cacheBlueprints, selectedBlueprints
     end
 end
 
-function replace_wall_from_to_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )
+function replace_wall_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )
 
     seenBlueprintList = seenBlueprintList or {}
 
@@ -112,7 +112,7 @@ function replace_wall_from_to_base:FillSelectedBlueprintsList( list, blueprintNa
     end
 end
 
-function replace_wall_from_to_base:AddToSelectedBlueprintsList( list, buildingDescRef )
+function replace_wall_base:AddToSelectedBlueprintsList( list, buildingDescRef )
 
     if ( IndexOf( list, buildingDescRef.bp ) == nil ) then
 
@@ -134,7 +134,7 @@ function replace_wall_from_to_base:AddToSelectedBlueprintsList( list, buildingDe
     end
 end
 
-function replace_wall_from_to_base:IsBlueprintInList( selectedBlueprints, cacheBlueprints, blueprintName )
+function replace_wall_base:IsBlueprintInList( selectedBlueprints, cacheBlueprints, blueprintName )
 
     if ( #selectedBlueprints == 0 ) then
         return false
@@ -152,7 +152,7 @@ function replace_wall_from_to_base:IsBlueprintInList( selectedBlueprints, cacheB
     return result
 end
 
-function replace_wall_from_to_base:CalcIsBlueprintInList( selectedBlueprints, blueprintName )
+function replace_wall_base:CalcIsBlueprintInList( selectedBlueprints, blueprintName )
 
     if ( #selectedBlueprints == 0 ) then
         return false
@@ -178,7 +178,7 @@ function replace_wall_from_to_base:CalcIsBlueprintInList( selectedBlueprints, bl
     return false
 end
 
-function replace_wall_from_to_base:GetMenuIcon( blueprintName )
+function replace_wall_base:GetMenuIcon( blueprintName )
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -226,7 +226,7 @@ function replace_wall_from_to_base:GetMenuIcon( blueprintName )
     return ""
 end
 
-function replace_wall_from_to_base:GetBuildingMenuIcon( blueprintName )
+function replace_wall_base:GetBuildingMenuIcon( blueprintName )
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return ""
@@ -261,4 +261,4 @@ function replace_wall_from_to_base:GetBuildingMenuIcon( blueprintName )
     return ""
 end
 
-return replace_wall_from_to_base
+return replace_wall_base
