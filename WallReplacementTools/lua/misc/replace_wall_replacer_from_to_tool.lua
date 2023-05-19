@@ -2,13 +2,13 @@ local replace_wall_base = require("lua/misc/replace_wall_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'replace_wall_from_to_replacer_tool' ( replace_wall_base )
+class 'replace_wall_replacer_from_to_tool' ( replace_wall_base )
 
-function replace_wall_from_to_replacer_tool:__init()
+function replace_wall_replacer_from_to_tool:__init()
     replace_wall_base.__init(self,self)
 end
 
-function replace_wall_from_to_replacer_tool:OnInit()
+function replace_wall_replacer_from_to_tool:OnInit()
 
     local marker_name = self.data:GetString("marker_name")
     self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
@@ -53,7 +53,7 @@ function replace_wall_from_to_replacer_tool:OnInit()
     self.radiusShowBuildings = 100.0
 end
 
-function replace_wall_from_to_replacer_tool:FillAllBlueprints( blueprintName )
+function replace_wall_replacer_from_to_tool:FillAllBlueprints( blueprintName )
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return
@@ -78,7 +78,7 @@ function replace_wall_from_to_replacer_tool:FillAllBlueprints( blueprintName )
     end
 end
 
-function replace_wall_from_to_replacer_tool:FillResearches()
+function replace_wall_replacer_from_to_tool:FillResearches()
 
     local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
 
@@ -92,7 +92,7 @@ function replace_wall_from_to_replacer_tool:FillResearches()
     end
 end
 
-function replace_wall_from_to_replacer_tool:GetResearchForUpgrade( researchComponent, blueprintName )
+function replace_wall_replacer_from_to_tool:GetResearchForUpgrade( researchComponent, blueprintName )
 
     local categories = researchComponent.research
 
@@ -119,7 +119,7 @@ function replace_wall_from_to_replacer_tool:GetResearchForUpgrade( researchCompo
     return ""
 end
 
-function replace_wall_from_to_replacer_tool:SetBuildingIcon()
+function replace_wall_replacer_from_to_tool:SetBuildingIcon()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
@@ -164,7 +164,7 @@ function replace_wall_from_to_replacer_tool:SetBuildingIcon()
     end
 end
 
-function replace_wall_from_to_replacer_tool:AddedToSelection( entity )
+function replace_wall_replacer_from_to_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
@@ -174,11 +174,11 @@ function replace_wall_from_to_replacer_tool:AddedToSelection( entity )
     end
 end
 
-function replace_wall_from_to_replacer_tool:RemovedFromSelection( entity )
+function replace_wall_replacer_from_to_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function replace_wall_from_to_replacer_tool:FilterSelectedEntities( selectedEntities )
+function replace_wall_replacer_from_to_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
@@ -196,7 +196,7 @@ function replace_wall_from_to_replacer_tool:FilterSelectedEntities( selectedEnti
     return entities
 end
 
-function replace_wall_from_to_replacer_tool:IsEntityApproved( entity )
+function replace_wall_replacer_from_to_tool:IsEntityApproved( entity )
 
     local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
     if ( buildingComponent == nil ) then
@@ -245,7 +245,7 @@ function replace_wall_from_to_replacer_tool:IsEntityApproved( entity )
     return true
 end
 
-function replace_wall_from_to_replacer_tool:OnUpdate()
+function replace_wall_replacer_from_to_tool:OnUpdate()
 
     local buildinsList = self:FindBuildingFrom()
 
@@ -341,7 +341,7 @@ function replace_wall_from_to_replacer_tool:OnUpdate()
     end
 end
 
-function replace_wall_from_to_replacer_tool:FindBuildingFrom()
+function replace_wall_replacer_from_to_tool:FindBuildingFrom()
 
     local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
@@ -367,10 +367,10 @@ function replace_wall_from_to_replacer_tool:FindBuildingFrom()
     return result
 end
 
-function replace_wall_from_to_replacer_tool:OnRotate()
+function replace_wall_replacer_from_to_tool:OnRotate()
 end
 
-function replace_wall_from_to_replacer_tool:OnRelease()
+function replace_wall_replacer_from_to_tool:OnRelease()
 
     if ( self.previousMarkedBuildings ~= nil) then
         for ent in Iter( self.previousMarkedBuildings ) do
@@ -384,7 +384,7 @@ function replace_wall_from_to_replacer_tool:OnRelease()
     end
 end
 
-function replace_wall_from_to_replacer_tool:OnActivateEntity( entity )
+function replace_wall_replacer_from_to_tool:OnActivateEntity( entity )
 
     if ( #self.wallBluprintsArray == 0 ) then
         return
@@ -415,7 +415,7 @@ function replace_wall_from_to_replacer_tool:OnActivateEntity( entity )
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprint, transform, true )
 end
 
-function replace_wall_from_to_replacer_tool:GetConnectType( blueprintName, buildingRef )
+function replace_wall_replacer_from_to_tool:GetConnectType( blueprintName, buildingRef )
 
     for i=1,buildingRef.connect.count do
 
@@ -434,7 +434,7 @@ function replace_wall_from_to_replacer_tool:GetConnectType( blueprintName, build
     return -1
 end
 
-function replace_wall_from_to_replacer_tool:GetWallBlueprintAndLevel( level, connectType )
+function replace_wall_replacer_from_to_tool:GetWallBlueprintAndLevel( level, connectType )
 
     local minNumber = math.min( level, #self.wallBluprintsArray )
 
@@ -463,7 +463,7 @@ function replace_wall_from_to_replacer_tool:GetWallBlueprintAndLevel( level, con
     return "", 0
 end
 
-function replace_wall_from_to_replacer_tool:IsWallBlueprintAvailable( blueprintName )
+function replace_wall_replacer_from_to_tool:IsWallBlueprintAvailable( blueprintName )
 
     if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
         return true
@@ -480,7 +480,7 @@ function replace_wall_from_to_replacer_tool:IsWallBlueprintAvailable( blueprintN
     return false
 end
 
-function replace_wall_from_to_replacer_tool:GetBuildCosts( level )
+function replace_wall_replacer_from_to_tool:GetBuildCosts( level )
 
     self.cacheBuildCosts = self.cacheBuildCosts or {}
 
@@ -496,7 +496,7 @@ function replace_wall_from_to_replacer_tool:GetBuildCosts( level )
     return result
 end
 
-function replace_wall_from_to_replacer_tool:CalculateBuildCosts( level )
+function replace_wall_replacer_from_to_tool:CalculateBuildCosts( level )
 
     local blueprintName = self.wallBluprintsArray[level]
 
@@ -515,4 +515,4 @@ function replace_wall_from_to_replacer_tool:CalculateBuildCosts( level )
     return costValues
 end
 
-return replace_wall_from_to_replacer_tool
+return replace_wall_replacer_from_to_tool
