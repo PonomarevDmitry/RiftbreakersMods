@@ -127,7 +127,7 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
     local orientation = transform.orientation
 
 
-    local placeRuinScript = EntityService:SpawnEntity( "buildings/tools/place_ruin_after_sell/script", position, team )
+    local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
     local database = EntityService:GetDatabase( placeRuinScript )
 
