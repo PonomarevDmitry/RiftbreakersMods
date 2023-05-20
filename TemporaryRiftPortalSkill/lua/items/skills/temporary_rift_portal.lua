@@ -1,13 +1,13 @@
 local item = require("lua/items/item.lua")
 require("lua/utils/reflection.lua")
 
-class 'spawn_temporary_portal' ( item )
+class 'temporary_rift_portal' ( item )
 
-function spawn_temporary_portal:__init()
+function temporary_rift_portal:__init()
     item.__init(self,self)
 end
 
-function spawn_temporary_portal:OnActivate()
+function temporary_rift_portal:OnActivate()
 
     local blueprintName = "misc/rift"
 
@@ -24,4 +24,4 @@ function spawn_temporary_portal:OnActivate()
     local newPortal = EntityService:SpawnEntity( blueprintName, playerPosition, team )
 end
 
-return spawn_temporary_portal
+return temporary_rift_portal
