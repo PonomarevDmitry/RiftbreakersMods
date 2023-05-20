@@ -4,7 +4,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local player = PlayerService:GetPlayerControlledEnt( playerId )
 
-    if	( player == nil ) then
+    if ( player == nil ) then
         return
     end
 
