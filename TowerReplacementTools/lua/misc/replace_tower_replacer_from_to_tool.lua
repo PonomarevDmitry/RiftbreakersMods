@@ -296,9 +296,9 @@ function replace_tower_replacer_from_to_tool:OnUpdate()
 
         local buildingRef = reflection_helper(buildingDesc)
 
+        local towerBlueprintName = self:GetTowerBlueprintByLevel( buildingRef.level )
 
-
-        local list1 = self:GetBuildCosts( buildingRef.level )
+        local list1 = self:GetBuildCosts( towerBlueprintName )
         for resourceName, amount in pairs( list1 ) do
 
             if ( costValues[resourceName] == nil ) then
@@ -453,25 +453,23 @@ function replace_tower_replacer_from_to_tool:IstowerBlueprintAvailable( blueprin
     return false
 end
 
-function replace_tower_replacer_from_to_tool:GetBuildCosts( level )
+function replace_tower_replacer_from_to_tool:GetBuildCosts( blueprintName )
 
     self.cacheBuildCosts = self.cacheBuildCosts or {}
 
-    if ( self.cacheBuildCosts[level] ~= nil ) then
+    if ( self.cacheBuildCosts[blueprintName] ~= nil ) then
 
-        return self.cacheBuildCosts[level]
+        return self.cacheBuildCosts[blueprintName]
     end
 
-    local result = self:CalculateBuildCosts( level )
+    local result = self:CalculateBuildCosts( blueprintName )
 
-    self.cacheBuildCosts[level] = result
+    self.cacheBuildCosts[blueprintName] = result
 
     return result
 end
 
-function replace_tower_replacer_from_to_tool:CalculateBuildCosts( level )
-
-    local blueprintName = self.towerBluprintsArray[level]
+function replace_tower_replacer_from_to_tool:CalculateBuildCosts( blueprintName )
 
     local costValues = {}
 
