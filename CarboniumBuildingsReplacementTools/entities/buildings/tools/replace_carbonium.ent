@@ -1,0 +1,126 @@
+EntityBlueprint
+{
+	name						"buildings/tools/replace_carbonium_to_1_powerplant"
+
+	BuildingDesc
+	{
+		name					"replace_carbonium_to_1_powerplant"
+		bp						"buildings/tools/replace_carbonium_to_1_powerplant"
+		ghost_bp				"buildings/tools/replace_carbonium_to_1_powerplant_ghost"
+		category				"tools"
+
+		localization_id			"gui/hud/building_name/replace_carbonium_to_powerplant_tool"
+		description				"gui/hud/building_description/replace_carbonium_to_powerplant_tool"
+		menu_icon				"gui/hud/tools_icons/replace_carbonium_to_powerplant_tool"
+
+		require					"headquarters"
+		order					"60"
+		type					"replace_carbonium_to_1_powerplant"
+	}
+
+	MeshDesc
+	{
+		mesh					"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material				"buildings/metal_plate_1x1"
+		flags					"2"
+	}
+}
+
+EntityBlueprint
+{
+	name						"buildings/tools/replace_carbonium_to_1_powerplant_ghost"
+
+	BuildingDesc
+	{
+		name					"replace_carbonium_to_1_powerplant_ghost"
+		buildable				"0"
+		type					"replace_carbonium_to_1_powerplant"
+		category				"tools"
+	}
+
+	LuaDesc
+	{
+		script					"lua/misc/replace_carbonium_tool.lua"
+		database
+		{
+			action				string:"replace_carbonium_tool"
+
+			fromLowName			string:"carbonium_factory"
+			toBlueprint			string:"buildings/energy/carbonium_powerplant"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh					"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material				"selector/hologram_blue"
+		flags					"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name						"buildings/tools/replace_carbonium_to_2_factory"
+
+	BuildingDesc
+	{
+		name					"replace_carbonium_to_2_factory"
+		bp						"buildings/tools/replace_carbonium_to_2_factory"
+		ghost_bp				"buildings/tools/replace_carbonium_to_2_factory_ghost"
+		category				"tools"
+
+		localization_id			"gui/hud/building_name/replace_carbonium_to_factory_tool"
+		description				"gui/hud/building_description/replace_carbonium_to_factory_tool"
+		menu_icon				"gui/hud/tools_icons/replace_carbonium_to_factory_tool"
+
+		require					"headquarters"
+		order					"60"
+		type					"replace_carbonium_to_factory"
+
+		building_group			"replace_carbonium_to_1_powerplant"
+		buildable				"0"
+	}
+
+	MeshDesc
+	{
+		mesh					"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material				"buildings/metal_plate_1x1"
+		flags					"2"
+	}
+}
+
+EntityBlueprint
+{
+	name						"buildings/tools/replace_carbonium_to_2_factory_ghost"
+
+	BuildingDesc
+	{
+		name					"replace_carbonium_to_2_factory_ghost"
+		buildable				"0"
+		type					"replace_carbonium_to_factory"
+		category				"tools"
+	}
+
+	LuaDesc
+	{
+		script					"lua/misc/replace_carbonium_tool.lua"
+		database
+		{
+			action				string:"replace_carbonium_tool"
+
+			fromLowName			string:"carbonium_powerplant"
+			toBlueprint			string:"buildings/resources/carbonium_factory"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh					"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material				"selector/hologram_blue"
+		flags					"2"
+	}
+}
