@@ -1,4 +1,3 @@
-
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
@@ -32,7 +31,7 @@ function switch_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function switch_tool:FilterSelectedEntities( selectedEntities ) 
+function switch_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
@@ -129,6 +128,4 @@ function switch_tool:OnActivateSelectorRequest()
     end
 end
 
-
 return switch_tool
- 

@@ -12,20 +12,20 @@ function turn_on_ff_tool:OnInit()
     local setPower = ( self.data:GetIntOrDefault("set_power", 0) == 1 )
 
     self.setPower = setPower
-    
-    if ( setPower ) then 
+
+    if ( setPower ) then
         self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_turn_on", self.entity)
     else
         self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_turn_off", self.entity)
-    end   
-    
+    end
+
     self.popupShown = false
 end
 
 function turn_on_ff_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
-    
+
     if ( skinned ) then
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
     else
@@ -43,10 +43,10 @@ function turn_on_ff_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function turn_on_ff_tool:FilterSelectedEntities( selectedEntities ) 
+function turn_on_ff_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
-    
+
     for ent in Iter(selectedEntities ) do
 
         if ( EntityService:GetComponent(ent, "ResourceConverterComponent") ~= nil ) then
@@ -122,4 +122,3 @@ function turn_on_ff_tool:OnActivateEntity( entity )
 end
 
 return turn_on_ff_tool
- 
