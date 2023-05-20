@@ -126,12 +126,17 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
     local position = transform.position
     local orientation = transform.orientation
 
+
+    local placeRuinScript = EntityService:SpawnEntity( "buildings/tools/place_ruin_after_sell/script", position, team )
+
+    local database = EntityService:GetDatabase( placeRuinScript )
+
+    database:SetInt( "target_entity", entity )
+    database:SetString( "ruins_blueprint", ruinsBlueprint )
+
+
+
     QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
-
-    local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, position, team )
-
-    EntityService:SetOrientation( newRuinsEntity, orientation )
-    EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
 end
 
 return sell_place_ruins_tool
