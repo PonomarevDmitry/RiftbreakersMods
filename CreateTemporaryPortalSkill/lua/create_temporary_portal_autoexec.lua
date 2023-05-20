@@ -8,7 +8,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         return
     end
 
-    local skillName = "items/skills/spawn_temporary_portal"
+    local skillName = "items/skills/create_temporary_portal"
 
     local itemCount = ItemService:GetItemCount( player, skillName )
 
