@@ -13,25 +13,25 @@ end
 
 function base_lamp_trail:OnInit()
 
-    item.OnInit(self)
+    if ( item.OnInit ) then
+        item.OnInit(self)
+    end
 
     self:FillInitialParams()
 end
 
 function base_lamp_trail:OnLoad()
 
-    item.OnLoad(self)
+    if ( item.OnLoad ) then
+        item.OnLoad(self)
+    end
 
     self:FillInitialParams()
 end
 
 function base_lamp_trail:FillInitialParams()
 
-    self.buildPosition = {}
-
-    self.playerId = 0
-
-    self:FindMinDistance()
+    self.buildPosition = self.buildPosition or {}
 
     self.isWorking = self.isWorking or false
 
@@ -82,19 +82,15 @@ function base_lamp_trail:GetLampBlueprint()
     return blueprintName
 end
 
-function base_lamp_trail:OnEquipped()
-    self:FindMinDistance()
-end
-
 function base_lamp_trail:FindMinDistance()
-    
-    local blueprint = self:GetLampBlueprint()
 
-    local lowName = BuildingService:FindLowUpgrade( blueprint )
+    --local lowName = BuildingService:FindLowUpgrade( blueprint )
 
     --LogService:Log("FindMinDistance " .. blueprint .. " " .. lowName )
 
-    self.radius = BuildingService:FindEnergyRadius( blueprint )
+    local blueprintName = self:GetLampBlueprint()
+
+    self.radius = BuildingService:FindEnergyRadius( blueprintName )
 
     if ( self.radius == nil ) then
         local bounds = EntityService:GetBoundsSize( self.entity )
@@ -102,11 +98,34 @@ function base_lamp_trail:FindMinDistance()
     end
 end
 
-function base_lamp_trail:OnActivate()
-
-    self:InitStateMachine()
+function base_lamp_trail:FillPlayerId()
 
     self.playerId = 0
+
+    if ( self.owner ~= nil and self.owner ~= INVALID_ID ) then
+
+        local playerReferenceComponent = EntityService:GetComponent( self.owner, "PlayerReferenceComponent" )
+        if ( playerReferenceComponent ) then
+
+            local helper = reflection_helper(playerReferenceComponent)
+
+            self.playerId = helper.player_id
+        end
+    end
+end
+
+function base_lamp_trail:OnActivate()
+
+    if ( self.owner == nil or self.owner == INVALID_ID ) then
+
+        return
+    end
+
+    self:FillPlayerId()
+
+    self:FindMinDistance()
+
+    self:InitStateMachine()
 
     self.isWorking = self.isWorking or false
 
@@ -121,17 +140,17 @@ function base_lamp_trail:OnActivate()
             EntityService:RemoveEntity(self.iconEntity)
         end
 
-        self.iconEntity = EntityService:SpawnAndAttachEntity("items/skills/base_lamp_trail/icon", self.owner )
+        self.iconEntity = EntityService:SpawnAndAttachEntity( "items/skills/base_lamp_trail/icon", self.owner )
 
         self:FillConnectorsList()
 
         if ( #self.buildPosition == 0 ) then
 
-            local blueprint = self:GetLampBlueprint()
+            local blueprintName = self:GetLampBlueprint()
 
             local transform = self:GetPlayerTransform()
 
-            self:BuildOnSpot( blueprint, transform )
+            self:BuildOnSpot( blueprintName, transform )
         end
 
         self:OnWorkExecute()
@@ -142,8 +161,7 @@ end
 
 function base_lamp_trail:GetPlayerTransform()
 
-    local player = PlayerService:GetPlayerControlledEnt( self.playerId )
-    local transform = EntityService:GetWorldTransform( player )
+    local transform = EntityService:GetWorldTransform( self.owner )
     transform.orientation = { x=0, y=1, z=0, w=0 }
 
     return transform
@@ -193,7 +211,7 @@ function base_lamp_trail:HasDistributionRadius( resourceStorageRef )
         local count = resourceStorageRef.Storages.count
 
         for i=1,count do
-            
+
             local storage = resourceStorageRef.Storages[i]
 
             if ( tostring(storage.group) == "10" and storage.distribution_radius >= 1 ) then
@@ -202,7 +220,7 @@ function base_lamp_trail:HasDistributionRadius( resourceStorageRef )
             end
         end
     end
-    
+
     return false
 end
 
@@ -227,8 +245,8 @@ function base_lamp_trail:StopWorking()
 end
 
 function base_lamp_trail:OnRelease()
-    if ( self.isWorking ) then
 
+    if ( self.isWorking ) then
         self:StopWorking()
     end
 
@@ -258,21 +276,21 @@ function base_lamp_trail:OnWorkExecute()
 
     local nearestSpot = self:GetNearestSpot(transform.position)
 
-    local blueprint = self:GetLampBlueprint()
+    local blueprintName = self:GetLampBlueprint()
 
-    local spots = BuildingService:FindSpotsByDistance( nearestSpot, transform, self.radius, blueprint )
+    local spots = BuildingService:FindSpotsByDistance( nearestSpot, transform, self.radius, blueprintName )
 
     for spot in Iter( spots ) do
 
-        self:BuildOnSpot( blueprint, spot )
+        self:BuildOnSpot( blueprintName, spot )
     end
 end
 
-function base_lamp_trail:BuildOnSpot( blueprint, spot )
+function base_lamp_trail:BuildOnSpot( blueprintName, spot )
 
     local antiQuickSandFloor = "buildings/decorations/floor_desert_1x1"
 
-    if ( BuildingService:IsBuildingAvailable( antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then 
+    if ( BuildingService:IsBuildingAvailable( antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then
 
         local terrainType = self:GetTerrainType( spot.position )
 
@@ -287,9 +305,9 @@ function base_lamp_trail:BuildOnSpot( blueprint, spot )
         end
     end
 
-    if ( BuildingService:IsBuildingAvailable( blueprint ) and BuildingService:CanAffordBuilding( blueprint, self.playerId) ) then
+    if ( BuildingService:IsBuildingAvailable( blueprintName ) and BuildingService:CanAffordBuilding( blueprintName, self.playerId) ) then
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, blueprint, spot, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, spot, true )
 
         Insert( self.buildPosition, spot )
     end
