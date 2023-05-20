@@ -7,12 +7,6 @@ function spawn_temporary_portal:__init()
     item.__init(self,self)
 end
 
-function spawn_temporary_portal:OnInit()
-end
-
-function spawn_temporary_portal:OnEquipped()
-end
-
 function spawn_temporary_portal:OnActivate()
 
     local blueprintName = "misc/rift"
