@@ -11,6 +11,10 @@ function replace_carbonium_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
+function replace_carbonium_tool:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
+end
+
 function replace_carbonium_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_replace_carbonium_tool", self.entity)
     self.popupShown = false
@@ -30,7 +34,7 @@ function replace_carbonium_tool:OnInit()
         self:FillResearches()
     end
 
-    self:SetCarboniumIcon()
+    self:SetBuildingIcon()
 end
 
 function replace_carbonium_tool:FillAllBlueprints( blueprintName )
@@ -99,7 +103,7 @@ function replace_carbonium_tool:GetResearchForUpgrade( researchComponent, bluepr
     return ""
 end
 
-function replace_carbonium_tool:SetCarboniumIcon()
+function replace_carbonium_tool:SetBuildingIcon()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
