@@ -1,22 +1,22 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-	local playerId = evt:GetPlayerId()
+    local playerId = evt:GetPlayerId()
 
-	local player = PlayerService:GetPlayerControlledEnt( playerId )
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
 
-	if	( player == nil ) then
-		return
-	end
+    if ( player == nil ) then
+        return
+    end
 
-	local skillName = "items/skills/energy_connector_trail"
+    local skillName = "items/skills/energy_connector_trail"
 
-	local itemCount = ItemService:GetItemCount( player, skillName )
+    local itemCount = ItemService:GetItemCount( player, skillName )
 
-	--LogService:Log("skillName " .. skillName .. " itemCount " .. tostring(itemCount))
+    --LogService:Log("skillName " .. skillName .. " itemCount " .. tostring(itemCount))
 
-	if ( itemCount > 0 ) then
-		return
-	end
+    if ( itemCount > 0 ) then
+        return
+    end
 
-	PlayerService:AddItemToInventory( playerId, skillName )
+    PlayerService:AddItemToInventory( playerId, skillName )
 end)
