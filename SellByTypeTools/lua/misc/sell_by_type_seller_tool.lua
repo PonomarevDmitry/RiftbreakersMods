@@ -229,20 +229,22 @@ function sell_by_type_seller_tool:OnActivateEntity( entity )
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
-    QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
-
     if ( self.placeRuins ) then
 
         local ruinsBlueprintName = blueprintName .. "_ruins"
 
         if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
 
-            local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprintName, position, team )
+            local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-            EntityService:SetOrientation( newRuinsEntity, orientation )
-            EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
+            local database = EntityService:GetDatabase( placeRuinScript )
+
+            database:SetInt( "target_entity", entity )
+            database:SetString( "ruins_blueprint", ruinsBlueprintName )
         end
     end
+
+    QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
 end
 
 return sell_by_type_seller_tool
