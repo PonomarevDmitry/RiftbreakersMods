@@ -13,27 +13,27 @@ end
 
 function energy_connector_trail:OnInit()
 
-    item.OnInit(self)
+    if ( item.OnInit ) then
+        item.OnInit(self)
+    end
 
     self:FillInitialParams()
 end
 
 function energy_connector_trail:OnLoad()
 
-    item.OnLoad(self)
+    if ( item.OnLoad ) then
+        item.OnLoad(self)
+    end
 
     self:FillInitialParams()
 end
 
 function energy_connector_trail:FillInitialParams()
     
-    self.blueprint = "buildings/energy/energy_connector"
+    self.blueprintName = "buildings/energy/energy_connector"
 
     self.buildPosition = {}
-
-    self.playerId = 0
-
-    self:FindMinDistance()
 
     self.isWorking = self.isWorking or false
 
@@ -42,13 +42,9 @@ function energy_connector_trail:FillInitialParams()
     end
 end
 
-function energy_connector_trail:OnEquipped()
-    self:FindMinDistance()
-end
-
 function energy_connector_trail:FindMinDistance()
 
-    self.radius = BuildingService:FindEnergyRadius( self.blueprint )
+    self.radius = BuildingService:FindEnergyRadius( self.blueprintName )
 
     if ( self.radius == nil ) then
         local bounds = EntityService:GetBoundsSize( self.entity )
@@ -56,11 +52,34 @@ function energy_connector_trail:FindMinDistance()
     end
 end
 
-function energy_connector_trail:OnActivate()
-
-    self:InitStateMachine()
+function energy_connector_trail:FillPlayerId()
 
     self.playerId = 0
+
+    if ( self.owner ~= nil and self.owner ~= INVALID_ID ) then
+
+        local playerReferenceComponent = EntityService:GetComponent( self.owner, "PlayerReferenceComponent" )
+        if ( playerReferenceComponent ) then
+
+            local playerReferenceComponentRef = reflection_helper(playerReferenceComponent)
+
+            self.playerId = playerReferenceComponentRef.player_id
+        end
+    end
+end
+
+function energy_connector_trail:OnActivate()
+
+    if ( self.owner == nil or self.owner == INVALID_ID ) then
+
+        return
+    end
+
+    self:FillPlayerId()
+
+    self:FindMinDistance()
+
+    self:InitStateMachine()
 
     self.isWorking = self.isWorking or false
 
@@ -94,8 +113,7 @@ end
 
 function energy_connector_trail:GetPlayerTransform()
 
-    local player = PlayerService:GetPlayerControlledEnt( self.playerId )
-    local transform = EntityService:GetWorldTransform( player )
+    local transform = EntityService:GetWorldTransform( self.owner )
     transform.orientation = { x=0, y=1, z=0, w=0 }
 
     return transform
@@ -179,8 +197,8 @@ function energy_connector_trail:StopWorking()
 end
 
 function energy_connector_trail:OnRelease()
-    if ( self.isWorking ) then
 
+    if ( self.isWorking ) then
         self:StopWorking()
     end
 
@@ -210,7 +228,7 @@ function energy_connector_trail:OnWorkExecute()
 
     local nearestSpot = self:GetNearestSpot(transform.position)
 
-    local spots = BuildingService:FindSpotsByDistance( nearestSpot, transform, self.radius, self.blueprint )
+    local spots = BuildingService:FindSpotsByDistance( nearestSpot, transform, self.radius, self.blueprintName )
 
     for spot in Iter( spots ) do
 
@@ -237,9 +255,9 @@ function energy_connector_trail:BuildOnSpot( spot )
         end
     end
 
-    if ( BuildingService:IsBuildingAvailable( self.blueprint ) and BuildingService:CanAffordBuilding( self.blueprint, self.playerId) ) then
+    if ( BuildingService:IsBuildingAvailable( self.blueprintName ) and BuildingService:CanAffordBuilding( self.blueprintName, self.playerId) ) then
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprintName, spot, true )
 
         Insert( self.buildPosition, spot )
     end
