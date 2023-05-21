@@ -13,6 +13,17 @@ function place_ruin_after_sell_script:init()
 
     self.targetEntity = self.data:GetInt("target_entity")
 
+    local playerReferenceComponent = EntityService:GetComponent( self.targetEntity, "PlayerReferenceComponent" )
+    if ( playerReferenceComponent )  then
+
+        local playerReferenceComponentRef  = reflection_helper(playerReferenceComponent )
+
+        LogService:Log("playerReferenceComponentRef " .. tostring(playerReferenceComponentRef))
+
+        self.playerId = playerReferenceComponentRef.player_id
+        self.internalEnum = playerReferenceComponentRef.reference_type.internal_enum
+    end
+
     self.ruinsBlueprint = self.data:GetString("ruins_blueprint")
 
     self.team = EntityService:GetTeam( self.targetEntity )
@@ -38,6 +49,11 @@ function place_ruin_after_sell_script:OnBuildingSellEndEvent()
     end
 
     local newRuinsEntity = EntityService:SpawnEntity( self.ruinsBlueprint, self.position, self.team )
+
+    local playerReferenceRef = reflection_helper( EntityService:CreateComponent( newRuinsEntity, "PlayerReferenceComponent" ) )
+
+    playerReferenceRef.player_id = self.playerId or 0
+    playerReferenceRef.reference_type.internal_enum = self.internalEnum or 4
 
     EntityService:SetOrientation( newRuinsEntity, self.orientation )
     EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
