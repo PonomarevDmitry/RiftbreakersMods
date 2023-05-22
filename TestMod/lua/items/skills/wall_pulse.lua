@@ -33,9 +33,13 @@ function wall_pulse:OnActivate()
         return
     end
 
-    self.step = 5
+    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data;
 
-    self.team = EntityService:GetTeam(self.entity)
+    self.step = database:GetInt("step_start")
+    self.interval = database:GetInt("interval")
+    self.stepEnd = database:GetInt("step_end")
+
+    self.team = EntityService:GetTeam( self.entity )
     self.playerPosition = EntityService:GetPosition( self.owner )
 
     EffectService:SpawnEffect( self.owner, "effects/weapons_explosive/sonic_blast" )
@@ -49,13 +53,16 @@ function wall_pulse:OnExecuteCleanPath( state )
 
     LogService:Log("OnExecuteCleanPath " .. blueprintName)
 
-    local culler = EntityService:SpawnEntity( blueprintName, self.playerPosition, self.team )
+    if ( ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
 
-    EntityService:CreateLifeTime( culler, 0.05, "normal" )
+        local culler = EntityService:SpawnEntity( blueprintName, self.playerPosition, self.team )
 
-    self.step = self.step + 5
+        EntityService:CreateLifeTime( culler, 0.05, "normal" )
+    end
 
-    if ( self.step > 60 ) then
+    self.step = self.step + self.interval
+
+    if ( self.step > self.stepEnd ) then
         return state:Exit()
     end
 end
