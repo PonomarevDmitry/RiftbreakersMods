@@ -20,8 +20,6 @@ function personal_rift_portal:OnActivate()
     self.spawnWaiting = database:GetFloat("spawn_waiting")
     self.spawnDuration = database:GetFloat("spawn_duration")
 
-    local cooldown = 1.0 / 30.0
-
     if ( self.spawnWaiting <= self.duration and self.duration <= self.spawnDuration ) then
 
         if ( self.timer == nil ) then
@@ -45,7 +43,7 @@ function personal_rift_portal:OnActivate()
         self:SpawnPortal( "misc/personal_rift" )
     end
 
-    self.duration = self.duration + cooldown
+    self.duration = self.duration + 1.0 / 30.0
 end
 
 function personal_rift_portal:OnDeactivate()
