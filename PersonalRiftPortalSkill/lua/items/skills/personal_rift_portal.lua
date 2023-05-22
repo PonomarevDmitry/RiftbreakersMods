@@ -7,9 +7,76 @@ function personal_rift_portal:__init()
     item.__init(self,self)
 end
 
+function personal_rift_portal:OnEquipped()
+    self.duration = 0.0
+end
+
 function personal_rift_portal:OnActivate()
 
-    local blueprintName = "misc/personal_rift"
+    self.duration = self.duration or 0.0
+
+    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    self.spawnWaiting = database:GetFloat("spawn_waiting")
+    self.spawnDuration = database:GetFloat("spawn_duration")
+
+    local cooldown = 1.0 / 30.0
+
+    if ( self.spawnWaiting <= self.duration and self.duration <= self.spawnDuration ) then
+
+        if ( self.timer == nil ) then
+
+            local timeBeforeSpawn = (self.spawnDuration - self.spawnWaiting)
+
+            self.timer = BuildingService:CreateGuiTimer( self.owner, timeBeforeSpawn )
+        else
+
+            local passTime = (self.duration - self.spawnWaiting)
+
+            BuildingService:SetGuiTimer( self.timer, passTime )
+        end
+    elseif ( self.spawnDuration <= self.duration ) then
+
+        if ( self.timer ~= nil ) then
+            EntityService:RemoveEntity( self.timer )
+            self.timer = nil
+        end
+
+        self:SpawnPortal( "misc/personal_rift" )
+    end
+
+    self.duration = self.duration + cooldown
+end
+
+function personal_rift_portal:OnDeactivate()
+
+    if ( self.timer ~= nil ) then
+        EntityService:RemoveEntity( self.timer )
+        self.timer = nil
+    end
+
+    if ( self.duration <= self.spawnWaiting ) then
+
+        local entities = FindService:FindEntitiesByBlueprint( "misc/personal_rift" )
+
+        if ( #entities > 0 ) then
+
+            local portal = entities[#entities]
+
+            local portalPosition = EntityService:GetPosition( portal )
+
+            self:SpawnPortal( "misc/rift" )
+
+            PlayerService:TeleportPlayer( self.owner, portalPosition , 0.2, 0.1, 0.2 )
+        end
+    end
+
+    self.duration = 0.0
+
+    return true
+end
+
+function personal_rift_portal:SpawnPortal(blueprintName)
 
     local entities = FindService:FindEntitiesByBlueprint( blueprintName )
 
