@@ -14,7 +14,8 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     local skillList = {
 
         "items/skills/personal_rift_portal",
-        "items/skills/rift_jump_to_hq"
+        "items/skills/rift_jump_to_hq",
+        "items/skills/rift_jump_to_nearest_portal"
     }
 
     for skillName in Iter( skillList ) do
