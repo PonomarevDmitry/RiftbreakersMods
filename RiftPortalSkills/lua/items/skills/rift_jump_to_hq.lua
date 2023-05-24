@@ -45,7 +45,7 @@ function rift_jump_to_hq:JumpToHQ(entity)
         end
 
         local riftPointComponent = EntityService:GetComponent( childEntity, "RiftPointComponent" )
-        if ( riftPointComponent = nil ) then
+        if ( riftPointComponent == nil ) then
             goto continue
         end
 

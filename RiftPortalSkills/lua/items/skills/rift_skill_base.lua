@@ -30,9 +30,50 @@ function rift_skill_base:JumpToEntity(entity)
 
     local portalPosition = EntityService:GetPosition( entity )
 
-    self:SpawnPortal( "misc/rift" )
+    self:SpawnTemporaryPortalInNeeded()
 
     PlayerService:TeleportPlayer( self.owner, portalPosition , 0.2, 0.1, 0.2 )
+end
+
+function rift_skill_base:SpawnTemporaryPortalInNeeded()
+
+    local buildingDesc = BuildingService:GetBuildingDesc( "buildings/defense/portal" )
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+
+    local radius = buildingDescRef.min_radius
+
+    local predicate = {
+
+        signature="RiftPointComponent",
+
+        filter = function(entity)
+
+            local riftPointComponent = EntityService:GetComponent(entity, "RiftPointComponent")
+            if ( riftPointComponent == nil ) then
+                return false
+            end
+
+            local riftPointComponentRef = reflection_helper( riftPointComponent )
+
+            if ( riftPointComponentRef.active == false ) then
+                return false;
+            end
+
+            if ( riftPointComponentRef.name == "rift" or riftPointComponentRef.name == "headquarters" ) then
+                return true;
+            end
+
+            return false
+        end
+    };
+
+    local entities = FindService:FindEntitiesByPredicateInRadius( self.owner, radius, predicate )
+
+    if ( #entities == 0) then
+
+        self:SpawnPortal( "misc/rift" )
+    end
 end
 
 function rift_skill_base:SpawnPortal(blueprintName)
