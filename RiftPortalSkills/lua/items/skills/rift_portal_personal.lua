@@ -1,17 +1,17 @@
 local item = require("lua/items/item.lua")
 require("lua/utils/reflection.lua")
 
-class 'personal_rift_portal' ( item )
+class 'rift_portal_personal' ( item )
 
-function personal_rift_portal:__init()
+function rift_portal_personal:__init()
     item.__init(self,self)
 end
 
-function personal_rift_portal:OnEquipped()
+function rift_portal_personal:OnEquipped()
     self.duration = 0.0
 end
 
-function personal_rift_portal:OnActivate()
+function rift_portal_personal:OnActivate()
 
     self.duration = self.duration or 0.0
 
@@ -24,7 +24,7 @@ function personal_rift_portal:OnActivate()
 
         if ( self.timer == nil ) then
 
-            QueueEvent( "AddMaxSpeedModifierRequest", self.owner, "personal_rift_portal_penalty", 0 )
+            QueueEvent( "AddMaxSpeedModifierRequest", self.owner, "rift_portal_personal_penalty", 0 )
 
             local timeBeforeSpawn = (self.spawnAfter - self.teleportBefore)
 
@@ -48,18 +48,18 @@ function personal_rift_portal:OnActivate()
     self.duration = self.duration + 1.0 / 30.0
 end
 
-function personal_rift_portal:DestroyTimer()
+function rift_portal_personal:DestroyTimer()
 
     if ( self.timer ~= nil ) then
 
         EntityService:RemoveEntity( self.timer )
         self.timer = nil
 
-        QueueEvent( "RemoveMaxSpeedModifierRequest", self.owner, "personal_rift_portal_penalty" )
+        QueueEvent( "RemoveMaxSpeedModifierRequest", self.owner, "rift_portal_personal_penalty" )
     end
 end
 
-function personal_rift_portal:OnDeactivate()
+function rift_portal_personal:OnDeactivate()
 
     self:DestroyTimer()
 
@@ -84,7 +84,7 @@ function personal_rift_portal:OnDeactivate()
     return true
 end
 
-function personal_rift_portal:SpawnPortal(blueprintName)
+function rift_portal_personal:SpawnPortal(blueprintName)
 
     local entities = FindService:FindEntitiesByBlueprint( blueprintName )
 
@@ -99,4 +99,4 @@ function personal_rift_portal:SpawnPortal(blueprintName)
     local newPortal = EntityService:SpawnEntity( blueprintName, playerPosition, team )
 end
 
-return personal_rift_portal
+return rift_portal_personal
