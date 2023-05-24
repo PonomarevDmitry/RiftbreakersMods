@@ -1,3 +1,6 @@
+require("lua/utils/table_utils.lua")
+require("lua/utils/numeric_utils.lua")
+
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local playerId = evt:GetPlayerId()
@@ -8,13 +11,20 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         return
     end
 
-    local skillName = "items/skills/temporary_rift_portal"
+    local skillList = {
 
-    local itemCount = ItemService:GetItemCount( player, skillName )
+        "items/skills/temporary_rift_portal",
+        "items/skills/personal_rift_portal",
+        "items/skills/rift_jump_to_hq",
+        "items/skills/rift_jump_to_nearest_portal"
+    }
 
-    if ( itemCount > 0 ) then
-        return
+    for skillName in Iter( skillList ) do
+
+        local itemCount = ItemService:GetItemCount( player, skillName )
+
+        if ( itemCount == 0 ) then
+            PlayerService:AddItemToInventory( playerId, skillName )
+        end
     end
-
-    PlayerService:AddItemToInventory( playerId, skillName )
 end)
