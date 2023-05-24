@@ -131,6 +131,7 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
 
     local database = EntityService:GetDatabase( placeRuinScript )
 
+    database:SetInt( "player_id", self.playerId )
     database:SetInt( "target_entity", entity )
     database:SetString( "ruins_blueprint", ruinsBlueprint )
 
