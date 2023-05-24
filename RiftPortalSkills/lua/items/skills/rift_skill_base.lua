@@ -11,6 +11,10 @@ end
 
 function rift_skill_base:FindNearest(entities)
 
+    if ( #entities == 0 ) then
+        return nil
+    end
+
     local distances = {}
 
     for entity in Iter( entities ) do
