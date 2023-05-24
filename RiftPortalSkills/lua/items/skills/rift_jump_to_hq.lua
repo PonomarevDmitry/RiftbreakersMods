@@ -1,15 +1,12 @@
-local item = require("lua/items/item.lua")
+local rift_skill_base = require("lua/items/skills/rift_skill_base.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
 
-class 'rift_jump_to_hq' ( item )
+class 'rift_jump_to_hq' ( rift_skill_base )
 
 function rift_jump_to_hq:__init()
-    item.__init(self,self)
-end
-
-function rift_jump_to_hq:OnEquipped()
+    rift_skill_base.__init(self,self)
 end
 
 function rift_jump_to_hq:OnActivate()
@@ -17,15 +14,21 @@ function rift_jump_to_hq:OnActivate()
     local findResult = FindService:FindEntityByName( "headquarters" )
     if ( findResult ~= nil and findResult ~= INVALID_ID ) then
 
-        self:JumpToHQ(findResult)
-        return
+        local jumpResult = self:JumpToHQ(findResult)
+
+        if ( jumpResult ) then
+            return
+        end
     end
 
     findResult = FindService:FindEntityByName( "outpost" )
     if ( findResult ~= nil and findResult ~= INVALID_ID ) then
 
-        self:JumpToHQ(findResult)
-        return
+        local jumpResult = self:JumpToHQ(findResult)
+
+        if ( jumpResult ) then
+            return
+        end
     end
 end
 
@@ -37,32 +40,31 @@ function rift_jump_to_hq:JumpToHQ(entity)
 
         local blueprintName = EntityService:GetBlueprintName( childEntity )
 
-        if ( blueprintName == "buildings/main/headquarters/portal" ) then
-
-            local portalPosition = EntityService:GetPosition( childEntity )
-
-            self:SpawnPortal( "misc/rift" )
-
-            PlayerService:TeleportPlayer( self.owner, portalPosition , 0.2, 0.1, 0.2 )
-
-            return
+        if ( blueprintName ~= "buildings/main/headquarters/portal" ) then
+            goto continue
         end
+
+        local riftPointComponent = EntityService:GetComponent( childEntity, "RiftPointComponent" )
+        if ( riftPointComponent = nil ) then
+            goto continue
+        end
+
+        local riftPointComponentRef = reflection_helper( riftPointComponent )
+
+        if ( riftPointComponentRef.active == false ) then
+            goto continue
+        end
+
+        self:JumpToEntity(childEntity)
+
+        do
+            return true
+        end
+
+        ::continue::
     end
-end
 
-function rift_jump_to_hq:SpawnPortal(blueprintName)
-
-    local entities = FindService:FindEntitiesByBlueprint( blueprintName )
-
-    for i=1,#entities do
-        QueueEvent( "DissolveEntityRequest", entities[i], 0.5, 0 )
-    end
-
-    local team = EntityService:GetTeam( self.entity )
-
-    local playerPosition = EntityService:GetPosition( self.owner )
-
-    local newPortal = EntityService:SpawnEntity( blueprintName, playerPosition, team )
+    return false
 end
 
 return rift_jump_to_hq

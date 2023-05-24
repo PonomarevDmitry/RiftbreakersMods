@@ -1,10 +1,12 @@
-local item = require("lua/items/item.lua")
+local rift_skill_base = require("lua/items/skills/rift_skill_base.lua")
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+require("lua/utils/numeric_utils.lua")
 
-class 'rift_portal_personal' ( item )
+class 'rift_portal_personal' ( rift_skill_base )
 
 function rift_portal_personal:__init()
-    item.__init(self,self)
+    rift_skill_base.__init(self,self)
 end
 
 function rift_portal_personal:OnEquipped()
@@ -71,32 +73,13 @@ function rift_portal_personal:OnDeactivate()
 
             local portal = entities[#entities]
 
-            local portalPosition = EntityService:GetPosition( portal )
-
-            PlayerService:TeleportPlayer( self.owner, portalPosition , 0.2, 0.1, 0.2 )
-
-            self:SpawnPortal( "misc/rift" )
+            self:JumpToEntity( portal )
         end
     end
 
     self.duration = 0.0
 
     return true
-end
-
-function rift_portal_personal:SpawnPortal(blueprintName)
-
-    local entities = FindService:FindEntitiesByBlueprint( blueprintName )
-
-    for i=1,#entities do
-        QueueEvent( "DissolveEntityRequest", entities[i], 0.2, 0 )
-    end
-
-    local team = EntityService:GetTeam( self.entity )
-
-    local playerPosition = EntityService:GetPosition( self.owner )
-
-    local newPortal = EntityService:SpawnEntity( blueprintName, playerPosition, team )
 end
 
 return rift_portal_personal
