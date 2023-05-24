@@ -73,9 +73,9 @@ function personal_rift_portal:OnDeactivate()
 
             local portalPosition = EntityService:GetPosition( portal )
 
-            self:SpawnPortal( "misc/rift" )
-
             PlayerService:TeleportPlayer( self.owner, portalPosition , 0.2, 0.1, 0.2 )
+
+            self:SpawnPortal( "misc/rift" )
         end
     end
 
@@ -89,7 +89,7 @@ function personal_rift_portal:SpawnPortal(blueprintName)
     local entities = FindService:FindEntitiesByBlueprint( blueprintName )
 
     for i=1,#entities do
-        QueueEvent( "DissolveEntityRequest", entities[i], 0.5, 0 )
+        QueueEvent( "DissolveEntityRequest", entities[i], 0.2, 0 )
     end
 
     local team = EntityService:GetTeam( self.entity )
