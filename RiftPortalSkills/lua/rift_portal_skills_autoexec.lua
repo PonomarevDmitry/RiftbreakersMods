@@ -13,7 +13,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local skillList = {
 
-        "items/skills/temporary_rift_portal",
+        "items/skills/rift_portal_temporary",
         "items/skills/personal_rift_portal",
         "items/skills/rift_jump_to_hq",
         "items/skills/rift_jump_to_nearest_portal"
