@@ -41,7 +41,7 @@ function rift_portal_personal:OnActivate()
 
             self:DestroyTimer()
 
-            self:SpawnPortal( "misc/personal_rift" )
+            self:SpawnPortal( "misc/rift_personal" )
         end
     end
 
@@ -65,7 +65,7 @@ function rift_portal_personal:OnDeactivate()
 
     if ( self.duration < self.teleportBefore ) then
 
-        local entities = FindService:FindEntitiesByBlueprint( "misc/personal_rift" )
+        local entities = FindService:FindEntitiesByBlueprint( "misc/rift_personal" )
 
         if ( #entities > 0 ) then
 
