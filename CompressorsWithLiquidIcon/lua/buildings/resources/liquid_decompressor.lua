@@ -188,8 +188,10 @@ function liquid_decompressor:OnRelease()
     if ( self.compressorNonWorking ~= nil and self.compressorNonWorking ~= INVALID_ID ) then
         EntityService:RemoveEntity( self.compressorNonWorking )
     end
-    
-    building.OnRelease( self )
+
+    if ( building.OnRelease ) then
+        building.OnRelease( self )
+    end
 end
 
 return liquid_decompressor

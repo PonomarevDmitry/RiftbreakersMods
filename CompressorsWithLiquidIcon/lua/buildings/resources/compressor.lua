@@ -8,7 +8,7 @@ end
 
 function compressor:OnInit()
     self:RegisterHandler( self.entity, "BuildingModifiedEvent",  "OnBuildingModifiedEvent" )
-    
+
     self.resource = ""
     self.postfix = self.data:GetStringOrDefault( "postfix", "_pipe")
 
@@ -30,7 +30,7 @@ end
 function compressor:OnLuaGlobalEventCompressorsShowHideIcon( evt )
 
     local eventName = evt:GetEvent()
-    
+
     if eventName == "CompressorsHideLiquidIcon" then
 
         self.showLiquidIcon = 0
@@ -132,7 +132,7 @@ function compressor:IsCompressedResourceFilled( menuDB )
     end
 
     local itemBiggerIcon = inventoryCompRef.bigger_icon
-        
+
     menuDB:SetString("liquid_icon", itemBiggerIcon)
     menuDB:SetString("liquid_name", "")
 
@@ -144,7 +144,8 @@ function compressor:OnBuildingEnd()
     self:ChangeLiquidIcon()
 end
 
-function compressor:FixMaterial() 
+function compressor:FixMaterial()
+
     local resourceConverterComponent = EntityService:GetComponent( self.entity, "ResourceConverterComponent" )
     if ( resourceConverterComponent == nil ) then
         self.resource = ""
@@ -181,8 +182,10 @@ function compressor:OnRelease()
     if ( self.compressorNonWorking ~= nil and self.compressorNonWorking ~= INVALID_ID ) then
         EntityService:RemoveEntity( self.compressorNonWorking )
     end
-    
-    building.OnRelease( self )
+
+    if ( building.OnRelease ) then
+        building.OnRelease( self )
+    end
 end
 
 return compressor
