@@ -356,25 +356,34 @@ function ghost_building:BuildEntity(entity)
     if ( testBuildable.flag == CBF_TO_CLOSE ) then
 
         if ( self.toCloseAnnoucement ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
+            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false )
         end
 
         return testBuildable.flag
 
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
-        QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
 
         return testBuildable.flag
     end
 
     local missingResources = testBuildable.missing_resources
     if ( missingResources.count > 0 ) then
-        if ( missingResources.count > 1 ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", entity, false )
-        elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
+
+        local soundAnnouncement = "voice_over/announcement/not_enough_resources"
+
+        if ( missingResources.count == 1 ) then
+
+            local singleMissingResource = missingResources[1]
+
+            if ( self.annoucements[singleMissingResource] ~= nil and self.annoucements[singleMissingResource] ~= "" ) then
+
+                soundAnnouncement = self.annoucements[singleMissingResource]
+            end
         end
+
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
 
         return testBuildable.flag
     end
@@ -382,12 +391,12 @@ function ghost_building:BuildEntity(entity)
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
         for entityToSell in Iter(testBuildable.entities_to_sell) do
-            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+            QueueEvent( "SellBuildingRequest", entityToSell, self.playerId, false )
         end
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
     elseif( testBuildable.flag == CBF_REPAIR ) then
         QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
     end
@@ -460,11 +469,11 @@ function ghost_building:FinishLineBuild()
 
             for i=1,count do
 
-                local ghost = allEntities[i]
+                local ghostEntity = allEntities[i]
 
-                self:BuildEntity(ghost)
+                self:BuildEntity(ghostEntity)
 
-                EntityService:RemoveEntity(ghost)
+                EntityService:RemoveEntity(ghostEntity)
             end
         end
     end
@@ -530,8 +539,8 @@ function ghost_building:OnRelease()
 
     if ( self.gridEntities ~= nil) then
         for gridEntitiesZ in Iter(self.gridEntities) do
-            for ghost in Iter(gridEntitiesZ) do
-                EntityService:RemoveEntity(ghost)
+            for ghostEntity in Iter(gridEntitiesZ) do
+                EntityService:RemoveEntity(ghostEntity)
             end
         end
     end
@@ -546,8 +555,12 @@ function ghost_building:OnRelease()
 
     if ( self.infoChild ~= nil) then
         EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
+
+    if ( ghost.OnRelease ) then
+        ghost.OnRelease(self)
     end
 end
 
 return ghost_building
- 
