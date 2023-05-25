@@ -62,7 +62,7 @@ end
 function flora_cultivator:OnRelease()
 
     self:DestoryPlanIcon()
-    
+
     drone_spawner_building.OnRelease( self )
 end
 
@@ -171,7 +171,7 @@ function flora_cultivator:PopulateSpecialActionInfo()
     self:OnUpdateProductionExecute()
 
     if ( self.item == INVALID_ID or self.item == nil ) then
-    
+
         self.data:SetString("action_icon", "gui/hud/tools_icons/sapling" )
         self:DestoryPlanIcon()
         return
@@ -239,7 +239,7 @@ function flora_cultivator:RefreshDrones()
     for drone in Iter(self.drones) do
         self:DroneSpawned(drone)
     end
-    
+
     self:PopulateSpecialActionInfo()
 end
 
@@ -257,7 +257,7 @@ end
 function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon( evt )
 
     local eventName = evt:GetEvent()
-    
+
     if eventName == "CultivatorHidePlantIcon" then
 
         self.showPlantIcon = 0
@@ -328,7 +328,7 @@ function flora_cultivator:OnItemEquippedEvent( evt )
     if( db == nil ) then
         return
     end
-    
+
     if db:HasString("plant_blueprint") then
         self.spawn_blueprint = db:GetStringOrDefault( "plant_blueprint", "" )
         EntityService:RemoveComponent( self.entity, "FloraCultivatorComponent")
@@ -346,7 +346,7 @@ function flora_cultivator:OnItemEquippedEvent( evt )
     else
         self.spawn_prefab = nil
     end
-        
+
     Assert( (self.spawn_blueprint or self.spawn_prefab) ~= nil, "ERROR: missing plant info! " .. db:GetStringOrDefault( "plant_prefab", "" ) .. " " .. db:GetStringOrDefault( "plant_blueprint", "" ) );
 
     self:DisableVegetationAround();
@@ -385,7 +385,7 @@ function flora_cultivator:OnUpdateProductionExecute()
 
     local inventoryComp = blueprint:GetComponent("InventoryItemComponent")
     if ( inventoryComp ~= nil ) then
-        
+
         local inventoryCompRef = reflection_helper(inventoryComp)
 
         if ( inventoryCompRef ~= nil ) then
@@ -401,12 +401,12 @@ function flora_cultivator:OnUpdateProductionExecute()
     local gatherComp = blueprint:GetComponent("GatherResourceComponent")
 
     if ( gatherComp ~= nil ) then
-        
+
         local gatherCompRef = reflection_helper(gatherComp)
 
         if ( gatherCompRef ~= nil and gatherCompRef.resources ~= nil and gatherCompRef.resources.resource ~= nil and gatherCompRef.resources.resource.count > 0 ) then
-    
-            local resourceNamesList = { 
+
+            local resourceNamesList = {
                 "biomass_plant",
                 "biomass_animal",
 
@@ -451,7 +451,7 @@ function flora_cultivator:AddResourceToProductionGroup( resourceName, production
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", resourceBlueprintName ) ) then
         return productionGroupContent
     end
-    
+
     local resourceBlueprint = ResourceManager:GetBlueprint( resourceBlueprintName )
     if ( resourceBlueprint == nil ) then
         return productionGroupContent
@@ -493,7 +493,7 @@ function flora_cultivator:IsResourceInGatherable( resourceName, resourceList )
         if ( resourcePair ~= nil and resourcePair.key ~= nil and resourcePair.key.hash ~= nil and resourcePair.key.hash == hashResource ) then
 
             return true
-        end        
+        end
     end
 
     return false

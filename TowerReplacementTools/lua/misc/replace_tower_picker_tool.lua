@@ -101,7 +101,7 @@ function replace_tower_picker_tool:FilterSelectedEntities( selectedEntities )
         if ( self:IsBlueprintInList( self.selectedBlueprints, self.cacheBlueprintsLowNames, blueprintName ) ) then
             goto continue
         end
-            
+
         if ( not EntityService:CompareType( entity, "tower" ) ) then
             goto continue
         end

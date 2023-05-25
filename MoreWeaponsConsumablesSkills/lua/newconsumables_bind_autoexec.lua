@@ -1,7 +1,7 @@
 ConsoleService:RegisterCommand( "activate_slot_request", function( args )
 
     if not Assert( #args == 1, "Command requires one argument! [slot_name]" ) then
-        return 
+        return
     end
 
     local slotName = args[1]
@@ -11,7 +11,7 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
     if ( PlayerService == nil or ItemService == nil ) then
         return
     end
-    
+
     local player = PlayerService:GetPlayerControlledEnt(0)
 
     if ( player == nil ) then
@@ -27,7 +27,7 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
     end
 
     local slotItemType = ItemService:GetItemType( slotItem )
-    
+
     if ( not ItemService:CanActivateItemSlot( player, slotName, slotItemType ) ) then
         LogService:Log("activate_slot_request " .. tostring(slotName) .. " CanActivateItemSlot false" )
         return
@@ -36,12 +36,12 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
     --LogService:Log("activate_slot_request " .. tostring(slotName) .. " ActivateEquipmentSlotRequest" )
     --QueueEvent("ActivateEquipmentSlotRequest", player, slotName, "" )
     --QueueEvent("DeactivateEquipmentSlotRequest", player, slotName, true )
-    
+
 
     LogService:Log("activate_slot_request " .. tostring(slotName) .. " UseEquippedItem" )
     ItemService:UseEquippedItem( player, slotName )
     ItemService:StopUsingEquippedItem( player, slotName )
-    
+
 end)
 
 --JUMP_SKILL

@@ -122,7 +122,7 @@ function liquid_decompressor:IsCompressedResourceFilled( menuDB )
     end
 
     local itemBiggerIcon = inventoryCompRef.bigger_icon
-        
+
     self.data:SetString("action_icon", itemBiggerIcon )
 
     menuDB:SetString("liquid_icon", itemBiggerIcon)
@@ -139,7 +139,7 @@ end
 function liquid_decompressor:OnLuaGlobalEventCompressorsShowHideIcon( evt )
 
     local eventName = evt:GetEvent()
-    
+
     if eventName == "CompressorsHideLiquidIcon" then
 
         self.showLiquidIcon = 0
@@ -163,7 +163,7 @@ function liquid_decompressor:OnItemEquippedEvent( evt )
 
     self:registerBuildMenuTracker()
 
-    self.item = evt:GetItem()    
+    self.item = evt:GetItem()
     BuildingService:ReplaceProductionByCompressedItem( self.entity, self.item, self.lastResource, self.attachment, self.production, self.consumption )
     self:UpdateWorkingStatus()
 

@@ -59,7 +59,7 @@ function replace_wall_picker_tool:SetBuildingIcon()
             markerDB:SetString("wall_icon", menuIcon)
             markerDB:SetInt("wall_icon_visible", 1)
         else
-        
+
             markerDB:SetString("wall_name", "")
             markerDB:SetInt("wall_icon_visible", 0)
         end
@@ -143,7 +143,7 @@ function replace_wall_picker_tool:OnActivateSelectorRequest()
 
         local buildingDescHelper = reflection_helper(buildingDesc)
 
-        blueprintName = buildingDescHelper.bp or "" 
+        blueprintName = buildingDescHelper.bp or ""
 
         local selectorDB = EntityService:GetDatabase( self.selector )
 

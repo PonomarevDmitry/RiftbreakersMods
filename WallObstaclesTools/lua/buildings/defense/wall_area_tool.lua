@@ -257,7 +257,7 @@ function wall_area_tool:OnActivateSelectorRequest()
 
         local transform = EntityService:GetWorldTransform( self.ghostWall )
         self.buildStartPosition = transform
-        EntityService:SetVisible( self.ghostWall , false )
+        EntityService:SetVisible( self.ghostWall, false )
 
         self:OnUpdate()
     else
@@ -300,7 +300,7 @@ function wall_area_tool:FinishLineBuild()
 
         for i=1,count do
 
-            local createCube = (i == 1 or i == count or i % step == 0)
+            local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
             local ghost = allEntities[i]
 
@@ -310,7 +310,7 @@ function wall_area_tool:FinishLineBuild()
         end
     end
 
-    EntityService:SetVisible( self.ghostWall , true )
+    EntityService:SetVisible( self.ghostWall, true )
 
     self.gridEntities = {}
     self.buildStartPosition = nil

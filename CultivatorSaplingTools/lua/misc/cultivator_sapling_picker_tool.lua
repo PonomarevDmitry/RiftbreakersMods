@@ -11,7 +11,7 @@ end
 function cultivator_sapling_picker_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_picker_tool", self.entity)
     self.popupShown = false
-    
+
     self.scaleMap = {
         1,
     }
@@ -23,7 +23,7 @@ function cultivator_sapling_picker_tool:OnInit()
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
-            
+
         local blueprint = ResourceManager:GetBlueprint( self.SelectedItemBlueprint )
 
         local component = blueprint:GetComponent("InventoryItemComponent")
@@ -133,7 +133,7 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
             local replacerToolBlueprint = replacerToolBlueprintDesc.bp
 
             local lowName = BuildingService:FindLowUpgrade( replacerToolBlueprint )
-                
+
             if ( lowName == replacerToolBlueprint ) then
                 lowName = replacerToolBlueprintDesc.name
             end

@@ -188,7 +188,7 @@ function replace_tower_replacer_all_tool:IsEntityApproved( entity )
     if ( self:IsBlueprintInList( self.selectedBlueprints, self.cacheBlueprintsLowNames, blueprintName) ) then
         return false
     end
-            
+
     if ( not EntityService:CompareType( entity, "tower" ) ) then
         return false
     end

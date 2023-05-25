@@ -642,7 +642,7 @@ function wall_thorns_tool:FinishLineBuild()
     for i=1,count do
 
         local ghost = self.linesEntities[i]
-        local createCube = i == 1 or i == count or i % step == 0
+        local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
         local transform = EntityService:GetWorldTransform( ghost )
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))

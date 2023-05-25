@@ -75,10 +75,10 @@ function cultivator_sapling_replacer_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntities ) 
+function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
-    
+
     for entity in Iter(selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)

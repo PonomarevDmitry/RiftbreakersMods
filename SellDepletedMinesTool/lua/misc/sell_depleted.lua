@@ -13,7 +13,7 @@ end
 function sell_depleted:OnInit()
 
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell", self.entity)
-    
+
     self.scaleMap = {
         1,
     }
@@ -53,10 +53,10 @@ function sell_depleted:OnUpdate()
         for resourceCost in Iter(list) do
 
             if ( self.sellCosts[resourceCost.first] == nil ) then
-               self.sellCosts[resourceCost.first] = 0 
+               self.sellCosts[resourceCost.first] = 0
             end
 
-            self.sellCosts[resourceCost.first ] = self.sellCosts[resourceCost.first] + resourceCost.second 
+            self.sellCosts[resourceCost.first ] = self.sellCosts[resourceCost.first] + resourceCost.second
         end
     end
 
@@ -135,12 +135,12 @@ function sell_depleted:CheckEntityOnResource( entity, resourceRequirement, bluep
             end
         end
     end
-    
+
     return false
 end
 
 function sell_depleted:OnActivateSelectorRequest()
-    
+
     if ( #self.selectedEntities == 0 ) then
         return
     end

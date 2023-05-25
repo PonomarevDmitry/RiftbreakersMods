@@ -103,7 +103,7 @@ function detector:CheckAndSpawnEffect( ent, type, factor)
 
     self.oldEnt = ent
     --LogService:Log("Will spawn? " .. tostring(self.effect) )
-    
+
     if( self.effect == nil or self.effect == INVALID_ID ) then
         self.type = type
 
@@ -122,12 +122,12 @@ end
 function detector:OnExecuteDetecting()
     local enemyEntities = FindService:FindEntitiesByPredicateInRadius( self.item, self.enemyRadius, {
         signature = "TreasureComponent",
-        filter = function( entity ) 
+        filter = function( entity )
             local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
             if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
                 return false
             end
-            
+
             if (  tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
                 return false
             end
@@ -211,7 +211,7 @@ function detector:OnExecuteDetecting()
                 return
             end
         end
-        
+
         if ( type == "enemy") then
             for eEnt in Iter(enemyEntities ) do
                 local eDistance = EntityService:GetDistanceBetween(eEnt, self.item)
@@ -220,7 +220,7 @@ function detector:OnExecuteDetecting()
                 if ( db ~= nil and db:HasFloat("discovery_distance") ) then
                     discoverDistance = db:GetFloat("discovery_distance")
                 end
-        
+
                 if ( eDistance <= discoverDistance ) then
                     ItemService:RevealHiddenEntity( eEnt )
                 end
@@ -249,7 +249,7 @@ function detector:spawnReplacement()
 
     local predicate = {
         signature = "TreasureComponent",
-        filter = function( entity ) 
+        filter = function( entity )
             local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
             if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
                 return true
@@ -298,7 +298,7 @@ function detector:spawnReplacement()
 
         EntityService:SpawnEntity(treasureList[randomNumber], treasureSpot.x, treasureSpot.y, treasureSpot.z, "")
 
-        local dialogs = 
+        local dialogs =
         {
             { "gui/hud/dialogs/ashley","DIALOG/generic/ashley_treasure_found_01", "voice_over/generic/ashley_treasure_found_01" },
             { "gui/hud/dialogs/ashley","DIALOG/generic/ashley_treasure_found_02", "voice_over/generic/ashley_treasure_found_02" },
@@ -309,9 +309,9 @@ function detector:spawnReplacement()
         }
 
         local idx = RandInt(1, #dialogs)
-    
+
         local currentDialog = dialogs[idx]
-    
+
         local soundDuration = SoundService:GetSoundDuration( currentDialog[3] )
 
         GuiService:ShowDialog( currentDialog[1],currentDialog[2],currentDialog[3], 0, soundDuration, false, true, false, 0, false )
@@ -340,24 +340,24 @@ function detector:IsResourceValidForBiome( resourceName, isCampaignBiome, biomeN
     end
 
     if ( not isCampaignBiome ) then
-        
+
         return true
     end
 
     if ( biomeName == "jungle" ) then
-        
+
         return resourceName == "carbonium" or resourceName == "steel" or resourceName == "cobalt" or resourceName == "hazenite"
     elseif ( biomeName == "acid" ) then
-    
+
         return resourceName == "carbonium" or resourceName == "steel" or resourceName == "palladium" or resourceName == "rhodonite"
     elseif ( biomeName == "desert" ) then
-    
+
         return resourceName == "carbonium" or resourceName == "steel" or resourceName == "uranium" or resourceName == "tanzanite"
     elseif ( biomeName == "magma" ) then
 
         return resourceName == "carbonium" or resourceName == "steel" or resourceName == "titanium" or resourceName == "ferdonite"
     elseif ( biomeName == "metallic" ) then
-    
+
         return resourceName == "carbonium" or resourceName == "steel" or resourceName == "cobalt" or resourceName == "hazenite"
     else
 
@@ -373,14 +373,14 @@ function detector:GetTreasureList()
     local treasureList = {}
 
     if ( self:IsResourceValidForBiome( "carbonium", isCampaignBiome, biomeName ) ) then
-    
+
         Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish_ore")
         Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish")
         Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish")
     end
-    
+
     if ( self:IsResourceValidForBiome( "steel", isCampaignBiome, biomeName ) ) then
-    
+
         Insert(treasureList, "items/loot/treasures/treasure_steel_replenish_ore")
         Insert(treasureList, "items/loot/treasures/treasure_steel_replenish")
         Insert(treasureList, "items/loot/treasures/treasure_steel_replenish")
@@ -395,7 +395,7 @@ function detector:GetTreasureList()
         local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_cobalt" )
 
         if ( finished ) then
-        
+
             Insert(treasureList, "items/loot/treasures/treasure_cobalt_replenish_ore")
             Insert(treasureList, "items/loot/treasures/treasure_cobalt_replenish")
             Insert(treasureList, "items/loot/treasures/treasure_cobalt_replenish")
@@ -407,7 +407,7 @@ function detector:GetTreasureList()
         local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_titanium" )
 
         if ( finished ) then
-        
+
             Insert(treasureList, "items/loot/treasures/treasure_titanium_replenish_ore")
             Insert(treasureList, "items/loot/treasures/treasure_titanium_replenish")
             Insert(treasureList, "items/loot/treasures/treasure_titanium_replenish")
@@ -419,7 +419,7 @@ function detector:GetTreasureList()
         local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_palladium" )
 
         if ( finished ) then
-        
+
             Insert(treasureList, "items/loot/treasures/treasure_palladium_replenish_ore")
             Insert(treasureList, "items/loot/treasures/treasure_palladium_replenish")
             Insert(treasureList, "items/loot/treasures/treasure_palladium_replenish")
@@ -431,7 +431,7 @@ function detector:GetTreasureList()
         local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_uranium" )
 
         if ( finished ) then
-        
+
             Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish_ore")
             Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish")
             Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish")
@@ -447,7 +447,7 @@ function detector:GetTreasureList()
         local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_rhodonite" )
 
         if ( finished ) then
-        
+
             Insert(treasureList, "items/loot/treasures/treasure_rhodonite_replenish")
             Insert(treasureList, "items/loot/treasures/treasure_rhodonite_replenish")
         end
@@ -458,7 +458,7 @@ function detector:GetTreasureList()
         local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_tanzanite" )
 
         if ( finished ) then
-        
+
             Insert(treasureList, "items/loot/treasures/treasure_tanzanite_replenish")
             Insert(treasureList, "items/loot/treasures/treasure_tanzanite_replenish")
         end
@@ -469,7 +469,7 @@ function detector:GetTreasureList()
         local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_ferdonite" )
 
         if ( finished ) then
-        
+
             Insert(treasureList, "items/loot/treasures/treasure_ferdonite_replenish")
             Insert(treasureList, "items/loot/treasures/treasure_ferdonite_replenish")
         end

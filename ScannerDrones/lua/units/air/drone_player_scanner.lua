@@ -128,7 +128,7 @@ function drone_player_scanner:ExecuteScanning()
 
 				ItemService:ScanEntityByPlayer( self.selectedEntity, owner )
 
-				EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" ) 
+				EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" )
 
 				EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
 
@@ -211,7 +211,7 @@ function drone_player_scanner:OnTurretEvent( evt )
    else
 		WeaponService:StopShoot( self.entity )
 		self.shoting = false
-   end 
+   end
 end
 
 function drone_player_scanner:OnRelease()

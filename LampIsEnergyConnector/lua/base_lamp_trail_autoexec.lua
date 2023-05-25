@@ -32,7 +32,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     end
 
     local selector = evt:GetEntity()
-    
+
     if ( selector == nil ) then
         return
     end

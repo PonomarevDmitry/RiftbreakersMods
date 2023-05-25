@@ -26,7 +26,7 @@ function floating_hunt_mine:init()
     EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 0.0 )
     self.sm:ChangeState("armed")
     self.entered = 0
-    
+
     self.hunt_range = self.data:GetFloatOrDefault( "hunt_range", 20.0 )
     self.hunt_move_speed = self.data:GetFloatOrDefault( "hunt_move_speed", 5.0 )
 
@@ -50,25 +50,25 @@ end
 
 function floating_hunt_mine:FindEntitiesByTeamInRadius( origin, radius, team )
 
-    local predicate = 
+    local predicate =
     {
         filter = function(entity)
-            
+
             if ( not EntityService:IsAlive( entity ) ) then
-            
+
                 return false
             end
-        
+
             if ( not EntityService:IsInTeamRelation(origin, entity, "hostility") ) then
-            
+
                 return false
             end
-            
+
             if ( not EntityService:CompareType( entity, "ground_unit" ) ) then
-            
+
                 return false
             end
-            
+
             return true
         end
     }
@@ -82,17 +82,17 @@ function floating_hunt_mine:OnEnteredTriggerEvent( evt )
         return
     end
 
-    if self.exploded == true then 
+    if self.exploded == true then
         return
     end
-    EntityService:RemoveLifeTime( self.entity ) 
+    EntityService:RemoveLifeTime( self.entity )
     self.sm:ChangeState("explode")
     EffectService:DestroyEffectsByGroup( self.entity, "mine_unarmed" )
     self.exploded = true
 end
 
 function floating_hunt_mine:OnLeftTriggerEvent( evt )
-    if self.exploded == true  then 
+    if self.exploded == true  then
         return
     end
     if ( self.armed == false ) then
@@ -111,12 +111,12 @@ end
 function floating_hunt_mine:OnArmedEnd( state )
     self.armed = true
     EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 1.0 )
-    EntityService:ChangeType(self.entity, "prop|not_move_to_target")    
-    
+    EntityService:ChangeType(self.entity, "prop|not_move_to_target")
+
     self.huntSM:ChangeState("hunt")
-    
+
     if ( self.entered > 0 ) then
-        EntityService:RemoveLifeTime( self.entity ) 
+        EntityService:RemoveLifeTime( self.entity )
         self.sm:ChangeState("explode")
         EffectService:DestroyEffectsByGroup( self.entity, "mine_unarmed" )
         self.exploded = true
@@ -135,12 +135,12 @@ function floating_hunt_mine:OnExplodeExecute( state )
     if ( state:GetDurationLimit() ~= 0 ) then
         progres = state:GetDuration() / state:GetDurationLimit()
     end
-    
+
     EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", progres * 10 )
-    
+
     local position = EntityService:GetPosition( self.entity )
     EntityService:SetPosition( self.entity, position.x, self.positionY  + self.explode_height * (progres * progres) , position.z )
-    
+
     EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, 25.0 * (progres * progres) )
 end
 
@@ -150,7 +150,7 @@ function floating_hunt_mine:OnExplodeEnd(  )
     if itemCreator ~= "" then
         ItemService:SetItemCreator( entity, itemCreator );
     end
-    EntityService:DissolveEntity( self.entity, 0.2 ) 
+    EntityService:DissolveEntity( self.entity, 0.2 )
 end
 
 function floating_hunt_mine:OnDestroyRequest( evt)

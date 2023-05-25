@@ -573,7 +573,7 @@ function wall_diagonal_tool:OnActivateSelectorRequest()
 
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
-        EntityService:SetVisible( self.ghostWall , false )
+        EntityService:SetVisible( self.ghostWall, false )
 
         local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         self.positionPlayer = EntityService:GetPosition( player )
@@ -592,7 +592,7 @@ end
 
 function wall_diagonal_tool:FinishLineBuild()
 
-    EntityService:SetVisible( self.ghostWall , true )
+    EntityService:SetVisible( self.ghostWall, true )
 
     local count = #self.linesEntities
     local step = count
@@ -605,7 +605,7 @@ function wall_diagonal_tool:FinishLineBuild()
     for i=1,count do
 
         local ghost = self.linesEntities[i]
-        local createCube = i == 1 or i == count or i % step == 0
+        local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
         local transform = EntityService:GetWorldTransform( ghost )
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))

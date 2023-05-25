@@ -30,7 +30,7 @@ function energy_connector_trail:OnLoad()
 end
 
 function energy_connector_trail:FillInitialParams()
-    
+
     self.blueprintName = "buildings/energy/energy_connector"
 
     self.buildPosition = {}
@@ -163,7 +163,7 @@ function energy_connector_trail:HasDistributionRadius( resourceStorageRef )
         local count = resourceStorageRef.Storages.count
 
         for i=1,count do
-            
+
             local storage = resourceStorageRef.Storages[i]
 
             if ( tostring(storage.group) == "10" and storage.distribution_radius >= 1 ) then
@@ -172,7 +172,7 @@ function energy_connector_trail:HasDistributionRadius( resourceStorageRef )
             end
         end
     end
-    
+
     return false
 end
 
@@ -240,7 +240,7 @@ function energy_connector_trail:BuildOnSpot( spot )
 
     local antiQuickSandFloor = "buildings/decorations/floor_desert_1x1"
 
-    if ( BuildingService:IsBuildingAvailable( antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then 
+    if ( BuildingService:IsBuildingAvailable( antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then
 
         local terrainType = self:GetTerrainType( spot.position )
 

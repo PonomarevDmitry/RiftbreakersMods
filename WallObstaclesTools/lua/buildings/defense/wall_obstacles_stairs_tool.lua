@@ -499,7 +499,7 @@ function wall_obstacles_stairs_tool:FinishLineBuild()
 
         for i=1,count do
 
-            local createCube = (i == 1 or i == count or i % step == 0)
+            local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
             local ghost = allEntities[i]
 

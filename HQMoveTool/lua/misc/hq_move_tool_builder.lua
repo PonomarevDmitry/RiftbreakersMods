@@ -26,7 +26,7 @@ function hq_move_tool_builder:init()
     position.z = self.data:GetFloat("position.z")
 
     local orientation = {}
-    
+
     orientation.x = self.data:GetFloat("orientation.x")
     orientation.y = self.data:GetFloat("orientation.y")
     orientation.z = self.data:GetFloat("orientation.z")
@@ -46,11 +46,11 @@ function hq_move_tool_builder:init()
         component:GetField("m_isSellable"):SetValue("1")
 
         local componentRef = reflection_helper( component )
-    
+
         if ( componentRef.build_costs ~= nil and componentRef.build_costs.resource ~= nil ) then
-    
+
             local container = rawget( componentRef.build_costs.resource, "__ptr" );
-    
+
             if ( container ~= nil ) then
 
                 local itemsCount = container:GetItemCount()

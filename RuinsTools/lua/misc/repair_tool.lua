@@ -25,7 +25,7 @@ function repair_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
 
-    local position = selectorComponent.position 
+    local position = selectorComponent.position
     local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
     local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale - 0.5))
 
@@ -42,7 +42,7 @@ function repair_tool:SpawnCornerBlueprint()
     end
 end
 
-function repair_tool:FilterSelectedEntities( selectedEntities ) 
+function repair_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
@@ -125,7 +125,7 @@ function repair_tool:OnUpdate()
             for resourceCost in Iter( list ) do
 
                 if ( self.repairCosts[resourceCost.first] == nil ) then
-                   self.repairCosts[resourceCost.first] = 0 
+                   self.repairCosts[resourceCost.first] = 0
                 end
 
                 self.repairCosts[resourceCost.first] = self.repairCosts[resourceCost.first] + resourceCost.second
