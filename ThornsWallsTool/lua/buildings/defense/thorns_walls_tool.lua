@@ -79,7 +79,7 @@ function thorns_walls_tool:GetWallBlueprint( selectorDB )
         return defaultWall
     end
 
-    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return defaultWall
     end
 

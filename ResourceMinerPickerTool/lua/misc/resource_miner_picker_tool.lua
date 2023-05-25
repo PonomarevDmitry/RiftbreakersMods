@@ -347,7 +347,7 @@ function resource_miner_picker_tool:GetSelectorBlueprintName( lowName, defaultBl
         return defaultBlueprintName
     end
 
-    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return defaultBlueprintName
     end
 

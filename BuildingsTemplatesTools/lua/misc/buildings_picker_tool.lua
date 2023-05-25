@@ -405,7 +405,7 @@ function buildings_picker_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+        if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
             goto continue
         end
 

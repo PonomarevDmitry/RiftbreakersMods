@@ -45,7 +45,7 @@ function wall_obstacles_stairs_tool:GetStairsBlueprintName( selectorDB )
         return defaultStairs
     end
 
-    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return defaultStairs
     end
 

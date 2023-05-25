@@ -82,7 +82,7 @@ function wall_base_tool:GetWallBlueprintName( selectorDB )
         return defaultWall
     end
 
-    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return defaultWall
     end
 

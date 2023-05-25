@@ -330,7 +330,7 @@ end
 
 function replace_trap_replacer_all_tool:IsWallBlueprintAvailable( blueprintName )
 
-    if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
     end
 

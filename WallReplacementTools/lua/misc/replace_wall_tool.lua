@@ -298,7 +298,7 @@ end
 
 function replace_wall_tool:IsWallBlueprintAvailable( blueprintName )
 
-    if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
     end
 

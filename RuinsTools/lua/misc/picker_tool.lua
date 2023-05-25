@@ -67,11 +67,11 @@ function picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    for ent in Iter(selectedEntities ) do
+    for entity in Iter(selectedEntities ) do
 
-        local blueprint = EntityService:GetBlueprintName(ent)
+        local blueprintName = EntityService:GetBlueprintName(entity)
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprint )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
 
         if ( buildingDesc == nil ) then
             goto continue
@@ -79,17 +79,17 @@ function picker_tool:FilterSelectedEntities( selectedEntities )
 
         local buildingDescHelper = reflection_helper(buildingDesc)
 
-        if ( BuildingService:IsBuildingAvailable(self.playerId , blueprint ) == false ) then
+        if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) == false ) then
             goto continue
         end
 
-        local list = BuildingService:GetBuildCosts( blueprint, self.playerId )
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
 
         if ( #list == 0 ) then
             goto continue
         end
 
-        Insert(entities, ent)
+        Insert(entities, entity)
 
         ::continue::
     end
@@ -101,28 +101,28 @@ function picker_tool:OnActivateSelectorRequest()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local blueprint = ""
+        local blueprintName = ""
 
         if( EntityService:GetGroup( entity ) == "##ruins##" ) then
             local database = EntityService:GetDatabase( entity )
             if ( database ) then
-                blueprint = database:GetString("blueprint")
+                blueprintName = database:GetString("blueprint")
             else
                 goto continue
             end
         else
-            blueprint = EntityService:GetBlueprintName(entity)
+            blueprintName = EntityService:GetBlueprintName(entity)
         end
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprint )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then goto continue end
 
-        local baseDesc= BuildingService:FindBaseBuilding(blueprint )
+        local baseDesc= BuildingService:FindBaseBuilding( blueprintName )
         if  (baseDesc ~= nil ) then
             buildingDesc = baseDesc
         end
 
-        local list = BuildingService:GetBuildCosts( blueprint, self.playerId )
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
 
         if ( #list == 0 ) then
             goto continue
@@ -133,13 +133,13 @@ function picker_tool:OnActivateSelectorRequest()
         local transform = EntityService:GetWorldTransform( entity )
         EntityService:SetEntityWorldTransform( entity, transform)
 
-        blueprint = buildingDescHelper.bp
+        blueprintName = buildingDescHelper.bp
 
         QueueEvent("ChangeSelectorRequest", self.selector, buildingDescHelper.bp ,buildingDescHelper.ghost_bp)
 
-        local lowName = BuildingService:FindLowUpgrade( blueprint )
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
-        if ( lowName == blueprint ) then
+        if ( lowName == blueprintName ) then
             lowName = buildingDescHelper.name
         end
 

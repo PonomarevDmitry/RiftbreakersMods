@@ -438,7 +438,7 @@ end
 
 function replace_tower_replacer_from_to_tool:IstowerBlueprintAvailable( blueprintName )
 
-    if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
     end
 

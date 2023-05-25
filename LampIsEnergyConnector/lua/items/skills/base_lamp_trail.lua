@@ -60,7 +60,7 @@ function base_lamp_trail:GetLampBlueprint()
         return defaultBlueprint
     end
 
-    if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return defaultBlueprint
     end
 
@@ -290,7 +290,7 @@ function base_lamp_trail:BuildOnSpot( blueprintName, spot )
 
     local antiQuickSandFloor = "buildings/decorations/floor_desert_1x1"
 
-    if ( BuildingService:IsBuildingAvailable( antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then
+    if ( BuildingService:IsBuildingAvailable( self.playerId, antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then
 
         local terrainType = self:GetTerrainType( spot.position )
 
@@ -305,7 +305,7 @@ function base_lamp_trail:BuildOnSpot( blueprintName, spot )
         end
     end
 
-    if ( BuildingService:IsBuildingAvailable( blueprintName ) and BuildingService:CanAffordBuilding( blueprintName, self.playerId) ) then
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) and BuildingService:CanAffordBuilding( blueprintName, self.playerId) ) then
 
         QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, spot, true )
 

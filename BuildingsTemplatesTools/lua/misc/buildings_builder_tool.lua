@@ -146,7 +146,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
-        if ( not BuildingService:IsBuildingAvailable( blueprintName ) ) then
+        if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
             goto continue
         end
 

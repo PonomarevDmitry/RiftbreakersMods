@@ -238,7 +238,7 @@ end
 
 function replace_carbonium_tool:IsCarboniumBlueprintAvailable( blueprintName )
 
-    if ( BuildingService:IsBuildingAvailable( blueprintName ) ) then
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
     end
 
