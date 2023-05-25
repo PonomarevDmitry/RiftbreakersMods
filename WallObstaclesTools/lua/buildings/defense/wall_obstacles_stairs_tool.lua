@@ -501,11 +501,11 @@ function wall_obstacles_stairs_tool:FinishLineBuild()
 
             local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
-            local ghost = allEntities[i]
+            local ghostEntity = allEntities[i]
 
-            self:BuildEntity(ghost, createCube)
+            self:BuildEntity(ghostEntity, createCube)
 
-            EntityService:RemoveEntity(ghost)
+            EntityService:RemoveEntity(ghostEntity)
         end
     end
 
@@ -539,8 +539,8 @@ function wall_obstacles_stairs_tool:ClearGridEntities()
 
     if ( self.gridEntities ~= nil) then
         for gridEntitiesZ in Iter(self.gridEntities) do
-            for ghost in Iter(gridEntitiesZ) do
-                EntityService:RemoveEntity(ghost)
+            for ghostEntity in Iter(gridEntitiesZ) do
+                EntityService:RemoveEntity(ghostEntity)
             end
         end
     end

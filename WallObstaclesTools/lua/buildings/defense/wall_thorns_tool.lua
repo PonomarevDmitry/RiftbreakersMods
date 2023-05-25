@@ -641,13 +641,13 @@ function wall_thorns_tool:FinishLineBuild()
 
     for i=1,count do
 
-        local ghost = self.linesEntities[i]
+        local ghostEntity = self.linesEntities[i]
         local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
-        local transform = EntityService:GetWorldTransform( ghost )
-        local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
+        local transform = EntityService:GetWorldTransform( ghostEntity )
+        local buildingComponent = reflection_helper(EntityService:GetComponent( ghostEntity, "BuildingComponent"))
 
-        local testBuildable = self:CheckEntityBuildable( ghost, transform, i )
+        local testBuildable = self:CheckEntityBuildable( ghostEntity, transform, i )
 
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
             QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
@@ -661,7 +661,7 @@ function wall_thorns_tool:FinishLineBuild()
             QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
         end
 
-        EntityService:RemoveEntity(ghost)
+        EntityService:RemoveEntity(ghostEntity)
     end
 
     self:SpawnGhostWallEntity()
@@ -719,8 +719,8 @@ end
 
 function wall_thorns_tool:OnRelease()
 
-    for ghost in Iter(self.linesEntities) do
-        EntityService:RemoveEntity(ghost)
+    for ghostEntity in Iter(self.linesEntities) do
+        EntityService:RemoveEntity(ghostEntity)
     end
     self.linesEntities = {}
 
