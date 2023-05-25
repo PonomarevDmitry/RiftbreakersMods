@@ -23,9 +23,10 @@ function floor_eraser:SpawnCornerBlueprint()
     end
 end
 
-
 function floor_eraser:FillWithFloors( blueprint, indexes )
+
     local toReplace = 1
+
     if string.find( blueprint, "4" ) then
         toReplace = 4
     elseif string.find( blueprint, "3" ) then
@@ -37,19 +38,21 @@ function floor_eraser:FillWithFloors( blueprint, indexes )
     local idxToPos = {}
     local storage = {}
     local indexesCount = #indexes
+
     if ( indexesCount == 0 ) then
         indexesCount = indexes.count
-    end 
+    end
+
     for i = 1,indexesCount do
         local idx = indexes[i]
-        
+
         local pos = FindService:GetCellOrigin(idx)
-        
+
         idxToPos[idx] = pos
         storage[idx] = pos
     end
 
-    local sorter = function(k1,k2) 
+    local sorter = function(k1,k2)
         local p1 = idxToPos[k1]
         local p2 = idxToPos[k2]
         if ( p1.z < p2.z ) then
@@ -68,19 +71,20 @@ function floor_eraser:FillWithFloors( blueprint, indexes )
     local toCreate = {{}}
 
     for s=toReplace,0,-1 do
-        local i = 1 
+        local i = 1
         while i <= indexesCount do
+
             local idx = indexes[i]
             if (idxToPos[idx] == nil ) then i = i + 1 goto continue end
 
             toUse = {}
 
             local pos = idxToPos[ idx ];
-            for x=0,s-1 do    
+            for x=0,s-1 do
                 local currentPos = VectorAdd( pos, VectorMulByNumber(right, x))
                 for y=0,s-1 do
 
-                    local checkPos =  VectorAdd( currentPos, VectorMulByNumber(down, y))
+                    local checkPos = VectorAdd( currentPos, VectorMulByNumber(down, y))
                     for testIdx,testPos in pairs(idxToPos) do
                         if ( testPos.x == checkPos.x and testPos.z == checkPos.z) then
                             Insert(toUse, testIdx)
@@ -89,6 +93,7 @@ function floor_eraser:FillWithFloors( blueprint, indexes )
                     end
                 end
             end
+
             if ( #toUse == s * s ) then
                 if( toCreate[s] == nil ) then toCreate[s] = {} end
 
@@ -120,15 +125,15 @@ function floor_eraser:FillWithFloors( blueprint, indexes )
             elseif( replaced == 2 ) then
                 local position = infoPos
                 position = VectorAdd(position, {x=1,y=0,z=1})
-                transform.position = position                
+                transform.position = position
             elseif ( replaced == 3 ) then
                 transform.position = storage[v[5]]
             else
                 local position = infoPos
                 position = VectorAdd(position, {x=3,y=0,z=3})
-                transform.position = position           
+                transform.position = position
             end
-            QueueEvent("BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
+            QueueEvent( "BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
         ::continue2::
     end
@@ -139,17 +144,17 @@ function floor_eraser:SellFloor()
     local hashGridsToErase = {}
 
     for xIndex=1,#self.gridEntities do
-        
+
         local gridEntitiesZ = self.gridEntities[xIndex]
-        
+
         for zIndex=1,#gridEntitiesZ do
-        
+
             local entity = gridEntitiesZ[zIndex]
 
             local gridToErase = FindService:GetEntityCellIndexes( entity )
 
             for i = 1,#gridToErase do
-            
+
                 local idx = gridToErase[i]
 
                 hashGridsToErase[idx] = true
@@ -165,12 +170,12 @@ function floor_eraser:SellFloor()
 
         local entityToSell = self.selectedEntities[i]
 
-        if (entityToSell == nil or  not EntityService:IsAlive( entityToSell) ) then
+        if (entityToSell == nil or not EntityService:IsAlive( entityToSell) ) then
             goto continue
         end
 
         local buildingComponent = EntityService:GetComponent( entityToSell, "BuildingComponent" )
-        
+
         if ( buildingComponent ~= nil ) then
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
             if ( mode >= 3 ) then
@@ -185,12 +190,14 @@ function floor_eraser:SellFloor()
         end
 
         local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-        local indexes = gridCullerComponentHelper.indexes
+
         local freeGrids = {}
+
+        local indexes = gridCullerComponentHelper.terrain_cell_entities
         for i=indexes.count,1,-1 do
 
-            local idx = indexes[i]
-            
+            local idx = indexes[i].id
+
             if ( hashGridsToErase[idx] == nil ) then
 
                 Insert( freeGrids, idx )
@@ -198,22 +205,22 @@ function floor_eraser:SellFloor()
         end
 
         if ( #freeGrids > 0 ) then
-            Insert(toRecreate, {["bp"]=entityBlueprint,["indexes"] = freeGrids })
+            Insert( toRecreate, { ["bp"] = entityBlueprint, ["indexes"] = freeGrids } )
         end
 
-        if ( IndexOf( listSelledEntities, entityToSell ) == nil ) then 
-            
-            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+        if ( IndexOf( listSelledEntities, entityToSell ) == nil ) then
 
-            Insert(listSelledEntities, entityToSell )
+            QueueEvent( "SellBuildingRequest", entityToSell, self.playerId, false )
+
+            Insert( listSelledEntities, entityToSell )
         end
-        
+
         ::continue::
     end
-    
+
     for recreateRequest in Iter( toRecreate ) do
         self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
-    end 
+    end
 end
 
 function floor_eraser:FindEntitiesToSelect( selectorComponent )
@@ -221,20 +228,20 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
     local possibleSelectedEnts = {}
 
     for xIndex=1,#self.gridEntities do
-        
+
         local gridEntitiesZ = self.gridEntities[xIndex]
-        
+
         for zIndex=1,#gridEntitiesZ do
-        
+
             local entity = gridEntitiesZ[zIndex]
 
             local position = EntityService:GetPosition( entity )
 
             local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
-            local min = VectorSub(position, VectorMulByNumber(boundsSize , self.currentScale))
-            local max = VectorAdd(position, VectorMulByNumber(boundsSize , self.currentScale))
-    
+            local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
+            local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
+
             local tempSelected = FindService:FindGridMiscByBox( min, max )
 
             for tempEntity in Iter( tempSelected ) do
@@ -247,25 +254,29 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
     end
 
     local selectorPosition = selectorComponent.position
-    
+
     local sorter = function( t, lhs, rhs )
         local p1 = EntityService:GetPosition( lhs )
         local p2 = EntityService:GetPosition( rhs )
         local d1 = Distance( selectorPosition, p1 )
         local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2 
+        return d1 < d2
     end
 
-    table.sort(possibleSelectedEnts, function(a,b) 
-        return sorter(possibleSelectedEnts, a, b) 
+    table.sort(possibleSelectedEnts, function(a,b)
+        return sorter(possibleSelectedEnts, a, b)
     end)
 
     local selectedEntities = {}
 
     for entity in Iter( possibleSelectedEnts ) do
 
+        if ( IndexOf( selectedEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        if ( buildingComponent == nil ) then 
+        if ( buildingComponent == nil ) then
             goto continue
         end
 
@@ -275,9 +286,10 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
         end
 
         Insert(selectedEntities, entity )
+
         ::continue::
     end
-    
+
     return selectedEntities
 end
 
@@ -292,11 +304,11 @@ function floor_eraser:RemovedFromSelection( entity )
 end
 
 function floor_eraser:OnUpdate()
-    
+
     local currentScale = EntityService:GetScale(self.entity).x
-    
+
     if ( self.currentSize ~= currentScale ) then
-        
+
         self.currentSize = currentScale
 
         self:StopBuildingGhosts()
@@ -305,121 +317,121 @@ function floor_eraser:OnUpdate()
     if ( self.nowBuildingLine and self.buildStartPosition ) then
 
         local positionY = self.buildStartPosition.position.y
-    
+
         local team = EntityService:GetTeam(self.entity)
-    
+
         local currentTransform = EntityService:GetWorldTransform( self.entity )
-        
+
         local buildEndPosition = currentTransform.position
-        
+
         local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition )
-        
+
         if ( self.gridEntities == nil ) then
             self.gridEntities = {}
         end
-        
+
         local positionX, positionZ
 
         if ( #self.gridEntities > #arrayX ) then
-        
+
             for xIndex=#self.gridEntities,#arrayX + 1,-1 do
-            
+
                 local gridEntitiesZ = self.gridEntities[xIndex]
-                
+
                 for zIndex=1,#gridEntitiesZ do
-                
+
                     EntityService:RemoveEntity(gridEntitiesZ[zIndex])
-                    
+
                     gridEntitiesZ[zIndex] = nil
                 end
-                
+
                 self.gridEntities[xIndex] = nil
             end
-            
+
         elseif ( #self.gridEntities < #arrayX ) then
-        
-            for xIndex=#self.gridEntities + 1 ,#arrayX do
-                
+
+            for xIndex=#self.gridEntities + 1,#arrayX do
+
                 positionX = arrayX[xIndex]
-            
+
                 local gridEntitiesZ = {}
-                
+
                 self.gridEntities[xIndex] = gridEntitiesZ
-                
+
                 for zIndex=1,#arrayZ do
-                
+
                     positionZ = arrayZ[zIndex]
-            
+
                     local newPosition = {}
-                    
+
                     newPosition.x = positionX
                     newPosition.y = positionY
                     newPosition.z = positionZ
-                
+
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
-                    
+
                     Insert(gridEntitiesZ, lineEnt)
                 end
             end
         end
-        
+
         for xIndex=1,#arrayX do
-                
+
             positionX = arrayX[xIndex]
-        
+
             local gridEntitiesZ = self.gridEntities[xIndex]
-            
+
             if ( #gridEntitiesZ > #arrayZ ) then
-            
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do 
+
+                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
                     EntityService:RemoveEntity(gridEntitiesZ[zIndex])
                     gridEntitiesZ[zIndex] = nil
                 end
-                
+
             elseif ( #gridEntitiesZ < #arrayZ ) then
-            
-                for zIndex=#gridEntitiesZ + 1 ,#arrayZ do
-                
+
+                for zIndex=#gridEntitiesZ + 1,#arrayZ do
+
                     positionZ = arrayZ[zIndex]
-            
+
                     local newPosition = {}
-                    
+
                     newPosition.x = positionX
                     newPosition.y = positionY
                     newPosition.z = positionZ
-                
+
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
-                    
+
                     Insert(gridEntitiesZ, lineEnt)
                 end
             end
         end
-        
+
         for xIndex=1,#arrayX do
-        
+
             positionX = arrayX[xIndex]
-            
+
             local gridEntitiesZ = self.gridEntities[xIndex]
-            
+
             for zIndex=1,#arrayZ do
-                
+
                 positionZ = arrayZ[zIndex]
-        
+
                 local newPosition = {}
-                
+
                 newPosition.x = positionX
                 newPosition.y = positionY
                 newPosition.z = positionZ
-                
+
                 local transform = {}
                 transform.scale = {x=1,y=1,z=1}
                 transform.orientation = currentTransform.orientation
                 transform.position = newPosition
-                
+
                 local lineEnt = gridEntitiesZ[zIndex];
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
@@ -432,7 +444,7 @@ function floor_eraser:OnUpdate()
 
 
 
-    self.repairCosts = {}
+    self.sellCosts = {}
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -440,30 +452,30 @@ function floor_eraser:OnUpdate()
 
         for resourceCost in Iter(list) do
 
-            if ( self.repairCosts[resourceCost.first] == nil ) then
-               self.repairCosts[resourceCost.first] = 0 
+            if ( self.sellCosts[resourceCost.first] == nil ) then
+               self.sellCosts[resourceCost.first] = 0
             end
 
-            self.repairCosts[resourceCost.first] = self.repairCosts[resourceCost.first] + resourceCost.second
+            self.sellCosts[resourceCost.first] = self.sellCosts[resourceCost.first] + resourceCost.second
         end
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
     if ( onScreen ) then
-        BuildingService:OperateSellCosts( self.infoChild, self.playerId, self.repairCosts)
-        BuildingService:OperateSellCosts( self.corners, self.playerId, {})
+        BuildingService:OperateSellCosts( self.infoChild, self.playerId, self.sellCosts )
+        BuildingService:OperateSellCosts( self.corners, self.playerId, {} )
     else
-        BuildingService:OperateSellCosts( self.infoChild , self.playerId,{})
-        BuildingService:OperateSellCosts( self.corners, self.playerId, self.repairCosts)
+        BuildingService:OperateSellCosts( self.infoChild, self.playerId, {} )
+        BuildingService:OperateSellCosts( self.corners, self.playerId, self.sellCosts )
     end
 end
 
 function floor_eraser:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
 
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
-    
+
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
-    
+
     local deltaX = gridSize.x * 2 * xSign
     local deltaZ = gridSize.z * 2 * zSign
 
@@ -472,47 +484,47 @@ function floor_eraser:FindPositionsToBuildLine(buildStartPosition, buildEndPosit
 
     local buildEndPositionX = buildEndPosition.x + smallDeltaX
     local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
-    
+
     local minX = math.min( buildStartPosition.x, buildEndPositionX )
     local maxX = math.max( buildStartPosition.x, buildEndPositionX )
-    
+
     local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
     local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
-    
+
     local arrayX = {}
-    
+
     local positionX = buildStartPosition.x
-    
+
     while (minX <= positionX and positionX <= maxX) do
-    
+
         Insert(arrayX, positionX)
-        
+
         positionX = positionX + deltaX
     end
-    
+
     local arrayZ = {}
-    
+
     local positionZ = buildStartPosition.z
 
     while (minZ <= positionZ and positionZ <= maxZ) do
-    
+
         Insert(arrayZ, positionZ)
-        
+
         positionZ = positionZ + deltaZ
     end
-    
+
     return arrayX, arrayZ
 end
 
 function floor_eraser:GetXZSigns(positionStart, positionEnd)
-                
+
     local xSign = -1
     local zSign = -1
-    
+
     if( positionEnd.x >= positionStart.x ) then
         xSign = 1
     end
-    
+
     if( positionEnd.z >= positionStart.z ) then
         zSign = 1
     end
@@ -523,16 +535,16 @@ end
 function floor_eraser:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
-    
+
         self.nowBuildingLine = true;
-    
+
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
-        EntityService:SetVisible( self.entity , false )
+        EntityService:SetVisible( self.entity, false )
 
         self:OnUpdate()
     else
-        self:SellFloor() 
+        self:SellFloor()
 
         self:StopBuildingGhosts()
     end
@@ -554,7 +566,7 @@ function floor_eraser:StopBuildingGhosts()
 
     self:ClearGridEntities()
 
-    EntityService:SetVisible( self.entity , true )
+    EntityService:SetVisible( self.entity, true )
     self.nowBuildingLine = false
     self.buildStartPosition = nil
 end
@@ -568,7 +580,7 @@ function floor_eraser:ClearGridEntities()
             end
         end
     end
-    
+
     self.gridEntities = {}
 end
 
@@ -578,7 +590,7 @@ function floor_eraser:OnRelease()
 
     self.nowBuildingLine = false
     self.buildStartPosition = nil
-    
+
     self.currentSize = 0
 
     if ( tool.OnRelease ) then
@@ -593,4 +605,3 @@ function floor_eraser:OnActivateEntity( entity)
 end
 
 return floor_eraser
- 
