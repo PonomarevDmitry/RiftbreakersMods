@@ -11,21 +11,50 @@ function flora_cultivator:__init()
 end
 
 function flora_cultivator:OnInit()
-    drone_spawner_building.OnInit( self )
+
+    if ( drone_spawner_building.OnInit ) then
+        drone_spawner_building.OnInit( self )
+    end
 
     self.default_item = INVALID_ID
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnLuaGlobalEvent" )
 
-    self.showPlantIcon = 1
+    self.showPlantIcon = self.showPlantIcon or 1
 
     self:CreateProductionStateMachine()
 
-    self:registerBuildMenuTracker()
+    self:RegisterBuildMenuTracker()
 end
 
-function flora_cultivator:registerBuildMenuTracker()
+function flora_cultivator:OnLoad()
+
+    self.showPlantIcon = self.showPlantIcon or 0
+
+    if ( drone_spawner_building.OnLoad ) then
+        drone_spawner_building.OnLoad( self )
+    end
+
+    if self.default_item ~= INVALID_ID then
+        local default_blueprint = self:GetDefaultSaplingItem()
+        if not IsEquippedItemBlueprintValid( self.default_item, default_blueprint )  then
+            self.default_item = ItemService:AddItemToInventory( self.entity, default_blueprint )
+        end
+
+        if self.item and self.item ~= INVALID_ID then
+            if not IsEquippedItemBlueprintValid( self.item, default_blueprint ) then
+                ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
+            end
+        end
+    end
+
+    self:CreateProductionStateMachine()
+
+    self:RegisterBuildMenuTracker()
+end
+
+function flora_cultivator:RegisterBuildMenuTracker()
 
     self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEventCultivatorShowHideIcon" )
 end
@@ -43,7 +72,7 @@ end
 
 function flora_cultivator:CreateMenuEntity()
 
-    self:registerBuildMenuTracker()
+    self:RegisterBuildMenuTracker()
 
     if ( self.cultivatorSaplingMenu == nil ) then
 
@@ -51,11 +80,15 @@ function flora_cultivator:CreateMenuEntity()
 
         local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
 
-        if ( self.showPlantIcon == nil ) then
-            self.showPlantIcon = 1
+        self.showPlantIcon = self.showPlantIcon or 1
+
+        local visible = 0
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+            visible = self.showPlantIcon
         end
 
-        menuDB:SetInt("sapling_visible", self.showPlantIcon)
+        menuDB:SetInt("sapling_visible", visible)
     end
 end
 
@@ -63,7 +96,9 @@ function flora_cultivator:OnRelease()
 
     self:DestoryPlanIcon()
 
-    drone_spawner_building.OnRelease( self )
+    if ( drone_spawner_building.OnRelease ) then
+        drone_spawner_building.OnRelease( self )
+    end
 end
 
 function IsEquippedItemBlueprintValid( entity, new_blueprint )
@@ -91,27 +126,6 @@ function IsEquippedItemBlueprintValid( entity, new_blueprint )
     return true
 end
 
-function flora_cultivator:OnLoad()
-    drone_spawner_building.OnLoad(self)
-
-    self:registerBuildMenuTracker()
-
-    self:CreateProductionStateMachine()
-
-    if self.default_item ~= INVALID_ID then
-        local default_blueprint = self:GetDefaultSaplingItem()
-        if not IsEquippedItemBlueprintValid( self.default_item, default_blueprint )  then
-            self.default_item = ItemService:AddItemToInventory( self.entity, default_blueprint )
-        end
-
-        if self.item and self.item ~= INVALID_ID then
-            if not IsEquippedItemBlueprintValid( self.item, default_blueprint ) then
-                ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
-            end
-        end
-    end
-end
-
 function flora_cultivator:GetDefaultSaplingItem()
 
     local sapling_item = self.data:GetStringOrDefault("sapling_item", DEFAULT_SAPLING_BLUEPRINT)
@@ -127,7 +141,20 @@ function flora_cultivator:GetDefaultSaplingItem()
     return sapling_item;
 end
 
+function flora_cultivator:OnBuildingStart()
+
+    if ( drone_spawner_building.OnBuildingStart ) then
+        drone_spawner_building.OnBuildingStart(self)
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
 function flora_cultivator:OnBuildingEnd()
+
+    if ( drone_spawner_building.OnBuildingEnd ) then
+        drone_spawner_building.OnBuildingEnd(self)
+    end
 
     self:PopulateSpecialActionInfo()
 
@@ -144,25 +171,29 @@ function flora_cultivator:OnBuildingEnd()
     end
 
     self:DisableVegetationAround();
-
-    drone_spawner_building.OnBuildingEnd(self)
 end
 
 function flora_cultivator:_OnBuildingModifiedEvent()
 
-    drone_spawner_building._OnBuildingModifiedEvent(self)
+    if ( drone_spawner_building._OnBuildingModifiedEvent ) then
+        drone_spawner_building._OnBuildingModifiedEvent(self)
+    end
 
     self:PopulateSpecialActionInfo()
 end
 
 function flora_cultivator:OnActivate()
+
     if ( self.default_item ~= INVALID_ID ) then
         if not ItemService:IsSameSubTypeEquipped( self.entity, self.default_item ) then
             ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
         end
     end
 
-    drone_spawner_building.OnActivate(self)
+    if ( drone_spawner_building.OnActivate ) then
+        drone_spawner_building.OnActivate(self)
+    end
+
     self:RefreshDrones()
 end
 
@@ -218,11 +249,15 @@ function flora_cultivator:PopulateSpecialActionInfo()
     menuDB:SetString("sapling_icon", saplingIcon)
     menuDB:SetString("sapling_name", saplingName)
 
-    if ( self.showPlantIcon == nil ) then
-        self.showPlantIcon = 1
+    self.showPlantIcon = self.showPlantIcon or 1
+
+    local visible = 0
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        visible = self.showPlantIcon
     end
 
-    menuDB:SetInt("sapling_visible", self.showPlantIcon)
+    menuDB:SetInt("sapling_visible", visible)
 end
 
 function flora_cultivator:DestoryPlanIcon()
@@ -244,7 +279,10 @@ function flora_cultivator:RefreshDrones()
 end
 
 function flora_cultivator:DroneSpawned(drone)
-    drone_spawner_building.DroneSpawned( self, drone )
+
+    if ( drone_spawner_building.DroneSpawned ) then
+        drone_spawner_building.DroneSpawned( self, drone )
+    end
 
     local db = EntityService:GetDatabase( drone )
     if db ~= nil then
@@ -262,18 +300,31 @@ function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon( evt )
 
         self.showPlantIcon = 0
 
-        if ( self.cultivatorSaplingMenu ~= nil ) then
-            local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
-            menuDB:SetInt("sapling_visible", 0)
+        self:CreateMenuEntity()
+
+        local visible = 0
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+            visible = self.showPlantIcon
         end
+
+        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+        menuDB:SetInt("sapling_visible", visible)
+
     elseif eventName == "CultivatorShowPlantIcon" then
 
         self.showPlantIcon = 1
 
-        if ( self.cultivatorSaplingMenu ~= nil ) then
-            local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
-            menuDB:SetInt("sapling_visible", 1)
+        self:CreateMenuEntity()
+
+        local visible = 0
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+            visible = self.showPlantIcon
         end
+
+        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+        menuDB:SetInt("sapling_visible", visible)
     end
 end
 
