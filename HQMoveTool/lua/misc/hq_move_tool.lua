@@ -44,7 +44,7 @@ function hq_move_tool:InitializeValues()
     self.ghostHQ = nil
     self.buildCost = {}
 
-    self.annoucements = {
+    self.announcements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
 
         ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
@@ -335,14 +335,19 @@ function hq_move_tool:OnActivateSelectorRequest()
     local missingResources = testBuildable.missing_resources
     if ( missingResources.count > 0 ) then
 
-        if ( missingResources.count  > 1 ) then
+        local soundAnnouncement = "voice_over/announcement/not_enough_resources"
 
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", self.ghostHQ, false )
+        if ( missingResources.count == 1 ) then
 
-        elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
+            local singleMissingResource = missingResources[1]
 
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.annoucements[missingResources[1]], self.ghostHQ, false )
+            if ( self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
+
+                soundAnnouncement = self.announcements[singleMissingResource]
+            end
         end
+
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.ghostHQ, false )
 
         return
     end
