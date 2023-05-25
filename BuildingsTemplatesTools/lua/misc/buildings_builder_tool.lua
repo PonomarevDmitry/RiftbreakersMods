@@ -605,11 +605,20 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
 
     local missingResources = testBuildable.missing_resources
     if ( missingResources.count  > 0 ) then
-        if ( missingResources.count  > 1 ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", entity, false )
-        elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
+
+        local soundAnnouncement = "voice_over/announcement/not_enough_resources"
+
+        if ( missingResources.count  == 1 ) then
+
+            local singleMissingResource = missingResources[1]
+
+            if ( self.annoucements[singleMissingResource] ~= nil and self.annoucements[singleMissingResource] ~= "" ) then
+
+                soundAnnouncement = self.annoucements[singleMissingResource]
+            end
         end
+
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
 
         return testBuildable.flag
     end
