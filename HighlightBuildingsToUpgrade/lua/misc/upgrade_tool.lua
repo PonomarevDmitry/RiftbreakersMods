@@ -85,17 +85,23 @@ function upgrade_tool:HighlightBuildingsToUpgrade()
     -- Buildings within a radius radiusShowBuildingsToUpgrade from player to highlight
     local buildings = self:FindUpgradableBuildings()
 
-    if ( self.previousMarkedBuildings == nil) then
-        self.previousMarkedBuildings = {}
-    end
+    self.previousMarkedBuildings = self.previousMarkedBuildings or {}
 
     -- Remove highlighting from previous buildings
     for entity in Iter( self.previousMarkedBuildings ) do
 
         -- If the building is not included in the new list
-        if ( IndexOf( buildings, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
-            self:RemovedFromSelection( entity )
+        if ( IndexOf( buildings, entity ) ~= nil ) then
+            goto continue
         end
+
+        if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
+        self:RemovedFromSelection( entity )
+
+        ::continue::
     end
 
     for entity in Iter( buildings ) do
@@ -123,11 +129,12 @@ function upgrade_tool:FindUpgradableBuildings()
 
     for entity in Iter( buildings ) do
 
-        -- Skip buildins from self.selectedEntities
+        -- Skip buildins from result
         if ( IndexOf( result, entity ) ~= nil ) then
             goto continue
         end
 
+        -- Skip buildins from self.selectedEntities
         if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
             goto continue
         end
@@ -154,8 +161,8 @@ function upgrade_tool:OnActivateEntity( entity )
         return
     end
 
-    local buildingName = EntityService:GetBlueprintName( entity)
-    local buildingDesc = BuildingService:GetBuildingDesc(buildingName )
+    local blueprintName = EntityService:GetBlueprintName( entity )
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
 
     if ( buildingDesc and reflection_helper(buildingDesc).limit_name == "hq" ) then
 
@@ -167,7 +174,7 @@ function upgrade_tool:OnActivateEntity( entity )
             self:RegisterHandler(entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
         end
     else
-        QueueEvent("UpgradeBuildingRequest", entity, self.playerId )
+        QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
     end
 end
 
@@ -182,6 +189,7 @@ function upgrade_tool:OnGuiPopupResultEvent( evt )
 end
 
 function upgrade_tool:OnRelease()
+
     -- Remove highlighting from buildings
     if ( self.previousMarkedBuildings ~= nil) then
         for ent in Iter( self.previousMarkedBuildings ) do
