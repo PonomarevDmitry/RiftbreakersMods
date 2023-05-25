@@ -45,6 +45,18 @@ function wall_base_tool:InitializeValues()
 
     self:CreateInfoChild()
 
+    self.announcements = {
+        ["ai"] = "voice_over/announcement/not_enough_ai_cores",
+
+        ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
+        ["steel"] = "voice_over/announcement/not_enough_steel",
+
+        ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
+        ["palladium"] = "voice_over/announcement/not_enough_palladium",
+        ["titanium"] = "voice_over/announcement/not_enough_titanium",
+        ["uranium"] = "voice_over/announcement/not_enough_uranium"
+    }
+
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.wallBlueprintName = self:GetWallBlueprintName( selectorDB )
@@ -252,12 +264,21 @@ function wall_base_tool:BuildEntity(entity, createCube)
     end
 
     local missingResources = testBuildable.missing_resources
-    if ( missingResources.count  > 0 ) then
-        if ( missingResources.count  > 1 ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/not_enough_resources", entity, false )
-        elseif ( self.annoucements[missingResources[1]] ~= nil and self.annoucements[missingResources[1]] ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest",INVALID_ID, 5.0, self.annoucements[missingResources[1]],entity , false )
+    if ( missingResources.count > 0 ) then
+
+        local soundAnnouncement = "voice_over/announcement/not_enough_resources"
+
+        if ( missingResources.count  == 1 ) then
+
+            local singleMissingResource = missingResources[1]
+
+            if ( self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
+
+                soundAnnouncement = self.announcements[singleMissingResource]
+            end
         end
+
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
 
         return testBuildable.flag
     end
