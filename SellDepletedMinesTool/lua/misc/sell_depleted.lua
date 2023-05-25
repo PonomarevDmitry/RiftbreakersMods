@@ -10,6 +10,10 @@ function sell_depleted:__init()
     tool.__init(self,self)
 end
 
+function sell_depleted:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
 function sell_depleted:OnInit()
 
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell", self.entity)
@@ -25,10 +29,6 @@ function sell_depleted:SpawnCornerBlueprint()
     end
 end
 
-function sell_depleted:OnPreInit()
-    self.initialScale = { x=1, y=1, z=1 }
-end
-
 function sell_depleted:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
@@ -40,6 +40,10 @@ function sell_depleted:AddedToSelection( entity )
     else
         EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
     end
+end
+
+function sell_depleted:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial(entity, "selected" )
 end
 
 function sell_depleted:OnUpdate()
@@ -70,17 +74,17 @@ function sell_depleted:OnUpdate()
     end
 end
 
-function sell_depleted:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
-end
+function sell_depleted:FindEntitiesToSelect( selectorComponent )
 
-function sell_depleted:FilterSelectedEntities( selectedEntities )
-
-    local entities = {}
+    local result = {}
 
     local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
     for entity in Iter( entitiesBuildings ) do
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue
+        end
 
         local blueprintName = EntityService:GetBlueprintName( entity )
 
@@ -113,12 +117,12 @@ function sell_depleted:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        Insert(entities, entity)
+        Insert( result, entity )
 
         ::continue::
     end
 
-    return entities
+    return result
 end
 
 function sell_depleted:CheckEntityOnResource( entity, resourceRequirement, blueprintName )
@@ -158,6 +162,7 @@ function sell_depleted:OnRelease()
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
+        self.childEntity = nil
     end
 
     if ( tool.OnRelease ) then
