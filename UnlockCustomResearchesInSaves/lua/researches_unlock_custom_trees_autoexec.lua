@@ -4,4 +4,3 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     Research:CheckResearches()
 end)
-
