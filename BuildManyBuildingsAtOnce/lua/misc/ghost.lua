@@ -44,7 +44,7 @@ function ghost:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector)
     self.activated = false
 
-    self.announcements = {
+    self.annoucements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
 
         ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
@@ -153,9 +153,9 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
 
                     local singleMissingResource = missingResources[1]
 
-                    if ( self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
+                    if ( self.annoucements and self.annoucements[singleMissingResource] ~= nil and self.annoucements[singleMissingResource] ~= "" ) then
 
-                        soundAnnouncement = self.announcements[singleMissingResource]
+                        soundAnnouncement = self.annoucements[singleMissingResource]
                     end
                 end
 

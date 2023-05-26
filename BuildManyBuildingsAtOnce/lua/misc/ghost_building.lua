@@ -377,7 +377,7 @@ function ghost_building:BuildEntity(entity)
 
             local singleMissingResource = missingResources[1]
 
-            if ( self.annoucements[singleMissingResource] ~= nil and self.annoucements[singleMissingResource] ~= "" ) then
+            if ( self.annoucements and self.annoucements[singleMissingResource] ~= nil and self.annoucements[singleMissingResource] ~= "" ) then
 
                 soundAnnouncement = self.annoucements[singleMissingResource]
             end
@@ -437,7 +437,7 @@ function ghost_building:FinishLineBuild()
 
     if ( count > 0 ) then
 
-        if ( self.desc ~= nil and ( (self.desc.limit ~= nil and self.desc.limit > 0) or (self.desc.map_limit ~= nil and self.desc.map_limit > 0) ) ) then
+        if ( self.desc ~= nil and self.desc.limit ~= nil and self.desc.limit > 0 ) then
 
             local delimiterEntities = "|"
 
