@@ -617,15 +617,15 @@ function ghost_building_line:FinishLineBuild()
 
     for i=1,count do
 
-        local ghost = self.linesEntities[i]
+        local ghostEntity = self.linesEntities[i]
 
         local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
         --LogService:Log(tostring(i) .. ":" .. tostring(step) .. ":" .. tostring(createCube))
-        local transform = EntityService:GetWorldTransform( ghost )
-        local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
+        local transform = EntityService:GetWorldTransform( ghostEntity )
+        local buildingComponent = reflection_helper(EntityService:GetComponent( ghostEntity, "BuildingComponent"))
 
-        local testBuildable = self:CheckEntityBuildable( ghost, transform, false, i )
+        local testBuildable = self:CheckEntityBuildable( ghostEntity, transform, false, i )
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
             QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
@@ -638,7 +638,7 @@ function ghost_building_line:FinishLineBuild()
             QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
         end
 
-        EntityService:RemoveEntity(ghost)
+        EntityService:RemoveEntity(ghostEntity)
     end
 
     self.linesEntities = {}
@@ -670,20 +670,25 @@ end
 
 function ghost_building_line:OnRelease()
 
-    for ghost in Iter(self.linesEntities) do
-        EntityService:RemoveEntity(ghost)
+    for ghostEntity in Iter(self.linesEntities) do
+        EntityService:RemoveEntity(ghostEntity)
     end
     self.linesEntities = {}
 
-    if ( self.infoChild ~= nil) then
+    if ( self.infoChild ~= nil ) then
         EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
     end
 
     -- Destroy Marker with layers count
-    if (self.currentMarkerLines ~= nil) then
+    if ( self.currentMarkerLines ~= nil ) then
 
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
+    end
+
+    if ( ghost.OnRelease ) then
+        ghost.OnRelease(self)
     end
 end
 
