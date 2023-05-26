@@ -52,7 +52,7 @@ function tower_mods_remover_tool:FilterSelectedEntities( selectedEntities )
         if ( towerComponent == nil ) then
             goto continue
         end
-            
+
         if ( not EntityService:CompareType( entity, "tower" ) ) then
             goto continue
         end

@@ -33,9 +33,9 @@ function drone_player_scanner:FillInitialParams()
 
 	self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
 
-	self.shoting = false
-	self.lastTarget = INVALID_ID
-	self.effect 	= INVALID_ID
+	self.shoting	= false
+	self.lastTarget	= INVALID_ID
+	self.effect		= INVALID_ID
 
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "working", { execute="OnWorkInProgress" } )

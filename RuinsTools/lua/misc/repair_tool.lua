@@ -106,11 +106,11 @@ function repair_tool:OnUpdate()
             end
 
             if ( database and database:HasInt("number_of_activations")) then
-            
+
                 local currentNumberOfActivations =  database:GetInt("number_of_activations")
                 local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
                 local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
-    
+
                 if ( maxNumberOfActivations > currentNumberOfActivations ) then
                     canRepair = true
                 end
