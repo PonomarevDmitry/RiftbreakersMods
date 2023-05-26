@@ -50,7 +50,7 @@ function buildings_builder_tool:InitializeValues()
 
     self.activated = false
 
-    self.annoucements = {
+    self.announcements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
 
         ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
@@ -517,7 +517,7 @@ function buildings_builder_tool:FilterLimitedAndUnimited()
 
             local buildingDesc = buildingTemplate.buildingDesc
 
-            if ( buildingDesc ~= nil and ( (buildingDesc.limit ~= nil and buildingDesc.limit > 0) or (buildingDesc.map_limit ~= nil and buildingDesc.map_limit > 0) ) ) then
+            if ( buildingDesc ~= nil and buildingDesc.limit ~= nil and buildingDesc.limit > 0 ) then
 
                 local entityTransform = EntityService:GetWorldTransform( buildingTemplate.entity )
 
@@ -612,9 +612,9 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
 
             local singleMissingResource = missingResources[1]
 
-            if ( self.annoucements[singleMissingResource] ~= nil and self.annoucements[singleMissingResource] ~= "" ) then
+            if ( self.announcements and self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
 
-                soundAnnouncement = self.annoucements[singleMissingResource]
+                soundAnnouncement = self.announcements[singleMissingResource]
             end
         end
 
