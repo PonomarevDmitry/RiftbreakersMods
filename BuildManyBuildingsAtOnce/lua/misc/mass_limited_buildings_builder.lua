@@ -119,7 +119,7 @@ function mass_limited_buildings_builder:BuildEntity(entity)
 
             local singleMissingResource = missingResources[1]
 
-            if ( self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
+            if ( self.announcements and self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
 
                 soundAnnouncement = self.announcements[singleMissingResource]
             end
