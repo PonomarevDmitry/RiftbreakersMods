@@ -50,6 +50,9 @@ function resource_miner_picker_tool:FillSelectedBlueprints()
 
     self.selectedBluprintsHash = {
 
+        ["wind_turbine"] = "buildings/energy/wind_turbine",
+        ["solar_panels"] = "buildings/energy/solar_panels",
+
         ["carbonium_factory"] = "buildings/resources/carbonium_factory",
         ["steel_factory"] = "buildings/resources/steel_factory",
         ["rare_element_mine"] = "buildings/resources/rare_element_mine",
@@ -203,51 +206,89 @@ function resource_miner_picker_tool:OnActivateSelectorRequest()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local entityBlueprintName = EntityService:GetBlueprintName(entity)
-
         local blueprintName = self:GetMineBlueprintName( entity )
 
-        if ( blueprintName == "" ) then
-            goto continue
-        end
-
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-        if ( buildingDesc == nil ) then
-            goto continue
-        end
-
-        local baseDesc= BuildingService:FindBaseBuilding( blueprintName )
-        if  (baseDesc ~= nil ) then
-            buildingDesc = baseDesc
-        end
-
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-        if ( #list == 0 ) then
-            goto continue
-        end
-
-        local buildingDescHelper = reflection_helper(buildingDesc)
-
-        blueprintName = buildingDescHelper.bp
-
-        QueueEvent( "ChangeSelectorRequest", self.selector, buildingDescHelper.bp, buildingDescHelper.ghost_bp )
-
-        local lowName = BuildingService:FindLowUpgrade( blueprintName )
-
-        if ( lowName == blueprintName ) then
-            lowName = buildingDescHelper.name
-        end
-
-        BuildingService:SetBuildingLastLevel( lowName, buildingDescHelper.name )
-
-        QueueEvent("ChangeBuildingRequest", self.selector, lowName )
-
-        do
+        if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
             return
         end
 
         ::continue::
     end
+
+    local currentBiome = MissionService:GetCurrentBiomeName()
+    if ( currentBiome ~= "caverns" ) then
+        return
+    end
+
+    local windModificator = BuildingService:GetWindPowerModificator( self.entity )
+
+    local minModificator = 0.05
+
+    if ( windModificator >= minModificator ) then
+
+        local lowName = "wind_turbine"
+        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+        local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+        if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
+            return
+        end
+    end
+
+    local solarModificator = BuildingService:GetSolarPowerModificator( self.entity )
+
+    if ( solarModificator >= minModificator ) then
+
+        local lowName = "solar_panels"
+        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+        local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+        if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
+            return
+        end
+    end
+end
+
+function resource_miner_picker_tool:ChangeSelectorToBlueprint( blueprintName )
+
+    if ( blueprintName == "" ) then
+        return false
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return false
+    end
+
+    local baseDesc= BuildingService:FindBaseBuilding( blueprintName )
+    if  (baseDesc ~= nil ) then
+        buildingDesc = baseDesc
+    end
+
+    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    if ( #list == 0 ) then
+        return false
+    end
+
+    local buildingDescHelper = reflection_helper(buildingDesc)
+
+    blueprintName = buildingDescHelper.bp
+
+    QueueEvent( "ChangeSelectorRequest", self.selector, buildingDescHelper.bp, buildingDescHelper.ghost_bp )
+
+    local lowName = BuildingService:FindLowUpgrade( blueprintName )
+
+    if ( lowName == blueprintName ) then
+        lowName = buildingDescHelper.name
+    end
+
+    BuildingService:SetBuildingLastLevel( lowName, buildingDescHelper.name )
+
+    QueueEvent("ChangeBuildingRequest", self.selector, lowName )
+
+    return true
 end
 
 function resource_miner_picker_tool:GetMineBlueprintName( entity )

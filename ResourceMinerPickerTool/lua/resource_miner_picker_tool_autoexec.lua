@@ -7,6 +7,9 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local selectedBluprintsNames = {
 
+        "wind_turbine",
+        "solar_panels",
+
         "carbonium_factory",
         "steel_factory",
         "rare_element_mine",
