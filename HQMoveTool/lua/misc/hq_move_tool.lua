@@ -191,20 +191,7 @@ function hq_move_tool:GetFullBuildCosts( targetBlueprintName )
 
     local buildCost = {}
 
-    local baseDesc = BuildingService:GetBuildingDesc( "buildings/main/headquarters" )
-    if (baseDesc ~= nil ) then
-
-        local baseDescRef = reflection_helper( baseDesc )
-
-        self:AddBuildCost( buildCost, baseDescRef, targetBlueprintName )
-    end
-
-    return buildCost
-end
-
-function hq_move_tool:AddBuildCost( buildCost, baseDescRef, targetBlueprintName )
-
-    local list = BuildingService:GetBuildCosts( baseDescRef.bp, self.playerId )
+    local list = BuildingService:GetBuildCosts( targetBlueprintName, self.playerId )
 
     for resourceCost in Iter(list) do
 
@@ -215,22 +202,7 @@ function hq_move_tool:AddBuildCost( buildCost, baseDescRef, targetBlueprintName 
         buildCost[resourceCost.first] = buildCost[resourceCost.first] + resourceCost.second
     end
 
-    if ( baseDescRef.bp == targetBlueprintName ) then
-        return
-    end
-
-    if ( baseDescRef.upgrade ~= "" and baseDescRef.upgrade ~= nil ) then
-
-        local nextUpgrade = baseDescRef.upgrade
-
-        local nextUpgradeDesc = BuildingService:GetBuildingDesc( nextUpgrade )
-
-        if ( nextUpgradeDesc ~= nil ) then
-            local nextUpgradeRef = reflection_helper( nextUpgradeDesc )
-
-            self:AddBuildCost( buildCost, nextUpgradeRef, targetBlueprintName )
-        end
-    end
+    return buildCost
 end
 
 function hq_move_tool:OnWorkExecute()
