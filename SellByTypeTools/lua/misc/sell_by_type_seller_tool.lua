@@ -77,6 +77,10 @@ function sell_by_type_seller_tool:FilterSelectedEntities( selectedEntities )
 
     for entity in Iter( selectedEntities ) do
 
+        if ( IndexOf( entities, entity ) ~= nil ) then
+            goto continue
+        end
+
         if ( not self:IsEntityApproved(entity) ) then
             goto continue
         end
@@ -131,9 +135,17 @@ function sell_by_type_seller_tool:OnUpdate()
 
     for entity in Iter( self.previousMarkedBuildings ) do
 
-        if ( IndexOf( sellableBuildinsList, entity ) == nil and IndexOf( self.selectedEntities, entity ) == nil ) then
-            self:RemovedFromSelection( entity )
+        if ( IndexOf( sellableBuildinsList, entity ) ~= nil ) then
+            goto continue
         end
+
+        if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
+        self:RemovedFromSelection( entity )
+
+        ::continue::
     end
 
     for entity in Iter( sellableBuildinsList ) do
