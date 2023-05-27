@@ -1,0 +1,62 @@
+EntityBlueprint
+{
+	name					"buildings/tools/sell_3_energy"
+
+	BuildingDesc
+	{
+		name				"sell_3_energy"
+		bp					"buildings/tools/sell_3_energy"
+		ghost_bp			"buildings/tools/sell_3_energy_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/sell_energy_tool"
+		description			"gui/hud/building_description/sell_energy_tool"
+		menu_icon			"gui/hud/tools_icons/sell_energy_tool"
+
+		order				"50"
+		type				"sell"
+
+		building_group		"sell"
+		buildable			"0"
+
+		condition			"BIOME"
+		condition_value		"caverns"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/sell_3_energy_ghost"
+
+	BuildingDesc
+	{
+		name				"sell_3_energy_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/sell_energy_tool.lua"
+		database
+		{
+			action			string:"sell_energy_tool"
+			marker_name		string:"misc/marker_selector_sell_energy_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
