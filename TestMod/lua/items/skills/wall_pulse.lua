@@ -27,6 +27,16 @@ function wall_pulse:InitFsmStateMachine()
     self.fsm:AddState( "clean_path", { execute="OnExecuteCleanPath", interval = 0.1 } )
 end
 
+function wall_pulse:CanActivate()
+
+    local currentBiome = MissionService:GetCurrentBiomeName()
+    if ( currentBiome == "caverns" ) then
+        return true
+    end
+
+    return false
+end
+
 function wall_pulse:OnActivate()
 
     if ( self.owner == nil or self.owner == INVALID_ID ) then
