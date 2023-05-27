@@ -45,6 +45,8 @@ function buildings_builder_tool:InitializeValues()
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent( self.selector, "PlayerReferenceComponent" ) )
     self.playerId = playerReferenceComponent.player_id
 
+    self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
+
     local buildingComponent = reflection_helper( EntityService:GetComponent( self.entity, "BuildingComponent" ) )
     self.blueprint = buildingComponent.bp
 
@@ -591,14 +593,14 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     if ( testBuildable.flag == CBF_TO_CLOSE ) then
 
         if ( buildingDesc.min_radius_effect ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, buildingDesc.min_radius_effect, entity, false)
+            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, buildingDesc.min_radius_effect, self.playerEntity, false)
         end
 
         return testBuildable.flag
 
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
-        QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
+        QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", self.playerEntity, false )
 
         return testBuildable.flag
     end
@@ -618,7 +620,7 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
             end
         end
 
-        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.playerEntity, false )
 
         return testBuildable.flag
     end

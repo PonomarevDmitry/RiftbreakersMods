@@ -37,6 +37,8 @@ function wall_base_tool:InitializeValues()
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent( self.selector, "PlayerReferenceComponent" ) )
     self.playerId = playerReferenceComponent.player_id
 
+    self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
+
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
@@ -278,7 +280,7 @@ function wall_base_tool:BuildEntity(entity, createCube)
             end
         end
 
-        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.playerEntity, false )
 
         return testBuildable.flag
     end

@@ -11,6 +11,9 @@ function ghost_building:__init()
 end
 
 function ghost_building:OnInit()
+
+    self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
+
     local boundsSize = EntityService:GetBoundsSize( self.selector)
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
@@ -356,14 +359,14 @@ function ghost_building:BuildEntity(entity)
     if ( testBuildable.flag == CBF_TO_CLOSE ) then
 
         if ( self.toCloseAnnoucement ~= "" ) then
-            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false )
+            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, self.playerEntity, false )
         end
 
         return testBuildable.flag
 
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
-        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", self.playerEntity, false )
 
         return testBuildable.flag
     end
@@ -383,7 +386,7 @@ function ghost_building:BuildEntity(entity)
             end
         end
 
-        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.playerEntity, false )
 
         return testBuildable.flag
     end

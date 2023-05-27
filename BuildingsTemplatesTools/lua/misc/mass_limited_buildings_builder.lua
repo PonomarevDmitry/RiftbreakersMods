@@ -13,6 +13,8 @@ function mass_limited_buildings_builder:init()
 
     self.playerId = self.data:GetInt("playerId")
 
+    self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
+
     self.announcements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
 
@@ -98,14 +100,14 @@ function mass_limited_buildings_builder:BuildEntity(entity)
         local tooCloseAnnoucement = self:GetTooCloseAnnoucement( blueprintName )
 
         if ( tooCloseAnnoucement ~= "" ) then
-            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, tooCloseAnnoucement, entity, false )
+            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, tooCloseAnnoucement, self.playerEntity, false )
         end
 
         return testBuildable.flag
 
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
-        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", self.playerEntity, false )
 
         return testBuildable.flag
     end
@@ -125,7 +127,7 @@ function mass_limited_buildings_builder:BuildEntity(entity)
             end
         end
 
-        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.playerEntity, false )
 
         return testBuildable.flag
     end
