@@ -54,7 +54,7 @@ function detector:OnDeactivate( forced )
     PlayerService:StopPadHapticFeedback( 0 )
 
     EntityService:RemoveEntity( self.effect )
-	EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
+    EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
     self.effect = INVALID_ID
     local ownerData = EntityService:GetDatabase( self.owner );
     if ownerData ~= nil then
@@ -118,11 +118,11 @@ function detector:CheckAndSpawnEffect( ent, type, factor)
 end
 
 function detector:CanActivate()
-	if MissionService.IsPlayerDetectorBlocked then
-		return not MissionService:IsPlayerDetectorBlocked()
-	end
+    if MissionService.IsPlayerDetectorBlocked then
+        return not MissionService:IsPlayerDetectorBlocked()
+    end
 
-	return true
+    return true
 end
 
 function detector:OnExecuteDetecting()
