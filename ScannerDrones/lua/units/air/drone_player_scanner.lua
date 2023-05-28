@@ -48,7 +48,7 @@ function drone_player_scanner:SpawnSpecifcEffect( currentTarget )
 	local size = EntityService:GetBoundsSize( currentTarget )
 
 	local effectName
-	
+
 	if ( size.x <= 2.5 ) then
 		effectName = "effects/mech/scanner_small"
 	elseif ( size.x <= 4.5 ) then
@@ -84,7 +84,7 @@ function drone_player_scanner:ExecuteScanning()
 
 		EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 	end
-	
+
 	if ( self.selectedEntity ~= INVALID_ID ) then
 
 		WeaponService:RotateWeaponMuzzleToTarget( self.entity, self.selectedEntity )
@@ -135,7 +135,7 @@ function drone_player_scanner:ExecuteScanning()
 				QueueEvent( "EntityScanningEndEvent", self.lastTarget )
 
 				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted")
-				
+
 				EntityService:RemoveEntity( self.effect )
 				self.effect = INVALID_ID
 
@@ -143,7 +143,7 @@ function drone_player_scanner:ExecuteScanning()
 			end
 		end
 	end
-	
+
 	self.lastTarget = self.selectedEntity;
 end
 
@@ -174,7 +174,7 @@ function drone_player_scanner:OnWorkInProgress()
 	local predicate = {
 		signature = "ScannableComponent"
 	}
-	
+
 	local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate )
 
 	local target = FindClosestEntity( owner, entities )
@@ -225,7 +225,7 @@ function drone_player_scanner:OnRelease()
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
 	end
-	
+
 	if ( base_drone.OnRelease ) then
 		base_drone.OnRelease(self)
 	end

@@ -70,7 +70,7 @@ function drone_player_detector:OnWorkInProgress()
 			if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
 				return false
 			end
-			
+
 			if ( tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
 				return false
 			end
@@ -151,7 +151,7 @@ function drone_player_detector:OnWorkInProgress()
 				return
 			end
 		end
-		
+
 		if ( type == "enemy") then
 
 			for eEnt in Iter( enemyEntities ) do
@@ -159,13 +159,13 @@ function drone_player_detector:OnWorkInProgress()
 				local eDistance = EntityService:GetDistanceBetween( eEnt, owner )
 
 				local discoverDistance = self:GetDiscoveryDistance( eEnt )
-		
+
 				if ( eDistance <= discoverDistance ) then
 					ItemService:RevealHiddenEntity( eEnt )
 				end
 			end
 		end
-	
+
 	else
 
 		EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
@@ -219,7 +219,7 @@ function drone_player_detector:FindNearestTreaure()
 			if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
 				return false
 			end
-			
+
 			if ( tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.level ) then
 				return false
 			end
@@ -367,7 +367,7 @@ function drone_player_detector:CheckAndSpawnEffect( ent, type, factor )
 	end
 
 	self.oldEnt = ent
-	
+
 	if( self.effect == nil or self.effect == INVALID_ID ) then
 		self.type = type
 
@@ -391,7 +391,7 @@ function drone_player_detector:OnRelease()
 
 	EntityService:RemoveEntity( self.effectScanner )
 	self.effectScanner = INVALID_ID
-	
+
 	if ( base_drone.OnRelease ) then
 		base_drone.OnRelease(self)
 	end
