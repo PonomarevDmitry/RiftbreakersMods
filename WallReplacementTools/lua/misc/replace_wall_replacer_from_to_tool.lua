@@ -184,6 +184,10 @@ function replace_wall_replacer_from_to_tool:FilterSelectedEntities( selectedEnti
 
     for entity in Iter( selectedEntities ) do
 
+        if ( IndexOf( entities, entity ) ~= nil ) then
+            goto continue
+        end
+
         if ( not self:IsEntityApproved(entity) ) then
             goto continue
         end
@@ -228,9 +232,9 @@ function replace_wall_replacer_from_to_tool:IsEntityApproved( entity )
 
     local level = buildingRef.level
 
-    local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
+    local wallBlueprintName, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
 
-    if ( wallBlueprint == "" ) then
+    if ( wallBlueprintName == "" ) then
         return false
     end
 
@@ -287,9 +291,11 @@ function replace_wall_replacer_from_to_tool:OnUpdate()
 
         local buildingRef = reflection_helper(buildingDesc)
 
+        local connectType = self:GetConnectType( blueprintName, buildingRef )
 
+        local wallBlueprintName, wallBlueprintLevel = self:GetWallBlueprintAndLevel( buildingRef.level, connectType )
 
-        local list1 = self:GetBuildCosts( buildingRef.level )
+        local list1 = self:GetBuildCosts( wallBlueprintName )
         for resourceName, amount in pairs( list1 ) do
 
             if ( costValues[resourceName] == nil ) then
@@ -351,6 +357,10 @@ function replace_wall_replacer_from_to_tool:FindBuildingFrom()
 
     for entity in Iter( buildings ) do
 
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue
+        end
+
         if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
             goto continue
         end
@@ -405,14 +415,14 @@ function replace_wall_replacer_from_to_tool:OnActivateEntity( entity )
         return
     end
 
-    local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( buildingRef.level, connectType )
-    if ( wallBlueprint == "" ) then
+    local wallBlueprintName, wallBlueprintLevel = self:GetWallBlueprintAndLevel( buildingRef.level, connectType )
+    if ( wallBlueprintName == "" ) then
         return
     end
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprint, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
 end
 
 function replace_wall_replacer_from_to_tool:GetConnectType( blueprintName, buildingRef )
@@ -480,25 +490,23 @@ function replace_wall_replacer_from_to_tool:IsWallBlueprintAvailable( blueprintN
     return false
 end
 
-function replace_wall_replacer_from_to_tool:GetBuildCosts( level )
+function replace_wall_replacer_from_to_tool:GetBuildCosts( blueprintName )
 
     self.cacheBuildCosts = self.cacheBuildCosts or {}
 
-    if ( self.cacheBuildCosts[level] ~= nil ) then
+    if ( self.cacheBuildCosts[blueprintName] ~= nil ) then
 
-        return self.cacheBuildCosts[level]
+        return self.cacheBuildCosts[blueprintName]
     end
 
-    local result = self:CalculateBuildCosts( level )
+    local result = self:CalculateBuildCosts( blueprintName )
 
-    self.cacheBuildCosts[level] = result
+    self.cacheBuildCosts[blueprintName] = result
 
     return result
 end
 
-function replace_wall_replacer_from_to_tool:CalculateBuildCosts( level )
-
-    local blueprintName = self.wallBluprintsArray[level]
+function replace_wall_replacer_from_to_tool:CalculateBuildCosts( blueprintName )
 
     local costValues = {}
 

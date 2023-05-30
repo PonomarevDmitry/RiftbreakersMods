@@ -183,15 +183,15 @@ function replace_wall_tool:OnUpdate()
 
         local level = BuildingService:GetBuildingLevel( entity )
 
-        local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
+        local wallBlueprintName, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
 
-        if ( wallBlueprint == "" ) then
+        if ( wallBlueprintName == "" ) then
             goto continue
         end
 
 
 
-        local list1 = self:GetBuildCosts( wallBlueprintLevel )
+        local list1 = self:GetBuildCosts( wallBlueprintName )
         for resourceName, amount in pairs( list1 ) do
 
             if ( costValues[resourceName] == nil ) then
@@ -313,25 +313,23 @@ function replace_wall_tool:IsWallBlueprintAvailable( blueprintName )
     return false
 end
 
-function replace_wall_tool:GetBuildCosts( level )
+function replace_wall_tool:GetBuildCosts( blueprintName )
 
     self.cacheBuildCosts = self.cacheBuildCosts or {}
 
-    if ( self.cacheBuildCosts[level] ~= nil ) then
+    if ( self.cacheBuildCosts[blueprintName] ~= nil ) then
 
-        return self.cacheBuildCosts[level]
+        return self.cacheBuildCosts[blueprintName]
     end
 
-    local result = self:CalculateBuildCosts( level )
+    local result = self:CalculateBuildCosts( blueprintName )
 
-    self.cacheBuildCosts[level] = result
+    self.cacheBuildCosts[blueprintName] = result
 
     return result
 end
 
-function replace_wall_tool:CalculateBuildCosts( level )
-
-    local blueprintName = self.wallBluprintsArray[level]
+function replace_wall_tool:CalculateBuildCosts( blueprintName )
 
     local costValues = {}
 
@@ -357,6 +355,10 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
     end
 
     for entity in Iter( selectedEntities ) do
+
+        if ( IndexOf( entities, entity ) ~= nil ) then
+            goto continue
+        end
 
         local blueprintName = EntityService:GetBlueprintName( entity )
 
@@ -426,14 +428,14 @@ function replace_wall_tool:OnActivateEntity( entity )
 
     local level = BuildingService:GetBuildingLevel( entity )
 
-    local wallBlueprint, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
-    if ( wallBlueprint == "" ) then
+    local wallBlueprintName, wallBlueprintLevel = self:GetWallBlueprintAndLevel( level, connectType )
+    if ( wallBlueprintName == "" ) then
         return
     end
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprint, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
 end
 
 return replace_wall_tool
