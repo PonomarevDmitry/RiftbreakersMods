@@ -22,8 +22,8 @@ function replace_trap_replacer_all_tool:OnInit()
     self.missing_localization = self.data:GetStringOrDefault("missing_localization", "") or ""
 
     self.buildingDescHash = {}
-    self.wallBluprintsArray = {}
-    self.wallBluprintsResearch = {}
+    self.trapBluprintsArray = {}
+    self.trapBluprintsResearch = {}
     self.cacheBuildCosts = {}
 
     self.template_name = self.data:GetStringOrDefault("template_name", "") or ""
@@ -62,8 +62,8 @@ function replace_trap_replacer_all_tool:FillAllBlueprints( blueprintName )
 
     local buildingRef = reflection_helper(buildingDesc)
 
-    if ( IndexOf( self.wallBluprintsArray, blueprintName ) == nil ) then
-        Insert( self.wallBluprintsArray, blueprintName )
+    if ( IndexOf( self.trapBluprintsArray, blueprintName ) == nil ) then
+        Insert( self.trapBluprintsArray, blueprintName )
 
         self.buildingDescHash[buildingRef.bp] = buildingRef
     end
@@ -78,13 +78,13 @@ function replace_trap_replacer_all_tool:FillResearches()
 
     local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
 
-    for i=1,#self.wallBluprintsArray do
+    for i=1,#self.trapBluprintsArray do
 
-        local blueprintName = self.wallBluprintsArray[i]
+        local blueprintName = self.trapBluprintsArray[i]
 
         local researchName = self:GetResearchForUpgrade( researchComponent, blueprintName )
 
-        self.wallBluprintsResearch[blueprintName] = researchName
+        self.trapBluprintsResearch[blueprintName] = researchName
     end
 end
 
@@ -161,11 +161,15 @@ function replace_trap_replacer_all_tool:FilterSelectedEntities( selectedEntities
 
     local entities = {}
 
-    if ( #self.wallBluprintsArray == 0 ) then
+    if ( #self.trapBluprintsArray == 0 ) then
         return entities
     end
 
     for entity in Iter( selectedEntities ) do
+
+        if ( IndexOf( entities, entity ) ~= nil ) then
+            goto continue
+        end
 
         if ( not self:IsEntityApproved(entity) ) then
             goto continue
@@ -205,9 +209,9 @@ function replace_trap_replacer_all_tool:IsEntityApproved( entity )
 
     local level = buildingRef.level
 
-    local wallBlueprint = self:GetWallBlueprintAndLevel( level )
+    local trapBlueprintName = self:GetTrapBlueprintName( level )
 
-    if ( wallBlueprint == "" ) then
+    if ( trapBlueprintName == "" ) then
         return false
     end
 
@@ -231,9 +235,9 @@ function replace_trap_replacer_all_tool:OnUpdate()
 
         local buildingRef = reflection_helper(buildingDesc)
 
+        local trapBlueprintName = self:GetTrapBlueprintName( buildingRef.level )
 
-
-        local list1 = self:GetBuildCosts( buildingRef.level )
+        local list1 = self:GetBuildCosts( trapBlueprintName )
         for resourceName, amount in pairs( list1 ) do
 
             if ( costValues[resourceName] == nil ) then
@@ -287,7 +291,7 @@ end
 
 function replace_trap_replacer_all_tool:OnActivateEntity( entity )
 
-    if ( #self.wallBluprintsArray == 0 ) then
+    if ( #self.trapBluprintsArray == 0 ) then
         return
     end
 
@@ -301,25 +305,25 @@ function replace_trap_replacer_all_tool:OnActivateEntity( entity )
 
     local buildingRef = reflection_helper(buildingDesc)
 
-    local wallBlueprint = self:GetWallBlueprintAndLevel( buildingRef.level )
-    if ( wallBlueprint == "" ) then
+    local trapBlueprintName = self:GetTrapBlueprintName( buildingRef.level )
+    if ( trapBlueprintName == "" ) then
         return
     end
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprint, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, trapBlueprintName, transform, true )
 end
 
-function replace_trap_replacer_all_tool:GetWallBlueprintAndLevel( level )
+function replace_trap_replacer_all_tool:GetTrapBlueprintName( level )
 
-    local minNumber = math.min( level, #self.wallBluprintsArray )
+    local minNumber = math.min( level, #self.trapBluprintsArray )
 
     for i=minNumber,1,-1 do
 
-        local blueprintName = self.wallBluprintsArray[i]
+        local blueprintName = self.trapBluprintsArray[i]
 
-        if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
+        if ( self:IsTrapBlueprintAvailable( blueprintName ) ) then
 
             return blueprintName
         end
@@ -328,13 +332,13 @@ function replace_trap_replacer_all_tool:GetWallBlueprintAndLevel( level )
     return ""
 end
 
-function replace_trap_replacer_all_tool:IsWallBlueprintAvailable( blueprintName )
+function replace_trap_replacer_all_tool:IsTrapBlueprintAvailable( blueprintName )
 
     if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
     end
 
-    local researchName = self.wallBluprintsResearch[blueprintName] or ""
+    local researchName = self.trapBluprintsResearch[blueprintName] or ""
     if ( researchName ~= "" ) then
 
         if ( PlayerService:IsResearchUnlocked( researchName ) ) then
@@ -345,25 +349,23 @@ function replace_trap_replacer_all_tool:IsWallBlueprintAvailable( blueprintName 
     return false
 end
 
-function replace_trap_replacer_all_tool:GetBuildCosts( level )
+function replace_trap_replacer_all_tool:GetBuildCosts( blueprintName )
 
     self.cacheBuildCosts = self.cacheBuildCosts or {}
 
-    if ( self.cacheBuildCosts[level] ~= nil ) then
+    if ( self.cacheBuildCosts[blueprintName] ~= nil ) then
 
-        return self.cacheBuildCosts[level]
+        return self.cacheBuildCosts[blueprintName]
     end
 
-    local result = self:CalculateBuildCosts( level )
+    local result = self:CalculateBuildCosts( blueprintName )
 
-    self.cacheBuildCosts[level] = result
+    self.cacheBuildCosts[blueprintName] = result
 
     return result
 end
 
-function replace_trap_replacer_all_tool:CalculateBuildCosts( level )
-
-    local blueprintName = self.wallBluprintsArray[level]
+function replace_trap_replacer_all_tool:CalculateBuildCosts( blueprintName )
 
     local costValues = {}
 
