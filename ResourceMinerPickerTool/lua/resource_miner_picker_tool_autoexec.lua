@@ -1,8 +1,3 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    BuildingService:UnlockBuilding("buildings/tools/resource_miner_picker")
-end)
-
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local selectedBluprintsNames = {
