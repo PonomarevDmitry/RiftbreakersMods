@@ -26,7 +26,9 @@ function rift_portal_personal:OnActivate()
 
         if ( self.timer == nil ) then
 
-            QueueEvent( "AddMaxSpeedModifierRequest", self.owner, "rift_portal_personal_penalty", 0 )
+            self.penaltySpeedOwner = self.owner
+
+            QueueEvent( "AddMaxSpeedModifierRequest", self.penaltySpeedOwner, "rift_portal_personal_penalty", 0 )
 
             local timeBeforeSpawn = (self.spawnAfter - self.teleportBefore)
 
@@ -57,7 +59,10 @@ function rift_portal_personal:DestroyTimer()
         EntityService:RemoveEntity( self.timer )
         self.timer = nil
 
-        QueueEvent( "RemoveMaxSpeedModifierRequest", self.owner, "rift_portal_personal_penalty" )
+        if ( self.penaltySpeedOwner ~= nil ) then
+
+            QueueEvent( "RemoveMaxSpeedModifierRequest", self.penaltySpeedOwner, "rift_portal_personal_penalty" )
+        end
     end
 end
 
@@ -80,6 +85,15 @@ function rift_portal_personal:OnDeactivate()
     self.duration = 0.0
 
     return true
+end
+
+function rift_portal_personal:OnUnequipped()
+
+    self:DestroyTimer()
+
+    if ( item.OnUnequipped ) then
+        item.OnUnequipped( self )
+    end
 end
 
 return rift_portal_personal
