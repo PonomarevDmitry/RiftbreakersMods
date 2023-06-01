@@ -25,7 +25,7 @@ end
 
 function sell_depleted:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_gold", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_gold", self.entity )
     end
 end
 
@@ -34,16 +34,10 @@ function sell_depleted:GetScaleFromDatabase()
 end
 
 function sell_depleted:AddedToSelection( entity )
-
-    if ( EntityService:IsSkinned( entity ) ) then
-        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-    end
 end
 
 function sell_depleted:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function sell_depleted:OnUpdate()
@@ -51,6 +45,12 @@ function sell_depleted:OnUpdate()
     self.sellCosts = {}
 
     for entity in Iter( self.selectedEntities ) do
+
+        if ( EntityService:IsSkinned( entity ) ) then
+            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+        end
 
         local list = BuildingService:GetSellResourceAmount( entity )
 
@@ -69,7 +69,7 @@ function sell_depleted:OnUpdate()
         BuildingService:OperateSellCosts( self.infoChild, self.playerId, self.sellCosts )
         BuildingService:OperateSellCosts( self.corners, self.playerId, {} )
     else
-        BuildingService:OperateSellCosts( self.infoChild , self.playerId, {} )
+        BuildingService:OperateSellCosts( self.infoChild, self.playerId, {} )
         BuildingService:OperateSellCosts( self.corners, self.playerId, self.sellCosts )
     end
 end
@@ -86,16 +86,19 @@ function sell_depleted:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
+        if ( not EntityService:HasComponent( entity, "BuildingComponent" ) ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( entity, "ResourceConverterComponent" ) ) then
+            goto continue
+        end
+
         local blueprintName = EntityService:GetBlueprintName( entity )
-
-        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
-        if ( selectableComponent == nil ) then
-            goto continue
-        end
-
-        if ( EntityService:GetComponent(entity, "ResourceConverterComponent") == nil ) then
-            goto continue
-        end
 
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
@@ -133,8 +136,13 @@ function sell_depleted:CheckEntityOnResource( entity, resourceRequirement, bluep
 
         if ( resource ~= nil and resource ~= "" ) then
 
-            if ( BuildingService:IsOnResource(entity, resource) ) then
+            if ( BuildingService:IsOnResource( entity, resource ) ) then
+                return true
+            end
 
+            local veins = BuildingService:GetResourceVeins( entity, resource )
+
+            if ( #veins > 0) then
                 return true
             end
         end
@@ -150,7 +158,7 @@ function sell_depleted:OnActivateSelectorRequest()
     end
 
     for entity in Iter( self.selectedEntities ) do
-        QueueEvent("SellBuildingRequest", entity, self.playerId, false )
+        QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
     end
 
     QueueEvent( "LeaveBuildModeRequest", self.selector, false )
