@@ -32,7 +32,7 @@ sound enemies/necrodon/idle
         audio_file          sound/samples/enemies/necrodon/necrodon_idle_03.wav
 	}
 	
-    gain                0.5
+    gain                0.7
     looping             0
     streaming			1
     instance_limit		0
@@ -57,7 +57,7 @@ sound enemies/necrodon/run
         audio_file		sound/samples/enemies/necrodon/necrodon_run_02.wav
 	}
 	
-	gain				0.7
+	gain				0.9
 	looping				1
 	streaming			1
     instance_limit		3
@@ -81,7 +81,8 @@ sound enemies/necrodon/attack
         audio_file		sound/samples/enemies/necrodon/necrodon_attack_02.wav
         audio_file		sound/samples/enemies/necrodon/necrodon_attack_03.wav
 	}	
-	gain				0.6
+	
+	gain				0.8
 	streaming			0
 	looping				0
     instance_limit		5
@@ -99,15 +100,37 @@ sound enemies/necrodon/attack
 sound enemies/necrodon/resurrect
 {
     audio_file          sound/samples/enemies/necrodon/necrodon_resurrect_01.wav
-    gain                0.3
+    gain                1
     streaming			0
+	instance_limit		3
+	
+	looping             1
+	rolloffFactor		15
+	referenceDistance	35
+	group				"enemy_attack"
+
+	description			"looped sound of resurrection magic spawned in necrodon's hands"
+	notes				""
+	status				"beta"
+}
+
+sound enemies/necrodon/resurrect_body
+{
+    audio_file          sound/samples/enemies/necrodon/necrodon_resurrect_body_01.wav
+	
+    gain                0.5
+    streaming			0
+	
+	freq_ratio			1.0
+	freq_ratio_spread	0.1	
+	
 	instance_limit		3
 	looping             1
 	rolloffFactor		10
 	referenceDistance	35
 	group				"enemy_attack"
 
-	description			"looped sound of resurrection magic"
+	description			"looped sound of resurrection magic spoawned on a dead monster"
 	notes				""
 	status				"beta"
 }
@@ -115,15 +138,64 @@ sound enemies/necrodon/resurrect
 sound enemies/necrodon/resurrected
 {
     audio_file          sound/samples/enemies/necrodon/necrodon_resurrected_01.wav
-    gain                1
+ 
+    gain                0.6
     streaming			0
-	instance_limit		3
+	instance_limit		4
+	
 	looping             0
-	rolloffFactor		10
-	referenceDistance	35
+	rolloffFactor		20
+	referenceDistance	55
 	group				"enemy_attack"
 
 	description			"successfully resurrected monster"
+	notes				""
+	status				"beta"
+}
+
+sound enemies/necrodon/laser_muzzle
+{
+	random_file
+	{
+		audio_file      sound/samples/enemies/necrodon/necrodon_laser_muzzle_01.wav
+	}
+	
+	gain                0.4
+	looping             1
+	streaming			0
+	instance_limit		3
+	
+	freq_ratio			1.0
+	freq_ratio_spread	0.1
+
+	group				"enemy_attack"
+	rolloffFactor		40
+	referenceDistance	30
+	
+	description			"continuous shooting sound of a necrolaser"
+	notes				""
+	status				"beta"
+}
+
+sound enemies/necrodon/laser_hit
+{
+	random_file
+	{
+		audio_file      sound/samples/enemies/necrodon/necrodon_laser_hit_01.wav
+	}
+	gain                0.7
+	looping             1
+	streaming			0
+	instance_limit		5
+	
+	freq_ratio			1.0
+	freq_ratio_spread	0.1
+
+	group				"enemy_attack"
+	rolloffFactor		20
+	referenceDistance	35
+	
+	description			"continuous hitting sound of a necrolaser"
 	notes				""
 	status				"beta"
 }
