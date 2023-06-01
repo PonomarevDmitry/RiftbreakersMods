@@ -1,0 +1,31 @@
+EntityBlueprint
+{ 
+	name "spawners/loot_container_treasue_spawner"
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_treasue_spawner.lua"
+
+		database
+		{
+			delay	float:"0.2"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/loot/treasures/treasure_anomaly"
+
+	TreasureComponent
+    {
+        bp      "spawners/loot_spawner"
+        lvl	    "1"
+
+        database
+        {	
+            blueprint 	    string:"spawners/loot_container_treasue_spawner"
+			rarity			int:"3"
+        }
+    }
+}

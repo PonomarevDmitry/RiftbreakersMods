@@ -16,11 +16,11 @@ EntityBlueprint
 		max_health_percentage_damage_threshold	"66"
 		damage_type								"earthquake"
 		size									"as_radius"
-		radius									"60"
+		radius									"35"
 		local_effects							"weather/crystal_growth_crystal"
 		local_effects_random_offset				"1"
-		local_effects_dissolve					"5"
-		local_effects_cooldown					"5"
+		local_effects_dissolve					"1"
+		local_effects_cooldown					"0.1"
 		local_effects_infinite					"1"
 		minimum_distance_per_local_effect		"1"
 		
@@ -28,10 +28,8 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time 		60
-	}
-
-	
+		time 		10
+	}	
 }
 
 EntityBlueprint
@@ -42,26 +40,31 @@ EntityBlueprint
 	{
 		max_health 				"99"
 		health 					"99"
-	}
-	
-	LightDesc
-	{
-		type "0"
-		light_color
-		{
-			x "0"
-			y "0.5"
-			z "1.0"
-			w "500.0"
-		}
-
-		light_range "15"
 	}	
 	
 	MeshDesc
 	{
-		mesh "meshes/units/ground/gulgor_crystal_01.mesh"
-		material "units/ground/gulgor_crystal"
+		material "props/crystals/entvined_01_set_skin3"
+		mesh "meshes/props/crystals/entvined_medium_01.mesh"
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "0.75"
+			y "0"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+
+		visibility "radar"
 	}
 
 	NodeCullerDesc
@@ -70,10 +73,41 @@ EntityBlueprint
 		cost_type "building"
 		flow_field_size "0.7"
 	}
+	
+	GridCullerDesc
+	{
+		type 8		
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "12.0"
+			}
+		}
+	}	
+	
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-3"
+				y "0"
+				z "-3"
+			}
+			max
+			{
+				x "3"
+				y "8"
+				z "3"
+			}	
+		}
+	}	
 
 	TypeDesc
 	{
-		type "prop|flora|quelver"
+		type "prop|flora"
 	}
 
 	DestroyDesc
@@ -88,16 +122,14 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/destructibles/crystal_big_blue"
-					explosion_effect_scale 	"0.5"
-					part_material	 		"units/ground/gulgor_crystal"
-					part_prefix 			"meshes/units/ground/gulgor_crystal_01"
-					part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
-					part_physics_material   "debris_heavy"
-					part_lifetime			"2"
+					explosion_effect 		"effects/destructibles/crystal_big_violet"	
+					explosion_effect_scale 	"0.4"
+					part_material	 		"props/crystals/entvined_02_set_skin3"
+					part_prefix 			"meshes/props/crystals/entvined_medium_02"
+					//part_effect 			"effects/destructibles/crystal_violet_big_part_trail"
 				}
-			}
-		}
+			}	
+		}		
 	}
 
 	PhysicsDesc
@@ -106,15 +138,31 @@ EntityBlueprint
 		{
 			PhysicsObjectDesc
 			{
-				type 				"kinematic"
-				group_id 			"ground_unit"
+				type 				"static"
+				group_id 			"destructible"
 				physics_material 	"default"
 				Shapes
 				{
-					PhysicsMeshShape
+					PhysicsCapsuleShape
 					{
-						mesh "meshes/units/ground/gulgor_crystal_01_c1.nxs"
-					}
+						r "1.45"
+						half_height "2"
+
+						position 
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
 				}
 			}
 		}
@@ -126,6 +174,21 @@ EntityBlueprint
 		explosion_min_power 	"4000"
 	}	
 	
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/point/crystal_pink_medium"
+                    offset "0 1 0"
+                }
+            }
+        }	
+    }
 }
 
 EntityBlueprint
@@ -136,8 +199,8 @@ EntityBlueprint
 	
 	MeshDesc
 	{
-		mesh "meshes/units/ground/gulgor_crystal_02.mesh"
-		material "units/ground/gulgor_crystal"
+		material "props/crystals/entvined_02_set_skin3"
+		mesh "meshes/props/crystals/entvined_medium_02.mesh"
 	}
 }
 
@@ -149,8 +212,8 @@ EntityBlueprint
 	
 	MeshDesc
 	{
-		mesh "meshes/units/ground/gulgor_crystal_03.mesh"
-		material "units/ground/gulgor_crystal"
+		material "props/crystals/entvined_03_set_skin3"
+		mesh "meshes/props/crystals/entvined_medium_03.mesh"
 	}
 }
 
@@ -162,22 +225,95 @@ EntityBlueprint
 	
 	MeshDesc
 	{
-		mesh "meshes/units/ground/gulgor_crystal_04.mesh"
-		material "units/ground/gulgor_crystal"
+		material "props/crystals/entvined_01_set_skin3"
+		mesh "meshes/props/crystals/entvined_small_01.mesh"
 	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.45"
+						half_height "2"
+
+						position 
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
+				}
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_violet"	
+					explosion_effect_scale 	"0.3"
+					part_material	 		"props/crystals/entvined_01_set_skin3"
+					part_prefix 			"meshes/props/crystals/entvined_small_01"
+					//part_effect 			"effects/destructibles/mushroom_part_trail"
+					part_physics_material   "debris_heavy"
+
+				}
+			}	
+		}		
+	}	
 }
 
 EntityBlueprint
 {
 	name  "weather/crystal_growth_crystal_05"
 
-	base_blueprint weather/crystal_growth_crystal_01
+	base_blueprint weather/crystal_growth_crystal_04
 	
 	MeshDesc
 	{
-		mesh "meshes/units/ground/gulgor_crystal_05.mesh"
-		material "units/ground/gulgor_crystal"
-	}
+		material "props/crystals/entvined_02_set_skin3"
+		mesh "meshes/props/crystals/entvined_small_02.mesh"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "weather/crystal_growth_crystal_06"
+
+	base_blueprint weather/crystal_growth_crystal_04
+	
+	MeshDesc
+	{
+		material "props/crystals/entvined_03_set_skin3"
+		mesh "meshes/props/crystals/entvined_small_03.mesh"
+	}	
 }
 
 EntityBlueprint
@@ -196,14 +332,18 @@ EntityBlueprint
 		Blueprint
 		{
 			blueprint "weather/crystal_growth_crystal_03"
-		}
+		}	
 		Blueprint
 		{
 			blueprint "weather/crystal_growth_crystal_04"
-		}
+		}	
 		Blueprint
 		{
 			blueprint "weather/crystal_growth_crystal_05"
-		}		
+		}	
+		Blueprint
+		{
+			blueprint "weather/crystal_growth_crystal_06"
+		}	
 	}
 }
