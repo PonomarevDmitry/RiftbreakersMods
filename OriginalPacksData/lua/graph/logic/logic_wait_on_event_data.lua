@@ -8,6 +8,8 @@ end
 
 function logic_wait_on_event_data:init()
 	self.eventName = self.data:GetString("event_name")
+	self.eventDataString = self.data:GetString("event_data_string")
+	self.eventDataSource = self.data:GetStringOrDefault("event_data_source", "target")
 	self.isEntityEvent = IsEntityEvent( self.eventName );
 
 	if not self.isEntityEvent then
@@ -24,8 +26,6 @@ function logic_wait_on_event_data:Activated()
 	else
 		self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
 	end
-
-	LogService:Log("Activated on event: " .. self.eventName)
 end
 
 function logic_wait_on_event_data:Deactivated()
@@ -34,20 +34,30 @@ function logic_wait_on_event_data:Deactivated()
 	else
 		self:UnregisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
 	end
-
-	LogService:Log("Deactivated on event: " .. self.eventName)
 end
 
 function logic_wait_on_event_data:OnLuaGlobalEvent( event )
 	if self.eventName == event:GetEvent() then
-		LogService:Log("Reacted on event: " .. self.eventName)
-		self:SetFinished()
+		LogService:Log("Reacted on event: " .. self.eventName)		
+		if Assert( event:GetDatabase():HasString(self.eventDataSource), "ERROR: event='" .. self.eventName .. "' is missing string='" .. self.eventDataSource .. "'" ) then
+			if self.eventDataString == event:GetDatabase():GetString(self.eventDataSource) then
+				LogService:Log("Event Data String: " .. event:GetDatabase():GetString(self.eventDataSource))
+				self:SetFinished()
+			end
+		end
 	end
 end
 
 function logic_wait_on_event_data:OnEntityEvent( event )
 	LogService:Log("Reacted on event: " .. self.eventName)
-	self:SetFinished()
+
+	local callback = event[self.eventDataSource]
+	if Assert( callback ~= nil, "ERROR: event='" .. self.eventName .. "' is missing field='" .. self.eventDataSource .. "'" ) then
+		local value = tostring( callback(event) )
+		if value == self.eventDataString then
+			self:SetFinished()
+		end
+	end
 end
 
 return logic_wait_on_event_data

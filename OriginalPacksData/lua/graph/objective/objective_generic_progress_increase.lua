@@ -16,9 +16,15 @@ function objective_generic_increase:init()
 end
 
 function objective_generic_increase:Activated()
-
 	local objectiveId = ObjectiveService:GetObjectiveIdFromObjectiveUniqueName( self.objectiveName )
+	if not Assert( objectiveId ~= INVALID_OBJECTIVE_ID, "ERROR: could NOT find objective with name: `" .. self.objectiveName .. "`" ) then
+		return self:SetFinished()
+	end
+
 	local database = ObjectiveService:GetObjectiveDatabase( objectiveId )
+	if not Assert( database ~= nil, "ERROR: could NOT find objective database with name: `" .. self.objectiveName .. "`" ) then
+		return self:SetFinished()
+	end
 
 	local progressCurrent = database:GetInt( "progress_current" )
 	progressCurrent = progressCurrent + self.increaseAmount

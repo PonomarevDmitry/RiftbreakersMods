@@ -1,4 +1,5 @@
 require("lua/utils/find_utils.lua")
+require("lua/utils/string_utils.lua")
 
 class 'logic_if_exist_entity_new' ( LuaGraphNodeSelector )
 
@@ -12,10 +13,11 @@ function logic_if_exist_entity_new:init()
     self.waitUntilTrue = self.data:GetString("wait_until_true")
     self.searchRadius = self.data:GetFloat("search_radius")
     self.searchTargetType = self.data:GetString("search_target_type")
-    self.searchTargetValue = self.data:GetString("search_target_value")
 
     self.targetFindType = self.data:GetString("find_type") 
     self.targetFindValue = self.data:GetString("find_value") 
+    self.searchTargetValue = self.data:GetString("search_target_value")
+    self.targetRelationship = self.data:GetStringOrDefault("find_relationship", "")
 
     self.fsm = self:CreateStateMachine()
     self.fsm:AddState( "wait", { from="*", execute="OnExecuteWait" } )
@@ -33,7 +35,23 @@ function logic_if_exist_entity_new:OnExecuteWait( state )
         return
     end
 
-    local entitiesFound = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+    local allEntities, searchTarget = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+
+    local entitiesFound = {}
+    for i,entity in ipairs(allEntities) do
+        local isValidRelationship = true
+
+        if not IsNullOrEmpty( self.targetRelationship ) then
+            isValidRelationship = false
+            for target in Iter(searchTarget) do
+                isValidRelationship = isValidRelationship or EntityService:IsInTeamRelation(entity, target,self.targetRelationship, "player" )
+            end
+        end
+
+        if isValidRelationship then 
+            Insert(entitiesFound, entity)
+        end
+    end
     
     if self.comparisonType == "equal" and ( #entitiesFound == self.count ) then
         self:SetFinished("true")

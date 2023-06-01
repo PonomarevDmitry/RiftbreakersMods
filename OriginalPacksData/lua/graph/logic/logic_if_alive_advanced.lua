@@ -1,4 +1,5 @@
 require("lua/utils/find_utils.lua")
+require("lua/utils/string_utils.lua")
 
 class 'logic_if_alive_advanced' ( LuaGraphNodeSelector )
 
@@ -16,6 +17,7 @@ function logic_if_alive_advanced:init()
 
     self.targetFindType = self.data:GetString("find_type") 
     self.targetFindValue = self.data:GetString("find_value") 
+    self.targetRelationship = self.data:GetStringOrDefault("find_relationship", "")
 
     self.fsm = self:CreateStateMachine()
     self.fsm:AddState( "wait", { from="*", execute="OnExecuteWait" } )
@@ -33,10 +35,19 @@ function logic_if_alive_advanced:OnExecuteWait( state )
         return
     end
 
-    local allEntities = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
+    local allEntities,searchTarget = FindEntitiesByTarget(self.targetFindType, self.targetFindValue, 0.0, self.searchRadius, self.searchTargetType, self.searchTargetValue);
     local entitiesFound = {}
     for i,entity in ipairs(allEntities) do
-        if HealthService:IsAlive( entity ) then 
+        local isValidRelationship = true
+
+        if not IsNullOrEmpty( self.targetRelationship ) then
+            isValidRelationship = false
+            for target in Iter(searchTarget) do
+                isValidRelationship = isValidRelationship or EntityService:IsInTeamRelation(entity, target,self.targetRelationship, "player" )
+            end
+        end
+
+        if HealthService:IsAlive( entity ) and isValidRelationship then 
             Insert(entitiesFound, entity)
         end
     end

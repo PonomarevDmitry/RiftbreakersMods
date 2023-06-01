@@ -49,6 +49,10 @@ function interface_minimap_show_zone_objective:Activated()
 	end
 
     local objectiveId = ObjectiveService:GetObjectiveIdFromObjectiveUniqueName( objectiveName )
+	if not Assert( objectiveId ~= INVALID_OBJECTIVE_ID, "ERROR: could NOT find objective with name: `" .. objectiveName .. "`" ) then
+		return self:SetFinished()
+	end
+
     local color = ObjectiveService:GetObjectiveColor(objectiveId)
 	local iconMaterial = ObjectiveService:GetObjectiveMinimapIcon(objectiveId)
 	local position = GetZonePosition( targetEntity, randomRadius * 0.75 )

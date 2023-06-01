@@ -11,6 +11,11 @@ local SURVIVAL_BORDER_GROUPS =
 	"spawn_enemy_border_north",
 }
 
+local FIND_TYPE_RANDOM_BORDER 	= "RandomBorder"
+local FIND_TYPE_CLOSEST_BORDER 	= "ClosestBorder"
+local FIND_TYPE_DIRECTION 		= "Direction"
+local FIND_TYPE_CREATE_DYNAMIC 	= "CreateDynamic"
+
 function wave_ground:__init()
     LuaGraphNode.__init(self, self)	
 end
@@ -42,7 +47,7 @@ function wave_ground:SpawnWaveIndicator(spawnPoint)
 end
 
 function wave_ground:SelectSpawnPoint()
-	local spawn_type = self.data:GetStringOrDefault( "spawn_type", "" )
+	local spawn_type = self.data:GetStringOrDefault( "spawn_type", FIND_TYPE_NAME )
 	local spawn_direction = self.data:GetStringOrDefault( "spawn_direction", "" )
 	local spawn_target_name = self.data:GetStringOrDefault( "target_name", "" )
 	local spawn_target_type = self.data:GetStringOrDefault( "target_type", FIND_TYPE_NAME )
@@ -50,34 +55,57 @@ function wave_ground:SelectSpawnPoint()
 	local spawn_target_min_radius = self.data:GetFloatOrDefault( "search_min_radius", 0.0 )
 	local spawn_count = self.data:GetIntOrDefault( "search_count", 1 )
 
-	if spawn_type == "" then
-		if self.spawn_point ~= "" then
-			spawn_type = FIND_TYPE_NAME
-		elseif self.spawn_group ~= "" then
+	if spawn_type == FIND_TYPE_NAME and self.spawn_point == "" then
+		if self.spawn_group ~= "" then
 			spawn_type = FIND_TYPE_GROUP
 			self.spawn_point = self.spawn_group
 		elseif spawn_direction ~= "" then
 			spawn_type = FIND_TYPE_GROUP
 			self.spawn_point = self.data:GetString( spawn_direction )
 		elseif self.data:GetIntOrDefault("random_spawn", 0) == 1 then
-			spawn_type = "RandomBorder"
+			spawn_type = FIND_TYPE_RANDOM_BORDER
+		elseif spawn_target_name ~= "" then
+			spawn_type = FIND_TYPE_CLOSEST_BORDER
 		end
 	end
-	
-	if spawn_type == "Direction" then
+
+	if spawn_type == FIND_TYPE_DIRECTION then
 		spawn_type = FIND_TYPE_GROUP
 		self.spawn_point = self.data:GetString( self.spawn_point )
-	elseif spawn_type == "RandomBorder" then
+	elseif spawn_type == FIND_TYPE_RANDOM_BORDER then
 		spawn_type = FIND_TYPE_GROUP
 		self.spawn_point = SURVIVAL_BORDER_GROUPS[ RandInt(1, #SURVIVAL_BORDER_GROUPS) ]
 	end
 
 	Assert(spawn_type ~= "", "ERROR: invalid spawn_type: '" .. spawn_type .. "'");
 
-	if spawn_type == "CreateDynamic" then
+	local entities = {}
+	if spawn_type == FIND_TYPE_CREATE_DYNAMIC then
 		local target = FindEntities( spawn_target_type, spawn_target_name )
 		if Assert( #target > 0, "ERROR: failed to find target: " .. spawn_target_type .. "=" .. spawn_target_name .. " for wave: '" .. self.self_id .. "'" ) then
 			entities = UnitService:CreateDynamicSpawnPoints( target[1], spawn_target_min_radius, spawn_target_max_radius, spawn_count )
+		end
+	elseif spawn_type == FIND_TYPE_CLOSEST_BORDER then
+		local selector = { distance = nil, group_name = ""}
+		for group_name in Iter(SURVIVAL_BORDER_GROUPS) do
+			local border_entities, targets = FindEntitiesByTarget(FIND_TYPE_GROUP, group_name, spawn_target_min_radius, spawn_target_max_radius, spawn_target_type, spawn_target_name)
+			if #targets > 0 then
+				for i=1,spawn_count do
+					local result = FindClosestEntityWithDistance(targets[1], border_entities)
+					if result.entity ~= INVALID_ID and selector.group_name ~= group_name then
+						if selector.distance == nil or selector.distance > result.distance then
+							selector.distance = result.distance
+							selector.group_name = group_name
+							entities = {};
+						end
+					end
+
+					if selector.group_name == group_name then
+						table.remove(border_entities, result.entity)
+						table.insert(entities, result.entity)
+					end
+				end
+			end
 		end
 	else
 		entities = FindEntitiesByTarget(spawn_type, self.spawn_point, spawn_target_min_radius, spawn_target_max_radius, spawn_target_type, spawn_target_name)
