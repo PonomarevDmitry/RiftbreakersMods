@@ -116,6 +116,36 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name effects/enemies_anoryxian/dig_down
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_dig_down"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"7"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/tower_dig_up"
+	}
+}
+
 EntityBlueprint 
 {
 	name "effects/enemies_anoryxian/projectile_trail"
@@ -132,6 +162,53 @@ EntityBlueprint
 	}	
 }
 
+EntityBlueprint 
+{
+	name "effects/enemies_anoryxian/healing_object"
+
+	base_blueprints
+	{
+		lights/point/fire_violet_big
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_healing_object"
+	}	
+	
+	SoundDesc
+	{
+		name "enemies/anoryxian/healing_object"
+	}	
+}
+
+EntityBlueprint 
+{
+	name "effects/enemies_anoryxian/healing_shield"
+
+	base_blueprints
+	{
+		//lights/point/fire_violet_big
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_healing_shield"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_anoryxian/firewall_shoot"
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/firewall_shoot"
+	}
+}
+
 EntityBlueprint
 {
 	name "effects/enemies_anoryxian/projectile_muzzle"
@@ -144,12 +221,12 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    	"rift/arachnoid_sentinel_muzzle"
+		name    	"rift/anoryxian_arm_cannon_muzzle"
 	}
 
 	SoundDesc
 	{
-		name "enemies/anoryxian/muzzle"
+		name "enemies/anoryxian/launch_projectiles"
 	}
 }
 
@@ -190,11 +267,6 @@ EntityBlueprint
 		frequency 		"20"
 		group			"explosion_big"
 	}
-
-	SoundDesc
-	{
-		name "enemies/anoryxian/death"
-	}	
 }
 
 EntityBlueprint
@@ -203,7 +275,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/fire_violet_very_small
+		 lights/point/fire_violet_medium
 		 effects/no_lifetime
 	}
 
@@ -330,4 +402,109 @@ EntityBlueprint
 		speed 	"30"
 		radius 	"10"
 	}	
+}
+
+EntityBlueprint
+{
+	name effects/enemies_anoryxian/bash
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/gnerot_death_ground_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.5"
+		power   		"0.75"
+		falloff_radius 	"15"
+		radius   		"40"
+		frequency 		"30"
+		group			"death_splash"
+	}
+
+	SoundDesc
+	{
+		name "enemies/gnerot/death_ground_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_anoryxian/intro
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"7"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/intro"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_anoryxian/pain
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/pain"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_anoryxian/escape
+
+	SoundDesc
+	{
+		name "enemies/anoryxian/escape"
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+
+	name "effects/enemies_anoryxian/death_egg"
+
+	ParticleDesc
+	{
+		name    "rift/death_black_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_small"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_black_random"
+		scale
+		{
+			x		1.0
+			y		1.0
+			z		1.0
+		
+		}
+	}		
 }

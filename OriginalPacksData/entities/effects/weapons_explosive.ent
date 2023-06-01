@@ -276,7 +276,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/explosion_big"
+		name "items/consumables/sonic_blast"
 	}
 	
 	FogOfWarRevealerComponentDesc
@@ -803,41 +803,6 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/weapons_explosive/flare_projectile
-
-	base_blueprints 
-	{
-		effects/weapons_elemental/projectile
-		lights/point/flare
-		effects/no_lifetime
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_flare_projectile"
-	}
-}
-
-EntityBlueprint
-{
 	name effects/weapons_explosive/grenade_projectile
 
 	base_blueprints 
@@ -1245,3 +1210,84 @@ EntityBlueprint
 	}
 }
 
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/tower_portal_bomb_explosion
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_blue_big
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"15000"
+		speed 	"30"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_portal_bomb_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/tower_portal_muzzle
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_big
+		effects/default
+	}
+	
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}	
+
+	//ParticleDesc
+	//{
+	//	name    "rift/mech_plasma_gun_muzzle"
+	//}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/blaster_charged_fire"
+	}		
+}

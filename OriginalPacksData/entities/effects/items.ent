@@ -169,6 +169,48 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/items/generator_overcharge
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/generator_overcharge"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.6"
+		power   		"1.5"
+		falloff_radius 	"40"
+		radius   		"60"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_big_blue_01_timeout"
+		scale
+		{
+			x		1.6
+			y		1.6
+			z		1.6
+		}
+	}	
+}
+
+EntityBlueprint
+{
 	name effects/items/power_jump_explosion
 
 	base_blueprints
@@ -358,6 +400,176 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/items/mech_floating_mine_beacon_armed
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_medium	
+		 effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_floating_mine_beacon"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_floating_mine_acid_beacon_armed
+
+	base_blueprints
+	{
+		 lights/point/explosion_green_medium	
+		 effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_floating_mine_acid_beacon"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_floating_mine_cryo_beacon_armed
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_medium	
+		 effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_floating_mine_cryo_beacon"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_floating_mine_gravity_beacon_armed
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_medium	
+		 effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_floating_mine_gravity_beacon"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_floating_mine_fire_beacon_armed
+
+	base_blueprints
+	{
+		 lights/point/explosion_orange_medium	
+		 effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_floating_mine_fire_beacon"
+	}	
+}
+
+EntityBlueprint
+{
 	name effects/items/mech_mine_beacon_nuclear_armed
 
 	base_blueprints
@@ -542,7 +754,7 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 			"300"
+					value 			"200"
 					type			"energy"
 				}
 			}
@@ -558,7 +770,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/mech_blaster_charged_explosion_lvl1"
+		name    "rift/holo_decoy_explosion"
 	}
 
 	CameraShakeDesc
@@ -573,7 +785,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/energy/energy_explosion_big"
+		name "items/weapons/energy/energy_explosion_medium"
 	}
 
 	DecalDesc
@@ -581,11 +793,104 @@ EntityBlueprint
 		blueprint "effects/decals/explosion_hole_random"
 		scale
 		{
-			x		4.0
-			y		4.0
-			z		4.0
+			x		2.0
+			y		2.0
+			z		2.0
 		}
 	}		
+}
+
+EntityBlueprint
+{
+	name effects/items/holo_decoy_explosion_advanced
+	base_blueprint "effects/items/holo_decoy_explosion"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"250"
+					type			"energy"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/holo_decoy_explosion_superior
+	base_blueprint "effects/items/holo_decoy_explosion"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"energy"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/holo_decoy_explosion_extreme
+	base_blueprint "effects/items/holo_decoy_explosion"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"350"
+					type			"energy"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/holo_decoy_energy
+
+	ParticleDesc
+	{
+		name    "rift/holo_decoy_energy"
+	}
+	
+		base_blueprints
+	{
+		 //lights/point/white_big
+		 effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name buildings/decorations/base_lamp/power_on
+	}
 }
 
 EntityBlueprint
@@ -602,11 +907,6 @@ EntityBlueprint
 	{
 		name    "rift/flamewave"
 	}
-
-	SoundDesc
-	{
-		name items/skills/flamewave
-	}
 	
 	BurningComponent
 	{
@@ -621,4 +921,130 @@ EntityBlueprint
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 		burning_time			"1"	// how long it will burn in seconds
 	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/flamewave_sound
+
+	base_blueprints
+	{
+		 lights/point/muzzle_orange_big
+		 effects/default
+	}
+
+	SoundDesc
+	{
+		name items/skills/flamewave
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/flare_projectile
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/flare
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_flare_projectile"
+	}
+	
+	SoundDesc
+	{
+		name items/consumables/flare
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/items/antimatter_ball_beam_hit"
+	
+	base_blueprints
+	{
+		lights/point/fire_red_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/bradron_laser_hit"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/bradron/laser_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/items/antimatter_ball_explosion"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_red_big
+		 effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/antimatter_ball_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.3"
+		power   		"0.35"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}
+	
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
 }

@@ -138,7 +138,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/mech_acid_projectile_hit"
+		name    "rift/acid_spitter_explosion"
 	}
 
 	SoundDesc
@@ -163,6 +163,11 @@ EntityBlueprint
 			z		2.5
 		}
 	}
+	
+	LifeTimeDesc
+	{
+		time 		6
+	}		
 }
 
 EntityBlueprint
@@ -227,7 +232,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/fire_explosion_small"
+		name    "rift/fire_spitter_explosion"
 	}
 
 	SoundDesc
@@ -252,20 +257,25 @@ EntityBlueprint
 			z		2.5
 		}
 	}
-
-	BurningComponent
+	
+	LifeTimeDesc
 	{
-		spread_radius 			"1.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-
-		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
-		burning_time			"0.01"	// how long it will burn in seconds
+		time 		6
 	}		
+
+	//BurningComponent
+	//{
+	//	spread_radius 			"1.0"			// radius to spread fire
+	//	spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	//
+	//	spread_timer
+	//	{
+	//		limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+	//	}
+	//
+	//	burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+	//	burning_time			"0.01"	// how long it will burn in seconds
+	//}		
 }
 
 EntityBlueprint
@@ -331,7 +341,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cryo_explosion_small"
+		name    "rift/cryo_spitter_explosion"
 	}
 
 	SoundDesc
@@ -356,6 +366,11 @@ EntityBlueprint
 			z		2.5
 		}
 	}
+	
+	LifeTimeDesc
+	{
+		time 		6
+	}	
 }
 
 EntityBlueprint
@@ -492,7 +507,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/fire_explosion_big"
+		name    "rift/lava_gun_explosion"
 	}
 
 	SoundDesc
@@ -512,6 +527,41 @@ EntityBlueprint
 
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 		burning_time			"0.01"	// how long it will burn in seconds
+	}	
+}	
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/lava_gun_charged_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/lava_gun_charged_explosion"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_charged_hit"
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"10.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.05"	// how long it will burn in seconds
 	}	
 }	
 
@@ -603,6 +653,45 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/weapons_fluid/lava_gun_charged_fire
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"100"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_missile_launch"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.2"
+		falloff_radius 	"3"
+		radius   		"25"
+		frequency 		"10"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_charged_fire"
+	}	
+}
+
+EntityBlueprint
+{
 	name effects/weapons_fluid/lava_gun_equipped
 
 	base_blueprints
@@ -644,7 +733,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    	"rift/arachnoid_sentinel_muzzle"
+		name    	"rift/acid_spitter_muzzle"
 	}
 
 	CameraFeedbackShakeDesc
@@ -656,7 +745,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/fluid/spitter_muzzle"
+		name "items/weapons/fluid/acid_spitter_muzzle"
 	}	
 }
 
@@ -667,13 +756,13 @@ EntityBlueprint
 	base_blueprints
 	{
 		effects/weapons_elemental/muzzle
-		lights/point/muzzle_green_small
+		lights/point/muzzle_blue_small
 		effects/default
 	}
 
 	ParticleDesc
 	{
-		name    	"rift/arachnoid_sentinel_muzzle"
+		name    	"rift/cryo_spitter_muzzle"
 	}
 
 	CameraFeedbackShakeDesc
@@ -685,7 +774,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/fluid/spitter_muzzle"
+		name "items/weapons/fluid/cryo_spitter_muzzle"
 	}	
 }
 
@@ -696,13 +785,13 @@ EntityBlueprint
 	base_blueprints
 	{
 		effects/weapons_elemental/muzzle
-		lights/point/muzzle_green_small
+		lights/point/muzzle_orange_small
 		effects/default
 	}
 
 	ParticleDesc
 	{
-		name    	"rift/arachnoid_sentinel_muzzle"
+		name    	"rift/fire_spitter_muzzle"
 	}
 
 	CameraFeedbackShakeDesc
@@ -714,7 +803,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/fluid/spitter_muzzle"
+		name "items/weapons/fluid/fire_spitter_muzzle"
 	}	
 }
 
