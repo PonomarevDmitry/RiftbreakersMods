@@ -17,9 +17,7 @@ EntityBlueprint
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_acid_spitter_lvl_3"
-		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
-		condition			"BIOME"	
-		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"		
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"	
 
 		costs
 		{
@@ -29,9 +27,8 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 	"100"
-					steel 		"50"
-					ai			"1"
+					carbonium 	"300"
+					steel 		"150"
 				}
 			}
 		}
@@ -75,6 +72,31 @@ EntityBlueprint
 	SkeletonDesc
 	{
 		name "meshes/buildings/defense/tower_acid_spitter_lvl_2"
+	}	
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 			"items/weapons/acid_spitter_projectile_superior"
+		muzzle_flash_effect 	"effects/weapons_fluid/acid_muzzle"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
 	}	
 	
 	WeaponItemDesc

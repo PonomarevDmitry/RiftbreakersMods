@@ -16,9 +16,7 @@ EntityBlueprint
 		overrides			"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
 		upgrade				"buildings/defense/tower_portal_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
-		check_connect		"1"
-		condition			"BIOME"	
-		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"			
+		check_connect		"1"		
 		
 		costs
 		{
@@ -57,7 +55,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower.lua"
+		script "lua/buildings/defense/tower_portal.lua"
 
 		database
 		{
@@ -65,7 +63,6 @@ EntityBlueprint
 			cone_effect_sell	string:"sell_small"
 			time_machine		int:"0"
 		}
-
 	}
 
 	HealthDesc
@@ -139,10 +136,10 @@ EntityBlueprint
 		name "meshes/buildings/defense/tower_portal_lvl_1"
 	}
 	
-	AnimationGraphDesc
-	{
-		animation_graph_name "building_working"
-	}	
+	//AnimationGraphDesc
+	//{
+	//	animation_graph_name "building_working"
+	//}	
 
 	TypeDesc
 	{
@@ -264,9 +261,9 @@ EntityBlueprint
 		aiming_target_time "2"
 		aiming_idle_angle "20"
 		pitch "att_muzzle"
+		check_target_visibility 0
 		gravity_factor "80"
 		yaw "att_muzzle"
-		check_target_visibility "1"
 		fog_of_war_filtering "1"
 	}
 
@@ -297,7 +294,6 @@ EntityBlueprint
 
 	DestroyDesc
 	{
-		
 		DestroyPatterns
 		{		
 			Pair
@@ -417,35 +413,36 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/buildings_and_machines/tower_omni_light"
-					bone "att_muzzle"
+					bone "att_omni_light"
 					random_delay "3"
 				}
 			}
 		}
 		EffectGroup
 		{
-			group "portal"
-			enabled "1"
-		Effects
-			{
-				Effect
-				{
-					blueprint "buildings/defense/tower_portal_portal"
-					bone "be_portal"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "bomb"
-			enabled "1"
+			group "portal_pending"
+			enabled "0"
 
 			Effects
 			{
 				Effect
 				{
-					blueprint "buildings/defense/tower_portal_bomb"
-					bone "be_bomb"
+					blueprint "effects/buildings_defense/tower_portal_loading"
+					bone "att_energy"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "portal_ready"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_defense/tower_portal_ready"
+					bone "att_energy"
 				}
 			}
 		}		
@@ -460,6 +457,11 @@ EntityBlueprint
 	{
 		mesh "meshes/projectiles/tower_portal_bomb.mesh"
 		material "projectiles/tower_portal_bomb"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/tower_portal_bomb"
 	}
 
 	MinimapItemDesc
@@ -477,6 +479,7 @@ EntityBlueprint
 			x "2"
 			y "2"
 		}
+
 		visibility			"radar"
 	}
 
@@ -499,69 +502,41 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/projectiles_and_trails/tower_heavy_artillery_projectile"
+					blueprint "effects/projectiles_and_trails/tower_portal_bomb_projectile"
 				}
 			}
 		}
 	}
 
-	ArtilleryAmmoComponent
+	FlakAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_atomic"
-		on_world_hit_effect 	"effects/weapons_explosive/explosion_atomic"
-		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_atomic"
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
-		hit_effect_direction 	"up"
+		explosion_effect 		"effects/weapons_explosive/tower_portal_bomb_explosion"
+		explosion_delay 		"1.5"
+
 		DamagePattern
 		{
 			area_damage_speed	"30"
 		}
 	}
-	children
+		
+	LuaDesc
 	{
-		EntityBlueprint
+		script "lua/buildings/defense/tower_portal_bomb.lua"
+
+		database
 		{
-			RibbonComponent
-			{		
-				material 			ribbon/smoke_trail_blue_01
-				update_bounds 		1
-				fade_out_time		0.9
-				uv_scroll			"0 -2.5"
-				tiling_distance     "0"
-				tesselation_step 	"0.25"
-				keep_local			"0"
 
-				Ribbons
-				{
-					Ribbon
-					{
-						//parent_attachment "att_exhaust"
-						offset "0 0 0.9"
-					}
-
-					Ribbon
-					{
-						//parent_attachment "att_exhaust"
-						offset "0 0 -0.9"
-					}
-				}
-			}
 		}
-	}	
+	}
 }
 
 EntityBlueprint
 {
-	name "buildings/defense/tower_portal_portal"
-
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
+	name "buildings/defense/tower_portal_triangle"
 
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/tower_portal_triangle.mesh"
+		mesh "meshes/projectiles/tower_portal_triangle.mesh"
 
         SubMeshes
 		{
@@ -585,14 +560,9 @@ EntityBlueprint
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/defense/tower_portal_lvl_1"
+		name "meshes/projectiles/tower_portal_triangle"
 	}
 	
-	AnimationGraphDesc
-	{
-		animation_graph_name "building_working"
-	}	
-
 	SoundDesc
 	{
 		name "items/portal/mech_portal_idle"
@@ -621,15 +591,15 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_portal_bomb"
 
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
-
 	MeshDesc
 	{
 		mesh "meshes/projectiles/tower_portal_bomb.mesh"
 		material "projectiles/tower_portal_bomb"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/projectiles/tower_portal_bomb"
 	}
 }
 

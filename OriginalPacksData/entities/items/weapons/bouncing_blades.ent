@@ -40,7 +40,7 @@ EntityBlueprint
 		ammo_blueprint 				"items/weapons/bouncing_blades_projectile"
 
 		muzzles_per_fire 			"1"
-		muzzle_flash_effect 		"effects/weapons_special/bouncing_blades_fire"
+		muzzle_flash_effect 		"effects/weapons_bullet/bouncing_blades_fire"
 
 		burst_column_spacing 		"0.5"
 		burst_rate 					"0.3"
@@ -61,15 +61,16 @@ EntityBlueprint
 				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
 				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
 				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
-				charge_muzzle_flash_effect  "effects/weapons_special/bouncing_blades_fire_charged"
+				charge_muzzle_flash_effect  "effects/weapons_bullet/bouncing_blades_fire_charged"
+				charge_fire_effect          "effects/weapons_bullet/bouncing_blades_fire_charged_sound"
 
 				charge_time_start           "0.3"
-				charge_time_end             "2"
+				charge_time_end             "1.5"
 				charge_muzzle_idx           "0"
 
 				burst_column_spacing 		"0.5"
 				burst_rate 					"0.3"
-				//burst_column_angle_factor	"10"
+				burst_column_angle_factor	"2"
 			}
 		}
 	}
@@ -100,7 +101,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/weapons_special/bouncing_blades_equipped"							
+					blueprint "effects/weapons_bullet/bouncing_blades_equipped"							
 				}
 			}
 		}			
@@ -114,7 +115,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/weapons_special/bouncing_blades_equipped"
+					blueprint "effects/weapons_bullet/bouncing_blades_equipped"
 				}
 			}
 		}
@@ -291,7 +292,7 @@ EntityBlueprint
 	base_blueprints 
 	{
 		effects/weapons_elemental/projectile
-		lights/point/white_small
+		lights/point/white_super_small
 		effects/no_lifetime
 	}
 
@@ -359,8 +360,8 @@ EntityBlueprint
 		cluster_max_inherit_count 	1
 		cluster_max_generation 		50
 		
-		on_enemy_hit_effect 		"effects/weapons_special/bouncing_blades_hit_enemy_flesh"
-		on_world_hit_effect 		"effects/weapons_special/bouncing_blades_hit_world_rocks"
+		on_enemy_hit_effect 		"effects/weapons_bullet/bouncing_blades_hit_enemy_flesh"
+		on_world_hit_effect 		"effects/weapons_bullet/bouncing_blades_hit_world"
 		on_resisted_hit_effect 		"effects/weapons_generic/projectile_hit_resisted"	
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|vegetation|building|ground_unit|shield"

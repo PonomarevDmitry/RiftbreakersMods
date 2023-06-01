@@ -14,9 +14,9 @@ EntityBlueprint
 		menu_icon			"gui/hud/building_icons/loot_collector_lvl2"
 		require 			"headquarters"
 		order				"14"
-		upgrade				"buildings/resources/loot_collector_lvl_3"	
-		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"		
-		
+		upgrade				"buildings/resources/loot_collector_lvl_3"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
 		costs
 		{
 			BuildingCostInfo
@@ -29,10 +29,10 @@ EntityBlueprint
 					steel 		"600"
 					cobalt		"75"
 				}
-			}		
+			}
 		}
-	} 
-	
+	}
+
 	ResourceConverterDesc
 	{
 		in
@@ -41,15 +41,15 @@ EntityBlueprint
 			{
 				resource 			"energy"
 				value				"150"
-			}			
+			}
 		}
-		priority 4		
-	}	
-	
+		priority 4
+	}
+
 	LuaDesc
 	{
 		script "lua/buildings/drone_spawner_building.lua"
-		
+
 		database
 		{
 			cone_effect			string:"build_cone_3x3"
@@ -62,8 +62,8 @@ EntityBlueprint
 
 			display_radius_blueprint string:"effects/decals/range_circle_harvesting"
 		}
-	}	
-	
+	}
+
 	HealthDesc
 	{
 		max_health 					"1500"
@@ -72,7 +72,7 @@ EntityBlueprint
 		regeneration_cooldown 		"0"
 		 is_manual 1
 		update_health_uniform 		"1"
-		
+
 		DestructionLevels
 		{
 			DestructionLevel
@@ -124,18 +124,24 @@ EntityBlueprint
 				destroy_comp_event 					"default"
 				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
 				//destroyed_state_effect_group 		"0_state"
-			}			
+			}
 		}
-	}	
+	}
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/resources/drone_mine_lvl_1.mesh"
-		material "buildings/resources/drone_mine_lvl_1"
+		mesh "meshes/buildings/resources/loot_collector_lvl_2.mesh"
+		material "buildings/resources/loot_collector_lvl_2"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "buildings/resources/loot_collector_lvl_2_pulsing"
+			}
+		}
 	}
 
-	SkeletonDesc
-	{
-		name "meshes/buildings/resources/drone_mine_lvl_1"
-	}
+
 }

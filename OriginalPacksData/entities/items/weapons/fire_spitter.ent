@@ -180,8 +180,9 @@ EntityBlueprint
 		database
 		{
 			bp						string:"items/consumables/grenade"
-			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance            float:"17.0"
 		}
 	}
 
@@ -253,8 +254,9 @@ EntityBlueprint
 		database
 		{
 			bp						string:"items/consumables/grenade"
-			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance            float:"17.0"
 		}
 	}
 
@@ -288,8 +290,9 @@ EntityBlueprint
 		database
 		{
 			bp						string:"items/consumables/grenade"
-			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance            float:"17.0"
 		}
 	}
 
@@ -361,8 +364,9 @@ EntityBlueprint
 		database
 		{
 			bp						string:"items/consumables/grenade"
-			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance            float:"17.0"
 		}
 	}
 
@@ -379,8 +383,9 @@ EntityBlueprint
 
 	base_blueprints
 	{
+		items/weapons/fire_spitter_projectile_random
 		effects/weapons_elemental/projectile
-		lights/point/red_very_small
+		lights/point/orange_very_small
 		effects/no_lifetime
 	}
 
@@ -400,17 +405,6 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_grenade_projectile"
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/projectiles/blob.mesh"
-		material 	"projectiles/blob_fire"
 	}
 
 	PhysicsDesc
@@ -438,7 +432,7 @@ EntityBlueprint
 		on_enemy_hit_effect 		"effects/weapons_fluid/spitter_fire_hit"
 		on_world_hit_effect 		"effects/weapons_fluid/spitter_fire_hit"
 		on_resisted_hit_effect 		"effects/weapons_fluid/spitter_fire_hit"
-
+		hit_effect_direction 		"up"
 		on_world_explosion_delay	 "0"
 		on_enemy_explosion_delay	 "0"
 
@@ -455,6 +449,90 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name  "items/weapons/fire_spitter_projectile_1"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/blob_1.mesh"
+		material 	"projectiles/blob_fire"
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/weapons/fire_spitter_projectile_2"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/blob_2.mesh"
+		material 	"projectiles/blob_fire"
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/weapons/fire_spitter_projectile_3"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/blob_3.mesh"
+		material 	"projectiles/blob_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/fire_spitter_projectile_4"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/blob_4.mesh"
+		material 	"projectiles/blob_fire"
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/weapons/fire_spitter_projectile_5"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/blob_5.mesh"
+		material 	"projectiles/blob_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/fire_spitter_projectile_random"	
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "items/weapons/fire_spitter_projectile_1"
+		}
+		Blueprint
+		{
+			blueprint "items/weapons/fire_spitter_projectile_2"
+		}
+		Blueprint
+		{
+			blueprint "items/weapons/fire_spitter_projectile_3"
+		}		
+		Blueprint
+		{
+			blueprint "items/weapons/fire_spitter_projectile_4"
+		}
+		Blueprint
+		{
+			blueprint "items/weapons/fire_spitter_projectile_5"
+		}			
+	}	
+}		
+
+EntityBlueprint
+{
 	name  "items/weapons/fire_spitter_projectile_advanced"
 
 	base_blueprints
@@ -467,7 +545,7 @@ EntityBlueprint
 		on_enemy_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_advanced"
 		on_world_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_advanced"
 		on_resisted_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_advanced"
-
+		hit_effect_direction 		"up"
 		on_world_explosion_delay	 "0"
 		on_enemy_explosion_delay	 "0"
 
@@ -496,7 +574,7 @@ EntityBlueprint
 		on_enemy_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_superior"
 		on_world_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_superior"
 		on_resisted_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_superior"
-
+		hit_effect_direction 		"up"
 		on_world_explosion_delay	 "0"
 		on_enemy_explosion_delay	 "0"
 
@@ -525,7 +603,7 @@ EntityBlueprint
 		on_enemy_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_extreme"
 		on_world_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_extreme"
 		on_resisted_hit_effect 		"effects/weapons_fluid/spitter_fire_hit_extreme"
-
+		hit_effect_direction 		"up"
 		on_world_explosion_delay	 "0"
 		on_enemy_explosion_delay	 "0"
 

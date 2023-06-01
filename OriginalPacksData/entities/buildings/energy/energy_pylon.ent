@@ -180,8 +180,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/energy/morphium_powerplant.mesh"
-		material "buildings/decorations/floor_reflective_1x1"		
+		mesh "meshes/buildings/energy/energy_pylon.mesh"
+		material "buildings/energy/energy_pylon"		
 	}
 
 	TypeDesc
@@ -191,8 +191,13 @@ EntityBlueprint
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/energy/morphium_powerplant"
+		name "meshes/buildings/energy/energy_pylon"
 	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "building_working"
+	}	
 
 	PhysicsDesc
  	{
@@ -412,6 +417,98 @@ EntityBlueprint
 			}				
 		}
 	}
+	
+	LightningComponent
+	{		
+		Lightnings
+		{
+			Lightning
+			{
+				start_attachment 	"att_piston_1"
+				end_attachment 		"att_piston_2"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}
+
+			Lightning
+			{
+				start_attachment 	"att_piston_2"
+				end_attachment 		"att_piston_3"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}
+
+			Lightning
+			{
+				start_attachment 	"att_piston_3"
+				end_attachment 		"att_piston_4"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}
+			
+			Lightning
+			{
+				start_attachment 	"att_piston_4"
+				end_attachment 		"att_piston_5"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}
+
+			Lightning
+			{
+				start_attachment 	"att_piston_5"
+				end_attachment 		"att_piston_6"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}	
+
+			Lightning
+			{
+				start_attachment 	"att_piston_6"
+				end_attachment 		"att_piston_7"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}	
+
+			Lightning
+			{
+				start_attachment 	"att_piston_7"
+				end_attachment 		"att_piston_8"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}				
+
+			Lightning
+			{
+				start_attachment 	"att_piston_8"
+				end_attachment 		"att_piston_1"
+
+				repeat_delay		"0.25"
+				min_duration 		"1.0"
+				max_duration		"2.0"
+			}
+		}
+
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"0.1" 	// lightning branching, step in meters
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.05"
+		beam_count 				"3"
+	}	
 
 	EffectDesc
 	{		
@@ -474,22 +571,7 @@ EntityBlueprint
 					delay "0.6"
 				}				
 			}
-		}		
-////////////////////////Resources/////////////////////////			
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"								
-					bone "att_in_arrow"
-				}
-			}
-		}	
+		}			
 ////////////////////////MISC/////////////////////////			
 		EffectGroup
 		{
@@ -500,7 +582,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/morphium_powerplant_energy"								
+					blueprint "effects/buildings_energy/energy_pylon_energy"								
 					bone "att_energy"
 					delay "1"
 				}

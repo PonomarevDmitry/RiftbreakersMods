@@ -141,8 +141,8 @@ EntityBlueprint
 		holding_pose 	"range"
 		name 			"gui/menu/inventory/weapon_name/floating_mines"
 		item_bp			"items/weapons/floating_mines_advanced"
-		icon			"gui/hud/items_icons/weapons/floating_mines_launcher"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher"
+		icon			"gui/hud/items_icons/weapons/floating_mines_launcher_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher_advanced"
 	}
 
 	LuaDesc
@@ -186,8 +186,8 @@ EntityBlueprint
 		holding_pose 	"range"
 		name 			"gui/menu/inventory/weapon_name/floating_mines"
 		item_bp			"items/weapons/floating_mines_extreme"
-		icon			"gui/hud/items_icons/weapons/floating_mines_launcher"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher"
+		icon			"gui/hud/items_icons/weapons/floating_mines_launcher_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher_extreme"
 	}
 
 	LuaDesc
@@ -263,8 +263,8 @@ EntityBlueprint
 		holding_pose 	"range"
 		name 			"gui/menu/inventory/weapon_name/floating_mines"
 		item_bp			"items/weapons/floating_mines_superior"
-		icon			"gui/hud/items_icons/weapons/floating_mines_launcher"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher"
+		icon			"gui/hud/items_icons/weapons/floating_mines_launcher_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher_superior"
 	}
 
 	LuaDesc
@@ -355,6 +355,63 @@ EntityBlueprint
 	{
 		time 		180
 	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			group "mine_unarmed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_placed"
+					bone "att_light"
+				}
+				Effect
+				{
+					blueprint "effects/items/mech_floating_mine_beacon_armed"
+					bone "att_light"
+					delay "2"
+				}				
+			}
+		}
+		EffectGroup
+		{
+			enabled "0"
+			group	"mine_armed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_activated"
+					bone "att_light"
+				}
+			}
+		}
+	}
+	SimpleMovementComponent
+	{
+		movement "SimpleUpDownMovement"
+		{
+			interpolator
+			{
+				start 	0
+				current 0 
+				end 	0.5
+				timer	
+				{
+					timeLimit	2
+					timePassed	0
+				}
+				mode	0
+			
+			}
+		}
+	}	
 }
 
 EntityBlueprint

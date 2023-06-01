@@ -15,7 +15,7 @@ EntityBlueprint
 		description 			"gui/menu/inventory/consumable_description/barricade_upgraded"
 		rarity					"ADVANCED"
 		replace_lower_quality	"1"
-		add_after_obtaining 	"1"	
+		add_after_obtaining 	"1"
 		continuous				"1"
 	}
 
@@ -58,7 +58,7 @@ EntityBlueprint
 		description 			"gui/menu/inventory/consumable_description/barricade_upgraded"
 		rarity					"EXTREME"
 		replace_lower_quality	"1"
-		add_after_obtaining 	"1"	
+		add_after_obtaining 	"1"
 		continuous				"1"
 	}
 
@@ -101,7 +101,7 @@ EntityBlueprint
 		description 			"gui/menu/inventory/consumable_description/barricade_standard"
 		rarity					"STANDARD"
 		replace_lower_quality	"1"
-		add_after_obtaining 	"1"	
+		add_after_obtaining 	"1"
 		continuous				"1"
 	}
 
@@ -144,7 +144,7 @@ EntityBlueprint
 		description 			"gui/menu/inventory/consumable_description/barricade_upgraded"
 		rarity					"SUPERIOR"
 		replace_lower_quality	"1"
-		add_after_obtaining 	"1"	
+		add_after_obtaining 	"1"
 		continuous				"1"
 	}
 
@@ -177,10 +177,10 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/props/rocks/caverns/caverns_small_02_3.mesh"
+		mesh "meshes/items/consumables/barricade.mesh"
 		material "selector/hologram_blue"
-	}	
-	
+	}
+
 }
 
 EntityBlueprint
@@ -217,36 +217,40 @@ EntityBlueprint
 			}
 		}
 	}
-	
+
 	ResistanceComponent
 	{
 		quicksand		"12"
-	}		
+	}
 
 	MeshDesc
 	{
-		mesh "meshes/props/rocks/caverns/caverns_small_02_3.mesh"
-		material "buildings/decorations/floor_reflective_1x1"
-	}	
-	
+		mesh 				"meshes/items/consumables/barricade.mesh"
+		material		"items/consumables/barricade"
+	}
+
 	PhysicsDesc
 	{
 		objects
 		{
 			PhysicsObjectDesc
 			{
-				type     "static"
+				type     "kinematic"
 				group_id    "building"
 				physics_material  "default"
 				Shapes
 				{
 					PhysicsMeshShape
-					{	
-					mesh "meshes/props/rocks/caverns/caverns_small_02_3_c1.nxs"
+					{
+						mesh "meshes/items/consumables/barricade_c1.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/consumables/barricade_c2.nxs"
 					}
 				}
 			}
-		}	
+		}
 
 	}
 
@@ -277,7 +281,8 @@ EntityBlueprint
 
 	SelectableDesc
 	{
-		can_activate 0
+		content 					"gui/menu/inventory/consumable_name/barricade"
+		can_activate 1
 	}
 
 	MinimapItemDesc
@@ -394,7 +399,8 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "lights/point/white_small"
+					blueprint "lights/point/sentry_gun_omni_light"
+					offset "0 3 0"
 				}
 			}
 		}
@@ -407,49 +413,48 @@ EntityBlueprint
 	name "items/consumables/barricade_advanced"
 		base_blueprint "items/consumables/barricade"
 
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/wall_gate_lvl_1.mesh"
-		material "buildings/defense/wall_gate_lvl_1"
+		MeshDesc
+		{
+			mesh 				"meshes/items/consumables/barricade.mesh"
+			material		"items/consumables/barricade_lvl_2"
+		}
+
+		SkeletonDesc
+		{
+			name "meshes/items/consumables/barricade"
+		}
 	}
-	
-	SkeletonDesc
-	{
-		name "meshes/buildings/defense/wall_gate"
-	}	
-}
 
 EntityBlueprint
 {
 	name "items/consumables/barricade_superior"
 		base_blueprint "items/consumables/barricade"
 
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/wall_gate_lvl_1.mesh"
-		material "buildings/defense/wall_gate_lvl_1"
-	}
-	
-	SkeletonDesc
-	{
-		name "meshes/buildings/defense/wall_gate"
-	}	
+		MeshDesc
+		{
+			mesh 				"meshes/items/consumables/barricade.mesh"
+			material		"items/consumables/barricade_lvl_3"
+		}
 
-}
+		SkeletonDesc
+		{
+			name "meshes/items/consumables/barricade"
+		}
+	}
 
 EntityBlueprint
 {
 	name "items/consumables/barricade_extreme"
 		base_blueprint "items/consumables/barricade"
 
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/wall_gate_lvl_1.mesh"
-		material "buildings/defense/wall_gate_lvl_1"
-	}
-	
-	SkeletonDesc
-	{
-		name "meshes/buildings/defense/wall_gate"
-	}	
+		MeshDesc
+		{
+			mesh 				"meshes/items/consumables/barricade.mesh"
+			material		"items/consumables/barricade_lvl_4"
+		}
+
+		SkeletonDesc
+		{
+			name "meshes/items/consumables/barricade"
+		}
 }

@@ -55,10 +55,10 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"350"
-		health 						"350"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"200"
+		health 						"200"
+		regeneration 				"5"
+		regeneration_cooldown 		"10"
 		is_manual 					1
 		update_health_uniform 		"1"
 
@@ -83,6 +83,12 @@ EntityBlueprint
 			}
 		}
 	}
+	
+	RegenerationComponent
+	{
+		regeneration 				"3"
+		regeneration_cooldown 		"10"
+	}	
 
 	MeshDesc
 	{
@@ -110,7 +116,7 @@ EntityBlueprint
 	}
 
 	PhysicsDesc
-	{
+ 	{
 		objects
 		{
 			PhysicsObjectDesc
@@ -149,12 +155,12 @@ EntityBlueprint
 	{
 		Shapes
 		{
-			PhysicsBoxShape
-			{
-					x	2
-					y	2
-					z	2
-			}
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}
 		}
 	}
 
@@ -270,7 +276,18 @@ EntityBlueprint
 EntityBlueprint
 {
 	name  "buildings/defense/wall_crystal_corner_01_ruins"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_wall_ruins.lua"
 
+		database
+		{
+			regeneration_time		float:"60"
+			regeneration_chance		float:"100"
+		}
+	}
+	
 	MeshDesc
 	{
 		mesh "meshes/buildings/defense/wall_crystal_corner_01_ruins.mesh"

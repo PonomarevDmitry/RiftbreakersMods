@@ -4,13 +4,25 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/items/weapons/burst_rifle.mesh"
-		material 	"items/weapons/burst_rifle"
+		mesh 		"meshes/items/weapons/crystal_gun.mesh"
+		material 	"items/weapons/crystal_gun"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/items/weapons/burst_rifle"
+		name "meshes/items/weapons/crystal_gun"
+	}
+	
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "shooting"
+				animTime "0.0"
+			}
+		}
 	}
 
 	WeaponMovementDataComponent
@@ -30,10 +42,7 @@ EntityBlueprint
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_1"
-				recoil_bone   "be_recoil_1"
-				recoil_time   	"0.3"
-				recoil_offset   "0.4"
-			}
+			}	
 		}
 
 		ammo_blueprint 				"mech/crystal_gun_projectile"
@@ -130,8 +139,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/items/weapons/burst_rifle.mesh"
-		material 	"items/weapons/burst_rifle_advanced"
+		mesh 		"meshes/items/weapons/crystal_gun.mesh"
+		material 	"items/weapons/crystal_gun_advanced"
 	}
 }
 
@@ -143,7 +152,7 @@ EntityBlueprint
 	{
 		type 			"range_weapon"
 		name 			"gui/menu/inventory/weapon_name/crystal_gun"
-		subtype			"high_caliber"
+		subtype			"low_caliber"
 		holding_pose 	"range"
 		item_bp			"items/weapons/crystal_gun_advanced"
 		icon			"gui/hud/items_icons/weapons/crystal_gun_advanced"
@@ -175,8 +184,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/items/weapons/burst_rifle.mesh"
-		material 	"items/weapons/burst_rifle_extreme"
+		mesh 		"meshes/items/weapons/crystal_gun.mesh"
+		material 	"items/weapons/crystal_gun_extreme"
 	}
 }
 
@@ -188,7 +197,7 @@ EntityBlueprint
 	{
 		type 			"range_weapon"
 		name 			"gui/menu/inventory/weapon_name/crystal_gun"
-		subtype			"high_caliber"
+		subtype			"low_caliber"
 		holding_pose 	"range"
 		item_bp			"items/weapons/crystal_gun_extreme"
 		icon			"gui/hud/items_icons/weapons/crystal_gun_extreme"
@@ -220,7 +229,7 @@ EntityBlueprint
 	{
 		type 			"range_weapon"
 		name 			"gui/menu/inventory/weapon_name/crystal_gun"
-		subtype			"high_caliber"
+		subtype			"low_caliber"
 		holding_pose 	"range"
 		item_bp			"items/weapons/crystal_gun"
 		icon			"gui/hud/items_icons/weapons/crystal_gun"
@@ -252,8 +261,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/items/weapons/burst_rifle.mesh"
-		material 	"items/weapons/burst_rifle_superior"
+		mesh 		"meshes/items/weapons/crystal_gun.mesh"
+		material 	"items/weapons/crystal_gun_superior"
 	}
 }
 
@@ -265,7 +274,7 @@ EntityBlueprint
 	{
 		type 			"range_weapon"
 		name 			"gui/menu/inventory/weapon_name/crystal_gun"
-		subtype			"high_caliber"
+		subtype			"low_caliber"
 		holding_pose 	"range"
 		item_bp			"items/weapons/crystal_gun_superior"
 		icon			"gui/hud/items_icons/weapons/crystal_gun_superior"
@@ -320,8 +329,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/zorant_projectile.mesh"
-		material 	"projectiles/crystal_projectile"
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"items/weapons/crystal_gun_projectile"
 	}
 
 	ParticleDesc
@@ -333,11 +342,20 @@ EntityBlueprint
 	{
 		//distribution 			"dissipation"
 		//dissipation_count 	"5"
-		cluster_enemy_spread    "180"
-		cluster_world_spread	"180"
-		cluster_max_life_time   "0.2"
-		on_enemy_hit_effect 	"effects/weapons_bullet/crystal_gun_hit_enemy"
-		on_world_hit_effect 	"effects/weapons_bullet/crystal_gun_hit_world"
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.2"
+
+		cluster_scale
+		{
+			x "0.8"
+			y "0.5"
+			z "0.5"
+		}
+
+		on_enemy_hit_effect 	"effects/weapons_bullet/crystal_gun_hit"
+		on_world_hit_effect 	"effects/weapons_bullet/crystal_gun_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"

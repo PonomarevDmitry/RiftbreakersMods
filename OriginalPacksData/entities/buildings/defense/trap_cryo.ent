@@ -12,23 +12,25 @@ EntityBlueprint
 		description			"gui/hud/building_description/trap_cryo"
 		menu_icon			"gui/hud/building_icons/trap_cryo"
 		limit			    "25"
-		limit_name			"traps"			
+		limit_name			"traps"		
+		map_limit			"LOCAL"		
 		require 			"headquarters"
 		order				"20"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		building_group		"trap_physical"
 		type				"trap"
-		//overrides				"wall_small_floor_lvl_2,wall_small_floor_lvl_3"		
+		overrides			"trap"		
 		
 		costs
 		{
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 5
+				building_time 15
 				building_cost
 				{
-					carbonium 	"15"
+					carbonium 	"25"
+					steel 		"25"
 				}
 			}		
 		}	
@@ -40,7 +42,7 @@ EntityBlueprint
 		
 		database
 		{	
-			number_of_activations	int:"5"
+			number_of_activations	int:"10"
 			damage_blueprint		string:"buildings/defense/trap_cryo_damage"
 		}
 
@@ -88,7 +90,6 @@ EntityBlueprint
 		name "meshes/buildings/defense/trap_cryo"
 	}
 
-
 	TypeDesc
 	{
 		type "building|defense|wall"
@@ -126,50 +127,24 @@ EntityBlueprint
 		
 		visibility			"always"
 	}
-
-	HealthBarDesc
+	
+	HealthDesc
 	{
-		type "2"
-		mode "1"
-	}
+		max_health 					"100"
+		health 						"100"
+	}	
+	
+	ResistanceComponent
+	{
+		creeper_area		"1"
+		default_factor		"0"
+	}	
 
 	DestroyDesc
 	{
 		
 		DestroyPatterns
 		{		
-			Pair
-			{
-				key "66_destroy"
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"6000"
-					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
-					part_physics_material   "debris_heavy"	
-					part_material 			"misc/building_parts_generic"
-					part_prefix 			"meshes/misc/building_small_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
-					part_lifetime "3"
-				}	
-			}
-			Pair
-			{
-				key "33_destroy"
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"6000"
-					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
-					part_physics_material   "debris_heavy"	
-					part_material 			"misc/building_parts_generic"
-					part_prefix 			"meshes/misc/building_small_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
-					part_lifetime "3"
-				}
-			}
 			Pair
 			{
 				value
@@ -209,11 +184,6 @@ EntityBlueprint
 
 	EffectDesc
 	{		
-		EffectBaseBlueprints
-		{
-			"buildings/effects_small_base"
-		}	
-
 		EffectGroup
 		{						
 			group "activated"
@@ -221,6 +191,11 @@ EntityBlueprint
 			
 			Effects
 			{
+				Effect
+				{
+					blueprint 	"lights/point/fire_blue_very_small"	
+					bone		"att_light"			
+				}				
 				Effect
 				{
 					blueprint 	"effects/buildings_defense/trap_cryo"	
@@ -254,22 +229,28 @@ EntityBlueprint
 	{
 		DamagePattern
 		{
-			area_damage_radius		"2"
-			area_damage_duration	"5"
+			area_damage_radius		"3"
+			area_damage_duration	"3"
+			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"100"
+					value 			"40"
 					type			"cryo"
 				}
 			}
 
-			//TimeDamages
-			//{
-//
-			//}
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"0"
+					duration		"2"
+					type			"cryo"
+				}
+			}
 //
 			//damage_stun_chance		0.0
 			//damage_stun_duration 	0.0
@@ -280,13 +261,23 @@ EntityBlueprint
 			//area_damage_effect   		""
 			//area_damage_splash_effect 	""
 			//area_damage_speed		0.f
-			//area_damage_type		"explosion"
 			//time_damage_interval	"1"
 		}
 
 		update_timer
 		{
-			timeLimit	"0.2"
+			timeLimit	"0.05"
 		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/trap_cryo_ruins"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/trap_cryo.mesh"
+		material "buildings/main/buildings_ruins"
 	}
 }

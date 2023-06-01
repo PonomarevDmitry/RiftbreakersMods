@@ -46,6 +46,33 @@ EntityBlueprint
 		burst_rate 					"0.3"
 		//burst_column_angle 			"5"
 	}
+	
+	ChargeWeaponComponent
+	{
+		ChargeLevels
+		{
+			ChargeLevel
+			{
+				name 						"charge_level_1"
+
+				ammo_blueprint 				"items/weapons/lava_gun_charged_projectile"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_fluid/lava_gun_charged_fire"
+
+				charge_time_start           "0.3"
+				charge_time_end             "1.5"
+				charge_muzzle_idx           "0"
+
+				burst_column_spacing 		"0.5"
+				burst_rate 					"0.3"
+				//burst_column_angle_factor	"10"
+			}
+		}
+	}	
 
 	EffectDesc
 	{
@@ -154,10 +181,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/autofire_weapon.lua"
+		script "lua/items/weapons/charge_weapon.lua"
+		
 		database
 		{
-			pad_equipped_feedback 		string:"vibration,5,2,20"
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
 		}
 	}
 
@@ -198,10 +229,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/autofire_weapon.lua"
+		script "lua/items/weapons/charge_weapon.lua"
+		
 		database
 		{
-			pad_equipped_feedback 		string:"vibration,5,2,20"
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
 		}
 	}
 
@@ -243,10 +278,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/autofire_weapon.lua"
+		script "lua/items/weapons/charge_weapon.lua"
+		
 		database
 		{
-			pad_equipped_feedback 		string:"vibration,5,2,20"
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
 		}
 	}
 
@@ -274,10 +313,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/autofire_weapon.lua"
+		script "lua/items/weapons/charge_weapon.lua"
+		
 		database
 		{
-			pad_equipped_feedback 		string:"vibration,5,2,20"
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
 		}
 	}
 
@@ -322,10 +365,72 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_fluid/lava_gun_hit"
 		on_world_hit_effect 	"effects/weapons_fluid/lava_gun_hit"
 		on_resisted_hit_effect 	"effects/weapons_fluid/lava_gun_hit"
-
+		hit_effect_direction 	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
 	}
+	
+	ParticleDesc
+	{
+		name    "rift/lava_gun_projectile"
+	}	
+
+	LifeTimeDesc
+	{
+		time 		0.2
+		type 		"camera"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
+		material    "projectiles/laser_red"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/lava_gun_charged_projectile"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/projectile
+		lights/point/orange_medium
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_fluid/lava_gun_charged_hit"
+		on_world_hit_effect 	"effects/weapons_fluid/lava_gun_charged_hit"
+		on_resisted_hit_effect 	"effects/weapons_fluid/lava_gun_charged_hit"
+		hit_effect_direction 	"up"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/lava_gun_projectile"
+	}	
 
 	LifeTimeDesc
 	{

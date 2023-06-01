@@ -46,10 +46,10 @@ EntityBlueprint
 	
 	HealthDesc
 	{
-		max_health 					"700"
-		health 						"700"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"400"
+		health 						"400"
+		regeneration 				"5"
+		regeneration_cooldown 		"10"
 		 is_manual 1
 		update_health_uniform 		"1"
 
@@ -74,6 +74,12 @@ EntityBlueprint
 			}
 		}
 	}
+	
+	RegenerationComponent
+	{
+		regeneration 				"4"
+		regeneration_cooldown 		"10"
+	}	
 	
 	DestroyDesc
 	{
@@ -173,6 +179,17 @@ EntityBlueprint
 EntityBlueprint
 {
 	name  "buildings/defense/wall_crystal_t_01_lvl_2_ruins"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_wall_ruins.lua"
+
+		database
+		{
+			regeneration_time		float:"60"
+			regeneration_chance		float:"100"
+		}
+	}	
 
 	MeshDesc
 	{
