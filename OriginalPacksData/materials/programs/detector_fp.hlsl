@@ -1,19 +1,16 @@
-#include "materials/programs/utils.hlsl"
-
 cbuffer FPConstantBuffer : register(b0)
 {
     matrix      cWorld;
     float4      cEmissiveColor;
 #if USE_FOG
     float4      cFogParams;
-    float4      cFogColour;
+    float4      cFogColor;
 #endif
     float       cGlowAmount;
     float       cGlowFactor;
     float       cAlpha;
 
     float       cTime; 
-    float3      cItemPos;
     float3      cTargetPos;
     float       cRadius;
     float       cIsEnemy;
@@ -41,6 +38,14 @@ Texture2D       tEmissiveTex;
 SamplerState    sEmissiveTex;
 Texture2D       tGradientTex;
 SamplerState    sGradientTex;
+#if USE_FOG
+Texture3D       tLightScattering;
+SamplerState    sLightScattering;
+#endif
+
+#include "materials/programs/utils.hlsl"
+#include "materials/programs/utils_fog.hlsl"
+
 
 PS_OUTPUT mainFP( VS_OUTPUT In ) 
 {  
@@ -152,7 +157,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     Out.Color.w *= alphaPulse + ( 1.0f - alphaPulse ) * 0.25f;
 
 #if USE_FOG
-    addFog( Out.Color.xyz, cFogColour.xyz, In.ProjPos.w, cFogParams );
+    Out.Color.xyz = GetFog( Out.Color.xyz, In.ProjPos );
 #endif
 
     return Out;

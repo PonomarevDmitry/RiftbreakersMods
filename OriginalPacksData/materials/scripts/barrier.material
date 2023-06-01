@@ -9,7 +9,7 @@ material highlight/shield
 		{
 
 			scene_blend alpha_blend
-			depth_bias -10 0
+			depth_bias -40 -1
 			glow 5.5
             emissive 0 4 10 10
 			
@@ -19,7 +19,9 @@ material highlight/shield
 
 			fragment_program_ref barrier_emissive_gradient_fp
 			{		
-				param_named cBarrier float 0	
+				param_named  	 cBarrier 			float 0
+        		param_named      cBlendColor1       float4 0.0 0.5 1.0 0.1
+        		param_named      cBlendColor2       float4 0.0 0.6 6.0 4.0
 			}
 			
 			texture_unit emissive
@@ -48,7 +50,7 @@ material highlight/shield_skinned
 		{
 			scene_blend alpha_blend
 			depth_write off
-			depth_bias -10 0
+			depth_bias -40 -1
 			glow 5.5
             emissive 0 4 10 10
 
@@ -58,7 +60,9 @@ material highlight/shield_skinned
 
 			fragment_program_ref barrier_emissive_gradient_fp
 			{
-				param_named cBarrier float 0
+				param_named 	 cBarrier 			float 0
+		        param_named      cBlendColor1       float4 0.0 0.5 1.0 0.1
+		        param_named      cBlendColor2       float4 0.0 0.6 6.0 4.0
 			}
 			
 			texture_unit emissive

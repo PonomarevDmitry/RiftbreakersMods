@@ -10,11 +10,11 @@ material logic/editor_transform_gizmo
 		{
 			scene_blend alpha_blend
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp 
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
 
@@ -24,4 +24,52 @@ material logic/editor_transform_gizmo
 			}
 		}	
 	}
+}
+
+material logic/tile_light_mask
+{ 
+	render_group 211
+	
+	technique
+	{
+		pass
+		{
+			depth_check false
+			depth_write false
+
+			vertex_program_ref forward_object_texture_vp 
+			{
+			}
+
+			fragment_program_ref forward_object_texture_fp
+			{
+			}
+			
+			texture_unit light_mask 
+			{	
+				texture materials/textures/error.dds
+                filtering bilinear
+			}
+		}	
+	}
+}
+
+material logic/caverns_light_mask_holes_medium : logic/tile_light_mask
+{
+	set_texture_alias light_mask materials/textures/logic/caverns_ligh_mask_holes_medium.dds
+}
+
+material logic/caverns_light_mask_ambient : logic/tile_light_mask
+{
+	set_texture_alias light_mask materials/textures/logic/caverns_ligh_mask_ambient.dds
+}
+
+material logic/caverns_light_mask_none : logic/tile_light_mask
+{
+	set_texture_alias light_mask materials/textures/logic/caverns_ligh_mask_none.dds
+}
+
+material logic/caverns_light_mask_full : logic/tile_light_mask
+{
+	set_texture_alias light_mask materials/textures/logic/caverns_ligh_mask_full.dds
 }

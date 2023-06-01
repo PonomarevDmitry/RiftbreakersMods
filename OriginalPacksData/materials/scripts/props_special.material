@@ -584,7 +584,7 @@ material props/special/loot_container_metallic_core_extreme : pbr/alpha_test
 material props/special/core_wreckage_base
 {
 	render_group 58
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -794,7 +794,7 @@ material props/special/core_wreckage_barrier_energy
 			scene_blend alpha_blend
 			cull_hardware none
 
-			vertex_program_ref unlit_emissive_fresnel_fog_world_vp
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
             {
             }
 
@@ -825,6 +825,14 @@ material props/special/core_wreckage_barrier_energy
 				filtering 		bilinear
 				tex_address_mode wrap
             }
+
+            texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
         }
     }
 }
@@ -882,4 +890,190 @@ material props/special/core_wreckage_barrier_middle : props/special/core_wreckag
 			}
 		}
 	}
+}
+
+material props/special/cavern_mushroom/cavern_mushroom : pbr/default
+{
+	set_texture_alias albedo			materials/textures/props/special/cavern_mushroom/cavern_mushroom_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/cavern_mushroom/cavern_mushroom_normal.dds
+	set_texture_alias packed			materials/textures/props/special/cavern_mushroom/cavern_mushroom_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/cavern_mushroom/cavern_mushroom_emissive.dds
+
+	glow 2.3
+}
+
+material props/special/loot_container_caverns_standard : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_emissive.dds
+}
+
+material props/special/loot_container_caverns_core_standard : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_emissive.dds
+
+	glow 3
+	render_group 29
+}
+
+material props/special/loot_container_caverns_advanced : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_emissive.dds
+}
+
+material props/special/loot_container_caverns_core_advanced : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_advanced_emissive.dds
+
+	glow 3
+	render_group 29
+}
+
+material props/special/loot_container_caverns_extreme : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_emissive.dds
+}
+
+material props/special/loot_container_caverns_core_extreme : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_extreme_emissive.dds
+
+	glow 3
+	render_group 29
+}
+
+material props/special/loot_container_caverns_superior : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_superior_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_superior_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_superior_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_superior_emissive.dds
+}
+
+material props/special/loot_container_caverns_core_superior : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_caverns_superior_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_caverns_superior_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_caverns_superior_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_caverns_superior_emissive.dds
+
+	glow 3
+	render_group 29
+}
+
+material props/special/destructible_rocks/cavern_wall_set_01 : pbr/default
+{
+	set_texture_alias albedo			materials/textures/props/special/destructible_rocks/cavern_wall_set_01_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/destructible_rocks/cavern_wall_set_01_normal.dds
+	set_texture_alias packed			materials/textures/props/special/destructible_rocks/cavern_wall_set_01_packed.dds
+
+}
+
+material props/special/destructible_rocks/cavern_wall_set_02 : pbr/default
+{
+	set_texture_alias albedo			materials/textures/props/special/destructible_rocks/cavern_wall_set_02_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/destructible_rocks/cavern_wall_set_02_normal.dds
+	set_texture_alias packed			materials/textures/props/special/destructible_rocks/cavern_wall_set_02_packed.dds
+
+}
+
+material props/special/destructible_rocks/cavern_wall_set_03 : pbr/default
+{
+	set_texture_alias albedo			materials/textures/props/special/destructible_rocks/cavern_wall_set_03_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/destructible_rocks/cavern_wall_set_03_normal.dds
+	set_texture_alias packed			materials/textures/props/special/destructible_rocks/cavern_wall_set_03_packed.dds
+}
+
+material props/special/destructible_rocks/ceil_base
+{
+	feature "gbuffer|shadow"
+	render_group 4
+	
+	technique
+	{
+		pass
+		{
+			//scene_blend			alpha_test
+
+			vertex_program_ref ground_resources_vp 
+			{
+			}
+
+			fragment_program_ref ground_resources_alpha_test_fp
+			{
+			}
+			
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+		}	
+	}
+}
+
+
+material props/special/destructible_rocks/cavern_ceil : props/special/destructible_rocks/ceil_base
+{
+	feature "gbuffer|shadow"
+	
+	set_texture_alias albedo			materials/textures/props/special/volume_plane/destructible_wall_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/volume_plane/destructible_wall_normal.dds
+	set_texture_alias packed			materials/textures/props/special/volume_plane/destructible_wall_packed.dds
+}
+
+
+material props/special/caverns/anoryxian_boss_shield : pbr/default
+{
+    set_texture_alias albedo           materials/textures/props/special/caverns/anoryxian_boss_shield_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/caverns/anoryxian_boss_shield_normal.dds
+    set_texture_alias packed           materials/textures/props/special/caverns/anoryxian_boss_shield_packed.dds
+        
+}
+
+material props/special/caverns/destructible_pillar : pbr/default
+{
+    set_texture_alias albedo           materials/textures/props/special/caverns/destructible_pillar_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/caverns/destructible_pillar_normal.dds
+    set_texture_alias packed           materials/textures/props/special/caverns/destructible_pillar_packed.dds
+        
 }

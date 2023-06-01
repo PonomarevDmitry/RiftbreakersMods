@@ -1,5 +1,5 @@
 #include "materials/programs/utils.hlsl"
-#include "materials/programs/pack_ops.hlsl"
+#include "materials/programs/utils_pack.hlsl"
 
 cbuffer FPConstantBuffer : register(b0)
 {
@@ -8,6 +8,13 @@ cbuffer FPConstantBuffer : register(b0)
     float       cDissolveAmount;
     float       cGlowAmount;
     float       cGlowFactor;
+#if USE_VELOCITY
+    float4      cJitterOffset;
+#endif
+#if USE_REFLECTION_MAP
+    float2      cReflectionParams;
+    float3      cWorldCameraPos;
+#endif
     float       cHealthAmount;
     float       cMIPBias;
 };
@@ -20,6 +27,10 @@ struct VS_OUTPUT
     float3      Tangent       : TEXCOORD2;
     float3      BiNormal      : TEXCOORD3;
     float3      WorldPos      : TEXCOORD4;
+#if USE_VELOCITY
+    float4      CurrPos       : TEXCOORD5;
+    float4      PrevPos       : TEXCOORD6;
+#endif
 };
 
 struct PS_OUTPUT
@@ -29,6 +40,7 @@ struct PS_OUTPUT
     float4      GBuffer2      : SV_TARGET2; // Occlusion (x), Roughness (y), Metalness (z)
     float4      GBuffer3      : SV_TARGET3; // Emissive (xyz)
     float4      GBuffer4      : SV_TARGET4; // SubsurfaceScattering (xyz)
+    float2      GBuffer5      : SV_TARGET5; // Velocity (xy)
 };
 
 Texture2D       tAlbedo1Tex;
@@ -57,6 +69,12 @@ SamplerState    sGradient2Tex;
 #endif
 Texture2D       tDissolveTex;
 SamplerState    sDissolveTex;
+#if USE_REFLECTION_MAP
+Texture2D       tEnvBRDF;
+SamplerState    sEnvBRDF;
+TextureCube     tReflectionTex;
+SamplerState    sReflectionTex;
+#endif
 
 PS_OUTPUT mainFP( VS_OUTPUT In )
 {
@@ -75,6 +93,8 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     clip ( albedo.a > 0.5f ? 1:-1 );
 #endif
 
+    float3x3 normalRotation = float3x3( In.Tangent, In.BiNormal, In.Normal );
+
     if ( cHealthAmount != 1.0f )
     {   
         float albedoDiff =  saturate( 1.0 - cHealthAmount - dissolve );
@@ -89,9 +109,28 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 		texNormal = lerp( texNormal, texNormal2D( tNormal2Tex, sNormal2Tex, In.UV0).xyz, albedoDiff );
     }
 
-    float3x3 normalRotation = float3x3( In.Tangent, In.BiNormal, In.Normal );
-    Out.GBuffer1.xyz = encodeNormal( mul( texNormal, normalRotation ) );
+    float3 normal = mul( texNormal, normalRotation );
 
+#if USE_REFLECTION_MAP
+    float roughness = material.y;
+    if ( roughness < cReflectionParams.x )
+    {    
+        float3 N = normal;
+        float3 V = normalize( cWorldCameraPos - In.WorldPos.xyz );
+        float NdotV = abs( dot( N, V ) ) + 0.001;
+        float occlusion = material.x;
+        float metalness = material.z;
+        float smoothness = 1.0f - ( roughness * roughness * roughness * roughness );
+        float2 specularBRDF = tEnvBRDF.SampleLevel( sEnvBRDF, float2( NdotV, smoothness ), 0.0f ).xy;
+        float3 reflectRay = normalize( reflect( -V, N ) );
+        float mipLevel = roughness * 8.0f;
+        float3 specularLight = tReflectionTex.SampleLevel( sReflectionTex, reflectRay, mipLevel ).xyz;
+        float3 specularColor = lerp( 0.04f, albedo.xyz, metalness );
+        float3 specular = specularLight * ( specularColor * specularBRDF.x + saturate( 50.0 * specularColor.g ) * specularBRDF.y ) * cReflectionParams.y * occlusion;
+        emissive.xyz += specular;
+    }
+#endif
+    Out.GBuffer1.xyz = encodeNormal( normal );
     Out.GBuffer0 = float4( albedo.xyz, 1.0f );
     Out.GBuffer2 = float4( material, 1.0f );
     Out.GBuffer3 = float4( emissive, 1.0f );
@@ -107,6 +146,14 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
         dissolveColor *= cDissolveAmount * dissolvePower;
         Out.GBuffer3.xyz = dissolveColor;
     }
+
+#if USE_VELOCITY
+    float2 screenPos = ( In.CurrPos.xy / In.CurrPos.w ) + cJitterOffset.xy;
+    float2 prevScreenPos = ( In.PrevPos.xy / In.PrevPos.w ) + cJitterOffset.zw;
+    Out.GBuffer5 = screenPos - prevScreenPos;
+#else
+    Out.GBuffer5 = 0.0f;
+#endif
 
     return Out;
 }

@@ -4,10 +4,14 @@ vertex_program ground_quicksand_vp hlsl
     entry_point mainVP
     target vs_5_0
 
+    preprocessor_defines USE_VELOCITY=1
+    
     default_params
     {
-        param_named_auto cWorld         world_matrix 
-        param_named_auto cViewProj      viewproj_matrix 
+        param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cPrevViewProj  prev_viewproj_matrix 
+        param_named_auto cWorld         world_matrix
+        param_named_auto cPrevWorld     prev_world_matrix 
         param_named      cTilingFactor  float 16.0        
     }
 }
@@ -17,7 +21,7 @@ fragment_program ground_quicksand_fp hlsl
     source materials/programs/ground_quicksand_fp.hlsl
     entry_point             mainFP
 
-    preprocessor_defines    USE_DXT5NM=1
+    preprocessor_defines    USE_DXT5NM=1,USE_VELOCITY=1
     target                  ps_5_0
 
     default_params
@@ -26,7 +30,8 @@ fragment_program ground_quicksand_fp hlsl
         param_named         cAlpha  float 1.0
         param_named         cFlowSpeed float 0.2
         param_named_auto    cTime time
-        param_named_auto    cMIPBias           mip_bias
+        param_named_auto    cMIPBias mip_bias
+        param_named_auto    cJitterOffset jitter_offset
     }
 }
 
@@ -35,7 +40,7 @@ fragment_program ground_quicksand_normal_fp hlsl
     source materials/programs/ground_quicksand_fp.hlsl
     entry_point             mainFP
 
-    preprocessor_defines    USE_DXT5NM=1,USE_FLOW_NORMAL=1
+    preprocessor_defines    USE_DXT5NM=1,USE_FLOW_NORMAL=1,USE_VELOCITY=1
     target                  ps_5_0
 
     default_params
@@ -44,6 +49,7 @@ fragment_program ground_quicksand_normal_fp hlsl
         param_named         cAlpha  float 1.0
         param_named         cFlowSpeed float 0.2
         param_named_auto    cTime time
-        param_named_auto    cMIPBias           mip_bias
+        param_named_auto    cMIPBias mip_bias
+        param_named_auto    cJitterOffset jitter_offset
     }
 }

@@ -468,6 +468,31 @@ material minimap/quad_base
 	}
 }
 
+material minimap/quad_terrain : minimap/quad_base
+{
+	render_group 205
+
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+
+			// Stencil
+            check       	on
+            comp_func   	not_equal
+			mask			10
+            ref_value   	0
+            pass_op     	keep
+            two_sided   	on
+		}
+	}
+}
+
+
 material minimap/quad_d : minimap/quad_base
 {
 	render_group 207

@@ -1,21 +1,31 @@
 import * from "materials/scripts/pbr.material"
-import * from "materials/scripts/unlit.material"
+
+material projectiles/crystal_projectile : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/projectiles/crystal_projectile_albedo.dds
+	set_texture_alias normal			materials/textures/projectiles/crystal_projectile_normal.dds
+	set_texture_alias packed			materials/textures/projectiles/crystal_projectile_packed.dds
+	set_texture_alias emissive			materials/textures/projectiles/crystal_projectile_emissive.dds
+
+	glow 10
+
+}
 
 material projectiles/lightning_gun
 {
     render_group 61
-    
+
     technique
     {
         pass
         {
             depth_write off
             scene_blend alpha_blend
-            
+
             glow 200
             emissive 0 4 10 10
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref unlit_fresnel_vp
 			{
 			}
 
@@ -24,7 +34,7 @@ material projectiles/lightning_gun
 				param_named cFresnelBias  float 0
 				param_named cFresnelScale float 1
 				param_named cFresnelPower float 2
-				
+
 				param_named cBlendColor1 float4 0 0 5 1
 				param_named cBlendColor2 float4 0 0 10 1
 			}
@@ -35,18 +45,18 @@ material projectiles/lightning_gun
 material projectiles/laser_red
 {
     render_group 61
-    
+
     technique
     {
         pass
         {
             depth_write off
             scene_blend alpha_blend
-            
+
             glow 200
             emissive 10 0 0 1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref unlit_fresnel_vp
 			{
 			}
 
@@ -55,7 +65,7 @@ material projectiles/laser_red
 				param_named cFresnelBias  float 0
 				param_named cFresnelScale float 1
 				param_named cFresnelPower float 2
-				
+
 				param_named cBlendColor1 float4 5 0 0 1
 				param_named cBlendColor2 float4 100 0 0 1
 			}
@@ -66,18 +76,18 @@ material projectiles/laser_red
 material projectiles/laser_blue
 {
     render_group 61
-    
+
     technique
     {
         pass
         {
             depth_write off
             scene_blend alpha_blend
-            
+
             glow 200
             emissive 0 4 10 10
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref unlit_fresnel_vp
 			{
 			}
 
@@ -86,7 +96,7 @@ material projectiles/laser_blue
 				param_named cFresnelBias  float 0
 				param_named cFresnelScale float 1
 				param_named cFresnelPower float 2
-				
+
 				param_named cBlendColor1 float4 0 25 50 1
 				param_named cBlendColor2 float4 0 25 50 1
 			}
@@ -97,18 +107,18 @@ material projectiles/laser_blue
 material projectiles/laser_green
 {
     render_group 61
-    
+
     technique
     {
         pass
         {
             depth_write off
             scene_blend alpha_blend
-            
-            glow 200
-            emissive 0 10 0 10
 
-            vertex_program_ref unlit_fresnel_vp 
+            glow 200
+            emissive 0 5 0 1
+
+            vertex_program_ref unlit_fresnel_vp
 			{
 			}
 
@@ -117,9 +127,102 @@ material projectiles/laser_green
 				param_named cFresnelBias  float 0
 				param_named cFresnelScale float 1
 				param_named cFresnelPower float 2
-				
-				param_named cBlendColor1 float4 0 30 0 1
-				param_named cBlendColor2 float4 0 30 0 1
+
+				param_named cBlendColor1 float4 0 5 0 1
+				param_named cBlendColor2 float4 0 5 0 1
+			}
+        }
+    }
+}
+
+material projectiles/laser_white
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 200
+            emissive 5 5 5 1
+
+            vertex_program_ref unlit_fresnel_vp
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+
+				param_named cBlendColor1 float4 5 5 5 1
+				param_named cBlendColor2 float4 5 5 5 1
+			}
+        }
+    }
+}
+
+material projectiles/laser_cyan
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 200
+            emissive 0 3 3 1
+
+            vertex_program_ref unlit_fresnel_vp
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+
+				param_named cBlendColor1 float4 0 3 3 1
+				param_named cBlendColor2 float4 0 3 3 1
+			}
+        }
+    }
+}
+
+material projectiles/laser_violet
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 200
+            emissive 10 0 30 1
+
+            vertex_program_ref unlit_fresnel_vp
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+
+				param_named cBlendColor1 float4 10 0 30 1
+				param_named cBlendColor2 float4 10 0 30 1
 			}
         }
     }
@@ -143,7 +246,42 @@ material projectiles/mine : pbr/default
 
 //////////// RAILGUN TOWER PROJECTILE EFFECTS ////////////
 
-material projectiles/railgun_projectile_beam : unlit/emissive_transparent_skinned
+material projectiles/railgun_projectile_base
+{
+    render_group 60
+    technique
+    {
+        pass
+        {
+            depth_write off
+			scene_blend alpha_blend
+            
+            vertex_program_ref forward_object_texture_skinned_vp 
+            {
+            }
+            
+            fragment_program_ref unlit_emissive_fp
+            {
+            }
+            
+            texture_unit diffuse
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+            
+            texture_unit emissive
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+        }
+    }
+}
+
+material projectiles/railgun_projectile_beam : projectiles/railgun_projectile_base
 {
     set_texture_alias diffuse           materials/textures/projectiles/railgun_projectile_beam.dds
 	set_texture_alias emissive          materials/textures/projectiles/railgun_projectile_beam_emissive.dds
@@ -151,7 +289,7 @@ material projectiles/railgun_projectile_beam : unlit/emissive_transparent_skinne
     glow 20
 }
 
-material projectiles/railgun_projectile_spiral : unlit/emissive_transparent_skinned
+material projectiles/railgun_projectile_spiral : projectiles/railgun_projectile_base
 {
     set_texture_alias diffuse           materials/textures/projectiles/railgun_projectile_spiral.dds
 	set_texture_alias emissive          materials/textures/projectiles/railgun_projectile_spiral_emissive.dds
@@ -223,7 +361,7 @@ material projectiles/bioscanner_ring
             glow 1
             emissive 0 4 10 10
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref unlit_fresnel_vp
 			{
 			}
 
@@ -431,5 +569,61 @@ material projectiles/tower_alien_influence_spikes : pbr/default
 	set_texture_alias albedo		materials/textures/projectiles/tower_alien_influence_spikes_albedo.dds
 	set_texture_alias normal		materials/textures/projectiles/tower_alien_influence_spikes_normal.dds
 	set_texture_alias packed		materials/textures/projectiles/tower_alien_influence_spikes_packed.dds
-	
+
+}
+
+material projectiles/arachnoid_crystal_projectile : pbr/reflections
+{
+	set_texture_alias albedo		materials/textures/projectiles/arachnoid_crystal_projectile_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/arachnoid_crystal_projectile_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/arachnoid_crystal_projectile_packed.dds
+	set_texture_alias emissive		materials/textures/projectiles/arachnoid_crystal_projectile_emissive.dds
+	set_texture_alias reflection    materials/textures/skybox/skybox_reflection.dds
+
+    glow 2.5
+    reflection 1 5.5
+}
+
+material projectiles/tower_portal_bomb : pbr/default
+{
+	set_texture_alias albedo		materials/textures/projectiles/tower_portal_bomb_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/tower_portal_bomb_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/tower_portal_bomb_packed.dds
+	set_texture_alias emissive		materials/textures/projectiles/tower_portal_bomb_emissive.dds
+
+	dissolve 0 100 200 1
+	glow 12
+}
+
+material projectiles/blob_acid : pbr/vegetation_deform
+{
+	set_texture_alias albedo		materials/textures/projectiles/blob_acid_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/blob_acid_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/blob_acid_packed.dds
+	set_texture_alias emissive		materials/textures/projectiles/blob_acid_emissive.dds
+
+	glow 2
+	deform 0.4 2.5
+}
+
+material projectiles/blob_fire : pbr/vegetation_deform
+{
+	set_texture_alias albedo		materials/textures/projectiles/blob_fire_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/blob_fire_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/blob_fire_packed.dds
+	set_texture_alias emissive		materials/textures/projectiles/blob_fire_emissive.dds
+
+	glow 4
+	deform 0.4 2.5
+}
+
+material projectiles/blob_cryo : pbr/vegetation_deform
+{
+	set_texture_alias albedo		materials/textures/projectiles/blob_cryo_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/blob_cryo_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/blob_cryo_packed.dds
+	set_texture_alias emissive		materials/textures/projectiles/blob_cryo_emissive.dds
+
+	glow 2
+	deform 0.4 2.5
 }

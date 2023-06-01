@@ -208,3 +208,100 @@ material items/skills/rift_portal_barrier_green
 		}
 	}
 }
+
+material items/skills/antimatter_ball_beam
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            cull_hardware none
+
+            glow 1
+            emissive 30 0 0 1
+
+            vertex_program_ref forward_object_texture_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_white.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+        }
+    }
+}
+
+material items/skills/antimatter_ball
+{
+    render_group 62
+
+    technique
+    {
+        pass
+        {
+			glow 0
+            emissive 0 0 0 0
+
+            depth_write off
+            scene_blend alpha_blend
+
+			vertex_program_ref forward_object_texture_fresnel_skinned_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_gradient_fresnel_inverted_fp
+            {
+                param_named cFresnelBias  float 0.0
+                param_named cFresnelScale float 1
+                param_named cFresnelPower float 3
+                param_named cFresnelColor float4 5 0 0 10
+            }
+
+			texture_unit diffuse
+            {
+                texture 		materials/textures/color_black.dds
+				filtering 	   	anisotropic
+				max_anisotropy 	16
+            }
+
+            texture_unit emissive
+            {
+                texture			materials/textures/items/consumables/gravity_hole_emissive.dds
+				filtering 	   	anisotropic
+				max_anisotropy 	16
+            }
+
+            texture_unit gradient
+            {
+                anim_texture 	materials/textures/gradient/selector_gradient.dds 190 1.8
+				filtering 	   	anisotropic
+				max_anisotropy 	16
+            }
+        }
+    }
+}

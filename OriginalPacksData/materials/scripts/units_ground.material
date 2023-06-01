@@ -212,73 +212,40 @@ material units/ground/arachnoid_boss : units/ground/green_blood
 	glow 15
 }
 
-material units/ground/canoptrix_crystal : pbr/reflections
+material units/ground/canoptrix_crystal : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/canoptrix_crystal_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/canoptrix_crystal_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/canoptrix_crystal_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/canoptrix_crystal_emissive.dds
-	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
+	set_texture_alias reflection       materials/textures/skybox/skybox_reflection.dds
 
-	technique
-	{
-		pass
-		{
-			glow 0.8
-
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-        		param_named      cReflectionParams   float2         0.5 0.3
-			}
-
-		}
-	}
+	glow 2
+    reflection 0.2 18
 }
 
-material units/ground/canoptrix_crystal_alpha : pbr/reflections
+material units/ground/canoptrix_crystal_alpha : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/canoptrix_crystal_alpha_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/canoptrix_crystal_alpha_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/canoptrix_crystal_alpha_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/canoptrix_crystal_alpha_emissive.dds
-	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
-
-	technique
-	{
-		pass
-		{
-			glow 0.1
-
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-        		param_named      cReflectionParams   float2         0.5 0.3
-			}
-
-		}
-	}
+	set_texture_alias reflection       materials/textures/skybox/skybox_reflection_yellow.dds
+	
+	glow 4
+	reflection 0.15 45
 }
 
-material units/ground/canoptrix_crystal_ultra : pbr/reflections
+material units/ground/canoptrix_crystal_ultra : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/canoptrix_crystal_ultra_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/canoptrix_crystal_ultra_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/canoptrix_crystal_ultra_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/canoptrix_crystal_ultra_emissive.dds
-	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
-
-	technique
-	{
-		pass
-		{
-			glow 0.8
-
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-        		param_named      cReflectionParams   float2         0.5 0.3
-			}
-
-		}
-	}
+	set_texture_alias reflection       materials/textures/skybox/skybox_reflection.dds
+	
+	glow 3	
+    reflection 0.4 2
 }
 
 material units/ground/canoptrix_alpha : units/ground/red_blood
@@ -467,6 +434,42 @@ material units/ground/arachnoid_sentinel_skin_2 : units/ground/green_blood
 	glow 1.8
 }
 
+material units/ground/arachnoid_sentinel_crystal : units/ground/reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/arachnoid_sentinel_crystal_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/arachnoid_sentinel_crystal_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/arachnoid_sentinel_crystal_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/arachnoid_sentinel_crystal_emissive.dds
+	set_texture_alias reflection       materials/textures/skybox/skybox_reflection.dds
+
+	glow 2.5
+	reflection 0.4 18
+}
+
+material units/ground/arachnoid_sentinel_crystal_alpha : units/ground/reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/arachnoid_sentinel_crystal_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/arachnoid_sentinel_crystal_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/arachnoid_sentinel_crystal_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/arachnoid_sentinel_crystal_alpha_emissive.dds
+	set_texture_alias reflection       materials/textures/skybox/skybox_reflection_yellow.dds
+
+	glow 2
+	reflection 0.3 55
+}
+
+material units/ground/arachnoid_sentinel_crystal_ultra : units/ground/reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/arachnoid_sentinel_crystal_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/arachnoid_sentinel_crystal_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/arachnoid_sentinel_crystal_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/arachnoid_sentinel_crystal_ultra_emissive.dds
+	set_texture_alias reflection       materials/textures/skybox/skybox_reflection.dds
+
+	glow 3
+	reflection 0.4 3
+}
+
 material units/ground/kafferroceros_ultra : units/ground/violet_blood
 {
 	set_texture_alias albedo			materials/textures/units/ground/kafferroceros_ultra_albedo.dds
@@ -559,7 +562,6 @@ material units/ground/stregaros_alpha : units/ground/blue_blood
 	set_texture_alias emissive			materials/textures/units/ground/stregaros_alpha_emissive.dds
 
 	glow 6
-
 }
 
 material units/ground/stregaros_ultra : units/ground/blue_blood
@@ -570,10 +572,9 @@ material units/ground/stregaros_ultra : units/ground/blue_blood
 	set_texture_alias emissive			materials/textures/units/ground/stregaros_ultra_emissive.dds
 
 	glow 6
-
 }
 
-material units/ground/krocoon : pbr/reflections
+material units/ground/krocoon : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/krocoon_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/krocoon_normal.dds
@@ -581,20 +582,10 @@ material units/ground/krocoon : pbr/reflections
 	set_texture_alias emissive			materials/textures/units/ground/krocoon_emissive.dds
 	
 	glow 1
-
-	technique
-	{
-		pass
-		{
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-				param_named      cReflectionParams   float2         0.5 .6
-			}
-		}
-	}
+	reflection 0.5 0.6
 }
 
-material units/ground/krocoon_alpha : pbr/reflections
+material units/ground/krocoon_alpha : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/krocoon_alpha_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/krocoon_alpha_normal.dds
@@ -602,20 +593,10 @@ material units/ground/krocoon_alpha : pbr/reflections
 	set_texture_alias emissive			materials/textures/units/ground/krocoon_alpha_emissive.dds
 	
 	glow 1
-
-	technique
-	{
-		pass
-		{
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-				param_named      cReflectionParams   float2         0.5 .6
-			}
-		}
-	}
+	reflection 0.5 0.6
 }
 
-material units/ground/krocoon_ultra : pbr/reflections
+material units/ground/krocoon_ultra : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/krocoon_ultra_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/krocoon_ultra_normal.dds
@@ -623,20 +604,10 @@ material units/ground/krocoon_ultra : pbr/reflections
 	set_texture_alias emissive			materials/textures/units/ground/krocoon_ultra_emissive.dds
 
 	glow 1
-
-	technique
-	{
-		pass
-		{
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-				param_named      cReflectionParams   float2         0.5 0
-			}
-		}
-	}
+	reflection 0.5 0.6
 }
 
-material units/ground/boss_generic_acid : pbr/reflections
+material units/ground/boss_generic_acid : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/boss_generic_acid_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/boss_generic_fire_normal.dds
@@ -644,17 +615,7 @@ material units/ground/boss_generic_acid : pbr/reflections
 	//set_texture_alias emissive			materials/textures/units/ground/krocoon_ultra_emissive.dds
 
 	glow 20
-
-	technique
-	{
-		pass
-		{
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-				param_named      cReflectionParams   float2         0.3 0.3
-			}
-		}
-	}
+	reflection 0.3 0.3
 }
 
 material units/ground/boss_generic_energy : units/ground/cracks_alpha
@@ -987,7 +948,6 @@ material units/ground/morirot_ultra : 	units/ground/yellow_blood
 	set_texture_alias emissive			materials/textures/units/ground/morirot_ultra_emissive.dds
 
 	glow 1.5
-
 }
 
 material units/ground/nerilian : 		units/ground/blue_blood_alpha_test
@@ -1085,7 +1045,6 @@ material units/ground/hedroner : 		units/ground/black_blood
 	set_texture_alias albedo			materials/textures/units/ground/hedroner_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/hedroner_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/hedroner_packed.dds
-
 }
 
 material units/ground/hedroner_alpha : units/ground/black_blood
@@ -1096,7 +1055,6 @@ material units/ground/hedroner_alpha : units/ground/black_blood
 	set_texture_alias emissive			materials/textures/units/ground/hedroner_alpha_emissive.dds
 
 	glow 1.2
-
 }
 
 material units/ground/hedroner_ultra : 	units/ground/black_blood
@@ -1365,7 +1323,6 @@ material units/ground/creeper_branch_set : pbr/vegetation_deform_no_alpha
 	glow 1
 	deform 0.15 1
 	subsurface 0.5 0 0 0
-
 }
 
 material units/ground/creeper_branch_set_parts : pbr/vegetation_no_alpha
@@ -1378,7 +1335,6 @@ material units/ground/creeper_branch_set_parts : pbr/vegetation_no_alpha
 	//glow 1
 	//deform 0.15 1
 	//subsurface 0.5 0 0 0
-
 }
 
 material units/ground/creeper_branch_set_skin1 : pbr/vegetation_deform_no_alpha
@@ -1391,7 +1347,6 @@ material units/ground/creeper_branch_set_skin1 : pbr/vegetation_deform_no_alpha
 	glow 1
 	deform 0.15 1
 	subsurface 0.5 0 0 0
-
 }
 
 material units/ground/venomine : units/ground/yellow_blood
@@ -1586,7 +1541,7 @@ material units/ground/boss_generic_fire : units/ground/cracks_ultra
 	glow 30
 }
 
-material units/ground/boss_generic_cryo : pbr/reflections
+material units/ground/boss_generic_cryo : units/ground/reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/baxmoth_boss_cryo_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/baxmoth_alpha_normal.dds
@@ -1594,17 +1549,7 @@ material units/ground/boss_generic_cryo : pbr/reflections
 	//set_texture_alias emissive			materials/textures/units/ground/krocoon_ultra_emissive.dds
 	
 	glow 20
-
-	technique
-	{
-		pass
-		{
-			fragment_program_ref deferred_gbuffer_reflection_fp
-			{
-				param_named      cReflectionParams   float2         0.3 0.3
-			}
-		}
-	}
+	reflection 0.3 0.3
 }
 
 material units/ground/krocoon_boss_cryo : units/ground/cracks_alpha
@@ -2046,7 +1991,6 @@ material units/ground/kermon_metallic : units/ground/red_blood
 	set_texture_alias emissive			materials/textures/units/ground/kermon_metallic_emissive.dds
 
 	glow 4
-
 }
 
 material units/ground/flurian_boss : units/ground/cracks_alpha
@@ -2068,9 +2012,38 @@ material units/ground/crawlog : units/ground/blue_blood
 	set_texture_alias packed			materials/textures/units/ground/crawlog_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/crawlog_emissive.dds
 
-	glow 1.5
+	glow 4
 }
 
+material units/ground/crawlog_alpha : units/ground/blue_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/crawlog_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/crawlog_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/crawlog_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/crawlog_alpha_emissive.dds
+
+	glow 3
+}
+
+material units/ground/crawlog_ultra : units/ground/blue_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/crawlog_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/crawlog_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/crawlog_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/crawlog_ultra_emissive.dds
+
+	glow 3
+}
+
+material units/ground/crawlog_resurrected : units/ground/blue_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/crawlog_resurrected_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/crawlog_resurrected_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/crawlog_resurrected_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/crawlog_resurrected_emissive.dds
+
+	glow 7
+}
 
 material units/ground/spawner_granan_eggs : pbr/vegetation_deform
 {
@@ -2101,14 +2074,41 @@ material units/ground/spawner_canoptrix_eggs : pbr/vegetation_deform
 	subsurface 0.5 1 0 0
 }
 
-material units/ground/gulgor : units/ground/red_blood
+material units/ground/gulgor : units/ground/red_blood_reflections
 {
 	set_texture_alias albedo			materials/textures/units/ground/gulgor_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/gulgor_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/gulgor_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/gulgor_emissive.dds
+	set_texture_alias reflection       	materials/textures/skybox/skybox_reflection.dds
 
-	glow 1.8
+	glow 1
+	reflection 0.3 15
+}
+
+material units/ground/gulgor_alpha : units/ground/red_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/gulgor_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gulgor_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gulgor_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/gulgor_alpha_emissive.dds
+	set_texture_alias reflection       	materials/textures/skybox/skybox_reflection_violet.dds
+
+	glow 1
+	reflection 0.5 20
+}
+
+
+material units/ground/gulgor_ultra : units/ground/red_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/gulgor_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gulgor_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gulgor_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/gulgor_ultra_emissive.dds
+	set_texture_alias reflection       	materials/textures/skybox/skybox_reflection_orange.dds
+
+	glow 1
+	reflection 0.5 13
 }
 
 material units/ground/viremoth : pbr/vegetation
@@ -2126,4 +2126,236 @@ material units/ground/drillgor : units/ground/yellow_blood
 	set_texture_alias emissive			materials/textures/units/ground/drillgor_emissive.dds
 
 	glow 3
+}
+
+material units/ground/drillgor_alpha : units/ground/yellow_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/drillgor_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/drillgor_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/drillgor_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/drillgor_alpha_emissive.dds
+
+	glow 4
+}
+
+material units/ground/drillgor_ultra : units/ground/yellow_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/drillgor_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/drillgor_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/drillgor_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/drillgor_ultra_emissive.dds
+
+	glow 4
+}
+
+material units/ground/stregaros_crystal : units/ground/reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/stregaros_crystal_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/stregaros_crystal_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/stregaros_crystal_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/stregaros_crystal_emissive.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection.dds
+
+	glow 1.5
+	reflection 0.4 15
+}
+
+material units/ground/stregaros_crystal_alpha : units/ground/reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/stregaros_crystal_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/stregaros_crystal_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/stregaros_crystal_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/stregaros_crystal_alpha_emissive.dds
+	set_texture_alias reflection       	materials/textures/skybox/skybox_reflection_yellow.dds
+
+	glow 1.3
+	reflection 0.4 65
+}
+
+material units/ground/stregaros_crystal_ultra : units/ground/reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/stregaros_crystal_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/stregaros_crystal_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/stregaros_crystal_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/stregaros_crystal_ultra_emissive.dds
+	set_texture_alias reflection       	materials/textures/skybox/skybox_reflection.dds
+
+	glow 5
+	reflection 0.2 3
+}
+
+material units/ground/gulgor_crystal : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/gulgor_crystal_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gulgor_crystal_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gulgor_crystal_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/gulgor_crystal_emissive.dds
+	set_texture_alias reflection       	materials/textures/skybox/skybox_reflection.dds
+
+	glow 2
+	reflection 1 25
+}
+
+material units/ground/crysder : units/ground/red_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/crysder_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/crysder_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/crysder_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/crysder_emissive.dds
+
+	glow 3
+}
+
+material units/ground/crysder_crystals : units/ground/reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/crysder_crystals_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/crysder_crystals_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/crysder_crystals_packed.dds
+	//set_texture_alias emissive		materials/textures/units/ground/crysder_crystals_emissive.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_blue.dds
+	
+	reflection 0.5 25
+}
+
+material units/ground/moltug_crystal : units/ground/red_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/moltug_crystal_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/moltug_crystal_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/moltug_crystal_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/moltug_crystal_emissive.dds
+
+	glow 1
+}
+
+material units/ground/moltug_crystal_alpha : units/ground/red_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/moltug_crystal_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/moltug_crystal_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/moltug_crystal_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/moltug_crystal_alpha_emissive.dds
+
+	glow 1
+}
+
+material units/ground/moltug_crystal_ultra : units/ground/red_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/moltug_crystal_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/moltug_crystal_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/moltug_crystal_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/moltug_crystal_ultra_emissive.dds
+
+	glow 3
+}
+
+material units/ground/gnerot_caverns : units/ground/cracks_alpha
+{
+	set_texture_alias albedo			materials/textures/units/ground/gnerot_caverns_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gnerot_caverns_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gnerot_caverns_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/gnerot_caverns_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 8
+
+	glow 5
+	
+}
+material units/ground/anoryxian_boss  : units/ground/cracks_alpha
+{
+	set_texture_alias albedo			materials/textures/units/ground/anoryxian_boss_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/anoryxian_boss_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/anoryxian_boss_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_emissive.dds	
+
+	//glow 5
+
+
+}
+
+material units/ground/anoryxian_boss_01 : units/ground/red_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/anoryxian_boss_01_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/anoryxian_boss_01_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/anoryxian_boss_01_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_01_emissive.dds
+//	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_violet.dds
+
+
+
+	glow 2
+	reflection 0.35 13
+}
+
+material units/ground/anoryxian_boss_02 : units/ground/red_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/anoryxian_boss_02_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/anoryxian_boss_02_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/anoryxian_boss_02_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_02_emissive.dds
+//	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_violet.dds
+
+	glow 2
+	reflection 0.35 10
+}
+
+material units/ground/anoryxian_boss_tower : units/ground/red_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/anoryxian_boss_tower_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/anoryxian_boss_tower_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/anoryxian_boss_tower_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_tower_emissive.dds
+//	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_violet.dds
+
+	glow 2
+	reflection 0.35 10
+}
+
+material units/ground/anoryxian_boss_alpha_01 : units/ground/red_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/anoryxian_boss_alpha_01_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/anoryxian_boss_alpha_01_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/anoryxian_boss_alpha_01_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_alpha_01_emissive.dds
+//	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_violet.dds
+
+
+
+	glow 2
+	reflection 0.35 13
+}
+
+material units/ground/anoryxian_boss_alpha_02 : units/ground/red_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/anoryxian_boss_alpha_02_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/anoryxian_boss_alpha_02_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/anoryxian_boss_alpha_02_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_alpha_02_emissive.dds
+//	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_violet.dds
+
+	glow 2
+	reflection 0.35 10
+}
+
+material units/ground/anoryxian_egg : pbr/reflections_subsurface
+{
+    set_texture_alias albedo           materials/textures/units/ground/anoryxian_egg_albedo.dds
+    set_texture_alias normal           materials/textures/units/ground/anoryxian_egg_normal.dds
+    set_texture_alias packed           materials/textures/units/ground/anoryxian_egg_packed.dds
+    set_texture_alias emissive         materials/textures/units/ground/anoryxian_egg_emissive.dds
+    set_texture_alias subsurface       materials/textures/units/ground/anoryxian_egg_subsurface.dds
+    set_texture_alias gradient         materials/textures/gradient/waves.dds 180 3
+    //set_texture_alias reflection       materials/textures/skybox/skybox_reflection_colorfull_01.dds
+
+    glow 16
+    reflection 0.5 5
+
+    technique
+    {
+        pass
+        {
+            fragment_program_ref deferred_gbuffer_reflection_subsurface_fp
+            {
+                param_named      cGradientUvScale    float          2.0
+            }
+        }
+    }    
+    
 }

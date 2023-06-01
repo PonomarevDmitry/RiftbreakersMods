@@ -1,10 +1,9 @@
-import * from "materials/scripts/unlit.material"
 import * from "materials/scripts/pbr.material"
 
 material planet/default
 { 
 	render_group 50
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -203,16 +202,31 @@ material planet/planet_atmosphere
 	}
 }
 
-material planet/planet_bg : unlit/default_srgb
+material planet/planet_bg 
 {
 	render_group 107
-	set_texture_alias diffuse materials/textures/planet/planet_bg.dds
 
 	technique
 	{
 		pass
 		{
 			depth_check on
+
+			vertex_program_ref forward_object_texture_vp 
+			{
+			}
+
+			fragment_program_ref forward_object_texture_fp
+			{
+
+			}
+
+			texture_unit diffuse
+			{
+				texture materials/textures/planet/planet_bg.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
 		}
 	}
 }

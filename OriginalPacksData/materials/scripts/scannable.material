@@ -7,7 +7,7 @@ material highlight/scannable
 		pass
 		{
 			scene_blend alpha_blend
-			depth_bias -10 0
+			depth_bias -10 -1
 
 			vertex_program_ref unlit_fresnel_vp 
 			{
@@ -48,7 +48,7 @@ material highlight/scannable_skinned
 		pass
 		{
 			scene_blend alpha_blend
-			depth_bias -4 0
+			depth_bias -4 -1
 
 			vertex_program_ref unlit_fresnel_skinned_vp 
 			{
@@ -89,7 +89,7 @@ material highlight/scannable_vegetation
 		pass
 		{
 			scene_blend alpha_blend
-			depth_bias -40 0
+			depth_bias -40 -1
 
 			vertex_program_ref unlit_fresnel_vegetation_vp 
 			{
@@ -142,7 +142,7 @@ material highlight/scannable_vegetation_deform
 		pass
 		{
 			scene_blend alpha_blend
-			depth_bias -40 0
+			depth_bias -40 -1
 
 			vertex_program_ref unlit_fresnel_vegetation_deform_vp 
 			{
@@ -186,57 +186,9 @@ material highlight/scannable_vegetation_deform
 	}
 }
 
-material highlight/scannable_vegetation_tree
+material highlight/scannable_vegetation_tree : highlight/scannable_vegetation
 {
-	render_group 61
 	
-	technique
-	{
-		pass
-		{
-			scene_blend alpha_blend
-			depth_bias -40 0
-
-			vertex_program_ref unlit_fresnel_vegetation_tree_vp 
-			{
-			}
-
-			fragment_program_ref unlit_fresnel_vegetation_flare_noise_fp
-			{
-				param_named cFresnelBias  		float 0
-				param_named cFresnelScale 		float 1
-				param_named cFresnelPower 		float 4
-				
-				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
-				param_named cBlendColor2 		float4  0.2 1.0 0 2.0
-
-				param_named cNoiseColor 		float4  0.2 1.0 0 1.0
-				param_named cNoisePower         float   3.0
-        		param_named cNoiseTileScale     float   7.0
-
-        		param_named cFlarePower         float 0.0
-        		param_named cFlareSpeed         float 16
-			}
-
-			texture_unit albedo
-			{
-				texture materials/textures/error.dds
-				filtering bilinear
-			}
-
-			texture_unit dissolve 
-			{	
-				texture materials/textures/noise_tiled_01.dds
-				filtering bilinear
-			}
-
-			texture_unit noise
-            {
-                anim_texture materials/textures/gradient/hologram_gradient.dds 15 0.75
-                filtering bilinear
-            }
-		}
-	}
 }
 
 material highlight/discovered : highlight/scannable

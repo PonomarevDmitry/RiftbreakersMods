@@ -1,8 +1,3 @@
-cbuffer PSConstantBuffer : register(b0)
-{
-    float cAlpha;
-}
-
 struct GS_OUTPUT
 {
     float4 Position    : SV_POSITION;

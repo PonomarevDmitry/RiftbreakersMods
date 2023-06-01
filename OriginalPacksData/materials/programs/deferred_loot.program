@@ -3,17 +3,19 @@ fragment_program deferred_loot_fp hlsl
     source materials/programs/deferred_loot_fp.hlsl
     entry_point mainFP
     target ps_5_0
-    preprocessor_defines USE_DXT5NM=1
+    preprocessor_defines USE_DXT5NM=1,USE_VELOCITY=1
 
     default_params
     {       
         param_named_auto cTime               time
         param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1
         param_named      cFresnelScale       float          2
         param_named      cFresnelPower       float          1
         param_named      cFresnelColor       float4         0 0 0 0
         param_named      cDissolveAmount     float          0.0
         param_named_auto cWorldCameraPos     camera_position
         param_named_auto cMIPBias            mip_bias
+        param_named_auto cJitterOffset       jitter_offset
     }
 }

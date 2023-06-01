@@ -8,7 +8,7 @@ material selector/grid
 		{
 			scene_blend alpha_blend
 			depth_write off
-			depth_bias -30 0
+			depth_bias -30 -10
 			
 			vertex_program_ref selector_VP 
 			{
@@ -61,9 +61,9 @@ material selector/marker_base
 			scene_blend 	alpha_blend
 			glow 			50
 			emissive 		0 0.5 1 1
-			depth_bias 		-300 0
+			depth_bias 		-30 -10
 			
-            vertex_program_ref unlit_emissive_vp 
+            vertex_program_ref forward_object_texture_vp 
             {
             }
             
@@ -268,9 +268,9 @@ material selector/marker_base_outline
 			scene_blend 		alpha_blend
 			glow 				50
 			emissive 			0 0.5 1 1
-			depth_bias 			-300 0
+			depth_bias 			-30 -10
 
-            vertex_program_ref unlit_emissive_vp 
+            vertex_program_ref forward_object_texture_vp 
             {
             }
             
@@ -351,8 +351,6 @@ material selector/hologram
 		{
 			depth_check			off
 			depth_write 		off
-			//depth_func 			less_equal
-			//depth_bias 			-6 0
 
             scene_blend 		alpha_blend
 
@@ -389,7 +387,7 @@ material selector/hologram_blue_depth
 		{
 			depth_check			on
 			depth_write			on
-			depth_bias 			20 0
+			depth_bias 			20 10
 			scene_blend 		alpha_blend
 
             vertex_program_ref unlit_fresnel_vp 
@@ -640,8 +638,6 @@ material selector/hologram_build
 		{	
 			depth_check			off
 			depth_write 		off
-			//depth_func 			less_equal
-			//depth_bias 			-3 0
             scene_blend 		alpha_blend
 
             vertex_program_ref unlit_fresnel_vp 

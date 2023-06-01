@@ -1,10 +1,8 @@
-#include "materials/programs/utils.hlsl"
-
 cbuffer FPConstantBuffer : register(b0)
 {
     float4    cEmissiveColor;
     float4    cFogParams;
-    float4    cFogColour;
+    float4    cFogColor;
     float4    cFresnelColor;
     float     cFresnelBias;
     float     cFresnelScale;
@@ -29,12 +27,19 @@ struct PS_OUTPUT
     float4      Color       : SV_TARGET0;
 };
 
-Texture2D       tColorTex          : register( t0 );
-SamplerState    sColorTex          : register( s0 );
+Texture2D       tColorTex;
+SamplerState    sColorTex;
 Texture2D       tEmissiveTex;
 SamplerState    sEmissiveTex;
 Texture2D       tGradientTex;
 SamplerState    sGradientTex;
+#if USE_FOG
+Texture3D       tLightScattering;
+SamplerState    sLightScattering;
+#endif
+
+#include "materials/programs/utils.hlsl"
+#include "materials/programs/utils_fog.hlsl"
 
 PS_OUTPUT mainFP( VS_OUTPUT In ) 
 {
@@ -66,7 +71,9 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     Out.Color = color;
     Out.Color.a = max( 0.0f, Out.Color.a - 0.5f * Out.Color.a * alphaGradient );
 
-    addFog( Out.Color.xyz, cFogColour.xyz, In.ProjPos.w, cFogParams );
+#if USE_FOG
+    Out.Color.xyz = GetFog( Out.Color.xyz, In.ProjPos );
+#endif
 
     return Out;
 }

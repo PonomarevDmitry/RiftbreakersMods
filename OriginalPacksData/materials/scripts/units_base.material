@@ -3,7 +3,7 @@ import * from "materials/scripts/pbr.material"
 material units/ground/base
 {
 	render_group 55
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -88,7 +88,7 @@ material units/ground/base
 material units/ground/base_emissive
 {
 	render_group 55
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -198,6 +198,54 @@ material units/ground/base_alpha_test : units/ground/base
 	}
 }
 
+material units/ground/reflections : pbr/reflections
+{
+	render_group 55
+
+	technique
+	{
+		pass
+		{
+			depth_write 	on
+			depth_check 	on
+
+			check       	on
+            comp_func   	always_pass
+            ref_value   	200
+            pass_op     	replace
+            two_sided   	on
+		}
+	}
+}
+
+material units/ground/base_reflections : units/ground/base
+{	
+	reflection 0 0
+	
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_damage_units_reflection_fp
+			{
+
+			}
+
+			texture_unit brdf 
+			{	
+				texture materials/textures/skybox/skybox_brdf.dds
+				filtering bilinear
+			}
+
+			texture_unit reflection 
+			{	
+				texture materials/textures/skybox/skybox_reflection.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
 material units/ground/red_blood : units/ground/base
 {
 	set_texture_alias albedo_2			materials/textures/units/ground/red_blood_albedo.dds
@@ -290,6 +338,55 @@ material units/ground/black_blood_alpha_test : units/ground/base_alpha_test
 }
 
 material units/ground/white_blood_alpha_test : units/ground/base_alpha_test
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/white_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/white_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/white_blood_packed.dds
+}
+
+material units/ground/red_blood_reflections : units/ground/base_reflections
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/red_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/red_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/red_blood_packed.dds
+}
+
+material units/ground/yellow_blood_reflections : units/ground/base_reflections
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/yellow_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/yellow_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/yellow_blood_packed.dds
+}
+
+material units/ground/violet_blood_reflections : units/ground/base_reflections
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/violet_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/violet_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/violet_blood_packed.dds
+}
+
+material units/ground/green_blood_reflections : units/ground/base_reflections
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/green_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/green_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/green_blood_packed.dds
+}
+
+material units/ground/blue_blood_reflections : units/ground/base_reflections
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/blue_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/blue_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/blue_blood_packed.dds
+}
+
+material units/ground/black_blood_reflections : units/ground/base_reflections
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+}
+
+material units/ground/white_blood_reflections : units/ground/base_reflections
 {
 	set_texture_alias albedo_2			materials/textures/units/ground/white_blood_albedo.dds
 	set_texture_alias normal_2			materials/textures/units/ground/white_blood_normal.dds

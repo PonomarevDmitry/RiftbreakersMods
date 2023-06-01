@@ -51,7 +51,6 @@ material misc/building_arrow
                 param_named cFresnelBias    float .1
                 param_named cFresnelScale   float 1.5
                 param_named cFresnelPower   float 1.5
-                param_named cShield         float .6
                 param_named cAlpha          float .6
             }
 
@@ -85,7 +84,7 @@ material misc/building_arrow
 material misc/influence
 {  
     render_group 50
-    feature "gbuffer|shadow|velocity"
+    feature "gbuffer|shadow"
     
     technique
     {
@@ -146,29 +145,4 @@ material misc/influence
             }
         }
     }
-}
-
-material misc/tile_light_mask
-{ 
-	render_group 211
-	
-	technique
-	{
-		pass
-		{
-			vertex_program_ref unlit_VP 
-			{
-			}
-
-			fragment_program_ref unlit_FP
-			{
-			}
-			
-			texture_unit light_mask 
-			{	
-				texture materials/textures/error.dds
-                filtering bilinear
-			}
-		}	
-	}
 }

@@ -6,6 +6,8 @@ cbuffer FPConstantBuffer : register(b0)
 	float 	  cTime;
     float     cGlowAmount;
     float4    cEmissiveColor;
+    float4    cBlendColor1;
+    float4    cBlendColor2;
 };
 
 struct VS_OUTPUT
@@ -34,8 +36,8 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 	float fresnelBias = 0.f;
 	float fresnelScale = 1.0f;
 	float fresnelPower = 5.f;
-	float4 blendColor1 = float4(0.0, 0.5, 1.0, 0.1);
-    float4 blendColor2 = float4(0.0, 0.6, 6.0, 4.0);
+	float4 blendColor1 = cBlendColor1;
+    float4 blendColor2 = cBlendColor2;
     float glowFactor = 1.f;
 	
 	float sCBarrier = saturate(cBarrier);
@@ -49,7 +51,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     Out.Color = lerp( blendColor1, blendColor2, saturate( fresnel ) );
     Out.Color.w = saturate( Out.Color.w );
 	float emmisive =  tEmissiveTex.Sample( sEmissiveTex, In.TexCoord ).x;
-	float gradient = tGradientTex.Sample( sGradientTex, In.TexCoord ).x;
+	float gradient = tGradientTex.Sample( sGradientTex, In.TexCoord / 4.0 ).x;
     float emissivePower = emmisive * gradient * glowFactor;
 	
 	float3 emissiveColor = cEmissiveColor.rgb;

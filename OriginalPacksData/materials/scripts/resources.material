@@ -1,10 +1,10 @@
 import * from "materials/scripts/pbr.material"
 
 material resources/resource_liquid
-{ 
+{
 	render_group 50
-	feature "gbuffer|shadow|velocity"
-	
+	feature "gbuffer|shadow"
+
 	technique
 	{
 		pass
@@ -12,9 +12,9 @@ material resources/resource_liquid
 			depth_write on
 			depth_check on
 
-			glow 1 
+			glow 1
 
-			vertex_program_ref deferred_resource_liquid_vp 
+			vertex_program_ref deferred_resource_liquid_vp
 			{
 			    param_named      cTilingFactor  float 2
 			}
@@ -23,7 +23,7 @@ material resources/resource_liquid
 			{
 
 			}
-			
+
 			texture_unit albedo_1
 			{
 				texture materials/textures/error.dds
@@ -31,19 +31,19 @@ material resources/resource_liquid
 				max_anisotropy 16
 			}
 			texture_unit normal_1
-			{	
+			{
 				texture materials/textures/normalmap_flat_bc5.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit packed_1
-			{	
+			{
 				texture materials/textures/color_white.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit emissive_1
-			{	
+			{
 				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
@@ -55,48 +55,48 @@ material resources/resource_liquid
 				max_anisotropy 16
 			}
 			texture_unit normal_2
-			{	
+			{
 				texture materials/textures/normalmap_flat_bc5.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit packed_2
-			{	
+			{
 				texture materials/textures/color_white.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit emissive_2
-			{	
+			{
 				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-			texture_unit noise 
-			{	
+			texture_unit noise
+			{
 				texture materials/textures/noise_tiled.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-			texture_unit gradient 
-			{	
+			texture_unit gradient
+			{
 				texture materials/textures/noise_tiled.dds
 				filtering bilinear
 			}
-			texture_unit flowmap 
-			{	
+			texture_unit flowmap
+			{
 				texture materials/textures/flowmap/sand_01_flowmap.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-		}	
+		}
 	}
 }
 
 material resources/resource_liquid_vein_depth
-{ 
+{
 	render_group 2
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -105,21 +105,21 @@ material resources/resource_liquid_vein_depth
 			depth_write off
 			colour_write off
 
-			vertex_program_ref ground_resources_vp 
+			vertex_program_ref ground_resources_vp
 			{
 			}
 
 			fragment_program_ref deferred_resource_liquid_vein_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
 material resources/resource_liquid_vein
-{ 
+{
 	render_group 2
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -131,16 +131,15 @@ material resources/resource_liquid_vein
 
 			glow 1
 
-			vertex_program_ref ground_resources_vp 
+			vertex_program_ref ground_resources_vp
 			{
 			    param_named      cTilingFactor  float 2
-			    param_named 	 cAlpha 		float 1.0
 			}
 
 			fragment_program_ref deferred_resource_liquid_vein_fp
 			{
 			}
-			
+
 			texture_unit albedo_1
 			{
 				texture materials/textures/error.dds
@@ -148,19 +147,19 @@ material resources/resource_liquid_vein
 				max_anisotropy 16
 			}
 			texture_unit normal_1
-			{	
+			{
 				texture materials/textures/normalmap_flat_bc5.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit packed_1
-			{	
+			{
 				texture materials/textures/color_white.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit emissive_1
-			{	
+			{
 				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
@@ -172,36 +171,36 @@ material resources/resource_liquid_vein
 				max_anisotropy 16
 			}
 			texture_unit normal_2
-			{	
+			{
 				texture materials/textures/normalmap_flat_bc5.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit packed_2
-			{	
+			{
 				texture materials/textures/color_white.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit emissive_2
-			{	
+			{
 				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-			texture_unit noise 
-			{	
+			texture_unit noise
+			{
 				texture materials/textures/noise_tiled.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-			texture_unit gradient 
-			{	
+			texture_unit gradient
+			{
 				texture materials/textures/noise_tiled.dds
 				filtering bilinear
 			}
-			texture_unit flowmap 
-			{	
+			texture_unit flowmap
+			{
 				texture materials/textures/flowmap/sand_01_flowmap.dds
 				filtering anisotropic
 				max_anisotropy 16
@@ -214,31 +213,31 @@ material resources/resource_liquid_vein
 				max_anisotropy 16
 			}
 			texture_unit normal_3
-			{	
+			{
 				texture materials/textures/normalmap_flat_bc5.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit packed_3
-			{	
+			{
 				texture materials/textures/color_white.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit emissive_3
-			{	
+			{
 				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-		}	
+		}
 	}
 }
 
 material resources/resource_vein
-{ 
+{
 	render_group 50
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -256,48 +255,52 @@ material resources/resource_vein
 			fragment_program_ref deferred_resource_vein_fp
 			{
 			}
-			
-			texture_unit albedo 
+
+			texture_unit albedo
 			{
 				texture materials/textures/error.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-			texture_unit normal 
-			{	
+			texture_unit normal
+			{
 				texture materials/textures/normalmap_flat_bc5.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 			texture_unit packed
-			{	
+			{
 				texture materials/textures/color_white.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-			texture_unit emissive 
-			{	
+			texture_unit emissive
+			{
 				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-			texture_unit gradient 
-			{	
+			texture_unit gradient
+			{
 				texture materials/textures/color_white.dds
 				filtering bilinear
 			}
-			texture_unit slant 
-			{	
+			texture_unit slant
+			{
 				texture materials/textures/slant_01.dds
 				filtering bilinear
 			}
-		}	
+		}
 	}
 }
 
 material resources/resource_empty_fresnel
 {
 	render_group 109
+
+	fresnel 1 1 0 1
+	fresnel_color 0.1 0.1 0.1 0.7
+
 	technique
 	{
 		pass
@@ -309,20 +312,23 @@ material resources/resource_empty_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 1
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0.1 0.1 0.1 0.7
-				param_named cBlendColor2 float4 0 0 0 1
+
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -331,6 +337,10 @@ material resources/resource_empty_fresnel
 material resources/resource_empty_fresnel_dissolve
 {
 	render_group 109
+
+	fresnel 1 1 0 1
+	fresnel_color 0.1 0.1 0.1 0.7
+
 	technique
 	{
 		pass
@@ -342,29 +352,31 @@ material resources/resource_empty_fresnel_dissolve
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 1
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0.1 0.1 0.1 0.7
-				param_named cBlendColor2 float4 0 0 0 1
+			}
+
+			texture_unit volumetric_fog
+			{	
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
 }
 
 material resources/volume_resource_random
-{ 
+{
 	render_group 106
-	
+
 	technique
 	{
 		pass
@@ -372,26 +384,26 @@ material resources/volume_resource_random
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_random.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
 material resources/volume_resource_random_liquid
-{ 
+{
 	render_group 106
-	
+
 	technique
 	{
 		pass
@@ -399,26 +411,26 @@ material resources/volume_resource_random_liquid
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_water.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
 material resources/volume_resource_random_placement
-{ 
+{
 	render_group 106
-	
+
 	technique
 	{
 		pass
@@ -426,26 +438,26 @@ material resources/volume_resource_random_placement
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_random_placement.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
 material resources/volume_resource_iron
-{ 
+{
 	render_group 106
-	
+
 	technique
 	{
 		pass
@@ -453,19 +465,19 @@ material resources/volume_resource_iron
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_iron.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
@@ -494,9 +506,9 @@ material resources/resource_iron : resources/resource_vein
 }
 
 material resources/volume_resource_carbon
-{ 
+{
 	render_group 106
-	
+
 	technique
 	{
 		pass
@@ -504,19 +516,19 @@ material resources/volume_resource_carbon
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_carbon.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
@@ -546,9 +558,9 @@ material resources/resource_carbonium : resources/resource_vein
 }
 
 material resources/volume_resource_uranium
-{ 
+{
 	render_group 106
-	
+
 	technique
 	{
 		pass
@@ -556,19 +568,19 @@ material resources/volume_resource_uranium
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_uranium.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
@@ -595,7 +607,7 @@ material resources/resource_uranium_small : resources/resource_vein
 			}
 		}
 	}
-	
+
 }
 
 material resources/resource_uranium_medium : resources/resource_vein
@@ -722,9 +734,9 @@ material resources/resource_palladium : resources/resource_vein
 }
 
 material resources/volume_resource_water
-{ 
+{
 	render_group 105
-	
+
 	technique
 	{
 		pass
@@ -732,19 +744,19 @@ material resources/volume_resource_water
 			scene_blend alpha_blend
 			depth_write off
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_water.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
@@ -759,7 +771,7 @@ material resources/resource_water : resources/resource_liquid
 	set_texture_alias packed_2			materials/textures/resources/resource_water_packed.dds
 	//set_texture_alias emissive_2		materials/textures/resources/resource_sludge_02_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
-	
+
 	glow 1
 }
 
@@ -774,14 +786,14 @@ material resources/resource_water_storage : resources/resource_liquid
 	set_texture_alias packed_2			materials/textures/resources/resource_water_packed.dds
 	//set_texture_alias emissive_2		materials/textures/resources/resource_sludge_02_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 1
-	
+
 	glow 1
 
 	technique
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -800,14 +812,14 @@ material resources/resource_water_pipe : resources/resource_liquid
 	set_texture_alias packed_2			materials/textures/resources/resource_water_packed.dds
 	//set_texture_alias emissive_2		materials/textures/resources/resource_sludge_02_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 1
-	
+
 	glow 1
 
 	technique
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -818,6 +830,10 @@ material resources/resource_water_pipe : resources/resource_liquid
 material resources/resource_water_fresnel
 {
 	render_group 109
+
+	fresnel 1.1 0.6 0 0
+	fresnel_color 0 2.5 5 0.2
+
 	technique
 	{
 		pass
@@ -829,74 +845,76 @@ material resources/resource_water_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.6
-				param_named cFresnelPower float 1.1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 0 2.5 5 0.2
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
 }
 
 material resources/volume_resource_sludge
-{ 
+{
 	render_group 60
-	
+
 	technique
 	{
 		pass
 		{
 			scene_blend alpha_blend
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_sludge.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
 material resources/volume_resource_magma
-{ 
+{
 	render_group 60
-	
+
 	technique
 	{
 		pass
 		{
 			scene_blend alpha_blend
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_magma.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
@@ -911,7 +929,7 @@ material resources/resource_magma : resources/resource_liquid
 	set_texture_alias packed_2			materials/textures/resources/resource_magma_02_packed.dds
 	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
-	
+
 	glow 3.7
 }
 
@@ -927,7 +945,7 @@ material resources/resource_magma_vein : resources/resource_liquid_vein
 	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds
 	set_texture_alias flowmap			materials/textures/flowmap/magma_01_flowmap.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
-		
+
 	glow 3.7
 
 	technique
@@ -970,20 +988,20 @@ material resources/resource_magma_storage : resources/resource_liquid
 	set_texture_alias albedo_1			materials/textures/resources/resource_magma_01_albedo.dds
 	set_texture_alias normal_1			materials/textures/resources/resource_magma_01_normal.dds
 	set_texture_alias packed_1			materials/textures/resources/resource_magma_01_packed.dds
-	set_texture_alias emissive_1		materials/textures/resources/resource_magma_01_emissive.dds	
+	set_texture_alias emissive_1		materials/textures/resources/resource_magma_01_emissive.dds
 	set_texture_alias albedo_2			materials/textures/resources/resource_magma_02_albedo.dds
 	set_texture_alias normal_2			materials/textures/resources/resource_magma_02_normal.dds
 	set_texture_alias packed_2			materials/textures/resources/resource_magma_02_packed.dds
-	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds	
+	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 1
 
-	glow 10	
-	
+	glow 10
+
 	technique
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -996,20 +1014,20 @@ material resources/resource_magma_pipe : resources/resource_liquid
 	set_texture_alias albedo_1			materials/textures/resources/resource_magma_01_albedo.dds
 	set_texture_alias normal_1			materials/textures/resources/resource_magma_01_normal.dds
 	set_texture_alias packed_1			materials/textures/resources/resource_magma_01_packed.dds
-	set_texture_alias emissive_1		materials/textures/resources/resource_magma_01_emissive.dds	
+	set_texture_alias emissive_1		materials/textures/resources/resource_magma_01_emissive.dds
 	set_texture_alias albedo_2			materials/textures/resources/resource_magma_02_albedo.dds
 	set_texture_alias normal_2			materials/textures/resources/resource_magma_02_normal.dds
 	set_texture_alias packed_2			materials/textures/resources/resource_magma_02_packed.dds
-	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds	
+	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 1
-	
-	glow 10	
+
+	glow 10
 
 	technique
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -1020,6 +1038,10 @@ material resources/resource_magma_pipe : resources/resource_liquid
 material resources/resource_magma_fresnel
 {
 	render_group 109
+
+	fresnel 1.1 0.5 0 0
+	fresnel_color 20 0 0 0.2
+
 	technique
 	{
 		pass
@@ -1031,20 +1053,22 @@ material resources/resource_magma_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1.1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 20 0 0 0.2
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -1077,8 +1101,8 @@ material resources/resource_sludge_vein : resources/resource_liquid_vein
 	//set_texture_alias emissive_2		materials/textures/resources/resource_sludge_02_emissive.dds
 	set_texture_alias flowmap			materials/textures/flowmap/mud_01_flowmap.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
-		
-	glow 1	
+
+	glow 1
 
 	technique
 	{
@@ -1094,7 +1118,7 @@ material resources/resource_sludge_vein : resources/resource_liquid_vein
 }
 
 material resources/resource_sludge_vein_blend : resources/resource_sludge_vein
-{	
+{
 
 	set_texture_alias albedo_3			materials/textures/ground/mud/mud_resource_06_albedo.dds
 	set_texture_alias normal_3			materials/textures/ground/mud/mud_resource_06_normal.dds
@@ -1131,7 +1155,7 @@ material resources/resource_sludge_storage : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -1157,7 +1181,7 @@ material resources/resource_sludge_pipe : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -1168,6 +1192,10 @@ material resources/resource_sludge_pipe : resources/resource_liquid
 material resources/resource_sludge_fresnel
 {
 	render_group 109
+
+	fresnel 1.1 0.5 0 0
+	fresnel_color 5 5 0 0.2
+
 	technique
 	{
 		pass
@@ -1179,48 +1207,50 @@ material resources/resource_sludge_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1.1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 5 5 0 0.2
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
 }
 
 material resources/volume_resource_morphium
-{ 
+{
 	render_group 60
-	
+
 	technique
 	{
 		pass
 		{
 			scene_blend alpha_blend
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_morphium.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+		}
 	}
 }
 
@@ -1236,7 +1266,7 @@ material resources/resource_morphium : resources/resource_liquid
 
 	glow 0
 
-	technique 
+	technique
 	{
 		pass
 		{
@@ -1321,7 +1351,7 @@ material resources/resource_morphium_storage : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 			}
 		}
@@ -1347,7 +1377,7 @@ material resources/resource_morphium_pipe : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 0.5
 			}
@@ -1358,6 +1388,10 @@ material resources/resource_morphium_pipe : resources/resource_liquid
 material resources/resource_morphium_fresnel
 {
 	render_group 109
+
+	fresnel 1 0.5 0 0
+	fresnel_color 10 10 10 0.1
+
 	technique
 	{
 		pass
@@ -1369,48 +1403,50 @@ material resources/resource_morphium_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 10 10 10 0.1
 			}
 		}
 	}
 }
 
 material resources/volume_resource_mud
-{ 
+{
 	render_group 60
-	
+
 	technique
 	{
 		pass
 		{
 			scene_blend alpha_blend
 
-			texture_unit diffuse 
-			{	
+			texture_unit diffuse
+			{
 				texture materials/textures/resources/volume_resource_mud.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
-		}	
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+		}
 	}
 }
 
@@ -1502,7 +1538,7 @@ material resources/resource_mud_storage : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -1529,7 +1565,7 @@ material resources/resource_mud_pipe : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -1540,6 +1576,10 @@ material resources/resource_mud_pipe : resources/resource_liquid
 material resources/resource_mud_fresnel
 {
 	render_group 109
+
+	fresnel 1 0.5 0 0
+	fresnel_color 8 4 0 0.1
+
 	technique
 	{
 		pass
@@ -1551,20 +1591,22 @@ material resources/resource_mud_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 8 4 0 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -1588,7 +1630,7 @@ material resources/resource_flammable_gas_storage : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -1614,7 +1656,7 @@ material resources/resource_flammable_gas_pipe : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -1625,6 +1667,10 @@ material resources/resource_flammable_gas_pipe : resources/resource_liquid
 material resources/resource_flammable_gas_fresnel
 {
 	render_group 109
+
+	fresnel 1 0.5 0 0
+	fresnel_color 8 0 0 0.1
+
 	technique
 	{
 		pass
@@ -1636,20 +1682,22 @@ material resources/resource_flammable_gas_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 8 0 0 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -1673,7 +1721,7 @@ material resources/resource_plasma_storage : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -1699,7 +1747,7 @@ material resources/resource_plasma_pipe : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -1710,6 +1758,10 @@ material resources/resource_plasma_pipe : resources/resource_liquid
 material resources/resource_plasma_fresnel
 {
 	render_group 109
+
+	fresnel 1 0.5 0 0
+	fresnel_color 8 0 0 0.1
+
 	technique
 	{
 		pass
@@ -1721,20 +1773,22 @@ material resources/resource_plasma_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 8 0 0 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -1758,7 +1812,7 @@ material resources/resource_plasma_charged_storage : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -1784,7 +1838,7 @@ material resources/resource_plasma_charged_pipe : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -1795,6 +1849,10 @@ material resources/resource_plasma_charged_pipe : resources/resource_liquid
 material resources/resource_plasma_charged_fresnel
 {
 	render_group 109
+
+	fresnel 1 0.5 0 0
+	fresnel_color 8 0 0 0.1
+
 	technique
 	{
 		pass
@@ -1806,20 +1864,22 @@ material resources/resource_plasma_charged_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 8 0 0 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -1843,7 +1903,7 @@ material resources/resource_supercoolant_storage : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_vp 
+			vertex_program_ref deferred_gbuffer_vp
 			{
 
 			}
@@ -1869,7 +1929,7 @@ material resources/resource_supercoolant_pipe : resources/resource_liquid
 	{
 		pass
 		{
-			vertex_program_ref deferred_gbuffer_tiled_vp 
+			vertex_program_ref deferred_gbuffer_tiled_vp
 			{
         		param_named      cTilingFactor  float 1
 			}
@@ -1880,6 +1940,10 @@ material resources/resource_supercoolant_pipe : resources/resource_liquid
 material resources/resource_supercoolant_fresnel
 {
 	render_group 109
+
+	fresnel 1.1 0.6 0 0
+	fresnel_color 0 2.5 5 0.2
+
 	technique
 	{
 		pass
@@ -1891,20 +1955,22 @@ material resources/resource_supercoolant_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.6
-				param_named cFresnelPower float 1.1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 0 2.5 5 0.2
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -1915,4 +1981,11 @@ material resources/resource_geothermal_vent : pbr/vegetation
 	set_texture_alias albedo			materials/textures/resources/resource_geothermal_vent_albedo.dds
 	set_texture_alias normal			materials/textures/resources/resource_geothermal_vent_normal.dds
 	set_texture_alias packed			materials/textures/resources/resource_geothermal_vent_packed.dds
+}
+
+material resources/resource_wind_spot : pbr/default
+{
+	set_texture_alias albedo			materials/textures/resources/resource_wind_spot_albedo.dds
+	set_texture_alias normal			materials/textures/resources/resource_wind_spot_normal.dds
+	set_texture_alias packed			materials/textures/resources/resource_wind_spot_packed.dds
 }
