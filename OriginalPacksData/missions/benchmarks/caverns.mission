@@ -1,55 +1,62 @@
 MissionDef
 {
-    script          "lua/missions/survival/survival_metallic.lua"
-	localization_id	"campaigns/survival/metallic.campaign"
-    player_spawn_logic  "logic/loadout/player_loadout_survival_metallic.logic"
+    biomes          		"caverns"
 
-	map_size        "6"
+    script                  "lua/missions/survival/survival_caverns.lua"
+    player_spawn_logic      "logic/loadout/player_loadout_survival_caverns.logic"
 
-    biomes          	"metallic"
+	localization_id	        "campaigns/survival/caverns.campaign"
+
+	map_size                "8"
+	map_generator_seed	    "1626282117"
+
+	light_mask_materials
+    {
+        logic/caverns_light_mask_holes_medium
+    }
+
+    destructible_volume_texture_patterns
+    {
+        materials/textures/logic/caverns_destructible_rocks_mask_edge_1_full.png
+    }
 	
     creature_volumes_min_distance   "128.0"
 	creature_volumes_density        "0.75"
 	
 	tile_spawn_rules
 	{
-		biomes/metallic/tiles/metallic_lakes_01/metallic_lakes_01.tile
-		{			
-			min_instances	3	
-			random_weight	1.0
-		}		
-		biomes/metallic/tiles/metallic_lakes_02/metallic_lakes_02.tile
-		{					
-			min_instances	3			
-		}	
+		biomes/legacy_maps/tiles/benchmark_base/benchmark_base.tile
+		{
+			min_instances 1
+			max_instances 1
+
+            tile_coord
+            {
+                0,0
+            }
+		}
+
+		biomes/caverns/tiles/caverns_plains_01/caverns_plains_01.tile
+		biomes/caverns/tiles/caverns_plains_02/caverns_plains_02.tile
+		biomes/caverns/tiles/caverns_plains_03/caverns_plains_03.tile
+		biomes/caverns/tiles/caverns_canyons_02/caverns_canyons_02.tile
+		biomes/caverns/tiles/caverns_canyons_03/caverns_canyons_03.tile
 	}
 
-   ambient_creature_species
+    ambient_creature_species
     {
         ground
-        {               
+        {     
+			max_count 50
+			spawn_rate 6
+			search_to_spawn_radius "2"
+			
             species
             {
                 CreatureVolume
                 {
-                    creature_species    "stonger"
+                    creature_species    "crysder"
                 }
-            }
-        }
-
-        air
-        {
-			max_count "5"
-            species
-            {
-                CreatureVolume
-                {
-                    creature_species    "idapian_metallic"
-                }	
-				CreatureVolume
-                {
-                    creature_species    "idapian"
-                }	
             }
         }
     }
@@ -60,7 +67,11 @@ MissionDef
         {
             CreatureVolume
             {
-                creature_species    "brabit"
+                creature_species    "moltug_crystal"
+            }
+			CreatureVolume
+            {
+                creature_species    "geotrupex_caverns"
             }
         }
 
@@ -68,50 +79,24 @@ MissionDef
         {
             CreatureVolume
             {
-                creature_species    "wingmite"
+                creature_species    "crawlog"
                 volume_spawn_ratio  "2"
             }  
 			
 			CreatureVolume
             {
-                creature_species    "bradron"
-                volume_spawn_ratio  "2"
-            }  
-			
-			CreatureVolume
-            {
-                creature_species    "octabit"
+                creature_species    "gulgor"
                 volume_spawn_ratio  "1"
             }  
 			
 			CreatureVolume
             {
-                creature_species    "flurian"
-                volume_spawn_ratio  "0.75"
+                creature_species    "stregaros_crystal"
+                volume_spawn_ratio  "1"
             }  
-			
-			CreatureVolume
-            {
-                creature_species    "lesigian"
-                volume_spawn_ratio  "0.75"
-            }  
-			
-            CreatureVolume
-            {
-                creature_species    "kermon_metallic"
-                volume_spawn_ratio  "0.5"
-            }
+            
         }
-		
-		liquid_units
-        {            
-			CreatureVolume
-            {
-                creature_species    "hedroner_morphium"
-                volume_spawn_ratio  "0.5"
-            }
-        }  
-		
+
         resource_units
         {            
 			CreatureVolume
@@ -134,8 +119,8 @@ MissionDef
             // min distance from objects in other pools
             spawn_min_distance_from_pools
             {
-                player_spawn_point  250.0
-                loot_containers     200.0
+                player_spawn_point  175.0
+                loot_containers     125.0
             }
 
             // range of spawned blueprints by this pool <min,max>, max can be 0 for unbounded upper limit
@@ -143,28 +128,79 @@ MissionDef
 
             spawn_blueprints
             {
-                spawners/metallic_spawner_standard
+                spawners/caverns_spawner_standard
                 {
                     // make a roll to check if blueprint can be spawned
                     spawn_chance           0.5
                 }
 
-                spawners/metallic_spawner_advanced
+                spawners/caverns_spawner_advanced
                 {
                     spawn_instances_minmax 3,5
                     spawn_chance           0.2
                 }
 
-                spawners/metallic_spawner_superior
+                spawners/caverns_spawner_superior
                 {
                     spawn_instances_minmax 2,3
                     spawn_chance           0.2
                 }
 
-                spawners/metallic_spawner_extreme
+                spawners/caverns_spawner_extreme
                 {
                     spawn_instances_minmax 1,2
                     spawn_chance           0.1
+                }
+            }
+        }
+		
+		MarkerBlueprintSpawner
+        {
+			//WIND TUNNELS
+            spawn_pool               "resource_volumes"           
+            spawn_at_marker          "resources/volume_random_resources"            
+            spawn_instances_minmax    15,20
+			
+			spawn_min_distance_from_pools
+            {
+                resource_volumes  		5.0
+				player					5.0
+				underground_treasures   10.0
+            }
+            
+			spawn_blueprints
+            {
+                weather/cave_wind_spot_small
+                {                    
+                    spawn_chance           0.5
+                }
+            }
+        }	
+		
+		MarkerBlueprintSpawner
+        {
+			//STARTING WIND TUNNEL
+            spawn_pool               "resource_volumes"           
+            spawn_at_marker          "resources/volume_random_resources"            
+            spawn_instances_minmax    1,1
+			
+			spawn_min_distance_from_pools
+            {
+                resource_volumes	5.0
+				player				5.0
+				underground_treasures   10.0
+            }
+			
+			spawn_max_distance_from_pools
+            {
+                player  40.0
+            }
+            
+			spawn_blueprints
+            {
+                weather/cave_wind_spot_small
+                {                    
+                    spawn_chance           1
                 }
             }
         }
@@ -178,8 +214,9 @@ MissionDef
             spawn_min_distance_from_pools
             {
                 player_spawn_point      150.0
-                loot_containers         50.0
+                loot_containers         10.0
                 underground_treasures   100.0
+				resource_volumes		10.0
             }
 
             spawn_blueprints
@@ -194,7 +231,6 @@ MissionDef
                         blueprint 	    string:"items/loot/resources/shard_carbonium_item"
                         min   	 	    int:"200"
                         max   	 	    int:"500"
-						package_size    int:"5"
                     }
                 }
 
@@ -208,7 +244,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_steel_item"
                         min   	 	int:"500"
                         max   	 	int:"1000"
-						package_size    int:"10"
                     }
                 }
 
@@ -222,7 +257,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_hazenite_item"
                         min   	 	int:"100"
                         max   	 	int:"250"
-						package_size    int:"3"
                     }
                 }
 
@@ -236,7 +270,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_tanzanite_item"
                         min   	 	int:"100"
                         max   	 	int:"250"
-						package_size    int:"3"
                     }
                 }
 				
@@ -250,7 +283,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_rhodonite_item"
                         min   	 	int:"100"
                         max   	 	int:"250"
-						package_size    int:"3"
                     }
                 }
 				
@@ -264,7 +296,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_ferdonite_item"
                         min   	 	int:"100"
                         max   	 	int:"250"
-						package_size    int:"3"
                     }
                 }
 
@@ -278,7 +309,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_uranium_item"
                         min   	 	int:"200"
                         max   	 	int:"500"
-						package_size    int:"5"
                     }
                 }
 
@@ -292,7 +322,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_cobalt_item"
                         min   	 	int:"200"
                         max   	 	int:"500"
-						package_size    int:"5"
                     }
                 }
 				
@@ -306,7 +335,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_titanium_item"
                         min   	 	int:"200"
                         max   	 	int:"500"
-						package_size    int:"5"
                     }
                 }
 				
@@ -320,7 +348,6 @@ MissionDef
                         blueprint 	string:"items/loot/resources/shard_palladium_item"
                         min   	 	int:"200"
                         max   	 	int:"500"
-						package_size    int:"5"
                     }
                 }
             }
@@ -336,8 +363,8 @@ MissionDef
             min_resources   "7500"
             max_resources   "20000"
 
-            min_spawned_volumes "10"
-            max_spawned_volumes "15"
+            min_spawned_volumes "20"
+            max_spawned_volumes "30"
         }
 		
         ResourceVolume
@@ -360,8 +387,8 @@ MissionDef
             min_resources   "8000"
             max_resources   "15000"
 
-            min_spawned_volumes "5"
-            max_spawned_volumes "15"
+            min_spawned_volumes "15"
+            max_spawned_volumes "20"
         }
 		
         ResourceVolume
@@ -384,8 +411,8 @@ MissionDef
             min_resources   "6000"
             max_resources   "10000"
 
-            min_spawned_volumes "3"
-            max_spawned_volumes "6"
+            min_spawned_volumes "6"
+            max_spawned_volumes "10"
 			
             is_infinite        "1"			
         }	
@@ -499,24 +526,12 @@ MissionDef
 
             min_spawned_volumes "4"
             max_spawned_volumes "6"
-        }	
-		
-		ResourceVolume
-        {
-            resource        "morphium_vein"
-
-            min_resources   "500"
-            max_resources   "500"
-
-            is_infinite      "1"
-
-            min_spawned_volumes "2"            
-            max_spawned_volumes "9001"            
         }		
+		
     }
 
-    min_starting_distance "16.0"
-    max_starting_distance "96.0"
+    min_starting_distance "5.0"
+    max_starting_distance "80.0"
 
     starting_resources
     {
@@ -551,8 +566,8 @@ MissionDef
             
             is_infinite     "1"
             
-            min_spawned_volumes "1"
-            max_spawned_volumes "1"
+            min_spawned_volumes "2"
+            max_spawned_volumes "2"
         }	
     }
 }
