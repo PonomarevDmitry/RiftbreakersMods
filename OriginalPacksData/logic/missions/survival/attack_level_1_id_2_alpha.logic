@@ -1,7 +1,7 @@
-//editor "scroll(-0.00,-0.00)|zoom(1.00)"
+//editor "scroll(292.00,212.00)|zoom(1.00)"
 FlowGraphTemplate
 {
-	version "1"
+	version "2"
 	editor "5390"
 	GraphNodes
 	{
@@ -28,7 +28,7 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1079,496)"
+			//editor "layout(event_end.xml)|pos(1284,575)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -118,12 +118,34 @@ FlowGraphTemplate
 
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(923,560)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
+		}
+
 	}
 
 	GraphConnections
 	{
+		audio_adaptive_music_system_1 "event_end_0"
 		default "wave_ground_0"
-		wave_ground_0 "event_end_0"
+		wave_ground_0 "audio_adaptive_music_system_1"
 	}
 
 	GraphComments

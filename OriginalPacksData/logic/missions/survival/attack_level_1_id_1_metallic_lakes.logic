@@ -1,14 +1,13 @@
-//editor "offset(-66.896,121.439)|zoom(1.000)"
+//editor "scroll(652.67,242.00)|zoom(1.00)"
 FlowGraphTemplate
 {
-	version "7"
-	editor "4943"
+	version "8"
+	editor "5390"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
 			//editor "layout(event_start.xml)|pos(171,528)"
-			script "lua/graph/mission_state/event_start.lua"
 			database
 			{
 				Integers
@@ -23,12 +22,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(607,209)"
+			//editor "layout(wave_ground.xml)|pos(517,240)"
 			database
 			{
 				Integers
@@ -51,6 +51,7 @@ FlowGraphTemplate
 						value "30"
 					}
 
+					//editor "expanded(1)"
 				}
 
 				Strings
@@ -58,41 +59,51 @@ FlowGraphTemplate
 					StringData
 					{
 						key "spawn_direction"
+						value
 					}
 
 					StringData
 					{
 						key "target_name"
+						value
 					}
 
+					//editor "expanded(1)"
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
 				}
 
 			}
 
-			self_id "wave_ground_0"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_0"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/wingmite"
-					delay_group "0"
-					delay "1.00"
 					count "1"
+					delay "1.00"
+					delay_group "0"
 					units_in_one_spawn "70"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/hedroner_morphium"
-					delay_group "0"
-					delay "1.00"
 					count "1"
+					delay "1.00"
+					delay_group "0"
 					units_in_one_spawn "5"
 				}
 
@@ -102,18 +113,41 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1249,521)"
+			//editor "layout(event_end.xml)|pos(1309,517)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(985,508)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
 		}
 
 	}
 
 	GraphConnections
 	{
-		wave_ground_0 "event_end_0"
+		audio_adaptive_music_system_1 "event_end_0"
 		default "wave_ground_0"
+		wave_ground_0 "audio_adaptive_music_system_1"
 	}
 
+	GraphComments
 }
 

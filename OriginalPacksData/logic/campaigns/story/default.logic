@@ -1,14 +1,13 @@
-//editor "offset(10629.381,873.959)|zoom(0.928)"
+//editor "scroll(-11130.40,-1344.55)|zoom(0.67)"
 FlowGraphTemplate
 {
-	version "82"
-	editor "4949"
+	version "83"
+	editor "5623"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
 			//editor "layout(event_start.xml)|pos(-10660,1425)"
-			script "lua/graph/mission_state/event_start.lua"
 			database
 			{
 				Integers
@@ -23,15 +22,25 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_exist_building.xml)|pos(-9787,1325)"
-			script "lua/graph/logic/logic_if_exist_building.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -49,6 +58,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_bp"
+						value
 					}
 
 					StringData
@@ -59,45 +69,23 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "1"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_exist_building.lua"
 			self_id "logic_if_exist_building_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_exist_building_0###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-9772,1425)"
-			self_id "logic_if_exist_building_0###true"
+			//editor "layout(condition_true.xml)|pos(-9787,1541)"
 			key "true"
+			self_id "logic_if_exist_building_0###true"
 			value "logic_if_exist_building_0###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(campaign_mission_unlock.xml)|pos(-3856,1487)"
-			script "lua/graph/campaign/state/mission_unlock.lua"
 			database
 			{
 				Strings
@@ -118,13 +106,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/campaign/state/mission_unlock.lua"
 			self_id "mission_unlock_1"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(campaign_mission_unlock.xml)|pos(-3853,2499)"
-			script "lua/graph/campaign/state/mission_unlock.lua"
 			database
 			{
 				Strings
@@ -145,13 +133,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/campaign/state/mission_unlock.lua"
 			self_id "mission_unlock_3"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_mission_status.xml)|pos(-3119,1157)"
-			script "lua/graph/logic/logic_if_mission_status.lua"
 			database
 			{
 				Strings
@@ -184,33 +172,21 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_if_mission_status.lua"
 			self_id "logic_if_mission_status_5"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_mission_status.xml)"
-					value "logic_if_mission_status_5###win"
-					key "win"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_mission_status.xml)|pos(-3104,1257)"
+			//editor "layout(condition_mission_status.xml)|pos(-3119,1338)"
+			key "win"
 			self_id "logic_if_mission_status_5###win"
 			value "logic_if_mission_status_5###win"
-			key "win"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(-9204,1530)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -225,15 +201,25 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_11"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait_on_event.xml)|pos(-3134,1465)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -244,6 +230,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(-3450,2505)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -254,17 +251,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_wait_on_event_5"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait_on_event.xml)|pos(-3450,2505)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -275,6 +261,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(-10357,843)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -285,17 +282,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_wait_on_event_8"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait_on_event.xml)|pos(-10357,843)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -306,35 +292,71 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "is_event_local"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_wait_on_event.lua"
 			self_id "logic_wait_on_event_13"
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-9899,828)"
-			self_id "event_graph_1"
 			graph "logic/objectives/research_rare_element_mining.logic"
+			self_id "event_graph_1"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_global_variable.xml)|pos(-10143,2985)"
-			script "lua/graph/logic/logic_if_global_variable.lua"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -363,45 +385,23 @@ FlowGraphTemplate
 
 				}
 
-				Floats
-				{
-					FloatData
-					{
-						key "float_value"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_global_variable.lua"
 			self_id "logic_if_global_variable_4"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_global_variable_4###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-10128,3085)"
-			self_id "logic_if_global_variable_4###true"
+			//editor "layout(condition_true.xml)|pos(-10143,3251)"
 			key "true"
+			self_id "logic_if_global_variable_4###true"
 			value "logic_if_global_variable_4###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(-8888,2254)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -416,13 +416,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_1"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(-8886,2648)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -437,13 +437,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_6"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(-8880,2995)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -458,13 +458,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_17"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(-8888,3533)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -479,47 +479,148 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_25"
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-8666,2968)"
-			self_id "event_graph_2"
 			graph "logic/campaigns/story/discover_magma_rare_resource.logic"
+			self_id "event_graph_2"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-8679,2622)"
-			self_id "event_graph_3"
 			graph "logic/campaigns/story/discover_acid_rare_resource.logic"
+			self_id "event_graph_3"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-8675,2230)"
-			self_id "event_graph_4"
 			graph "logic/campaigns/story/discover_desert_rare_resource.logic"
+			self_id "event_graph_4"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-8646,3503)"
-			self_id "event_graph_5"
 			graph "logic/campaigns/story/discover_jungle_rare_resource.logic"
+			self_id "event_graph_5"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-1859,-956)"
-			self_id "event_graph_6"
 			graph "logic/campaigns/story/desert_1.logic"
+			self_id "event_graph_6"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		NodeSelectorNode
@@ -527,51 +628,57 @@ FlowGraphTemplate
 			//editor "layout(logic_if_build_on_sand.xml)|pos(-2928,344)"
 			script "lua/graph/logic/logic_if_build_on_sand.lua"
 			self_id "logic_if_build_on_sand_0"
-			conditions
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2928,429)"
+			key "false"
+			self_id "logic_if_build_on_sand_0###false"
+			value "logic_if_build_on_sand_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2928,458)"
+			key "true"
+			self_id "logic_if_build_on_sand_0###true"
+			value "logic_if_build_on_sand_0###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2530,395)"
+			graph "logic/objectives/build_on_sand.logic"
+			self_id "event_graph_0"
+			start_point "default"
+			validate_graph_resource "1"
+			database
 			{
-				//editor "expanded(1)"
-				ConditionData
+				Floats
 				{
-					//editor "layout(condition_false.xml)"
-					key "false"
-					value "logic_if_build_on_sand_0###false"
+					//editor "expanded(1)"
 				}
 
-				ConditionData
+				Integers
 				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_build_on_sand_0###true"
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
 				}
 
 			}
 
 		}
 
-		BehaviourGraphNode
-		{
-			//editor "layout(event_graph.xml)|pos(-2530,395)"
-			self_id "event_graph_0"
-			graph "logic/objectives/build_on_sand.logic"
-			start_point "default"
-		}
-
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait_on_event.xml)|pos(-2443,-125)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "event_name"
-						value "OnStregarosEncounter"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
@@ -582,15 +689,25 @@ FlowGraphTemplate
 
 				}
 
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "OnStregarosEncounter"
+					}
+
+				}
+
 			}
 
+			script "lua/graph/logic/logic_wait_on_event.lua"
 			self_id "logic_wait_on_event_1"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(campaign_mission_unlock.xml)|pos(-409,-127)"
-			script "lua/graph/campaign/state/mission_unlock.lua"
 			database
 			{
 				Strings
@@ -611,52 +728,15 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/campaign/state/mission_unlock.lua"
 			self_id "campaign_mission_unlock_0"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(campaign_objective_generic.xml)|pos(-1273,-145)"
-			script "lua/graph/objective/objective_spawn.lua"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "objective_blueprint"
-					}
-
-					StringData
-					{
-						key "display_name"
-						value "gui/hud/objective_name/story/stregaros_gather_samples"
-					}
-
-					StringData
-					{
-						key "display_description"
-					}
-
-					StringData
-					{
-						key "unique_name_id"
-						value "global.stregaros_gather_samples"
-					}
-
-					StringData
-					{
-						key "unique_parent_id_name"
-					}
-
-					StringData
-					{
-						key "wait"
-						value "false"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
@@ -679,15 +759,54 @@ FlowGraphTemplate
 
 				}
 
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/stregaros_gather_samples"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.stregaros_gather_samples"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
 			}
 
+			script "lua/graph/objective/objective_spawn.lua"
 			self_id "campaign_objective_generic_2"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(-614,-117)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -702,13 +821,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_1111"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_mission_status.xml)|pos(-2921,-149)"
-			script "lua/graph/logic/logic_if_mission_status.lua"
 			database
 			{
 				Strings
@@ -741,25 +860,21 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_if_mission_status.lua"
 			self_id "logic_if_mission_status_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_mission_status.xml)"
-					value "logic_if_mission_status_0###in_progress"
-					key "in_progress"
-				}
+		}
 
-			}
-
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(-2921,40)"
+			key "in_progress"
+			self_id "logic_if_mission_status_0###in_progress"
+			value "logic_if_mission_status_0###in_progress"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(campaign_mission_unlock.xml)|pos(-3864,18)"
-			script "lua/graph/campaign/state/mission_unlock.lua"
 			database
 			{
 				Strings
@@ -780,13 +895,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/campaign/state/mission_unlock.lua"
 			self_id "campaign_mission_unlock_1"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_mission_status.xml)|pos(-2688,-1053)"
-			script "lua/graph/logic/logic_if_mission_status.lua"
 			database
 			{
 				Strings
@@ -819,107 +934,212 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_if_mission_status.lua"
 			self_id "logic_if_mission_status_1"
-			conditions
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(-2688,-862)"
+			key "win"
+			self_id "logic_if_mission_status_1###win"
+			value "logic_if_mission_status_1###win"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-1274,-955)"
+			graph "logic/campaigns/story/desert_2.logic"
+			self_id "event_graph_7"
+			start_point "default"
+			validate_graph_resource "1"
+			database
 			{
-				//editor "expanded(1)"
-				ConditionData
+				Floats
 				{
-					//editor "layout(condition_mission_status.xml)"
-					value "logic_if_mission_status_1###win"
-					key "win"
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
 				}
 
 			}
 
 		}
 
-		FlowGraphNode
-		{
-			//editor "layout(condition_false.xml)|pos(-2913,444)"
-			self_id "logic_if_build_on_sand_0###false"
-			key "false"
-			value "logic_if_build_on_sand_0###false"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(-2913,544)"
-			self_id "logic_if_build_on_sand_0###true"
-			key "true"
-			value "logic_if_build_on_sand_0###true"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_mission_status.xml)|pos(-2906,-49)"
-			self_id "logic_if_mission_status_0###in_progress"
-			value "logic_if_mission_status_0###in_progress"
-			key "in_progress"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_mission_status.xml)|pos(-2673,-953)"
-			self_id "logic_if_mission_status_1###win"
-			value "logic_if_mission_status_1###win"
-			key "win"
-		}
-
-		BehaviourGraphNode
-		{
-			//editor "layout(event_graph.xml)|pos(-1274,-955)"
-			self_id "event_graph_7"
-			graph "logic/campaigns/story/desert_2.logic"
-			start_point "default"
-		}
-
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-2533,1449)"
-			self_id "event_graph_8"
 			graph "logic/campaigns/story/acid_1.logic"
+			self_id "event_graph_8"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-1976,1446)"
-			self_id "event_graph_9"
 			graph "logic/campaigns/story/acid_2.logic"
+			self_id "event_graph_9"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-1401,1444)"
-			self_id "event_graph_10"
 			graph "logic/campaigns/story/acid_3.logic"
+			self_id "event_graph_10"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-1860,2490)"
-			self_id "event_graph_11"
 			graph "logic/campaigns/story/magma_3.logic"
+			self_id "event_graph_11"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-2434,2492)"
-			self_id "event_graph_12"
 			graph "logic/campaigns/story/magma_2.logic"
+			self_id "event_graph_12"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-3059,2491)"
-			self_id "event_graph_13"
 			graph "logic/campaigns/story/magma_1.logic"
+			self_id "event_graph_13"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		LuaBehaviourNode
@@ -929,12 +1149,17 @@ FlowGraphTemplate
 			self_id "logic_set_global_variable_0"
 			database
 			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
 				Strings
 				{
 					//editor "expanded(1)"
 					StringData
 					{
-						//editor "layout(data_block_string.xml)"
+						//editor "layout(data_block_string.xml)|pos(0,0)"
 						key "campaign_mode"
 						value "true"
 					}
@@ -948,9 +1173,34 @@ FlowGraphTemplate
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_global_variable.xml)|pos(-9784,1616)"
-			script "lua/graph/logic/logic_if_global_variable.lua"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -979,57 +1229,25 @@ FlowGraphTemplate
 
 				}
 
-				Floats
-				{
-					FloatData
-					{
-						key "float_value"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_global_variable.lua"
 			self_id "logic_if_global_variable_1"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_global_variable_1###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-9769,1716)"
-			self_id "logic_if_global_variable_1###true"
+			//editor "layout(condition_true.xml)|pos(-9784,1883)"
 			key "true"
+			self_id "logic_if_global_variable_1###true"
 			value "logic_if_global_variable_1###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_event_send.xml)|pos(-4703,1920)"
-			script "lua/graph/logic/logic_event_send.lua"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "event_name"
-						value "StartPlanetaryScannerObjective"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
@@ -1040,17 +1258,37 @@ FlowGraphTemplate
 
 				}
 
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "StartPlanetaryScannerObjective"
+					}
+
+				}
+
 			}
 
+			script "lua/graph/logic/logic_event_send.lua"
 			self_id "logic_event_send_0"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_familiarity_level.xml)|pos(-401,36)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "comparison_familiarity_level"
+						value "2"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -1079,57 +1317,25 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "comparison_familiarity_level"
-						value "2"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
 			self_id "logic_if_familiarity_level_4"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_4###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-386,136)"
-			self_id "logic_if_familiarity_level_4###true"
+			//editor "layout(condition_true.xml)|pos(-401,247)"
 			key "true"
+			self_id "logic_if_familiarity_level_4###true"
 			value "logic_if_familiarity_level_4###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_event_send.xml)|pos(1267,210)"
-			script "lua/graph/logic/logic_event_send.lua"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "event_name"
-						value "OnDesertFloorUnlocked"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
@@ -1140,15 +1346,25 @@ FlowGraphTemplate
 
 				}
 
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "OnDesertFloorUnlocked"
+					}
+
+				}
+
 			}
 
+			script "lua/graph/logic/logic_event_send.lua"
 			self_id "logic_event_send_1"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(mission_enable_research.xml)|pos(744,222)"
-			script "lua/graph/mission_state/mission_enable_research.lua"
 			database
 			{
 				Strings
@@ -1163,33 +1379,43 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/mission_enable_research.lua"
 			self_id "mission_enable_research_0"
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-9930,164)"
-			self_id "event_graph_14"
 			graph "logic/objectives/research_uranium.logic"
+			self_id "event_graph_14"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait_on_event.xml)|pos(-10361,179)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "event_name"
-						value "UraniumResearchObjectiveStart"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
@@ -1200,8 +1426,19 @@ FlowGraphTemplate
 
 				}
 
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "UraniumResearchObjectiveStart"
+					}
+
+				}
+
 			}
 
+			script "lua/graph/logic/logic_wait_on_event.lua"
 			self_id "logic_wait_on_event_0"
 		}
 
@@ -1209,50 +1446,50 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-2079,-680)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_0"
 			interrupt "0"
 			priority "0"
+			self_id "campaign_interface_dialogue_show_group_0"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/story/desert/ashley_stregaros_encounter_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/desert/mech_stregaros_encounter_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/story/desert/ashley_stregaros_encounter_02"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "3.00"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/campaign/mech_orbital_scanning_desert_02"
-					extended_duration "3.00"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/desert/mech_stregaros_encounter_02"
-					extended_duration "0"
 				}
 
 			}
@@ -1263,18 +1500,18 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-2023,150)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_1"
 			interrupt "0"
 			priority "0"
+			self_id "campaign_interface_dialogue_show_group_1"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/familiarity/green_radioactive_crystal_mech_01"
-					extended_duration "0"
 				}
 
 			}
@@ -1284,9 +1521,28 @@ FlowGraphTemplate
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_exist_entity_new.xml)|pos(-10345,-390)"
-			script "lua/graph/logic/logic_if_exist_entity_new.lua"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -1310,11 +1566,13 @@ FlowGraphTemplate
 					StringData
 					{
 						key "search_target_type"
+						value
 					}
 
 					StringData
 					{
 						key "search_target_value"
+						value
 					}
 
 					StringData
@@ -1325,48 +1583,17 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "1"
-					}
-
-				}
-
-				Floats
-				{
-					FloatData
-					{
-						key "search_radius"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
 			self_id "logic_if_exist_entity_new_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_exist_entity_new_0###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-10330,-98)"
-			self_id "logic_if_exist_entity_new_0###true"
+			//editor "layout(condition_true.xml)|pos(-10345,-79)"
 			key "true"
+			self_id "logic_if_exist_entity_new_0###true"
 			value "logic_if_exist_entity_new_0###true"
 		}
 
@@ -1374,34 +1601,34 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-9929,-283)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_3"
 			interrupt "0"
 			priority "0"
+			self_id "campaign_interface_dialogue_show_group_3"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/objective/mech_build_outpost_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/objective/ashley_build_outpost_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/objective/mech_build_outpost_02"
-					extended_duration "0"
 				}
 
 			}
@@ -1411,7 +1638,6 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(-2767,1475)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -1426,15 +1652,25 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_3"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait_on_event.xml)|pos(-10355,435)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -1445,6 +1681,73 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_2"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-9904,419)"
+			graph "logic/objectives/research_palladium.logic"
+			self_id "event_graph_15"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-9900,621)"
+			graph "logic/objectives/research_titanium.logic"
+			self_id "event_graph_16"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(-10352,637)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -1455,33 +1758,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_wait_on_event_2"
-		}
-
-		BehaviourGraphNode
-		{
-			//editor "layout(event_graph.xml)|pos(-9904,419)"
-			self_id "event_graph_15"
-			graph "logic/objectives/research_palladium.logic"
-			start_point "default"
-		}
-
-		BehaviourGraphNode
-		{
-			//editor "layout(event_graph.xml)|pos(-9900,621)"
-			self_id "event_graph_16"
-			graph "logic/objectives/research_titanium.logic"
-			start_point "default"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait_on_event.xml)|pos(-10352,637)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -1492,18 +1768,9 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "is_event_local"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_wait_on_event.lua"
 			self_id "logic_wait_on_event_3"
 		}
 
@@ -1511,34 +1778,34 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-8651,3774)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_6"
 			interrupt "0"
 			priority "0"
+			self_id "campaign_interface_dialogue_show_group_6"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/familiarity/ashley_magnetic_boulder_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/familiarity/mech_magnetic_boulder_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/familiarity/ashley_magnetic_boulder_02"
-					extended_duration "0"
 				}
 
 			}
@@ -1548,9 +1815,18 @@ FlowGraphTemplate
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_familiarity_level.xml)|pos(-9300,2074)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "comparison_familiarity_level"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -1579,6 +1855,25 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-9300,2285)"
+			key "true"
+			self_id "logic_if_familiarity_level_7###true"
+			value "logic_if_familiarity_level_7###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(-9303,2467)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -1589,37 +1884,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_if_familiarity_level_7"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_7###true"
-				}
-
-			}
-
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(-9285,2174)"
-			self_id "logic_if_familiarity_level_7###true"
-			key "true"
-			value "logic_if_familiarity_level_7###true"
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_familiarity_level.xml)|pos(-9303,2467)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -1648,6 +1912,25 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-9303,2678)"
+			key "true"
+			self_id "logic_if_familiarity_level_0###true"
+			value "logic_if_familiarity_level_0###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(-9301,2815)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -1658,29 +1941,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_if_familiarity_level_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_0###true"
-				}
-
-			}
-
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_familiarity_level.xml)|pos(-9301,2815)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -1709,6 +1969,25 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_8"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-9301,3026)"
+			key "true"
+			self_id "logic_if_familiarity_level_8###true"
+			value "logic_if_familiarity_level_8###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(-9314,3367)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -1719,29 +1998,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_if_familiarity_level_8"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_8###true"
-				}
-
-			}
-
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_familiarity_level.xml)|pos(-9314,3367)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -1770,6 +2026,25 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-9314,3578)"
+			key "true"
+			self_id "logic_if_familiarity_level_9###true"
+			value "logic_if_familiarity_level_9###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(-9321,3748)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -1780,29 +2055,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_if_familiarity_level_9"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_9###true"
-				}
-
-			}
-
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_familiarity_level.xml)|pos(-9321,3748)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -1831,6 +2083,25 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_10"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-9321,3959)"
+			key "true"
+			self_id "logic_if_familiarity_level_10###true"
+			value "logic_if_familiarity_level_10###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(-2441,49)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -1841,61 +2112,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_if_familiarity_level_10"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_10###true"
-				}
-
-			}
-
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(-9288,2567)"
-			self_id "logic_if_familiarity_level_0###true"
-			key "true"
-			value "logic_if_familiarity_level_0###true"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(-9286,2915)"
-			self_id "logic_if_familiarity_level_8###true"
-			key "true"
-			value "logic_if_familiarity_level_8###true"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(-9299,3467)"
-			self_id "logic_if_familiarity_level_9###true"
-			key "true"
-			value "logic_if_familiarity_level_9###true"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(-9306,3848)"
-			self_id "logic_if_familiarity_level_10###true"
-			key "true"
-			value "logic_if_familiarity_level_10###true"
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_familiarity_level.xml)|pos(-2441,49)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -1924,47 +2140,35 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "comparison_familiarity_level"
-						value "1"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
 			self_id "logic_if_familiarity_level_1"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_1###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-2426,149)"
-			self_id "logic_if_familiarity_level_1###true"
+			//editor "layout(condition_true.xml)|pos(-2441,260)"
 			key "true"
+			self_id "logic_if_familiarity_level_1###true"
 			value "logic_if_familiarity_level_1###true"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_exist_building.xml)|pos(-9820,2684)"
-			script "lua/graph/logic/logic_if_exist_building.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -1976,6 +2180,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
 					}
 
 					StringData
@@ -1992,47 +2197,35 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "1"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_exist_building.lua"
 			self_id "logic_if_exist_building_1"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_exist_building_1###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-9805,2784)"
-			self_id "logic_if_exist_building_1###true"
+			//editor "layout(condition_true.xml)|pos(-9820,2900)"
 			key "true"
+			self_id "logic_if_exist_building_1###true"
 			value "logic_if_exist_building_1###true"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_familiarity_level.xml)|pos(-9326,4441)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "comparison_familiarity_level"
+						value "2"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -2061,6 +2254,103 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-9326,4652)"
+			key "true"
+			self_id "logic_if_familiarity_level_2###true"
+			value "logic_if_familiarity_level_2###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-8654,4282)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_4"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/familiarity/mech_moltug_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/familiarity/ashley_moltug_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/familiarity/mech_moltug_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/familiarity/ashley_moltug_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/familiarity/mech_moltug_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/familiarity/ashley_moltug_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/familiarity/mech_moltug_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/familiarity/ashley_moltug_04"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(-7977,3866)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -2071,115 +2361,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_if_familiarity_level_2"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_2###true"
-				}
-
-			}
-
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(-9311,4541)"
-			self_id "logic_if_familiarity_level_2###true"
-			key "true"
-			value "logic_if_familiarity_level_2###true"
-		}
-
-		DialogGroupNode
-		{
-			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-8654,4282)"
-			global "1"
-			self_id "campaign_interface_dialogue_show_group_4"
-			interrupt "0"
-			priority "0"
-			dialogs
-			{
-				//editor "expanded(1)"
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/familiarity/mech_moltug_01"
-					extended_duration "0"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/familiarity/ashley_moltug_01"
-					extended_duration "0"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/familiarity/mech_moltug_02"
-					extended_duration "0"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/familiarity/ashley_moltug_02"
-					extended_duration "0"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/familiarity/mech_moltug_03"
-					extended_duration "0"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/familiarity/ashley_moltug_03"
-					extended_duration "0"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/familiarity/mech_moltug_04"
-					extended_duration "0"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/familiarity/ashley_moltug_04"
-					extended_duration "0"
-				}
-
-			}
-
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_familiarity_level.xml)|pos(-7977,3866)"
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -2208,38 +2389,17 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "comparison_familiarity_level"
-						value "2"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
 			self_id "logic_if_familiarity_level_3"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_familiarity_level_3###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-7962,3966)"
-			self_id "logic_if_familiarity_level_3###true"
+			//editor "layout(condition_true.xml)|pos(-7977,4077)"
 			key "true"
+			self_id "logic_if_familiarity_level_3###true"
 			value "logic_if_familiarity_level_3###true"
 		}
 
@@ -2247,34 +2407,34 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-7469,3899)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_5"
 			interrupt "0"
 			priority "0"
+			self_id "campaign_interface_dialogue_show_group_5"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/familiarity/ashley_magnetic_boulder_03"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/familiarity/mech_magnetic_boulder_02"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/familiarity/ashley_magnetic_boulder_04"
-					extended_duration "0"
 				}
 
 			}
@@ -2285,18 +2445,18 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(55,149)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_7"
 			interrupt "0"
 			priority "0"
+			self_id "campaign_interface_dialogue_show_group_7"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/familiarity/stregaros_ashley_01"
-					extended_duration "0"
 				}
 
 			}
@@ -2307,34 +2467,34 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-7399,1414)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_8"
 			interrupt "0"
 			priority "5.00"
+			self_id "campaign_interface_dialogue_show_group_8"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "3.00"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/campaign/mech_orbital_scanning_in_progress_01"
-					extended_duration "3.00"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/campaign/mech_orbital_scanning_finished_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/campaign/mech_orbital_scanning_desert_01"
-					extended_duration "0"
 				}
 
 			}
@@ -2345,26 +2505,26 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-6444,1531)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_9"
 			interrupt "0"
 			priority "5.00"
+			self_id "campaign_interface_dialogue_show_group_9"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "3.00"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/story/campaign/ashley_orbital_scanning_desert_01"
-					extended_duration "3.00"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/campaign/mech_orbital_scanning_acid_01"
-					extended_duration "0"
 				}
 
 			}
@@ -2375,26 +2535,26 @@ FlowGraphTemplate
 		{
 			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(-5438,1827)"
 			global "1"
-			self_id "campaign_interface_dialogue_show_group_10"
 			interrupt "0"
 			priority "5.00"
+			self_id "campaign_interface_dialogue_show_group_10"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/campaign/mech_orbital_scanning_mech_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "3.00"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/story/campaign/ashley_orbital_scanning_finished_01"
-					extended_duration "3.00"
 				}
 
 			}
@@ -2404,81 +2564,130 @@ FlowGraphTemplate
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(-10344,-666)"
-			self_id "event_graph_17"
 			graph "logic/campaigns/story/campaign_dlc_manager.logic"
+			self_id "event_graph_17"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-10347,-942)"
+			graph "logic/campaigns/story/campaign_update_manager.logic"
+			self_id "event_graph_18"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 	}
 
 	GraphConnections
 	{
+		campaign_interface_dialogue_show_group_0 "campaign_objective_generic_2"
 		campaign_interface_dialogue_show_group_10 "logic_event_send_0|mission_unlock_3"
-		campaign_interface_dialogue_show_group_9 "campaign_interface_dialogue_show_group_10|mission_unlock_1"
+		campaign_interface_dialogue_show_group_6 "logic_if_familiarity_level_3"
 		campaign_interface_dialogue_show_group_7 "mission_enable_research_0"
-		logic_if_familiarity_level_2###true "campaign_interface_dialogue_show_group_4"
+		campaign_interface_dialogue_show_group_8 "campaign_interface_dialogue_show_group_9|campaign_mission_unlock_1"
+		campaign_interface_dialogue_show_group_9 "campaign_interface_dialogue_show_group_10|mission_unlock_1"
+		campaign_mission_unlock_1 "logic_if_build_on_sand_0|logic_if_mission_status_0|logic_if_mission_status_1"
+		campaign_objective_generic_2 "logic_wait_1111"
+		default "event_graph_17|event_graph_18|logic_if_exist_building_0|logic_if_exist_building_1|logic_if_exist_entity_new_0|logic_if_global_variable_1|logic_set_global_variable_0|logic_wait_on_event_0|logic_wait_on_event_13|logic_wait_on_event_2|logic_wait_on_event_3"
+		event_graph_12 "event_graph_11"
+		event_graph_13 "event_graph_12"
+		event_graph_6 "event_graph_7"
+		event_graph_8 "event_graph_9"
+		event_graph_9 "event_graph_10"
+		logic_if_build_on_sand_0 "logic_if_build_on_sand_0###false|logic_if_build_on_sand_0###true"
+		logic_if_build_on_sand_0###true "event_graph_0"
+		logic_if_exist_building_0 "logic_if_exist_building_0###true"
+		logic_if_exist_building_0###true "logic_wait_11"
 		logic_if_exist_building_1 "logic_if_exist_building_1###true"
-		logic_if_familiarity_level_1###true "campaign_interface_dialogue_show_group_1"
+		logic_if_exist_building_1###true "logic_if_familiarity_level_0|logic_if_familiarity_level_10|logic_if_familiarity_level_2|logic_if_familiarity_level_7|logic_if_familiarity_level_8|logic_if_familiarity_level_9"
+		logic_if_exist_entity_new_0 "logic_if_exist_entity_new_0###true"
+		logic_if_exist_entity_new_0###true "campaign_interface_dialogue_show_group_3"
+		logic_if_familiarity_level_0 "logic_if_familiarity_level_0###true"
+		logic_if_familiarity_level_0###true "logic_wait_6"
 		logic_if_familiarity_level_1 "logic_if_familiarity_level_1###true"
-		logic_if_familiarity_level_9###true "logic_wait_25"
+		logic_if_familiarity_level_1###true "campaign_interface_dialogue_show_group_1"
+		logic_if_familiarity_level_10 "logic_if_familiarity_level_10###true"
+		logic_if_familiarity_level_10###true "campaign_interface_dialogue_show_group_6"
+		logic_if_familiarity_level_2 "logic_if_familiarity_level_2###true"
+		logic_if_familiarity_level_2###true "campaign_interface_dialogue_show_group_4"
+		logic_if_familiarity_level_3 "logic_if_familiarity_level_3###true"
+		logic_if_familiarity_level_3###true "campaign_interface_dialogue_show_group_5"
+		logic_if_familiarity_level_4 "logic_if_familiarity_level_4###true"
+		logic_if_familiarity_level_4###true "campaign_interface_dialogue_show_group_7"
+		logic_if_familiarity_level_7 "logic_if_familiarity_level_7###true"
+		logic_if_familiarity_level_7###true "logic_wait_1"
+		logic_if_familiarity_level_8 "logic_if_familiarity_level_8###true"
 		logic_if_familiarity_level_8###true "logic_wait_17"
 		logic_if_familiarity_level_9 "logic_if_familiarity_level_9###true"
-		logic_if_familiarity_level_8 "logic_if_familiarity_level_8###true"
-		logic_wait_on_event_2 "event_graph_15"
-		logic_if_exist_entity_new_0 "logic_if_exist_entity_new_0###true"
-		campaign_interface_dialogue_show_group_0 "campaign_objective_generic_2"
-		logic_wait_on_event_0 "event_graph_14"
-		logic_if_familiarity_level_4###true "campaign_interface_dialogue_show_group_7"
-		logic_if_exist_building_1###true "logic_if_familiarity_level_0|logic_if_familiarity_level_10|logic_if_familiarity_level_2|logic_if_familiarity_level_7|logic_if_familiarity_level_8|logic_if_familiarity_level_9"
-		logic_if_familiarity_level_10###true "campaign_interface_dialogue_show_group_6"
-		logic_if_familiarity_level_4 "logic_if_familiarity_level_4###true"
-		logic_if_familiarity_level_10 "logic_if_familiarity_level_10###true"
-		logic_if_familiarity_level_7 "logic_if_familiarity_level_7###true"
-		logic_if_global_variable_1###true "logic_wait_11"
-		logic_wait_3 "event_graph_8"
-		campaign_interface_dialogue_show_group_8 "campaign_interface_dialogue_show_group_9|campaign_mission_unlock_1"
+		logic_if_familiarity_level_9###true "logic_wait_25"
 		logic_if_global_variable_1 "logic_if_global_variable_1###true"
-		logic_if_familiarity_level_7###true "logic_wait_1"
-		event_graph_13 "event_graph_12"
-		event_graph_9 "event_graph_10"
-		campaign_interface_dialogue_show_group_6 "logic_if_familiarity_level_3"
-		event_graph_8 "event_graph_9"
-		mission_enable_research_0 "logic_event_send_1"
-		logic_if_mission_status_0###in_progress "logic_if_familiarity_level_1|logic_wait_on_event_1"
-		logic_if_mission_status_1###win "event_graph_6"
-		logic_if_build_on_sand_0###true "event_graph_0"
-		logic_wait_on_event_3 "event_graph_16"
-		logic_if_familiarity_level_2 "logic_if_familiarity_level_2###true"
-		logic_if_mission_status_0 "logic_if_mission_status_0###in_progress"
-		logic_if_familiarity_level_0 "logic_if_familiarity_level_0###true"
-		event_graph_6 "event_graph_7"
-		logic_if_exist_entity_new_0###true "campaign_interface_dialogue_show_group_3"
-		logic_if_familiarity_level_0###true "logic_wait_6"
-		campaign_mission_unlock_1 "logic_if_build_on_sand_0|logic_if_mission_status_0|logic_if_mission_status_1"
-		logic_wait_17 "event_graph_2"
-		logic_wait_6 "event_graph_3"
-		logic_wait_1 "event_graph_4"
+		logic_if_global_variable_1###true "logic_wait_11"
 		logic_if_global_variable_4 "logic_if_global_variable_4###true"
+		logic_if_mission_status_0 "logic_if_mission_status_0###in_progress"
+		logic_if_mission_status_0###in_progress "logic_if_familiarity_level_1|logic_wait_on_event_1"
 		logic_if_mission_status_1 "logic_if_mission_status_1###win"
-		event_graph_12 "event_graph_11"
-		logic_wait_25 "event_graph_5"
-		logic_wait_1111 "campaign_mission_unlock_0|logic_if_familiarity_level_4"
-		logic_wait_11 "campaign_interface_dialogue_show_group_8"
-		campaign_objective_generic_2 "logic_wait_1111"
-		logic_wait_on_event_5 "logic_wait_3"
+		logic_if_mission_status_1###win "event_graph_6"
 		logic_if_mission_status_5 "logic_if_mission_status_5###win"
+		logic_wait_1 "event_graph_4"
+		logic_wait_11 "campaign_interface_dialogue_show_group_8"
+		logic_wait_1111 "campaign_mission_unlock_0|logic_if_familiarity_level_4"
+		logic_wait_17 "event_graph_2"
+		logic_wait_25 "event_graph_5"
+		logic_wait_3 "event_graph_8"
+		logic_wait_6 "event_graph_3"
+		logic_wait_on_event_0 "event_graph_14"
+		logic_wait_on_event_1 "campaign_interface_dialogue_show_group_0|campaign_objective_generic_2"
 		logic_wait_on_event_13 "event_graph_1"
+		logic_wait_on_event_2 "event_graph_15"
+		logic_wait_on_event_3 "event_graph_16"
+		logic_wait_on_event_5 "logic_wait_3"
+		logic_wait_on_event_8 "event_graph_13"
+		mission_enable_research_0 "logic_event_send_1"
 		mission_unlock_1 "logic_if_mission_status_5|logic_wait_on_event_5"
 		mission_unlock_3 "logic_wait_on_event_8"
-		logic_if_build_on_sand_0 "logic_if_build_on_sand_0###false|logic_if_build_on_sand_0###true"
-		logic_if_familiarity_level_3###true "campaign_interface_dialogue_show_group_5"
-		logic_if_exist_building_0###true "logic_wait_11"
-		logic_wait_on_event_1 "campaign_interface_dialogue_show_group_0|campaign_objective_generic_2"
-		logic_wait_on_event_8 "event_graph_13"
-		logic_if_familiarity_level_3 "logic_if_familiarity_level_3###true"
-		logic_if_exist_building_0 "logic_if_exist_building_0###true"
-		default "event_graph_17|logic_if_exist_building_0|logic_if_exist_building_1|logic_if_exist_entity_new_0|logic_if_global_variable_1|logic_set_global_variable_0|logic_wait_on_event_0|logic_wait_on_event_13|logic_wait_on_event_2|logic_wait_on_event_3"
 	}
 
+	GraphComments
 }
 

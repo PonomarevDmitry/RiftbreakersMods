@@ -1,8 +1,8 @@
-//editor "offset(4.05,-256.96)|zoom(1.00)"
+//editor "scroll(590.91,137.58)|zoom(0.67)"
 FlowGraphTemplate
 {
-	version "15"
-	editor "5110"
+	version "16"
+	editor "5433"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -107,7 +107,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_adaptive_music_system.xml)|pos(1687,791)"
+			//editor "layout(audio_adaptive_music_system.xml)|pos(961,1028)"
 			database
 			{
 				Strings
@@ -128,7 +128,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_music_change_playlist.xml)|pos(2494,505)"
+			//editor "layout(audio_music_change_playlist.xml)|pos(2777,618)"
 			database
 			{
 				Strings
@@ -415,7 +415,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_music_change_playlist.xml)|pos(2492,725)"
+			//editor "layout(audio_music_change_playlist.xml)|pos(2773,331)"
 			database
 			{
 				Strings
@@ -423,7 +423,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "music_list"
-						value "music/fighting_metallic"
+						value "music/fighting_metallic_only"
 					}
 
 				}
@@ -436,7 +436,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_biome.xml)|pos(2072,559)"
+			//editor "layout(logic_if_biome.xml)|pos(2077,243)"
 			database
 			{
 				Strings
@@ -457,7 +457,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(2072,672)"
+			//editor "layout(condition_true.xml)|pos(2077,353)"
 			key "true"
 			self_id "logic_if_biome_1###true"
 			value
@@ -465,25 +465,123 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(2072,702)"
+			//editor "layout(condition_false.xml)|pos(2077,383)"
 			key "false"
 			self_id "logic_if_biome_1###false"
 			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(2092,512)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "caverns"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2092,622)"
+			key "true"
+			self_id "logic_if_biome_2###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2092,651)"
+			key "false"
+			self_id "logic_if_biome_2###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(2611,636)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2765,486)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting_caverns_only"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(1776,665)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(1265,1027)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/anticipation"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_3"
 		}
 
 	}
 
 	GraphConnections
 	{
-		audio_adaptive_music_system_0 "logic_if_biome_1"
+		audio_adaptive_music_system_0 "audio_music_change_playlist_3"
 		default "entity_spawn_single_0"
 		entity_spawn_single_0 "logic_wait_1"
+		logic_and_1 "audio_music_change_playlist_0"
+		logic_and_2 "logic_if_biome_1|logic_if_biome_2"
 		logic_if_biome_1 "logic_if_biome_1###false|logic_if_biome_1###true"
-		logic_if_biome_1###false "audio_music_change_playlist_1"
-		logic_if_biome_1###true "audio_music_change_playlist_0"
+		logic_if_biome_1###false "logic_and_1"
+		logic_if_biome_1###true "audio_music_change_playlist_1"
+		logic_if_biome_2 "logic_if_biome_2###false|logic_if_biome_2###true"
+		logic_if_biome_2###false "logic_and_1"
+		logic_if_biome_2###true "audio_music_change_playlist_2"
 		logic_wait_0 "event_end_0"
-		logic_wait_1 "interface_dialogue_show_1|objective_generic_timer_0"
-		objective_generic_timer_0 "audio_adaptive_music_system_0|interface_dialogue_show_group_0|logic_wait_0"
+		logic_wait_1 "audio_adaptive_music_system_0|interface_dialogue_show_1|objective_generic_timer_0"
+		objective_generic_timer_0 "interface_dialogue_show_group_0|logic_and_2|logic_wait_0"
 	}
 
 	GraphComments
