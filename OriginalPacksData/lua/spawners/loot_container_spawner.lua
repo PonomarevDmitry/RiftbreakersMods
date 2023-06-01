@@ -41,10 +41,14 @@ function loot_container_spawner:OnLoad()
 end
 
 function loot_container_spawner:OnInteractWithEntityRequest( evt )
+
 	local blueprintName = EntityService:GetBlueprintName(self.entity)
 	if string.find(blueprintName, "metallic" ) ~= nil then
 		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1)
+	elseif string.find(blueprintName, "caverns" ) ~= nil then
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1)
 	end
+
 	local owner = evt:GetOwner()
 	local playerReferenceComponent = EntityService:GetComponent( owner, "PlayerReferenceComponent")
 	if ( playerReferenceComponent ) then

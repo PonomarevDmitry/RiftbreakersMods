@@ -3,6 +3,9 @@ require("lua/utils/string_utils.lua")
 local base_drone = require("lua/units/air/base_drone.lua")
 class 'loot_collector_drone' ( base_drone )
 
+local LOCK_TYPE_LOOT_DRONE = "loot_collector";
+SetTargetFinderThrottler(LOCK_TYPE_LOOT_DRONE, 3)
+
 function loot_collector_drone:__init()
 	base_drone.__init(self,self)
 end
@@ -57,14 +60,22 @@ function loot_collector_drone:OnInit()
     self.fsm:ChangeState("updater")
 end
 
-function loot_collector_drone:OnEnteredTriggerEvent( evt )
-    if self:ValidateTarget( evt:GetOtherEntity() ) then
-        EffectService:SpawnEffects(evt:GetOtherEntity(), "loot_collect")
+function loot_collector_drone:CollectLootEntity( loot_entity )
+    local owner = self:GetDroneOwnerTarget()
+    local pawn = PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(owner))
 
-        local owner = self:GetDroneOwnerTarget()
-        local pawn = PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(owner))
-        ItemService:FlyItemToInventory(pawn, evt:GetOtherEntity())
+    if self:ValidateTarget( loot_entity, pawn ) then
+        EffectService:SpawnEffects(loot_entity, "loot_collect")
+        ItemService:FlyItemToInventory(pawn, loot_entity)
+
+        return true
     end
+
+    return false
+end
+
+function loot_collector_drone:OnEnteredTriggerEvent( evt )
+    self:CollectLootEntity(evt:GetOtherEntity())
 end
 
 function loot_collector_drone:EnableEffect()
@@ -92,15 +103,20 @@ function loot_collector_drone:OnUpdate()
     EntityService:SetWorldPosition(self.loot_picker, position)
 
     local loot_target = self:GetDroneActionTarget()
-    if EntityService:IsAlive(loot_target) then
+    if EntityService:IsAlive(loot_target) and self.is_enabled then
         self:EnableEffect()
-    else
-        local target = self:FindActionTarget()
-        UnitService:SetCurrentTarget( self.entity, "action", target );
-        if not self:ValidateTarget( target ) then
-            self:SetTargetActionFinished()
-            self:DisableEffect()
+
+        if EntityService:GetDistance2DBetween(self.entity, loot_target) < 2.0 then
+            self:CollectLootEntity(loot_target)
         end
+    else
+        loot_target = self:FindActionTarget()
+        UnitService:SetCurrentTarget( self.entity, "action", loot_target );
+    end
+
+    if not self:ValidateTarget( loot_target ) then
+        self:SetTargetActionFinished()
+        self:DisableEffect()
     end
 end
 
@@ -111,17 +127,34 @@ function loot_collector_drone:OnLoad()
 end
 
 function loot_collector_drone:ValidateTarget( entity, pawn )
-    if entity == INVALID_ID then
+    if not EntityService:IsAlive(entity) or not self.is_enabled then
         return false
     end
 
     local test_owner = pawn or PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(self:GetDroneOwnerTarget()))
-    return ItemService:CanFitResourceGiver( test_owner, EntityService:GetParent( entity ) )
+    local test_entity = EntityService:GetParent( entity )
+    if test_entity == INVALID_ID then
+        test_entity = entity
+    end
+
+    if EntityService:GetComponent( test_entity, "PhysicsComponent") == nil then
+        return false
+    end
+
+    return ItemService:CanFitResourceGiver( test_owner,test_entity )
 end
 
 function loot_collector_drone:FindActionTarget()
     local owner = self:GetDroneOwnerTarget()
+    if not EntityService:IsAlive( owner ) then
+        return INVALID_ID
+    end
+
     local pawn = PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(owner))
+
+    if IsRequestThrottled(LOCK_TYPE_LOOT_DRONE) then
+        return INVALID_ID
+    end
 
     local predicate = {
         signature="BlueprintComponent,IdComponent,ParentComponent",
@@ -129,6 +162,10 @@ function loot_collector_drone:FindActionTarget()
             local entity_name = EntityService:GetName(entity);
             if entity_name ~= "#loot#" then
                 return false;
+            end
+
+            if self:IsTargetLocked(entity, LOCK_TYPE_LOOT_DRONE) then
+                return false
             end
 
             return self:ValidateTarget( entity, pawn);
@@ -144,6 +181,10 @@ function loot_collector_drone:FindActionTarget()
     end
 
     return target
+end
+
+function loot_collector_drone:OnDroneDisabled()
+    self:DisableEffect()
 end
 
 function loot_collector_drone:OnDroneTargetAction( target )

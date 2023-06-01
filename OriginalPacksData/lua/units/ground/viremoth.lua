@@ -329,7 +329,6 @@ end
 
 function viremoth:_OnDestroyRequest( state )
 
-	LogService:Log( "viremoth:_OnDestroyRequest" )
 	for i = 1, #self.children do	
 		EntityService:RemoveEntity( self.children[i] )	
 	end

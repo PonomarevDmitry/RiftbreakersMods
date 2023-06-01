@@ -50,9 +50,9 @@ function building_creator:init()
 	self.buildingName = buildingComponent:GetField("name"):GetValue()
 
 	self.meshEnt = BuildingService:GetMeshEntity(self.parent);
-	self.buildingTime = self:CalculateBuildingBuildTime( self.data );
+	self.buildingTime = math.max( 0.1, self:CalculateBuildingBuildTime( self.data ) )
 	self.materials = self:GetMaterials()
-	self.buildingMultiplier =  ConsoleService:GetConfig("building_speed_multiplier")
+	self.buildingMultiplier =  math.max( 0.1,  ConsoleService:GetConfig("building_speed_multiplier") )
 
 	self:CreateBuildingStateMachine()
 	self.extendLength = 0.5
@@ -265,8 +265,8 @@ function building_creator:_OnBuildingEnter( state )
 			EffectService:AttachEffects(self.cubeEnt, "build_cube_laser")
 		end
 	end
-	local database = EntityService:GetDatabase( self.parent )
-	self.buildingTime = self:CalculateBuildingBuildTime( database );
+	local database = EntityService:GetDatabase( self.parent )	
+	self.buildingTime = math.max( 0.1, self:CalculateBuildingBuildTime( database ) )
 	
 	state:SetDurationLimit( self.buildingTime )
 
@@ -322,6 +322,8 @@ function building_creator:_OnBuildingExit( state )
 	for i, material in ipairs( self.materials ) do
 		EntityService:SetSubMeshMaterial( self.meshEnt, material, i - 1, "default" )
 	end
+
+	EntityService:RemoveGraphicsUniform( self.meshEnt, "cDissolveAmount" )
 
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
 	if ( EntityService:IsAlive(self.endCubeEnt) == true ) then
@@ -503,7 +505,7 @@ function building_creator:_OnBigBuildingExitState2( state )
 end
 
 function building_creator:_OnBigBuildingEnterState3( state )
-    state:SetDurationLimit( self.extendLength* self.buildingMultiplier )
+    state:SetDurationLimit( self.extendLength * self.buildingMultiplier )
 	local i = 0
 	--LogService:Log( "Ile kjubow: " .. tostring( #self.currentCubes ) ) 
 	for cube in Iter( self.currentCubes ) do 
@@ -756,6 +758,10 @@ function building_creator:RemoveAllBuilidingEntities()
 		Clear( self.cubes )
 		Clear( self.currentCubes )
 	end
+end
+
+function building_creator:OnLoad()
+	self.buildingMultiplier =  math.max( 0.1, ConsoleService:GetConfig("building_speed_multiplier") )
 end
 
 return building_creator

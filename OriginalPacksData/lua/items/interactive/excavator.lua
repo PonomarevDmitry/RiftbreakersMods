@@ -23,6 +23,7 @@ function excavator:OnActivate()
 	end
 
 	self.is_active = true
+	self.is_looping = false
 	self.backup = {
 		item =  ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" ),
 		item_type = database:GetStringOrDefault( "RIGHT_HAND_item_type", "" ),
@@ -50,6 +51,7 @@ end
 
 function excavator:OnDeactivate()
 	self.is_active = false
+	self.is_looping = false
 	
 	BuildingService:DisablePhysics(self.item)
 	EntityService:FadeEntityOut( self.item, 0.1 )
@@ -87,9 +89,14 @@ function excavator:OnExcavatorCollisionEvent( evt )
 end
 
 function excavator:OnExcavatorAnimationMarkerReached( evt )
+	if self.is_looping then
+		return
+	end
 	if evt:GetMarkerName() ~= "attack_loop_start" then
 		return
 	end
+	
+	self.is_looping = true
 
 	EffectService:AttachEffects(self.item, "item_active_loop")
 	BuildingService:EnablePhysics(self.item)
@@ -99,7 +106,8 @@ function excavator:OnExcavatorAnimationMarkerReached( evt )
 		return
 	end
 
-    database:SetFloat("right_attack_speed", self.data:GetFloatOrDefault("excavate_swing_speed", 0.25))
+	local speed = self.data:GetFloatOrDefault("excavate_swing_speed", 0.25)
+    database:SetFloat("right_attack_speed", speed)
 end
 
 function excavator:DissolveShow()

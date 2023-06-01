@@ -19,12 +19,7 @@ end
 function item_creator_continuous:OnActivate()
     local spot = self:FindAndCheckAimPosition()
     if ( self.spawned == nil ) then
-        
-	    if ( self.createAtAim ) then
-	    	self.spawned = EntityService:SpawnEntity( self.ghostBp, spot, EntityService:GetTeam( self.owner ))
-        else
-	    	self.spawned = EntityService:SpawnEntity( self.ghostBp, spot, EntityService:GetTeam( self.owner ))
-	    end
+	    self.spawned = EntityService:SpawnEntity( self.ghostBp, spot, EntityService:GetTeam( self.owner ))
 
 	    if ( self.ownerAimDir ) then
 	    	local position = EntityService:GetPosition( self.owner )
@@ -66,13 +61,9 @@ function item_creator_continuous:OnDeactivate()
         self:BringBackUseCount()
         return true
     end
-	local spawned;
-	local spot = self:FindAndCheckAimPosition()
-	if ( self.createAtAim ) then
-		spawned = EntityService:SpawnEntity( self.bp, spot, EntityService:GetTeam( self.owner ))
-	else
-		spawned = EntityService:SpawnEntity( self.bp, spot, EntityService:GetTeam( self.owner ))
-	end
+
+    local spot = self:FindAndCheckAimPosition()
+    local spawned = EntityService:SpawnEntity( self.bp, spot, EntityService:GetTeam( self.owner ))
 
 	if ( self.ownerAimDir ) then
 		local position = EntityService:GetPosition( self.owner )
@@ -125,8 +116,12 @@ function item_creator_continuous:FindAndCheckAimPosition( )
             pos = helper.weapon_look_point
         end
 	else
-    	pos = FindService:FindEmptySpotInRadius( self.owner, 2.0, "", "").second
-	end
+		if ( self.checkEmptySpot == false ) then
+			pos = EntityService:GetPosition( self.owner, self.att )
+		else
+    		pos = FindService:FindEmptySpotInRadius( self.owner, 2.0, "", "").second
+    	end	
+    end
 
     if ( self.maxDistance < 0 ) then
         return pos

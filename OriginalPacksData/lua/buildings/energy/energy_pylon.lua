@@ -32,11 +32,11 @@ function energy_pylon:ShootLightningAtTarget(target_entity)
     drone_position = VectorAdd(drone_position, direction)
 
     instance.start_point.x = drone_position.x
-    instance.start_point.y = drone_position.y + 5
+    instance.start_point.y = drone_position.y + 10
     instance.start_point.z = drone_position.z
 
     instance.end_point.x = target_position.x
-    instance.end_point.y = target_position.y + 5
+    instance.end_point.y = target_position.y + 10
     instance.end_point.z = target_position.z
 end
 function energy_pylon:OnEmit()

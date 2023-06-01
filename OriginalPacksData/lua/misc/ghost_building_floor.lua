@@ -193,18 +193,18 @@ function ghost_building_floor:BuildFloor(currentPosition, testBuildable)
         end
 
         local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-        local indexes = gridCullerComponentHelper.indexes
+        local indexes = gridCullerComponentHelper.terrain_cell_entities
         local freeGrids = {}
         for i=indexes.count,1,-1 do 
             local add = true
             for j=1,testBuildable.free_grids.count do
-                if ( testBuildable.free_grids[j] == indexes[i]) then
+                if ( testBuildable.free_grids[j] == indexes[i].id) then
                     add = false
                     break
                 end
             end
             if (add ) then
-                Insert(freeGrids, indexes[i] )
+                Insert(freeGrids, indexes[i].id )
             end
         end
         if ( #freeGrids > 0 ) then

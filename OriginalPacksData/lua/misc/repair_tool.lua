@@ -55,6 +55,19 @@ function repair_tool:FilterSelectedEntities( selectedEntities )
 
         if ( helper.health < helper.max_health ) then
             Insert(entities, ent)
+            goto continue 
+        end
+
+        local database = EntityService:GetDatabase( ent )
+        if ( database:HasInt("number_of_activations")) then
+            
+            local currentNumberOfActivations =  database:GetInt("number_of_activations")
+            local blueprintDatabase = EntityService:GetBlueprintDatabase( ent )
+            local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+
+            if ( maxNumberOfActivations > currentNumberOfActivations ) then
+                Insert(entities, ent)
+            end
         end
 
         ::continue::
@@ -71,14 +84,27 @@ function repair_tool:OnUpdate()
         local child = EntityService:GetChildByName(entity, "##repair##") 
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
         
+        local list = {}
         local ruins = false
         local ruinsBlueprint = ""
         local canRepair = true
+        local database = EntityService:GetDatabase( entity )
         if ( buildingComponent ~= nil ) then
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
             if ( mode ~= 2 ) then canRepair = false end 
+
+            if ( database:HasInt("number_of_activations")) then
+            
+                local currentNumberOfActivations =  database:GetInt("number_of_activations")
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
+                local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+    
+                if ( maxNumberOfActivations > currentNumberOfActivations ) then
+                    canRepair = true
+                end
+            end
+    
         elseif( EntityService:GetGroup( entity ) == "##ruins##" ) then
-            local database = EntityService:GetDatabase( entity )
             if ( database ) then
                 ruinsBlueprint = database:GetString("blueprint")
                 canRepair = BuildingService:CanAffordBuilding( ruinsBlueprint, self.playerId)
@@ -86,7 +112,7 @@ function repair_tool:OnUpdate()
             end
         end
 
-        if ( canRepair and (( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(child))) or ruins )  then
+        if ( canRepair and ((( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) or ruins ) and not EntityService:IsAlive(child)) ) )  then
             if ( skinned ) then
                 EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
             else
@@ -100,8 +126,7 @@ function repair_tool:OnUpdate()
             end
         end
 
-        if(canRepair and not EntityService:IsAlive(child)) then
-            local list = {}
+        if( not EntityService:IsAlive(child)) then
             if (ruins ) then
                 list = BuildingService:GetBuildCosts( ruinsBlueprint, self.playerId )                
             else

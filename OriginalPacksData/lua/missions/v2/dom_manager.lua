@@ -255,6 +255,8 @@ function dom_mananger:OnLoad()
 		self.rules = ProcessRulesTable( require( self.rulesFile )() )
 	end
 
+	self.rules = ProcessRulesTable( self.rules )
+
 	self:VerboseLog("OnLoad - current hq state : " .. tostring( self.upgradeHQ:GetCurrentState() ) )
 	self:VerboseLog("OnLoad - current dom state : " .. tostring( self.spawner:GetCurrentState() ) )
 
@@ -404,7 +406,7 @@ function dom_mananger:LogicEntryTableCheck( logicTable, logString, failedLogicFi
 end
 
 function dom_mananger:VerboseLog( message )
-	LogService:LogIf( g_verbose_dom_manager or g_verbose_dom_manager, message )
+	LogService:LogIf( g_verbose_dom_manager, message )
 end
 
 function dom_mananger:OnLuaGlobalEvent( evt )

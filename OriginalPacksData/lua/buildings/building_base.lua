@@ -55,7 +55,7 @@ function building_base:init()
 		self.data:SetInt( "owner", 0 )
 	end
 	
-	self.buildingTime = CalculateBuildingBuildTime( self.entity );
+	self.buildingTime = math.max( 0.1, CalculateBuildingBuildTime( self.entity ) )
 	self.sellTime = 2
 	self.materials = self:GetMaterials()
 
@@ -448,6 +448,8 @@ function building_base:_OnBuildingExit( state )
 		EntityService:SetSubMeshMaterial( self.meshEnt, material, i - 1, "default" )
 	end
 
+	EntityService:RemoveGraphicsUniform( self.meshEnt, "cDissolveAmount" )
+
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
 	if ( EntityService:IsAlive(self.endCubeEnt) == true ) then
 		EntityService:RemoveEntity( self.endCubeEnt )
@@ -493,7 +495,7 @@ function building_base:_OnSellEnter( state )
 	else
 		EffectService:AttachEffects(self.cubeEnt, "sell_medium")
 	end
-    state:SetDurationLimit( self.sellTime  )
+    state:SetDurationLimit( self.sellTime )
 	if ( self.buildingFinished > 0 ) then
 		for i, material in ipairs(self:GetMaterials()) do
 			EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default"  )

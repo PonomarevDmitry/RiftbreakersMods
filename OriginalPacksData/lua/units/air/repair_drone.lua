@@ -67,6 +67,11 @@ end
 function repair_drone:FindActionTarget()
     self.fsm:Deactivate()
 
+    local owner = self:GetDroneOwnerTarget();
+    if not EntityService:IsAlive( owner ) then
+        return INVALID_ID
+    end
+
     local predicate = {
         signature="HealthComponent,BuildingComponent",
         team = EntityService:GetTeam(self.entity),
@@ -74,6 +79,10 @@ function repair_drone:FindActionTarget()
             if self:IsTargetLocked(entity, LOCK_TYPE_REPAIR) then
                return false
             end
+
+            if entity == owner then
+                return false
+            end 
 
             if not HealthService:IsAlive(entity) then
                 return false
@@ -93,7 +102,6 @@ function repair_drone:FindActionTarget()
         end
     };
 
-    local owner = self:GetDroneOwnerTarget();
     if not HealthService:IsAlive( owner ) then
         return INVALID_ID
     end

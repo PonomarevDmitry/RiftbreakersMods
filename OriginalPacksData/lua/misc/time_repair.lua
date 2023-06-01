@@ -19,10 +19,18 @@ function time_repair:init()
     local buildTime =  BuildingService:CalculateBuildTime( self.parent );
 
     local percent = currentHealth / maxHealth
+    local activationsPercent = 1.0
+    if ( database and database:HasInt("number_of_activations")) then
+        local currentNumberOfActivations =  database:GetInt("number_of_activations")
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( self.parent )
+        local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+        self.hasActivations = maxNumberOfActivations > currentNumberOfActivations
+        activationsPercent = currentNumberOfActivations / maxNumberOfActivations
+    end
 
     local time = 0
     if ( healthScale == 0 ) then
-        time = (buildTime * buildTimeScale)
+        time = (buildTime * buildTimeScale) * activationsPercent
     else
         time = (buildTime * buildTimeScale) * ( 1.0 - percent )
     end
@@ -44,11 +52,15 @@ function time_repair:init()
     self.cubeReachBuilding = false
     self.cleanup = false
     self.timer = nil
+
+    local database = EntityService:GetDatabase( self.parent )
+    self.hasActivations = false
+
     if (canAffordRepair and EntityService:IsAlive( self.parent) ) then
     	self:RegisterHandler( self.parent, "DamageEvent", "OnDamageEvent" )
 	    self:RegisterHandler( self.parent, "DestroyRequest", "OnDestroyRequest" )
         self.healMachine = self:CreateStateMachine()
-	    self.healMachine:AddState( "healing", { enter="OnHealStart", execute="OnHealExecute", interval=self.interval } )
+	    self.healMachine:AddState( "healing", { enter="OnHealStart", execute="OnHealExecute", exit="OnHealEnd", interval=self.interval } )
         if self.player ~= -1 then
             local cubes =  BuildingService:FlyCubesToBuilding(self.parent, self.player, true , false)		
             self.cubeEnt = cubes.first
@@ -66,8 +78,9 @@ function time_repair:init()
     end
 end
 
-function  time_repair:OnHealStart()
+function  time_repair:OnHealStart( state )
     self.timer = BuildingService:AttachGuiTimerWithMaterial( self.parent, self.repairTime, true, "gui/hud/bars/repair_timer")
+    state:SetDurationLimit( self.repairTime )
 end
 
 function time_repair:OnMoveEndEvent( evt )
@@ -102,14 +115,24 @@ function  time_repair:OnHealExecute( state, dt)
     end
  
     self.currentHeal = self.currentHeal + 1
-    if ( HealthService:GetHealthInPercentage( self.parent ) >= 1.0 ) then
-        self:Cleanup()
-        EntityService:RemoveEntity(self.entity)
+    if ( HealthService:GetHealthInPercentage( self.parent ) >= 1.0 and self.hasActivations ~= true ) then
+        state:Exit()
     end
 end
 
 function  time_repair:OnHealEnd()
-    
+    HealthService:AddHealthInPercentage( self.parent, 100.0 )
+    if (self.hasActivations == true ) then
+        local database = EntityService:GetDatabase( self.parent )
+        self.hasActivations = false
+        if ( database and database:HasInt("number_of_activations")) then
+            local blueprintDatabase = EntityService:GetBlueprintDatabase( self.parent )
+            local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+            database:SetInt("number_of_activations", maxNumberOfActivations)
+        end
+    end
+    self:Cleanup()
+    EntityService:RemoveEntity(self.entity)
 end
 
 

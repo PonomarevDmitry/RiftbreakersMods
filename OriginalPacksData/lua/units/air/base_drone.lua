@@ -50,8 +50,14 @@ function base_drone:SetEnabled( enabled )
 	self.is_enabled = enabled
 
 	if enabled then
+		if self.OnDroneEnabled then
+			self:OnDroneEnabled()
+		end
 		UnitService:SetStateMachineParam(self.entity, "is_enabled", 1)
 	else
+		if self.OnDroneDisabled then
+			self:OnDroneDisabled()
+		end
 		UnitService:SetStateMachineParam(self.entity, "is_enabled", 0)
 	end
 end
@@ -72,6 +78,10 @@ function base_drone:init()
 	self.locked_targets = {};
 	self.has_speed_penalty = false;
 
+	self.checker = self:CreateStateMachine()
+	self.checker:AddState("owner_distance_check", { execute="OnOwnerDistanceCheckExecute", interval=3.0})
+	self.checker:ChangeState("owner_distance_check")
+
 	SetupUnitScale( self.entity, self.data );
 
 	if self.OnInit then
@@ -86,6 +96,28 @@ function base_drone:OnLoad()
 	self:UpdateInitialState()
 
 	QueueEvent("DissolveEntityRequest", self.entity, 0.5, 0.0 )
+end
+
+function base_drone:OnOwnerDistanceCheckExecute()
+	local owner = self:GetDroneOwnerTarget()
+	if not EntityService:IsAlive(owner) then
+		return
+	end
+
+	local distance = EntityService:GetDistance2DBetween(self.entity, owner)
+	if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil then
+
+		if self.is_enabled then
+			QueueEvent( "DisableDroneRequest", self.entity )
+			QueueEvent( "EnableDroneRequest", self.entity )
+		end
+
+		local target_position = EntityService:GetPosition(owner)
+		target_position.y = EntityService:GetPositionY(self.entity)
+
+		EntityService:Teleport(self.entity, target_position)
+		QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+	end
 end
 
 function base_drone:_OnEnableDroneRequest( evt )

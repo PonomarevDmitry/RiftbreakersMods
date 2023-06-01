@@ -125,6 +125,11 @@ function harvester_drone:FindResourceVeinEntity(owner, source)
                 return false
             end
 
+            local position = EntityService:GetPosition(entity)
+            if FindService:IsGridMarkedWithLayer(position, "OwnerLayerComponent") then
+                return false
+            end
+
             local result = EntityService:GetResourceAmount(entity)
             if not PlayerService:IsResourceUnlocked(result.first) then
                 return false
@@ -256,7 +261,7 @@ function harvester_drone:FindActionTarget()
     end
 
     local owner = self:GetDroneOwnerTarget();
-    if not HealthService:IsAlive( owner ) then
+    if not EntityService:IsAlive( owner ) then
         return INVALID_ID
     end
 

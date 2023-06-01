@@ -24,19 +24,22 @@ function trap:OnTimerElapsedEvent(evt)
         return
     end
     self.data:SetFloat("is_activated", 0.0 )
-    EffectService:DestroyEffectsByGroup( self.entity, "activated" ) 
 
     if ( self.numberOfActivations <= 0 ) then
-        EntityService:DissolveEntity( self.entity, 1.0 )
+		QueueEvent("DestroyRequest",self.entity, "default", 100 )
+        HealthService:SetHealth( self.entity, 0.0 )
     elseif (self.entitiesInsideCount > 0 ) then
-        self:ActivateTrap()
+        self:ActivateTrap( false)
     else
+        EffectService:DestroyEffectsByGroup( self.entity, "activated" ) 
         self.activated = false
     end
 end
 
-function trap:ActivateTrap()
-    EffectService:AttachEffects( self.entity, "activated" ) 
+function trap:ActivateTrap( attachEffects)
+    if ( attachEffects ) then
+        EffectService:AttachEffects( self.entity, "activated" ) 
+    end
     self.damageEnt = EntityService:SpawnAndAttachEntity(self.damageBlueprint, self.entity, EntityService:GetTeam(self.entity) )
     local areaDamageComponent = reflection_helper( EntityService:GetComponent(self.damageEnt, "AreaDamageComponent"))
     areaDamageComponent.owner_ent = self.entity
@@ -46,9 +49,14 @@ function trap:ActivateTrap()
     self.timer = damagePattern.area_damage_duration
 
     areaDamageComponent.area_timer.timeLimit = self.timer
-
+    areaDamageComponent.update_timer.timePassed = areaDamageComponent.update_timer.timeLimit 
+    
     QueueEvent( "SetTimerRequest", self.entity, "DamageDealing", self.timer )
-    self.numberOfActivations = self.numberOfActivations - 1
+     
+	local unlimitedActivations = ConsoleService:GetConfig("cheat_unlimited_activations") == "1"
+    if ( unlimitedActivations == false) then
+        self.numberOfActivations = self.numberOfActivations - 1
+    end
     self.activated = true
     self.data:SetFloat("is_activated", 1.0 )
     self.data:SetInt("number_of_activations", self.numberOfActivations )
@@ -58,7 +66,7 @@ function trap:OnEnteredTriggerEvent(evt)
     self.entitiesInsideCount = self.entitiesInsideCount + 1
 
     if ( self.activated == false ) then
-        self:ActivateTrap()
+        self:ActivateTrap( true)
     end
 end
 

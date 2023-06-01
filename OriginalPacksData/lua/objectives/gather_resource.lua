@@ -18,9 +18,15 @@ function gather_resource:onUpdate()
 	local progressCurrent = PlayerService:GetResourceAmount( resourceName )
 
     if ( progressCurrent >= self.maxProgress ) then
-	   ObjectiveService:FinishObjectiveByObjectiveId( self.objective_id, OBJECTIVE_SUCCESS )
-	   self.fsm:ChangeState( "idle" )
+	   if ( self.data:GetIntOrDefault( "finish_objective", 1) == 1) then
+		   ObjectiveService:FinishObjectiveByObjectiveId( self.objective_id, OBJECTIVE_SUCCESS )
+	   	   self.fsm:ChangeState( "idle" )
+		else
+	       ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_SUCCESS )
+	   end
 	   progressCurrent = self.maxProgress
+	else
+		ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_IN_PROGRESS )
     end
 
 	self.data:SetInt( "progress_current", progressCurrent )

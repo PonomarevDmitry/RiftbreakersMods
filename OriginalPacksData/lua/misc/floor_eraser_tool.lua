@@ -152,18 +152,18 @@ function floor_eraser:SellFloor()
         if( gridCullerComponent == nil or entityBlueprint == "" ) then goto continue end
 
         local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-        local indexes = gridCullerComponentHelper.indexes
+        local indexes = gridCullerComponentHelper.terrain_cell_entities
         local freeGrids = {}
         for i=indexes.count,1,-1 do 
             local add = true
             for j=1,#gridToErase do
-                if ( gridToErase[j] == indexes[i]) then
+                if ( gridToErase[j] == indexes[i].id) then
                     add = false
                     break
                 end
             end
             if (add ) then
-                Insert(freeGrids, indexes[i] )
+                Insert(freeGrids, indexes[i].id )
             end
         end
         if ( #freeGrids > 0 ) then

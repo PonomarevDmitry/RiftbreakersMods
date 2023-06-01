@@ -104,18 +104,19 @@ end
 
 function FindEntitiesByTarget( findType, findValue, searchMinRadius, searchMaxRadius, searchFindTargetType, searchFindTargetValue)  
 	--LogService:Log("FindEntities: " .. tostring(searchFindTargetType) .. ", " .. tostring(searchFindTargetValue) .. ", " .. tostring(searchRadius) .. ", " .. tostring(findType) .. ", " .. tostring(findValue)  )   
+    local searchTarget = {}
     if ( searchFindTargetType ~= nil and searchFindTargetType ~= "" ) then
         searchTarget = FindEntities( searchFindTargetType, searchFindTargetValue )
     end
     
     if searchMaxRadius == 0 and searchMinRadius == 0 then
-        return FindEntities( findType, findValue )
+        return FindEntities( findType, findValue ), searchTarget
     else
         if searchMaxRadius == 0 then
             searchMaxRadius = 1000000.0
         end
 
-        return FindEntitiesInDinstance( findType, findValue, searchTarget, searchMinRadius, searchMaxRadius )
+        return FindEntitiesInDinstance( findType, findValue, searchTarget, searchMinRadius, searchMaxRadius ), searchTarget
     end
 end
 

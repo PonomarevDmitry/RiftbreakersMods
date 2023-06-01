@@ -11,6 +11,7 @@ end
 function mining_elevator:OnInit()
 	self:RegisterHandler( self.entity , "SpecialBuildingActionRequest", "OnSpecialAction" )
 	self:RegisterHandler( self.entity , "SpecialBuildingActionDeniedRequest", "OnSpecialActionDenied" )
+
 end
 
 function mining_elevator:OnBuildingStart()
@@ -22,8 +23,10 @@ function mining_elevator:OnBuildingEnd()
 end
 
 function mining_elevator:CanEnableSpecialAction()
+    local campaignData = CampaignService:GetCampaignData()
+	local drillEnable = campaignData:GetStringOrDefault("CavernsOutpostStage2DrillEnabled", "true" )
 	local descending = self.data:GetFloatOrDefault("is_descending", 0)
-	return CampaignService:IsPlanetaryJumpAvailable() and descending == 0
+	return CampaignService:IsPlanetaryJumpAvailable() and descending == 0 and drillEnable == "true"
 end
 
 function mining_elevator:OnSpecialAction( req )
@@ -34,6 +37,14 @@ end
 
 function mining_elevator:OnSpecialActionDenied( req )
 	EntityService:ShowTimeoutSoundEvent( event_sink, 30.0, "voice_over/announcement/travel_not_unavailable" , false)
+end
+
+
+function mining_elevator:OnLoad( )
+	if ( self.data:GetFloatOrDefault("is_descending", 0.0) == 1) then
+		QueueEvent("DissolveEntityRequest", self.entity, 1.0, 0.0 )
+		EntityService:SpawnEntity( "props/special/human_structures/mining_elevator_empty",self.entity, EntityService:GetTeam( self.entity ))
+	end
 end
 
 return mining_elevator
