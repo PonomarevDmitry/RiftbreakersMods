@@ -2,9 +2,40 @@ TimeOfDayPreset
 {
 	timeofday_sunrise
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.149"
+				x "0.654"
+				y "0.463"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.149"
+				x "0.655"
+				y "0.463"
+				w "1.000"
+			}
+
+			fog_height "25.000"
+			fade_in_distance "40.000"
+			fog_density "0.025"
+			fade_in_falloff "20.000"
+		}
+
 		skybox_specular_intensity "0.210"
+		physics_gravity_factor "1.000"
 		time_of_day "2"
 		skybox_diffuse_intensity "0.115"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
 			z "0.250"
@@ -44,9 +75,40 @@ TimeOfDayPreset
 
 	timeofday_day
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.024"
+				x "0.871"
+				y "0.294"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.024"
+				x "0.871"
+				y "0.294"
+				w "1.000"
+			}
+
+			fog_height "40.000"
+			fade_in_distance "40.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}
+
 		skybox_specular_intensity "0.825"
+		physics_gravity_factor "1.000"
 		time_of_day "0"
 		skybox_diffuse_intensity "0.881"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
 			z "0.223"
@@ -86,9 +148,40 @@ TimeOfDayPreset
 
 	timeofday_night
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.045"
+				x "0.437"
+				y "0.293"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.007"
+				x "0.076"
+				y "0.051"
+				w "1.000"
+			}
+
+			fog_height "20.000"
+			fade_in_distance "40.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}
+
 		skybox_specular_intensity "0.440"
+		physics_gravity_factor "1.000"
 		time_of_day "3"
 		skybox_diffuse_intensity "0.201"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
 			z "0.000"
@@ -118,9 +211,40 @@ TimeOfDayPreset
 
 	timeofday_sunset
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.031"
+				x "0.980"
+				y "0.507"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.231"
+				x "0.479"
+				y "0.440"
+				w "1.000"
+			}
+
+			fog_height "25.000"
+			fade_in_distance "40.000"
+			fog_density "0.025"
+			fade_in_falloff "20.000"
+		}
+
 		skybox_specular_intensity "0.300"
+		physics_gravity_factor "1.000"
 		time_of_day "1"
 		skybox_diffuse_intensity "0.180"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
 			z "0.102"

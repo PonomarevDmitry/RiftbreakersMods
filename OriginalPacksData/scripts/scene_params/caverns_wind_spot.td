@@ -2,6 +2,33 @@ TimeOfDayPreset
 {
 	timeofday_sunrise
 	{
+		volumetric_fog_params
+		{			
+			fog_height_falloff "0.000"
+			fog_height "0.000"
+			fog_density "0.076"
+			albedo
+			{
+				z "0.302"
+				x "0.506"
+				y "0.395"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
+			}
+
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
+		}		
 		skybox_specular_intensity "0.000"
 		physics_gravity_factor "1.000"
 		time_of_day "2"
@@ -47,6 +74,33 @@ TimeOfDayPreset
 
 	timeofday_day
 	{
+		volumetric_fog_params
+		{			
+			fog_height_falloff "0.000"
+			fog_height "0.000"
+			fog_density "0.076"
+			albedo
+			{
+				z "0.224"
+				x "0.361"
+				y "0.321"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
+			}
+
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
+		}		
 		skybox_specular_intensity "0.100"
 		physics_gravity_factor "1.000"
 		time_of_day "0"
@@ -92,6 +146,33 @@ TimeOfDayPreset
 
 	timeofday_night
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.000"
+			fog_height "0.000"
+			fog_density "0.076"
+			albedo
+			{
+				z "0.302"
+				x "0.506"
+				y "0.455"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
+			}
+
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
+		}		
 		skybox_specular_intensity "0.000"
 		physics_gravity_factor "1.000"
 		time_of_day "3"
@@ -127,6 +208,33 @@ TimeOfDayPreset
 
 	timeofday_sunset
 	{
+		volumetric_fog_params
+		{
+			fog_height "0.000"
+			fog_height_falloff "0.000"
+			fog_density "0.076"
+			albedo
+			{
+				z "0.302"
+				x "0.506"
+				y "0.502"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
+			}
+
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
+		}		
 		skybox_specular_intensity "0.000"
 		physics_gravity_factor "1.000"
 		time_of_day "1"

@@ -20,36 +20,35 @@ system rift/crystal_gun_projectile
             texture_coords_columns              8
             billboard_rotation_type             vertex
         }
-        emitter                                 Point debris
+        emitter                                 Box debris
         {
             emission_rate                       35
-            angle                               60
+            angle                               15
             time_to_live                        dyn_random
             {
-                min                             0.7
-                max                             1
+                min                             0.5
+                max                             0.6
             }
             velocity                            dyn_random
             {
-                min                             0
-                max                             750
+                min                             100
+                max                             1000
             }
             all_particle_dimensions             dyn_random
             {
                 min                             20
                 max                             60
             }
-            position                            0 50 0
+            direction                           1 0 0
             colour                              0.313726 0.313726 0.313726 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
         }
         affector                                TextureAnimator Affector49
         {
             time_step                           0.04
             end_texture_coords_range            15
-        }
-        affector                                LinearForce Affector50
-        {
-            force_vector                        0 -1000 0
         }
         affector                                TextureRotator Affector192
         {

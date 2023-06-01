@@ -1,39 +1,50 @@
 system exor/airplane_trail
 {
     nonvisible_update_timeout                   1
-    scale_velocity                              0.0075
-    scale                                       0.0075 0.0075 0.0075
+    scale_velocity                              0.0500
+    scale                                       0.0500 0.0500 0.0500
     tight_bounding_box                          true
     category                                    SHOOTER
-    cache_count                                 0
-    technique ribbon
+    fade_out                                    true
+    cache_count                                 16
+    technique flare_small
     {
-        visual_particle_quota                   1
+        visual_particle_quota                   2
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles_noatlas/ribbon_wing_trail
-        renderer                                RibbonTrail
+        material                                particles/glow_add_02
+        renderer                                Billboard
         {
-            render_queue_group                  65
-            max_elements                        10
-            ribbontrail_length                  1250
-            ribbontrail_width                   25
-            ribbontrail_width_change            0.5
-            random_initial_colour               false
-            initial_colour                      1 1 1 0.784314
-            colour_change                       0 0 0 0.501961
+            billboard_rotation_type             vertex
         }
-        emitter                                 Point 
+        emitter                                 Point flare
         {
-            emission_rate                       1000
-            angle                               0
-            time_to_live                        250
+            emission_rate                       10000
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
             velocity                            0.0001
-            position                            5 0 0
-            direction                           1 0 0
-            force_emission                      true
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            keep_local                          true
+            colour                              0 0.501961 1 1
+        }
+        affector                                TextureRotator Affector90
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      0
         }
     }
 }

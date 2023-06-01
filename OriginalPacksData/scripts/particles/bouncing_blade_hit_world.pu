@@ -1,0 +1,92 @@
+system rift/bouncing_blade_hit_world
+{
+    fixed_timeout                               1
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.02
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 75
+    technique debris
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point debris
+        {
+            emission_rate                       100
+            angle                               60
+            time_to_live                        dyn_random
+            {
+                min                             0.7
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             750
+                max                             1500
+            }
+            particle_width                      dyn_random
+            {
+                min                             2
+                max                             5
+            }
+            particle_height                     dyn_random
+            {
+                min                             5
+                max                             25
+            }
+            position                            0 25 0
+            force_emission                      true
+        }
+        affector                                LinearForce Affector50
+        {
+            force_vector                        0 -5000 0
+        }
+        affector                                TextureRotator Affector192
+        {
+            use_own_rotation                    true
+            rotation_speed                      0
+        }
+        affector                                Colour Affector358
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.904348  1 1 1 1
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+    }
+    technique flash2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_glow_01_no_depth
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.1
+            velocity                            0
+            all_particle_dimensions             500
+            direction                           1 0 0
+            colour                              1 0.501961 0.25098 1
+            force_emission                      true
+        }
+    }
+}

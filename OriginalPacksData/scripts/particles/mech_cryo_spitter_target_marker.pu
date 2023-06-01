@@ -1,0 +1,114 @@
+system rift/mech_cryo_spitter_target_marker
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 2
+    technique ring_radius1
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_marker_ring_01
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            angle                               0
+            time_to_live                        1
+            all_particle_dimensions             10
+            position                            0 100 0
+            direction                           0 -1 0
+            colour                              0.294118 0.294118 0.294118 1
+        }
+        affector                                TextureRotator Affector226
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      4
+        }
+        affector                                Scale Affector972
+        {
+            xyz_scale                           200
+        }
+        affector                                Colour Affector973
+        {
+            time_colour                         0    0 0 0 0.109804
+            time_colour                         0.502174  0.501961 0.501961 0.501961 0.494118
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique ring_radius1
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_marker_ring_01
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_self
+            billboard_rotation_type             vertex
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       40
+            angle                               0
+            time_to_live                        360
+            velocity                            0.0001
+            all_particle_dimensions             180
+            position                            0 7 0
+            colour                              0.294118 0.294118 0.294118 1
+        }
+        affector                                TextureRotator Affector226
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      4
+        }
+    }
+    technique ring_radius2
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_marker_ring_01
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_self
+            billboard_rotation_type             vertex
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       40
+            angle                               0
+            time_to_live                        360
+            velocity                            0.0001
+            all_particle_dimensions             20
+            position                            0 7 0
+        }
+    }
+}

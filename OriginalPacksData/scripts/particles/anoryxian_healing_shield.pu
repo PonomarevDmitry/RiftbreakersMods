@@ -1,0 +1,167 @@
+system rift/anoryxian_healing_shield
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 5
+    technique 
+    {
+        visual_particle_quota                   1000
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_violet_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface 
+        {
+            emission_rate                       800
+            angle                               90
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             20
+                max                             60
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             4
+                max                             6
+            }
+            direction                           0 -1 0
+            radius                              500
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.506522  0.8 0.8 0.8 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector30
+        {
+            mass_affector                       1000
+            gravity                             100
+        }
+    }
+    technique healing
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/health_sign_add_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface fire_alpha
+        {
+            emission_rate                       120
+            angle                               90
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             30
+            }
+            colour                              0.501961 0 1 1
+            auto_direction                      true
+            radius                              500
+        }
+        affector                                Colour Affector85
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.71087  0.501961 0 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector29
+        {
+            mass_affector                       1000
+            gravity                             100
+        }
+    }
+    technique refract
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_heat_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface fire_alpha
+        {
+            emission_rate                       120
+            angle                               90
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            colour                              0.501961 0 1 1
+            auto_direction                      true
+            radius                              500
+        }
+        affector                                Colour Affector85
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  1 1 1 0.886275
+            time_colour                         0.904348  1 1 1 0.898039
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector29
+        {
+            mass_affector                       1000
+            gravity                             100
+        }
+        affector                                TextureRotator Affector43
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.6
+            }
+        }
+    }
+}

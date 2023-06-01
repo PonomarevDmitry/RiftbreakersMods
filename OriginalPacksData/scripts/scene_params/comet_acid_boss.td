@@ -11,6 +11,33 @@ TimeOfDayPreset
 
 	timeofday_sunset
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.030"
+				x "0.057"
+				y "0.285"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.059"
+				x "0.432"
+				y "0.536"
+				w "1.000"
+			}
+
+			fog_height "15.000"
+			fade_in_distance "55.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}		
 		skybox_specular_intensity "0.300"
 		fog_params
 		{
@@ -41,6 +68,33 @@ TimeOfDayPreset
 
 	timeofday_day
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.008"
+				x "0.004"
+				y "0.357"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.009"
+				x "0.000"
+				y "0.825"
+				w "1.000"
+			}
+
+			fog_height "20.000"
+			fade_in_distance "55.000"
+			fog_density "0.025"
+			fade_in_falloff "20.000"
+		}		
 		skybox_specular_intensity "1.000"
 		fog_params
 		{
@@ -80,6 +134,33 @@ TimeOfDayPreset
 
 	timeofday_night
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.076"
+				x "0.141"
+				y "0.688"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
+			}
+
+			fog_height "35.000"
+			fade_in_distance "55.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}		
 		skybox_specular_intensity "0.100"
 		fog_params
 		{
@@ -110,6 +191,33 @@ TimeOfDayPreset
 
 	timeofday_sunrise
 	{
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.008"
+				x "0.169"
+				y "0.420"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.008"
+				x "0.169"
+				y "0.420"
+				w "1.000"
+			}
+
+			fog_height "15.000"
+			fade_in_distance "55.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}		
 		skybox_specular_intensity "0.300"
 		fog_params
 		{

@@ -1,142 +1,273 @@
 TimeOfDayPreset
 {
-	weather_night
+	timeofday_sunrise
 	{
-		weather_sound "ambient/ion_storm"
-		weather_effect "effects/weather/anoryx_blast"
-		weather_wind "effects/wind/rain"
-		weather_type "0"
-		time_of_day "0"
-	}
-
-	timeofday_sunset
-	{
-		skybox_specular_intensity "1.000"
-		fog_params
-		{
-			color
+		volumetric_fog_params
+		{			
+			fog_height_falloff "0.000"
+			fog_height "0.000"
+			fog_density "0.076"
+			albedo
 			{
-				w "0.039"
-				y "0.823"
-				x "0.328"
-				z "1.000"
+				z "0.302"
+				x "0.506"
+				y "0.395"
+				w "1.000"
 			}
 
-			start "20.000"
-			end "68.000"
-			density "1.000"
-		}
-		light_size "0.0001"
-		light_color
-		{
-			w "15.073"
-			y "0.658"
-			x "0.000"
-			z "1.000"
-		}
-
-		time_of_day "1"
-		skybox_diffuse_intensity "0.100"
-	}
-
-	timeofday_day
-	{
-		skybox_specular_intensity "1.000"
-		fog_params
-		{
-			color
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
 			{
-				w "0.039"
-				y "0.823"
-				x "0.328"
-				z "1.000"
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
 			}
 
-			start "20.000"
-			end "68.000"
-			density "1.000"
-		}
-		light_size "0.0001"
-		light_color
-		{
-			w "30.000"
-			y "0.624"
-			x "0.000"
-			z "1.000"
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
 		}
 
-		time_of_day "0"
-		skybox_diffuse_intensity "0.100"
+		skybox_specular_intensity "0.125"
+		physics_gravity_factor "1.000"
+		time_of_day "2"
+		skybox_diffuse_intensity "0.180"
+		clouds_opacity "0.000"
+		bloom_params
+		light_color
+		{
+			z "0.250"
+			x "1.000"
+			y "0.753"
+			w "20.000"
+		}
+
+		weather_effect
+		light_size "0.050"
+		fog_params
+		{
+			end "62.000"
+			color
+			{
+				z "0.546"
+				x "1.000"
+				y "0.855"
+				w "1.000"
+			}
+
+			start "47.000"
+			density "0.202"
+		}
+
 	}
 
 	weather_day
 	{
-		weather_sound "ambient/ion_storm"
-		weather_effect "effects/weather/anoryx_blast"
-		weather_wind "effects/wind/rain"
-		weather_type "0"
+		weather_sound
 		time_of_day "0"
+		weather_haptic
+		weather_effect "effects/weather/anoryx_blast"
+		weather_wind "effects/wind/none"
+		weather_type "0"
+	}
+
+	timeofday_day
+	{
+		volumetric_fog_params
+		{			
+			fog_height_falloff "0.000"
+			fog_height "0.000"
+			fog_density "0.076"
+			albedo
+			{
+				z "0.224"
+				x "0.361"
+				y "0.321"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
+			}
+
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
+		}
+
+		skybox_specular_intensity "0.850"
+		physics_gravity_factor "1.000"
+		time_of_day "0"
+		skybox_diffuse_intensity "0.500"
+		clouds_opacity "0.000"
+		bloom_params
+		light_color
+		{
+			z "0.376"
+			x "1.000"
+			y "0.784"
+			w "12.000"
+		}
+
+		weather_effect
+		light_size "0.000"
+		fog_params
+		{
+			end "58.000"
+			color
+			{
+				z "1.000"
+				x "0.418"
+				y "0.855"
+				w "1.000"
+			}
+
+			start "46.000"
+			density "0.300"
+		}
+
+	}
+
+	weather_night
+	{
+		weather_sound
+		time_of_day "2"
+		weather_haptic
+		weather_effect "effects/weather/anoryx_blast"
+		weather_wind "effects/wind/none"
+		weather_type "0"
 	}
 
 	timeofday_night
 	{
-		skybox_specular_intensity "1.000"
-		fog_params
+		volumetric_fog_params
 		{
-			color
+			fog_height_falloff "0.000"
+			fog_height "0.000"
+			fog_density "0.076"
+			albedo
 			{
-				w "0.039"
-				y "0.584"
+				z "0.302"
+				x "0.506"
+				y "0.455"
+				w "1.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
 				x "0.000"
-				z "1.000"
+				y "0.000"
+				w "1.000"
 			}
 
-			start "20.000"
-			end "68.000"
-			density "1.000"
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
 		}
-		light_size "0.0001"
+
+		skybox_specular_intensity "0.050"
+		physics_gravity_factor "1.000"
+		time_of_day "3"
+		skybox_diffuse_intensity "0.100"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
-			w "15.091"
-			y "0.539"
+			z "0.000"
 			x "0.000"
-			z "1.000"
+			y "0.000"
+			w "0.000"
 		}
 
-		time_of_day "3"
-		skybox_diffuse_intensity "0.1"
-	}
-
-	timeofday_sunrise
-	{
-		skybox_specular_intensity "1.000"
+		weather_effect
+		light_size "0.200"
 		fog_params
 		{
+			end "68.000"
 			color
 			{
-				w "0.039"
-				y "0.839"
-				x "0.168"
-				z "1.000"
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "0.000"
 			}
 
-			start "20.000"
-			end "68.000"
-			density "1.000"
-		}
-		light_size "0.0001"
-		light_color
-		{
-			w "15.091"
-			y "0.539"
-			x "0.000"
-			z "1.000"
+			start "52.000"
+			density "0.000"
 		}
 
-		time_of_day "2"
-		skybox_diffuse_intensity "0.100"
 	}
 
-}
+	timeofday_sunset
+	{
+		volumetric_fog_params
+		{
+			fog_height "0.000"
+			fog_height_falloff "0.000"
+			fog_density "0.076"
+			albedo
+			{
+				z "0.302"
+				x "0.506"
+				y "0.502"
+				w "1.000"
+			}
 
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+				w "1.000"
+			}
+
+			fade_in_distance "60.000"
+			fade_in_falloff "4"
+		}
+
+		skybox_specular_intensity "0.100"
+		physics_gravity_factor "1.000"
+		time_of_day "1"
+		skybox_diffuse_intensity "0.180"
+		clouds_opacity "0.000"
+		bloom_params
+		light_color
+		{
+			z "0.102"
+			x "0.982"
+			y "0.361"
+			w "20.000"
+		}
+
+		weather_effect
+		light_size "0.050"
+		fog_params
+		{
+			end "61.000"
+			color
+			{
+				z "0.031"
+				x "0.982"
+				y "0.262"
+				w "1.000"
+			}
+
+			start "50.000"
+			density "0.198"
+		}
+	}
+}

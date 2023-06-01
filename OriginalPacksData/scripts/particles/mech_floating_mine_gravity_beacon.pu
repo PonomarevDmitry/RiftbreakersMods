@@ -1,0 +1,92 @@
+system rift/mech_floating_mine_gravity_beacon
+{
+    nonvisible_update_timeout                   1
+    scale                                       0.1 0.1 0.1
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 50
+    technique flare
+    {
+        keep_local                              true
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       1
+            angle                               0
+            time_to_live                        0.5
+            velocity                            0.0001
+            all_particle_dimensions             30
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  0.501961 0.501961 0.501961 0.498039
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique refract
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_heat_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box fire_add1
+        {
+            emission_rate                       20
+            angle                               10
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.7
+            }
+            velocity                            dyn_random
+            {
+                min                             16
+                max                             18
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             15
+                max                             20
+            }
+            position                            0 -10 0
+            direction                           0 -1 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           10
+            box_height                          1
+            box_depth                           10
+        }
+        affector                                TextureRotator Affector48
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.6
+            }
+        }
+    }
+}

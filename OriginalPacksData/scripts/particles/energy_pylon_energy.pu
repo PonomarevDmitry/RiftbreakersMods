@@ -1,0 +1,127 @@
+system rift/energy_pylon_energy
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    technique sparks
+    {
+        visual_particle_quota                   250
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle sparks
+        {
+            emission_rate                       100
+            angle                               2
+            time_to_live                        2
+            velocity                            30
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            position                            0 -35 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              35
+            normal                              0 1 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   250
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle sparks
+        {
+            emission_rate                       100
+            angle                               2
+            time_to_live                        2
+            velocity                            30
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            position                            0 35 0
+            direction                           0 -1 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              35
+            normal                              0 1 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique 
+    {
+        position                                0 1 0
+        visual_particle_quota                   25
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_streak_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Circle 
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.3
+            }
+            particle_width                      100
+            particle_height                     dyn_random
+            {
+                min                             250
+                max                             300
+            }
+            colour                              0.443137 0.721569 1 1
+            radius                              33
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.202174  1 1 1 1
+            time_colour                         0.808696  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+    }
+}
