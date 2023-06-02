@@ -417,8 +417,13 @@ function hq_move_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
+    local invertRotationConfig = mod_invert_rotation or ""
+
     -- Inverting rotation
-    degree = -degree
+    if ( invertRotationConfig == "1" ) then
+        degree = -degree
+    end
+
 
     EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, degree )
 

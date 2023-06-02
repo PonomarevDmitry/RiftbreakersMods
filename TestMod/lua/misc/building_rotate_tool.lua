@@ -137,8 +137,12 @@ function building_rotate_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
+    local invertRotationConfig = mod_invert_rotation or ""
+
     -- Inverting rotation
-    degree = -degree
+    if ( invertRotationConfig == "1" ) then
+        degree = -degree
+    end
 
     for entity in Iter(self.templateEntities) do
 

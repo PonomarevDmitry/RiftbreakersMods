@@ -609,8 +609,12 @@ end
 
 function selector:RotateBuilding( degree )
 
+	local invertRotationConfig = mod_invert_rotation or ""
+
 	-- Inverting rotation
-	degree = -degree
+	if ( invertRotationConfig == "1" ) then
+		degree = -degree
+	end
 
 	EntityService:Rotate(self.selector, 0.0, 1.0, 0.0, degree )
 	local transform = EntityService:GetWorldTransform( self.selector )
