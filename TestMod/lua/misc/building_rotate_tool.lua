@@ -137,10 +137,12 @@ function building_rotate_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
-    local invertRotationConfig = mod_invert_rotation or ""
+    local invertRotationConfig = mod_invert_rotation or 0
+
+    invertRotationConfig = tonumber(invertRotationConfig)
 
     -- Inverting rotation
-    if ( invertRotationConfig == "1" ) then
+    if ( invertRotationConfig == 1 ) then
         degree = -degree
     end
 

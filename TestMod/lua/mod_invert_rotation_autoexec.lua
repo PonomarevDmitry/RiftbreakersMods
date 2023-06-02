@@ -1,1 +1,1 @@
-mod_invert_rotation = "1"
+mod_invert_rotation = 1
