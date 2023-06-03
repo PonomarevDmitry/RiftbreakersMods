@@ -39,7 +39,7 @@ function wall_energy:OnInit()
 	
 	--Create the state machine to periodically search for objects that need added to or removed from the shield.
 	self.fsm = self:CreateStateMachine()
-	self.fsm:AddState("working", {execute="OnWorkInProgress", exit="OnWorkExit", interval=period})
+	self.fsm:AddState("working", {execute="OnWorkInProgress", exit="OnWorkExit", interval=period, object = "somedata"})
 end
 
 --Runs when the building turns on, including initial power on.
