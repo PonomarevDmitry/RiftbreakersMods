@@ -1,34 +1,41 @@
 EntityBlueprint
 {
-	name  "buildings/defense/wall_gate"
+	name					"buildings/defense/wall_gate"
 
 	BuildingDesc
 	{
-		name 				"wall_gate"
-		bp   				"buildings/defense/wall_gate"
-		category 			"defense"
+		name				"wall_gate"
+		bp					"buildings/defense/wall_gate"
+		category			"defense"
+
 		localization_id		"gui/hud/building_name/wall_gate"
 		description			"gui/hud/building_description/wall_gate"
 		menu_icon			"gui/hud/building_icons/wall_gate"
-		require 			"headquarters"
+
+		require				"headquarters"
 		upgrade				"buildings/defense/wall_gate_lvl_2"
+
 		order				"1"
+
 		type				"gate"
 		overrides			"wall,gate"
+
 		rotate_info			"1"
-		block_rotation 		"1"
-		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		block_rotation		"1"
+		exclude_terrain_types	"magma_hot_ground,magma_very_hot_ground"
 		check_connect		"1"
+
+		building_mode		"buildinggate"
 
 		costs
 		{
 			BuildingCostInfo
 			{
-				name "default"
-				building_time 5
+				name			"default"
+				building_time	5
 				building_cost
 				{
-					carbonium 	"25"
+					carbonium	"25"
 				}
 			}		
 		}	
@@ -52,12 +59,11 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/wall_gate.lua"
+		script	"lua/buildings/defense/wall_gate.lua"
 
 		database
 		{
 		}
-
 	}
 
 	HealthDesc
@@ -107,7 +113,7 @@ EntityBlueprint
 	}
 
 	PhysicsDesc
- 	{
+	{
 		objects
 		{
 			PhysicsObjectDesc
@@ -166,9 +172,9 @@ EntityBlueprint
 		{
    			PhysicsBoxShape
    			{
-    				x	4.0
-    				y	4.0
-    				z	4.0
+    			x	4.0
+    			y	4.0
+    			z	4.0
    			}
 		}
 	}
@@ -283,31 +289,48 @@ EntityBlueprint
 		EffectGroup
 		{
 			group "up"
-			enabled "0"				
+			enabled "0"
 			
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/buildings_defense/gate_up"	
+					blueprint "effects/buildings_defense/gate_up"
 					bone "att_door"
 				}
 			}
-		}	
+		}
+
 		EffectGroup
 		{
 			group "down"
-			enabled "0"				
+			enabled "0"
 			
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/buildings_defense/gate_down"	
+					blueprint "effects/buildings_defense/gate_down"
 					bone "att_door"
 				}
 			}
-		}			
+		}
+
+		EffectGroup
+		{
+			group "att_out_1"
+			enabled "0"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_door_exit"
+				}
+			}
+		}
 	}
 
 	children
@@ -323,7 +346,7 @@ EntityBlueprint
 
 			TriggerDesc
 			{
-				owner 		"parent"
+				owner		"parent"
 				type		"GRID"
 
 				collision 	"character"
@@ -358,7 +381,7 @@ EntityBlueprint
 
 						Shapes
 						{
-   							PhysicsBoxShape
+							PhysicsBoxShape
    							{
     								x	1.3
     								y	2.95
