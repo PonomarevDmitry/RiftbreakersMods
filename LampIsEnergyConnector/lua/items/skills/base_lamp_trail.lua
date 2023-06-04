@@ -44,17 +44,30 @@ function base_lamp_trail:GetLampBlueprint()
 
     local defaultBlueprint = "buildings/decorations/base_lamp"
 
+    local parameterName = "$base_lamp_trail_blueprint"
+
+    local blueprintName = ""
+
     local selector = PlayerService:GetPlayerSelector(self.playerId)
-    if ( selector == nil ) then
-        return defaultBlueprint
+    if ( selector ) then
+
+        local selectorDB = EntityService:GetDatabase( selector )
+        if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+            blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultBlueprint)
+        end
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
-    if ( selectorDB == nil ) then
-        return defaultBlueprint
+    if ( blueprintName == "" ) then
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultBlueprint)
+        end
     end
 
-    local blueprintName = selectorDB:GetStringOrDefault("$base_lamp_trail_blueprint", defaultBlueprint)
+    if ( blueprintName == "" ) then
+        return defaultBlueprint
+    end
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return defaultBlueprint

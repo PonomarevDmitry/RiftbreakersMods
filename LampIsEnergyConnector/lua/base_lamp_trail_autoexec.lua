@@ -23,21 +23,27 @@ end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
-    local blueprint = evt:GetBlueprint()
+    local blueprintName = evt:GetBlueprint()
 
-    local lowName = BuildingService:FindLowUpgrade( blueprint )
+    local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
     if ( lowName ~= "base_lamp" ) then
         return
     end
 
-    local selector = evt:GetEntity()
+    local parameterName = "$base_lamp_trail_blueprint"
 
-    if ( selector == nil ) then
-        return
+    local selector = evt:GetEntity()
+    if ( selector ) then
+
+        local selectorDB = EntityService:GetDatabase( selector )
+        if ( selectorDB ) then
+            selectorDB:SetString(parameterName, blueprintName)
+        end
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
-
-    selectorDB:SetString("$base_lamp_trail_blueprint", blueprint)
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( parameterName, blueprintName )
+    end
 end)
