@@ -30,15 +30,19 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    local selector = evt:GetEntity()
-
-    if ( selector == nil ) then
-        return
-    end
-
-    local selectorDB = EntityService:GetDatabase( selector )
-
     local parameterName = "$selected_" .. lowName .. "_blueprint"
 
-    selectorDB:SetString( parameterName, blueprintName )
+    local selector = evt:GetEntity()
+    if ( selector ) then
+
+        local selectorDB = EntityService:GetDatabase( selector )
+        if ( selectorDB ) then
+            selectorDB:SetString(parameterName, blueprintName)
+        end
+    end
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( parameterName, blueprintName )
+    end
 end)
