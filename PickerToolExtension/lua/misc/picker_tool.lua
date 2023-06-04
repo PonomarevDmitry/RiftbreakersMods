@@ -127,6 +127,12 @@ function picker_tool:AddedToSelection( entity )
 
             ::continue::
         end
+
+    elseif ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
+
+        if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+            QueueEvent( "SelectEntityRequest", entity )
+        end
     else
 
         local skinned = EntityService:IsSkinned(entity)
@@ -166,6 +172,12 @@ function picker_tool:RemovedFromSelection( entity )
 
             ::continue::
         end
+
+    elseif ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
+
+        if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+            QueueEvent( "DeselectEntityRequest", entity )
+        end
     else
 
         EntityService:RemoveMaterial( entity, "selected" )
@@ -189,7 +201,14 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     ConcatUnique( selectedItems, ruins )
 
+    self:AddResourceVolumes( selectedItems, min, max )
 
+    self:AddResourceComponents( selectedItems, position )
+
+    return selectedItems
+end
+
+function picker_tool:AddResourceVolumes( selectedItems, min, max )
 
     local resourceVolumeEntities = {}
 
@@ -228,8 +247,66 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
     end)
 
     ConcatUnique( selectedItems, resourceVolumeEntities )
+end
 
-    return selectedItems
+function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
+
+    local resourceComponents = {}
+
+    local predicate = {
+
+        signature="ResourceComponent,GridMarkerComponent"
+    };
+
+    local boundsSize = { x=1.0, y=1.0, z=1.0 }
+
+    local min = VectorSub(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
+    local max = VectorAdd(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
+
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto continue
+        end
+
+        if ( IndexOf( resourceComponents, entity ) ~= nil ) then
+            goto continue
+        end
+
+        if ( not EntityService:CompareType( entity, "resource" ) ) then
+            goto continue
+        end
+
+        local positionTemp = EntityService:GetPosition( entity )
+
+        if ( not ( min.x <= positionTemp.x and positionTemp.x <= max.x ) ) then
+            goto continue
+        end
+
+        if ( not ( min.z <= positionTemp.z and positionTemp.z <= max.z ) ) then
+            goto continue
+        end
+
+        Insert( resourceComponents, entity )
+
+        ::continue::
+    end
+
+    local sorter = function( t, lhs, rhs )
+        local p1 = EntityService:GetPosition( lhs )
+        local p2 = EntityService:GetPosition( rhs )
+        local d1 = Distance( position, p1 )
+        local d2 = Distance( position, p2 )
+        return d1 < d2
+    end
+
+    table.sort(resourceComponents, function(a,b)
+        return sorter(resourceComponents, a, b)
+    end)
+
+    ConcatUnique( selectedItems, resourceComponents )
 end
 
 function picker_tool:FilterSelectedEntities( selectedEntities )
@@ -283,12 +360,27 @@ function picker_tool:OnActivateSelectorRequest()
             return false
         end
 
+        if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
+
+            return false
+        end
+
         return true
     end
 
     local isRuins = function ( entity )
 
         if( EntityService:GetGroup( entity ) == "##ruins##" ) then
+
+            return true
+        end
+
+        return false
+    end
+
+    local isResource = function ( entity )
+
+        if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
 
             return true
         end
@@ -311,6 +403,10 @@ function picker_tool:OnActivateSelectorRequest()
     end
 
     if ( self:ChangeSelectorToEntityByFilter( isRuins ) ) then
+        return
+    end
+
+    if ( self:ChangeSelectorToEntityByFilter( isResource ) ) then
         return
     end
 
@@ -385,6 +481,13 @@ function picker_tool:GetLinkedEntityBlueprint( entity )
         end
     end
 
+    if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
+
+        local blueprintName = self:GetMineBlueprintName( entity ) or ""
+
+        return blueprintName
+    end
+
     if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
         local blueprintName = self:GetMineBlueprintName( entity ) or ""
@@ -437,54 +540,85 @@ end
 
 function picker_tool:GetMineBlueprintName( entity )
 
-    local blueprintName = EntityService:GetBlueprintName(entity)
+    if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) and EntityService:CompareType( entity, "water" ) ) then
+
+        local lowName = "liquid_pump"
+        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+        return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+    end
+
+    local resourceId = self:GetLinkedResource(entity)
+
+    if ( resourceId == "" ) then
+        return ""
+    end
+
+    for lowName in Iter( self.selectedBluprintsNames ) do
+
+        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( defaultBlueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+
+        local resourceRequirement = buildingDescRef.resource_requirement
+        if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
+            goto continue
+        end
+
+        local isResourceRequired = self:IsResourceRequired( resourceRequirement, resourceId )
+        if ( not isResourceRequired ) then
+            goto continue
+        end
+
+        do
+            return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+        end
+
+        ::continue::
+    end
+
+    return ""
+end
+
+function picker_tool:GetLinkedResource( entity )
+
+    local resourceComponent = EntityService:GetComponent( entity, "ResourceComponent" )
+    if ( resourceComponent ~= nil ) then
+
+        local resourceComponentRef = reflection_helper( resourceComponent )
+
+        if ( resourceComponentRef.type ~= nil and resourceComponentRef.type.resource ~= nil and resourceComponentRef.type.resource.id ~= nil ) then
+    
+    
+            local resourceId = resourceComponentRef.type.resource.id or ""
+
+            if ( resourceId ~= "" ) then
+                return resourceId
+            end
+        end
+    end
 
     local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
+    if ( resourceVolumeComponent ~= nil ) then
 
-    local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
+        local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
 
-    if ( resourceVolumeComponentRef.type ~= nil and resourceVolumeComponentRef.type.resource ~= nil and resourceVolumeComponentRef.type.resource.id ~= nil ) then
+        if ( resourceVolumeComponentRef.type ~= nil and resourceVolumeComponentRef.type.resource ~= nil and resourceVolumeComponentRef.type.resource.id ~= nil ) then
+    
+    
+            local resourceId = resourceVolumeComponentRef.type.resource.id or ""
 
-        local resourceId = resourceVolumeComponentRef.type.resource.id
-
-        if ( EntityService:CompareType( entity, "water" ) ) then
-
-            local lowName = "liquid_pump"
-            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
-
-            return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-        else
-
-            for lowName in Iter( self.selectedBluprintsNames ) do
-
-                local defaultBlueprintName = self.selectedBluprintsHash[lowName]
-
-                if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
-                    goto continue
-                end
-
-                local buildingDesc = BuildingService:GetBuildingDesc( defaultBlueprintName )
-                if ( buildingDesc == nil ) then
-                    goto continue
-                end
-
-                local buildingDescRef = reflection_helper( buildingDesc )
-
-                local resourceRequirement = buildingDescRef.resource_requirement
-                if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
-                    goto continue
-                end
-
-                local isResourceRequired = self:IsResourceRequired( resourceRequirement, resourceId )
-                if ( not isResourceRequired ) then
-                    goto continue
-                end
-
-                do
-                    return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-                end
-
-                ::continue::
+            if ( resourceId ~= "" ) then
+                return resourceId
             end
         end
     end
@@ -516,32 +650,121 @@ function picker_tool:GetSelectorBlueprintName( lowName, defaultBlueprintName )
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    local blueprintName = selectorDB:GetStringOrDefault( parameterName, defaultBlueprintName ) or defaultBlueprintName
+    local blueprintName = ""
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+    
+        blueprintName = selectorDB:GetStringOrDefault(parameterName, "") or ""
+    end
+    
+    if ( blueprintName == "" ) then
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
+        end
+    end
+
+    if ( blueprintName == "" ) then
+        return self:GetMaxAvailableLevel( defaultBlueprintName )
+    end
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-        return defaultBlueprintName
+        return self:GetMaxAvailableLevel( defaultBlueprintName )
     end
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
-        return defaultBlueprintName
+        return self:GetMaxAvailableLevel( defaultBlueprintName )
     end
 
     local buildingRef = reflection_helper( buildingDesc )
     if ( buildingRef == nil ) then
-        return defaultBlueprintName
+        return self:GetMaxAvailableLevel( defaultBlueprintName )
     end
 
     if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
-        return defaultBlueprintName
+        return self:GetMaxAvailableLevel( defaultBlueprintName )
     end
 
     local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
     if ( #list == 0 ) then
-        return defaultBlueprintName
+        return self:GetMaxAvailableLevel( defaultBlueprintName )
     end
 
     return blueprintName
+end
+
+function picker_tool:GetMaxAvailableLevel( blueprintName )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return ""
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingRef = reflection_helper( buildingDesc )
+    if ( buildingRef == nil ) then
+        return ""
+    end
+
+    if ( buildingRef.upgrade ~= nil and buildingRef.upgrade ~= "" ) then
+
+        if ( self:IsBlueprintAvailable( buildingRef.upgrade ) ) then
+
+            return self:GetMaxAvailableLevel( buildingRef.upgrade )
+        end
+    end
+
+    return blueprintName
+end
+
+function picker_tool:IsBlueprintAvailable( blueprintName )
+
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        return true
+    end
+
+    local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
+    if ( researchName ~= "" ) then
+
+        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function picker_tool:GetResearchForUpgrade( blueprintName )
+
+    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+
+    local categories = researchComponent.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+        local category_nodes = category.nodes
+
+        for j=1,category_nodes.count do
+
+            local node = category_nodes[j]
+
+            local awards = node.research_awards
+            for k=1,awards.count do
+
+                if awards[k].blueprint == blueprintName then
+
+                    return node.research_name
+                end
+            end
+        end
+    end
+
+    return ""
 end
 
 function picker_tool:HighlightRuins()
