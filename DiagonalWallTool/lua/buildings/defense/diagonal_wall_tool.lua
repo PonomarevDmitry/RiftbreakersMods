@@ -68,7 +68,25 @@ function diagonal_wall_tool:GetWallBlueprint( selectorDB )
 
     local defaultWall = "buildings/defense/wall_small_straight_01"
 
-    local blueprintName = selectorDB:GetStringOrDefault("$selected_wall_small_blueprint", defaultWall)
+    local parameterName = "$selected_wall_small_blueprint"
+
+    local blueprintName = ""
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultWall)
+    end
+
+    if ( blueprintName == "" ) then
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultWall)
+        end
+    end
+
+    if ( blueprintName == "" ) then
+        return defaultWall
+    end
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return defaultWall
