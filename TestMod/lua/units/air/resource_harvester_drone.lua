@@ -5,7 +5,7 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'harvester_drone' ( base_drone )
 
 local LOCK_TYPE_HARVESTER = "harvester";
-SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 3)
+SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 10)
 
 g_allocated_resource_drones = {}
 
@@ -62,6 +62,18 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
 
             local lootComponent = EntityService:GetComponent(entity, "LootComponent")
             if not lootComponent or not reflection_helper( lootComponent ).is_gatherable then
+                return false
+            end
+
+            local isAlive = HealthService:IsAlive( entity )
+            
+            if ( EntityService:CompareType( entity, "ground_unit" ) and isAlive ) then
+            
+                return false
+            end
+            
+            if ( EntityService:CompareType( entity, "air_unit" ) and isAlive ) then
+            
                 return false
             end
 
