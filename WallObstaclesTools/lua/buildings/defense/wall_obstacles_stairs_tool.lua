@@ -39,7 +39,25 @@ function wall_obstacles_stairs_tool:GetStairsBlueprintName( selectorDB )
 
     local defaultStairs = "buildings/defense/wall_small_floor_01"
 
-    local blueprintName = selectorDB:GetStringOrDefault("$selected_wall_small_floor_blueprint", defaultStairs)
+    local parameterName = "$selected_wall_small_floor_blueprint"
+
+    local blueprintName = ""
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultStairs)
+    end
+
+    if ( blueprintName == "" ) then
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultStairs)
+        end
+    end
+
+    if ( blueprintName == "" ) then
+        return defaultStairs
+    end
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return defaultStairs

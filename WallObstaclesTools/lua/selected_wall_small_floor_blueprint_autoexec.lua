@@ -1,20 +1,26 @@
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
-    local blueprint = evt:GetBlueprint()
+    local blueprintName = evt:GetBlueprint()
 
-    local lowName = BuildingService:FindLowUpgrade( blueprint )
+    local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
     if ( lowName ~= "wall_small_floor" ) then
         return
     end
 
-    local selector = evt:GetEntity()
+    local parameterName = "$selected_wall_small_floor_blueprint"
 
-    if ( selector == nil ) then
-        return
+    local selector = evt:GetEntity()
+    if ( selector ) then
+
+        local selectorDB = EntityService:GetDatabase( selector )
+        if ( selectorDB ) then
+            selectorDB:SetString(parameterName, blueprintName)
+        end
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
-
-    selectorDB:SetString("$selected_wall_small_floor_blueprint", blueprint)
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( parameterName, blueprintName )
+    end
 end)
