@@ -132,9 +132,9 @@ function sell_depleted:CheckEntityOnResource( entity, resourceRequirement, bluep
 
     for i = 1,resourceRequirement.count do
 
-        local resource = resourceRequirement[i]
+        local resource = resourceRequirement[i] or ""
 
-        if ( resource ~= nil and resource ~= "" ) then
+        if ( resource ~= "" ) then
 
             if ( BuildingService:IsOnResource( entity, resource ) ) then
                 return true
