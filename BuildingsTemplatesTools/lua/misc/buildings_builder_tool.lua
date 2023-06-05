@@ -129,6 +129,8 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     -- Split by "|" blueprints groups
     local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
 
+    local currentBiome = MissionService:GetCurrentBiomeName()
+
     for template in Iter( blueprintsGroupsArray ) do
 
         -- Split by ":" blueprint template
@@ -152,33 +154,39 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
-        local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-
-        if ( blueprintBuildingDesc == nil ) then
-            goto continue
-        end
-
-        local buildingDesc = reflection_helper( blueprintBuildingDesc )
-
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
         end
 
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
 
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
         if ( #list == 0 ) then
             goto continue
         end
 
+        -- condition			"BIOME"
+        -- condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"
+        if ( buildingDescRef.condition == 2 ) then
+
+            if ( not self:IsFitForBiome( currentBiome, buildingDescRef.condition_value ) ) then
+                goto continue
+            end
+        end
+
         --  Do not create cubes for building_mode "line"
-        local createCube = not ( buildingDesc.building_mode == "line" )
+        local createCube = not ( buildingDescRef.building_mode == "line" )
 
         -- Split array of coordinates by ";"
         local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
 
         for entityString in Iter( entitiesCoordinatesArray ) do
 
-            self:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list, delimiterBetweenCoordinates )
+            self:CreateSingleBuildingTemplate( blueprintName, buildingDescRef, createCube, entityString, list, delimiterBetweenCoordinates )
         end
 
         ::continue::
@@ -192,7 +200,15 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
                 local buildingTemplate = self.templateEntities[i]
 
-                EntityService:RemoveComponent( buildingTemplate.entity, "DisplayRadiusComponent" )
+                if ( EntityService:HasComponent( buildingTemplate.entity, "DisplayRadiusComponent" ) ) then
+
+                    EntityService:RemoveComponent( buildingTemplate.entity, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( buildingTemplate.entity, "GhostLineCreatorComponent" ) ) then
+
+                    EntityService:RemoveComponent( buildingTemplate.entity, "GhostLineCreatorComponent" )
+                end
             end
         end
 
@@ -287,6 +303,30 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
     buildingTemplate.entity = buildingEntity
 
     Insert( self.templateEntities, buildingTemplate )
+end
+
+function buildings_builder_tool:IsFitForBiome( currentBiome, conditionValue )
+
+    conditionValue = conditionValue or ""
+
+    currentBiome = string.lower(currentBiome)
+
+    if ( conditionValue == "" ) then
+        return true
+    end
+
+    local delimiterBiomeList = ",";
+
+    local conditionValueArray = Split( conditionValue, delimiterBiomeList )
+
+    for condition in Iter( conditionValueArray ) do
+
+        if ( currentBiome == string.lower(condition) ) then
+            return true
+        end
+    end
+
+    return false
 end
 
 function buildings_builder_tool:GetVectorDelta( positionX, positionZ )

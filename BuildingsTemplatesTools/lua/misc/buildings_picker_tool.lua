@@ -104,23 +104,23 @@ function buildings_picker_tool:FillMarkerMessage()
             goto continue
         end
 
-        local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-        if ( blueprintBuildingDesc == nil ) then
-            goto continue
-        end
-
-        local buildingDesc = reflection_helper( blueprintBuildingDesc )
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
         end
 
-        local menuIcon = buildingDesc.menu_icon or ""
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+        local menuIcon = buildingDescRef.menu_icon or ""
 
         if ( menuIcon == "" ) then
 
-            for i=1,buildingDesc.connect.count do
+            for i=1,buildingDescRef.connect.count do
 
-                local connectRecord = buildingDesc.connect[i]
+                local connectRecord = buildingDescRef.connect[i]
 
                 for j=1,connectRecord.value.count do
 
@@ -193,17 +193,17 @@ function buildings_picker_tool:GetBuildingMenuIcon( blueprintName )
         return ""
     end
 
-    local blueprintBuildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( blueprintBuildingDesc == nil ) then
-        return ""
-    end
-
-    local buildingDesc = reflection_helper( blueprintBuildingDesc )
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return ""
     end
 
-    local menuIcon = buildingDesc.menu_icon or ""
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = buildingDescRef.menu_icon or ""
 
     return menuIcon
 end
