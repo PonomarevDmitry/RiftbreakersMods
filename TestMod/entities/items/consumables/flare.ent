@@ -1,0 +1,117 @@
+EntityBlueprint
+{
+	name  "items/consumables/flare"
+
+	MeshDesc
+	{
+		mesh 						"meshes/items/consumables/flare.mesh"
+		material 					"items/consumables/flare"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"gibs_super_heavy"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/consumables/flare_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	GrenadeAmmoComponent
+	{
+		//on_enemy_hit_effect 		"effects/weapons_explosive/explosion_small"
+		//on_resisted_hit_effect 	"effects/weapons_explosive/explosion_small"
+		//on_world_hit_effect 		"effects/weapons_explosive/explosion_small"
+
+		on_world_explosion_delay	"30"
+		on_enemy_explosion_delay	"30"
+
+		//explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius	"1"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"0"
+					type			"area"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/flare_projectile"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_explosive/grenade_throw"
+				}
+			}			
+		}
+	}	
+}
+
+
+EntityBlueprint
+{
+	name  "items/consumables/flare_standard_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/flare"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"flare"
+		icon						"gui/hud/items_icons/consumables/flare"
+		bigger_icon 				"gui/menu/items_icons/consumables/flare"
+		storage_limit 				"1000"
+		description 				"gui/menu/inventory/consumable_description/flare"		
+		rarity						"STANDARD"
+		replace_lower_quality		"1"	
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/flare"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/flare"
+		}
+	}
+
+	CostDesc
+}

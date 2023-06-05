@@ -1,0 +1,459 @@
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_standard_item"
+
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/antimatter_ball"	
+		cooldown					"1"
+		icon						"gui/hud/items_icons/skills/antimatter_ball"
+		bigger_icon 				"gui/menu/items_icons/skills/antimatter_ball"	
+		description 				"gui/menu/inventory/skill_description/antimatter_ball_standard"	
+		rarity						"STANDARD"	
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/antimatter_ball"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/antimatter_ball"
+			initial_speed			float:"2"
+			max_speed				float:"20"
+			acceleration			float:"5"
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/antimatter_ball"	
+		cooldown					"1"
+		icon						"gui/hud/items_icons/skills/antimatter_ball"
+		bigger_icon 				"gui/menu/items_icons/skills/antimatter_ball"	
+		description 				"gui/menu/inventory/skill_description/antimatter_ball_upgraded"	
+		rarity						"ADVANCED"	
+		replace_lower_quality		"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/antimatter_ball_advanced"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/antimatter_ball_advanced"
+			initial_speed			float:"2"
+			max_speed				float:"20"
+			acceleration			float:"5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 					"skill"
+		name 					"gui/menu/inventory/skill_name/antimatter_ball"	
+		cooldown				"1"
+		icon					"gui/hud/items_icons/skills/antimatter_ball"
+		bigger_icon 			"gui/menu/items_icons/skills/antimatter_ball"	
+		description 			"gui/menu/inventory/skill_description/antimatter_ball_upgraded"		
+		rarity					"EXTREME"	
+		replace_lower_quality	"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/antimatter_ball_extreme"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/antimatter_ball_extreme"
+			initial_speed			float:"2"
+			max_speed				float:"20"
+			acceleration			float:"5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_superior_item"
+
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/antimatter_ball"	
+		cooldown					"1"
+		icon						"gui/hud/items_icons/skills/antimatter_ball"
+		bigger_icon 				"gui/menu/items_icons/skills/antimatter_ball"	
+		description 				"gui/menu/inventory/skill_description/antimatter_ball_upgraded"	
+		rarity						"SUPERIOR"	
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/antimatter_ball_superior"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/antimatter_ball_superior"
+			initial_speed			float:"2"
+			max_speed				float:"20"
+			acceleration			float:"5"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_base"
+	base_blueprint	"lights/point/fire_red_medium"
+		
+	MeshDesc
+	{
+		mesh        "meshes/items/skills/antimatter_ball.mesh"
+		material    "items/skills/antimatter_ball"
+	}
+
+	SkeletonDesc
+	{
+		name 		"meshes/items/skills/antimatter_ball"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "sphere_rotation"
+				animTime "0.0"
+				animFactor "5"
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.5
+		type 		"camera"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/antimatter_ball"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball"
+	base_blueprint "items/skills/antimatter_ball_base"
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{	
+				attachment "att_muzzle"
+			}
+		}
+
+		ammo_blueprint				"items/skills/antimatter_ball_lightning_standard"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_world_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_resisted_hit_effect 	"effects/items/antimatter_ball_explosion"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+
+		DamagePattern
+		{
+			area_damage_radius		"10"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"600"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_advanced"
+	base_blueprint "items/skills/antimatter_ball_base"
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		ammo_blueprint				"items/skills/antimatter_ball_lightning_advanced"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_world_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_resisted_hit_effect 	"effects/items/antimatter_ball_explosion"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+
+		DamagePattern
+		{
+			area_damage_radius		"10"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"900"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_extreme"
+	base_blueprint "items/skills/antimatter_ball_base"	
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		ammo_blueprint				"items/skills/antimatter_ball_lightning_extreme"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_world_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_resisted_hit_effect 	"effects/items/antimatter_ball_explosion"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+
+		DamagePattern
+		{
+			area_damage_radius		"10"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"1500"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_superior"
+	base_blueprint "items/skills/antimatter_ball_base"
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		ammo_blueprint				"items/skills/antimatter_ball_lightning_superior"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_world_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_resisted_hit_effect 	"effects/items/antimatter_ball_explosion"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+
+		DamagePattern
+		{
+			area_damage_radius		"10"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"1200"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/skills/antimatter_ball_lightning_standard"
+	
+	LightningBeamComponent
+	{
+		range 					"1"
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_beam_hit"
+		type_mask				"ground_unit"
+		aiming_angle			"360"
+	}
+
+	LightningComponent
+	{
+		material 				"items/skills/antimatter_ball_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.05"
+		beam_count 				"3"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/skills/antimatter_ball_lightning_advanced"
+	
+	LightningBeamComponent
+	{
+		range 					"1"
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_beam_hit"
+		type_mask				"ground_unit"
+		aiming_angle			"360"
+	}
+
+	LightningComponent
+	{
+		material 				"items/skills/antimatter_ball_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"3"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/skills/antimatter_ball_lightning_extreme"
+
+	LightningBeamComponent
+	{
+		range 					"1"
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_beam_hit"
+		type_mask				"ground_unit"
+		aiming_angle			"360"
+	}
+
+	LightningComponent
+	{
+		material 				"items/skills/antimatter_ball_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"3"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/skills/antimatter_ball_lightning_superior"
+
+	LightningBeamComponent
+	{
+		range 					"1"
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_beam_hit"
+		type_mask				"ground_unit"
+		aiming_angle			"360"
+	}
+
+	LightningComponent
+	{
+		material 				"items/skills/antimatter_ball_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"3"
+	}
+}
