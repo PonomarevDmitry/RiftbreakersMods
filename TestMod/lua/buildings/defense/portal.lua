@@ -9,6 +9,9 @@ end
 function portal:OnInit()
 	self.portalEnergy = nil
 	
+	self.portalVersion = 1
+    self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
+	
 	ItemService:SetInvisible( self.entity, true )
 end
 
@@ -75,4 +78,18 @@ function portal:OnDestroy()
 	return true
 end
 
+function portal:OnInteractWithEntityRequest( event )
+    local player = PlayerService:GetPlayerByMech( event:GetOwner() )
+    QueueEvent("ChangeActiveMinimapRequest", event_sink, 1, player )
+end
+
+function portal:OnLoad()
+    building_base.OnLoad(self)
+    if ( self.portalVersion == nil or self.portalVersion < 1 ) then
+		self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
+		self.portalVersion = 1
+	end
+	
+	ItemService:SetInvisible( self.entity, true )
+end
 return portal
