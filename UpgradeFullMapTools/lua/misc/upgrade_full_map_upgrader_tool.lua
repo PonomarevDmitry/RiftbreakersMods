@@ -1,43 +1,64 @@
-local tool = require("lua/misc/tool.lua")
-require("lua/utils/reflection.lua")
+local upgrade_full_map_base = require("lua/misc/upgrade_full_map_base.lua")
 require("lua/utils/table_utils.lua")
-require("lua/utils/string_utils.lua")
-require("lua/utils/building_utils.lua")
+require("lua/utils/reflection.lua")
 
-class 'upgrade_full_map_tool' ( tool )
+class 'upgrade_full_map_upgrader_tool' ( upgrade_full_map_base )
 
-function upgrade_full_map_tool:__init()
-    tool.__init(self,self)
+function upgrade_full_map_upgrader_tool:__init()
+    upgrade_full_map_base.__init(self,self)
 end
 
-function upgrade_full_map_tool:OnPreInit()
+function upgrade_full_map_upgrader_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
-function upgrade_full_map_tool:OnInit()
+function upgrade_full_map_upgrader_tool:OnInit()
 
-    local markerName = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity( markerName, self.entity )
-
-    self.categoryName = self.data:GetStringOrDefault("category_name", "") or ""
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
     self.scaleMap = {
         1,
     }
+
+    self:InitLowUpgradeList()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    markerDB:SetInt("building_visible", 1)
+
+    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        local menuIcon = self:GetMenuIcon( self.selectedBuildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            markerDB:SetString("building_icon", menuIcon)
+            markerDB:SetString("message_text", "")
+        else
+
+            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+            markerDB:SetString("message_text", "gui/hud/upgrade_full_map/building_not_selected")
+        end
+    else
+
+        markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+        markerDB:SetString("message_text", "gui/hud/upgrade_full_map/building_not_selected")
+    end
 end
 
-function upgrade_full_map_tool:GetScaleFromDatabase()
+function upgrade_full_map_upgrader_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function upgrade_full_map_tool:AddedToSelection( entity )
+function upgrade_full_map_upgrader_tool:AddedToSelection( entity )
 end
 
-function upgrade_full_map_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial( entity, "selected" )
+function upgrade_full_map_upgrader_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function upgrade_full_map_tool:OnUpdate()
+function upgrade_full_map_upgrader_tool:OnUpdate()
 
     self.upgradeCosts = {}
 
@@ -105,7 +126,7 @@ function upgrade_full_map_tool:OnUpdate()
     end
 end
 
-function upgrade_full_map_tool:FindEntitiesToSelect( selectorComponent )
+function upgrade_full_map_upgrader_tool:FindEntitiesToSelect( selectorComponent )
 
     local result = {}
 
@@ -127,6 +148,10 @@ function upgrade_full_map_tool:FindEntitiesToSelect( selectorComponent )
 
         local blueprintName = EntityService:GetBlueprintName( entity )
 
+        if ( not self:IsBlueprintInList(blueprintName) ) then
+            goto continue
+        end
+
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
@@ -135,14 +160,6 @@ function upgrade_full_map_tool:FindEntitiesToSelect( selectorComponent )
         local buildingDescRef = reflection_helper( buildingDesc )
         if ( buildingDescRef == nil ) then
             goto continue
-        end
-
-        if ( self.categoryName ~= "" ) then
-
-            if ( buildingDescRef.category ~= self.categoryName ) then
-
-                goto continue
-            end
         end
 
         if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
@@ -169,7 +186,10 @@ function upgrade_full_map_tool:FindEntitiesToSelect( selectorComponent )
     return result
 end
 
-function upgrade_full_map_tool:OnActivateSelectorRequest()
+function upgrade_full_map_upgrader_tool:OnRotate()
+end
+
+function upgrade_full_map_upgrader_tool:OnActivateSelectorRequest()
 
     if ( #self.selectedEntities == 0 ) then
         return
@@ -197,19 +217,4 @@ function upgrade_full_map_tool:OnActivateSelectorRequest()
     end
 end
 
-function upgrade_full_map_tool:OnRelease()
-
-    if ( self.childEntity ~= nil) then
-        EntityService:RemoveEntity(self.childEntity)
-        self.childEntity = nil
-    end
-
-    if ( tool.OnRelease ) then
-        tool.OnRelease(self)
-    end
-end
-
-function upgrade_full_map_tool:OnRotateSelectorRequest(evt)
-end
-
-return upgrade_full_map_tool
+return upgrade_full_map_upgrader_tool

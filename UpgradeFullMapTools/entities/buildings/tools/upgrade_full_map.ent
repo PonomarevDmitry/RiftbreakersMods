@@ -1,17 +1,84 @@
 EntityBlueprint
 {
-	name					"buildings/tools/upgrade_full_map_1"
+	name					"buildings/tools/upgrade_full_map_1_picker"
 
 	BuildingDesc
 	{
-		name				"upgrade_full_map_1"
-		bp					"buildings/tools/upgrade_full_map_1"
-		ghost_bp			"buildings/tools/upgrade_full_map_1_ghost"
+		name				"upgrade_full_map_1_picker"
+		bp					"buildings/tools/upgrade_full_map_1_picker"
+		ghost_bp			"buildings/tools/upgrade_full_map_1_picker_ghost"
 		category			"tools"
 
-		localization_id		"gui/hud/building_name/upgrade_full_map_tool"
-		description			"gui/hud/building_description/upgrade_full_map_tool"
-		menu_icon			"gui/hud/tools_icons/upgrade_full_map_tool"
+		localization_id		"gui/hud/building_name/upgrade_full_map_picker_tool"
+		description			"gui/hud/building_description/upgrade_full_map_picker_tool"
+		menu_icon			"gui/hud/tools_icons/upgrade_full_map_picker_tool"
+
+		order				"1"
+		type				"picker"
+
+		building_group		"upgrade"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/upgrade_full_map_1_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"upgrade_full_map_1_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/upgrade_full_map_picker_tool.lua"
+		database
+		{
+			action			string:"upgrade_full_map_picker_tool"
+			template_name	string:"$upgrade_full_map_picker_tool.selectedbuilding"
+			marker_name		string:"misc/marker_selector_upgrade_full_map_picker_tool"
+
+			next_tool		string:"buildings/tools/upgrade_full_map_1_upgrader"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/upgrade_full_map_1_upgrader"
+
+	BuildingDesc
+	{
+		name				"upgrade_full_map_1_upgrader"
+		bp					"buildings/tools/upgrade_full_map_1_upgrader"
+		ghost_bp			"buildings/tools/upgrade_full_map_1_upgrader_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/upgrade_full_map_upgrader_tool"
+		description			"gui/hud/building_description/upgrade_full_map_upgrader_tool"
+		menu_icon			"gui/hud/tools_icons/upgrade_full_map_upgrader_tool"
 
 		order				"1"
 		type				"sell"
@@ -30,11 +97,11 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name					"buildings/tools/upgrade_full_map_1_ghost"
+	name					"buildings/tools/upgrade_full_map_1_upgrader_ghost"
 
 	BuildingDesc
 	{
-		name				"upgrade_full_map_1_ghost"
+		name				"upgrade_full_map_1_upgrader_ghost"
 		buildable			"0"
 		type				"sell"
 		category			"tools"
@@ -42,21 +109,22 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script				"lua/misc/upgrade_full_map_tool.lua"
+		script				"lua/misc/upgrade_full_map_upgrader_tool.lua"
 		database
 		{
-			action			string:"upgrade_full_map_tool"
+			action			string:"upgrade_full_map_upgrader_tool"
+			template_name	string:"$upgrade_full_map_picker_tool.selectedbuilding"
+			marker_name		string:"misc/marker_selector_upgrade_full_map_upgrader_tool"
 
-			marker_name		string:"misc/marker_selector_upgrade_full_map_tool"
-
-			category_name	string:""
+			is_group		int:"0"
+			place_ruins		int:"0"
 		}
 	}
 
 	MeshDesc
 	{
 		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material			"selector/hologram_violet"
+		material			"selector/hologram_active"
 		flags				"2"
 	}
 }
@@ -134,18 +202,18 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name					"buildings/tools/upgrade_full_map_3_energy"
+	name					"buildings/tools/upgrade_full_map_3"
 
 	BuildingDesc
 	{
-		name				"upgrade_full_map_3_energy"
-		bp					"buildings/tools/upgrade_full_map_3_energy"
-		ghost_bp			"buildings/tools/upgrade_full_map_3_energy_ghost"
+		name				"upgrade_full_map_3"
+		bp					"buildings/tools/upgrade_full_map_3"
+		ghost_bp			"buildings/tools/upgrade_full_map_3_ghost"
 		category			"tools"
 
-		localization_id		"gui/hud/building_name/upgrade_full_map_energy_tool"
-		description			"gui/hud/building_description/upgrade_full_map_energy_tool"
-		menu_icon			"gui/hud/tools_icons/upgrade_full_map_energy_tool"
+		localization_id		"gui/hud/building_name/upgrade_full_map_tool"
+		description			"gui/hud/building_description/upgrade_full_map_tool"
+		menu_icon			"gui/hud/tools_icons/upgrade_full_map_tool"
 
 		order				"1"
 		type				"sell"
@@ -164,11 +232,11 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name					"buildings/tools/upgrade_full_map_3_energy_ghost"
+	name					"buildings/tools/upgrade_full_map_3_ghost"
 
 	BuildingDesc
 	{
-		name				"upgrade_full_map_3_energy_ghost"
+		name				"upgrade_full_map_3_ghost"
 		buildable			"0"
 		type				"sell"
 		category			"tools"
@@ -181,143 +249,9 @@ EntityBlueprint
 		{
 			action			string:"upgrade_full_map_tool"
 
-			marker_name		string:"misc/marker_selector_upgrade_full_map_energy_tool"
+			marker_name		string:"misc/marker_selector_upgrade_full_map_tool"
 
-			category_name	string:"energy"
-		}
-	}
-
-	MeshDesc
-	{
-		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material			"selector/hologram_violet"
-		flags				"2"
-	}
-}
-
-
-
-
-
-EntityBlueprint
-{
-	name					"buildings/tools/upgrade_full_map_4_resources"
-
-	BuildingDesc
-	{
-		name				"upgrade_full_map_4_resources"
-		bp					"buildings/tools/upgrade_full_map_4_resources"
-		ghost_bp			"buildings/tools/upgrade_full_map_4_resources_ghost"
-		category			"tools"
-
-		localization_id		"gui/hud/building_name/upgrade_full_map_resources_tool"
-		description			"gui/hud/building_description/upgrade_full_map_resources_tool"
-		menu_icon			"gui/hud/tools_icons/upgrade_full_map_resources_tool"
-
-		order				"1"
-		type				"sell"
-
-		building_group		"upgrade"
-		buildable			"0"
-	}
-
-	MeshDesc
-	{
-		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material			"buildings/metal_plate_1x1"
-		flags				"2"
-	}
-}
-
-EntityBlueprint
-{
-	name					"buildings/tools/upgrade_full_map_4_resources_ghost"
-
-	BuildingDesc
-	{
-		name				"upgrade_full_map_4_resources_ghost"
-		buildable			"0"
-		type				"sell"
-		category			"tools"
-	}
-
-	LuaDesc
-	{
-		script				"lua/misc/upgrade_full_map_tool.lua"
-		database
-		{
-			action			string:"upgrade_full_map_tool"
-
-			marker_name		string:"misc/marker_selector_upgrade_full_map_resources_tool"
-
-			category_name	string:"resources"
-		}
-	}
-
-	MeshDesc
-	{
-		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material			"selector/hologram_violet"
-		flags				"2"
-	}
-}
-
-
-
-
-
-EntityBlueprint
-{
-	name					"buildings/tools/upgrade_full_map_5_defense"
-
-	BuildingDesc
-	{
-		name				"upgrade_full_map_5_defense"
-		bp					"buildings/tools/upgrade_full_map_5_defense"
-		ghost_bp			"buildings/tools/upgrade_full_map_5_defense_ghost"
-		category			"tools"
-
-		localization_id		"gui/hud/building_name/upgrade_full_map_defense_tool"
-		description			"gui/hud/building_description/upgrade_full_map_defense_tool"
-		menu_icon			"gui/hud/tools_icons/upgrade_full_map_defense_tool"
-
-		order				"1"
-		type				"sell"
-
-		building_group		"upgrade"
-		buildable			"0"
-	}
-
-	MeshDesc
-	{
-		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
-		material			"buildings/metal_plate_1x1"
-		flags				"2"
-	}
-}
-
-EntityBlueprint
-{
-	name					"buildings/tools/upgrade_full_map_5_defense_ghost"
-
-	BuildingDesc
-	{
-		name				"upgrade_full_map_5_defense_ghost"
-		buildable			"0"
-		type				"sell"
-		category			"tools"
-	}
-
-	LuaDesc
-	{
-		script				"lua/misc/upgrade_full_map_tool.lua"
-		database
-		{
-			action			string:"upgrade_full_map_tool"
-
-			marker_name		string:"misc/marker_selector_upgrade_full_map_defense_tool"
-
-			category_name	string:"defense"
+			category_name	string:""
 		}
 	}
 
