@@ -25,7 +25,7 @@ function upgrade_tool:AddedToSelection( entity )
 end
 
 function upgrade_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function upgrade_tool:OnUpdate()
@@ -75,7 +75,7 @@ function upgrade_tool:OnUpdate()
         BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, self.upgradeCosts )
         BuildingService:OperateUpgradeCosts( self.corners, self.playerId, {} )
     else
-        BuildingService:OperateUpgradeCosts( self.infoChild , self.playerId, {} )
+        BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, {} )
         BuildingService:OperateUpgradeCosts( self.corners, self.playerId, self.upgradeCosts )
     end
 end
@@ -109,9 +109,9 @@ function upgrade_tool:HighlightBuildingsToUpgrade()
         -- Highlight building if it can be upgraded
         local skinned = EntityService:IsSkinned(entity)
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
+            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
         else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
+            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
         end
     end
 
@@ -140,11 +140,11 @@ function upgrade_tool:FindUpgradableBuildings()
         end
 
         -- Highlight building if it can be upgraded
-        if ( not BuildingService:CanUpgrade( entity, self.playerId )) then
+        if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
             goto continue
         end
 
-        Insert(result, entity )
+        Insert( result, entity )
 
         ::continue::
     end
@@ -184,14 +184,14 @@ function upgrade_tool:OnGuiPopupResultEvent( evt )
         QueueEvent( "UpgradeBuildingRequest", evt:GetEntity(), self.playerId )
     end
 
-    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+    self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent" )
     self.popupShown = false
 end
 
 function upgrade_tool:OnRelease()
 
     -- Remove highlighting from buildings
-    if ( self.previousMarkedBuildings ~= nil) then
+    if ( self.previousMarkedBuildings ~= nil ) then
         for ent in Iter( self.previousMarkedBuildings ) do
 
             self:RemovedFromSelection( ent )
