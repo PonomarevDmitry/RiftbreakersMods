@@ -19,11 +19,40 @@ function upgrade_full_map_tool:OnInit()
     local markerName = self.data:GetString("marker_name")
     self.childEntity = EntityService:SpawnAndAttachEntity( markerName, self.entity )
 
-    self.categoryName = self.data:GetStringOrDefault("category_name", "") or ""
-
     self.scaleMap = {
         1,
     }
+
+    self.categoryName = self.data:GetStringOrDefault("category_name", "") or ""
+
+    self.selectedCategory = ""
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    if ( self.categoryName ~= "" ) then
+
+        markerDB:SetInt("building_visible", 1)
+
+        local selectorDB = EntityService:GetDatabase( self.selector )
+
+        self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryName, "" ) or ""
+
+        if ( self.selectedCategory ~= "" ) then
+
+            local menuIcon = "gui/hud/building_icons/" .. self.selectedCategory ..  "_structures_neutral"
+
+            markerDB:SetString("building_icon", menuIcon)
+            markerDB:SetString("message_text", "")
+        else
+
+            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+            markerDB:SetString("message_text", "gui/hud/upgrade_full_map/category_not_selected")
+        end
+    else
+
+        markerDB:SetString("message_text", "")
+        markerDB:SetInt("building_visible", 0)
+    end
 end
 
 function upgrade_full_map_tool:GetScaleFromDatabase()
@@ -139,7 +168,7 @@ function upgrade_full_map_tool:FindEntitiesToSelect( selectorComponent )
 
         if ( self.categoryName ~= "" ) then
 
-            if ( buildingDescRef.category ~= self.categoryName ) then
+            if ( buildingDescRef.category ~= self.selectedCategory ) then
 
                 goto continue
             end
