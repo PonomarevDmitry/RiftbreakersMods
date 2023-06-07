@@ -120,7 +120,7 @@ function upgrade_full_map_picker_tool:FilterSelectedEntities( selectedEntities )
     return entities
 end
 
-function upgrade_tool:OnUpdate()
+function upgrade_full_map_picker_tool:OnUpdate()
 
     self:HighlightBuildingsToUpgrade()
 end
@@ -193,7 +193,7 @@ function upgrade_full_map_picker_tool:OnActivateSelectorRequest()
     end
 end
 
-function upgrade_tool:HighlightBuildingsToUpgrade()
+function upgrade_full_map_picker_tool:HighlightBuildingsToUpgrade()
 
     -- Buildings within a radius radiusShowBuildingsToUpgrade from player to highlight
     local buildings = self:FindUpgradableBuildings()
@@ -231,7 +231,7 @@ function upgrade_tool:HighlightBuildingsToUpgrade()
     self.previousMarkedBuildings = buildings
 end
 
-function upgrade_tool:FindUpgradableBuildings()
+function upgrade_full_map_picker_tool:FindUpgradableBuildings()
 
     local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
@@ -265,7 +265,7 @@ function upgrade_tool:FindUpgradableBuildings()
     return result
 end
 
-function upgrade_tool:OnRelease()
+function upgrade_full_map_picker_tool:OnRelease()
 
     -- Remove highlighting from buildings
     if ( self.previousMarkedBuildings ~= nil ) then
