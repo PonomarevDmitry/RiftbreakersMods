@@ -46,7 +46,7 @@ function upgrade_full_map_tool:OnInit()
         else
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            markerDB:SetString("message_text", "gui/hud/upgrade_full_map/category_not_selected")
+            markerDB:SetString("message_text", "gui/hud/upgrade_full_map/building_category_not_selected")
         end
     else
 
