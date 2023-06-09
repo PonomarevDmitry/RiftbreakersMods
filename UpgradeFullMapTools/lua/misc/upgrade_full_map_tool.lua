@@ -39,10 +39,17 @@ function upgrade_full_map_tool:OnInit()
 
         if ( self.selectedCategory ~= "" ) then
 
+            markerDB:SetString("message_text", "")
+
             local menuIcon = "gui/hud/building_icons/" .. self.selectedCategory ..  "_structures_neutral"
 
-            markerDB:SetString("building_icon", menuIcon)
-            markerDB:SetString("message_text", "")
+            if ( ResourceManager:ResourceExists("Material", menuIcon) ) then
+
+                markerDB:SetString("building_icon", menuIcon)
+            else
+
+                markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+            end
         else
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
