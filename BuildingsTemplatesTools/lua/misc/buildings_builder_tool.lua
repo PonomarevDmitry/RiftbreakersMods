@@ -131,6 +131,8 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
     local currentBiome = MissionService:GetCurrentBiomeName()
 
+    local firstPositionX, firstPositionZ = self:GetFirstBuildableEntityPosition( blueprintsGroupsArray, currentBiome, delimiterBlueprintName, delimiterEntitiesArray, delimiterBetweenCoordinates )
+
     for template in Iter( blueprintsGroupsArray ) do
 
         -- Split by ":" blueprint template
@@ -186,7 +188,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
         for entityString in Iter( entitiesCoordinatesArray ) do
 
-            self:CreateSingleBuildingTemplate( blueprintName, buildingDescRef, createCube, entityString, list, delimiterBetweenCoordinates )
+            self:CreateSingleBuildingTemplate( blueprintName, buildingDescRef, createCube, entityString, list, delimiterBetweenCoordinates, firstPositionX, firstPositionZ )
         end
 
         ::continue::
@@ -227,7 +229,88 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     end
 end
 
-function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list, delimiterBetweenCoordinates )
+function buildings_builder_tool:GetFirstBuildableEntityPosition( blueprintsGroupsArray, currentBiome, delimiterBlueprintName, delimiterEntitiesArray, delimiterBetweenCoordinates )
+
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+        if ( #list == 0 ) then
+            goto continue
+        end
+
+        -- condition			"BIOME"
+        -- condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"
+        if ( buildingDescRef.condition == 2 ) then
+
+            if ( not self:IsFitForBiome( currentBiome, buildingDescRef.condition_value ) ) then
+                goto continue
+            end
+        end
+
+        --  Do not create cubes for building_mode "line"
+        local createCube = not ( buildingDescRef.building_mode == "line" )
+
+        -- Split array of coordinates by ";"
+        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
+
+        for entityString in Iter( entitiesCoordinatesArray ) do
+
+            local valuesArray = Split( entityString, delimiterBetweenCoordinates )
+
+            -- Only 4 values in valuesArray
+            if ( #valuesArray == 4 ) then
+
+                local positionX = tonumber( valuesArray[1] )
+                local positionZ = tonumber( valuesArray[2] )
+
+                local orientationY = tonumber( valuesArray[3] )
+                local orientationW = tonumber( valuesArray[4] )
+
+                -- Parse to number successful
+                if ( positionX ~= nil and positionZ ~= nil and orientationY ~= nil and orientationW ~= nil ) then
+                    return positionX, positionZ
+                end
+            end
+        end
+
+        ::continue::
+    end
+
+    return 0,0
+end
+
+function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list, delimiterBetweenCoordinates, firstPositionX, firstPositionZ )
 
     -- Split coordinates by ","
     local valuesArray = Split( entityString, delimiterBetweenCoordinates )
@@ -264,8 +347,8 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
     buildingTemplate.buildingDesc = buildingDesc
     buildingTemplate.createCube = createCube
 
-    buildingTemplate.positionX = positionX
-    buildingTemplate.positionZ = positionZ
+    buildingTemplate.positionX = positionX - firstPositionX
+    buildingTemplate.positionZ = positionZ - firstPositionZ
 
     local orientation = {}
 
@@ -276,7 +359,7 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
 
     buildingTemplate.orientation = orientation
 
-    local deltaX, deltaZ = self:GetVectorDelta( positionX, positionZ )
+    local deltaX, deltaZ = self:GetVectorDelta( buildingTemplate.positionX, buildingTemplate.positionZ )
 
     local newPosition = {}
 
