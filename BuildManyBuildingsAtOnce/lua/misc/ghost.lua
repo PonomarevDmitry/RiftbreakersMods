@@ -23,7 +23,7 @@ function ghost:InitializeValues()
 
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
-    self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
+    self:RegisterHandler( self.selector, "RotateSelectorRequest",       "OnRotateSelectorRequest" )
 
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.selector, "PlayerReferenceComponent") )
     self.playerId = playerReferenceComponent.player_id
