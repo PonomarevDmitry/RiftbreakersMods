@@ -597,8 +597,7 @@ function picker_tool:GetLinkedResource( entity )
         local resourceComponentRef = reflection_helper( resourceComponent )
 
         if ( resourceComponentRef.type ~= nil and resourceComponentRef.type.resource ~= nil and resourceComponentRef.type.resource.id ~= nil ) then
-    
-    
+
             local resourceId = resourceComponentRef.type.resource.id or ""
 
             if ( resourceId ~= "" ) then
@@ -613,8 +612,7 @@ function picker_tool:GetLinkedResource( entity )
         local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
 
         if ( resourceVolumeComponentRef.type ~= nil and resourceVolumeComponentRef.type.resource ~= nil and resourceVolumeComponentRef.type.resource.id ~= nil ) then
-    
-    
+
             local resourceId = resourceVolumeComponentRef.type.resource.id or ""
 
             if ( resourceId ~= "" ) then
@@ -653,10 +651,10 @@ function picker_tool:GetSelectorBlueprintName( lowName, defaultBlueprintName )
     local blueprintName = ""
 
     if ( selectorDB and selectorDB:HasString(parameterName) ) then
-    
+
         blueprintName = selectorDB:GetStringOrDefault(parameterName, "") or ""
     end
-    
+
     if ( blueprintName == "" ) then
         local campaignDatabase = CampaignService:GetCampaignData()
         if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
