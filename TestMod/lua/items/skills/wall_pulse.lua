@@ -9,10 +9,18 @@ end
 
 function wall_pulse:OnInit()
 
+    if ( item.OnInit ) then
+        item.OnInit(self)
+    end
+
     self:InitFsmStateMachine()
 end
 
 function wall_pulse:OnLoad()
+
+    if ( item.OnLoad ) then
+        item.OnLoad(self)
+    end
 
     self:InitFsmStateMachine()
 end
