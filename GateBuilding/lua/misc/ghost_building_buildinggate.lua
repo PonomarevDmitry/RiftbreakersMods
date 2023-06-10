@@ -1,16 +1,62 @@
-local ghost = require("lua/misc/ghost.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'ghost_building_buildinggate' ( ghost )
+class 'ghost_building_buildinggate' ( LuaEntityObject )
 
 function ghost_building_buildinggate:__init()
-    ghost.__init(self,self)
+    LuaEntityObject.__init(self,self)
 end
 
-function ghost_building_buildinggate:OnInit()
+function ghost_building_buildinggate:init()
+
+    self.stateMachine = self:CreateStateMachine()
+    self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
+    self.stateMachine:ChangeState("working")
+
+    self:InitializeValues()
+end
+
+function ghost_building_buildinggate:InitializeValues()
+    self.selector = EntityService:GetParent( self.entity )
+
+    self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
+    self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
+    self:RegisterHandler( self.selector, "RotateSelectorRequest",       "OnRotateSelectorRequest" )
+
+    local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.selector, "PlayerReferenceComponent") )
+    self.playerId = playerReferenceComponent.player_id
+
+    local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent"))
+    self.blueprintName = buildingComponent.bp
+
+    self.desc = reflection_helper(BuildingService:GetBuildingDesc( self.blueprintName ))
+
+    Assert(self.desc ~= nil, "ERROR: " .. self.blueprintName .. " doesn't have BuildingDesc! It will crash now!")
+
+    self.overrides = self.desc.overrides
+    self.erases = self.desc.erase_type
+    self.name = self.desc.name
+    self.toCloseAnnoucement = self.desc.min_radius_effect
+    self.ghostBlueprintName = self.desc.ghost_bp
+
+    self.annoucements = {
+        ["ai"] = "voice_over/announcement/not_enough_ai_cores",
+
+        ["carbonium"] = "voice_over/announcement/not_enough_carbonium",
+        ["steel"] = "voice_over/announcement/not_enough_steel",
+
+        ["cobalt"] = "voice_over/announcement/not_enough_cobalt",
+        ["palladium"] = "voice_over/announcement/not_enough_palladium",
+        ["titanium"] = "voice_over/announcement/not_enough_titanium",
+        ["uranium"] = "voice_over/announcement/not_enough_uranium"
+    }
+
+    --showed_change_info
+    if ( self.desc.rotate_info == true and ConsoleService:GetConfig( "showed_rotate_info" ) == "0" ) then
+        self.rotateInfoChild = EntityService:SpawnAndAttachEntity("misc/rotate_info", self.entity )
+    end
 
     self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
 
@@ -28,6 +74,72 @@ function ghost_building_buildinggate:OnInit()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+end
+
+function  ghost_building_buildinggate:CheckEntityBuildable( entity, transform, id )
+    id = id or 1
+
+    local test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.blueprintName, id )
+
+    if ( test == nil ) then
+        return
+    end
+
+    local testReflection = reflection_helper( test:ToTypeInstance(), test )
+
+    --LogService:Log("Flag: " .. tostring(testReflection.flag ))
+    --LogService:Log("Missing resources: " .. tostring(testReflection.missing_resources))
+    --LogService:Log("Entity to repair: " .. tostring(testReflection.entity_to_repair )  )
+    --LogService:Log("Entity to sell: " .. tostring(testReflection.entities_to_sell ))
+    --LogService:Log("Free grids: " .. tostring(testReflection.free_grids ))
+
+
+    local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
+    local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
+
+    local skinned = EntityService:IsSkinned(entity)
+
+    if ( testReflection.flag == CBF_REPAIR  ) then
+        if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
+            end
+        else
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
+            end
+        end
+    else
+        if ( canBuildOverride ) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_active")
+            end
+        elseif ( canBuild  ) then
+            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+        else
+            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+        end
+    end
+
+    return testReflection
+end
+
+function ghost_building_buildinggate:OnWorkEnter()
+end
+
+function ghost_building_buildinggate:OnWorkExit()
+end
+
+function ghost_building_buildinggate:OnWorkExecute()
+    if ( self.OnUpdate ) then
+        self:OnUpdate()
+    end
 end
 
 function ghost_building_buildinggate:OnUpdate()
@@ -174,7 +286,7 @@ function ghost_building_buildinggate:OnUpdate()
 
                 local id = (xIndex -1 ) * #arrayX + zIndex
 
-                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, id, false )
+                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, id )
 
                 if ( testBuildable ~= nil) then
                     self:AddToEntitiesToSellList(testBuildable)
@@ -184,7 +296,7 @@ function ghost_building_buildinggate:OnUpdate()
             end
         end
 
-        local list = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
+        local list = BuildingService:GetBuildCosts( self.blueprintName, self.playerId )
         for resourceCost in Iter(list) do
 
             if ( self.buildCost[resourceCost.first] == nil ) then
@@ -196,7 +308,7 @@ function ghost_building_buildinggate:OnUpdate()
     else
 
         local currentTransform = EntityService:GetWorldTransform( self.entity )
-        local testBuildable = self:CheckEntityBuildable( self.entity , currentTransform, false )
+        local testBuildable = self:CheckEntityBuildable( self.entity , currentTransform )
 
         if ( testBuildable ~= nil) then
             self:AddToEntitiesToSellList(testBuildable)
@@ -416,11 +528,11 @@ function ghost_building_buildinggate:CreateNewEntity(newPosition, orientation, t
 
     local result = nil
 
-    if ( self.ghostBlueprint ~= "" and self.ghostBlueprint ~= nil ) then
+    if ( self.ghostBlueprintName ~= "" and self.ghostBlueprintName ~= nil ) then
 
-        result = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
+        result = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
     else
-        result = EntityService:SpawnEntity( self.blueprint, newPosition, team )
+        result = EntityService:SpawnEntity( self.blueprintName, newPosition, team )
     end
 
     EntityService:RemoveComponent( result, "LuaComponent" )
@@ -528,7 +640,7 @@ function ghost_building_buildinggate:BuildEntity(entity)
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    local testBuildable = self:CheckEntityBuildable( entity , transform, false )
+    local testBuildable = self:CheckEntityBuildable( entity , transform )
 
     if ( testBuildable == nil ) then
 
@@ -586,7 +698,7 @@ function ghost_building_buildinggate:BuildEntity(entity)
     return testBuildable.flag
 end
 
-function ghost_building_buildinggate:OnActivate()
+function ghost_building_buildinggate:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
@@ -602,11 +714,24 @@ function ghost_building_buildinggate:OnActivate()
     end
 end
 
+function ghost_building_buildinggate:OnDeactivateSelectorRequest()
+
+    self:FinishLineBuild()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+end
+
+function ghost_building_buildinggate:OnRotateSelectorRequest()
+    if (self.rotateInfoChild ~= nil and EntityService:IsAlive(self.rotateInfoChild ) ) then
+        EntityService:RemoveEntity(self.rotateInfoChild)
+        self.rotateInfoChild = nil
+        ConsoleService:ExecuteCommand( "showed_rotate_info 1" )
+    end
+end
+
 function ghost_building_buildinggate:FinishLineBuild()
 
-    if ( self.nowBuildingLine == nil ) then
-        self.nowBuildingLine = false
-    end
+    self.nowBuildingLine = self.nowBuildingLine or false
 
     if ( self.nowBuildingLine ~= true ) then
 
@@ -655,13 +780,6 @@ function ghost_building_buildinggate:GetAllEntities()
     return result
 end
 
-function ghost_building_buildinggate:OnDeactivate()
-
-    self:FinishLineBuild()
-
-    self:RemoveMaterialFromOldBuildingsToSell()
-end
-
 function ghost_building_buildinggate:RemoveMaterialFromOldBuildingsToSell()
 
     if ( self.oldBuildingsToSell ~= nil ) then
@@ -692,10 +810,6 @@ function ghost_building_buildinggate:OnRelease()
     if ( self.infoChild ~= nil ) then
         EntityService:RemoveEntity(self.infoChild)
         self.infoChild = nil
-    end
-
-    if ( ghost.OnRelease ) then
-        ghost.OnRelease(self)
     end
 end
 
