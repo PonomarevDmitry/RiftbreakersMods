@@ -7,7 +7,9 @@ function teleport_explosion:__init()
 end
 
 function teleport_explosion:OnInit()
-    item.OnInit(self)
+    if ( item.OnInit ) then
+        item.OnInit(self)
+    end
 
     self.machine = self:CreateStateMachine()
     self.machine:AddState( "marker", { from="*", execute= "OnMarkerExecute", exit="OnMarkerExit"} )
