@@ -1,18 +1,18 @@
-local upgrade_full_map_base = require("lua/misc/upgrade_full_map_base.lua")
+local upgrade_all_map_base = require("lua/misc/upgrade_all_map_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'upgrade_full_map_upgrader_tool' ( upgrade_full_map_base )
+class 'upgrade_all_map_upgrader_tool' ( upgrade_all_map_base )
 
-function upgrade_full_map_upgrader_tool:__init()
-    upgrade_full_map_base.__init(self,self)
+function upgrade_all_map_upgrader_tool:__init()
+    upgrade_all_map_base.__init(self,self)
 end
 
-function upgrade_full_map_upgrader_tool:OnPreInit()
+function upgrade_all_map_upgrader_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
-function upgrade_full_map_upgrader_tool:OnInit()
+function upgrade_all_map_upgrader_tool:OnInit()
 
     local marker_name = self.data:GetString("marker_name")
     self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
@@ -38,27 +38,27 @@ function upgrade_full_map_upgrader_tool:OnInit()
         else
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            markerDB:SetString("message_text", "gui/hud/upgrade_full_map/building_not_selected")
+            markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
         end
     else
 
         markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-        markerDB:SetString("message_text", "gui/hud/upgrade_full_map/building_not_selected")
+        markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
     end
 end
 
-function upgrade_full_map_upgrader_tool:GetScaleFromDatabase()
+function upgrade_all_map_upgrader_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function upgrade_full_map_upgrader_tool:AddedToSelection( entity )
+function upgrade_all_map_upgrader_tool:AddedToSelection( entity )
 end
 
-function upgrade_full_map_upgrader_tool:RemovedFromSelection( entity )
+function upgrade_all_map_upgrader_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function upgrade_full_map_upgrader_tool:OnUpdate()
+function upgrade_all_map_upgrader_tool:OnUpdate()
 
     self.upgradeCosts = {}
 
@@ -126,7 +126,7 @@ function upgrade_full_map_upgrader_tool:OnUpdate()
     end
 end
 
-function upgrade_full_map_upgrader_tool:FindEntitiesToSelect( selectorComponent )
+function upgrade_all_map_upgrader_tool:FindEntitiesToSelect( selectorComponent )
 
     local result = {}
 
@@ -186,10 +186,10 @@ function upgrade_full_map_upgrader_tool:FindEntitiesToSelect( selectorComponent 
     return result
 end
 
-function upgrade_full_map_upgrader_tool:OnRotate()
+function upgrade_all_map_upgrader_tool:OnRotate()
 end
 
-function upgrade_full_map_upgrader_tool:OnActivateSelectorRequest()
+function upgrade_all_map_upgrader_tool:OnActivateSelectorRequest()
 
     if ( #self.selectedEntities == 0 ) then
         return
@@ -217,4 +217,4 @@ function upgrade_full_map_upgrader_tool:OnActivateSelectorRequest()
     end
 end
 
-return upgrade_full_map_upgrader_tool
+return upgrade_all_map_upgrader_tool

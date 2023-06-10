@@ -2,13 +2,13 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'upgrade_full_map_base' ( tool )
+class 'upgrade_all_map_base' ( tool )
 
-function upgrade_full_map_base:__init()
+function upgrade_all_map_base:__init()
     tool.__init(self,self)
 end
 
-function upgrade_full_map_base:InitLowUpgradeList()
+function upgrade_all_map_base:InitLowUpgradeList()
 
     self.template_name = self.data:GetString("template_name")
 
@@ -32,7 +32,7 @@ function upgrade_full_map_base:InitLowUpgradeList()
     end
 end
 
-function upgrade_full_map_base:GetFirstLevelBuilding(blueprintName)
+function upgrade_all_map_base:GetFirstLevelBuilding(blueprintName)
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -67,7 +67,7 @@ function upgrade_full_map_base:GetFirstLevelBuilding(blueprintName)
     return blueprintName
 end
 
-function upgrade_full_map_base:FillCache()
+function upgrade_all_map_base:FillCache()
 
     self.cacheBlueprintsLowNames = {}
 
@@ -79,7 +79,7 @@ function upgrade_full_map_base:FillCache()
     end
 end
 
-function upgrade_full_map_base:FillLowUpgradeList( list, blueprintName, seenBlueprintList )
+function upgrade_all_map_base:FillLowUpgradeList( list, blueprintName, seenBlueprintList )
 
     seenBlueprintList = seenBlueprintList or {}
 
@@ -128,7 +128,7 @@ function upgrade_full_map_base:FillLowUpgradeList( list, blueprintName, seenBlue
     end
 end
 
-function upgrade_full_map_base:AddToLowUpgradeList( list, buildingDescRef )
+function upgrade_all_map_base:AddToLowUpgradeList( list, buildingDescRef )
 
     local lowName = BuildingService:FindLowUpgrade( buildingDescRef.bp )
 
@@ -153,7 +153,7 @@ function upgrade_full_map_base:AddToLowUpgradeList( list, buildingDescRef )
     end
 end
 
-function upgrade_full_map_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )
+function upgrade_all_map_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )
 
     seenBlueprintList = seenBlueprintList or {}
 
@@ -202,7 +202,7 @@ function upgrade_full_map_base:FillSelectedBlueprintsList( list, blueprintName, 
     end
 end
 
-function upgrade_full_map_base:AddToSelectedBlueprintsList( list, buildingDescRef )
+function upgrade_all_map_base:AddToSelectedBlueprintsList( list, buildingDescRef )
 
     if ( IndexOf( list, buildingDescRef.bp ) == nil ) then
 
@@ -224,7 +224,7 @@ function upgrade_full_map_base:AddToSelectedBlueprintsList( list, buildingDescRe
     end
 end
 
-function upgrade_full_map_base:IsBlueprintInList( blueprintName )
+function upgrade_all_map_base:IsBlueprintInList( blueprintName )
 
     if ( #self.selectedBlueprints == 0 ) then
         return false
@@ -242,7 +242,7 @@ function upgrade_full_map_base:IsBlueprintInList( blueprintName )
     return result
 end
 
-function upgrade_full_map_base:CalcIsBlueprintInList( blueprintName )
+function upgrade_all_map_base:CalcIsBlueprintInList( blueprintName )
 
     if ( #self.selectedBlueprints == 0 ) then
         return false
@@ -268,7 +268,7 @@ function upgrade_full_map_base:CalcIsBlueprintInList( blueprintName )
     return false
 end
 
-function upgrade_full_map_base:IsBlueprintInLowNameList( blueprintName )
+function upgrade_all_map_base:IsBlueprintInLowNameList( blueprintName )
 
     if ( #self.selectedLowUpgrade == 0 ) then
         return false
@@ -286,7 +286,7 @@ function upgrade_full_map_base:IsBlueprintInLowNameList( blueprintName )
     return result
 end
 
-function upgrade_full_map_base:CalcIsBlueprintInLowNameList( blueprintName )
+function upgrade_all_map_base:CalcIsBlueprintInLowNameList( blueprintName )
 
     if ( #self.selectedLowUpgrade == 0 ) then
         return false
@@ -308,7 +308,7 @@ function upgrade_full_map_base:CalcIsBlueprintInLowNameList( blueprintName )
     return false
 end
 
-function upgrade_full_map_base:GetMenuIcon( blueprintName )
+function upgrade_all_map_base:GetMenuIcon( blueprintName )
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -356,7 +356,7 @@ function upgrade_full_map_base:GetMenuIcon( blueprintName )
     return ""
 end
 
-function upgrade_full_map_base:GetBuildingMenuIcon( blueprintName )
+function upgrade_all_map_base:GetBuildingMenuIcon( blueprintName )
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return ""
@@ -391,5 +391,5 @@ function upgrade_full_map_base:GetBuildingMenuIcon( blueprintName )
     return ""
 end
 
-return upgrade_full_map_base
+return upgrade_all_map_base
  

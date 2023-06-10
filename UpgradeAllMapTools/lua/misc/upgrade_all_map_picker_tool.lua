@@ -1,22 +1,22 @@
-local upgrade_full_map_base = require("lua/misc/upgrade_full_map_base.lua")
+local upgrade_all_map_base = require("lua/misc/upgrade_all_map_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'upgrade_full_map_picker_tool' ( upgrade_full_map_base )
+class 'upgrade_all_map_picker_tool' ( upgrade_all_map_base )
 
-function upgrade_full_map_picker_tool:__init()
-    upgrade_full_map_base.__init(self,self)
+function upgrade_all_map_picker_tool:__init()
+    upgrade_all_map_base.__init(self,self)
 end
 
-function upgrade_full_map_picker_tool:OnPreInit()
+function upgrade_all_map_picker_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
-function upgrade_full_map_picker_tool:GetScaleFromDatabase()
+function upgrade_all_map_picker_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function upgrade_full_map_picker_tool:OnInit()
+function upgrade_all_map_picker_tool:OnInit()
 
     local marker_name = self.data:GetString("marker_name")
     self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
@@ -57,13 +57,13 @@ function upgrade_full_map_picker_tool:OnInit()
     self.radiusShowBuildingsToUpgrade = 100.0
 end
 
-function upgrade_full_map_picker_tool:SpawnCornerBlueprint()
+function upgrade_all_map_picker_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function upgrade_full_map_picker_tool:AddedToSelection( entity )
+function upgrade_all_map_picker_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
@@ -73,11 +73,11 @@ function upgrade_full_map_picker_tool:AddedToSelection( entity )
     end
 end
 
-function upgrade_full_map_picker_tool:RemovedFromSelection( entity )
+function upgrade_all_map_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function upgrade_full_map_picker_tool:FilterSelectedEntities( selectedEntities )
+function upgrade_all_map_picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
@@ -120,12 +120,12 @@ function upgrade_full_map_picker_tool:FilterSelectedEntities( selectedEntities )
     return entities
 end
 
-function upgrade_full_map_picker_tool:OnUpdate()
+function upgrade_all_map_picker_tool:OnUpdate()
 
     self:HighlightBuildingsToUpgrade()
 end
 
-function upgrade_full_map_picker_tool:IsUpgradable(buildingDescRef)
+function upgrade_all_map_picker_tool:IsUpgradable(buildingDescRef)
 
     if ( buildingDescRef.level > 1 ) then
         return true
@@ -138,7 +138,7 @@ function upgrade_full_map_picker_tool:IsUpgradable(buildingDescRef)
     return false
 end
 
-function upgrade_full_map_picker_tool:OnActivateSelectorRequest()
+function upgrade_all_map_picker_tool:OnActivateSelectorRequest()
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -193,7 +193,7 @@ function upgrade_full_map_picker_tool:OnActivateSelectorRequest()
     end
 end
 
-function upgrade_full_map_picker_tool:HighlightBuildingsToUpgrade()
+function upgrade_all_map_picker_tool:HighlightBuildingsToUpgrade()
 
     -- Buildings within a radius radiusShowBuildingsToUpgrade from player to highlight
     local buildings = self:FindUpgradableBuildings()
@@ -231,7 +231,7 @@ function upgrade_full_map_picker_tool:HighlightBuildingsToUpgrade()
     self.previousMarkedBuildings = buildings
 end
 
-function upgrade_full_map_picker_tool:FindUpgradableBuildings()
+function upgrade_all_map_picker_tool:FindUpgradableBuildings()
 
     local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
@@ -265,7 +265,7 @@ function upgrade_full_map_picker_tool:FindUpgradableBuildings()
     return result
 end
 
-function upgrade_full_map_picker_tool:OnRelease()
+function upgrade_all_map_picker_tool:OnRelease()
 
     -- Remove highlighting from buildings
     if ( self.previousMarkedBuildings ~= nil ) then
@@ -276,10 +276,10 @@ function upgrade_full_map_picker_tool:OnRelease()
     end
     self.previousMarkedBuildings = {}
 
-    if ( upgrade_full_map_base.OnRelease ) then
-        upgrade_full_map_base.OnRelease(self)
+    if ( upgrade_all_map_base.OnRelease ) then
+        upgrade_all_map_base.OnRelease(self)
     end
 end
 
-return upgrade_full_map_picker_tool
+return upgrade_all_map_picker_tool
  
