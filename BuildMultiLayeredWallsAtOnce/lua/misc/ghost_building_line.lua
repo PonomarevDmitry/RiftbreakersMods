@@ -25,8 +25,9 @@ function ghost_building_line:OnInit()
     --    self.positionPlayer = EntityService:GetPosition( player )
     --end
 
-    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    self.positionPlayerMarker = nil
+
+    self:CreateInfoChild()
 
     local typeName = ""
     local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
@@ -39,6 +40,14 @@ function ghost_building_line:OnInit()
     self.markerLinesConfig = "0"
     self.currentMarkerLines = nil
     self.isWall = ( typeName == "wall" )
+end
+
+function ghost_building_line:CreateInfoChild()
+
+    if ( self.infoChild == nil ) then
+        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+    end
 end
 
 function ghost_building_line:OnUpdate()
@@ -81,6 +90,8 @@ function ghost_building_line:OnUpdate()
 
         local newPositions = self:FindPositionsToBuildLine( currentTransform, wallLinesConfig )
 
+        local team = EntityService:GetTeam(self.entity)
+
         if ( #self.linesEntities > #newPositions ) then
 
             for i=#self.linesEntities,#newPositions + 1,-1 do
@@ -92,7 +103,7 @@ function ghost_building_line:OnUpdate()
 
             for i=#self.linesEntities + 1 ,#newPositions do
 
-                local lineEnt = EntityService:SpawnEntity(self.ghostBlueprint, newPositions[i], EntityService:GetTeam(self.entity) )
+                local lineEnt = EntityService:SpawnEntity(self.ghostBlueprint, newPositions[i], team )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
                 Insert(self.linesEntities, lineEnt)
             end
@@ -124,20 +135,16 @@ function ghost_building_line:OnUpdate()
         local transform = EntityService:GetWorldTransform( self.entity )
         local testBuildable = self:CheckEntityBuildable( self.entity, transform, false )
        -- BuildingService:CheckAndFixBuildingConnection(self.entity)
-
     end
 
-    if ( self.infoChild == nil ) then
-        self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
-    end
+    self:CreateInfoChild()
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
 
     if ( onScreen ) then
-        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost)
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
     else
-        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {})
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
 end
 
@@ -203,7 +210,7 @@ end
 function ghost_building_line:FindPositionsToBuildLine(currentTransform, wallLinesConfig)
 
     -- Path from buildStartPosition to currentTransform
-    local pathFromStartPositionToEndPosition = BuildingService:FindPathByBlueprint(self.buildStartPosition, currentTransform, self.blueprint )
+    local pathFromStartPositionToEndPosition = BuildingService:FindPathByBlueprint( self.buildStartPosition, currentTransform, self.blueprint )
 
     -- If wallLinesConfig equals "1" then do nothing, return path from buildStartPosition to currentTransform
     if ( wallLinesConfig == "1" ) then
@@ -220,67 +227,16 @@ function ghost_building_line:FindPositionsToBuildLine(currentTransform, wallLine
     return self:CreateSolidWalls(pathFromStartPositionToEndPosition, wallLinesConfig, positionPlayer)
 end
 
-function ghost_building_line:PositionResult(positionX, positionZ)
-
-    local result = (positionX - self.cornerPositionX) * self.cornerVectorZ - (positionZ - self.cornerPositionZ) * self.cornerVectorX
-
-    if (result > 0) then
-
-        return  1
-    elseif result < 0 then
-
-        return -1
-    else
-
-        return 0
-    end
-end
-
 function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition, wallLinesConfig, positionPlayer)
 
-    local odds, cornerTileNumber = self:GetCorner(pathFromStartPositionToEndPosition)
-
-    self.cornerVectorX = 0
-    self.cornerVectorZ = 0
-    self.cornerPositionX = 0
-    self.cornerPositionZ = 0
-
-    self.checkCollisionBox = false
-
-    local cornerType = 0
-
     local wallLinesConfigLen = string.len( wallLinesConfig )
-
-    if ( cornerTileNumber ~= -1 ) then
-
-        local cornerX, cornerZ = self:GetCornerVector(pathFromStartPositionToEndPosition, cornerTileNumber)
-
-        local cornerPosition = pathFromStartPositionToEndPosition[cornerTileNumber]
-
-        local cornerXSign, cornerZSign = self:GetXZSigns(cornerPosition, positionPlayer)
-
-        cornerType = cornerXSign * cornerX + cornerZSign * cornerZ
-
-        if ( cornerType == -2 ) then
-
-            self.checkCollisionBox = true
-
-            self.cornerPositionX = cornerPosition.x
-            self.cornerPositionZ = cornerPosition.z
-            self.cornerVectorX = cornerX
-            self.cornerVectorZ = cornerZ
-
-            local firstPosition = pathFromStartPositionToEndPosition[1]
-            local lastPosition = pathFromStartPositionToEndPosition[#pathFromStartPositionToEndPosition]
-
-            self:FillCollisionBoxBounds( wallLinesConfigLen, cornerPosition, firstPosition, lastPosition )
-        end
-    end
 
     local deltaXZ = 2
 
     local hashPositions = {}
-    local result = {}
+    local positionsArray = {}
+
+    local hashMerge = {}
 
     for i=1,#pathFromStartPositionToEndPosition do
 
@@ -293,24 +249,28 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
         -- Add if position has not been added yet
         if ( not self:HashContains(hashPositions, position.x, position.z ) ) then
 
-            table.insert(result, position)
+            table.insert(positionsArray, position)
         end
+
+        self:AddHashMerge( hashMerge, position.x, position.z, 0, true )
 
         -- Adding new positions for wall layers
 
-        local currentValue = self:PositionResult(position.x, position.z)
-
         if ( hasChangesX ) then
 
-            self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, currentValue, hashPositions, result)
+            self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, hashPositions, positionsArray, hashMerge)
         end
 
         if ( hasChangesZ ) then
 
-            self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, currentValue, hashPositions, result)
+            self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, hashPositions, positionsArray, hashMerge)
         end
 
         if ( hasChangesX and hasChangesZ ) then
+
+            local cornerX, cornerZ = self:GetCornerVector(pathFromStartPositionToEndPosition, i)
+
+            local cornerType = xSign * cornerX + zSign * cornerZ
 
             -- Outer Corner
             if (cornerType == 2) then
@@ -321,22 +281,67 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
                     for xStep=1,wallLinesConfigLen do
 
+                        local newPositionX = position.x + xSign * (xStep - 1) * deltaXZ
+                        local newPositionZ = position.z + zSign * (zStep - 1) * deltaXZ
+
                         local subStrX = string.sub(wallLinesConfig, xStep, xStep)
 
-                        if ( (subStrZ == "1" and xStep <= zStep) or (subStrX == "1" and zStep <= xStep) ) then
+                        local hasWall = (subStrZ == "1" and xStep <= zStep) or (subStrX == "1" and zStep <= xStep)
 
-                            local newPositionX = position.x + xSign * (xStep - 1) * deltaXZ
-                            local newPositionZ = position.z + zSign * (zStep - 1) * deltaXZ
+                        if ( hasWall ) then
 
-                            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
+                            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, position.y)
                         end
+
+                        local index = math.max( (xStep - 1), (zStep - 1) )
+
+                        self:AddHashMerge( hashMerge, newPositionX, newPositionZ, index, hasWall )
                     end
                 end
             end
         end
     end
 
+    local result = {}
+
+    for position in Iter(positionsArray) do
+
+        if ( hashMerge[position.x] and hashMerge[position.x][position.z] and hashMerge[position.x][position.z].hasWall == true ) then
+
+            table.insert(result, position)
+        end
+    end
+
     return result
+end
+
+function ghost_building_line:AddHashMerge(hashMerge, newPositionX, newPositionZ, index, hasWall)
+
+    hashMerge[newPositionX] = hashMerge[newPositionX] or {}
+
+    local hashXPosition = hashMerge[newPositionX]
+
+    if ( hashXPosition[newPositionZ] == nil ) then
+
+        hashXPosition[newPositionZ] = {}
+
+        hashXPosition[newPositionZ].currentIndex = index
+        hashXPosition[newPositionZ].hasWall = hasWall
+
+        return
+    end
+
+    local cellConfig = hashXPosition[newPositionZ]
+
+    if ( cellConfig.currentIndex > index ) then
+
+        cellConfig.currentIndex = index
+        cellConfig.hasWall = hasWall
+
+    elseif ( cellConfig.currentIndex == index ) then
+
+        cellConfig.hasWall = cellConfig.hasWall or hasWall
+    end
 end
 
 function ghost_building_line:GetXZSigns(position, positionPlayer)
@@ -439,32 +444,7 @@ function ghost_building_line:GetCornerVector(pathFromStartPositionToEndPosition,
     return cornerX, cornerZ
 end
 
-function ghost_building_line:GetCorner(pathFromStartPositionToEndPosition)
-
-    local odds = 1
-    local cornerTileNumber = -1
-
-    for i=1,#pathFromStartPositionToEndPosition do
-
-        if ( (i > 1) and (i+1) <= #pathFromStartPositionToEndPosition ) then
-
-            local position = pathFromStartPositionToEndPosition[i]
-
-            local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
-
-            if ( hasChangesX and hasChangesZ) then
-
-                odds = i % 2
-                cornerTileNumber = i
-                break
-            end
-        end
-    end
-
-    return odds, cornerTileNumber
-end
-
-function ghost_building_line:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
+function ghost_building_line:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, newPositionY)
 
     -- Add if position has not been added yet
     if ( not self:HashContains(hashPositions, newPositionX, newPositionZ ) ) then
@@ -474,7 +454,7 @@ function ghost_building_line:AddNewPositionToResult(hashPositions, result, newPo
         newPosition.y = newPositionY
         newPosition.z = newPositionZ
 
-        table.insert(result, newPosition)
+        table.insert(positionsArray, newPosition)
     end
 end
 
@@ -498,111 +478,41 @@ function ghost_building_line:HashContains(hashPositions, newPositionX, newPositi
     return false
 end
 
-function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, currentValue, hashPositions, result)
+function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, hashPositions, positionsArray, hashMerge)
 
-    for step=2,wallLinesConfigLen do
+    for step=1,wallLinesConfigLen do
 
-        local subStr = string.sub(wallLinesConfig, step, step)
-
-        if ( subStr == "1" ) then
-
-            local newPositionX = position.x + xSign * (step - 1) * deltaXZ
-
-            if ( self:PerformCheckCollisionBox( newPositionX, position.z, currentValue ) ) then
-
-                self:AddNewPositionToResult(hashPositions, result, newPositionX, position.z, position.y)
-            end
-        end
-    end
-end
-
-function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, currentValue, hashPositions, result)
-
-    for step=2,wallLinesConfigLen do
+        local newPositionX = position.x + xSign * (step - 1) * deltaXZ
 
         local subStr = string.sub(wallLinesConfig, step, step)
 
-        if ( subStr == "1" ) then
+        local hasWall = (subStr == "1")
+        if ( hasWall ) then
 
-            local newPositionZ = position.z + zSign * (step - 1) * deltaXZ
-
-            if ( self:PerformCheckCollisionBox( position.x, newPositionZ, currentValue ) ) then
-
-                self:AddNewPositionToResult(hashPositions, result, position.x, newPositionZ, position.y)
-            end
+            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, position.z, position.y)
         end
+
+        self:AddHashMerge( hashMerge, newPositionX, position.z, (step - 1), hasWall )
     end
 end
 
-function ghost_building_line:PerformCheckCollisionBox( newPositionX, newPositionZ, currentValue)
+function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, hashPositions, positionsArray, hashMerge)
 
-    if ( self.checkCollisionBox == false ) then
+    for step=1,wallLinesConfigLen do
 
-        return true
+        local newPositionZ = position.z + zSign * (step - 1) * deltaXZ
+
+        local subStr = string.sub(wallLinesConfig, step, step)
+
+        local hasWall = (subStr == "1")
+
+        if ( hasWall ) then
+
+            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, position.x, newPositionZ, position.y)
+        end
+
+        self:AddHashMerge( hashMerge, position.x, newPositionZ, (step - 1), hasWall )
     end
-
-    if ( (self.fullBoxMinX <= newPositionX and newPositionX <= self.fullBoxMaxX) and (self.fullBoxMinZ <= newPositionZ and newPositionZ <= self.fullBoxMaxZ) ) then
-
-        local positionValue = self:PositionResult(newPositionX, newPositionZ)
-
-        if ( positionValue == currentValue or positionValue == 0 ) then
-
-            return true
-        else
-
-            return false
-        end
-    else
-
-        if ( (self.collisionBoxMinX < newPositionX and newPositionX < self.collisionBoxMaxX) or newPositionX == self.cornerPositionX ) then
-
-            return false
-        end
-
-        if ( (self.collisionBoxMinZ < newPositionZ and newPositionZ < self.collisionBoxMaxZ) or newPositionZ == self.cornerPositionZ ) then
-
-            return false
-        end
-
-        return true
-    end
-end
-
-function ghost_building_line:FillCollisionBoxBounds( wallLinesConfigLen, cornerPosition, firstPosition, lastPosition )
-
-    local widthX = math.max( math.abs( cornerPosition.x - lastPosition.x ), math.abs( cornerPosition.x - firstPosition.x ) )
-
-    local widthZ = math.max( math.abs( cornerPosition.z - lastPosition.z ), math.abs( cornerPosition.z - firstPosition.z ) )
-
-    local width = math.min( widthX, widthZ )
-
-    local xPosition = cornerPosition.x - self.cornerVectorX * width;
-
-    local collisionMinX = math.min( cornerPosition.x, xPosition )
-    local collisionMaxX = math.max( cornerPosition.x, xPosition )
-
-    self.collisionBoxMinX = collisionMinX
-    self.collisionBoxMaxX = collisionMaxX
-
-    local zPosition = cornerPosition.z - self.cornerVectorZ * width
-
-    local collisionMinZ = math.min( cornerPosition.z, zPosition )
-    local collisionMaxZ = math.max( cornerPosition.z, zPosition )
-
-    self.collisionBoxMinZ = collisionMinZ
-    self.collisionBoxMaxZ = collisionMaxZ
-
-    local fullMinX = math.min( firstPosition.x, lastPosition.x )
-    local fullMaxX = math.max( firstPosition.x, lastPosition.x )
-
-    self.fullBoxMinX = fullMinX
-    self.fullBoxMaxX = fullMaxX
-
-    local fullMinZ = math.min( firstPosition.z, lastPosition.z )
-    local fullMaxZ = math.max( firstPosition.z, lastPosition.z )
-
-    self.fullBoxMinZ = fullMinZ
-    self.fullBoxMaxZ = fullMaxZ
 end
 
 function ghost_building_line:FinishLineBuild()
@@ -644,6 +554,16 @@ function ghost_building_line:FinishLineBuild()
     self.linesEntities = {}
     self.buildStartPosition = nil
     self.positionPlayer = nil
+
+    self:DestroyPositionPlayerMarker()
+end
+
+function ghost_building_line:DestroyPositionPlayerMarker()
+
+    if ( self.positionPlayerMarker ~= nil ) then
+        EntityService:RemoveEntity( self.positionPlayerMarker )
+        self.positionPlayerMarker = nil
+    end
 end
 
 function ghost_building_line:OnActivate()
@@ -656,6 +576,10 @@ function ghost_building_line:OnActivate()
 
         local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         self.positionPlayer = EntityService:GetPosition( player )
+
+        self:DestroyPositionPlayerMarker()
+
+        self.positionPlayerMarker = EntityService:SpawnEntity( "effects/multilayeredwalls_markers/objective_marker", self.positionPlayer, EntityService:GetTeam(self.entity) )
 
         self:OnUpdate()
     else
@@ -686,6 +610,8 @@ function ghost_building_line:OnRelease()
         EntityService:RemoveEntity(self.currentMarkerLines)
         self.currentMarkerLines = nil
     end
+
+    self:DestroyPositionPlayerMarker()
 
     if ( ghost.OnRelease ) then
         ghost.OnRelease(self)
