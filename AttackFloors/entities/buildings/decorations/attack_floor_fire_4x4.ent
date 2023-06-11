@@ -16,10 +16,12 @@ EntityBlueprint
 		type					"floor"
 		require					"headquarters"
 
-		buildable				"0"
 		building_mode			"radius"
 		exclude_terrain_types	"quicksand,magma_hot_ground,magma_very_hot_ground,creeper_area"
 		overrides				"floor"
+
+		buildable				"0"
+		building_group			"attack_floor_acid_1x1"
 
 		costs
 		{
@@ -53,16 +55,16 @@ EntityBlueprint
 
 	BurningComponent
 	{
-		spread_radius			"1.0"			// radius to spread fire
-		spread_chance_override	"1.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_radius			"1.0"						// radius to spread fire
+		spread_chance_override	"1.0"						// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
 
 		spread_timer
 		{
-			end "200000"						// how often entity will try to spread fire in microseconds ( 2s )
+			end					"200000"					// how often entity will try to spread fire in microseconds ( 2s )
 		}
 
 		burning_effect_group	"time_damage_fire"			// effect group to be enabled on entity
-		burning_time			"10000000000"	// how long it will burn in seconds
+		burning_time			"10000000000"				// how long it will burn in seconds
 	}
 
 	ResistanceComponent
@@ -84,9 +86,9 @@ EntityBlueprint
 				{
 					PhysicsBoxShape
 					{
-							x	7.9
-							y	0.1
-							z	7.9
+						x	7.9
+						y	0.1
+						z	7.9
 					}
 				}
 			}
