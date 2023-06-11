@@ -1,13 +1,13 @@
 local item = require("lua/items/item.lua")
 require("lua/utils/reflection.lua")
 
-class 'wall_pulse' ( item )
+class 'wall_breaker' ( item )
 
-function wall_pulse:__init()
+function wall_breaker:__init()
     item.__init(self,self)
 end
 
-function wall_pulse:OnInit()
+function wall_breaker:OnInit()
 
     if ( item.OnInit ) then
         item.OnInit(self)
@@ -16,7 +16,7 @@ function wall_pulse:OnInit()
     self:InitFsmStateMachine()
 end
 
-function wall_pulse:OnLoad()
+function wall_breaker:OnLoad()
 
     if ( item.OnLoad ) then
         item.OnLoad(self)
@@ -25,7 +25,7 @@ function wall_pulse:OnLoad()
     self:InitFsmStateMachine()
 end
 
-function wall_pulse:InitFsmStateMachine()
+function wall_breaker:InitFsmStateMachine()
 
     if ( self.fsm ~= nil ) then
         return
@@ -35,7 +35,7 @@ function wall_pulse:InitFsmStateMachine()
     self.fsm:AddState( "clean_path", { execute="OnExecuteCleanPath", interval = 0.1 } )
 end
 
-function wall_pulse:CanActivate()
+function wall_breaker:CanActivate()
 
     local currentBiome = MissionService:GetCurrentBiomeName()
     if ( currentBiome == "caverns" ) then
@@ -45,7 +45,7 @@ function wall_pulse:CanActivate()
     return false
 end
 
-function wall_pulse:OnActivate()
+function wall_breaker:OnActivate()
 
     if ( self.owner == nil or self.owner == INVALID_ID ) then
         return
@@ -65,9 +65,9 @@ function wall_pulse:OnActivate()
     self.fsm:ChangeState( "clean_path" )
 end
 
-function wall_pulse:OnExecuteCleanPath( state )
+function wall_breaker:OnExecuteCleanPath( state )
 
-    local blueprintName = "items/consumables/wall_pulse_" .. string.format( "%02d", self.step )
+    local blueprintName = "items/consumables/wall_breaker_" .. string.format( "%02d", self.step )
 
     LogService:Log("OnExecuteCleanPath " .. blueprintName)
 
@@ -85,4 +85,4 @@ function wall_pulse:OnExecuteCleanPath( state )
     end
 end
 
-return wall_pulse
+return wall_breaker
