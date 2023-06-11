@@ -193,29 +193,30 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
 
-    local position = selectorComponent.position
-    local min = VectorSub(position, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
-    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
+    local selectorPosition = selectorComponent.position
+
+    local min = VectorSub(selectorPosition, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
+    local max = VectorAdd(selectorPosition, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
 
     local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 
     ConcatUnique( selectedItems, ruins )
 
-    self:AddResourceVolumes( selectedItems, min, max )
+    self:AddResourceVolumes( selectedItems, min, max, selectorPosition )
 
-    self:AddResourceComponents( selectedItems, position )
+    self:AddResourceComponents( selectedItems, selectorPosition )
 
     return selectedItems
 end
 
-function picker_tool:AddResourceVolumes( selectedItems, min, max )
+function picker_tool:AddResourceVolumes( selectedItems, min, max, selectorPosition )
 
     local resourceVolumeEntities = {}
 
     local predicate = {
 
         signature="ResourceVolumeComponent"
-    };
+    }
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
@@ -234,17 +235,15 @@ function picker_tool:AddResourceVolumes( selectedItems, min, max )
         ::continue::
     end
 
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition( lhs )
-        local p2 = EntityService:GetPosition( rhs )
-        local d1 = Distance( position, p1 )
-        local d2 = Distance( position, p2 )
-        return d1 < d2
+    local sorter = function( lhs, rhs )
+        local position1 = EntityService:GetPosition( lhs )
+        local position2 = EntityService:GetPosition( rhs )
+        local distance1 = Distance( selectorPosition, position1 )
+        local distance2 = Distance( selectorPosition, position2 )
+        return distance1 < distance2
     end
 
-    table.sort(resourceVolumeEntities, function(a,b)
-        return sorter(resourceVolumeEntities, a, b)
-    end)
+    table.sort(resourceVolumeEntities, sorter)
 
     ConcatUnique( selectedItems, resourceVolumeEntities )
 end
@@ -256,7 +255,7 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
     local predicate = {
 
         signature="ResourceComponent,GridMarkerComponent"
-    };
+    }
 
     local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
@@ -294,17 +293,15 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
         ::continue::
     end
 
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition( lhs )
-        local p2 = EntityService:GetPosition( rhs )
-        local d1 = Distance( position, p1 )
-        local d2 = Distance( position, p2 )
-        return d1 < d2
+    local sorter = function( lhs, rhs )
+        local position1 = EntityService:GetPosition( lhs )
+        local position2 = EntityService:GetPosition( rhs )
+        local distance1 = Distance( selectorPosition, position1 )
+        local distance2 = Distance( selectorPosition, position2 )
+        return distance1 < distance2
     end
 
-    table.sort(resourceComponents, function(a,b)
-        return sorter(resourceComponents, a, b)
-    end)
+    table.sort(resourceComponents, sorter)
 
     ConcatUnique( selectedItems, resourceComponents )
 end
