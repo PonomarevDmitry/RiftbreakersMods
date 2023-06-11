@@ -1,5 +1,6 @@
 local ghost = require("lua/misc/ghost.lua")
 require("lua/utils/reflection.lua")
+require("lua/utils/numeric_utils.lua")
 
 class 'ghost_building_line' ( ghost )
 
@@ -233,6 +234,15 @@ end
 
 function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition, wallLinesConfig, positionPlayer)
 
+    local hashOriginal = {}
+
+    for position in Iter(pathFromStartPositionToEndPosition) do
+
+        hashOriginal[position.x] = hashOriginal[position.x] or {}
+
+        hashOriginal[position.x][position.z] = true
+    end
+
     local wallLinesConfigLen = string.len( wallLinesConfig )
 
     local deltaXZ = 2
@@ -242,33 +252,13 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
     local hashMerge = {}
 
-    local startPosition = pathFromStartPositionToEndPosition[1]
-
-    local startPositionXSign, startPositionZSign = self:GetXZSigns(startPosition, positionPlayer)
-
-    local startPositionHasChangesX, startPositionHasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, startPosition, 1)
-
-    local signVector = {}
-
-    signVector.x = 0
-    signVector.z = 0
-
-    if ( startPositionHasChangesX ) then
-
-        signVector.z = startPositionZSign
-
-    elseif ( startPositionHasChangesZ ) then
-
-        signVector.x = startPositionXSign
-    end
+    local signVector = self:GetStartSignVector(pathFromStartPositionToEndPosition, positionPlayer)
 
     for i=1,#pathFromStartPositionToEndPosition do
 
         local position = pathFromStartPositionToEndPosition[i]
 
         local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
-
-        local xSign, zSign = self:GetXZSigns(position, positionPlayer)
 
         -- Add if position has not been added yet
         if ( not self:HashContains(hashPositions, position.x, position.z ) ) then
@@ -283,11 +273,11 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
         if ( hasChangesX and hasChangesZ ) then
 
             if ( signVector.x ~= 0 ) then
-                self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge)
+                self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
             end
 
             if ( signVector.z ~= 0 ) then
-                self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge)
+                self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
             end
 
             local cornerX, cornerZ = self:GetCornerVector(pathFromStartPositionToEndPosition, i)
@@ -322,62 +312,25 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
                 end
             end
 
-            local degree = self:GetRotateDegree(pathFromStartPositionToEndPosition, i)
+            local degree = self:GetRotateDegree(pathFromStartPositionToEndPosition, i, 1)
 
-            -- Identity matrix
-            --   A B
-            -- A 1 0
-            -- B 0 1
-            local coefAA = 1
-            local coefAB = 0
-            local coefBA = 0
-            local coefBB = 1
-
-            if ( degree > 0 ) then
-
-                -- counter-clockwise matrix
-                --    A B
-                -- A  0 1
-                -- B -1 0
-
-                coefAA = 0
-                coefAB = 1
-                coefBA = -1
-                coefBB = 0
-            else
-
-                -- clockwise matrix
-                --   A  B
-                -- A 0 -1
-                -- B 1  0
-
-                coefAA = 0
-                coefAB = -1
-                coefBA = 1
-                coefBB = 0
-            end
-
-            local newSignVectorX = signVector.x * coefAA + signVector.z * coefBA
-            local newSignVectorZ = signVector.x * coefAB + signVector.z * coefBB
-
-            signVector.x = newSignVectorX
-            signVector.z = newSignVectorZ
+            self:RotateVector(signVector, degree)
 
             if ( signVector.x ~= 0 ) then
-                self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge)
+                self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
             end
 
             if ( signVector.z ~= 0 ) then
-                self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge)
+                self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
             end
 
         elseif ( hasChangesX ) then
 
-            self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge)
+            self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
 
         elseif ( hasChangesZ ) then
 
-            self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge)
+            self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
 
         end
     end
@@ -395,15 +348,150 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
     return result
 end
 
-function ghost_building_line:GetRotateDegree(pathFromStartPositionToEndPosition, cornerPositionNumber)
+function ghost_building_line:RotateVector(signVector, degree)
+
+    -- Identity matrix
+    --   A B
+    -- A 1 0
+    -- B 0 1
+    local coefAA = 1
+    local coefAB = 0
+    local coefBA = 0
+    local coefBB = 1
+
+    if ( degree > 0 ) then
+
+        -- counter-clockwise matrix
+        --    A B
+        -- A  0 1
+        -- B -1 0
+
+        coefAA = 0
+        coefAB = 1
+        coefBA = -1
+        coefBB = 0
+    else
+
+        -- clockwise matrix
+        --   A  B
+        -- A 0 -1
+        -- B 1  0
+
+        coefAA = 0
+        coefAB = -1
+        coefBA = 1
+        coefBB = 0
+    end
+
+    local newSignVectorX = signVector.x * coefAA + signVector.z * coefBA
+    local newSignVectorZ = signVector.x * coefAB + signVector.z * coefBB
+
+    signVector.x = newSignVectorX
+    signVector.z = newSignVectorZ
+end
+
+function ghost_building_line:GetStartSignVector(pathFromStartPositionToEndPosition, positionPlayer)
+
+    local nearestPositionNumber = self:GetNearestPosition(pathFromStartPositionToEndPosition, positionPlayer)
+
+    local nearestPosition = pathFromStartPositionToEndPosition[nearestPositionNumber]
+
+    local nearestPositionXSign, nearestPositionZSign = self:GetXZSigns(nearestPosition, positionPlayer)
+
+    local nearestPositionHasChangesX, nearestPositionHasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, nearestPosition, nearestPositionNumber)
+
+    local signVector = {}
+
+    signVector.x = 0
+    signVector.z = 0
+
+    if ( nearestPositionHasChangesX and nearestPositionHasChangesZ ) then
+
+        signVector.x = nearestPositionXSign
+        signVector.z = nearestPositionZSign
+
+    elseif ( nearestPositionHasChangesX ) then
+
+        signVector.z = nearestPositionZSign
+
+    elseif ( nearestPositionHasChangesZ ) then
+
+        signVector.x = nearestPositionXSign
+    end
+
+    for i=nearestPositionNumber,1,-1 do
+
+        local position = pathFromStartPositionToEndPosition[i]
+
+        local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
+
+        if ( hasChangesX and hasChangesZ ) then
+
+            local degree = self:GetRotateDegree(pathFromStartPositionToEndPosition, i, -1)
+
+            self:RotateVector(signVector, degree)
+        end
+    end
+
+    local startPosition = pathFromStartPositionToEndPosition[1]
+
+    local startPositionHasChangesX, startPositionHasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, startPosition, 1)
+
+    local result = {}
+
+    result.x = 0
+    result.z = 0
+
+    if ( startPositionHasChangesX ) then
+
+        result.z = 1
+
+    elseif ( startPositionHasChangesZ ) then
+
+        result.x = 1
+    end
+
+    local coef = result.x * signVector.x + result.z * signVector.z
+
+    if ( coef < 0 ) then
+
+        result.x = -result.x
+        result.z = -result.z
+    end
+
+    return result
+end
+
+function ghost_building_line:GetNearestPosition(pathFromStartPositionToEndPosition, positionPlayer)
+
+    local resultNumber = 1
+    local resultDistance = Distance( positionPlayer, pathFromStartPositionToEndPosition[1] )
+
+    for i=2,#pathFromStartPositionToEndPosition do
+
+        local distance = Distance( positionPlayer, pathFromStartPositionToEndPosition[i] )
+
+        if ( distance < resultDistance ) then
+
+            resultNumber = i
+            resultDistance = distance
+        end
+    end
+
+    return resultNumber
+end
+
+function ghost_building_line:GetRotateDegree(pathFromStartPositionToEndPosition, cornerPositionNumber, direction)
+
+    direction = direction or 1
 
     if ( (cornerPositionNumber > 1) and (cornerPositionNumber+1) <= #pathFromStartPositionToEndPosition ) then
 
         local position = pathFromStartPositionToEndPosition[cornerPositionNumber]
 
-        local positionPrevious = pathFromStartPositionToEndPosition[cornerPositionNumber-1]
+        local positionPrevious = pathFromStartPositionToEndPosition[cornerPositionNumber - direction]
 
-        local positionNext = pathFromStartPositionToEndPosition[cornerPositionNumber+1]
+        local positionNext = pathFromStartPositionToEndPosition[cornerPositionNumber + direction]
 
         local first = {}
         first.x = position.x - positionPrevious.x
@@ -588,7 +676,7 @@ function ghost_building_line:HashContains(hashPositions, newPositionX, newPositi
     return false
 end
 
-function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, hashPositions, positionsArray, hashMerge)
+function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
 
     for step=1,wallLinesConfigLen do
 
@@ -603,10 +691,17 @@ function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfi
         end
 
         self:AddHashMerge( hashMerge, newPositionX, position.z, (step - 1), hasWall )
+
+        if ( step ~= 1 ) then
+
+            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][position.z] == true ) then
+                return
+            end
+        end
     end
 end
 
-function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, hashPositions, positionsArray, hashMerge)
+function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
 
     for step=1,wallLinesConfigLen do
 
@@ -622,6 +717,13 @@ function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfi
         end
 
         self:AddHashMerge( hashMerge, position.x, newPositionZ, (step - 1), hasWall )
+
+        if ( step ~= 1 ) then
+
+            if ( hashOriginal[position.x] and hashOriginal[position.x][newPositionZ] == true ) then
+                return
+            end
+        end
     end
 end
 
