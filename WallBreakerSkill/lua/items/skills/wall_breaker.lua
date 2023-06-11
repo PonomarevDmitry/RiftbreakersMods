@@ -32,7 +32,7 @@ function wall_breaker:InitFsmStateMachine()
     end
 
     self.fsm = self:CreateStateMachine()
-    self.fsm:AddState( "clean_path", { execute="OnExecuteCleanPath", interval = 0.1 } )
+    self.fsm:AddState( "clean_path", { execute="OnExecuteCleanPath", interval = 0.5 } )
 end
 
 function wall_breaker:CanActivate()
@@ -69,8 +69,6 @@ function wall_breaker:OnExecuteCleanPath( state )
 
     local blueprintName = "items/consumables/wall_breaker_" .. string.format( "%02d", self.step )
 
-    LogService:Log("OnExecuteCleanPath " .. blueprintName)
-
     if ( ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
 
         local culler = EntityService:SpawnEntity( blueprintName, self.playerPosition, self.team )
@@ -82,6 +80,28 @@ function wall_breaker:OnExecuteCleanPath( state )
 
     if ( self.step > self.stepEnd ) then
         return state:Exit()
+    end
+end
+
+function wall_breaker:OnUnequipped()
+
+    self:StopWorking()
+end
+
+function wall_breaker:StopWorking()
+
+    if ( self.fsm ~= nil ) then
+
+        self.fsm:Deactivate()
+    end
+end
+
+function wall_breaker:OnRelease()
+
+    self:StopWorking()
+
+    if ( item.OnRelease ) then
+        item.OnRelease(self)
     end
 end
 
