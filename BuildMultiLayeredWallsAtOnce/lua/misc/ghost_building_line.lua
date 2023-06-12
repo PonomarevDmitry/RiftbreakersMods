@@ -313,7 +313,16 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
                     end
 
                     ::continueZStep::
+
+                    if ( zStep ~= 1 ) then
+
+                        if ( hashOriginal[position.x] and hashOriginal[position.x][newPositionZ] == true ) then
+                            goto continueOuterCorner
+                        end
+                    end
                 end
+
+                ::continueOuterCorner::
 
                 for xStep=1,wallLinesConfigLen do
 
@@ -345,7 +354,16 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
                     end
 
                     ::continueXStep::
+
+                    if ( xStep ~= 1 ) then
+
+                        if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][position.z] == true ) then
+                            goto endOuterCorner
+                        end
+                    end
                 end
+
+                ::endOuterCorner::
             end
 
         elseif ( hasChangesX ) then
