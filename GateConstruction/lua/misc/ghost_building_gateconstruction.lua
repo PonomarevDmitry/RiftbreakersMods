@@ -3,13 +3,13 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'ghost_building_buildinggate' ( LuaEntityObject )
+class 'ghost_building_gateconstruction' ( LuaEntityObject )
 
-function ghost_building_buildinggate:__init()
+function ghost_building_gateconstruction:__init()
     LuaEntityObject.__init(self,self)
 end
 
-function ghost_building_buildinggate:init()
+function ghost_building_gateconstruction:init()
 
     self.stateMachine = self:CreateStateMachine()
     self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
@@ -18,7 +18,7 @@ function ghost_building_buildinggate:init()
     self:InitializeValues()
 end
 
-function ghost_building_buildinggate:InitializeValues()
+function ghost_building_gateconstruction:InitializeValues()
     self.selector = EntityService:GetParent( self.entity )
 
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
@@ -76,7 +76,7 @@ function ghost_building_buildinggate:InitializeValues()
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
-function  ghost_building_buildinggate:CheckEntityBuildable( entity, transform, id )
+function  ghost_building_gateconstruction:CheckEntityBuildable( entity, transform, id )
     id = id or 1
 
     local test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.blueprintName, id )
@@ -130,19 +130,19 @@ function  ghost_building_buildinggate:CheckEntityBuildable( entity, transform, i
     return testReflection
 end
 
-function ghost_building_buildinggate:OnWorkEnter()
+function ghost_building_gateconstruction:OnWorkEnter()
 end
 
-function ghost_building_buildinggate:OnWorkExit()
+function ghost_building_gateconstruction:OnWorkExit()
 end
 
-function ghost_building_buildinggate:OnWorkExecute()
+function ghost_building_gateconstruction:OnWorkExecute()
     if ( self.OnUpdate ) then
         self:OnUpdate()
     end
 end
 
-function ghost_building_buildinggate:OnUpdate()
+function ghost_building_gateconstruction:OnUpdate()
 
     self:RemoveMaterialFromOldBuildingsToSell()
 
@@ -331,7 +331,7 @@ function ghost_building_buildinggate:OnUpdate()
     end
 end
 
-function ghost_building_buildinggate:IsInvertTransform( exitVector, possibleSelectedEnts, positionX, positionZ )
+function ghost_building_gateconstruction:IsInvertTransform( exitVector, possibleSelectedEnts, positionX, positionZ )
 
     local diffs = { 1, -1 }
 
@@ -388,7 +388,7 @@ function ghost_building_buildinggate:IsInvertTransform( exitVector, possibleSele
     return false
 end
 
-function ghost_building_buildinggate:GetPosibleWalls( min, max )
+function ghost_building_gateconstruction:GetPosibleWalls( min, max )
 
     self.suffixGhost = self.suffixGhost or "ghost"
 
@@ -432,7 +432,7 @@ function ghost_building_buildinggate:GetPosibleWalls( min, max )
     return result
 end
 
-function ghost_building_buildinggate:GetInvertedOrientation( vectorX, vectorZ )
+function ghost_building_gateconstruction:GetInvertedOrientation( vectorX, vectorZ )
 
     self.cacheInverted = self.cacheInverted or {}
 
@@ -486,7 +486,7 @@ function ghost_building_buildinggate:GetInvertedOrientation( vectorX, vectorZ )
     return result
 end
 
-function ghost_building_buildinggate:GetExitVector( orientation )
+function ghost_building_gateconstruction:GetExitVector( orientation )
 
     local result = { x = 1, z = 0 }
 
@@ -524,7 +524,7 @@ function ghost_building_buildinggate:GetExitVector( orientation )
     return result
 end
 
-function ghost_building_buildinggate:CreateNewEntity(newPosition, orientation, team)
+function ghost_building_gateconstruction:CreateNewEntity(newPosition, orientation, team)
 
     local result = nil
 
@@ -543,7 +543,7 @@ function ghost_building_buildinggate:CreateNewEntity(newPosition, orientation, t
     return result
 end
 
-function ghost_building_buildinggate:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
+function ghost_building_gateconstruction:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
 
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
 
@@ -589,7 +589,7 @@ function ghost_building_buildinggate:FindPositionsToBuildLine(buildStartPosition
     return arrayX, arrayZ
 end
 
-function ghost_building_buildinggate:GetXZSigns(positionStart, positionEnd)
+function ghost_building_gateconstruction:GetXZSigns(positionStart, positionEnd)
 
     local xSign = -1
     local zSign = -1
@@ -605,7 +605,7 @@ function ghost_building_buildinggate:GetXZSigns(positionStart, positionEnd)
     return xSign, zSign
 end
 
-function ghost_building_buildinggate:AddToEntitiesToSellList(testBuildable)
+function ghost_building_gateconstruction:AddToEntitiesToSellList(testBuildable)
 
     if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
 
@@ -636,7 +636,7 @@ function ghost_building_buildinggate:AddToEntitiesToSellList(testBuildable)
     end
 end
 
-function ghost_building_buildinggate:BuildEntity(entity)
+function ghost_building_gateconstruction:BuildEntity(entity)
 
     local transform = EntityService:GetWorldTransform( entity )
 
@@ -698,7 +698,7 @@ function ghost_building_buildinggate:BuildEntity(entity)
     return testBuildable.flag
 end
 
-function ghost_building_buildinggate:OnActivateSelectorRequest()
+function ghost_building_gateconstruction:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
@@ -714,14 +714,14 @@ function ghost_building_buildinggate:OnActivateSelectorRequest()
     end
 end
 
-function ghost_building_buildinggate:OnDeactivateSelectorRequest()
+function ghost_building_gateconstruction:OnDeactivateSelectorRequest()
 
     self:FinishLineBuild()
 
     self:RemoveMaterialFromOldBuildingsToSell()
 end
 
-function ghost_building_buildinggate:OnRotateSelectorRequest()
+function ghost_building_gateconstruction:OnRotateSelectorRequest()
     if (self.rotateInfoChild ~= nil and EntityService:IsAlive(self.rotateInfoChild ) ) then
         EntityService:RemoveEntity(self.rotateInfoChild)
         self.rotateInfoChild = nil
@@ -729,7 +729,7 @@ function ghost_building_buildinggate:OnRotateSelectorRequest()
     end
 end
 
-function ghost_building_buildinggate:FinishLineBuild()
+function ghost_building_gateconstruction:FinishLineBuild()
 
     self.nowBuildingLine = self.nowBuildingLine or false
 
@@ -761,7 +761,7 @@ function ghost_building_buildinggate:FinishLineBuild()
     self.nowBuildingLine = false
 end
 
-function ghost_building_buildinggate:GetAllEntities()
+function ghost_building_gateconstruction:GetAllEntities()
 
     local result = {}
 
@@ -780,7 +780,7 @@ function ghost_building_buildinggate:GetAllEntities()
     return result
 end
 
-function ghost_building_buildinggate:RemoveMaterialFromOldBuildingsToSell()
+function ghost_building_gateconstruction:RemoveMaterialFromOldBuildingsToSell()
 
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
@@ -789,7 +789,7 @@ function ghost_building_buildinggate:RemoveMaterialFromOldBuildingsToSell()
     end
 end
 
-function ghost_building_buildinggate:OnRelease()
+function ghost_building_gateconstruction:OnRelease()
 
     if ( self.gridEntities ~= nil) then
         for gridEntitiesZ in Iter(self.gridEntities) do
@@ -813,4 +813,4 @@ function ghost_building_buildinggate:OnRelease()
     end
 end
 
-return ghost_building_buildinggate
+return ghost_building_gateconstruction
