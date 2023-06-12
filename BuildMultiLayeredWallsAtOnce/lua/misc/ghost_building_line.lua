@@ -289,26 +289,66 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
                 for zStep=1,wallLinesConfigLen do
 
+                    local index = (zStep - 1)
+
+                    local newPositionZ = position.z + cornerZ * index * deltaXZ
+
                     local subStrZ = string.sub(wallLinesConfig, zStep, zStep)
 
-                    for xStep=1,wallLinesConfigLen do
+                    local hasWall = (subStrZ == "1" )
+
+                    for xStep=1,zStep do
 
                         local newPositionX = position.x + cornerX * (xStep - 1) * deltaXZ
-                        local newPositionZ = position.z + cornerZ * (zStep - 1) * deltaXZ
-
-                        local subStrX = string.sub(wallLinesConfig, xStep, xStep)
-
-                        local hasWall = (subStrZ == "1" and xStep <= zStep) or (subStrX == "1" and zStep <= xStep)
 
                         if ( hasWall ) then
 
                             self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, position.y)
                         end
 
-                        local index = math.max( (xStep - 1), (zStep - 1) )
+                        self:AddHashMerge( hashMerge, newPositionX, newPositionZ, index, hasWall )
+
+                        if ( xStep ~= 1 and zStep ~= 1 ) then
+
+                            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][newPositionZ] == true ) then
+                                goto continueZStep
+                            end
+                        end
+                    end
+
+                    ::continueZStep::
+                end
+
+                for xStep=1,wallLinesConfigLen do
+
+                    local index = (xStep - 1)
+
+                    local newPositionX = position.x + cornerX * index * deltaXZ
+
+                    local subStrX = string.sub(wallLinesConfig, xStep, xStep)
+
+                    local hasWall = (subStrX == "1")
+
+                    for zStep=1,xStep do
+
+                        local newPositionZ = position.z + cornerZ * (zStep - 1) * deltaXZ
+
+                        if ( hasWall ) then
+
+                            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, position.y)
+                        end
 
                         self:AddHashMerge( hashMerge, newPositionX, newPositionZ, index, hasWall )
+
+                        if ( xStep ~= 1 and zStep ~= 1 ) then
+
+                            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][newPositionZ] == true ) then
+                                goto continueXStep
+                            end
+                        end
                     end
+
+                    ::continueXStep::
                 end
             end
 
@@ -659,10 +699,7 @@ end
 -- Check position has not already been added to hashPositions
 function ghost_building_line:HashContains(hashPositions, newPositionX, newPositionZ)
 
-    if ( hashPositions[newPositionX] == nil) then
-
-        hashPositions[newPositionX] = {}
-    end
+    hashPositions[newPositionX] = hashPositions[newPositionX] or {}
 
     local hashXPosition = hashPositions[newPositionX]
 
@@ -797,7 +834,6 @@ function ghost_building_line:OnActivate()
     else
         self:FinishLineBuild()
     end
-
 end
 
 function ghost_building_line:OnDeactivate()
