@@ -39,7 +39,7 @@ local function ChangeGatherableResourceAmount( target, resource, amount, is_vege
 end
 
 function harvester_drone:__init()
-	base_drone.__init(self,self)
+    base_drone.__init(self,self)
 end
 
 function harvester_drone:FindBestVegetationEntity(owner, source)
@@ -456,6 +456,15 @@ function harvester_drone:OnHarvestExit()
             EntityService:RemoveComponent(target, "GatherResourceComponent")
             EntityService:RemoveComponent(target, "LootComponent")
             EntityService:RemoveComponent(target, "ResourceComponent")
+
+            local scannableComponent = EntityService:GetComponent( target, "ScannableComponent" )
+            if ( scannableComponent ~= nil ) then
+
+                ItemService:ScanEntityByPlayer( target, self.data:GetIntOrDefault( "owner", 0) )
+
+                EntityService:RemoveComponent( target, "ScannableComponent" )
+                EffectService:SpawnEffect( target, "effects/loot/specimen_extracted")
+            end
 
             EntityService:DissolveEntity(target, 2.0)
         end
