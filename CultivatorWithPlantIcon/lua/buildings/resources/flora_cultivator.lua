@@ -28,6 +28,31 @@ function flora_cultivator:OnInit()
     self:RegisterBuildMenuTracker()
 end
 
+function IsEquippedItemBlueprintValid( entity, new_blueprint )
+
+    if new_blueprint ~= DEFAULT_SAPLING_BLUEPRINT and EntityService:GetBlueprintName( entity ) == DEFAULT_SAPLING_BLUEPRINT then
+        return false
+    end
+
+    if not MissionService:IsCampaignBiome() then
+        return true
+    end
+
+    local database = EntityService:GetBlueprintDatabase( entity )
+
+    if database and database:HasString("biome_requirement") then
+
+        local biome_name = MissionService:GetCurrentBiomeName()
+        local biome_requirement = database:GetString("biome_requirement")
+
+        if string.find(biome_requirement, biome_name) == nil then
+            return false
+        end
+    end
+
+    return true
+end
+
 function flora_cultivator:OnLoad()
 
     self.showPlantIcon = self.showPlantIcon or 0
@@ -99,31 +124,6 @@ function flora_cultivator:OnRelease()
     if ( drone_spawner_building.OnRelease ) then
         drone_spawner_building.OnRelease( self )
     end
-end
-
-function IsEquippedItemBlueprintValid( entity, new_blueprint )
-
-    if new_blueprint ~= DEFAULT_SAPLING_BLUEPRINT and EntityService:GetBlueprintName( entity ) == DEFAULT_SAPLING_BLUEPRINT then
-        return false
-    end
-
-    if not MissionService:IsCampaignBiome() then
-        return true
-    end
-
-    local database = EntityService:GetBlueprintDatabase( entity )
-
-    if database and database:HasString("biome_requirement") then
-
-        local biome_name = MissionService:GetCurrentBiomeName()
-        local biome_requirement = database:GetString("biome_requirement")
-
-        if string.find(biome_requirement, biome_name) == nil then
-            return false
-        end
-    end
-
-    return true
 end
 
 function flora_cultivator:GetDefaultSaplingItem()
@@ -260,16 +260,6 @@ function flora_cultivator:PopulateSpecialActionInfo()
     menuDB:SetInt("sapling_visible", visible)
 end
 
-function flora_cultivator:DestoryPlanIcon()
-
-    if ( self.cultivatorSaplingMenu == nil ) then
-        return
-    end
-
-    EntityService:RemoveEntity( self.cultivatorSaplingMenu )
-    self.cultivatorSaplingMenu = nil
-end
-
 function flora_cultivator:RefreshDrones()
     for drone in Iter(self.drones) do
         self:DroneSpawned(drone)
@@ -289,42 +279,6 @@ function flora_cultivator:DroneSpawned(drone)
         db:SetString( "plant_blueprint", self.spawn_blueprint or "" )
         db:SetString( "plant_prefab", self.spawn_prefab or "" )
         db:SetString( "cultivate_target", self.cultivate_target or "" )
-    end
-end
-
-function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon( evt )
-
-    local eventName = evt:GetEvent()
-
-    if eventName == "CultivatorHidePlantIcon" then
-
-        self.showPlantIcon = 0
-
-        self:CreateMenuEntity()
-
-        local visible = 0
-
-        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-            visible = self.showPlantIcon
-        end
-
-        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
-        menuDB:SetInt("sapling_visible", visible)
-
-    elseif eventName == "CultivatorShowPlantIcon" then
-
-        self.showPlantIcon = 1
-
-        self:CreateMenuEntity()
-
-        local visible = 0
-
-        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-            visible = self.showPlantIcon
-        end
-
-        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
-        menuDB:SetInt("sapling_visible", visible)
     end
 end
 
@@ -359,9 +313,10 @@ end
 function flora_cultivator:DisableVegetationAround()
     local drone_search_radius = self.data:GetFloatOrDefault( "drone_search_radius", 25.0 )
 
-    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, drone_search_radius, {
-        signature = "VegetationLifecycleEnablerComponent"
-    } );
+	self.predicate = self.predicate or {
+		signature = "VegetationLifecycleEnablerComponent"
+	}
+	local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, drone_search_radius, self.predicate )
 
     for entity in Iter( entities ) do
         EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent")
@@ -402,6 +357,52 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 
     self:DisableVegetationAround();
     self:RefreshDrones()
+end
+
+function flora_cultivator:DestoryPlanIcon()
+
+    if ( self.cultivatorSaplingMenu == nil ) then
+        return
+    end
+
+    EntityService:RemoveEntity( self.cultivatorSaplingMenu )
+    self.cultivatorSaplingMenu = nil
+end
+
+function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon( evt )
+
+    local eventName = evt:GetEvent()
+
+    if eventName == "CultivatorHidePlantIcon" then
+
+        self.showPlantIcon = 0
+
+        self:CreateMenuEntity()
+
+        local visible = 0
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+            visible = self.showPlantIcon
+        end
+
+        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+        menuDB:SetInt("sapling_visible", visible)
+
+    elseif eventName == "CultivatorShowPlantIcon" then
+
+        self.showPlantIcon = 1
+
+        self:CreateMenuEntity()
+
+        local visible = 0
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+            visible = self.showPlantIcon
+        end
+
+        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+        menuDB:SetInt("sapling_visible", visible)
+    end
 end
 
 function flora_cultivator:OnUpdateProductionExecute()
