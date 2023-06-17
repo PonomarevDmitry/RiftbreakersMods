@@ -539,9 +539,7 @@ function ghost_building_floor:FinishLineBuild()
 
     if ( count > 0 ) then
 
-        local hashAllFreeGrids = self:GetAllFreeGrids(allEntities)
-
-        self:BuildFloorEntites(allEntities, hashAllFreeGrids)
+        self:BuildFloorEntites(allEntities)
     end
 
     self.gridEntities = {}
@@ -597,7 +595,9 @@ function ghost_building_floor:GetAllFreeGrids(floorEntities)
     return hashAllFreeGrids
 end
 
-function ghost_building_floor:BuildFloorEntites(floorEntities, hashAllFreeGrids)
+function ghost_building_floor:BuildFloorEntites(floorEntities)
+
+    local hashAllFreeGrids = self:GetAllFreeGrids(floorEntities)
 
     local count = #floorEntities
 
