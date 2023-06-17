@@ -187,6 +187,8 @@ function floor_rebuilder_tool:RebuildFloor()
 
     local entitiesBlueprints = {}
 
+    local hashOccupiedCells = {}
+
     for i = 1, #self.selectedEntities do
 
         local entityToSell = self.selectedEntities[i]
@@ -225,6 +227,8 @@ function floor_rebuilder_tool:RebuildFloor()
 
             local idx = indexes[i].id
 
+            hashOccupiedCells[idx] = true
+
             if ( hashGridsToErase[idx] == nil ) then
 
                 Insert( freeGrids, idx )
@@ -259,13 +263,58 @@ function floor_rebuilder_tool:RebuildFloor()
 
         for zIndex=1,#gridEntitiesZ do
 
-            local entity = gridEntitiesZ[zIndex]
+            local ghostEntity = gridEntitiesZ[zIndex]
 
-            local gridToErase = FindService:GetEntityCellIndexes( entity )
+            local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueptinName, hashOccupiedCells)
 
-            self:FillWithFloors( rebuildBlueptinName, gridToErase )
+            if ( #cellsToBuild > 0 ) then
+
+                self:FillWithFloors( rebuildBlueptinName, cellsToBuild )
+            end
         end
     end
+end
+
+function floor_rebuilder_tool:GetCellsToRebuild(entity, frequentBlueptinName, hashOccupiedCells)
+
+    local result = {}
+
+    local entityTransform = EntityService:GetWorldTransform( entity )
+
+    local test = BuildingService:CheckGhostFloorStatus( self.playerId, entity, entityTransform, frequentBlueptinName )
+
+    local testBuildable = reflection_helper(test:ToTypeInstance())
+
+    local indexes = testBuildable.free_grids
+
+    local indexesCount = #indexes
+
+    if ( indexesCount == 0 ) then
+        indexesCount = indexes.count
+    end
+
+    for i = 1,indexesCount do
+        local idx = indexes[i]
+
+        if ( IndexOf( result, idx ) == nil ) then
+
+            Insert( result, idx )
+        end
+    end
+
+    local entityGrids = FindService:GetEntityCellIndexes( entity )
+
+    for i = 1,#entityGrids do
+
+        local idx = entityGrids[i]
+
+        if ( hashOccupiedCells[idx] and IndexOf( result, idx ) == nil ) then
+
+            Insert( result, idx )
+        end
+    end
+
+    return result
 end
 
 function floor_rebuilder_tool:FindBlueprint(baseBlueprintName)
