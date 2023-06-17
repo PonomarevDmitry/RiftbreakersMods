@@ -1,0 +1,59 @@
+EntityBlueprint
+{
+	name					"buildings/tools/floor_rebuilder"
+
+	BuildingDesc
+	{
+		name				"floor_rebuilder"
+		bp					"buildings/tools/floor_rebuilder"
+		ghost_bp			"buildings/tools/floor_rebuilder_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/floor_rebuilder"
+		description			"gui/hud/building_description/floor_rebuilder"
+		menu_icon			"gui/hud/tools_icons/floor_rebuilder_tool"
+
+		order				"60"
+		type				"sell"
+
+		building_group		"eraser_1x1"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/floor_rebuilder_ghost"
+
+	BuildingDesc
+	{
+		name				"floor_rebuilder_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/floor_rebuilder_tool.lua"
+
+		database
+		{
+			action			string:"floor_rebuilder"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
