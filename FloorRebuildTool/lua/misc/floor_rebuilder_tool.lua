@@ -34,7 +34,7 @@ end
 
 function floor_rebuilder_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_gold", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_violet", self.entity )
     end
 end
 
@@ -212,15 +212,11 @@ function floor_rebuilder_tool:RebuildFloor()
             goto continue
         end
 
-        local blueprintNameNormilized, countCells = self:GetNormilizedBlueprintName(entityBlueprint)
-
-        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] or 0
-
-        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] + countCells
-
         local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
 
         local freeGrids = {}
+
+        local countCells = 0
 
         local indexes = gridCullerComponentHelper.terrain_cell_entities
         for i=indexes.count,1,-1 do
@@ -229,11 +225,20 @@ function floor_rebuilder_tool:RebuildFloor()
 
             hashOccupiedCells[idx] = true
 
-            if ( hashGridsToErase[idx] == nil ) then
+            if ( hashGridsToErase[idx] ) then
+
+                countCells = countCells + 1
+            else
 
                 Insert( freeGrids, idx )
             end
         end
+
+        local blueprintNameNormilized = self:GetNormilizedBlueprintName(entityBlueprint)
+
+        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] or 0
+
+        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] + countCells
 
         if ( #freeGrids > 0 ) then
             Insert( toRecreate, { ["bp"] = entityBlueprint, ["indexes"] = freeGrids } )
@@ -371,11 +376,90 @@ function floor_rebuilder_tool:GetNormilizedBlueprintName( blueprintName )
         toReplace = 2
     end
 
-    local count = toReplace * toReplace
-
     local currentBlueprint = string.gsub( blueprintName, tostring(toReplace), "1" )
 
-    return currentBlueprint, count
+    return currentBlueprint
+end
+
+function floor_rebuilder_tool:GetFreequentBlueptint()
+
+    if ( #self.selectedEntities == 0 ) then
+        return ""
+    end
+
+    local hashGridsToErase = {}
+
+    for xIndex=1,#self.gridEntities do
+
+        local gridEntitiesZ = self.gridEntities[xIndex]
+
+        for zIndex=1,#gridEntitiesZ do
+
+            local entity = gridEntitiesZ[zIndex]
+
+            local gridToErase = FindService:GetEntityCellIndexes( entity )
+
+            for i = 1,#gridToErase do
+
+                local idx = gridToErase[i]
+
+                hashGridsToErase[idx] = true
+            end
+        end
+    end
+
+    local entitiesBlueprints = {}
+
+    for i = 1, #self.selectedEntities do
+
+        local entityToSell = self.selectedEntities[i]
+
+        if (entityToSell == nil or not EntityService:IsAlive( entityToSell) ) then
+            goto continue
+        end
+
+        local buildingComponent = EntityService:GetComponent( entityToSell, "BuildingComponent" )
+
+        if ( buildingComponent ~= nil ) then
+            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+            if ( mode >= 3 ) then
+                goto continue
+            end
+        end
+
+        local gridCullerComponent = EntityService:GetComponent( entityToSell, "GridCullerComponent")
+        local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
+        if( gridCullerComponent == nil or entityBlueprint == "" ) then
+            goto continue
+        end
+
+        local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
+
+        local countCells = 0
+
+        local indexes = gridCullerComponentHelper.terrain_cell_entities
+        for i=indexes.count,1,-1 do
+
+            local idx = indexes[i].id
+
+            if ( hashGridsToErase[idx] ) then
+
+                countCells = countCells + 1
+            end
+        end
+
+        local blueprintNameNormilized = self:GetNormilizedBlueprintName(entityBlueprint)
+
+        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] or 0
+
+        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] + countCells
+
+        ::continue::
+    end
+
+    local frequentBlueptinName = self:FindFrequentBlueptint(entitiesBlueprints)
+
+    return frequentBlueptinName
 end
 
 function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
@@ -469,6 +553,8 @@ function floor_rebuilder_tool:OnUpdate()
         self:StopBuildingGhosts()
     end
 
+    self.buildCost = {}
+
     if ( self.nowBuildingLine and self.buildStartPosition ) then
 
         local positionY = self.buildStartPosition.position.y
@@ -481,9 +567,7 @@ function floor_rebuilder_tool:OnUpdate()
 
         local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition )
 
-        if ( self.gridEntities == nil ) then
-            self.gridEntities = {}
-        end
+        self.gridEntities = self.gridEntities or {}
 
         local positionX, positionZ
 
@@ -523,7 +607,7 @@ function floor_rebuilder_tool:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
+                    local lineEnt = EntityService:SpawnEntity("buildings/tools/floor_rebuilder_ghost", newPosition, team )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 
@@ -557,7 +641,7 @@ function floor_rebuilder_tool:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
+                    local lineEnt = EntityService:SpawnEntity("buildings/tools/floor_rebuilder_ghost", newPosition, team )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 
@@ -592,14 +676,27 @@ function floor_rebuilder_tool:OnUpdate()
                 EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
             end
         end
+
+        local blueprintName = self:GetFreequentBlueptint()
+
+        if ( blueprintName ~= "" ) then
+
+            local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+            for resourceCost in Iter(list) do
+
+                if ( self.buildCost[resourceCost.first] == nil ) then
+                   self.buildCost[resourceCost.first] = 0
+                end
+
+                self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ * currentScale * currentScale )
+            end
+        end
     end
 
 
 
 
 
-
-    self.sellCosts = {}
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -607,21 +704,23 @@ function floor_rebuilder_tool:OnUpdate()
 
         for resourceCost in Iter(list) do
 
-            if ( self.sellCosts[resourceCost.first] == nil ) then
-               self.sellCosts[resourceCost.first] = 0
+            if ( self.buildCost[resourceCost.first] == nil ) then
+               self.buildCost[resourceCost.first] = 0
             end
 
-            self.sellCosts[resourceCost.first] = self.sellCosts[resourceCost.first] + resourceCost.second
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] - resourceCost.second
         end
     end
 
-    local onScreen = CameraService:IsOnScreen( self.infoChild, 1)
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+    
     if ( onScreen ) then
-        BuildingService:OperateSellCosts( self.infoChild, self.playerId, self.sellCosts )
-        BuildingService:OperateSellCosts( self.corners, self.playerId, {} )
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
+        BuildingService:OperateBuildCosts( self.corners, self.playerId, {} )
     else
-        BuildingService:OperateSellCosts( self.infoChild, self.playerId, {} )
-        BuildingService:OperateSellCosts( self.corners, self.playerId, self.sellCosts )
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
+        BuildingService:OperateBuildCosts( self.corners, self.playerId, self.buildCost )
     end
 end
 
