@@ -94,7 +94,7 @@ function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
 
             toUse = {}
 
-            local pos = idxToPos[ idx ];
+            local pos = idxToPos[ idx ]
             for x=0,s-1 do
                 local currentPos = VectorAdd( pos, VectorMulByNumber(right, x))
                 for y=0,s-1 do
@@ -533,13 +533,13 @@ function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function floor_rebuilder_tool:AddedToSelection( entity )
-    local meshEntity = BuildingService:GetMeshEntity(entity);
-    EntityService:SetMaterial( meshEntity, "selector/hologram_blue", "selected")
+    local meshEntity = BuildingService:GetMeshEntity(entity)
+    EntityService:SetMaterial( meshEntity, "selector/hologram_violet", "selected" )
 end
 
 function floor_rebuilder_tool:RemovedFromSelection( entity )
-    local meshEntity = BuildingService:GetMeshEntity(entity);
-    EntityService:RemoveMaterial(meshEntity, "selected" )
+    local meshEntity = BuildingService:GetMeshEntity(entity)
+    EntityService:RemoveMaterial( meshEntity, "selected" )
 end
 
 function floor_rebuilder_tool:OnUpdate()
@@ -671,7 +671,7 @@ function floor_rebuilder_tool:OnUpdate()
                 transform.orientation = currentTransform.orientation
                 transform.position = newPosition
 
-                local lineEnt = gridEntitiesZ[zIndex];
+                local lineEnt = gridEntitiesZ[zIndex]
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
             end
@@ -790,7 +790,7 @@ function floor_rebuilder_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
-        self.nowBuildingLine = true;
+        self.nowBuildingLine = true
 
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
