@@ -195,8 +195,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    local min = VectorSub(selectorPosition, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
-    local max = VectorAdd(selectorPosition, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
+    local scaleVector = VectorMulByNumber(self.boundsSize, self.currentScale - 0.5)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
 
     local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 
@@ -254,13 +256,15 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
 
     local predicate = {
 
-        signature="ResourceComponent,GridMarkerComponent"
+        signature="ResourceComponent"
     }
 
     local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
-    local min = VectorSub(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
-    local max = VectorAdd(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
@@ -271,20 +275,6 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
         end
 
         if ( IndexOf( resourceComponents, entity ) ~= nil ) then
-            goto continue
-        end
-
-        if ( not EntityService:CompareType( entity, "resource" ) ) then
-            goto continue
-        end
-
-        local positionTemp = EntityService:GetPosition( entity )
-
-        if ( not ( min.x <= positionTemp.x and positionTemp.x <= max.x ) ) then
-            goto continue
-        end
-
-        if ( not ( min.z <= positionTemp.z and positionTemp.z <= max.z ) ) then
             goto continue
         end
 
@@ -640,6 +630,10 @@ function picker_tool:IsResourceRequired( resourceRequirement, resourceId )
 end
 
 function picker_tool:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
+        return ""
+    end
 
     local parameterName = "$selected_" .. lowName .. "_blueprint"
 
