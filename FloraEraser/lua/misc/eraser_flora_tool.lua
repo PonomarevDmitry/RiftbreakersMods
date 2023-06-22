@@ -62,16 +62,6 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
-        local positionTemp = EntityService:GetPosition( entity )
-
-        if ( not ( minVector.x <= positionTemp.x and positionTemp.x <= maxVector.x ) ) then
-            goto continue
-        end
-
-        if ( not ( minVector.z <= positionTemp.z and positionTemp.z <= maxVector.z ) ) then
-            goto continue
-        end
-
         Insert( possibleSelectedEnts, entity )
 
         ::continue::
