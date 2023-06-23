@@ -1,0 +1,1041 @@
+EntityBlueprint
+{
+	name  "units/ground/anoryxian_boss"
+
+	StateMachineDesc
+	{
+		template_name "anoryxian"
+		params
+		{
+
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			projectile_attack_cooldown			float:"5"
+			fire_wall_attack_cooldown			float:"10"
+			tower_attack_cooldown			    float:"20"
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/anoryxian_boss.mesh"
+		//material 	"units/ground/anoryxian_boss"
+		
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				material "units/ground/anoryxian_boss_01"
+			}
+			SubMesh
+			{
+				id "1"
+				material "units/ground/anoryxian_boss_02"
+			}
+		}
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/units/ground/anoryxian_boss"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/anoryxian_boss.lua"
+		database
+		{
+			min_scale	float:"1.0"
+			max_scale	float:"1.0"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+	
+	HealthDesc
+	{ 
+		max_health 				"40000"
+		health 					"40000"
+		is_manual               "0"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+			}
+		}	
+	}
+	
+	ResistanceComponent
+	{
+		reflect_damage_max_percent 		"0.02"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/anoryxian_boss_c1.nxs"
+					}				
+				}
+			}
+		}
+	}
+	
+	TurretDesc
+	{
+		name   			"range"
+		target 			"player|ground_unit|building"
+		target_ignore 	"wall|invisible"
+		speed 			"20000"
+		aim_volume 		"SphericalAimVolume"
+		{
+			range_min 	"0"
+			range_max 	"60"
+		}
+
+		aiming_cooldown 		"1"
+		aiming_target_time 		"2"
+		aiming_idle_angle 		"0"
+		pitch 					"att_muzzle"
+		yaw 					"att_muzzle"
+		check_target_visibility "0"
+		use_IK 					"0"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "anoryxian"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		ammo_blueprint 				"units/ground/anoryxian_boss/projectile"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	TeamDesc
+	{
+		team "wave_enemy"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"		
+	}
+	
+	HealthBarDesc
+	{
+		type 		"2"
+		mode 		"4" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material 	"gui/hud/bars/big_monster_hp_1x3"
+	}
+
+	SelectableDesc
+	{
+         can_activate 0
+		 content          "monster_name/anoryxian_boss"
+		 icon_material    "gui/hud/boss_avatar"
+	}
+	
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"12000"
+		explosion_min_power 	"7000"	
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"60000"
+					explosion_min_power 	"40000"
+					explosion_effect 		"effects/enemies_anoryxian/death"
+					part_physics_material   "gibs_super_heavy"
+					part_material 			"units/ground/spawner_canoptrix"
+					part_effect 			"effects/enemies_generic/blood_trail_red_splat"
+					part_prefix 			"meshes/units/ground/spawner_canoptrix_dest_25"	
+					part_mass				"2000"					
+				}				
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{						
+			group "effect_intro"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/intro"	
+					bone "be_spine_middle"
+				}
+			}
+		}	
+		
+		EffectGroup
+		{						
+			group "effect_pain"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/pain"	
+					bone "be_spine_middle"
+				}
+			}
+		}	
+		
+		EffectGroup
+		{						
+			group "effect_escape"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/escape"	
+					bone "be_spine_middle"
+				}
+			}
+		}	
+		
+		EffectGroup
+		{						
+			group "effect_bash_right"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/bash"	
+					bone "att_hand_right_tip"
+				}
+			}
+		}
+		
+		EffectGroup
+		{						
+			group "effect_bash_left"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/bash"	
+					bone "att_hand_left_tip"
+				}
+			}
+		}
+		
+		EffectGroup
+		{			
+			group "charge"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/projectile_trail"
+					bone "att_stomach"
+				}
+			}
+		}
+		
+		EffectGroup
+		{			
+			group "effect_firewall_shoot"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint 	"effects/enemies_anoryxian/firewall_shoot"
+					bone 		"be_spine_middle"
+				}
+			}
+		}
+
+		EffectGroup
+		{			
+			group "attack_range_1"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/projectile_muzzle"
+					bone "att_gun_left"
+				}
+			}
+		}
+
+		EffectGroup
+		{			
+			group "attack_range_2"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/projectile_muzzle"
+					bone "att_gun_right"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/healing_shield"
+					bone "be_head"
+					always_up "1"
+					delay "1"
+				}
+			}
+		}			
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name  "units/ground/anoryxian/trigger"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			TriggerDesc
+			{
+				owner 		"parent"
+				collision 	"building|building_small|ground_unit|shield"
+				tag 		"melee"
+
+				Filters
+				{
+					TeamRelationTriggerFilter 
+					{
+						team		"hostility"
+						check_parent "1"
+					}
+
+					TypeTriggerFilter
+					{
+						type		"ground_unit|building|wall|shield"
+					}
+
+					InvisibleTriggerFilter
+				}
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "45"
+						y "15"
+						z "20"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/anoryxian/attack"
+
+			AttachmentDesc
+			{
+				attachment "be_hand_right"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_anoryxian/attack_start"
+						attack_start_time			"1.26"
+						attack_end_time			    "2.27"
+						attack_duration 			"2.99"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_anoryxian/attack_start"
+						attack_start_time			"1.26"
+						attack_end_time			    "2.27"
+						attack_duration 			"2.99"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"damage"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								damage_stun_chance  "1"
+								damage_stun_duration "1"
+
+								Damages
+								{
+									Damage
+									{
+										value 	"100"
+										type 	"area"
+
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "5.0"
+						y "10.0"
+						z "5.0"	
+						
+						position
+						{
+							x "0"
+							y "5"
+							z "0"
+						}	
+					}	
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/anoryxian/attack_2"
+
+			AttachmentDesc
+			{
+				attachment "be_hand_left"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_anoryxian/attack_start"
+						attack_start_time			"1.26"
+						attack_end_time			    "2.27"
+						attack_duration 			"2.99"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_anoryxian/attack_start"
+						attack_start_time			"1.26"
+						attack_end_time			    "2.27"
+						attack_duration 			"2.99"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"damage"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								damage_stun_chance  "1"
+								damage_stun_duration "1"
+
+								Damages
+								{
+									Damage
+									{
+										value 	"100"
+										type 	"area"
+
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "5.0"
+						y "10.0"
+						z "5.0"		
+						
+						position
+						{
+							x "0"
+							y "5"
+							z "0"
+						}						
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/anoryxian_boss/firewall"
+
+	LuaDesc
+	{
+		script "lua/units/ground/anoryxian_firewall.lua"
+
+		database
+		{
+			damage	float:"45"
+		}
+	}
+
+	DatabaseComponent
+	{
+	}
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"world|destructible|building|building_small|ground_unit|hitbox|shield|world_blocker|world_destructible"
+		tag 		"energy"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.2"
+			}
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/anoryxian_energy_wave"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/anoryxian/lightning"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/anoryxian_boss/projectile"
+
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_bomb.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
+		material    "projectiles/laser_violet"
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/projectile_muzzle"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/projectile_trail"
+				}
+			}
+		}		
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/enemies_anoryxian/acid_projectile_explosion"
+		on_world_hit_effect 	"effects/enemies_anoryxian/acid_projectile_explosion"			
+		collision_3d 			"world|destructible|building|building_small|ground_unit|hitbox|shield|world_blocker|world_destructible"
+		hit_effect_direction 	"up"		
+		delay_update_time		"0.3"
+		diameter				"2.0"
+		manual_remove			"1"
+		
+		//DamagePattern
+		//{
+		//	area_damage_radius 	"6"
+		//
+		//	Damages
+		//	{
+		//		Damage
+		//		{
+		//			value 	"40"
+		//			type 	"acid"
+		//		}
+		//	}
+		//}
+	}
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_anoryxian/acid_projectile_explosion"	
+					part_prefix 			"meshes/props/cactus/fuzzball_very_small_01"
+					part_material 			"projectiles/corrosive_gun"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_light"
+					part_lifetime			"2"					
+				}
+
+				key "default"
+			}
+		}
+	}	
+}
+
+
+EntityBlueprint
+{
+	name  "units/ground/anoryxian_boss/interactive_beam"
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"0.50" 	// lightning branching, step in meters
+		beam_min_width 			"0.02"
+		beam_max_width 			"0.1"
+		beam_count 				"1"
+		update_bounds			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/anoryxian_boss/interactive"
+
+	LuaDesc
+	{
+		script "lua/units/ground/anoryxian_boss_interactive.lua"
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/props/special/caverns/anoryxian_boss_heart.mesh"
+		material 	"props/rocks/anoryx_violet/anoryx_violet_big_01""
+	}
+
+	InteractiveComponent 
+	{
+		//slot 			"DRILL"
+		//slot 			"HARVESTER"
+		//slot 			"EXCAVATOR"
+		//slot 			"EXTRACTOR"
+		slot 			"ACTIVATOR"
+		radius 			"6"
+		remove_entity 	"0"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"world"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.45"
+						half_height "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			EffectDesc
+			{
+				EffectGroup
+				{           
+					enabled "1"
+					Effects
+					{
+						Effect
+						{
+							blueprint "lights/anoryxian/big_red"
+							offset "0 5 0"
+						}	
+					}
+				}	
+				EffectGroup
+				{
+					enabled "1"	
+					
+					Effects
+					{
+						Effect
+						{
+							blueprint "effects/enemies_anoryxian/healing_object"	
+							offset "0 0 0"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/anoryxian_boss_tower"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/anoryxian_boss_tower.mesh"
+		material 	"units/ground/anoryxian_boss_tower"
+	}
+
+	StateMachineDesc
+	{
+		template_name "anoryxian_boss_tower"
+		params
+		{
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/anoryxian_boss_tower.lua"
+		database
+		{
+			min_scale	float:"1.00"
+			max_scale	float:"1.00"
+		}			
+	}
+	
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"units/ground/anoryxian_boss_laser"
+
+		fire_effect 				"effects/enemies_anoryxian/laser_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
+	TeamDesc
+	{
+		team "wave_enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/anoryxian_boss_tower"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "anoryxian_boss_tower"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "4"
+						z "2"
+					}
+				}
+			}
+		}
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "16"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "70"
+		}
+
+		aiming_cooldown "0.1"
+		aiming_target_time "0.1"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "hide"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/tower_dig_up"
+					always_up "1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "unhide"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/tower_dig_down"
+					always_up "1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_anoryxian/laser_pointer"
+					bone "att_shoot"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/anoryxian_boss_laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"items/weapons/lightning_necrodon_ressurect_beam"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"60"
+	
+		on_enemy_hit_effect 	"effects/enemies_anoryxian/laser_hit"
+		on_world_hit_effect 	"effects/enemies_anoryxian/laser_hit"
+		on_shield_hit_effect	"effects/enemies_anoryxian/laser_hit"
+	
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		friendly_fire			"pass"
+		collision_block 		"world|world_blocker|world_destructible|destructible"
+	
+        damage_factor_max       "1.0"
+        damage_factor_increase  "1"
+        damage_factor_decrease  "1.0"
+        damage_max_beam_scale 	"1.0"
+		damage_max_beam_glow 	"1.0"
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"1.0"
+		beam_min_width 			"0.05"
+		beam_max_width 			"0.1"
+		beam_count 				"6"
+	}
+}
+
+

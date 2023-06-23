@@ -40,7 +40,20 @@ function wreck_ground_unit:init()
 
     EntityService:RemoveLifeTime(self.entity)
     EntityService:DissolveEntity( self.entity, 3.0, self.wreckLifetime )
+
+	self.resurrectAllowFSM = self:CreateStateMachine()
+	self.resurrectAllowFSM:AddState( "resurrect_allow", { enter="OnEnterResurrectAllow", exit="OnExitResurrectAllow" } )
+	self.resurrectAllowFSM:ChangeState( "resurrect_allow" )
 end
+
+function wreck_ground_unit:OnEnterResurrectAllow( state )
+	state:SetDurationLimit( self.resurrectCooldown )
+end
+
+function wreck_ground_unit:OnExitResurrectAllow( state )
+	UnitService:SetStateMachineParam( self.entity, "can_be_resurrected", 1 )
+end
+
 
 function wreck_ground_unit:OnLoad()
     if self.dissolve then
@@ -51,7 +64,7 @@ function wreck_ground_unit:OnLoad()
 end
 
 function wreck_ground_unit:initDefaultParams()
-    if BuildingService:IsOnResource( self.entity, "" ) then
+    if ( BuildingService:IsOnResource( self.entity, "" ) or UnitService:IsOnArena( self.entity ) ) then
         self.wreckLifetime = RandInt( 3, 6 )
     else
         self.wreckLifetime = RandInt( 120, 180 )
@@ -61,6 +74,7 @@ function wreck_ground_unit:initDefaultParams()
     self.leaveBodyProbability = 10
     self.deathAnimationMarkers = {}
     self.deathAnimationStates = {}
+    self.resurrectCooldown = 1
 end
 
 function wreck_ground_unit:initParams()	

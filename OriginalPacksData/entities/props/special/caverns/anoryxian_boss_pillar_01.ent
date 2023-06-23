@@ -1,0 +1,98 @@
+EntityBlueprint
+{
+	name "props/special/caverns/anoryxian_boss_pillar_01"
+
+	HealthDesc
+	{
+		max_health 				"5000"
+		health 					"5000"
+		is_manual				"0"
+	}
+	
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"70"
+
+		physical		"1.0"
+		fire			"0.01"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"0.01"
+		area			"1.0"	
+		gravity 		"1.0"
+	}
+
+	MeshDesc
+	{
+		material "props/special/caverns/destructible_pillar"
+		mesh "meshes/props/special/caverns/destructible_pillar.mesh"
+	}
+
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/caverns/destructible_pillar_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/caverns/destructible_pillar"
+					part_material 			"props/special/caverns/destructible_pillar"
+					part_effect 			"effects/destructibles/destructible_wall_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop_big"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/props/special/alien_structures/hitech_structure_big_01_c1.nxs"
+			}
+		}
+	}
+	
+	HighlightComponent
+	{
+	}
+	
+	
+}

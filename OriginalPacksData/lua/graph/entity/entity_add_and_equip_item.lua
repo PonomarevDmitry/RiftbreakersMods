@@ -12,9 +12,8 @@ function entity_add_equip_item:Activated()
     self.item = self.data:GetString( "item" )
 	local playerId = self.parent:GetDatabase():GetIntOrDefault("player_id", 0 )
     LogService:Log("Add item and equip to player: " .. tostring(playerId))
-    self.mech = PlayerService:GetPlayerControlledEnt(playerId)
-    local itemEnt = ItemService:AddItemToInventory( self.mech, self.item )
-    ItemService:EquipItemInSlot( self.mech, itemEnt, self.slot )
+    local itemEnt = PlayerService:AddItemToInventory( playerId, self.item )
+    PlayerService:EquipItemInSlot( playerId, itemEnt, self.slot )
 
     self:SetFinished()
 end

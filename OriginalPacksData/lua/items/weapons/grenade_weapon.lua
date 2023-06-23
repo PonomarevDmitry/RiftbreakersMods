@@ -2,6 +2,8 @@ local weapon = require("lua/items/weapon.lua")
 
 class 'grenade_weapon' ( weapon )
 
+local CURRENT_VERSION = 1
+
 function grenade_weapon:__init()
 	item.__init(self,self)
 end
@@ -15,14 +17,29 @@ function grenade_weapon:OnInit()
 end
 
 function grenade_weapon:OnLoad()
+	self.version = self.version or 0
     weapon.OnLoad(self)
+	if ( self.aimEnt ~= nil and self.version < 1 ) then
+		if ( EntityService:GetBlueprintName(self.aimEnt) ~= self.aimBp) then
+    	       self.aimEnt = nil
+		else
+			table.insert( self.references, self.aimEnt )
+			ItemService:SetItemReference( self.aimEnt, self.entity, self.entity_blueprint )
+		end
+	end
+	self.version = CURRENT_VERSION
     self:Init()
+
+	if ( not self:ValidateEntityReference( self.aimEnt ) ) then
+		self.aimEnt = nil
+	end
 end
 
 function grenade_weapon:Init()
     self.bp = self.data:GetString( "bp" )
     self.aimBp = self.data:GetString( "aim_bp" )
     self.maxDistance = self.data:GetFloatOrDefault( "max_distance", 0.0 )
+	self.version = CURRENT_VERSION
 end
 
 function grenade_weapon:OnEnter( state )
@@ -31,7 +48,7 @@ end
 
 function grenade_weapon:OnExecute( state )
 	if ( self.aimEnt == nil or EntityService:IsAlive( self.aimEnt ) == false ) then 
-		self.aimEnt = EntityService:SpawnEntity( self.aimBp, 0, 0, 0, "" )
+		self.aimEnt = self:SpawnReferenceEntity( self.aimBp, { x=0, y=0, z=0 })
 	end
 
 	WeaponService:UpdateGrenadeAiming( self.aimEnt, self.owner, self.item, self.maxDistance )
@@ -59,10 +76,6 @@ end
 function grenade_weapon:OnUnequipped()
 	weapon.OnUnequipped( self )
 	self.sm:ChangeState( "dummy" )
-	if ( self.aimEnt ~= nil ) then 
-		EntityService:RemoveEntity( self.aimEnt )
-		self.aimEnt = nil
-	end
 end
 
 function grenade_weapon:OnShootingStop()

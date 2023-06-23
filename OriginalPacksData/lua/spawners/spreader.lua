@@ -77,7 +77,7 @@ end
 function spreader:ClearFloors( spawned, position )
 	local size = EntityService:GetBoundsSize( spawned )
 	size = VectorMul(size, { x=0.5, y=0.5, z=0.5 })
-	local predicate = {
+    self.predicate = self.predicate or {
         signature="BuildingComponent",
         filter = function(entity)
 			local buildingType = BuildingService:GetBuildingType(entity)
@@ -85,7 +85,7 @@ function spreader:ClearFloors( spawned, position )
         end
     };
 
-	local entities = FindService:FindEntitiesByPredicateInBox( VectorSub(position,size), VectorAdd(position, size), predicate )
+	local entities = FindService:FindEntitiesByPredicateInBox( VectorSub(position,size), VectorAdd(position, size), self.predicate )
 	for ent in Iter(entities) do
 		EntityService:DissolveEntity( ent, 1.0 )
 		local children = EntityService:GetChildren( ent, false )

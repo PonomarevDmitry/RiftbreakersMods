@@ -10,6 +10,7 @@ function baxmoth_wreck:initParams()
 	--self.wreckLifetime = 600
     self.normalExplodeProbability = 0
 	self.leaveBodyProbability = 1
+	self.resurrectCooldown = 2
 end
 
 return baxmoth_wreck

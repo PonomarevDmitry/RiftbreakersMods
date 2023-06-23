@@ -140,30 +140,21 @@ function floor_eraser:SellFloor()
         local entityToSell = self.selectedEntities[i]
         if (entityToSell == nil or  not EntityService:IsAlive( entityToSell) ) then goto continue end
 
-        local buildingComponent = EntityService:GetComponent( entityToSell, "BuildingComponent" )
-        
-        if ( buildingComponent ~= nil ) then
-            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode >= 3 ) then goto continue end 
-        end
-
-        local gridCullerComponent = EntityService:GetComponent( entityToSell, "GridCullerComponent")
+        local indexes = EntityService:GetEntityCellIndexes( entityToSell )
         local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
-        if( gridCullerComponent == nil or entityBlueprint == "" ) then goto continue end
+        if( #indexes == 0 or entityBlueprint == "" ) then goto continue end
 
-        local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-        local indexes = gridCullerComponentHelper.terrain_cell_entities
         local freeGrids = {}
-        for i=indexes.count,1,-1 do 
+        for i=#indexes,1,-1 do 
             local add = true
             for j=1,#gridToErase do
-                if ( gridToErase[j] == indexes[i].id) then
+                if ( gridToErase[j] == indexes[i]) then
                     add = false
                     break
                 end
             end
             if (add ) then
-                Insert(freeGrids, indexes[i].id )
+                Insert(freeGrids, indexes[i] )
             end
         end
         if ( #freeGrids > 0 ) then
@@ -185,32 +176,8 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
     local position = selectorComponent.position 
     local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale))
     local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale))
-    local possibleSelectedEnts = FindService:FindGridMiscByBox( min, max )
     
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition(lhs )
-        local p2 = EntityService:GetPosition(rhs )
-        local d1 = Distance( position, p1 )
-        local d2 = Distance( position, p2 )
-        return d1 < d2 
-    end 
-
-    table.sort(possibleSelectedEnts, function(a,b) return sorter(possibleSelectedEnts, a, b) end)
-
-    local selectedEntities = {}
-    for entity in Iter(possibleSelectedEnts ) do
-        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        if ( buildingComponent == nil ) then goto continue end 
-
-        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode >= 3 ) then goto continue end 
-
-        Insert(selectedEntities, entity )
-        ::continue::
-    end
-    
-    return selectedEntities
-    
+    return FindService:FindFloorsByBox( min, max )
 end
 
 function floor_eraser:AddedToSelection( entity )

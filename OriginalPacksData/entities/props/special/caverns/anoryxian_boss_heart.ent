@@ -1,0 +1,189 @@
+EntityBlueprint
+{
+	name  "props/special/caverns/anoryxian_boss_heart"	
+
+	MeshDesc
+	{
+		mesh		"meshes/props/special/caverns/anoryxian_boss_heart.mesh"
+		material 	"props/rocks/anoryx_violet/anoryx_violet_big_01""
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/special/caverns/anoryxian_boss_heart"
+	}
+	
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "idle"
+				animTime "0.0"
+			}
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 				"150"
+		health 					"150"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health "0"
+				destroy_state_change_effect_group "0_transition"
+				destroy_comp_delay "0.7"
+				destroy_comp_event "default"
+				//destroyed_state_material "misc/building_parts_generic"
+				//destroyed_state_mesh ""
+				destrucion_level_name "0"
+				destroy_comp_remove "1"
+			}
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/core_wreckage_ball.lua"
+		database
+		{
+			min_scale	float:"1"
+			max_scale	float:"1"
+		}
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     			"static"
+				group_id    		"building"
+				physics_material  	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/caverns/anoryxian_boss_heart_c1.nxs"
+					}
+					//PhysicsBoxShape
+					//{
+					//	x "5.0"
+					//	y "10.0"
+					//	z "5.0"	
+					//	
+					//	position
+					//	{
+					//		x "0"
+					//		y "5"
+					//		z "0"
+					//	}	
+					//}	
+				}
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"6000"
+					//explosion_effect 		"effects/buildings_main/explosion_building_hq"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_alien_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_medium_blue"
+					part_prefix 			"meshes/misc/building_very_large_parts_generic"
+				}
+			}
+		}
+		dissolve_time	"1"
+	}
+	EffectDesc
+	{
+	
+		EffectBaseBlueprints
+		{
+			"buildings/effects_big_base"
+		}
+	
+		////////////////////////Destruction level 0 transition effects/////////////////////////
+		EffectGroup
+		{
+			group "0_transition"
+			enabled "0"
+	
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/energy_explosion_small"
+					delay "0"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/energy_explosion_small"
+					delay "0.15"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/energy_explosion_small"
+					delay "0.25"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/energy_explosion_small"
+					delay "0.3"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/energy_explosion_small"
+					delay "0.4"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/energy_explosion_small"
+					delay "0.45"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/energy_explosion_small"
+					delay "0.5"
+				}
+				Effect
+				{
+					blueprint "effects/enemies_alien_tower/alien_energy_ball_explosion"
+					delay "0.6"
+				}
+			}
+		}
+		EffectGroup
+		{
+			Effects
+			{
+                Effect
+                {
+                    blueprint "effects/destructibles/unique_crystal"
+                    //bone "be_shell"
+                }
+				Effect
+				{
+					blueprint "effects/destructibles/unique_crystal_shadow_caster"
+					//bone "be_shell"
+				}
+			}
+		}
+	}
+}

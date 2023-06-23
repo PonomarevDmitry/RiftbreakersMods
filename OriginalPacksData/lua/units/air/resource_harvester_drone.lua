@@ -43,7 +43,7 @@ function harvester_drone:__init()
 end
 
 function harvester_drone:FindBestVegetationEntity(owner, source)
-    local predicate = {
+    self.predicate = self.predicate or {
         type=self.search_type,
         signature="LootComponent",
         filter = function(entity) 
@@ -69,7 +69,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
         end
     };
 
-    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
+    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, self.predicate );
 
     local best = {
         entity = INVALID_ID,
@@ -113,7 +113,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
 end
 
 function harvester_drone:FindResourceVeinEntity(owner, source)
-    local predicate = {
+    self.predicate = self.predicate or {
         type=self.search_type,
         signature="ResourceComponent,GridMarkerComponent",
         filter = function(entity) 
@@ -139,7 +139,7 @@ function harvester_drone:FindResourceVeinEntity(owner, source)
         end
     };
 
-    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
+    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, self.predicate );
     if #entities > 0 then
         local parents = {}
         for entity in Iter(entities) do

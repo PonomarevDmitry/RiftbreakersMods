@@ -187,6 +187,59 @@ EntityBlueprint "effects/no_lifetime"
 
 EntityBlueprint "effects/no_lifetime"
 {
+		name effects/messages_and_markers/objective_marker_mining_elevator
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/minimap_objective_blue"
+		clamp_mode		"1"
+		visibility		"always"	
+		additional_z_order	"15"	
+	}
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_mining_elevator"
+	}
+	
+	// BOUNDS HACK FOR SPATIAL SEARCH
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "-1"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "1"
+				z "1"
+			}	
+		}
+	}
+
+	GuiDesc
+	{
+		type 			"image"
+		material		"gui/hud/objective_blue"
+		mode			"clamp"
+		clamp_in_frustum "0"
+		order 			"1"
+		//scale
+		//{
+		//	x  "1.35"
+		//	y  "1.35"		
+		//}
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
 		name effects/messages_and_markers/objective_marker_red
 
 	MinimapItemDesc

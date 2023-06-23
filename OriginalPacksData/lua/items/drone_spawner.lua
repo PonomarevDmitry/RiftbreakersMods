@@ -53,7 +53,7 @@ function drone_spawner:SpawnDroneBlueprint( blueprint, count )
 		QueueEvent( "FadeEntityInRequest", drone, 2.0 )
 
 	    EffectService:AttachEffects(drone, "fly")
-        
+        ItemService:SetItemReference( drone, self.entity, EntityService:GetBlueprintName( self.entity ))
         Insert(self.spawned_drones,drone)
     end
 end
@@ -108,7 +108,7 @@ end
 
 function drone_spawner:DespawnDrones()
     for drone in Iter(self.spawned_drones) do
-        if UnitService:GetCurrentTarget( drone, "owner" ) ~= INVALID_ID then
+        if ItemService:IsItemReference( drone, self.entity ) then
             QueueEvent( "DisableDroneRequest", drone )
             QueueEvent( "EmitStateMachineEventRequest", drone, "state_dead" )
             QueueEvent( "DissolveEntityRequest", drone, 0.5, 0.0 )

@@ -13,12 +13,12 @@ function health_giver:init()
 	self.soundFSM:ChangeState("work")
 end
 
-function canoptrix:OnEnterWork( state )
+function health_giver:OnEnterWork( state )
 	ItemService:ChangeRegeneration( self.toHeal, self.amount / self.time )
 	state:SetDurationLimit( self.time )
 end
 
-function canoptrix:OnExitWork( state )
+function health_giver:OnExitWork( state )
 	ItemService:ChangeRegeneration(self.toHeal, -(self.amount / self.time) )
 	EntityService:RemoveEntity( self.entity ) 
 end

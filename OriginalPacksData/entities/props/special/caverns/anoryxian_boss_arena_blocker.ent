@@ -1,0 +1,49 @@
+EntityBlueprint
+{
+	name  "props/special/caverns/anoryxian_boss_arena_blocker"
+
+	MeshDesc
+	{
+		mesh "meshes/props/rocks/caverns/caverns_big_01.mesh"
+		material "props/rocks/caverns/caverns_big_01"
+	}	
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{	
+						mesh "meshes/props/rocks/caverns/caverns_big_01_c1.nxs"
+					}
+				}
+			}
+		}	
+	}
+	
+	NodeCullerDesc
+	{
+	    cost_type "prop"
+	    nav_mesh_cull_type "1"
+	}
+	
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "6"
+				y "6"
+				z "6"
+			}
+		}
+	}
+}

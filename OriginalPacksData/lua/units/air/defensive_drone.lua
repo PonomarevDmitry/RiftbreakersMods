@@ -105,14 +105,14 @@ function defensive_drone:OnFinderExecute(state)
 
     local owner = self:GetDroneOwnerTarget();
 
-    local predicate = {
+    self.predicate = self.predicate or {
         signature=self.search_component,
         filter = function(entity)
             return EntityService:IsInTeamRelation(owner, entity, "hostility")
         end
     };
 
-    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, self.search_radius, predicate );
+    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, self.search_radius, self.predicate );
     local target = FindClosestEntity( self.entity, entities );
     if target == INVALID_ID then
         return

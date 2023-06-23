@@ -116,7 +116,7 @@ function detector:CanActivate()
 end
 
 function detector:OnExecuteDetecting()
-	local enemyEntities = FindService:FindEntitiesByPredicateInRadius( self.item, self.enemyRadius, {
+	self.predicate = self.predicate or {
 		signature = "TreasureComponent",
 		filter = function( entity ) 
 			local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
@@ -140,8 +140,9 @@ function detector:OnExecuteDetecting()
 
 			return true
 		end
-	} );
+	}
 
+	local enemyEntities = FindService:FindEntitiesByPredicateInRadius( self.item, self.enemyRadius, self.predicate );
 
 	local foundNormal = ItemService:FindClosestTreasureInRadius( self.item, self.level, "", "enemy" )
 	local ent = foundNormal.first

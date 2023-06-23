@@ -113,7 +113,7 @@ function building_base:CreateBuildingStateMachine()
 	self.buildingSM:AddState( "big_building_state3", { from="*", enter="_OnBigBuildingEnterState3", execute="_OnBigBuildingExecuteState3", exit="_OnBigBuildingExitState3" } )
 	self.buildingSM:AddState( "big_building_state4", { from="*", enter="_OnBigBuildingEnterState4", execute="_OnBigBuildingExecuteState4", exit="_OnBigBuildingExitState4" } )
 	self.buildingSM:AddState( "hide_scaffolding", { from="*", enter="_OnHideScafoldingEnter", execute="_OnHideScafoldingExecute", exit="_OnHideScafoldingExit" } )
-	self.buildingSM:AddState( "selling", { from="*", enter="_OnSellEnter", execute="_OnSellExecute", exit="_OnSellExit" } )
+	self.buildingSM:AddState( "selling", { from="*", enter="_OnSellEnter", execute="_OnSellExecute", exit="_OnSellExit", interval=0.1 } )
 	self.buildingSM:AddState( "wait_for_space", { from="*", execute="_OnWaitForSpace" } )
 	
 end
@@ -995,7 +995,7 @@ function building_base:RemoveAllBuilidingEntities()
 		EntityService:RemoveEntity( self.printingOrigin )
 		self.printingOrigin = nil
 	end
-	if (#self.cubes > 0 ) then
+	if ( self.cubes ~= nil and #self.cubes > 0 ) then
 		for line in Iter( self.lines ) do
 			EntityService:RemoveEntity( line[1]  )
 			EntityService:RemoveEntity( line[6]  )
@@ -1073,6 +1073,16 @@ function building_base:OnLoad()
 	
 	if ( self.buildingSell == false and self.buildingFinished == 0 and self.data:GetIntOrDefault("remove_lua_after_build", 0) == 1) then
 		QueueEvent("RemoveBuildingLuaComponent", self.entity )
+	end
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) and not EntityService:GetComponent( self.entity, "InteractiveComponent" ) ) then
+		local blueprint = ResourceManager:GetBlueprint( EntityService:GetBlueprintName( self.entity ))
+        if ( blueprint ) then
+			local interactive = blueprint:GetComponent( "InteractiveComponent" )
+			if ( interactive ) then
+				QueueEvent("RecreateComponentFromBlueprintRequest", self.entity, "InteractiveComponent" )
+			end
+		end
 	end
 
 	if not self.display_radius_size then

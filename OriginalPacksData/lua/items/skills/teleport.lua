@@ -15,6 +15,8 @@ function teleport:OnInit()
 	self.maxDistance = self.data:GetFloatOrDefault("distance", -1.0 )
 	self:RegisterHandler( self.entity, "TeleportAppearEnter",  "OnTeleportAppearEnter" )
 	self:RegisterHandler( self.entity, "TeleportAppearExit",  "OnTeleportAppearExit" )
+
+	self.version = 1
 end
 
 function teleport:OnTeleportAppearEnter()
@@ -39,10 +41,13 @@ function teleport:OnMarkerExecute( state )
 	local pos = PlayerService:GetWeaponLookPoint( self.owner )
 	self.foundPos = PlayerService:FindPositionForTeleport( self.owner, pos, self.maxDistance )
 	if ( self.foundPos.first == false and self.marker ~= INVALID_ID ) then
-		EntityService:RemoveEntity( self.marker )
+		if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
+			EntityService:RemoveEntity( self.marker )
+		end
 		self.marker = INVALID_ID 
 	elseif ( self.foundPos.first and ( self.marker == INVALID_ID or EntityService:IsAlive( self.marker ) == false ) ) then
 		self.marker = EntityService:SpawnEntity("effects/mech/teleport_marker", self.foundPos.second, EntityService:GetTeam(INVALID_ID) )
+		ItemService:SetItemReference( self.marker, self.entity, EntityService:GetBlueprintName( self.entity ) )
 	elseif ( self.foundPos.first and self.marker ~= INVALID_ID ) then
 		EntityService:SetPosition( self.marker, self.foundPos.second )
 		EntityService:CreateOrSetLifetime( self.marker, 2.0 / 33.0, "normal" )
@@ -51,7 +56,9 @@ function teleport:OnMarkerExecute( state )
 end
 
 function teleport:OnMarkerExit()
-	EntityService:RemoveEntity( self.marker )
+	if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
+		EntityService:RemoveEntity( self.marker )
+	end
 	self.marker = INVALID_ID
 end
 
@@ -61,4 +68,19 @@ function teleport:OnUnequipped()
 		state:Exit()
 	end
 end
+
+function teleport:OnLoad()
+	item.OnLoad(self)
+	self.version = self.version or 0
+	if ( self.version < 1 and self.marker ~= INVALID_ID ) then
+		if ( EntityService:GetBlueprintName( self.marker ) ~= "effects/mech/teleport_marker") then
+			self.marker = INVALID_ID
+		end
+	end
+
+	if ( not self:ValidateEntityReference( self.marker ) ) then
+		self.marker = INVALID_ID
+	end
+end
+
 return teleport

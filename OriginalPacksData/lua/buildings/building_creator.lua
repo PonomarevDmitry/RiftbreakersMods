@@ -41,7 +41,9 @@ function building_creator:init()
 	self:RegisterHandler( self.parent, "BuildingStartEvent",  "_OnBuild" )
 	self:RegisterHandler( self.parent, "BuildingFastForwardEvent", "_OnBuildingFastForwardEvent" )
 	self:RegisterHandler( self.parent, "BuildingBuildEvent", "OnBuildingBuildEvent" )
-	
+	self:RegisterHandler( self.parent, "BuildingSellEvent",  "_OnSell" )
+	self:RegisterHandler( self.parent, "BuildingModifiedEvent", "_OnBuildingModifiedEvent" )
+
 	local database = EntityService:GetDatabase( self.parent )
 	DatabaseConcatenate( self.data , database )
 
@@ -83,7 +85,7 @@ function building_creator:CreateBuildingStateMachine()
 
 	self.buildingSM = self:CreateStateMachine()
 	self.buildingSM:AddState( "cube_fly", { from="*", enter="_OnCubeFlyEnter", exit="_OnCubeFlyExit", execute="_OnCubeFlyExecute" } )
-	self.buildingSM:AddState( "building", { from="*", enter="_OnBuildingEnter", execute="_OnBuildingExecute", exit="_OnBuildingExit" } )
+	self.buildingSM:AddState( "building", { from="*", enter="_OnBuildingEnter", execute="_OnBuildingExecute", exit="_OnBuildingExit", interval=0.05 } )
 	self.buildingSM:AddState( "wait", { from="*", enter="_OnWaitEnter", exit="_OnWaitExit" } )
 	self.buildingSM:AddState( "big_building_state1", { from="*", enter="_OnBigBuildingEnterState1", execute="_OnBigBuildingExecuteState1", exit="_OnBigBuildingExitState1" } )
 	self.buildingSM:AddState( "big_building_state2", { from="*", enter="_OnBigBuildingEnterState2", execute="_OnBigBuildingExecuteState2", exit="_OnBigBuildingExitState2" } )
@@ -92,6 +94,10 @@ function building_creator:CreateBuildingStateMachine()
 	self.buildingSM:AddState( "hide_scaffolding", { from="*", enter="_OnHideScafoldingEnter", execute="_OnHideScafoldingExecute", exit="_OnHideScafoldingExit" } )
 	self.buildingSM:AddState( "wait_for_space", { from="*", execute="_OnWaitForSpace" } )
 	
+end
+
+function  building_creator:_OnSell()
+	EntityService:RemoveEntity( self.entity )
 end
 
 function building_creator:GetMaterials()
@@ -114,6 +120,13 @@ end
 
 function building_creator:OnRelease()
 	self:RemoveAllBuilidingEntities()
+end
+
+function building_creator:_OnBuildingModifiedEvent(evt)
+	self.materials = {}
+	for i, material in ipairs(self:GetMaterials()) do
+		EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default" )
+	end
 end
 
 function building_creator:CreateBaseCubes()
@@ -318,11 +331,7 @@ function building_creator:_OnBuildingExit( state )
 		return
 	end
 	
-	EntityService:RemoveMaterial( self.meshEnt, "dissolve" )
-	for i, material in ipairs( self.materials ) do
-		EntityService:SetSubMeshMaterial( self.meshEnt, material, i - 1, "default" )
-	end
-
+	QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent" )
 	EntityService:RemoveGraphicsUniform( self.meshEnt, "cDissolveAmount" )
 
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
@@ -331,7 +340,10 @@ function building_creator:_OnBuildingExit( state )
 		self.endCubeEnt = nil
 	end
 
-	self.buildingSM:ChangeState("hide_scaffolding")
+
+	if ( self.isFloor == false )then
+		self.buildingSM:ChangeState("hide_scaffolding")
+	end
 	self.buildingFinished = 0;
 
     if ( self.printingCube ~= nil ) then
@@ -352,6 +364,9 @@ function building_creator:_OnBuildingExit( state )
 	end
 	
 	self.timerEnt = nil
+	if ( self.isFloor  )then
+		EntityService:RemoveEntity(self.entity  )
+	end
 end
 
 function building_creator:_CreateLine( ent1, ent2, dir, lengthMultiplier )
@@ -722,7 +737,10 @@ function building_creator:RemoveAllBuilidingEntities()
 		EntityService:RemoveEntity( self.printingOrigin )
 		self.printingOrigin = nil
 	end
-	EntityService:RemoveEntity(self.cubeEnt)
+	if ( self.cubeEnt ~= nil ) then
+		EntityService:RemoveEntity(self.cubeEnt)
+	end
+	
 	if (#self.cubes > 0 ) then
 		for line in Iter( self.lines ) do
 			EntityService:RemoveEntity( line[1]  )

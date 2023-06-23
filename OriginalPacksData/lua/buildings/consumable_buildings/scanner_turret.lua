@@ -99,10 +99,11 @@ function scanner_turret:ExecuteScanning()
 end
 
 function scanner_turret:OnWorkInProgress()
-    
-    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, WeaponService:GetTurretMaxRange( self.entity ), {
+    self.predicate = self.predicate or {
         signature = "ScannableComponent"
-    } )
+    }
+
+    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, WeaponService:GetTurretMaxRange( self.entity ), self.predicate )
     local target = FindClosestEntity( self.entity, entities );
     if ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID then
         self:SelectEntity( target )

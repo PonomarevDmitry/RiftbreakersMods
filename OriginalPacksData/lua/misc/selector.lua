@@ -196,7 +196,7 @@ end
 function selector:FindEntitiesToSelect( selectorComponent)
     local position = selectorComponent.position 
 
-    local predicate = {
+    self.predicate = self.predicate or {
         signature="SelectableComponent",
         filter = function(entity)
             local pos = EntityService:GetPosition(entity )
@@ -222,7 +222,7 @@ function selector:FindEntitiesToSelect( selectorComponent)
     if ( #possibleSelectedEnts == 0 ) then
         local min = VectorSub(position, VectorMulByNumber( self.boundsSize, 0.5) )
         local max = VectorAdd(position, VectorMulByNumber( self.boundsSize, 0.5) )
-        possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, predicate );
+        possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, self.predicate );
     end
 
     local sorter = function( t, lhs, rhs )

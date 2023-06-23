@@ -72,7 +72,7 @@ function repair_drone:FindActionTarget()
         return INVALID_ID
     end
 
-    local predicate = {
+    self.predicate = self.predicate or {
         signature="HealthComponent,BuildingComponent",
         team = EntityService:GetTeam(self.entity),
         filter = function(entity)
@@ -120,7 +120,7 @@ function repair_drone:FindActionTarget()
         return INVALID_ID
     end
 
-    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
+    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, self.predicate );
     
     local target = FindMostDestroyedEntity( owner, entities );
     if target ~= INVALID_ID then

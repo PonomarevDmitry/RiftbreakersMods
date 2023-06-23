@@ -386,4 +386,14 @@ function rift_station:OnLuaGlobalEvent( event )
 		end
 	end
 end
+
+function rift_station:OnInteractWithEntityRequest( event )
+    local player = PlayerService:GetPlayerByMech( event:GetOwner() )
+	if ( self:CanEnableSpecialAction() ) then
+	    self:OnSpecialAction()
+	else
+		QueueEvent("ActivateEntityRequest", self.entity, player )
+	end
+end
+
 return rift_station

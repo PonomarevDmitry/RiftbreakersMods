@@ -25,6 +25,14 @@ function item:init()
 
 	self.data:SetInt( "equipped_entity", INVALID_ID )
 	self.slot = "" 
+	self.references = {}
+end
+
+function item:SpawnReferenceEntity( blueprint, target, team )
+	local ent = EntityService:SpawnEntity( blueprint, target, team or EntityService:GetTeam( self.entity ) )
+	ItemService:SetItemReference( ent, self.entity, self.entity_blueprint )
+	table.insert( self.references, ent )
+	return ent
 end
 
 function item:_OnEquipped( evt )
@@ -131,6 +139,22 @@ function item:_OnDeactivate( evt )
 	self:_Deactivate( forced )
 end
 
+function item:ValidateEntityReference( entity )
+	if ( entity ~= nil and entity ~= INVALID_ID and not ItemService:IsItemReference( entity, self.entity) ) then
+		return false
+	end
+	return true
+end
+
+function item:DespawnReferenceEntities(  )
+	for entity in Iter(self.references ) do
+		if ( ItemService:IsItemReference( entity, self.entity) ) then
+			QueueEvent("DissolveEntityRequest", entity, 0.2, 0.0 )
+		end
+	end
+	self.references = {}
+end
+
 function item:_OnUnequipped( evt )	
 
 	if ( self.data:GetIntOrDefault("equipped", 0) == 1 ) then
@@ -148,6 +172,8 @@ function item:_OnUnequipped( evt )
 		self:OnUnequipped()	
 
 		self.data:SetInt( "equipped_entity", INVALID_ID )
+
+		self:DespawnReferenceEntities()
 		self.owner = INVALID_ID;
 	end
 end
@@ -176,6 +202,7 @@ function item:OnInit()
 end
 
 function item:OnLoad()
+	self.references = self.references or {}
 	self.slot = self.slot or ""
 	if ( self.dissolveSM and self.dissolveSM:GetCurrentState() == "") then
 		self:RemoveDissolveStateMachine()

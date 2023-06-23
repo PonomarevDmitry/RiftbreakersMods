@@ -22,7 +22,9 @@ end
 function activator:OnHarvestStartEnter( state )
 	state:SetDurationLimit( self.harvestStartTime )
 	local ownerData = EntityService:GetDatabase( self.owner );
-	ownerData:SetFloat( "RIGHT_HAND_use_speed", 0.75 / self.harvestStartTime )
+	if ( ownerData ~= nil ) then
+		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0.75 / self.harvestStartTime )
+	end
 end
 
 function activator:OnHarvestStartExecute( state )
@@ -73,11 +75,13 @@ function activator:OnActivate()
 		self.sm:ChangeState("start")
 	end
 
-	if ItemService:GetItemType( self.entity ) == "equipment" then
-		ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
-		self.extractoring = true;
-	else
-		ownerData:SetString( "RIGHT_HAND_item_type", "harvester" )
+	if ( ownerData ~= nil ) then
+		if ItemService:GetItemType( self.entity ) == "equipment" then
+			ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
+			self.extractoring = true;
+		else
+			ownerData:SetString( "RIGHT_HAND_item_type", "harvester" )
+		end
 	end
 end
 

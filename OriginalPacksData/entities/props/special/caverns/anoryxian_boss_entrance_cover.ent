@@ -1,0 +1,121 @@
+EntityBlueprint
+{
+	name "props/special/caverns/anoryxian_boss_entrance_cover"
+
+	HealthDesc
+	{
+		max_health 				"10000"
+		health 					"10000"
+		is_manual				"0"
+	}
+	
+	ResistanceComponent
+	{
+		min_damage_threshold 	"5000"
+
+		physical		"0.0"
+		fire			"0.0"
+		acid			"0.0"
+		energy			"0.0"
+		cryo			"0.0"
+		area			"0.0"	
+		gravity 		"0.0"
+		anoryxian_shockwave "1.0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/rocks/caverns/caverns_big_01.mesh"
+		material "props/rocks/caverns/caverns_big_01"
+	}	
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{	
+						mesh "meshes/props/rocks/caverns/caverns_big_01_c1.nxs"
+					}
+				}
+			}
+		}	
+	}
+	
+	//MeshDesc
+	//{
+	//	material "props/special/hitech_structure_big_02"
+	//	mesh "meshes/props/special/alien_structures/hitech_structure_big_02.mesh"
+	//}
+	//
+	//
+	//PhysicsDesc
+ 	//{
+	//	objects
+	//	{
+	//		PhysicsObjectDesc
+	//		{
+	//			type 				"static"
+	//			group_id 			"destructible"
+	//			physics_material 	"default"
+	//			Shapes
+	//			{
+	//				PhysicsMeshShape
+	//				{
+	//					mesh "meshes/props/special/alien_structures/hitech_structure_big_02_c1.nxs"
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop_big"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/props/special/alien_structures/hitech_structure_big_02_c1.nxs"
+			}
+		}
+	}
+	
+	//HighlightComponent
+	//{
+	//}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_very_large_parts_generic"
+				}
+			}
+		}
+	}
+}

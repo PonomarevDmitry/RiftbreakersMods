@@ -156,7 +156,7 @@ function loot_collector_drone:FindActionTarget()
         return INVALID_ID
     end
 
-    local predicate = {
+    self.predicate = self.predicate or {
         signature="BlueprintComponent,IdComponent,ParentComponent",
         filter = function(entity)
             local entity_name = EntityService:GetName(entity);
@@ -172,7 +172,7 @@ function loot_collector_drone:FindActionTarget()
         end
     };
 
-    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate );
+    local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, self.predicate );
     
     local item = FindFarthestEntity( owner, entities )
     local target = EntityService:GetParent( item )

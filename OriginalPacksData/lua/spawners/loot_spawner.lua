@@ -16,11 +16,13 @@ function loot_spawner:init()
 	self.spawnCount = RandInt( minAmount, maxAmount )
 	self.removeEntity = self.removeEntity or true
 	local count = self.spawnCount / self.packageSize 
+	self.instant = false
 	if ( count > 30 ) then
 		self.lootSpawn = self:CreateStateMachine()
 		self.lootSpawn:AddState( "spawn", { from="*", enter="OnSpawnEnter", exit="OnSpawnExit", execute="OnSpawnExecute" } )
 		self.lootSpawn:ChangeState("spawn")
 	else
+		self.instant = true
 		self:SpawnLoot()
 		if self.removeEntity then
 			EntityService:RemoveEntity( self.entity )
@@ -43,7 +45,10 @@ function loot_spawner:OnSpawnExit()
 	end
 end
 function loot_spawner:SpawnLoot()
-	local toSpawn =  self.spawnCount / ( self.time * 30 )
+	local toSpawn = self.spawnCount
+	if ( self.instant == false ) then
+		toSpawn =  self.spawnCount / ( self.time * 30 )
+	end
 	while ( toSpawn > 0 )
 	do
 		local count = math.min( toSpawn, self.packageSize );

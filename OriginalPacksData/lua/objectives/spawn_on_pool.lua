@@ -53,7 +53,7 @@ end
 function spawn_from_pool:FindPoolsWithBuildings( veins, specificType)
 	local playable_min = MissionService:GetPlayableRegionMin();
     local playable_max = MissionService:GetPlayableRegionMax();
-    local predicate = {
+    self.predicate = self.predicate or {
         signature="ResourceVolumeComponent",
         filter = function(entity)
 			local pass = false
@@ -82,7 +82,7 @@ function spawn_from_pool:FindPoolsWithBuildings( veins, specificType)
         end
     };
 
-	local entities = FindService:FindEntitiesByPredicateInBox( playable_min, playable_max, predicate );
+	local entities = FindService:FindEntitiesByPredicateInBox( playable_min, playable_max, self.predicate );
 	if Assert( #entities > 0, "ERROR: no pools in to find ") then
 		local randomNumber = RandInt( 1, #entities )			
 		wave_start_point = entities[ randomNumber ]
