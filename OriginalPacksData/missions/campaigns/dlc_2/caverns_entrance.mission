@@ -1,0 +1,145 @@
+MissionDef
+{
+    script          	"lua/missions/campaigns/dlc_2/caverns_entrance.lua"
+	localization_id		"gui/menu/planetary_scanner/mission_caverns_entrance"
+	description			"gui/menu/planetary_scanner/mission_caverns_entrance_description"
+	detector_disabled	"1"
+	
+	script_database
+    {
+		spawn_near_position string:"-300,0,0"    
+    }	
+
+    biomes          						"caverns"
+	light_mask_materials
+    {
+        logic/caverns_light_mask_holes_medium
+		
+		//BELOW MASK IS TO GUARANTEE NO LIGHT ON BOSS TILE COORDINATES
+		logic/caverns_light_mask_none
+		{	
+			min_instances	4
+			max_instances	4
+			tile_coord
+			{		
+				1,-1					
+				1,0					
+				2,-1					
+				2,0					
+			}
+		}		
+    }
+
+    destructible_volume_texture_patterns
+    {
+        materials/textures/logic/caverns_destructible_rocks_mask_edge_0_empty.png
+    }
+	
+    map_size			6,4
+	map_no_spawn_margin "24"
+	
+	tile_spawn_rules
+	{	
+		biomes/caverns/tiles/caverns_custom_boss_arena_01/caverns_custom_boss_arena_01.tile
+		{
+			min_instances	1			
+			max_instances	1	
+			tile_coord
+			{		
+				1,-1										
+			}	
+		}
+		//biomes/caverns/tiles/caverns_plains_rocks_01/caverns_plains_rocks_01.tile
+		//{					
+		//	max_instances	0			
+		//}
+		//biomes/caverns/tiles/caverns_canyons_01/caverns_canyons_01.tile
+		//{					
+		//	max_instances	0			
+		//}
+	}
+    
+	failed_action   "remain"
+	success_action  "remove"
+
+	creature_volumes_min_distance   "160.0"
+	creature_volumes_density        "0.35"
+
+    threat  "0.5"    
+
+    ambient_creature_species
+    {
+        ground
+        {     
+			max_count 50
+			spawn_rate 6
+			search_to_spawn_radius "2"
+			
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "crysder"
+                }
+            }
+        }        
+    }
+
+    creature_volumes_species
+    {
+        neutral_units
+        {         
+			CreatureVolume
+            {
+                creature_species    "moltug_crystal"
+            }
+        }
+
+        regular_units
+        {
+            CreatureVolume
+            {
+                creature_species    "crawlog"
+                volume_spawn_ratio  "1"
+            }  
+			
+			CreatureVolume
+            {
+                creature_species    "gulgor"
+                volume_spawn_ratio  "1"
+            }  
+        }
+    }
+	
+	mission_object_spawners
+	{	
+	
+		MarkerBlueprintSpawner
+        {
+            spawn_pool               "loot_containers"
+
+            // find all entities on map with this blueprint as possible spawn point
+            spawn_at_marker          "logic/spawn_objective"
+
+            // min distance from objects in other pools
+            spawn_min_distance_from_pools
+            {
+                player_spawn_point  200.0				
+                loot_containers     150.0
+            }
+
+            // range of spawned blueprints by this pool <min,max>, max can be 0 for unbounded upper limit
+            spawn_instances_minmax    3,5
+
+            spawn_blueprints
+            {
+                spawners/caverns_spawner_standard
+                {
+                    // make a roll to check if blueprint can be spawned
+                    spawn_chance           1
+                }
+            }
+        }
+	}
+	
+}

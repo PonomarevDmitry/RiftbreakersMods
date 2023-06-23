@@ -4,10 +4,13 @@ vertex_program deferred_gbuffer_terrain_vp hlsl
     entry_point mainVP
     target vs_5_0
 
+    preprocessor_defines USE_VELOCITY=1
+    
     default_params
     {
-        param_named_auto cWorld         world_matrix 
-        param_named_auto cViewProj      viewproj_matrix 
+        param_named_auto cWorld         world_matrix
+        param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cPrevViewProj  prev_viewproj_matrix 
         param_named      cTilingFactor  float 16
     }
 }
@@ -18,12 +21,13 @@ fragment_program deferred_gbuffer_terrain_1_fp hlsl
     entry_point mainFP
     target ps_5_0
 
-    preprocessor_defines TEXTURES_COUNT=1,USE_DXT5NM=1
+    preprocessor_defines TEXTURES_COUNT=1,USE_DXT5NM=1,USE_VELOCITY=1
 
     default_params
     {
         param_named_auto cGlowAmount    surface_glow
         param_named_auto cMIPBias       mip_bias
+        param_named_auto cJitterOffset  jitter_offset
     }
 }
 
@@ -33,12 +37,13 @@ fragment_program deferred_gbuffer_terrain_2_fp hlsl
     entry_point mainFP
     target ps_5_0
 
-    preprocessor_defines TEXTURES_COUNT=2,USE_DXT5NM=1
+    preprocessor_defines TEXTURES_COUNT=2,USE_DXT5NM=1,USE_VELOCITY=1
 
     default_params
     {
         param_named_auto cGlowAmount    surface_glow
         param_named_auto cMIPBias       mip_bias
+        param_named_auto cJitterOffset  jitter_offset
     }
 }
 
@@ -48,11 +53,12 @@ fragment_program deferred_gbuffer_terrain_3_fp hlsl
     entry_point mainFP
     target ps_5_0
 
-    preprocessor_defines TEXTURES_COUNT=3,USE_DXT5NM=1
+    preprocessor_defines TEXTURES_COUNT=3,USE_DXT5NM=1,USE_VELOCITY=1
 
     default_params
     {
         param_named_auto cGlowAmount    surface_glow
         param_named_auto cMIPBias       mip_bias
+        param_named_auto cJitterOffset  jitter_offset
     }
 }

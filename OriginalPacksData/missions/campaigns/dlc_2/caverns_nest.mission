@@ -1,0 +1,81 @@
+MissionDef
+{
+    script          "lua/missions/campaigns/dlc_2/caverns_nest.lua"
+	localization_id	"gui/menu/planetary_scanner/mission_caverns_nest"
+	description		"gui/menu/planetary_scanner/mission_caverns_nest_description"	
+	detector_disabled "1"
+	
+	script_database
+    {
+		spawn_near_position string:"-380,0,0"    
+    }
+	map_size			3,2
+	map_no_spawn_margin "24"
+	
+    biomes          						"caverns"
+	light_mask_materials
+    {
+        logic/caverns_light_mask_none
+    }
+
+    destructible_volume_texture_patterns
+    {
+        materials/textures/logic/caverns_destructible_rocks_mask_edge_0_empty.png
+    }
+	
+	tile_spawn_rules
+	{	
+		biomes/caverns/tiles/caverns_custom_boss_arena_02/caverns_custom_boss_arena_02.tile
+		{
+			min_instances	1			
+			max_instances	1	
+			tile_coord
+			{		
+				0,-1										
+			}	
+		}			
+	}
+    
+	failed_action   "remain"
+	success_action  "remove"
+
+	creature_volumes_min_distance   "90.0"
+	creature_volumes_density        "0.0"
+
+    threat  "0.5"    
+
+    ambient_creature_species
+    {
+        ground
+        {     
+			max_count 50
+			spawn_rate 6
+			search_to_spawn_radius "2"
+			
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "crysder"
+                }
+            }
+        }
+    }
+
+    creature_volumes_species
+    {
+        neutral_units
+        {            
+			CreatureVolume
+            {
+                creature_species    "moltug_crystal"
+            }
+        }       
+    }
+	
+	mission_object_spawners
+	{			
+        	
+	}
+	
+}

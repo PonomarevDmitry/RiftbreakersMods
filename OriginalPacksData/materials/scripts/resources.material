@@ -93,29 +93,6 @@ material resources/resource_liquid
 	}
 }
 
-material resources/resource_liquid_vein_depth
-{
-	render_group 2
-	feature "gbuffer|shadow"
-
-	technique
-	{
-		pass
-		{
-			depth_write off
-			colour_write off
-
-			vertex_program_ref ground_resources_vp
-			{
-			}
-
-			fragment_program_ref deferred_resource_liquid_vein_fp
-			{
-			}
-		}
-	}
-}
-
 material resources/resource_liquid_vein
 {
 	render_group 2
@@ -1411,6 +1388,14 @@ material resources/resource_morphium_fresnel
 
 			fragment_program_ref forward_object_fresnel_fog_fp
 			{
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}

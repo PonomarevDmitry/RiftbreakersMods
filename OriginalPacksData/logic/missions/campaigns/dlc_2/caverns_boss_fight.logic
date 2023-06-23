@@ -1,0 +1,107 @@
+//editor "scroll(-738.01,-199.33)|zoom(0.80)"
+FlowGraphTemplate
+{
+	version "19"
+	editor "5571"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-390,405)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(704,400)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(camera_follow_two_targets_by_distance.xml)|pos(43,251)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "speed"
+						value "20.0"
+					}
+
+					FloatData
+					{
+						key "acceleration"
+						value "30.00"
+					}
+
+					FloatData
+					{
+						key "max_radius_distance"
+						value "18.00"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "min_distance_target"
+						value "logic/position_marker_player_distance_min"
+					}
+
+					StringData
+					{
+						key "max_distance_target"
+						value "logic/position_marker_player_distance_max"
+					}
+
+					StringData
+					{
+						key "min_camera_target"
+						value "logic/position_marker_boss_camera_min"
+					}
+
+					StringData
+					{
+						key "max_camera_target"
+						value "logic/position_marker_boss_camera_max"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/camera/camera_follow_two_targets_by_distance.lua"
+			self_id "camera_follow_two_targets_by_distance_2"
+		}
+
+	}
+
+	GraphConnections
+	{
+		camera_follow_two_targets_by_distance_2 "event_end_1"
+		default "camera_follow_two_targets_by_distance_2"
+	}
+
+	GraphComments
+}
+
