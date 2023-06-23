@@ -22,6 +22,23 @@ function teleport_explosion:OnLoad()
     self:FillInitialParams()
 end
 
+function teleport_explosion:FillInitialParams()
+
+    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    self.maxDistance = database:GetFloatOrDefault( "distance", -1.0 )
+
+    self.explosionOnStart = database:GetIntOrDefault( "explosion_start", 0 ) == 1
+    self.explosionOnEnd = database:GetIntOrDefault( "explosion_end", 0 ) == 1
+
+    self.bp = database:GetStringOrDefault( "bp", "" )
+    self.att = database:GetStringOrDefault( "att", "" )
+
+    self.radiusBp = database:GetStringOrDefault( "radius_bp", "")
+    self.radiusSize = database:GetFloatOrDefault( "radius_size", 0 )
+    self.radiusLifeTime = database:GetFloatOrDefault( "radius_lifetime", 0 )
+end
+
 function teleport_explosion:OnActivate()
 
     self:UnregisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
@@ -70,23 +87,6 @@ function teleport_explosion:SpawnExplosion()
             EntityService:DissolveEntity( trail, self.radiusLifeTime, 1.0 )
         end
     end
-end
-
-function teleport_explosion:FillInitialParams()
-
-    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
-
-    self.maxDistance = database:GetFloatOrDefault( "distance", -1.0 )
-
-    self.explosionOnStart = database:GetIntOrDefault( "explosion_start", 0 ) == 1
-    self.explosionOnEnd = database:GetIntOrDefault( "explosion_end", 0 ) == 1
-
-    self.bp = database:GetStringOrDefault( "bp", "" )
-    self.att = database:GetStringOrDefault( "att", "" )
-
-    self.radiusBp = database:GetStringOrDefault( "radius_bp", "")
-    self.radiusSize = database:GetFloatOrDefault( "radius_size", 0 )
-    self.radiusLifeTime = database:GetFloatOrDefault( "radius_lifetime", 0 )
 end
 
 return teleport_explosion
