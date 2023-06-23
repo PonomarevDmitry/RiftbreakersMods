@@ -6,23 +6,23 @@ require("lua/utils/find_utils.lua")
 class 'scanner_turret' ( tower )
 
 function scanner_turret:__init()
-    tower.__init(self,self)
+	tower.__init(self,self)
 end
 
 function scanner_turret:OnInit()
     tower.OnInit(self)
 
-    self.fsm = self:CreateStateMachine()
-    self.fsm:AddState( "working", {execute="OnWorkInProgress"} )
+	self.fsm = self:CreateStateMachine()
+	self.fsm:AddState( "working", {execute="OnWorkInProgress"} )
     self.shooting = false
-    self.lastTarget = INVALID_ID
-    self.effect 	= INVALID_ID
-    self.scanningTime = 0.0
-    self.maxScanTime = self.data:GetFloatOrDefault( "scanning_time", 2 )
+	self.lastTarget = INVALID_ID
+	self.effect 	= INVALID_ID
+	self.scanningTime = 0.0
+	self.maxScanTime = self.data:GetFloatOrDefault( "scanning_time", 2 )
 end
 
 function scanner_turret:OnBuild()
-    self.fsm:ChangeState("working")
+	self.fsm:ChangeState("working")
 end
 
 function scanner_turret:SelectEntity( target )
@@ -50,7 +50,7 @@ end
 
 function scanner_turret:ExecuteScanning()
 
-    self.ammoEnt = EntityService:GetChildByName( self.entity, "##ammo##" )
+	self.ammoEnt = EntityService:GetChildByName( self.entity, "##ammo##" )
 
     if ( self.lastTarget ~= INVALID_ID and self.lastTarget ~= self.selectedEntity ) then
         EntityService:RemoveEntity( self.effect )
@@ -101,10 +101,11 @@ function scanner_turret:ExecuteScanning()
 end
 
 function scanner_turret:OnWorkInProgress()
-    
-    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, WeaponService:GetTurretMaxRange( self.entity ), {
+    self.predicate = self.predicate or {
         signature = "ScannableComponent"
-    } )
+    }
+
+    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, WeaponService:GetTurretMaxRange( self.entity ), self.predicate )
     local target = FindClosestEntity( self.entity, entities );
     if ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID then
         self:SelectEntity( target )
