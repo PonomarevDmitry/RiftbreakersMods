@@ -1,60 +1,52 @@
-local item = require("lua/items/item.lua")
+local teleport = require("lua/items/skills/teleport.lua")
 
-class 'teleport_explosion' ( item )
+class 'teleport_explosion' ( teleport )
 
 function teleport_explosion:__init()
-    item.__init(self,self)
+    teleport.__init(self,self)
 end
 
 function teleport_explosion:OnInit()
-    if ( item.OnInit ) then
-        item.OnInit(self)
+    if ( teleport.OnInit ) then
+        teleport.OnInit(self)
     end
-
-    self.machine = self:CreateStateMachine()
-    self.machine:AddState( "marker", { from="*", execute= "OnMarkerExecute", exit="OnMarkerExit"} )
-
-    self.marker = INVALID_ID
-    self.foundPos = { false, {} }
-
-
-    self:RegisterHandler( self.entity, "TeleportAppearEnter",  "OnTeleportAppearEnter" )
-    self:RegisterHandler( self.entity, "TeleportAppearExit",  "OnTeleportAppearExit" )
-
-    self.version = 1
 
     self:FillInitialParams()
 end
 
-function  teleport_explosion:OnLoad()
-    if ( item.OnLoad ) then
-        item.OnLoad(self)
+function teleport_explosion:OnLoad()
+    if ( teleport.OnLoad ) then
+        teleport.OnLoad(self)
     end
-    self:FillInitialParams()
 
-    self.version = self.version or 0
-    if ( self.version < 1 and self.marker ~= INVALID_ID ) then
-        if ( EntityService:GetBlueprintName( self.marker ) ~= "effects/mech/teleport_marker" ) then
-            self.marker = INVALID_ID
+    self:FillInitialParams()
+end
+
+function teleport_explosion:OnActivate()
+
+    self:UnregisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
+
+    if ( self.foundPos.first ) then
+    
+        if ( self.explosionOnStart ) then
+            self:SpawnExplosion()
+        end
+
+        if ( self.explosionOnEnd ) then
+            self:RegisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
         end
     end
+
+    if ( teleport.OnActivate ) then
+        teleport.OnActivate(self)
+    end
 end
 
-function teleport_explosion:FillInitialParams()
+function teleport_explosion:OnOwnerRiftTeleportEndEvent()
 
-    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+    self:UnregisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
 
-    self.maxDistance = database:GetFloatOrDefault("distance", -1.0 )
-
-    self.explosionOnStart = database:GetIntOrDefault( "explosion_start", 0 ) == 1
-    self.explosionOnEnd = database:GetIntOrDefault( "explosion_end", 0 ) == 1
-
-    self.bp = database:GetStringOrDefault( "bp", "" )
-    self.att = database:GetStringOrDefault( "att", "" )
-
-    self.radiusBp = database:GetStringOrDefault( "radius_bp", "")
-    self.radiusSize = database:GetFloatOrDefault("radius_size", 0)
-    self.radiusLifeTime = database:GetFloatOrDefault("radius_lifetime", 0)
+    self:SpawnExplosion()
 end
 
 function teleport_explosion:SpawnExplosion()
@@ -80,79 +72,21 @@ function teleport_explosion:SpawnExplosion()
     end
 end
 
-function teleport_explosion:OnTeleportAppearEnter()
-    self.data:SetInt("leaving", 1)
-end
+function teleport_explosion:FillInitialParams()
 
-function teleport_explosion:OnTeleportAppearExit()
-    self.data:SetInt("leaving", 0)
-end
+    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
 
-function teleport_explosion:OnOwnerRiftTeleportEndEvent()
+    self.maxDistance = database:GetFloatOrDefault( "distance", -1.0 )
 
-    self:UnregisterHandler( self.owner, "RiftTeleportEndEvent",  "OnOwnerRiftTeleportEndEvent" )
+    self.explosionOnStart = database:GetIntOrDefault( "explosion_start", 0 ) == 1
+    self.explosionOnEnd = database:GetIntOrDefault( "explosion_end", 0 ) == 1
 
-    self:SpawnExplosion()
-end
+    self.bp = database:GetStringOrDefault( "bp", "" )
+    self.att = database:GetStringOrDefault( "att", "" )
 
-function teleport_explosion:OnEquipped()
-    self.machine:ChangeState("marker")
-end
-
-function teleport_explosion:OnUnequipped()
-    local state  = self.machine:GetState(self.machine:GetCurrentState())
-    if( state ~= nil ) then
-        state:Exit()
-    end
-end
-
-function teleport_explosion:OnActivate()
-
-    if ( self.foundPos.first ) then
-    
-        if ( self.explosionOnStart ) then
-            self:SpawnExplosion()
-        end
-
-        if ( self.explosionOnEnd ) then
-            self:RegisterHandler( self.owner, "RiftTeleportEndEvent",  "OnOwnerRiftTeleportEndEvent" )
-        end
-
-        PlayerService:TeleportPlayer( self.owner, self.foundPos.second , 0.2, 0.1, 0.2 )
-    end
-end
-
-function teleport_explosion:OnMarkerExecute( state )
-
-    local pos = PlayerService:GetWeaponLookPoint( self.owner )
-
-    self.foundPos = PlayerService:FindPositionForTeleport( self.owner, pos, self.maxDistance )
-
-    if ( self.foundPos.first == false and self.marker ~= INVALID_ID ) then
-
-        if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
-            EntityService:RemoveEntity( self.marker )
-        end
-        self.marker = INVALID_ID
-
-    elseif ( self.foundPos.first and ( self.marker == INVALID_ID or EntityService:IsAlive( self.marker ) == false ) ) then
-
-        self.marker = EntityService:SpawnEntity( "effects/mech/teleport_marker", self.foundPos.second, EntityService:GetTeam(INVALID_ID) )
-        ItemService:SetItemReference( self.marker, self.entity, EntityService:GetBlueprintName( self.entity ) )
-
-    elseif ( self.foundPos.first and self.marker ~= INVALID_ID ) then
-
-        EntityService:SetPosition( self.marker, self.foundPos.second )
-        EntityService:CreateOrSetLifetime( self.marker, 2.0 / 33.0, "normal" )
-        EntityService:SetVisible( self.marker, PlayerService:IsInFighterMode( self.owner ) )
-    end
-end
-
-function teleport_explosion:OnMarkerExit()
-    if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
-        EntityService:RemoveEntity( self.marker )
-    end
-    self.marker = INVALID_ID
+    self.radiusBp = database:GetStringOrDefault( "radius_bp", "")
+    self.radiusSize = database:GetFloatOrDefault( "radius_size", 0 )
+    self.radiusLifeTime = database:GetFloatOrDefault( "radius_lifetime", 0 )
 end
 
 return teleport_explosion
