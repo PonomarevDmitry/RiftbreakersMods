@@ -11,14 +11,21 @@ function drone_player_scanner:__init()
 end
 
 function drone_player_scanner:OnInit()
+
+	if ( base_drone.OnInit ) then
+		base_drone.OnInit( self )
+	end
+
 	self:FillInitialParams()
 end
 
 function drone_player_scanner:OnLoad()
 
-	self:FillInitialParams()
+	if ( base_drone.OnLoad ) then
+		base_drone.OnLoad( self )
+	end
 
-	base_drone.OnLoad( self )
+	self:FillInitialParams()
 end
 
 function drone_player_scanner:FillInitialParams()
@@ -43,7 +50,7 @@ function drone_player_scanner:FillInitialParams()
 	self.fsm:ChangeState("working")
 end
 
-function drone_player_scanner:SpawnSpecifcEffect( currentTarget )
+function drone_player_scanner:SpawnSpecificEffect( currentTarget )
 
 	local size = EntityService:GetBoundsSize( currentTarget )
 
@@ -75,8 +82,10 @@ function drone_player_scanner:ExecuteScanning()
 
 	if ( self.lastTarget ~= INVALID_ID and self.lastTarget ~= self.selectedEntity ) then
 
-		EntityService:RemoveEntity( self.effect )
-		self.effect = INVALID_ID
+		if ( self.effect ~= INVALID_ID ) then
+			EntityService:RemoveEntity( self.effect )
+			self.effect = INVALID_ID
+		end
 
 		QueueEvent( "EntityScanningEndEvent", self.lastTarget )
 
@@ -89,14 +98,16 @@ function drone_player_scanner:ExecuteScanning()
 
 		WeaponService:RotateWeaponMuzzleToTarget( self.entity, self.selectedEntity )
 
-		local scannableComponent = EntityService:GetComponent( self.selectedEntity, "ScannableComponent")
+		local scannableComponent = EntityService:GetComponent( self.selectedEntity, "ScannableComponent" )
 		if ( scannableComponent == nil ) then
 
 			EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 			self:SelectEntity(INVALID_ID)
 
-			EntityService:RemoveEntity( self.effect )
-			self.effect = INVALID_ID
+			if ( self.effect ~= INVALID_ID ) then
+				EntityService:RemoveEntity( self.effect )
+				self.effect = INVALID_ID
+			end
 
 			return
 		end
@@ -106,7 +117,7 @@ function drone_player_scanner:ExecuteScanning()
 
 			EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_active")
 
-			self:SpawnSpecifcEffect( self.selectedEntity )
+			self:SpawnSpecificEffect( self.selectedEntity )
 
 			QueueEvent( "EntityScanningStartEvent", self.selectedEntity )
 
@@ -134,7 +145,7 @@ function drone_player_scanner:ExecuteScanning()
 
 				QueueEvent( "EntityScanningEndEvent", self.lastTarget )
 
-				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted")
+				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted" )
 
 				EntityService:RemoveEntity( self.effect )
 				self.effect = INVALID_ID
