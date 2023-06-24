@@ -10,7 +10,10 @@ local diameter = 2.9 --Slighty smaller than the actual display diameter due to f
 --Search interval in seconds
 local period = 3 --Long interval to reduce the number of computations since there will be massive numbers of walls
 --How many times faster the shield should decay than regenerate
-local decay_multiplier = -1.5
+--first value is before shield separation, second is after
+local decay_multipliers = {-2.0, -0.75}
+--Cut-off point for shield sharing if power is lost
+local decay_threshold = 0.5
 
 --Standard __init() function to make sure the parent class gets called.
 function wall_energy:__init()
@@ -21,7 +24,6 @@ end
 function wall_energy:OnInit()
 	--Assign this Entity to a group for Map search purposes.
 	EntityService:SetGroup(self.entity, "energy_walls")
-	self.active = true	--Whether or not the building is turned on
 	
 	--Declare these to store data for later
 	self.damageVal = 0 --Damage Reflection Amount
@@ -39,11 +41,15 @@ function wall_energy:OnInit()
 	
 	--Create the state machine to periodically search for objects that need added to or removed from the shield.
 	self.fsm = self:CreateStateMachine()
-	self.fsm:AddState("working", {execute="OnWorkInProgress", exit="OnWorkExit", interval=period, object = "somedata"})
+	self.fsm:AddState("working", {execute="OnWorkInProgress", exit="OnWorkExit", interval=period})
+	self.fsm:AddState("shutdown", {execute="OnShutdown", interval=0.1})
+	
 end
 
 --Runs when the building turns on, including initial power on.
 function wall_energy:OnActivate()
+	self.active = true
+
 	--Verify the shield component exists. Create it if missing.
 	if self.healthChild == nil then
 		--Create and attatch the Shield as a child object.
@@ -62,6 +68,9 @@ end
 
 --Runs when the building turns off, loses power, or is removed.
 function wall_energy:OnDeactivate()
+	self.active = false
+	
+	--Shut down Shield
 	--Shut down Shield
 	local state = self.fsm:GetState("working")
 	if (state ~= nil) then
@@ -69,11 +78,19 @@ function wall_energy:OnDeactivate()
 	end
 	
 	self:DisableDamage()
-	self:DrainShield()
+	self:DrainShield(1)
 end
 
 --Runs when the Building hits 0 HP
 function wall_energy:OnDestroy()
+	--disconnect the shield
+	self:UnlinkShield()
+end
+
+--Runs when the building is sold
+function wall_energy:OnSell()
+	--disconnect the shield
+	self:UnlinkShield()
 end
 
 --STATE MACHINE--
@@ -106,16 +123,37 @@ end
 
 --State Machine Exit function (runs on power off, removal, or destruction of self)
 function wall_energy:OnWorkExit(state)
-	--Remove shield from all targets, including the emitter, and delete all records.
-	for obj, val in pairs(self.selected) do
-		ItemService:RemoveHealthLink(obj, self.healthChild)
-		self.selected[obj] = nil
+	--if no power, switch to shutdown, otherwise kill the shield imediately
+	if not self.active then
+		self.fsm:ChangeState("shutdown")
+	else
+		self:UnlinkShield()
+	end
+end
+
+function wall_energy:OnShutdown(state)
+	--Terminate shield sharing once the decay threshold is reached, then exit.
+	--Rebooting the shield before this is reached will automatically kill this by switching states.
+	if HealthService:GetHealthInPercentage(self.healthChild) < decay_threshold then
+		self:UnlinkShield()
+		self:DrainShield(2)
+		state:Exit()
 	end
 end
 
 -----------------------------------------------------------------------------------------------------------
 --SUBFUNCTIONS     SUBFUNCTIONS     SUBFUNCTIONS     SUBFUNCTIONS     SUBFUNCTIONS     SUBFUNCTIONS
 -----------------------------------------------------------------------------------------------------------
+--Removes all entities from the Shield
+function wall_energy:UnlinkShield()
+	--Remove shield from all targets, except the emitter, and delete all records.
+	--The emitter is excluded as it does not have a record.
+	for obj, val in pairs(self.selected) do
+		ItemService:RemoveHealthLink(obj, self.healthChild)
+		self.selected[obj] = nil
+	end
+end
+
 --Enables Damage Reflection
 function wall_energy:EnableDamage()
 	--Check that Damage Reflection amount is stored, then enable it
@@ -142,23 +180,25 @@ function wall_energy:ChargeShield()
 	--Check that Shield Regen amount is stored, then enable it
 	local Rcomponent = reflection_helper(EntityService:GetComponent(self.healthChild, "RegenerationComponent"))
 	if self.regen_rate ~= 0 then
-		--Restore Damage Reflection
 		Rcomponent.regeneration = self.regen_rate
 		Rcomponent.regeneration_cooldown = self.regen_cooldown
 	else
 		--Store value if not set
 		--Doing this here because onInit() is too early
 		self.regen_rate = Rcomponent.regeneration
-		self.decay_rate = decay_multiplier * self.regen_rate
+		self.decay_rate = {}
+		for i=1, #decay_multipliers do
+			self.decay_rate[i] = decay_multipliers[i] * self.regen_rate
+		end
 		self.regen_cooldown = Rcomponent.regeneration_cooldown
 	end
 end
 
 --Sets Shield to Drain
-function wall_energy:DrainShield()
+function wall_energy:DrainShield(mode)
 	--Set Shield to decay
 	local Rcomponent = reflection_helper(EntityService:GetComponent(self.healthChild, "RegenerationComponent"))
-	Rcomponent.regeneration = self.decay_rate
+	Rcomponent.regeneration = self.decay_rate[mode]
 	Rcomponent.regeneration_cooldown = 0
 	
 	--Subtract 1 HP to kickstart the drain, as otherwise it won't work if fully charged
