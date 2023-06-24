@@ -82,13 +82,13 @@ if not cheat_init then --Make all one-time
         end
         
         if all_tech then
-            RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(arg)
+            RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
                 ConsoleService:ExecuteCommand("cheat_finish_all_research")
             end)
         end
         
         if debug_rifle then
-            RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(arg)
+            RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
                 local playerId = evt:GetPlayerId()
 
