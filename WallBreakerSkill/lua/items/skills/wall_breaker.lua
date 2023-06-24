@@ -7,34 +7,6 @@ function wall_breaker:__init()
     item.__init(self,self)
 end
 
-function wall_breaker:OnInit()
-
-    if ( item.OnInit ) then
-        item.OnInit(self)
-    end
-
-    self:InitFsmStateMachine()
-end
-
-function wall_breaker:OnLoad()
-
-    if ( item.OnLoad ) then
-        item.OnLoad(self)
-    end
-
-    self:InitFsmStateMachine()
-end
-
-function wall_breaker:InitFsmStateMachine()
-
-    if ( self.fsm ~= nil ) then
-        return
-    end
-
-    self.fsm = self:CreateStateMachine()
-    self.fsm:AddState( "clean_path", { execute="OnExecuteCleanPath", interval = 0.5 } )
-end
-
 function wall_breaker:CanActivate()
 
     local currentBiome = MissionService:GetCurrentBiomeName()
@@ -51,58 +23,23 @@ function wall_breaker:OnActivate()
         return
     end
 
-    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data;
-
-    self.step = database:GetInt("step_start")
-    self.interval = database:GetInt("interval")
-    self.stepEnd = database:GetInt("step_end")
-
-    self.team = EntityService:GetTeam( self.entity )
-    self.playerPosition = EntityService:GetPosition( self.owner )
-
     EffectService:SpawnEffect( self.owner, "effects/weapons_explosive/sonic_blast" )
 
-    self.fsm:ChangeState( "clean_path" )
-end
 
-function wall_breaker:OnExecuteCleanPath( state )
 
-    local blueprintName = "items/consumables/wall_breaker_" .. string.format( "%02d", self.step )
+    local databaseItem = EntityService:GetBlueprintDatabase( self.entity ) or self.data;
 
-    if ( ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
 
-        local culler = EntityService:SpawnEntity( blueprintName, self.playerPosition, self.team )
 
-        EntityService:CreateLifeTime( culler, 0.05, "normal" )
-    end
+    local cleaner = EntityService:SpawnEntity( "items/skills/wall_breaker_cleaner", self.owner, "" )
 
-    self.step = self.step + self.interval
+    local database = EntityService:GetDatabase( cleaner )
 
-    if ( self.step > self.stepEnd ) then
-        return state:Exit()
-    end
-end
+    database:SetInt( "step_start", databaseItem:GetInt("step_start") )
 
-function wall_breaker:OnUnequipped()
+    database:SetInt( "interval", databaseItem:GetInt("interval") )
 
-    self:StopWorking()
-end
-
-function wall_breaker:StopWorking()
-
-    if ( self.fsm ~= nil ) then
-
-        self.fsm:Deactivate()
-    end
-end
-
-function wall_breaker:OnRelease()
-
-    self:StopWorking()
-
-    if ( item.OnRelease ) then
-        item.OnRelease(self)
-    end
+    database:SetInt( "step_end", databaseItem:GetInt("step_end") )
 end
 
 return wall_breaker
