@@ -74,18 +74,18 @@ function hq_move_tool:SpawnBuildinsTemplates()
         return
     end
 
-    if ( not BuildingService:IsBuildingFinished( findResult ) ) then
-        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_building_now")
-        markerDB:SetInt("message_visible", 1)
-        return
-    end
-
     local hqBlueprint = EntityService:GetBlueprintName( findResult )
 
     local lowName = BuildingService:FindLowUpgrade( hqBlueprint )
 
     if ( lowName ~= "headquarters" ) then
         markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_found")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
+    if ( not BuildingService:IsBuildingFinished( findResult ) ) then
+        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_building_now")
         markerDB:SetInt("message_visible", 1)
         return
     end
