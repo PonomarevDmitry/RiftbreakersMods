@@ -88,10 +88,16 @@ if not cheat_init then --Make all one-time
         end
         
         if debug_rifle then
-            PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_item")
-            PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_advanced_item")
-            PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_superior_item")
-            PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_extreme_item")
+            RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(arg)
+
+                local playerId = evt:GetPlayerId()
+
+                PlayerService:AddItemToInventory(playerId, "items/weapons/debug_rifle_item")
+                PlayerService:AddItemToInventory(playerId, "items/weapons/debug_rifle_advanced_item")
+                PlayerService:AddItemToInventory(playerId, "items/weapons/debug_rifle_superior_item")
+                PlayerService:AddItemToInventory(playerId, "items/weapons/debug_rifle_extreme_item")
+            end)
+            
         end
         
         if free_build or no_cost then
