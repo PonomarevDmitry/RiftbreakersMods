@@ -28,7 +28,7 @@ function wall_energy:OnInit()
 	--Declare these to store data for later
 	self.damageVal = 0 --Damage Reflection Amount
 	self.regen_rate = 0 --Shield Recharge Rate when powered
-	self.decay_rate = 0 --Shield Drain rate when unpowered
+	self.decay_rate = {} --Shield Drain rate when unpowered
 	self.regen_cooldown = 0 --Shield recharge delay after damage
 	
 	--Records which entities are currently affected by the shield. DO NOT TOUCH.
@@ -186,18 +186,36 @@ function wall_energy:ChargeShield()
 		--Store value if not set
 		--Doing this here because onInit() is too early
 		self.regen_rate = Rcomponent.regeneration
+		self.regen_cooldown = Rcomponent.regeneration_cooldown
+
 		self.decay_rate = {}
 		for i=1, #decay_multipliers do
 			self.decay_rate[i] = decay_multipliers[i] * self.regen_rate
 		end
-		self.regen_cooldown = Rcomponent.regeneration_cooldown
 	end
 end
 
 --Sets Shield to Drain
 function wall_energy:DrainShield(mode)
-	--Set Shield to decay
+
 	local Rcomponent = reflection_helper(EntityService:GetComponent(self.healthChild, "RegenerationComponent"))
+
+	--Set Shield to decay
+
+	if self.regen_rate == 0 then
+		--Store value if not set
+		--Doing this here because onInit() is too early
+		self.regen_rate = Rcomponent.regeneration
+	end
+	if ( Rcomponent.regeneration_cooldown ~= 0 ) then
+		self.regen_cooldown = Rcomponent.regeneration_cooldown
+	end
+
+	self.decay_rate = {}
+	for i=1, #decay_multipliers do
+		self.decay_rate[i] = decay_multipliers[i] * self.regen_rate
+	end
+
 	Rcomponent.regeneration = self.decay_rate[mode]
 	Rcomponent.regeneration_cooldown = 0
 	
