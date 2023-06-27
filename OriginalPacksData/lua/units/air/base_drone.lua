@@ -118,6 +118,11 @@ function base_drone:OnOwnerDistanceCheckExecute()
 		EntityService:Teleport(self.entity, target_position)
 		QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
 	end
+
+	local action_target = self:GetDroneActionTarget()
+	if action_target ~= INVALID_ID and not EntityService:IsAlive(action_target) then
+		self:SetTargetActionFinished()
+	end
 end
 
 function base_drone:_OnEnableDroneRequest( evt )
@@ -243,8 +248,8 @@ end
 
 function base_drone:SetTargetActionFinished()
 	UnitService:SetStateMachineParam(self.entity, "target_action_finished", 1)
-	UnitService:SetStateMachineParam(self.entity, "action_target_valid", 0)
 	UnitService:SetCurrentTarget( self.entity, "action", INVALID_ID );
+	UnitService:SetStateMachineParam(self.entity, "action_target_valid", 0)
 end
 
 function base_drone:_OnDroneTargetAction(evt)
