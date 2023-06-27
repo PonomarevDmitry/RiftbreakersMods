@@ -4,7 +4,7 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'mine_layer_drone' ( base_drone )
 
 function mine_layer_drone:__init()
-	base_drone.__init(self,self)
+    base_drone.__init(self,self)
 end
 
 function mine_layer_drone:FillInitialParams()
