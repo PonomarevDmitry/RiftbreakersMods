@@ -1,0 +1,644 @@
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+require("lua/utils/string_utils.lua")
+require("lua/utils/building_utils.lua")
+
+class 'ghost_building_trapsconstruction' ( LuaEntityObject )
+
+function ghost_building_trapsconstruction:__init()
+    LuaEntityObject.__init(self,self)
+end
+
+function ghost_building_trapsconstruction:init()
+
+    self.stateMachine = self:CreateStateMachine()
+    self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
+    self.stateMachine:ChangeState("working")
+
+    self:InitializeValues()
+end
+
+function ghost_building_trapsconstruction:InitializeValues()
+    self.selector = EntityService:GetParent( self.entity )
+
+    self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
+    self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
+    self:RegisterHandler( self.selector, "RotateSelectorRequest",       "OnRotateSelectorRequest" )
+
+    local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.selector, "PlayerReferenceComponent") )
+    self.playerId = playerReferenceComponent.player_id
+
+    local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent"))
+    self.blueprintName = buildingComponent.bp
+
+    self.desc = reflection_helper(BuildingService:GetBuildingDesc( self.blueprintName ))
+
+    self.name = self.desc.name
+    self.ghostBlueprintName = self.desc.ghost_bp
+
+    local boundsSize = EntityService:GetBoundsSize( self.selector )
+    self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
+
+    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+
+    local transform = EntityService:GetWorldTransform( self.entity )
+    self:CheckEntityBuildable( self.entity, transform )
+
+    self.nowBuildingLine = false
+    self.gridEntities = {}
+    self.oldBuildingsToSell = {}
+
+    self.gridSize = BuildingService:GetBuildingGridSize(self.entity)
+
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -2, 0, 2 )
+
+    self.configNameCellGaps = "$trapsconstruction_cell_count"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
+    self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
+
+    self.markerGapsConfig = -1
+    self.currentMarkerGaps = nil
+end
+
+function  ghost_building_trapsconstruction:CheckEntityBuildable( entity, transform, id )
+    id = id or 1
+
+    local test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.blueprintName, id )
+
+    if ( test == nil ) then
+        return
+    end
+
+    local testReflection = reflection_helper( test:ToTypeInstance(), test )
+
+    --LogService:Log("Flag: " .. tostring(testReflection.flag ))
+    --LogService:Log("Missing resources: " .. tostring(testReflection.missing_resources))
+    --LogService:Log("Entity to repair: " .. tostring(testReflection.entity_to_repair )  )
+    --LogService:Log("Entity to sell: " .. tostring(testReflection.entities_to_sell ))
+    --LogService:Log("Free grids: " .. tostring(testReflection.free_grids ))
+
+
+    local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
+    local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
+
+    local skinned = EntityService:IsSkinned(entity)
+
+    if ( testReflection.flag == CBF_REPAIR  ) then
+        if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
+            end
+        else
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
+            end
+        end
+    else
+        if ( canBuildOverride ) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_active")
+            end
+        elseif ( canBuild  ) then
+            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+        else
+            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+        end
+    end
+
+    return testReflection
+end
+
+function ghost_building_trapsconstruction:OnWorkEnter()
+end
+
+function ghost_building_trapsconstruction:OnWorkExit()
+end
+
+function ghost_building_trapsconstruction:OnWorkExecute()
+    if ( self.OnUpdate ) then
+        self:OnUpdate()
+    end
+end
+
+function ghost_building_trapsconstruction:OnUpdate()
+
+    -- Wall layers config
+    local cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
+
+    -- Correct Marker to show right number of wall layers
+    if ( self.markerGapsConfig ~= cellGapsCount or self.currentMarkerGaps == nil) then
+
+        -- Destroy old marker
+        if (self.currentMarkerGaps ~= nil) then
+
+            EntityService:RemoveEntity(self.currentMarkerGaps)
+            self.currentMarkerGaps = nil
+        end
+
+        local markerBlueprint = "misc/marker_selector_gaps_count_" .. tostring( cellGapsCount )
+
+        -- Create new marker
+        self.currentMarkerGaps = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+
+        -- Save number of wall layers
+        self.markerGapsConfig = cellGapsCount
+    end
+
+
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+
+    self.oldBuildingsToSell = {}
+
+    self.buildCost = {}
+
+    if ( self.nowBuildingLine and self.buildStartPosition ) then
+
+        local positionY = self.buildStartPosition.position.y
+
+        local team = EntityService:GetTeam(self.entity)
+
+        local currentTransform = EntityService:GetWorldTransform( self.entity )
+
+        local buildEndPosition = currentTransform.position
+
+        local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition, cellGapsCount )
+
+        self.gridEntities = self.gridEntities or {}
+
+        local positionX, positionZ
+
+        if ( #self.gridEntities > #arrayX ) then
+
+            for xIndex=#self.gridEntities,#arrayX + 1,-1 do
+
+                local gridEntitiesZ = self.gridEntities[xIndex]
+
+                for zIndex=1,#gridEntitiesZ do
+
+                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+
+                    gridEntitiesZ[zIndex] = nil
+                end
+
+                self.gridEntities[xIndex] = nil
+            end
+
+        elseif ( #self.gridEntities < #arrayX ) then
+
+            for xIndex=#self.gridEntities + 1 ,#arrayX do
+
+                positionX = arrayX[xIndex]
+
+                local gridEntitiesZ = {}
+
+                self.gridEntities[xIndex] = gridEntitiesZ
+
+                for zIndex=1,#arrayZ do
+
+                    positionZ = arrayZ[zIndex]
+
+                    local newPosition = {}
+
+                    newPosition.x = positionX
+                    newPosition.y = positionY
+                    newPosition.z = positionZ
+
+                    local lineEnt = self:CreateNewEntity(newPosition, self.buildStartPosition.orientation, team)
+
+                    Insert(gridEntitiesZ, lineEnt)
+                end
+            end
+        end
+
+        for xIndex=1,#arrayX do
+
+            positionX = arrayX[xIndex]
+
+            local gridEntitiesZ = self.gridEntities[xIndex]
+
+            if ( #gridEntitiesZ > #arrayZ ) then
+
+                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
+                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+                    gridEntitiesZ[zIndex] = nil
+                end
+
+            elseif ( #gridEntitiesZ < #arrayZ ) then
+
+                for zIndex=#gridEntitiesZ + 1 ,#arrayZ do
+
+                    positionZ = arrayZ[zIndex]
+
+                    local newPosition = {}
+
+                    newPosition.x = positionX
+                    newPosition.y = positionY
+                    newPosition.z = positionZ
+
+                    local lineEnt = self:CreateNewEntity(newPosition, self.buildStartPosition.orientation, team)
+
+                    Insert(gridEntitiesZ, lineEnt)
+                end
+            end
+        end
+
+        local boundsSize = { x=1.0, y=1.0, z=1.0 }
+
+        local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+        for xIndex=1,#arrayX do
+
+            positionX = arrayX[xIndex]
+
+            local gridEntitiesZ = self.gridEntities[xIndex]
+
+            for zIndex=1,#arrayZ do
+
+                positionZ = arrayZ[zIndex]
+
+                local newPosition = {}
+
+                newPosition.x = positionX
+                newPosition.y = positionY
+                newPosition.z = positionZ
+
+                local transform = {}
+                transform.scale = currentTransform.scale
+                transform.position = newPosition
+
+                transform.orientation = self.buildStartPosition.orientation
+
+                local min = VectorSub(newPosition, vectorBounds)
+                local max = VectorAdd(newPosition, vectorBounds)
+
+                local lineEnt = gridEntitiesZ[zIndex]
+                EntityService:SetPosition( lineEnt, newPosition )
+                EntityService:SetOrientation( lineEnt, transform.orientation )
+
+                local id = (xIndex -1 ) * #arrayX + zIndex
+
+                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, id )
+
+                if ( testBuildable ~= nil) then
+                    self:AddToEntitiesToSellList(testBuildable)
+                end
+            end
+        end
+
+        local list = BuildingService:GetBuildCosts( self.blueprintName, self.playerId )
+        for resourceCost in Iter(list) do
+
+            if ( self.buildCost[resourceCost.first] == nil ) then
+               self.buildCost[resourceCost.first] = 0
+            end
+
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ )
+        end
+    else
+
+        local currentTransform = EntityService:GetWorldTransform( self.entity )
+        local testBuildable = self:CheckEntityBuildable( self.entity , currentTransform )
+
+        if ( testBuildable ~= nil) then
+            self:AddToEntitiesToSellList(testBuildable)
+        end
+    end
+
+    if ( self.infoChild == nil ) then
+        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    end
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+
+    if ( onScreen ) then
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
+    else
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
+    end
+end
+
+function ghost_building_trapsconstruction:CreateNewEntity(newPosition, orientation, team)
+
+    local result = nil
+
+    if ( self.ghostBlueprintName ~= "" and self.ghostBlueprintName ~= nil ) then
+
+        result = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
+    else
+        result = EntityService:SpawnEntity( self.blueprintName, newPosition, team )
+    end
+
+    EntityService:RemoveComponent( result, "LuaComponent" )
+    EntityService:SetOrientation( result, orientation )
+
+    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
+
+    return result
+end
+
+function ghost_building_trapsconstruction:FindPositionsToBuildLine(buildStartPosition, buildEndPosition, cellGapsCount)
+
+    local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
+
+    local deltaX = (self.gridSize.x + cellGapsCount) * 2 * xSign
+    local deltaZ = (self.gridSize.z + cellGapsCount) * 2 * zSign
+
+    local smallDeltaX = (self.gridSize.x * xSign) / 2
+    local smallDeltaZ = (self.gridSize.z * zSign) / 2
+
+    local buildEndPositionX = buildEndPosition.x + smallDeltaX
+    local buildEndPositionZ = buildEndPosition.z + smallDeltaZ
+
+    local minX = math.min( buildStartPosition.x, buildEndPositionX )
+    local maxX = math.max( buildStartPosition.x, buildEndPositionX )
+
+    local minZ = math.min( buildStartPosition.z, buildEndPositionZ )
+    local maxZ = math.max( buildStartPosition.z, buildEndPositionZ )
+
+    local arrayX = {}
+
+    local positionX = buildStartPosition.x
+
+    while (minX <= positionX and positionX <= maxX) do
+
+        Insert(arrayX, positionX)
+
+        positionX = positionX + deltaX
+    end
+
+    local arrayZ = {}
+
+    local positionZ = buildStartPosition.z
+
+    while (minZ <= positionZ and positionZ <= maxZ) do
+
+        Insert(arrayZ, positionZ)
+
+        positionZ = positionZ + deltaZ
+    end
+
+    return arrayX, arrayZ
+end
+
+function ghost_building_trapsconstruction:GetXZSigns(positionStart, positionEnd)
+
+    local xSign = -1
+    local zSign = -1
+
+    if( positionEnd.x >= positionStart.x ) then
+        xSign = 1
+    end
+
+    if( positionEnd.z >= positionStart.z ) then
+        zSign = 1
+    end
+
+    return xSign, zSign
+end
+
+function ghost_building_trapsconstruction:AddToEntitiesToSellList(testBuildable)
+
+    if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
+
+        return
+    end
+
+    local buildingToSellCount = testBuildable.entities_to_sell.count
+
+    for i = 1,buildingToSellCount do
+
+        local entityToSell = testBuildable.entities_to_sell[i]
+
+        if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
+
+            if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
+
+                local skinned = EntityService:IsSkinned(entityToSell)
+
+                if ( skinned ) then
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
+                else
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
+                end
+
+                Insert(self.oldBuildingsToSell, entityToSell)
+            end
+        end
+    end
+end
+
+function ghost_building_trapsconstruction:OnActivateSelectorRequest()
+
+    if ( self.buildStartPosition == nil ) then
+
+        self.nowBuildingLine = true
+
+        local transform = EntityService:GetWorldTransform( self.entity )
+        self.buildStartPosition = transform
+        EntityService:SetVisible( self.entity , false )
+
+        self:OnUpdate()
+    else
+        self:FinishLineBuild()
+    end
+end
+
+function ghost_building_trapsconstruction:OnDeactivateSelectorRequest()
+
+    self:FinishLineBuild()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+end
+
+function ghost_building_trapsconstruction:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local currentGapsConfig = self:CheckConfigExists(self.cellGapsCount)
+
+    local scaleWallGaps = self:GetGapsConfigArray()
+
+    local index = IndexOf( scaleWallGaps, currentGapsConfig )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #scaleWallGaps
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = 1
+    elseif( newIndex == 0 ) then
+        newIndex = maxIndex
+    end
+
+    local newValue = scaleWallGaps[newIndex]
+
+    self.cellGapsCount = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetInt(self.configNameCellGaps, newValue)
+
+    self:OnUpdate()
+end
+
+function ghost_building_trapsconstruction:FinishLineBuild()
+
+    self.nowBuildingLine = self.nowBuildingLine or false
+
+    if ( self.nowBuildingLine ~= true ) then
+
+        return
+    end
+
+    local allEntities = self:GetAllEntities()
+
+    local count = #allEntities
+
+    if ( count > 0 ) then
+
+        local delimiterEntities = "|"
+
+        local entitiesListArray = {}
+
+        for entityId in Iter( allEntities ) do
+
+            if ( #entitiesListArray > 0 ) then
+
+                Insert( entitiesListArray, delimiterEntities )
+            end
+
+            local entityString = tostring(entityId)
+
+            Insert( entitiesListArray, entityString )
+        end
+
+        local entitiesListString = table.concat( entitiesListArray )
+
+        local builder = EntityService:SpawnEntity( "misc/mass_limited_buildings_builder", self.entity, "" )
+
+        local database = EntityService:GetDatabase( builder )
+
+        database:SetInt( "playerId", self.playerId )
+
+        database:SetString( "entities_list", entitiesListString )
+    end
+
+    EntityService:SetVisible( self.entity , true )
+
+    self.gridEntities = {}
+    self.buildStartPosition = nil
+    self.nowBuildingLine = false
+end
+
+function ghost_building_trapsconstruction:GetAllEntities()
+
+    local result = {}
+
+    for xIndex=1,#self.gridEntities do
+
+        local gridEntitiesZ = self.gridEntities[xIndex]
+
+        for zIndex=1,#gridEntitiesZ do
+
+            local entity = gridEntitiesZ[zIndex]
+
+            Insert(result, entity)
+        end
+    end
+
+    return result
+end
+
+function ghost_building_trapsconstruction:RemoveMaterialFromOldBuildingsToSell()
+
+    if ( self.oldBuildingsToSell ~= nil ) then
+        for entityToSell in Iter( self.oldBuildingsToSell ) do
+            EntityService:RemoveMaterial( entityToSell, "selected" )
+        end
+    end
+end
+
+function ghost_building_trapsconstruction:CheckConfigExists( cellGapsCount )
+
+    local scaleWallGaps = self:GetGapsConfigArray()
+
+    cellGapsCount = cellGapsCount or scaleWallGaps[1]
+
+    local index = IndexOf(scaleWallGaps, cellGapsCount )
+
+    if ( index == nil ) then
+
+        return scaleWallGaps[1]
+    end
+
+    return cellGapsCount
+end
+
+function ghost_building_trapsconstruction:GetGapsConfigArray()
+
+    if ( self.scaleWallGaps == nil ) then
+
+        self.scaleWallGaps = {
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+        }
+    end
+
+    return self.scaleWallGaps
+end
+
+function ghost_building_trapsconstruction:OnRelease()
+
+    if ( self.gridEntities ~= nil) then
+        for gridEntitiesZ in Iter(self.gridEntities) do
+            for ghostEntity in Iter(gridEntitiesZ) do
+                EntityService:RemoveEntity(ghostEntity)
+            end
+        end
+    end
+
+    -- Destroy Marker with layers count
+    if (self.currentMarkerGaps ~= nil) then
+
+        EntityService:RemoveEntity(self.currentMarkerGaps)
+        self.currentMarkerGaps = nil
+    end
+
+    self.gridEntities = {}
+    self.nowBuildingLine = false
+    self.buildStartPosition = nil
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+
+    self.oldBuildingsToSell = {}
+
+    if ( self.infoChild ~= nil ) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
+end
+
+return ghost_building_trapsconstruction
