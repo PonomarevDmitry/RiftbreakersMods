@@ -1,38 +1,45 @@
 EntityBlueprint
 {
-	name  "buildings/defense/trap_physical"
+	name						"buildings/defense/trap_physical"
 
 	BuildingDesc
 	{
-		name 				"trap_physical"
-		bp   				"buildings/defense/trap_physical"
-		category 			"defense"
-		localization_id		"gui/hud/building_name/trap_physical"
-		description			"gui/hud/building_description/trap_physical"
-		menu_icon			"gui/hud/building_icons/trap_physical"
-		limit			    "425"
-		limit_name			"traps"			
-		require 			"headquarters"
-		map_limit			"LOCAL"
-		order				"20"
-		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
-		type				"trap"
-		overrides			"trap"		
-		
+		name					"trap_physical"
+		bp						"buildings/defense/trap_physical"
+		category				"defense"
+
+		localization_id			"gui/hud/building_name/trap_physical"
+		description				"gui/hud/building_description/trap_physical"
+		menu_icon				"gui/hud/building_icons/trap_physical"
+
+		limit					"425"
+		limit_name				"traps"
+
+		require					"headquarters"
+		map_limit				"LOCAL"
+		order					"20"
+
+		exclude_terrain_types	"magma_hot_ground,magma_very_hot_ground"
+
+		type					"trap"
+		overrides				"trap"
+
+		building_mode			"trapsconstruction"
+
 		costs
 		{
 			BuildingCostInfo
 			{
-				name "default"
-				building_time 15
+				name			"default"
+				building_time	15
 				building_cost
 				{
-					carbonium 	"25"
-					steel 		"25"
+					carbonium	"25"
+					steel		"25"
 				}
-			}		
-		}	
-	}	
+			}
+		}
+	}
 
 	ResourceStorageDesc
 	{
@@ -48,10 +55,10 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/trap.lua"
-		
+		script	"lua/buildings/defense/trap.lua"
+
 		database
-		{	
+		{
 			number_of_activations	int:"10"
 			damage_blueprint		string:"buildings/defense/trap_physical_damage"
 		}
@@ -60,21 +67,21 @@ EntityBlueprint
 
 	AnimationGraphDesc
 	{
-		animation_graph_name "trap"
+		animation_graph_name	"trap"
 	}
 
 	TriggerDesc
 	{
-		owner 		"self"
-		collision 	"ground_unit"
-		type 		"GRID"
-		
+		owner		"self"
+		collision	"ground_unit"
+		type		"GRID"
+
 		Filters
 		{
 			TeamRelationTriggerFilter
 			{
-				team		"hostility"
-				check_parent "0"
+				team			"hostility"
+				check_parent	"0"
 			}
 		}
 
@@ -87,22 +94,22 @@ EntityBlueprint
 				z	4
 			}
 		}
-	}	
+	}
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/trap_physical.mesh"
-		material "buildings/defense/trap_physical"		
+		mesh		"meshes/buildings/defense/trap_physical.mesh"
+		material	"buildings/defense/trap_physical"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/defense/trap_physical"
+		name	"meshes/buildings/defense/trap_physical"
 	}
 
 	TypeDesc
 	{
-		type "building|defense|wall"
+		type	"building|defense|wall"
 	}
 
 	GridCullerDesc
@@ -111,114 +118,114 @@ EntityBlueprint
 		{
 			PhysicsBoxShape
 			{
-					x	4
-					y	4
-					z	4
-			}			
+				x	4
+				y	4
+				z	4
+			}
 		}
 	}
 
 	MinimapItemDesc
 	{
 		type	"quad"
-		color 
+		color
 		{
-			x "0.7"
-			y "0.7"
-			z "0.7"
-			w "1"
+			x	"0.7"
+			y	"0.7"
+			z	"0.7"
+			w	"1"
 		}
 		size
 		{
-			x "1"
-			y "1"
+			x	"1"
+			y	"1"
 		}
 
-		
+
 		visibility			"always"
 	}
-	
+
 	HealthDesc
 	{
-		max_health 					"100"
-		health 						"100"
+		max_health					"100"
+		health						"100"
 	}
-	
+
 	ResistanceComponent
 	{
 		creeper_area		"1"
 		default_factor		"0"
-	}	
+	}
 
 	DestroyDesc
 	{
-		
+
 		DestroyPatterns
-		{		
+		{
 			Pair
 			{
 				value
 				{
-					explosion_type 			"centered"
-					explosion_max_power 	"6000"
-					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"	
-					part_physics_material   "debris_heavy"	
-					part_material 			"misc/building_parts_generic"
-					part_prefix 			"meshes/misc/building_small_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
-					part_lifetime "3"
+					explosion_type			"centered"
+					explosion_max_power		"6000"
+					explosion_min_power		"2000"
+					explosion_effect		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material	"debris_heavy"
+					part_material			"misc/building_parts_generic"
+					part_prefix				"meshes/misc/building_small_parts_generic"
+					part_effect				"effects/projectiles_and_trails/smoke_trail_small_random"
+					part_lifetime			"3"
 				}
 
-				key "default"
-			}	
+				key	"default"
+			}
 			Pair
 			{
 				value
 				{
-					explosion_type 			"centered"
-					explosion_max_power 	"6000"
-					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
-					part_physics_material   "debris_heavy"	
-					part_material 			"misc/building_parts_generic"
-					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-					part_prefix 			"meshes/misc/building_small_parts_generic"
-					part_lifetime "3"	
+					explosion_type			"centered"
+					explosion_max_power		"6000"
+					explosion_min_power		"2000"
+					explosion_effect		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material	"debris_heavy"
+					part_material			"misc/building_parts_generic"
+					//part_effect			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix				"meshes/misc/building_small_parts_generic"
+					part_lifetime			"3"
 				}
 
-				key "quicksand"
-			}				
+				key	"quicksand"
+			}
 		}
 	}
 
 	EffectDesc
-	{			
+	{
 		EffectGroup
-		{						
-			group "activated"
-			enabled "0"
-			
+		{
+			group	"activated"
+			enabled	"0"
+
 			Effects
 			{
 				Effect
 				{
-					blueprint 	"lights/point/fire_white_very_small"	
-					bone		"att_light"			
-				}				
+					blueprint	"lights/point/fire_white_very_small"
+					bone		"att_light"
+				}
 				Effect
 				{
-					blueprint 	"effects/buildings_defense/trap_physical"	
-					bone		"att_sparks"			
-				}				
+					blueprint	"effects/buildings_defense/trap_physical"
+					bone		"att_sparks"
+				}
 			}
-		}			
-	}	
+		}
+	}
 }
 
 EntityBlueprint
 {
-	name  "buildings/defense/trap_physical_damage"
+	name	"buildings/defense/trap_physical_damage"
 
 	AreaDamageComponent
 	{
@@ -232,27 +239,27 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 			"50"
+					value			"50"
 					type			"physical"
 				}
 			}
 
 			//TimeDamages
 			//{
-//
+			//
 			//}
-//
+			//
 			//damage_stun_chance		0.0
-			//damage_stun_duration 	0.0
-			//damage_lifesteal		0.0
+			//damage_stun_duration		0.0
+			//damage_lifesteal			0.0
 			//damage_critical_chance	0.0
-			//damage_critical_factor  100.0
-//
-			//area_damage_effect   		""
-			//area_damage_splash_effect 	""
-			//area_damage_speed		0.f
-			area_damage_type		"normal"
-			//time_damage_interval	"1"
+			//damage_critical_factor	100.0
+			//
+			//area_damage_effect		""
+			//area_damage_splash_effect	""
+			//area_damage_speed			0.f
+			area_damage_type			"normal"
+			//time_damage_interval		"1"
 		}
 
 		update_timer
@@ -264,23 +271,22 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "buildings/defense/trap_physical_ghost"
+	name	"buildings/defense/trap_physical_ghost"
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/trap_physical_ghost.mesh"
-		material "selector/hologram_blue"
-		
+		mesh		"meshes/buildings/defense/trap_physical_ghost.mesh"
+		material	"selector/hologram_blue"
 	}
 }
 
 EntityBlueprint
 {
-	name  "buildings/defense/trap_physical_ruins"
+	name	"buildings/defense/trap_physical_ruins"
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/trap_physical.mesh"
-		material "buildings/main/buildings_ruins"
+		mesh		"meshes/buildings/defense/trap_physical.mesh"
+		material	"buildings/main/buildings_ruins"
 	}
 }
