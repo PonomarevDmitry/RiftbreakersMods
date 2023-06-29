@@ -1,0 +1,57 @@
+EntityBlueprint
+{
+	name					"buildings/tools/open_all_bio"
+
+	BuildingDesc
+	{
+		name				"open_all_bio"
+		bp					"buildings/tools/open_all_bio"
+		ghost_bp			"buildings/tools/open_all_bio_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/open_all_bio_tool"
+		description			"gui/hud/building_description/open_all_bio_tool"
+		menu_icon			"gui/hud/tools_icons/open_all_bio_tool"
+
+		order				"80"
+		type				"sell"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/open_all_bio_ghost"
+
+	BuildingDesc
+	{
+		name				"open_all_bio_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/open_all_bio_tool.lua"
+		database
+		{
+			action			string:"open_all_bio_tool"
+
+			marker_name		string:"misc/marker_selector_open_all_bio_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
