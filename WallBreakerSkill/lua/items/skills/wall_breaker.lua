@@ -7,6 +7,10 @@ function wall_breaker:__init()
     item.__init(self,self)
 end
 
+function wall_breaker:OnEquipped()
+    self.duration = 0.0
+end
+
 function wall_breaker:CanActivate()
 
     local currentBiome = MissionService:GetCurrentBiomeName()
@@ -19,27 +23,86 @@ end
 
 function wall_breaker:OnActivate()
 
-    if ( self.owner == nil or self.owner == INVALID_ID ) then
-        return
+    self.duration = self.duration or 0.0
+
+
+
+    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    self.activateAfter = database:GetFloat("activate_after")
+
+    if ( 0 <= self.duration and self.duration <= self.activateAfter ) then
+
+        if ( self.timer == nil ) then
+
+            self.penaltySpeedOwner = self.owner
+
+            QueueEvent( "AddMaxSpeedModifierRequest", self.penaltySpeedOwner, "wall_breaker_penalty", 0 )
+
+            self.timer = BuildingService:CreateGuiTimer( self.owner, self.activateAfter )
+        else
+
+            BuildingService:SetGuiTimer( self.timer, self.duration )
+        end
+
+    elseif ( self.activateAfter < self.duration ) then
+
+        if ( self.timer ~= nil ) then
+
+            self:DestroyTimer()
+
+            if ( self.owner ~= nil and self.owner ~= INVALID_ID ) then
+
+                EffectService:SpawnEffect( self.owner, "effects/weapons_explosive/sonic_blast" )
+
+
+
+                local cleaner = EntityService:SpawnEntity( "items/skills/wall_breaker_cleaner", self.owner, "" )
+
+                local databaseCleaner = EntityService:GetDatabase( cleaner )
+
+                databaseCleaner:SetInt( "step_start", database:GetInt("step_start") )
+
+                databaseCleaner:SetInt( "interval", database:GetInt("interval") )
+
+                databaseCleaner:SetInt( "step_end", database:GetInt("step_end") )
+            end
+        end
     end
 
-    EffectService:SpawnEffect( self.owner, "effects/weapons_explosive/sonic_blast" )
+    self.duration = self.duration + 1.0 / 30.0
+end
 
+function wall_breaker:DestroyTimer()
 
+    if ( self.timer ~= nil ) then
 
-    local databaseItem = EntityService:GetBlueprintDatabase( self.entity ) or self.data;
+        EntityService:RemoveEntity( self.timer )
+        self.timer = nil
 
+        if ( self.penaltySpeedOwner ~= nil ) then
 
+            QueueEvent( "RemoveMaxSpeedModifierRequest", self.penaltySpeedOwner, "wall_breaker_penalty" )
+        end
+    end
+end
 
-    local cleaner = EntityService:SpawnEntity( "items/skills/wall_breaker_cleaner", self.owner, "" )
+function wall_breaker:OnDeactivate()
 
-    local database = EntityService:GetDatabase( cleaner )
+    self:DestroyTimer()
 
-    database:SetInt( "step_start", databaseItem:GetInt("step_start") )
+    self.duration = 0.0
 
-    database:SetInt( "interval", databaseItem:GetInt("interval") )
+    return true
+end
 
-    database:SetInt( "step_end", databaseItem:GetInt("step_end") )
+function wall_breaker:OnUnequipped()
+
+    self:DestroyTimer()
+
+    if ( item.OnUnequipped ) then
+        item.OnUnequipped( self )
+    end
 end
 
 return wall_breaker
