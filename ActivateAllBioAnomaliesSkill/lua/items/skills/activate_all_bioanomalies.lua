@@ -53,7 +53,7 @@ function activate_all_bioanomalies:OnActivate()
 
                 QueueEvent( "HarvestStartEvent", entity )
 
-                local radarPulseEffect = EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
+                EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
 
                 Insert( activatedEntities, entity )
 
