@@ -31,7 +31,7 @@ function wall_breaker_cleaner:InitFsmStateMachine()
     end
 
     self.fsm = self:CreateStateMachine()
-    self.fsm:AddState( "clean_path", { execute="OnExecuteCleanPath", interval = 0.5 } )
+    self.fsm:AddState( "clean_path", { execute="OnExecuteCleanPath", interval = 0.2 } )
 end
 
 function wall_breaker_cleaner:OnExecuteCleanPath( state )
