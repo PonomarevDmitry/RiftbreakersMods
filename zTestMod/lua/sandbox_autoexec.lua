@@ -96,6 +96,11 @@ if not cheat_init then --Make all one-time
                 PlayerService:AddItemToInventory(playerId, "items/weapons/debug_rifle_advanced_item")
                 PlayerService:AddItemToInventory(playerId, "items/weapons/debug_rifle_superior_item")
                 PlayerService:AddItemToInventory(playerId, "items/weapons/debug_rifle_extreme_item")
+
+                --  PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_item")
+                --  PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_advanced_item")
+                --  PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_superior_item")
+                --  PlayerService:AddItemToInventory(0, "items/weapons/debug_rifle_extreme_item")
             end)
             
         end
