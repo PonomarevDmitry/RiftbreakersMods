@@ -1,0 +1,72 @@
+EntityBlueprint
+{
+	name	"props/base/destructible_rock_small"
+
+	HealthDesc
+	{
+		max_health				"25000"
+		health					"25000"
+		is_manual				"0"
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x	"0.025"
+			y	"0.075"
+			z	"0.125"
+			w	"1.000"
+		}
+		size
+		{
+			x	"6"
+			y	"6"
+		}
+		
+		visibility	"discovered"
+	}
+
+	NodeCullerDesc
+	{
+		cost_type	"prop"
+		nav_mesh_cull_type	"1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	"5"
+				y	"5"
+				z	"5"
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key	"default"
+				value
+				{
+					explosion_type			"centered"
+					explosion_max_power		"10000"
+					explosion_min_power		"5000"
+					explosion_effect		"effects/enemies_spawner/spawner_mushbit_small_explosion"
+					part_physics_material	"gibs_super_heavy"
+					part_material			"units/ground/spawner_mushbit"
+					part_effect				"effects/enemies_generic/blood_trail_dust"
+					part_prefix				"meshes/units/ground/spawner_mushbit_dest_25""
+					part_mass				"2000"
+				}
+			}
+		}
+	}
+}
