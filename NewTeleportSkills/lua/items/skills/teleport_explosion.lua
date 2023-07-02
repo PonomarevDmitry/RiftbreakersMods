@@ -73,7 +73,7 @@ function teleport_explosion:SpawnExplosion()
     local spawned = EntityService:SpawnEntity( self.bp, self.owner, self.att, team )
 
     EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
-    ItemService:SetItemCreator( spawned, self.bp )
+    ItemService:SetItemCreator( spawned, EntityService:GetBlueprintName(self.entity) )
 
     QueueEvent( "FadeEntityInRequest", spawned, 0.5 )
 
@@ -83,7 +83,7 @@ function teleport_explosion:SpawnExplosion()
 
         for pos in Iter(points) do
             local trail = EntityService:SpawnEntity( self.radiusBp, pos, team )
-            ItemService:SetItemCreator( trail, self.bp );
+            ItemService:SetItemCreator( trail, EntityService:GetBlueprintName(self.entity) );
             EntityService:DissolveEntity( trail, self.radiusLifeTime, 1.0 )
         end
     end
