@@ -36,7 +36,7 @@ function floating_hunt_mine:init()
     self.hunt_move_speed = self.data:GetFloatOrDefault( "hunt_move_speed", 5.0 )
 
     self.huntSM = self:CreateStateMachine()
-    self.huntSM:AddState( "hunt", { execute="OnHuntExecute" } )
+    self.huntSM:AddState( "hunt", { execute="OnHuntExecute", interval=1 } )
     self.huntSM:ChangeState("hunt")
 end
 
@@ -156,7 +156,7 @@ function floating_hunt_mine:OnExplodeEnd()
     local entity = EntityService:SpawnEntity( self.bp, self.entity, EntityService:GetTeam( self.entity ))
     local itemCreator = ItemService:GetItemCreator(self.entity)
     if itemCreator ~= "" then
-        ItemService:SetItemCreator( entity, itemCreator );
+        ItemService:SetItemCreator( entity, EntityService:GetBlueprintName(self.entity) );
     end
     EntityService:DissolveEntity( self.entity, 0.2 )
 end
