@@ -27,8 +27,6 @@ if not cheat_init then --Make all one-time
 
     if map_cheats then 
         ConsoleService:ExecuteCommand("cheat_reveal_minimap 1")
-    else
-        ConsoleService:ExecuteCommand("cheat_reveal_minimap 0")
     end
         
     if free_build then
