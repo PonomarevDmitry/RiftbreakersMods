@@ -292,161 +292,486 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
     local pathFromStartPositionToEndPosition = BuildingService:FindPathByBlueprint( self.buildStartPosition, currentTransform, self.wallBlueprint )
 
 
-    local odds, cornerTileNumber = self:GetCorner(pathFromStartPositionToEndPosition)
 
-    self.cornerVectorX = 0
-    self.cornerVectorZ = 0
-    self.cornerPositionX = 0
-    self.cornerPositionZ = 0
 
-    self.checkCollisionBox = false
-
-    local cornerType = 0
-
-    if ( cornerTileNumber ~= -1 ) then
-
-        local cornerX, cornerZ = self:GetCornerVector(pathFromStartPositionToEndPosition, cornerTileNumber)
-
-        local cornerPosition = pathFromStartPositionToEndPosition[cornerTileNumber]
-
-        local cornerXSign, cornerZSign = self:GetXZSigns(cornerPosition, positionPlayer)
-
-        cornerType = cornerXSign * cornerX + cornerZSign * cornerZ
-
-        if ( cornerType == -2 ) then
-
-            self.checkCollisionBox = true
-
-            self.cornerPositionX = cornerPosition.x
-            self.cornerPositionZ = cornerPosition.z
-            self.cornerVectorX = cornerX
-            self.cornerVectorZ = cornerZ
-
-            local firstPosition = pathFromStartPositionToEndPosition[1]
-            local lastPosition = pathFromStartPositionToEndPosition[#pathFromStartPositionToEndPosition]
-
-            self:FillCollisionBoxBounds( cornerPosition, firstPosition, lastPosition )
-        end
-    end
+    local pathDistanceArray = self:GetPathDistanceArray(pathFromStartPositionToEndPosition)
+    
 
     local deltaXZ = 2
 
     local hashPositions = {}
-    local result = {}
+    local positionsArray = {}
+
+    local hashMerge = {}
+
+    local startSignVector = self:GetStartSignVector(pathFromStartPositionToEndPosition, positionPlayer)
+
+    local vectorArray = self:GetVectorArray(pathFromStartPositionToEndPosition, startSignVector)
+
+    local hashOriginal = {}
+
+    for position in Iter(pathFromStartPositionToEndPosition) do
+
+        hashOriginal[position.x] = hashOriginal[position.x] or {}
+
+        hashOriginal[position.x][position.z] = true
+    end
 
     for i=1,#pathFromStartPositionToEndPosition do
 
-        if ( i % 2 == odds) then
+        local position = pathFromStartPositionToEndPosition[i]
 
-            local position = pathFromStartPositionToEndPosition[i]
+        local signVector = vectorArray[i]
 
-            local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
+        local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
 
-            local xSign, zSign = self:GetXZSigns(position, positionPlayer)
+        local positionDistance = pathDistanceArray[i]
 
-            -- Add if position has not been added yet
-            if ( self:AddToHash(hashPositions, position.x, position.z ) ) then
+        local hasWall = ( positionDistance % 2 ) == 0
 
-                table.insert(result, position)
-            end
+        if ( hasChangesX and hasChangesZ ) then
 
-            local currentValue = self:PositionResult(position.x, position.z)
+            local cornerX, cornerZ = self:GetCornerVector(pathFromStartPositionToEndPosition, i)
 
-            if ( hasChangesX ) then
+            local cornerType = signVector.x * cornerX + signVector.z * cornerZ
 
-                self:AddNewPositionsByConfigByZ(position, wallLinesCount, zSign, deltaXZ, currentValue, hashPositions, result)
-            end
+            -- Outer Corner
+            if (cornerType > 0) then
 
-            if ( hasChangesZ ) then
+                for indexStep=0,wallLinesCount-1 do
 
-                self:AddNewPositionsByConfigByX(position, wallLinesCount, xSign, deltaXZ, currentValue, hashPositions, result)
-            end
+                    local hasWall = (indexStep % 2) == 0
 
-            if ( i == cornerTileNumber ) then
+                    local newBasePositionX = position.x + cornerX * indexStep * deltaXZ
+                    local newBasePositionZ = position.z + cornerZ * indexStep * deltaXZ
 
-                -- Outer Corner
-                if (cornerType == 2) then
+                    if ( hasWall ) then
+                        self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newBasePositionX, newBasePositionZ, position.y)
+                    end
 
-                    local xzDelta = 2
+                    self:AddHashMerge( hashMerge, newBasePositionX, newBasePositionZ, indexStep, hasWall )
 
-                    while (xzDelta <= wallLinesCount - 1) do
+                    for zStep=1,(wallLinesCount - 1 - indexStep) do
 
-                        for zStep=0,(wallLinesCount - 1 - xzDelta) do
+                        local newPositionZ = newBasePositionZ + cornerZ * zStep * deltaXZ
 
-                            local newPositionX = position.x + xSign * xzDelta * 2
-                            local newPositionZ = position.z + zSign * xzDelta * 2 + zSign * zStep * 2
-
-                            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
+                        if ( hasWall ) then
+                            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newBasePositionX, newPositionZ, position.y)
                         end
 
-                        for xStep=0,(wallLinesCount - 1 - xzDelta) do
+                        self:AddHashMerge( hashMerge, newBasePositionX, newPositionZ, indexStep + zStep, hasWall )
+                    end
 
-                            local newPositionX = position.x + xSign * xzDelta * 2 + xSign * xStep * 2
-                            local newPositionZ = position.z + zSign * xzDelta * 2
+                    for xStep=1,(wallLinesCount - 1 - indexStep) do
 
-                            self:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, position.y)
+                        local newPositionX = newBasePositionX + cornerX * xStep * deltaXZ
+
+                        if ( hasWall ) then
+                            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newBasePositionZ, position.y)
                         end
 
-                        xzDelta = xzDelta + 2
+                        self:AddHashMerge( hashMerge, newPositionX, newBasePositionZ, indexStep + xStep, hasWall )
                     end
                 end
+
+
+
+                --for zStep=1,wallLinesConfigLen do
+                --
+                --    local index = (zStep - 1)
+                --
+                --    local newPositionZ = position.z + cornerZ * index * deltaXZ
+                --
+                --    local subStrZ = string.sub(wallLinesConfig, zStep, zStep)
+                --
+                --    local hasWall = (subStrZ == "1" )
+                --
+                --    for xStep=1,zStep do
+                --
+                --        local newPositionX = position.x + cornerX * (xStep - 1) * deltaXZ
+                --
+                --        if ( hasWall ) then
+                --
+                --            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, position.y)
+                --        end
+                --
+                --        self:AddHashMerge( hashMerge, newPositionX, newPositionZ, index, hasWall )
+                --
+                --        if ( xStep ~= 1 and zStep ~= 1 ) then
+                --
+                --            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][newPositionZ] == true ) then
+                --                goto continueZStep
+                --            end
+                --        end
+                --    end
+                --
+                --    ::continueZStep::
+                --
+                --    if ( zStep ~= 1 ) then
+                --
+                --        if ( hashOriginal[position.x] and hashOriginal[position.x][newPositionZ] == true ) then
+                --            goto continueOuterCorner
+                --        end
+                --    end
+                --end
+                --
+                --::continueOuterCorner::
+                --
+                --for xStep=1,wallLinesConfigLen do
+                --
+                --    local index = (xStep - 1)
+                --
+                --    local newPositionX = position.x + cornerX * index * deltaXZ
+                --
+                --    local subStrX = string.sub(wallLinesConfig, xStep, xStep)
+                --
+                --    local hasWall = (subStrX == "1")
+                --
+                --    for zStep=1,xStep do
+                --
+                --        local newPositionZ = position.z + cornerZ * (zStep - 1) * deltaXZ
+                --
+                --        if ( hasWall ) then
+                --
+                --            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, position.y)
+                --        end
+                --
+                --        self:AddHashMerge( hashMerge, newPositionX, newPositionZ, index, hasWall )
+                --
+                --        if ( xStep ~= 1 and zStep ~= 1 ) then
+                --
+                --            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][newPositionZ] == true ) then
+                --                goto continueXStep
+                --            end
+                --        end
+                --    end
+                --
+                --    ::continueXStep::
+                --
+                --    if ( xStep ~= 1 ) then
+                --
+                --        if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][position.z] == true ) then
+                --            goto endOuterCorner
+                --        end
+                --    end
+                --end
+                --
+                --::endOuterCorner::
             end
+
+        elseif ( hasChangesX ) then
+
+            self:AddNewPositionsByConfigByZ(hasWall, position, wallLinesCount, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
+
+        elseif ( hasChangesZ ) then
+
+            self:AddNewPositionsByConfigByX(hasWall, position, wallLinesCount, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
+        end
+    end
+
+
+
+
+    local result = {}
+
+    for position in Iter(positionsArray) do
+
+        if ( hashMerge[position.x] and hashMerge[position.x][position.z] and hashMerge[position.x][position.z].hasWall == true ) then
+
+            table.insert(result, position)
         end
     end
 
     return result, pathFromStartPositionToEndPosition
 end
 
-function thorns_walls_tool:FillCollisionBoxBounds( cornerPosition, firstPosition, lastPosition )
+function thorns_walls_tool:GetPathDistanceArray(pathFromStartPositionToEndPosition)
 
-    local widthX = math.max( math.abs( cornerPosition.x - lastPosition.x ), math.abs( cornerPosition.x - firstPosition.x ) )
+    local cornersArray = self:GetCornersArray(pathFromStartPositionToEndPosition)
 
-    local widthZ = math.max( math.abs( cornerPosition.z - lastPosition.z ), math.abs( cornerPosition.z - firstPosition.z ) )
+    local result = {}
 
-    local width = math.min( widthX, widthZ )
+    for i=1,#pathFromStartPositionToEndPosition do
 
-    local xPosition = cornerPosition.x - self.cornerVectorX * width;
+        local minDistance = self:GetMinDistance(i, cornersArray)
 
-    local collisionMinX = math.min( cornerPosition.x, xPosition )
-    local collisionMaxX = math.max( cornerPosition.x, xPosition )
+        result[i] = minDistance
+    end
 
-    self.collisionBoxMinX = collisionMinX
-    self.collisionBoxMaxX = collisionMaxX
-
-    local zPosition = cornerPosition.z - self.cornerVectorZ * width
-
-    local collisionMinZ = math.min( cornerPosition.z, zPosition )
-    local collisionMaxZ = math.max( cornerPosition.z, zPosition )
-
-    self.collisionBoxMinZ = collisionMinZ
-    self.collisionBoxMaxZ = collisionMaxZ
-
-    local fullMinX = math.min( firstPosition.x, lastPosition.x )
-    local fullMaxX = math.max( firstPosition.x, lastPosition.x )
-
-    self.fullBoxMinX = fullMinX
-    self.fullBoxMaxX = fullMaxX
-
-    local fullMinZ = math.min( firstPosition.z, lastPosition.z )
-    local fullMaxZ = math.max( firstPosition.z, lastPosition.z )
-
-    self.fullBoxMinZ = fullMinZ
-    self.fullBoxMaxZ = fullMaxZ
+    return result
 end
 
-function thorns_walls_tool:PositionResult(positionX, positionZ)
+function thorns_walls_tool:GetMinDistance(number, cornersArray)
 
-    local result = (positionX - self.cornerPositionX) * self.cornerVectorZ - (positionZ - self.cornerPositionZ) * self.cornerVectorX
+    if ( IndexOf( cornersArray, number ) ) then
+        return 0
+    end
 
-    if (result > 0) then
+    local currentCorner = nil
+    local distance = number - 1
 
-        return  1
-    elseif result < 0 then
+    for i=1,#cornersArray do
 
-        return -1
+        local cornerNumber = cornersArray[i]
+
+        local newDistance = math.abs(cornerNumber - number)
+
+        if ( currentCorner == nil or newDistance < distance ) then
+            currentCorner = cornerNumber
+            distance = newDistance
+        end
+    end
+
+    return distance
+end
+
+function thorns_walls_tool:GetCornersArray(pathFromStartPositionToEndPosition)
+
+    local result = {}
+
+    for i=1,#pathFromStartPositionToEndPosition do
+
+        local position = pathFromStartPositionToEndPosition[i]
+
+        local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
+
+        if ( hasChangesX and hasChangesZ ) then
+
+            table.insert(result, i)
+        end
+    end
+
+    return result
+end
+
+function thorns_walls_tool:GetVectorArray(pathFromStartPositionToEndPosition, startSignVector)
+
+    local signVector = {}
+    signVector.x = startSignVector.x
+    signVector.z = startSignVector.z
+
+    local result = {}
+
+    for i=1,#pathFromStartPositionToEndPosition do
+
+        result[i] = {}
+        result[i].x = signVector.x
+        result[i].z = signVector.z
+
+        local position = pathFromStartPositionToEndPosition[i]
+
+        local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
+
+        -- Adding new positions for wall layers
+
+        if ( hasChangesX and hasChangesZ ) then
+
+            local degree = self:GetRotateDegree(pathFromStartPositionToEndPosition, i, 1)
+
+            self:RotateVector(signVector, degree)
+        end
+    end
+
+    return result
+end
+
+function thorns_walls_tool:RotateVector(signVector, degree)
+
+    -- Identity matrix
+    --   A B
+    -- A 1 0
+    -- B 0 1
+    local coefAA = 1
+    local coefAB = 0
+    local coefBA = 0
+    local coefBB = 1
+
+    if ( degree > 0 ) then
+
+        -- counter-clockwise matrix
+        --    A B
+        -- A  0 1
+        -- B -1 0
+
+        coefAA = 0
+        coefAB = 1
+        coefBA = -1
+        coefBB = 0
     else
 
-        return 0
+        -- clockwise matrix
+        --   A  B
+        -- A 0 -1
+        -- B 1  0
+
+        coefAA = 0
+        coefAB = -1
+        coefBA = 1
+        coefBB = 0
+    end
+
+    local newSignVectorX = signVector.x * coefAA + signVector.z * coefBA
+    local newSignVectorZ = signVector.x * coefAB + signVector.z * coefBB
+
+    signVector.x = newSignVectorX
+    signVector.z = newSignVectorZ
+end
+
+function thorns_walls_tool:GetStartSignVector(pathFromStartPositionToEndPosition, positionPlayer)
+
+    local startPosition = pathFromStartPositionToEndPosition[1]
+
+    local startPositionHasChangesX, startPositionHasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, startPosition, 1)
+
+    local result = {}
+    result.x = 0
+    result.z = 0
+
+    if ( startPositionHasChangesX ) then
+
+        result.z = 1
+
+    elseif ( startPositionHasChangesZ ) then
+
+        result.x = 1
+    end
+
+    -- Copy Vector
+    local signVector = {}
+    signVector.x = result.x
+    signVector.z = result.z
+
+
+
+    local nearestPositionNumber = self:GetNearestPosition(pathFromStartPositionToEndPosition, positionPlayer)
+
+    -- Rotate vector to nearest Position
+    for i=1,nearestPositionNumber do
+
+        local position = pathFromStartPositionToEndPosition[i]
+
+        local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
+
+        if ( hasChangesX and hasChangesZ ) then
+
+            local degree = self:GetRotateDegree(pathFromStartPositionToEndPosition, i, 1)
+
+            self:RotateVector(signVector, degree)
+        end
+    end
+
+    local nearestPosition = pathFromStartPositionToEndPosition[nearestPositionNumber]
+
+    local nearestPositionXSign, nearestPositionZSign = self:GetXZSigns(nearestPosition, positionPlayer)
+
+    local coef = nearestPositionXSign * signVector.x + nearestPositionZSign * signVector.z
+
+    -- Invert base vector
+    if ( coef < 0 ) then
+
+        result.x = -result.x
+        result.z = -result.z
+    end
+
+    return result
+end
+
+function thorns_walls_tool:GetNearestPosition(pathFromStartPositionToEndPosition, positionPlayer)
+
+    local resultNumber = 1
+    local resultDistance = self:SquareDistance( positionPlayer, pathFromStartPositionToEndPosition[1] )
+
+    for i=2,#pathFromStartPositionToEndPosition do
+
+        local distance = self:SquareDistance( positionPlayer, pathFromStartPositionToEndPosition[i] )
+
+        if ( distance < resultDistance ) then
+
+            resultNumber = i
+            resultDistance = distance
+
+        elseif ( distance == resultDistance ) then
+
+            if ( resultNumber == 1) then
+
+                resultNumber = i
+                resultDistance = distance
+            end
+        end
+    end
+
+    return resultNumber
+end
+
+function thorns_walls_tool:SquareDistance( vector1, vector2 )
+
+    local vector = {}
+
+    vector.x = (vector2.x - vector1.x)
+    vector.y = (vector2.y - vector1.y)
+    vector.z = (vector2.z - vector1.z)
+
+    return vector.x * vector.x + vector.y * vector.y + vector.z * vector.z
+end
+
+function thorns_walls_tool:GetRotateDegree(pathFromStartPositionToEndPosition, cornerPositionNumber, direction)
+
+    direction = direction or 1
+
+    if ( (cornerPositionNumber > 1) and (cornerPositionNumber+1) <= #pathFromStartPositionToEndPosition ) then
+
+        local position = pathFromStartPositionToEndPosition[cornerPositionNumber]
+
+        local positionPrevious = pathFromStartPositionToEndPosition[cornerPositionNumber - direction]
+
+        local positionNext = pathFromStartPositionToEndPosition[cornerPositionNumber + direction]
+
+        local first = {}
+        first.x = position.x - positionPrevious.x
+        first.z = position.z - positionPrevious.z
+
+        local second = {}
+        second.x = positionNext.x - position.x
+        second.z = positionNext.z - position.z
+
+        local value = first.x * second.z - first.z * second.x
+
+        if ( value > 0 ) then
+            return 90
+        else
+            return -90
+        end
+    end
+
+    return 0
+end
+
+function thorns_walls_tool:AddHashMerge(hashMerge, newPositionX, newPositionZ, index, hasWall)
+
+    hashMerge[newPositionX] = hashMerge[newPositionX] or {}
+
+    local hashXPosition = hashMerge[newPositionX]
+
+    if ( hashXPosition[newPositionZ] == nil ) then
+
+        hashXPosition[newPositionZ] = {}
+
+        hashXPosition[newPositionZ].currentIndex = index
+        hashXPosition[newPositionZ].hasWall = hasWall
+
+        return
+    end
+
+    local cellConfig = hashXPosition[newPositionZ]
+
+    if ( cellConfig.currentIndex > index ) then
+
+        cellConfig.currentIndex = index
+        cellConfig.hasWall = hasWall
+
+    elseif ( cellConfig.currentIndex == index ) then
+
+        cellConfig.hasWall = cellConfig.hasWall or hasWall
     end
 end
 
@@ -464,31 +789,6 @@ function thorns_walls_tool:GetXZSigns(position, positionPlayer)
     end
 
     return xSign, zSign
-end
-
-function thorns_walls_tool:GetCorner(pathFromStartPositionToEndPosition)
-
-    local odds = 1
-    local cornerTileNumber = -1
-
-    for i=1,#pathFromStartPositionToEndPosition do
-
-        if ( (i > 1) and (i+1) <= #pathFromStartPositionToEndPosition ) then
-
-            local position = pathFromStartPositionToEndPosition[i]
-
-            local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
-
-            if ( hasChangesX and hasChangesZ) then
-
-                odds = i % 2
-                cornerTileNumber = i
-                break
-            end
-        end
-    end
-
-    return odds, cornerTileNumber
 end
 
 function thorns_walls_tool:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
@@ -574,70 +874,54 @@ function thorns_walls_tool:GetCornerVector(pathFromStartPositionToEndPosition, c
     return cornerX, cornerZ
 end
 
-function thorns_walls_tool:AddNewPositionsByConfigByX(position, wallLinesCount, xSign, deltaXZ, currentValue, hashPositions, result)
+function thorns_walls_tool:AddNewPositionsByConfigByX(hasWall, position, wallLinesCount, xSign, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
 
-    for step=1,wallLinesCount do
+    for index=0,wallLinesCount-1 do
+        
+        local newPositionX = position.x + xSign * index * deltaXZ
 
-        local newPositionX = position.x + xSign * (step - 1) * deltaXZ
+        if ( hasWall ) then
 
-        if ( self:PerformCheckCollisionBox( newPositionX, position.z, currentValue ) ) then
+            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, position.z, position.y)
+        end
 
-            self:AddNewPositionToResult(hashPositions, result, newPositionX, position.z, position.y)
+        self:AddHashMerge( hashMerge, newPositionX, position.z, index, hasWall )
+
+        if ( index ~= 0 ) then
+
+            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][position.z] == true ) then
+                return
+            end
         end
     end
 end
 
-function thorns_walls_tool:AddNewPositionsByConfigByZ(position, wallLinesCount, zSign, deltaXZ, currentValue, hashPositions, result)
+function thorns_walls_tool:AddNewPositionsByConfigByZ(hasWall, position, wallLinesCount, zSign, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
 
-    for step=1,wallLinesCount do
+    for index=0,wallLinesCount-1 do
+        
+        local newPositionZ = position.z + zSign * index * deltaXZ
 
-        local newPositionZ = position.z + zSign * (step - 1) * deltaXZ
+        if ( hasWall ) then
 
-        if ( self:PerformCheckCollisionBox( position.x, newPositionZ, currentValue ) ) then
+            self:AddNewPositionToPositionsArray(hashPositions, positionsArray, position.x, newPositionZ, position.y)
+        end
 
-            self:AddNewPositionToResult(hashPositions, result, position.x, newPositionZ, position.y)
+        self:AddHashMerge( hashMerge, position.x, newPositionZ, index, hasWall )
+
+        if ( index ~= 0 ) then
+
+            if ( hashOriginal[position.x] and hashOriginal[position.x][newPositionZ] == true ) then
+                return
+            end
         end
     end
 end
 
-function thorns_walls_tool:PerformCheckCollisionBox( newPositionX, newPositionZ, currentValue)
-
-    if ( self.checkCollisionBox == false ) then
-
-        return true
-    end
-
-    if ( (self.fullBoxMinX <= newPositionX and newPositionX <= self.fullBoxMaxX) and (self.fullBoxMinZ <= newPositionZ and newPositionZ <= self.fullBoxMaxZ) ) then
-
-        local positionValue = self:PositionResult(newPositionX, newPositionZ)
-
-        if ( positionValue == currentValue or positionValue == 0 ) then
-
-            return true
-        else
-
-            return false
-        end
-    else
-
-        if ( (self.collisionBoxMinX < newPositionX and newPositionX < self.collisionBoxMaxX) or newPositionX == self.cornerPositionX ) then
-
-            return false
-        end
-
-        if ( (self.collisionBoxMinZ < newPositionZ and newPositionZ < self.collisionBoxMaxZ) or newPositionZ == self.cornerPositionZ ) then
-
-            return false
-        end
-
-        return true
-    end
-end
-
-function thorns_walls_tool:AddNewPositionToResult(hashPositions, result, newPositionX, newPositionZ, newPositionY)
+function thorns_walls_tool:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, newPositionY)
 
     -- Add if position has not been added yet
-    if ( not self:AddToHash( hashPositions, newPositionX, newPositionZ ) ) then
+    if ( not self:HashContains( hashPositions, newPositionX, newPositionZ ) ) then
         return
     end
 
@@ -646,11 +930,11 @@ function thorns_walls_tool:AddNewPositionToResult(hashPositions, result, newPosi
     newPosition.y = newPositionY
     newPosition.z = newPositionZ
 
-    table.insert(result, newPosition)
+    table.insert(positionsArray, newPosition)
 end
 
 -- Check position has not already been added to hashPositions
-function thorns_walls_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
+function thorns_walls_tool:HashContains(hashPositions, newPositionX, newPositionZ)
 
     if ( hashPositions[newPositionX] == nil) then
 
