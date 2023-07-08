@@ -257,6 +257,8 @@ function ghost_building_trapsconstruction:OnUpdate()
 
         local vectorBounds = VectorMulByNumber(boundsSize , 2)
 
+        local idCheckBuildable = 1
+
         for xIndex=1,#arrayX do
 
             positionX = arrayX[xIndex]
@@ -286,9 +288,9 @@ function ghost_building_trapsconstruction:OnUpdate()
                 EntityService:SetPosition( lineEnt, newPosition )
                 EntityService:SetOrientation( lineEnt, transform.orientation )
 
-                local id = (xIndex -1 ) * #arrayX + zIndex
+                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, idCheckBuildable )
 
-                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, id )
+                idCheckBuildable = idCheckBuildable + 1
 
                 if ( testBuildable ~= nil) then
                     self:AddToEntitiesToSellList(testBuildable)
