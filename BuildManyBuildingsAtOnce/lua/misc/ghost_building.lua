@@ -86,33 +86,33 @@ function ghost_building:OnUpdate()
 
         if ( #self.gridEntities > #arrayX ) then
 
-            for xIndex=#self.gridEntities,#arrayX + 1,-1 do
+            for xNumber=#self.gridEntities,#arrayX + 1,-1 do
 
-                local gridEntitiesZ = self.gridEntities[xIndex]
+                local gridEntitiesZ = self.gridEntities[xNumber]
 
-                for zIndex=1,#gridEntitiesZ do
+                for zNumber=1,#gridEntitiesZ do
 
-                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+                    EntityService:RemoveEntity(gridEntitiesZ[zNumber])
 
-                    gridEntitiesZ[zIndex] = nil
+                    gridEntitiesZ[zNumber] = nil
                 end
 
-                self.gridEntities[xIndex] = nil
+                self.gridEntities[xNumber] = nil
             end
 
         elseif ( #self.gridEntities < #arrayX ) then
 
-            for xIndex=#self.gridEntities + 1 ,#arrayX do
+            for xNumber=#self.gridEntities + 1 ,#arrayX do
 
-                positionX = arrayX[xIndex]
+                positionX = arrayX[xNumber]
 
                 local gridEntitiesZ = {}
 
-                self.gridEntities[xIndex] = gridEntitiesZ
+                self.gridEntities[xNumber] = gridEntitiesZ
 
-                for zIndex=1,#arrayZ do
+                for zNumber=1,#arrayZ do
 
-                    positionZ = arrayZ[zIndex]
+                    positionZ = arrayZ[zNumber]
 
                     local newPosition = {}
 
@@ -127,24 +127,24 @@ function ghost_building:OnUpdate()
             end
         end
 
-        for xIndex=1,#arrayX do
+        for xNumber=1,#arrayX do
 
-            positionX = arrayX[xIndex]
+            positionX = arrayX[xNumber]
 
-            local gridEntitiesZ = self.gridEntities[xIndex]
+            local gridEntitiesZ = self.gridEntities[xNumber]
 
             if ( #gridEntitiesZ > #arrayZ ) then
 
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
-                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
-                    gridEntitiesZ[zIndex] = nil
+                for zNumber=#gridEntitiesZ,#arrayZ + 1,-1 do
+                    EntityService:RemoveEntity(gridEntitiesZ[zNumber])
+                    gridEntitiesZ[zNumber] = nil
                 end
 
             elseif ( #gridEntitiesZ < #arrayZ ) then
 
-                for zIndex=#gridEntitiesZ + 1 ,#arrayZ do
+                for zNumber=#gridEntitiesZ + 1 ,#arrayZ do
 
-                    positionZ = arrayZ[zIndex]
+                    positionZ = arrayZ[zNumber]
 
                     local newPosition = {}
 
@@ -159,15 +159,17 @@ function ghost_building:OnUpdate()
             end
         end
 
-        for xIndex=1,#arrayX do
+        local idCheckBuildable = 1
+        
+        for xNumber=1,#arrayX do
 
-            positionX = arrayX[xIndex]
+            positionX = arrayX[xNumber]
 
-            local gridEntitiesZ = self.gridEntities[xIndex]
+            local gridEntitiesZ = self.gridEntities[xNumber]
 
-            for zIndex=1,#arrayZ do
+            for zNumber=1,#arrayZ do
 
-                positionZ = arrayZ[zIndex]
+                positionZ = arrayZ[zNumber]
 
                 local newPosition = {}
 
@@ -180,13 +182,13 @@ function ghost_building:OnUpdate()
                 transform.orientation = currentTransform.orientation
                 transform.position = newPosition
 
-                local lineEnt = gridEntitiesZ[zIndex]
+                local lineEnt = gridEntitiesZ[zNumber]
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetOrientation( lineEnt, transform.orientation )
 
-                local id = (xIndex -1 ) * #arrayX + zIndex
+                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, idCheckBuildable, false )
 
-                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, id, false )
+                idCheckBuildable = idCheckBuildable + 1
 
                 if ( testBuildable ~= nil) then
                     self:AddToEntitiesToSellList(testBuildable)
@@ -494,13 +496,13 @@ function ghost_building:GetAllEntities()
 
     local result = {}
 
-    for xIndex=1,#self.gridEntities do
+    for xNumber=1,#self.gridEntities do
 
-        local gridEntitiesZ = self.gridEntities[xIndex]
+        local gridEntitiesZ = self.gridEntities[xNumber]
 
-        for zIndex=1,#gridEntitiesZ do
+        for zNumber=1,#gridEntitiesZ do
 
-            local entity = gridEntitiesZ[zIndex]
+            local entity = gridEntitiesZ[zNumber]
 
             Insert(result, entity)
         end

@@ -72,7 +72,7 @@ function ghost:GetBuildInfo( entity  )
     return helper.build_info
 end
 
-function  ghost:BuildBuilding( transform )
+function ghost:BuildBuilding( transform )
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
 end
 
@@ -83,7 +83,7 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
     if floor  then
         test = BuildingService:CheckGhostFloorStatus( self.playerId, entity, transform, self.blueprint )
     else
-        test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.blueprint, id)
+        test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.blueprint, id )
     end
     if ( test == nil ) then
         return
