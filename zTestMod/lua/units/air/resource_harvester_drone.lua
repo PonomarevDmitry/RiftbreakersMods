@@ -5,7 +5,7 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'harvester_drone' ( base_drone )
 
 local LOCK_TYPE_HARVESTER = "harvester";
-SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 10)
+SetTargetFinderThrottler(LOCK_TYPE_HARVESTER, 3)
 
 g_allocated_resource_drones = {}
 
@@ -39,7 +39,7 @@ local function ChangeGatherableResourceAmount( target, resource, amount, is_vege
 end
 
 function harvester_drone:__init()
-	base_drone.__init(self,self)
+    base_drone.__init(self,self)
 end
 
 function harvester_drone:FindBestVegetationEntity(owner, source)
