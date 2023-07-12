@@ -1,0 +1,317 @@
+EntityBlueprint
+{
+	name  "items/weapons/auto_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/shotgun.mesh"
+		material 	"items/weapons/shotgun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/shotgun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone   "be_recoil"
+				recoil_time   	"0.3"
+				recoil_offset   "0.5"
+			}
+		}
+
+		ammo_blueprint 						"mech/shotgun_projectile"
+
+		muzzles_per_fire 					"1"
+		muzzle_flash_effect 				"effects/weapons_shotguns/shotgun_muzzle_flash"
+		fire_effect 						"effects/weapons_shotguns/shotgun_fire"
+
+		burst_rate 							"0.2"
+		burst_column_angle 					"90"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_shotguns/shotgun_equipped"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_shotguns/empty_shotgun_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_shotgun_advanced"
+
+	base_blueprint "items/weapons/auto_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/shotgun.mesh"
+		material 	"items/weapons/shotgun_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_shotgun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		
+		name 		"gui/menu/inventory/weapon_name/auto_shotgun"
+		
+		holding_pose "range"
+		
+		item_bp		"items/weapons/auto_shotgun_advanced"
+		
+		icon		"gui/hud/items_icons/weapons/auto_shotgun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/auto_shotgun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_shotgun_extreme"
+
+	base_blueprint "items/weapons/auto_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/shotgun.mesh"
+		material 	"items/weapons/shotgun_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_shotgun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		
+		name 		"gui/menu/inventory/weapon_name/auto_shotgun"
+		
+		holding_pose "range"
+		
+		item_bp		"items/weapons/auto_shotgun_extreme"
+		
+		icon		"gui/hud/items_icons/weapons/auto_shotgun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/auto_shotgun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_shotgun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		
+		name 		"gui/menu/inventory/weapon_name/auto_shotgun"
+		
+		holding_pose "range"
+		
+		item_bp		"items/weapons/auto_shotgun"
+		
+		icon		"gui/hud/items_icons/weapons/auto_shotgun"
+		bigger_icon "gui/menu/items_icons/weapons/auto_shotgun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_shotgun_superior"
+
+	base_blueprint "items/weapons/auto_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/shotgun.mesh"
+		material 	"items/weapons/shotgun_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_shotgun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		
+		name 		"gui/menu/inventory/weapon_name/auto_shotgun"
+		
+		holding_pose "range"
+		
+		item_bp		"items/weapons/auto_shotgun_superior"
+		
+		icon		"gui/hud/items_icons/weapons/auto_shotgun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/auto_shotgun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+

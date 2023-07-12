@@ -1,0 +1,302 @@
+EntityBlueprint
+{
+	name  "items/weapons/auto_railgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/railgun.mesh"
+		material 	"items/weapons/railgun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/railgun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "6"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone   "be_recoil"
+				recoil_time   	"0.6"
+				recoil_offset   "0.4"
+			}
+		}
+
+		ammo_blueprint 				"buildings/defense/railgun_projectile"
+
+		fire_effect 				"effects/weapons_energy/railgun_fire"
+		muzzle_flash_effect 		"effects/weapons_energy/railgun_fire_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/railgun_equipped"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_railgun_advanced"
+
+	base_blueprint "items/weapons/auto_railgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/railgun.mesh"
+		material 	"items/weapons/railgun_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_railgun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/auto_railgun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_railgun_advanced"
+		icon		"gui/hud/items_icons/weapons/auto_railgun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/auto_railgun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_railgun_extreme"
+
+	base_blueprint "items/weapons/auto_railgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/railgun.mesh"
+		material 	"items/weapons/railgun_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_railgun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/auto_railgun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_railgun_extreme"
+		icon		"gui/hud/items_icons/weapons/auto_railgun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/auto_railgun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_railgun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/auto_railgun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_railgun"
+		icon		"gui/hud/items_icons/weapons/auto_railgun"
+		bigger_icon "gui/menu/items_icons/weapons/auto_railgun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_railgun_superior"
+
+	base_blueprint "items/weapons/auto_railgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/railgun.mesh"
+		material 	"items/weapons/railgun_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_railgun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		"gui/menu/inventory/weapon_name/auto_railgun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_railgun_superior"
+		icon		"gui/hud/items_icons/weapons/auto_railgun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/auto_railgun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+

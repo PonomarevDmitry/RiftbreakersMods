@@ -1,0 +1,297 @@
+EntityBlueprint
+{
+	name  "items/weapons/auto_atom_bomb"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/nuclear_missiles.mesh"
+		material 	"items/weapons/nuclear_missiles"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/nuclear_missiles"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"mech/atom_bomb_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_explosive/rocket_fire_big"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_atom_bomb_advanced"
+
+	base_blueprint "items/weapons/auto_atom_bomb"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/nuclear_missiles.mesh"
+		material 	"items/weapons/nuclear_missiles_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_atom_bomb_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/auto_nuclear_missile"
+		item_bp			"items/weapons/auto_atom_bomb_advanced"
+		icon			"gui/hud/items_icons/weapons/auto_atom_bomb_launcher_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/auto_atom_bomb_launcher_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_atom_bomb_extreme"
+
+	base_blueprint "items/weapons/auto_atom_bomb"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/nuclear_missiles.mesh"
+		material 	"items/weapons/nuclear_missiles_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_atom_bomb_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/auto_nuclear_missile"
+		item_bp			"items/weapons/auto_atom_bomb_extreme"
+		icon			"gui/hud/items_icons/weapons/auto_atom_bomb_launcher_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/auto_atom_bomb_launcher_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_atom_bomb_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/auto_nuclear_missile"
+		item_bp			"items/weapons/auto_atom_bomb"
+		icon			"gui/hud/items_icons/weapons/auto_atom_bomb_launcher"
+		bigger_icon 	"gui/menu/items_icons/weapons/auto_atom_bomb_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_atom_bomb_superior"
+
+	base_blueprint "items/weapons/auto_atom_bomb"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/nuclear_missiles.mesh"
+		material 	"items/weapons/nuclear_missiles_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_atom_bomb_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/auto_nuclear_missile"
+		item_bp			"items/weapons/auto_atom_bomb_superior"
+		icon			"gui/hud/items_icons/weapons/auto_atom_bomb_launcher_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/auto_atom_bomb_launcher_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+			pad_active_feedback 				string:"vibration,4,2,80"
+			pad_charge_acquired_feedback		string:"vibration,0,4,40"
+			pad_charge_released_feedback		string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

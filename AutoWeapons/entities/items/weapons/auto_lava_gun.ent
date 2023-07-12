@@ -1,0 +1,305 @@
+EntityBlueprint
+{
+	name  "items/weapons/auto_lava_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lava_gun.mesh"
+		material 	"items/weapons/lava_gun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/lava_gun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle"
+				recoil_bone 	"be_recoil"
+				recoil_time   	"0.1"
+				recoil_offset   "0.3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "6"
+		}
+
+		ammo_blueprint 				"items/weapons/lava_gun_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_fluid/lava_gun_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_fluid/lava_gun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_lava_gun_advanced"
+
+	base_blueprint "items/weapons/auto_lava_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lava_gun.mesh"
+		material 	"items/weapons/lava_gun_advanced"
+	}
+
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_lava_gun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/auto_lava_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_lava_gun_advanced"
+		icon		"gui/hud/items_icons/weapons/auto_lava_gun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/auto_lava_gun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_lava_gun_superior"
+
+	base_blueprint "items/weapons/auto_lava_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lava_gun.mesh"
+		material 	"items/weapons/lava_gun_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_lava_gun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/auto_lava_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_lava_gun_superior"
+		icon		"gui/hud/items_icons/weapons/auto_lava_gun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/auto_lava_gun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+
+EntityBlueprint
+{
+	name "items/weapons/auto_lava_gun_extreme"
+
+	base_blueprint "items/weapons/auto_lava_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lava_gun.mesh"
+		material 	"items/weapons/lava_gun_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_lava_gun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/auto_lava_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_lava_gun_extreme"
+		icon		"gui/hud/items_icons/weapons/auto_lava_gun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/auto_lava_gun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/auto_lava_gun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"liquid"
+		name 		"gui/menu/inventory/weapon_name/auto_lava_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_lava_gun"
+		icon		"gui/hud/items_icons/weapons/auto_lava_gun"
+		bigger_icon "gui/menu/items_icons/weapons/auto_lava_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
