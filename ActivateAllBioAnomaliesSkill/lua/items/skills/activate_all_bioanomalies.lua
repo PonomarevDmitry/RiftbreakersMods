@@ -1,5 +1,6 @@
 local item = require("lua/items/item.lua")
 require("lua/utils/reflection.lua")
+require("lua/utils/database_utils.lua")
 
 class 'activate_all_bioanomalies' ( item )
 
@@ -49,6 +50,15 @@ function activate_all_bioanomalies:OnActivate()
 
                 if ( IndexOf( activatedEntities, entity ) ~= nil ) then
                     goto continue
+                end
+
+                local minimapItemComponentRef = reflection_helper( EntityService:GetComponent( entity, "MinimapItemComponent" ) )
+                minimapItemComponentRef.unknown_until_visible = 0
+
+                local databaseEntity = EntityService:GetDatabase( entity )
+                if ( databaseEntity ) then
+                    
+                    databaseEntity:SetFloat( "harvest_duration", 2.5 )
                 end
 
                 QueueEvent( "HarvestStartEvent", entity )
