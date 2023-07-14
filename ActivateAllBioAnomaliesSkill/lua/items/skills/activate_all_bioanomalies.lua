@@ -48,16 +48,36 @@ function activate_all_bioanomalies:OnActivate()
 
             for entity in Iter( entities ) do
 
+                if ( entity == nil ) then
+                    goto continue
+                end
+
+                if ( not EntityService:IsAlive( entity ) ) then
+                    goto continue
+                end
+
                 if ( IndexOf( activatedEntities, entity ) ~= nil ) then
                     goto continue
                 end
 
-                local minimapItemComponentRef = reflection_helper( EntityService:GetComponent( entity, "MinimapItemComponent" ) )
-                minimapItemComponentRef.unknown_until_visible = 0
+                local interactiveComponent = EntityService:GetComponent( entity, "InteractiveComponent" )
+                if ( interactiveComponent == nil ) then
+                    goto continue
+                end
+
+                local interactiveComponentRef = reflection_helper( interactiveComponent )
+                if ( interactiveComponentRef.slot ~= "HARVESTER" ) then
+                    goto continue
+                end
+
+                local minimapItemComponent = EntityService:GetComponent( entity, "MinimapItemComponent" )
+                if ( minimapItemComponent ~= nil ) then
+                    local minimapItemComponentRef = reflection_helper( minimapItemComponent )
+                    minimapItemComponentRef.unknown_until_visible = 0
+                end
 
                 local databaseEntity = EntityService:GetDatabase( entity )
                 if ( databaseEntity ) then
-                    
                     databaseEntity:SetFloat( "harvest_duration", 2.5 )
                 end
 
@@ -73,6 +93,12 @@ function activate_all_bioanomalies:OnActivate()
             if ( self.owner ~= nil and self.owner ~= INVALID_ID ) then
 
                 EffectService:SpawnEffect( self.owner, "effects/enemies_generic/wave_start" )
+
+                local lootContainerDelayer = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.owner, "" )
+
+                local dbLootContainerDelayer = EntityService:GetDatabase( lootContainerDelayer )
+                dbLootContainerDelayer:SetFloat( "delay", 0.2 )
+                dbLootContainerDelayer:SetFloat( "aggressive_radius", 100 )
             end
         end
     end
