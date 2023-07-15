@@ -76,7 +76,7 @@ function buildings_builder_tool:InitializeValues()
     self:SpawnBuildinsTemplates()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
 function buildings_builder_tool:SpawnBuildinsTemplates()
@@ -305,11 +305,11 @@ function buildings_builder_tool:GetVectorDelta( positionX, positionZ )
 end
 
 function buildings_builder_tool:GetBuildInfo( entity  )
-    local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent")
-    if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!") ) then
+    local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent" )
+    if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!" ) ) then
         return nil
     end
-    if (buildInfoComponent == nil ) then
+    if ( buildInfoComponent == nil ) then
         return nil
     end
     local helper = reflection_helper(buildInfoComponent)
@@ -320,13 +320,13 @@ function buildings_builder_tool:CheckEntityBuildable( entity, transform, bluepri
 
     id = id or 1
 
-    local checkStatus = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, blueprintName, id)
+    local checkStatus = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, blueprintName, id )
 
     if ( checkStatus == nil ) then
         return nil
     end
 
-    local testBuildable = reflection_helper(checkStatus:ToTypeInstance(), checkStatus )
+    local testBuildable = reflection_helper( checkStatus:ToTypeInstance(), checkStatus )
 
 
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
@@ -338,29 +338,29 @@ function buildings_builder_tool:CheckEntityBuildable( entity, transform, bluepri
 
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
             if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass" )
             else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
+                EntityService:ChangeMaterial( entity, "selector/hologram_pass" )
             end
         else
             if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny" )
             else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
+                EntityService:ChangeMaterial( entity, "selector/hologram_deny" )
             end
         end
     else
 
         if ( canBuildOverride ) then
             if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
+                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned" )
             else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
+                EntityService:ChangeMaterial( entity, "selector/hologram_active" )
             end
         elseif ( canBuild  ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+            EntityService:ChangeMaterial( entity, "selector/hologram_blue" )
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+            EntityService:ChangeMaterial( entity, "selector/hologram_red" )
         end
     end
 
@@ -389,7 +389,7 @@ function buildings_builder_tool:OnUpdate()
     for entity in Iter( self.oldBuildingsToSell ) do
 
         if ( IndexOf( buildingsToSell, entity ) == nil ) then
-            EntityService:RemoveMaterial(entity, "selected" )
+            EntityService:RemoveMaterial( entity, "selected" )
         end
     end
 
@@ -398,9 +398,9 @@ function buildings_builder_tool:OnUpdate()
         local skinned = EntityService:IsSkinned(entity)
 
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
+            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
         else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
+            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
         end
     end
 
@@ -410,7 +410,7 @@ function buildings_builder_tool:OnUpdate()
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+        EntityService:SetPosition( self.infoChild, -1, 0, 1 )
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
@@ -440,7 +440,7 @@ function buildings_builder_tool:AddToEntitiesToSellList(testBuildable, buildings
 
         local entityToSell = testBuildable.entities_to_sell[i]
 
-        if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
+        if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell ) ) then
 
             if ( IndexOf( buildingsToSell, entityToSell ) == nil ) then
 
@@ -607,7 +607,7 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
 
     elseif( testBuildable.flag == CBF_LIMITS ) then
 
-        QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", self.playerEntity, false )
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", self.playerEntity, false )
 
         return testBuildable.flag
     end
@@ -635,14 +635,14 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
         for entityToSell in Iter(testBuildable.entities_to_sell) do
-            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+            QueueEvent( "SellBuildingRequest", entityToSell, self.playerId, false )
         end
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
     elseif( testBuildable.flag == CBF_REPAIR  ) then
-        QueueEvent("ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId)
+        QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
     end
 
     return testBuildable.flag
@@ -688,7 +688,7 @@ function buildings_builder_tool:RemoveMaterialFromBuildingsToSell()
 
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
-            EntityService:RemoveMaterial(entityToSell, "selected" )
+            EntityService:RemoveMaterial( entityToSell, "selected" )
         end
     end
 end
@@ -775,11 +775,11 @@ end
 
 function buildings_builder_tool:OnRelease()
 
-    if ( self.infoChild ~= nil) then
+    if ( self.infoChild ~= nil ) then
         EntityService:RemoveEntity(self.infoChild)
     end
 
-    if ( self.markerEntity ~= nil) then
+    if ( self.markerEntity ~= nil ) then
         EntityService:RemoveEntity(self.markerEntity)
     end
 
