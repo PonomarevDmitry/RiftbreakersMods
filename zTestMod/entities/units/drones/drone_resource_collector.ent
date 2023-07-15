@@ -1,0 +1,94 @@
+EntityBlueprint
+{
+	name  "units/drones/drone_resource_collector"
+	base_blueprint 	"units/drones/drone_base"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement			string:"land"
+			target_movement			string:"hover"
+			target_search_mode		string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/resource_harvester_drone.lua"
+
+		database
+		{
+			search_radius 			float:"100.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			search_type				string:""
+
+			harvest_time			float:"50.0"
+			harvest_storage			float:"7500"
+			harvest_vegetation  	int:"0"
+
+			unload_time				float:"1.0"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_crystal_collector.mesh"
+		material "units/drones/drone_crystal_collector"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/drones/drone_crystal_collector"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "collector_drone"
+	}
+
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"50"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"50"
+		}
+		
+		max_speed 				
+		{
+			base 	"250"
+		}
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/drones/drone_base"
+		}	
+
+		EffectGroup
+		{
+			group "work"
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_gather_resources"
+				}
+
+			}
+		}
+	}
+}
+
