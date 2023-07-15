@@ -110,7 +110,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" )
     templateString = templateString or ""
 
-    --LogService:Log("SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
+    --LogService:Log( "SpawnBuildinsTemplates template_name " .. self.template_name .. " templateString " .. templateString )
 
     if ( templateString == "" ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/empty_template")
@@ -336,7 +336,7 @@ function buildings_builder_tool:CheckEntityBuildable( entity, transform, bluepri
 
     if ( testBuildable.flag == CBF_REPAIR  ) then
 
-        if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
+        if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 ) ) then
             if ( skinned ) then
                 EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass" )
             else
@@ -600,7 +600,7 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     if ( testBuildable.flag == CBF_TO_CLOSE ) then
 
         if ( buildingDesc.min_radius_effect ~= "" ) then
-            QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, buildingDesc.min_radius_effect, self.playerEntity, false)
+            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, buildingDesc.min_radius_effect, self.playerEntity, false )
         end
 
         return testBuildable.flag
