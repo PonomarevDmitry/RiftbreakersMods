@@ -198,6 +198,19 @@ function repair_tool:OnActivateEntity( entity )
             end
 
             QueueEvent( "ScheduleRepairBuildingRequest", entity, self.playerId )
+
+            local database = EntityService:GetDatabase( entity )
+            if ( database and database:HasInt("number_of_activations")) then
+
+                local currentNumberOfActivations =  database:GetInt("number_of_activations")
+
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
+                local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+
+                if ( maxNumberOfActivations > currentNumberOfActivations ) then
+                    database:SetInt("number_of_activations", maxNumberOfActivations)
+                end
+            end
         end
     end
 end
