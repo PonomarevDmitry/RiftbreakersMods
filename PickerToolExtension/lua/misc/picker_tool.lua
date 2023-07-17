@@ -56,6 +56,12 @@ function picker_tool:FillSelectedBlueprints()
         ["wind_turbine"] = "buildings/energy/wind_turbine",
         ["solar_panels"] = "buildings/energy/solar_panels",
 
+        ["floor_desert_1x1"] = "buildings/decorations/floor_desert_1x1",
+
+        ["floor_acid_1x1"] = "buildings/decorations/floor_acid_1x1",
+
+        ["cryo_station"] = "buildings/main/cryo_station",
+
         ["carbonium_factory"] = "buildings/resources/carbonium_factory",
         ["steel_factory"] = "buildings/resources/steel_factory",
         ["rare_element_mine"] = "buildings/resources/rare_element_mine",
@@ -397,24 +403,17 @@ function picker_tool:OnActivateSelectorRequest()
         return
     end
 
-    if ( self:ChangeSelectorToEntityByFilter( isResourceVolume ) ) then
-        return
-    end
 
 
 
+
+    
     local currentBiome = MissionService:GetCurrentBiomeName()
-    if ( currentBiome ~= "caverns" ) then
-        return
-    end
+    local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( self.entity )
 
-    local windModificator = BuildingService:GetWindPowerModificator( self.entity )
+    if ( terrainType == "quicksand" ) then
 
-    local minModificator = 0.05
-
-    if ( windModificator >= minModificator ) then
-
-        local lowName = "wind_turbine"
+        local lowName = "floor_desert_1x1"
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
 
         local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
@@ -424,17 +423,72 @@ function picker_tool:OnActivateSelectorRequest()
         end
     end
 
-    local solarModificator = BuildingService:GetSolarPowerModificator( self.entity )
+    if ( terrainType == "creeper_area" ) then
 
-    if ( solarModificator >= minModificator ) then
-
-        local lowName = "solar_panels"
+        local lowName = "floor_acid_1x1"
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
 
         local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
 
         if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
             return
+        end
+    end
+
+    local isFloor = ( string.find(terrainType, "floor") ~= nil )
+    local isTrail = ( string.find(terrainType, "trail") ~= nil )
+    local isCryoGround = ( terrainType == "cryo_ground" )
+    local isHotGround = ( terrainType == "magma_hot_ground" or terrainType == "magma_very_hot_ground" )
+
+    if ( isHotGround or ( currentBiome == "magma" and not isFloor and not isTrail and not isCryoGround ) ) then
+
+        local lowName = "cryo_station"
+        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+        local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+        if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+            return
+        end
+    end
+
+    
+
+
+    if ( self:ChangeSelectorToEntityByFilter( isResourceVolume ) ) then
+        return
+    end
+
+
+
+    if ( currentBiome == "caverns" ) then
+
+        local minModificator = 0.05
+    
+        local windModificator = BuildingService:GetWindPowerModificator( self.entity )
+        if ( windModificator >= minModificator ) then
+
+            local lowName = "wind_turbine"
+            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+            local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+            if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+                return
+            end
+        end
+
+        local solarModificator = BuildingService:GetSolarPowerModificator( self.entity )
+        if ( solarModificator >= minModificator ) then
+
+            local lowName = "solar_panels"
+            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+            local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+            if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+                return
+            end
         end
     end
 end
@@ -635,52 +689,7 @@ function picker_tool:GetSelectorBlueprintName( lowName, defaultBlueprintName )
         return ""
     end
 
-    local parameterName = "$selected_" .. lowName .. "_blueprint"
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
-
-    local blueprintName = ""
-
-    if ( selectorDB and selectorDB:HasString(parameterName) ) then
-
-        blueprintName = selectorDB:GetStringOrDefault(parameterName, "") or ""
-    end
-
-    if ( blueprintName == "" ) then
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
-        end
-    end
-
-    if ( blueprintName == "" ) then
-        return self:GetMaxAvailableLevel( defaultBlueprintName )
-    end
-
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-        return self:GetMaxAvailableLevel( defaultBlueprintName )
-    end
-
-    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( buildingDesc == nil ) then
-        return self:GetMaxAvailableLevel( defaultBlueprintName )
-    end
-
-    local buildingRef = reflection_helper( buildingDesc )
-    if ( buildingRef == nil ) then
-        return self:GetMaxAvailableLevel( defaultBlueprintName )
-    end
-
-    if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
-        return self:GetMaxAvailableLevel( defaultBlueprintName )
-    end
-
-    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    if ( #list == 0 ) then
-        return self:GetMaxAvailableLevel( defaultBlueprintName )
-    end
-
-    return blueprintName
+    return self:GetMaxAvailableLevel( defaultBlueprintName )
 end
 
 function picker_tool:GetMaxAvailableLevel( blueprintName )
