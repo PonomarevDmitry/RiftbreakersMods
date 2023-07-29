@@ -170,13 +170,16 @@ function floor_rebuilder_tool:RebuildFloor()
 
             local entity = gridEntitiesZ[zIndex]
 
-            local gridToErase = FindService:GetEntityCellIndexes( entity )
+            if ( EntityService:IsAlive( entity ) ) then
 
-            for i = 1,#gridToErase do
+                local gridToErase = FindService:GetEntityCellIndexes( entity )
 
-                local idx = gridToErase[i]
+                for i = 1,#gridToErase do
 
-                hashGridsToErase[idx] = true
+                    local idx = gridToErase[i]
+
+                    hashGridsToErase[idx] = true
+                end
             end
         end
     end
@@ -193,7 +196,7 @@ function floor_rebuilder_tool:RebuildFloor()
 
         local entityToSell = self.selectedEntities[i]
 
-        if (entityToSell == nil or not EntityService:IsAlive( entityToSell) ) then
+        if (entityToSell == nil or not EntityService:IsAlive( entityToSell ) ) then
             goto continue
         end
 
@@ -270,11 +273,14 @@ function floor_rebuilder_tool:RebuildFloor()
 
             local ghostEntity = gridEntitiesZ[zIndex]
 
-            local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueptinName, hashOccupiedCells)
+            if ( EntityService:IsAlive( ghostEntity ) ) then
 
-            if ( #cellsToBuild > 0 ) then
+                local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueptinName, hashOccupiedCells)
 
-                self:FillWithFloors( rebuildBlueptinName, cellsToBuild )
+                if ( #cellsToBuild > 0 ) then
+
+                    self:FillWithFloors( rebuildBlueptinName, cellsToBuild )
+                end
             end
         end
     end
@@ -287,6 +293,11 @@ function floor_rebuilder_tool:GetCellsToRebuild(entity, frequentBlueptinName, ha
     local entityTransform = EntityService:GetWorldTransform( entity )
 
     local test = BuildingService:CheckGhostFloorStatus( self.playerId, entity, entityTransform, frequentBlueptinName )
+
+    if ( test == nil ) then
+
+        return result
+    end
 
     local testBuildable = reflection_helper(test:ToTypeInstance())
 
@@ -414,7 +425,7 @@ function floor_rebuilder_tool:GetFreequentBlueptint()
 
         local entityToSell = self.selectedEntities[i]
 
-        if (entityToSell == nil or not EntityService:IsAlive( entityToSell) ) then
+        if (entityToSell == nil or not EntityService:IsAlive( entityToSell ) ) then
             goto continue
         end
 
@@ -474,19 +485,22 @@ function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
 
             local entity = gridEntitiesZ[zIndex]
 
-            local position = EntityService:GetPosition( entity )
+            if ( EntityService:IsAlive( entity ) ) then
 
-            local boundsSize = { x=1.0, y=1.0, z=1.0 }
+                local position = EntityService:GetPosition( entity )
 
-            local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
-            local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
+                local boundsSize = { x=1.0, y=1.0, z=1.0 }
 
-            local tempSelected = FindService:FindGridMiscByBox( min, max )
+                local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
+                local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
 
-            for tempEntity in Iter( tempSelected ) do
+                local tempSelected = FindService:FindGridMiscByBox( min, max )
 
-                if ( tempEntity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
-                   Insert( possibleSelectedEnts, tempEntity )
+                for tempEntity in Iter( tempSelected ) do
+
+                    if ( tempEntity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
+                       Insert( possibleSelectedEnts, tempEntity )
+                    end
                 end
             end
         end
