@@ -4,7 +4,7 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'attack_drone' ( base_drone )
 
 function attack_drone:__init()
-	base_drone.__init(self,self)
+    base_drone.__init(self,self)
 end
 
 function attack_drone:FillInitialParams()
@@ -50,7 +50,7 @@ function attack_drone:OnInit()
     self.fsm:AddState("attack", { execute="OnAttackExecute" });
     self.fsm:ChangeState("attack")
 
-	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
+    WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end
 
 function attack_drone:OnLoad()
@@ -65,9 +65,9 @@ function attack_drone:IsTargetValid(target)
     end
 
     -- Other towers don't use this logic
-    -- if self.target_resisted_damage[ target ] ~= nil then
-    --     return self.target_resisted_damage[ target ] < GetLogicTime()
-    -- end
+    if self.target_resisted_damage[ target ] ~= nil then
+        return self.target_resisted_damage[ target ] < GetLogicTime()
+    end
 
     if EntityService:GetDistance2DBetween( target, self.target_finder.entity ) > self.search_radius then
         return false
@@ -130,6 +130,7 @@ function attack_drone:OnAttackExecute(state, dt)
         if new_target ~= INVALID_ID then
             self.drone_target = new_target
             desired_target = new_target
+            is_target_valid = true
         end
     end
     
