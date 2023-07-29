@@ -580,15 +580,18 @@ function ghost_building_floor:GetAllFreeGrids(floorEntities)
 
         local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, self.blueprint )
 
-        local testBuildable = reflection_helper(test:ToTypeInstance())
+        if ( test ) then
 
-        local indexesCount = testBuildable.free_grids.count
+            local testBuildable = reflection_helper(test:ToTypeInstance())
 
-        for i = 1,indexesCount do
+            local indexesCount = testBuildable.free_grids.count
 
-            local idx = testBuildable.free_grids[i]
+            for i = 1,indexesCount do
 
-            hashAllFreeGrids[idx] = true
+                local idx = testBuildable.free_grids[i]
+
+                hashAllFreeGrids[idx] = true
+            end
         end
     end
 
@@ -615,11 +618,14 @@ function ghost_building_floor:BuildFloorEntites(floorEntities)
 
         local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, self.blueprint )
 
-        local testBuildable = reflection_helper(test:ToTypeInstance())
+        if ( test ) then
 
-        self:BuildFloor( entityTransform, testBuildable, hashAllFreeGrids, listSelledEntities )
+            local testBuildable = reflection_helper(test:ToTypeInstance())
 
-        EntityService:RemoveEntity(ghostEntity)
+            self:BuildFloor( entityTransform, testBuildable, hashAllFreeGrids, listSelledEntities )
+
+            EntityService:RemoveEntity(ghostEntity)
+        end
     end
 end
 
