@@ -23,6 +23,28 @@ end
 
 function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
+    local selectedItems = {}
+
+    local entitiesResources = self:GetEntitiesResources( selectorComponent )
+    ConcatUnique( selectedItems, entitiesResources )
+
+
+
+    local selectorPosition = selectorComponent.position
+
+    local scaleVector = VectorMulByNumber(self.boundsSize, self.currentScale - 0.5)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
+
+    local entitiesResourceVolumes = self:GetEntitiesResourceVolumes( min, max, selectorPosition )
+    ConcatUnique( selectedItems, entitiesResourceVolumes )
+
+    return selectedItems
+end
+
+function eraser_resources_tool:GetEntitiesResources( selectorComponent )
+
     local possibleSelectedEnts = {}
 
     local selectorPosition = selectorComponent.position
@@ -83,6 +105,61 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
     return possibleSelectedEnts
 end
 
+function eraser_resources_tool:GetEntitiesResourceVolumes( min, max, selectorPosition )
+
+    local resourceVolumeEntities = {}
+
+    local predicate = {
+
+        signature="ResourceVolumeComponent"
+    }
+
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto continue
+        end
+
+        if ( IndexOf( resourceVolumeEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
+        local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
+        if ( resourceVolumeComponent == nil ) then
+            goto continue
+        end
+
+        local resourceId = ""
+
+        local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
+        if ( resourceVolumeComponentRef.type ~= nil and resourceVolumeComponentRef.type.resource ~= nil and resourceVolumeComponentRef.type.resource.id ~= nil ) then
+            resourceId = resourceVolumeComponentRef.type.resource.id or ""
+        end
+
+        if ( resourceId ~= "geothermal_vent" and resourceId ~= "acid_vent" and resourceId ~= "magma_vent" and resourceId ~= "supercoolant_vent" ) then
+            goto continue
+        end
+
+        Insert( resourceVolumeEntities, entity )
+
+        ::continue::
+    end
+
+    local sorter = function( lhs, rhs )
+        local position1 = EntityService:GetPosition( lhs )
+        local position2 = EntityService:GetPosition( rhs )
+        local distance1 = Distance( selectorPosition, position1 )
+        local distance2 = Distance( selectorPosition, position2 )
+        return distance1 < distance2
+    end
+
+    table.sort(resourceVolumeEntities, sorter)
+
+    return resourceVolumeEntities
+end
+
 function eraser_resources_tool:AddedToSelection( entity )
     QueueEvent( "SelectEntityRequest", entity )
 end
@@ -95,6 +172,21 @@ function eraser_resources_tool:OnRotate()
 end
 
 function eraser_resources_tool:OnActivateEntity( entity )
+
+    local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
+    if ( resourceVolumeComponent ~= nil ) then
+
+        local childrenList = EntityService:GetChildren( entity, false )
+
+        for childResource in Iter( childrenList ) do
+
+            local blueprintName = EntityService:GetBlueprintName(childResource)
+
+            LogService:Log("childResource " .. tostring(blueprintName) .. " childResource " .. tostring(childResource))
+
+            EntityService:RemoveEntity(childResource)
+        end
+    end
 
     QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 end
