@@ -1,21 +1,21 @@
 EntityBlueprint
 {
-	name						"buildings/defense/wall_gate_lvl_2"
+	name						"buildings/defense/wall_gate_energy_lvl_2"
 
-	base_blueprint				"buildings/defense/wall_gate"
+	base_blueprint				"buildings/defense/wall_gate_energy"
 
 	BuildingDesc
 	{
 		buildable				"0"
-		name					"wall_gate_lvl_2"
-		bp						"buildings/defense/wall_gate_lvl_2"
+		name					"wall_gate_energy_lvl_2"
+		bp						"buildings/defense/wall_gate_energy_lvl_2"
 		category				"defense"
 
 		localization_id			"gui/hud/building_name/wall_gate"
 		description				"gui/hud/building_description/wall_gate"
-		menu_icon				"gui/hud/building_icons/wall_gate_lvl2"
+		menu_icon				"gui/hud/building_icons/wall_gate_energy_lvl2"
 
-		upgrade					"buildings/defense/wall_gate_lvl_3"
+		upgrade					"buildings/defense/wall_gate_energy_lvl_3"
 		require					"headquarters"
 
 		order					"2"
@@ -26,6 +26,7 @@ EntityBlueprint
 		block_rotation			"1"
 		exclude_terrain_types	"magma_hot_ground,magma_very_hot_ground"
 		check_connect			"1"
+		building_group			"wall_gate"
 
 		building_mode			"gateconstruction"
 
@@ -38,13 +39,14 @@ EntityBlueprint
 				building_cost
 				{
 					carbonium	"50"
+					steel		"50"
 				}
 			}
 		}
 
 		connect
 		{
-			I		"buildings/defense/wall_gate_lvl_2"
+			I		"buildings/defense/wall_gate_energy_lvl_2"
 		}
 	}
 
@@ -56,6 +58,20 @@ EntityBlueprint
 		{
 			building_time		float:"5"
 		}
+	}
+
+	ReflectDamageComponent
+	{
+		reflect_type	"flat_damage"	// health_ratio, damage_ratio, flat_damage
+		melee_only		"1"				// reflect only melee damage
+		damage_value	"30"
+		damage_type		"energy"		// optional, if not provided damage type will be set to "reflect"
+	}
+
+	ReflectHighlightComponent
+	{
+		submesh_idx		1
+		glow_factor		50
 	}
 
 	HealthDesc
@@ -90,12 +106,51 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh		"meshes/buildings/defense/wall_gate.mesh"
-		material	"buildings/defense/wall_gate_lvl_2"
+		mesh	"meshes/buildings/defense/wall_gate_energy_lvl_2.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id			"0"
+				material	"buildings/defense/wall_gate_energy_solid"
+			}
+
+			SubMesh
+			{
+				id			"1"
+				material	"buildings/defense/wall_gate_energy_energy"
+			}
+		}
 	}
 
 	SkeletonDesc
 	{
-		name	"meshes/buildings/defense/wall_gate"
+		name	"meshes/buildings/defense/wall_gate_energy_lvl_2"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/wall_gate_energy_lvl_2_ruins"
+
+	MeshDesc
+	{
+		mesh	"meshes/buildings/defense/wall_gate_energy_lvl_2_ruins.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id			"0"
+				material	"buildings/defense/wall_gate_energy_solid"
+			}
+
+			SubMesh
+			{
+				id			"1"
+				material	"buildings/main/buildings_ruins"
+			}
+		}
 	}
 }
