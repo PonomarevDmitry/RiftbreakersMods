@@ -291,3 +291,89 @@
 --
 --    LogService:Log(text)
 --end)
+
+
+
+
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    local inventoryComponent = EntityService:GetSingletonComponent("InventorySystemDataComponent")
+
+    if ( inventoryComponent ~= nil ) then
+
+        --local unlockedContainer = inventoryComponent:GetField("unlocked"):ToContainer()
+
+        --local item = nil
+
+        --item = unlockedContainer:CreateItem()
+        --item:SetValue("items/weapons/auto_shotgun_item")
+
+        local team = EntityService:GetTeam( "player" )
+
+        local researched = true
+
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_shotgun_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_shotgun_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_shotgun_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_shotgun_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_bouncing_blades_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_bouncing_blades_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_bouncing_blades_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_bouncing_blades_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_burst_rifle_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_burst_rifle_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_burst_rifle_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_burst_rifle_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_sniper_rifle_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_sniper_rifle_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_sniper_rifle_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_sniper_rifle_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_blaster_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_blaster_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_blaster_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_blaster_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_lava_gun_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_lava_gun_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_lava_gun_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_lava_gun_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_railgun_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_railgun_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_railgun_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_railgun_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_rocket_launcher_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_rocket_launcher_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_rocket_launcher_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_rocket_launcher_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_atom_bomb_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_atom_bomb_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_atom_bomb_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_atom_bomb_extreme_item", researched, team )
+        --
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_heavy_plasma_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_heavy_plasma_advanced_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_heavy_plasma_superior_item", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_heavy_plasma_extreme_item", researched, team )
+
+        --item = unlockedContainer:CreateItem()
+        --item:SetValue("items/weapons/auto_shotgun_advanced_item")
+        --
+        --item = unlockedContainer:CreateItem()
+        --item:SetValue("items/weapons/auto_shotgun_superior_item")
+        --
+        --item = unlockedContainer:CreateItem()
+        --item:SetValue("items/weapons/auto_shotgun_extreme_item")
+
+        --local inventoryComponentRef = reflection_helper( inventoryComponent )
+
+        --LogService:Log(tostring(inventoryComponentRef))
+    end
+end)
