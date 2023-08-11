@@ -4,7 +4,7 @@ TimeOfDayPreset
 	{
 		volumetric_fog_params
 		{
-			fog_height_falloff "0.085"
+			fog_height_falloff "0.045"
 			albedo
 			{
 				z "0.395"
@@ -27,7 +27,7 @@ TimeOfDayPreset
 			fog_height "20.000"
 			fade_in_distance "40.000"
 			fog_density "0.025"
-			fade_in_falloff "10.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.300"
@@ -77,7 +77,7 @@ TimeOfDayPreset
 	{
 		volumetric_fog_params
 		{
-			fog_height_falloff "0.085"
+			fog_height_falloff "0.045"
 			albedo
 			{
 				z "1.000"
@@ -100,7 +100,7 @@ TimeOfDayPreset
 			fog_height "40.000"
 			fade_in_distance "40.000"
 			fog_density "0.025"
-			fade_in_falloff "20.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.588"
@@ -150,7 +150,7 @@ TimeOfDayPreset
 	{
 		volumetric_fog_params
 		{
-			fog_height_falloff "0.085"
+			fog_height_falloff "0.045"
 			albedo
 			{
 				z "1.000"
@@ -161,19 +161,19 @@ TimeOfDayPreset
 
 			max_distance "100.000"
 			scattering_distribution "0.000"
-			extinction_scale "0.750"
+			extinction_scale "0.350"
 			emissive
 			{
-				z "0.000"
-				x "0.000"
-				y "0.000"
+				z "0.048"
+				x "0.048"
+				y "0.048"
 				w "1.000"
 			}
 
-			fog_height "15.000"
-			fade_in_distance "45.000"
+			fog_height "40.000"
+			fade_in_distance "50.000"
 			fog_density "0.025"
-			fade_in_falloff "10.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.100"
@@ -213,12 +213,12 @@ TimeOfDayPreset
 	{
 		volumetric_fog_params
 		{
-			fog_height_falloff "0.085"
+			fog_height_falloff "0.045"
 			albedo
 			{
-				z "0.031"
-				x "0.980"
-				y "0.263"
+				z "0.115"
+				x "0.909"
+				y "0.489"
 				w "1.000"
 			}
 
@@ -229,14 +229,14 @@ TimeOfDayPreset
 			{
 				z "0.000"
 				x "1.000"
-				y "0.244"
+				y "0.182"
 				w "1.000"
 			}
 
 			fog_height "20.000"
 			fade_in_distance "40.000"
 			fog_density "0.025"
-			fade_in_falloff "20.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.300"

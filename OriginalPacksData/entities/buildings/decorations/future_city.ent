@@ -1,0 +1,8108 @@
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_ad_01"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_ad_01.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "4.5	"
+						z "2.5"
+
+						position 
+						{
+							x "0.0"
+							y "2.25"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	BuildingDesc
+	{
+		name 				"future_city_ad_01"
+		bp   				"buildings/decorations/future_city_ad_01"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_ad_01"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		//building_group		"future_city_ad_01"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_orange"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_ad_02"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_ad_02.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "4.5	"
+						z "2.5"
+
+						position 
+						{
+							x "0.0"
+							y "2.25"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_ad_02"
+		bp   				"buildings/decorations/future_city_ad_02"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_ad_02"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_violet"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_ad_03"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_ad_03.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "4.5	"
+						z "2.5"
+
+						position 
+						{
+							x "0.0"
+							y "2.25"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_ad_03"
+		bp   				"buildings/decorations/future_city_ad_03"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_ad_03"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_blue"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_projector_01"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_projector_01.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}	
+	}
+	BuildingDesc
+	{
+		name 				"future_city_projector_01"
+		bp   				"buildings/decorations/future_city_projector_01"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_projector_01"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "4.5"
+						z "2.5"
+
+						position 
+						{
+							x "0.0"
+							y "2.25"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}	
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_orange"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_projector_02"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_projector_02.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+	BuildingDesc
+	{
+		name 				"future_city_projector_02"
+		bp   				"buildings/decorations/future_city_projector_02"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_projector_02"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "4.5"
+						z "2.5"
+
+						position 
+						{
+							x "0.0"
+							y "2.25"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}		
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_violet"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_projector_03"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_projector_03.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+	BuildingDesc
+	{
+		name 				"future_city_projector_03"
+		bp   				"buildings/decorations/future_city_projector_03"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_projector_03"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "4.5"
+						z "2.5"
+
+						position 
+						{
+							x "0.0"
+							y "2.25"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}		
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_wall_blue"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_01"
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/decorations/future_city_billboard_01"
+	}
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_01.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.6"
+						y "6"
+						z "7.6"
+
+						position 
+						{
+							x "-0.4"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	BuildingDesc
+	{
+		name 				"future_city_billboard_01"
+		bp   				"buildings/decorations/future_city_billboard_01"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_billboard_01"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}		
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "building_working"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	6
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_blue"								
+					bone "att_light_1"
+					random_delay "0.2"
+				}
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_violet"								
+					bone "att_light_2"
+					random_delay "0.2"
+				}	
+				Effect
+				{
+					blueprint "effects/buildings_decorations/billboard_engine"								
+					bone "att_engine"
+				}					
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_01_ruins"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_01_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+
+			SubMesh
+			{
+				id "2"
+				material "buildings/main/buildings_ruins"
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_02"
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/decorations/future_city_billboard_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_02.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.6"
+						y "6"
+						z "7.6"
+
+						position 
+						{
+							x "-0.4"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	BuildingDesc
+	{
+		name 				"future_city_billboard_02"
+		bp   				"buildings/decorations/future_city_billboard_02"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_billboard_02"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}		
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "building_working"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	6
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_blue"								
+					bone "att_light_1"
+					random_delay "0.2"
+				}
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_violet"								
+					bone "att_light_2"
+					random_delay "0.2"
+				}	
+				Effect
+				{
+					blueprint "effects/buildings_decorations/billboard_engine"								
+					bone "att_engine"
+				}					
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_02_ruins"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_02_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+
+			SubMesh
+			{
+				id "2"
+				material "buildings/main/buildings_ruins"
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_03"
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/decorations/future_city_billboard_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_03.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.6"
+						y "6"
+						z "7.6"
+
+						position 
+						{
+							x "-0.4"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	BuildingDesc
+	{
+		name 				"future_city_billboard_03"
+		bp   				"buildings/decorations/future_city_billboard_03"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_billboard_03"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}		
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "building_working"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	6
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_violet"								
+					bone "att_light_1"
+					random_delay "0.2"
+				}
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_blue"								
+					bone "att_light_2"
+					random_delay "0.2"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_decorations/billboard_engine"								
+					bone "att_engine"
+				}					
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_03_ruins"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_03_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+
+			SubMesh
+			{
+				id "2"
+				material "buildings/main/buildings_ruins"
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_04"
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/decorations/future_city_billboard_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_04.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.6"
+						y "6"
+						z "7.6"
+
+						position 
+						{
+							x "-0.4"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	BuildingDesc
+	{
+		name 				"future_city_billboard_04"
+		bp   				"buildings/decorations/future_city_billboard_04"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_billboard_04"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}		
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "building_working"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	6
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_violet"								
+					bone "att_light_1"
+					random_delay "0.2"
+				}
+				Effect
+				{
+					blueprint "lights/point/future_city_ad_blue"								
+					bone "att_light_2"
+					random_delay "0.2"
+				}	
+				Effect
+				{
+					blueprint "effects/buildings_decorations/billboard_engine"								
+					bone "att_engine"
+				}					
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_billboard_04_ruins"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_billboard_04_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+
+			SubMesh
+			{
+				id "2"
+				material "buildings/main/buildings_ruins"
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_arcade_01"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_arcade_01.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.3"
+						y "3.5"
+						z "1.3"
+
+						position 
+						{
+							x "-0.2"
+							y "1.75"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_arcade_01"
+		bp   				"buildings/decorations/future_city_arcade_01"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_arcade_01"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_arcade_02"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_arcade_02.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.3"
+						y "3.5"
+						z "1.3"
+
+						position 
+						{
+							x "-0.2"
+							y "1.75"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	BuildingDesc
+	{
+		name 				"future_city_arcade_02"
+		bp   				"buildings/decorations/future_city_arcade_02"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_arcade_02"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_lamp_white"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_lamp_white.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.7"
+						y "14"
+						z "0.7"
+
+						position 
+						{
+							x "0.4"
+							y "7"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_lamp_white"
+		bp   				"buildings/decorations/future_city_lamp_white"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_lamp_white"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_white"								
+					offset "-2 14 0"
+					orientation "0 -90 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_lamp_cyan"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_lamp_cyan.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.7"
+						y "14"
+						z "0.7"
+
+						position 
+						{
+							x "0.4"
+							y "7"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_lamp_cyan"
+		bp   				"buildings/decorations/future_city_lamp_cyan"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_lamp_cyan"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_blue"								
+					offset "-2 14 0"
+					orientation "0 -90 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_lamp_red"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_lamp_red.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.7"
+						y "14"
+						z "0.7"
+
+						position 
+						{
+							x "0.4"
+							y "7"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_lamp_red"
+		bp   				"buildings/decorations/future_city_lamp_red"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_lamp_red"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_orange"								
+					offset "-2 14 0"
+					orientation "0 -90 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_lamp_magenta"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_lamp_magenta.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.7"
+						y "14"
+						z "0.7"
+
+						position 
+						{
+							x "0.4"
+							y "7"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_lamp_magenta"
+		bp   				"buildings/decorations/future_city_lamp_magenta"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_lamp_magenta"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_violet"								
+					offset "-2 14 0"
+					orientation "0 -90 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_bins_01"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_bins_01.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.6"
+						y "1.6"
+						z "0.6"
+
+						position 
+						{
+							x "0"
+							y "0.8"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_bins_01"
+		bp   				"buildings/decorations/future_city_bins_01"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_bins_01"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_bins_02"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_bins_02.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+	
+		PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.6"
+						y "1.6"
+						z "0.6"
+
+						position 
+						{
+							x "0"
+							y "0.8"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_bins_02"
+		bp   				"buildings/decorations/future_city_bins_02"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_bins_02"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}	
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_bins_03"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_bins_03.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+		PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.6"
+						y "1.6"
+						z "0.6"
+
+						position 
+						{
+							x "0"
+							y "0.8"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_bins_03"
+		bp   				"buildings/decorations/future_city_bins_03"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_bins_03"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_bins_04"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_bins_04.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "0.6"
+						y "1.6"
+						z "1.8"
+
+						position 
+						{
+							x "0"
+							y "0.8"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_bins_04"
+		bp   				"buildings/decorations/future_city_bins_04"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_bins_04"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_hologram_01"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_hologram_01.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.2"
+						y "3.3"
+						z "2.2"
+
+						position 
+						{
+							x "0"
+							y "1.65"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_hologram_01"
+		bp   				"buildings/decorations/future_city_hologram_01"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_hologram_01"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_decorations/hologram"								
+					offset "0 4 0"
+				}				
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_hologram_01_ghost"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_hologram_01_ghost.mesh"
+		material "selector/hologram_blue"
+		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_wall_cyan"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_wall_cyan.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "6"
+						z "4"
+
+						position 
+						{
+							x "0"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_wall_cyan"
+		bp   				"buildings/decorations/future_city_wall_cyan"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_wall_cyan"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	4
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_wall_blue"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_wall_magenta"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_wall_magenta.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "6"
+						z "4"
+
+						position 
+						{
+							x "0"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_wall_magenta"
+		bp   				"buildings/decorations/future_city_wall_magenta"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_wall_magenta"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	4
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_wall_violet"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_wall_white"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_wall_white.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "6"
+						z "4"
+
+						position 
+						{
+							x "0"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	BuildingDesc
+	{
+		name 				"future_city_wall_white"
+		bp   				"buildings/decorations/future_city_wall_white"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_wall_white"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	4
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_wall_white"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_wall_red"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_wall_red.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "6"
+						z "4"
+
+						position 
+						{
+							x "0"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_wall_red"
+		bp   				"buildings/decorations/future_city_wall_red"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_wall_red"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	4
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}		
+	
+		EffectGroup
+		{
+			group "working"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/future_city_wall_orange"								
+					offset "0 3 0"
+					random_delay "0.2"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_vending_01"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_vending_01.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.5"
+						y "3"
+						z "1.5"
+
+						position 
+						{
+							x "0"
+							y "1.5"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_vending_01"
+		bp   				"buildings/decorations/future_city_vending_01"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_vending_01"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_vending_02"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_vending_02.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.5"
+						y "3"
+						z "1.5"
+
+						position 
+						{
+							x "0"
+							y "1.5"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_vending_02"
+		bp   				"buildings/decorations/future_city_vending_02"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_vending_02"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "buildings/decorations/future_city_vending_03"
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/future_city_vending_03.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
+			SubMesh
+			{
+				id "1"
+				material "buildings/decorations/future_city_posters"
+			}
+		}
+		
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.5"
+						y "3"
+						z "1.5"
+
+						position 
+						{
+							x "0"
+							y "1.5"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	BuildingDesc
+	{
+		name 				"future_city_vending_03"
+		bp   				"buildings/decorations/future_city_vending_03"
+		category 			"decorations"
+		type				"wall"
+		localization_id		"gui/hud/building_name/future_city"
+		description			"gui/hud/building_description/future_city"
+		menu_icon			"gui/hud/building_icons/future_city_vending_03"
+		build_on_water		"0"
+		require 			"headquarters"
+		order				"7"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		building_group		"future_city_ad_01"
+		buildable			"0"
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 5
+				building_cost
+				{
+					carbonium 	"250"		
+					steel 		"50"		
+				}
+			}		
+		}
+	}
+	
+	ResourceConverterDesc
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+		priority 1
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building_base.lua"
+		
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|decorations|wall"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+	}
+}

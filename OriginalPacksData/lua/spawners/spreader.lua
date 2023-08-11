@@ -81,15 +81,19 @@ function spreader:ClearFloors( spawned, position )
         signature="BuildingComponent",
         filter = function(entity)
 			local buildingType = BuildingService:GetBuildingType(entity)
-			return  buildingType == "floor" and EnvironmentService:GetTerrainTypeUnderEntity( entity ) ~= "acid_floor"
+			local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( entity )
+			LogService:Log("Terraintype: ".. terrainType) 
+			return  buildingType == "floor" and terrainType ~= "acid_floor"
         end
     };
 
 	local entities = FindService:FindEntitiesByPredicateInBox( VectorSub(position,size), VectorAdd(position, size), self.predicate )
 	for ent in Iter(entities) do
+		LogService:Log("To tu? :" .. tostring(ent))
 		EntityService:DissolveEntity( ent, 1.0 )
 		local children = EntityService:GetChildren( ent, false )
 		for child in Iter(children) do
+			LogService:Log(tostring(child))
 			EntityService:DissolveEntity( child, 1.0 )
 		end
 	end
@@ -230,12 +234,14 @@ function spreader:OnCollapseExecute( state )
 		Remove(self.branches, toDestroy);
 
 		if ( EntityService:IsAlive( toDestroy ) and HealthService:IsAlive( toDestroy )  ) then
+			LogService:Log(tostring(toDestroy))
 			EntityService:DissolveEntity( toDestroy, 1 )
 			break
 		end
 	end
 
 	if ( #self.branches == 0 ) then
+		LogService:Log(tostring(self.entity))
 		EntityService:DissolveEntity(self.entity, 1 )
 		state:Exit();
 		return;
@@ -265,6 +271,7 @@ function spreader:OnDestroyRequest( evt )
 		data:SetInt( "branch_" .. tostring(i), self.branches[i])
 	end
 	data:SetFloat( "collapse_interval" , self.collapse_interval )
+	LogService:Log("a"..tostring(self.entity))
 	EntityService:DissolveEntity(self.entity, 1)
 end
 
@@ -285,6 +292,7 @@ function spreader:OnChildDestroyRequest( evt )
 		EntityService:ChangeType( child, "prop" )
 		EntityService:RemoveComponent( child, "TeamComponent" )
 	end	
+	LogService:Log(tostring(child))
 	EntityService:DissolveEntity( child, 1.0, 15.0 )
 	if ( EntityService:GetComponent( child, "VegetationComponent") == nil) then
 		EntityService:RequestDestroyPattern( child, "default")
@@ -298,6 +306,8 @@ function spreader:OnLoad()
 		self.spots = FindService:GetSpotsInRadius( self.entity, 0, self.max_radius )
 		self.version = 1
 	end
+	self.predicate = nil
+	
 end
 
 function spreader:OnRelease()

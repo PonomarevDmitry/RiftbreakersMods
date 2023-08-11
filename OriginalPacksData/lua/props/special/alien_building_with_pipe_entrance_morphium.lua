@@ -10,7 +10,6 @@ end
 function alien_building_with_pipe_entrance_morphium:init()
 	building_base.init(self)	
 	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
-	self.createInfluence = false
 	BuildingService:DisableBuilding( self.entity )
 end
 
@@ -22,7 +21,7 @@ function alien_building_with_pipe_entrance_morphium:OnDeactivate()
 end
 
 function alien_building_with_pipe_entrance_morphium:OnActivate()
-	if ( self.createInfluence == true ) then
+	if ( EntityService:GetComponent(self.entity, "InfluenceComponent") == nil ) then
 		self:CreateInfluence()
 	end
 end
@@ -40,8 +39,7 @@ function alien_building_with_pipe_entrance_morphium:OnLuaGlobalEvent( event )
 	if "AlienBuildingScannedEvent" == event:GetEvent() then
 		BuildingService:EnableBuilding( self.entity )
 	elseif "InfluenceDeployFromAlienBuildingRequest" == event:GetEvent() then
-		self.createInfluence = true
-		if ( self.working ) then
+		if ( self.working and EntityService:GetComponent(self.entity, "InfluenceComponent") == nil ) then
 			self:CreateInfluence()
 		end
 	end

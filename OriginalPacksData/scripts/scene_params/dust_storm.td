@@ -15,7 +15,7 @@ TimeOfDayPreset
 
 			max_distance "100.000"
 			scattering_distribution "0.000"
-			extinction_scale "0.750"
+			extinction_scale "0.300"
 			emissive
 			{
 				z "0.149"
@@ -27,7 +27,7 @@ TimeOfDayPreset
 			fog_height "25.000"
 			fade_in_distance "40.000"
 			fog_density "0.025"
-			fade_in_falloff "20.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.210"
@@ -88,7 +88,7 @@ TimeOfDayPreset
 
 			max_distance "100.000"
 			scattering_distribution "0.000"
-			extinction_scale "0.750"
+			extinction_scale "0.500"
 			emissive
 			{
 				z "0.024"
@@ -100,7 +100,7 @@ TimeOfDayPreset
 			fog_height "40.000"
 			fade_in_distance "40.000"
 			fog_density "0.025"
-			fade_in_falloff "10.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.825"
@@ -161,19 +161,19 @@ TimeOfDayPreset
 
 			max_distance "100.000"
 			scattering_distribution "0.000"
-			extinction_scale "0.750"
+			extinction_scale "0.500"
 			emissive
 			{
-				z "0.007"
-				x "0.076"
-				y "0.051"
+				z "0.010"
+				x "0.124"
+				y "0.083"
 				w "1.000"
 			}
 
-			fog_height "20.000"
+			fog_height "25.000"
 			fade_in_distance "40.000"
 			fog_density "0.025"
-			fade_in_falloff "10.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.440"
@@ -224,7 +224,7 @@ TimeOfDayPreset
 
 			max_distance "100.000"
 			scattering_distribution "0.000"
-			extinction_scale "0.750"
+			extinction_scale "0.400"
 			emissive
 			{
 				z "0.231"
@@ -236,7 +236,7 @@ TimeOfDayPreset
 			fog_height "25.000"
 			fade_in_distance "40.000"
 			fog_density "0.025"
-			fade_in_falloff "20.000"
+			fade_in_falloff "2.000"
 		}
 
 		skybox_specular_intensity "0.300"

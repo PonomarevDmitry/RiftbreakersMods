@@ -64,6 +64,118 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name lights/anoryxian/big_violet_no_fog_shadowed
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.0082"
+		is_shadow_caster "1"
+		light_color
+		{
+			x "0.65"
+			y "0"
+			z "1"
+			w "200.0" 				// "500"
+		}
+		light_size 0.1
+		light_range "35" 			// "150"
+	}
+
+	AffectorDesc
+	{
+	 	AffectorLambdaDesc
+	 	{
+		 	affector_lambda LightPerlinAffector
+			{
+				const_value 	"5"
+				frequency    	"25"
+				persistance    	"0.1"
+				steps 			"5"
+			}
+	 	}
+	}
+	
+	UniqueShadowComponent
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name lights/anoryxian/depth_blue
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "5"
+		light_color
+		{
+			x "0.0"
+			y "0.3"
+			z "1.0"
+			w "300.0" 
+		}
+		light_range "25" 
+	}
+}
+
+EntityBlueprint
+{
+	name lights/anoryxian/big_blue_no_fog_shadowed
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.0082"
+		light_color
+		{
+			x "0.0"
+			y "0.3"
+			z "1.0"
+			w "200.0" 				// "500"
+		}
+		light_size 0.1
+		is_shadow_caster "1"		// "1"
+		light_range "35" 			// "150"
+	}
+
+	AffectorDesc
+	{
+	 	AffectorLambdaDesc
+	 	{
+		 	affector_lambda LightPerlinAffector
+			{
+				const_value 	"5"
+				frequency    	"25"
+				persistance    	"0.1"
+				steps 			"5"
+			}
+	 	}
+	}
+
+	UniqueShadowComponent
+	{
+	}
+}
+
+EntityBlueprint
+{
 	name lights/anoryxian/big_red
 
 	SceneEditorDesc
@@ -98,6 +210,30 @@ EntityBlueprint
 				steps 			"5"
 			}
 	 	}
+	}
+}
+
+EntityBlueprint
+{
+	name lights/anoryxian/depth_red
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "5"
+		light_color
+		{
+			x "1.0"
+			y "0.0"
+			z "0.0"
+			w "300.0" 
+		}
+		light_range "25" 
 	}
 }
 

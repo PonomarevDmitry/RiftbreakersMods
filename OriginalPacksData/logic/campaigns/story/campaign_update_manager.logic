@@ -1,8 +1,8 @@
-//editor "scroll(-1102.30,-284.73)|zoom(0.22)"
+//editor "scroll(373.58,692.43)|zoom(0.67)"
 FlowGraphTemplate
 {
-	version "11"
-	editor "5625"
+	version "12"
+	editor "5738"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -93,7 +93,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(543,342)"
+			//editor "layout(condition_true.xml)|pos(543,341)"
 			key "true"
 			self_id "logic_if_global_variable_1###true"
 			value
@@ -309,7 +309,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(entity_add_item.xml)|pos(1252,987)"
+			//editor "layout(entity_add_item.xml)|pos(1255,994)"
 			database
 			{
 				Integers
@@ -338,17 +338,205 @@ FlowGraphTemplate
 			self_id "entity_add_item_7"
 		}
 
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(565,1133)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.campaign_finished_earth"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(565,1399)"
+			key "true"
+			self_id "logic_if_global_variable_4###true"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_item.xml)|pos(1407,1537)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/awards/campaign_award_giver_item"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_item.lua"
+			self_id "entity_add_item_8"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(565,1473)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.campaign_finished_galatea"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(565,1739)"
+			key "true"
+			self_id "logic_if_global_variable_5###true"
+			value
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1169,1563)"
+			self_id "logic_or_1"
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "logic_if_global_variable_1|logic_if_global_variable_2|logic_if_global_variable_3"
+		default "logic_if_global_variable_1|logic_if_global_variable_2|logic_if_global_variable_3|logic_if_global_variable_4|logic_if_global_variable_5"
 		logic_if_global_variable_1 "logic_if_global_variable_1###true"
 		logic_if_global_variable_1###true "entity_add_item_5"
 		logic_if_global_variable_2 "logic_if_global_variable_2###true"
 		logic_if_global_variable_2###true "entity_add_item_6"
 		logic_if_global_variable_3 "logic_if_global_variable_3###true"
 		logic_if_global_variable_3###true "entity_add_item_7"
+		logic_if_global_variable_4 "logic_if_global_variable_4###true"
+		logic_if_global_variable_4###true "logic_or_1"
+		logic_if_global_variable_5 "logic_if_global_variable_5###true"
+		logic_if_global_variable_5###true "logic_or_1"
+		logic_or_1 "entity_add_item_8"
 	}
 
 	GraphComments
