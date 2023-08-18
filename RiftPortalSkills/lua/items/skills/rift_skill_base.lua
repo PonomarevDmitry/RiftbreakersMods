@@ -49,7 +49,7 @@ function rift_skill_base:SpawnTemporaryPortalInNeeded()
 
     local predicate = {
 
-        signature="RiftPointComponent",
+        signature = "RiftPointComponent",
 
         filter = function(entity)
 

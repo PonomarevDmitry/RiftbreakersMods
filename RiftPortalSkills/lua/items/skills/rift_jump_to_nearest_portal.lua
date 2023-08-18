@@ -16,7 +16,7 @@ function rift_jump_to_nearest_portal:OnActivate()
 
     local predicate = {
 
-        signature="RiftPointComponent",
+        signature = "RiftPointComponent",
 
         filter = function(entity)
 
