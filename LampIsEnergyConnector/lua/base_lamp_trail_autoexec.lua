@@ -7,13 +7,20 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     if ( player == nil or player == INVALID_ID ) then
         return
     end
-    
-    local skillName = "items/skills/base_lamp_trail"
 
-    local itemCount = ItemService:GetItemCount( player, skillName )
+    local skillList = {
 
-    if ( itemCount == 0 ) then
-        PlayerService:AddItemToInventory( playerId, skillName )
+        "items/skills/base_lamp_trail",
+        "items/skills/crystal_lamp_trail"
+    }
+
+    for skillName in Iter( skillList ) do
+
+        local itemCount = ItemService:GetItemCount( player, skillName )
+
+        if ( itemCount == 0 ) then
+            PlayerService:AddItemToInventory( playerId, skillName )
+        end
     end
 end)
 
@@ -26,13 +33,20 @@ RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
     if ( player == nil or player == INVALID_ID ) then
         return
     end
-    
-    local skillName = "items/skills/base_lamp_trail"
 
-    local itemCount = ItemService:GetItemCount( player, skillName )
+    local skillList = {
 
-    if ( itemCount == 0 ) then
-        PlayerService:AddItemToInventory( playerId, skillName )
+        "items/skills/base_lamp_trail",
+        "items/skills/crystal_lamp_trail"
+    }
+
+    for skillName in Iter( skillList ) do
+
+        local itemCount = ItemService:GetItemCount( player, skillName )
+
+        if ( itemCount == 0 ) then
+            PlayerService:AddItemToInventory( playerId, skillName )
+        end
     end
 end)
 
@@ -42,11 +56,11 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
-    if ( lowName ~= "base_lamp" ) then
+    if ( lowName ~= "base_lamp" and lowName ~= "crystal_lamp" ) then
         return
     end
 
-    local parameterName = "$base_lamp_trail_blueprint"
+    local parameterName = "$" .. lowName .. "_trail_blueprint"
 
     local selector = evt:GetEntity()
     if ( selector ) then

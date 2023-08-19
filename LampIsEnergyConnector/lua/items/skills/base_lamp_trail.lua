@@ -42,9 +42,11 @@ end
 
 function base_lamp_trail:GetLampBlueprint()
 
-    local defaultBlueprint = "buildings/decorations/base_lamp"
+    local blueprintDatabase = EntityService:GetBlueprintDatabase( self.entity )
 
-    local parameterName = "$base_lamp_trail_blueprint"
+    local defaultBlueprint = blueprintDatabase:GetString("defaultBlueprint")
+
+    local parameterName = blueprintDatabase:GetString("parameterName")
 
     local blueprintName = ""
 
@@ -153,7 +155,14 @@ function base_lamp_trail:OnActivate()
             EntityService:RemoveEntity(self.iconEntity)
         end
 
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( self.entity )
+
+        local skillIcon = blueprintDatabase:GetString("skill_icon")
+
         self.iconEntity = EntityService:SpawnAndAttachEntity( "items/skills/base_lamp_trail/icon", self.owner )
+
+        local database = EntityService:GetDatabase( self.iconEntity )
+        database:SetString("skill_icon", skillIcon)
 
         self:FillConnectorsList()
 
