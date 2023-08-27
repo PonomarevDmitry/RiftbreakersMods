@@ -33,6 +33,34 @@ function ghost_building:OnInit()
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
+
+    local typeName = ""
+    local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
+    if( buildingDesc ~= nil ) then
+        local buildingDescHelper = reflection_helper(buildingDesc)
+        typeName = buildingDescHelper.type
+    end
+
+    self.isBuildingWithGaps = false
+
+    if ( typeName == "tower" or typeName == "trap" ) then
+
+        self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
+
+        self.isBuildingWithGaps = true
+
+        local gridSize = BuildingService:GetBuildingGridSize(self.entity)
+
+        self.configNameCellGaps = "$" .. typeName .. "s_" .. tostring(gridSize.x) .. "_construction_cell_count"
+
+        local selectorDB = EntityService:GetDatabase( self.selector )
+
+        self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
+        self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
+
+        self.markerGapsConfig = -1
+        self.currentMarkerGaps = nil
+    end
 end
 
 function ghost_building:OnBuildingStartEvent( evt)
@@ -60,6 +88,34 @@ end
 
 function ghost_building:OnUpdate()
 
+    local cellGapsCount = 0
+
+    if ( self.isBuildingWithGaps ) then
+
+        cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
+
+        -- Correct Marker to show right number of wall layers
+        if ( self.markerGapsConfig ~= cellGapsCount or self.currentMarkerGaps == nil) then
+
+            -- Destroy old marker
+            if (self.currentMarkerGaps ~= nil) then
+
+                EntityService:RemoveEntity(self.currentMarkerGaps)
+                self.currentMarkerGaps = nil
+            end
+
+            local markerBlueprint = "misc/marker_selector_gaps_count_" .. tostring( cellGapsCount )
+
+            -- Create new marker
+            self.currentMarkerGaps = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+
+            -- Save number of wall layers
+            self.markerGapsConfig = cellGapsCount
+        end
+    end
+
+
+
     self:RemoveMaterialFromOldBuildingsToSell()
 
     self.oldBuildingsToSell = {}
@@ -76,10 +132,14 @@ function ghost_building:OnUpdate()
 
         local buildEndPosition = currentTransform.position
 
-        local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition )
+        local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition, cellGapsCount )
 
-        if ( self.gridEntities == nil ) then
-            self.gridEntities = {}
+        self.gridEntities = self.gridEntities or {}
+
+        local entityOrientation = currentTransform.orientation
+
+        if ( self.isBuildingWithGaps ) then
+            entityOrientation = self.buildStartPosition.orientation
         end
 
         local positionX, positionZ
@@ -120,7 +180,7 @@ function ghost_building:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = self:CreateNewEntity(newPosition, currentTransform.orientation, team)
+                    local lineEnt = self:CreateNewEntity(newPosition, entityOrientation, team)
 
                     Insert(gridEntitiesZ, lineEnt)
                 end
@@ -152,7 +212,7 @@ function ghost_building:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = self:CreateNewEntity(newPosition, currentTransform.orientation, team)
+                    local lineEnt = self:CreateNewEntity(newPosition, entityOrientation, team)
 
                     Insert(gridEntitiesZ, lineEnt)
                 end
@@ -179,12 +239,12 @@ function ghost_building:OnUpdate()
 
                 local transform = {}
                 transform.scale = currentTransform.scale
-                transform.orientation = currentTransform.orientation
+                transform.orientation = entityOrientation
                 transform.position = newPosition
 
                 local lineEnt = gridEntitiesZ[zNumber]
                 EntityService:SetPosition( lineEnt, newPosition)
-                EntityService:SetOrientation( lineEnt, transform.orientation )
+                EntityService:SetOrientation( lineEnt, entityOrientation )
 
                 local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, idCheckBuildable, false )
 
@@ -254,14 +314,14 @@ function ghost_building:CreateNewEntity(newPosition, orientation, team)
     return result
 end
 
-function ghost_building:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
+function ghost_building:FindPositionsToBuildLine(buildStartPosition, buildEndPosition, cellGapsCount)
 
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
 
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
 
-    local deltaX = gridSize.x * 2 * xSign
-    local deltaZ = gridSize.z * 2 * zSign
+    local deltaX = (gridSize.x + cellGapsCount) * 2 * xSign
+    local deltaZ = (gridSize.z + cellGapsCount) * 2 * zSign
 
     local smallDeltaX = (gridSize.x * xSign) / 2
     local smallDeltaZ = (gridSize.z * zSign) / 2
@@ -427,9 +487,7 @@ end
 
 function ghost_building:FinishLineBuild()
 
-    if ( self.nowBuildingLine == nil ) then
-        self.nowBuildingLine = false
-    end
+    self.nowBuildingLine = self.nowBuildingLine or false
 
     if ( self.nowBuildingLine ~= true ) then
 
@@ -537,6 +595,81 @@ function ghost_building:RemoveMaterialFromOldBuildingsToSell()
     end
 end
 
+function ghost_building:OnRotateSelectorRequest(evt)
+
+    if ( not self.isBuildingWithGaps ) then
+        return;
+    end
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local currentGapsConfig = self:CheckConfigExists(self.cellGapsCount)
+
+    local scaleWallGaps = self:GetGapsConfigArray()
+
+    local index = IndexOf( scaleWallGaps, currentGapsConfig )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #scaleWallGaps
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = 1
+    elseif( newIndex == 0 ) then
+        newIndex = maxIndex
+    end
+
+    local newValue = scaleWallGaps[newIndex]
+
+    self.cellGapsCount = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetInt(self.configNameCellGaps, newValue)
+
+    self:OnUpdate()
+end
+
+function ghost_building:CheckConfigExists( cellGapsCount )
+
+    local scaleWallGaps = self:GetGapsConfigArray()
+
+    cellGapsCount = cellGapsCount or scaleWallGaps[1]
+
+    local index = IndexOf(scaleWallGaps, cellGapsCount )
+
+    if ( index == nil ) then
+
+        return scaleWallGaps[1]
+    end
+
+    return cellGapsCount
+end
+
+function ghost_building:GetGapsConfigArray()
+
+    if ( self.scaleWallGaps == nil ) then
+
+        self.scaleWallGaps = {
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+        }
+    end
+
+    return self.scaleWallGaps
+end
+
 function ghost_building:OnRelease()
     self:ClearLastBuildPos()
 
@@ -548,6 +681,13 @@ function ghost_building:OnRelease()
                 EntityService:RemoveEntity(ghostEntity)
             end
         end
+    end
+
+    -- Destroy Marker with layers count
+    if (self.currentMarkerGaps ~= nil) then
+
+        EntityService:RemoveEntity(self.currentMarkerGaps)
+        self.currentMarkerGaps = nil
     end
 
     self.gridEntities = {}
