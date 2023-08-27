@@ -46,48 +46,9 @@ function sell_by_type_seller_tool:OnInit()
 
     self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
     self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
-    self.isType = (self.data:GetIntOrDefault("is_type", 0) == 1)
-
-    if ( self.isType ) then
-        self:SetTypeSetting()
-    end
 
     self.previousMarkedBuildings = {}
     self.radiusShowBuildings = 100.0
-end
-
-function sell_by_type_seller_tool:SetTypeSetting()
-
-    if ( self.selectedBuildingBlueprint == "" ) then
-        self.isGroup = true
-        self.isType = false
-        return
-    end
-
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
-        self.isGroup = true
-        self.isType = false
-        return
-    end
-
-    local buildingDesc = BuildingService:GetBuildingDesc( self.selectedBuildingBlueprint )
-    if ( buildingDesc == nil ) then
-        self.isGroup = true
-        self.isType = false
-        return
-    end
-
-    local buildingDescRef = reflection_helper( buildingDesc )
-
-    if ( buildingDescRef.type == nil or buildingDescRef.type == "" ) then
-        self.isGroup = true
-        self.isType = false
-        return
-    end
-
-    self.selectedType = buildingDescRef.type
-
-    LogService:Log("self.selectedType " .. self.selectedType)
 end
 
 function sell_by_type_seller_tool:SpawnCornerBlueprint()
@@ -154,13 +115,6 @@ function sell_by_type_seller_tool:IsEntityApproved( entity )
     if ( self.isGroup ) then
 
         if ( not self:IsBlueprintInLowNameList(blueprintName) ) then
-            return false
-        end
-    elseif ( self.isType ) then
-
-        local buildingDescRef = reflection_helper( buildingDesc )
-
-        if ( buildingDescRef.type ~= self.selectedType ) then
             return false
         end
     else
