@@ -180,33 +180,33 @@ function ghost_building_trapsconstruction:OnUpdate()
 
         if ( #self.gridEntities > #arrayX ) then
 
-            for xIndex=#self.gridEntities,#arrayX + 1,-1 do
+            for xNumber=#self.gridEntities,#arrayX + 1,-1 do
 
-                local gridEntitiesZ = self.gridEntities[xIndex]
+                local gridEntitiesZ = self.gridEntities[xNumber]
 
-                for zIndex=1,#gridEntitiesZ do
+                for zNumber=1,#gridEntitiesZ do
 
-                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+                    EntityService:RemoveEntity(gridEntitiesZ[zNumber])
 
-                    gridEntitiesZ[zIndex] = nil
+                    gridEntitiesZ[zNumber] = nil
                 end
 
-                self.gridEntities[xIndex] = nil
+                self.gridEntities[xNumber] = nil
             end
 
         elseif ( #self.gridEntities < #arrayX ) then
 
-            for xIndex=#self.gridEntities + 1 ,#arrayX do
+            for xNumber=#self.gridEntities + 1 ,#arrayX do
 
-                positionX = arrayX[xIndex]
+                positionX = arrayX[xNumber]
 
                 local gridEntitiesZ = {}
 
-                self.gridEntities[xIndex] = gridEntitiesZ
+                self.gridEntities[xNumber] = gridEntitiesZ
 
-                for zIndex=1,#arrayZ do
+                for zNumber=1,#arrayZ do
 
-                    positionZ = arrayZ[zIndex]
+                    positionZ = arrayZ[zNumber]
 
                     local newPosition = {}
 
@@ -221,24 +221,24 @@ function ghost_building_trapsconstruction:OnUpdate()
             end
         end
 
-        for xIndex=1,#arrayX do
+        for xNumber=1,#arrayX do
 
-            positionX = arrayX[xIndex]
+            positionX = arrayX[xNumber]
 
-            local gridEntitiesZ = self.gridEntities[xIndex]
+            local gridEntitiesZ = self.gridEntities[xNumber]
 
             if ( #gridEntitiesZ > #arrayZ ) then
 
-                for zIndex=#gridEntitiesZ,#arrayZ + 1,-1 do
-                    EntityService:RemoveEntity(gridEntitiesZ[zIndex])
-                    gridEntitiesZ[zIndex] = nil
+                for zNumber=#gridEntitiesZ,#arrayZ + 1,-1 do
+                    EntityService:RemoveEntity(gridEntitiesZ[zNumber])
+                    gridEntitiesZ[zNumber] = nil
                 end
 
             elseif ( #gridEntitiesZ < #arrayZ ) then
 
-                for zIndex=#gridEntitiesZ + 1 ,#arrayZ do
+                for zNumber=#gridEntitiesZ + 1 ,#arrayZ do
 
-                    positionZ = arrayZ[zIndex]
+                    positionZ = arrayZ[zNumber]
 
                     local newPosition = {}
 
@@ -253,21 +253,17 @@ function ghost_building_trapsconstruction:OnUpdate()
             end
         end
 
-        local boundsSize = { x=1.0, y=1.0, z=1.0 }
-
-        local vectorBounds = VectorMulByNumber(boundsSize , 2)
-
         local idCheckBuildable = 1
 
-        for xIndex=1,#arrayX do
+        for xNumber=1,#arrayX do
 
-            positionX = arrayX[xIndex]
+            positionX = arrayX[xNumber]
 
-            local gridEntitiesZ = self.gridEntities[xIndex]
+            local gridEntitiesZ = self.gridEntities[xNumber]
 
-            for zIndex=1,#arrayZ do
+            for zNumber=1,#arrayZ do
 
-                positionZ = arrayZ[zIndex]
+                positionZ = arrayZ[zNumber]
 
                 local newPosition = {}
 
@@ -281,10 +277,7 @@ function ghost_building_trapsconstruction:OnUpdate()
 
                 transform.orientation = self.buildStartPosition.orientation
 
-                local min = VectorSub(newPosition, vectorBounds)
-                local max = VectorAdd(newPosition, vectorBounds)
-
-                local lineEnt = gridEntitiesZ[zIndex]
+                local lineEnt = gridEntitiesZ[zNumber]
                 EntityService:SetPosition( lineEnt, newPosition )
                 EntityService:SetOrientation( lineEnt, transform.orientation )
 
@@ -554,13 +547,13 @@ function ghost_building_trapsconstruction:GetAllEntities()
 
     local result = {}
 
-    for xIndex=1,#self.gridEntities do
+    for xNumber=1,#self.gridEntities do
 
-        local gridEntitiesZ = self.gridEntities[xIndex]
+        local gridEntitiesZ = self.gridEntities[xNumber]
 
-        for zIndex=1,#gridEntitiesZ do
+        for zNumber=1,#gridEntitiesZ do
 
-            local entity = gridEntitiesZ[zIndex]
+            local entity = gridEntitiesZ[zNumber]
 
             Insert(result, entity)
         end
