@@ -110,8 +110,9 @@ EntityBlueprint
 			action			string:"sell_by_type_seller_tool"
 			template_name	string:"$sell_by_type_picker_tool.selectedbuilding"
 			marker_name		string:"misc/marker_selector_sell_by_type_seller_tool"
-
+			
 			is_group		int:"0"
+			is_type			int:"0"
 			place_ruins		int:"0"
 		}
 	}
@@ -180,6 +181,76 @@ EntityBlueprint
 			marker_name		string:"misc/marker_selector_sell_by_type_seller_group_tool"
 
 			is_group		int:"1"
+			is_type			int:"0"
+			place_ruins		int:"0"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/sell_by_type_seller_group_type"
+
+	BuildingDesc
+	{
+		name				"sell_by_type_seller_group_type"
+		bp					"buildings/tools/sell_by_type_seller_group_type"
+		ghost_bp			"buildings/tools/sell_by_type_seller_group_type_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/sell_by_type_seller_group_type_tool"
+		description			"gui/hud/building_description/sell_by_type_seller_group_type_tool"
+		menu_icon			"gui/hud/tools_icons/sell_by_type_seller_group_type_tool"
+
+		order				"50"
+		type				"sell"
+
+		building_group		"sell_by_type_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/sell_by_type_seller_group_type_ghost"
+
+	BuildingDesc
+	{
+		name				"sell_by_type_seller_group_type_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/sell_by_type_seller_tool.lua"
+		database
+		{
+			action			string:"sell_by_type_seller_tool"
+			template_name	string:"$sell_by_type_picker_tool.selectedbuilding"
+			marker_name		string:"misc/marker_selector_sell_by_type_seller_group_type_tool"
+
+			is_group		int:"0"
+			is_type			int:"1"
 			place_ruins		int:"0"
 		}
 	}
@@ -248,6 +319,7 @@ EntityBlueprint
 			marker_name		string:"misc/marker_selector_sell_by_type_seller_ruin_tool"
 
 			is_group		int:"0"
+			is_type			int:"0"
 			place_ruins		int:"1"
 		}
 	}
@@ -316,6 +388,76 @@ EntityBlueprint
 			marker_name		string:"misc/marker_selector_sell_by_type_seller_ruin_group_tool"
 
 			is_group		int:"1"
+			is_type			int:"0"
+			place_ruins		int:"1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/sell_by_type_seller_ruin_group_type"
+
+	BuildingDesc
+	{
+		name				"sell_by_type_seller_ruin_group_type"
+		bp					"buildings/tools/sell_by_type_seller_ruin_group_type"
+		ghost_bp			"buildings/tools/sell_by_type_seller_ruin_group_type_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/sell_by_type_seller_ruin_group_type_tool"
+		description			"gui/hud/building_description/sell_by_type_seller_ruin_group_type_tool"
+		menu_icon			"gui/hud/tools_icons/sell_by_type_seller_ruin_group_type_tool"
+
+		order				"50"
+		type				"sell"
+
+		building_group		"sell_by_type_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/sell_by_type_seller_ruin_group_type_ghost"
+
+	BuildingDesc
+	{
+		name				"sell_by_type_seller_ruin_group_type_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/sell_by_type_seller_tool.lua"
+		database
+		{
+			action			string:"sell_by_type_seller_tool"
+			template_name	string:"$sell_by_type_picker_tool.selectedbuilding"
+			marker_name		string:"misc/marker_selector_sell_by_type_seller_ruin_group_type_tool"
+
+			is_group		int:"0"
+			is_type			int:"1"
 			place_ruins		int:"1"
 		}
 	}
