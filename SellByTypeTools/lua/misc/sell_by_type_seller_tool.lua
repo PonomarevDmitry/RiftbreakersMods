@@ -47,8 +47,36 @@ function sell_by_type_seller_tool:OnInit()
     self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
     self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
 
+    self:SetTypeSetting()
+
     self.previousMarkedBuildings = {}
     self.radiusShowBuildings = 100.0
+end
+
+function sell_by_type_seller_tool:SetTypeSetting()
+
+    self.selectedType = ""
+
+    if ( self.selectedBuildingBlueprint == "" ) then
+        return
+    end
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+        return
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( self.selectedBuildingBlueprint )
+    if ( buildingDesc == nil ) then
+        return
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+
+    if ( buildingDescRef.type == nil or buildingDescRef.type == "" ) then
+        return
+    end
+
+    self.selectedType = buildingDescRef.type
 end
 
 function sell_by_type_seller_tool:SpawnCornerBlueprint()
@@ -114,8 +142,18 @@ function sell_by_type_seller_tool:IsEntityApproved( entity )
 
     if ( self.isGroup ) then
 
-        if ( not self:IsBlueprintInLowNameList(blueprintName) ) then
-            return false
+        if ( self.selectedType == "tower" or self.selectedType == "trap" ) then
+
+            local buildingDescRef = reflection_helper( buildingDesc )
+
+            if ( buildingDescRef.type ~= self.selectedType ) then
+                return false
+            end
+        else
+
+            if ( not self:IsBlueprintInLowNameList(blueprintName) ) then
+                return false
+            end
         end
     else
 
