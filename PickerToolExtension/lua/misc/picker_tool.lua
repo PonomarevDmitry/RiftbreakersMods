@@ -550,7 +550,7 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
         return false
     end
 
-    local baseDesc= BuildingService:FindBaseBuilding( blueprintName )
+    local baseDesc = BuildingService:FindBaseBuilding( blueprintName )
     if  (baseDesc ~= nil ) then
         buildingDesc = baseDesc
     end
