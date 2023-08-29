@@ -1,0 +1,401 @@
+local tool = require("lua/misc/tool.lua")
+require("lua/utils/table_utils.lua")
+
+class 'buildings_tool_base' ( tool )
+
+function buildings_tool_base:__init()
+    tool.__init(self,self)
+end
+
+function buildings_tool_base:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
+function buildings_tool_base:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
+end
+
+function buildings_tool_base:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
+end
+
+function buildings_tool_base:HideMarkerMessage()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
+    markerDB:SetString("message_text", "")
+    markerDB:SetInt("message_visible", 0)
+end
+
+function buildings_tool_base:FillMarkerMessageWithBuildingsIcons(templateName)
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
+    local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+
+    if ( templateString == "" ) then
+
+        markerDB:SetString("message_text", "")
+        markerDB:SetInt("message_visible", 0)
+        return
+    end
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
+    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
+
+    local listIconsNames = {}
+    local hashIconsCount = {}
+
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+        local menuIcon = ""
+
+        if ( menuIcon == "" ) then
+
+            local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+            if ( baseBuildingDesc ~= nil ) then
+
+                local baseBuildingDescRef = reflection_helper( baseBuildingDesc )
+
+                menuIcon = baseBuildingDescRef.menu_icon or ""
+            end
+        end
+
+        if ( menuIcon == "" ) then
+            menuIcon = buildingDescRef.menu_icon or ""
+        end
+
+        if ( menuIcon == "" ) then
+
+            for i=1,buildingDescRef.connect.count do
+
+                local connectRecord = buildingDescRef.connect[i]
+
+                for j=1,connectRecord.value.count do
+
+                    local connectBlueprintName = connectRecord.value[j]
+
+                    local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
+
+                    if ( connectMenuIcon ~= "" ) then
+                        menuIcon = connectMenuIcon
+                        goto icon_found
+                    end
+                end
+            end
+        end
+
+        ::icon_found::
+
+        if ( menuIcon == "" ) then
+            goto continue
+        end
+
+        -- Split array of coordinates by ";"
+        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
+        if ( #entitiesCoordinatesArray > 0) then
+
+            if ( hashIconsCount[menuIcon] == nil ) then
+
+                Insert( listIconsNames, menuIcon )
+
+                hashIconsCount[menuIcon] = 0
+            end
+
+            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + #entitiesCoordinatesArray
+        end
+
+        ::continue::
+    end
+
+    local markerText = ""
+
+    for menuIcon in Iter( listIconsNames ) do
+
+        local count = hashIconsCount[menuIcon]
+
+        if ( count > 0 ) then
+
+            if ( string.len(markerText) > 0 ) then
+
+                markerText = markerText .. ", "
+            end
+
+            markerText = markerText .. '<img="' .. menuIcon .. '"> ' .. tostring(count)
+        end
+    end
+
+    if ( string.len(markerText) > 0 ) then
+
+        markerDB:SetString("message_text", markerText)
+    else
+
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
+    end
+
+    markerDB:SetInt("message_visible", 1)
+end
+
+function buildings_tool_base:GetBuildingMenuIcon( blueprintName )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return ""
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = buildingDescRef.menu_icon or ""
+
+    return menuIcon
+end
+
+function buildings_tool_base:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName)
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
+    -- templateString format:
+    -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
+
+    -- Delimiter between blueprints groups: "|"
+    -- Delimiter between blueprint name and array of entities coordinates: ":"
+    -- Delimiter between entities in array of entities coordinates: ";"
+    -- Delimiter between coordinates for single entity: ","
+    -- blueprint1, blueprint2 - blueprints names
+
+    -- ent1PosX, ent2PosX, ent3PosX, ent4PosX - entities relative position.x
+    -- ent1PosZ, ent2PosZ, ent3PosZ, ent4PosZ - entities relative position.z
+
+    -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
+    -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        return
+    end
+
+    local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+    if ( templateString == "" ) then
+
+        return
+    end
+
+
+
+    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
+
+
+    local hashBlueprints = {}
+    local listBlueprintsNames = {}
+
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+
+
+
+        local entityBlueprint = self:GetMaxAvailableLevel( blueprintName )
+        if ( entityBlueprint == "" ) then
+            goto continue
+        end
+
+        if ( hashBlueprints[entityBlueprint] == nil ) then
+
+            Insert( listBlueprintsNames, entityBlueprint )
+
+            hashBlueprints[entityBlueprint] = {}
+        end
+
+        local entitiesCoordinatesStringArray = hashBlueprints[entityBlueprint]
+
+        if ( #entitiesCoordinatesStringArray > 0 ) then
+            Insert( entitiesCoordinatesStringArray, delimiterEntitiesArray )
+        end
+
+        Insert( entitiesCoordinatesStringArray, entitiesCoordinatesString )
+
+        ::continue::
+    end
+
+
+
+    local templateStringArray = {}
+
+    for entityBlueprint in Iter( listBlueprintsNames ) do
+
+        if ( #templateStringArray > 0 ) then
+            Insert( templateStringArray, delimiterBlueprintsGroups )
+        end
+
+        Insert( templateStringArray, entityBlueprint )
+        Insert( templateStringArray, delimiterBlueprintName )
+
+        local entitiesCoordinates = hashBlueprints[entityBlueprint]
+
+        for str in Iter( entitiesCoordinates ) do
+            Insert( templateStringArray, str )
+        end
+    end
+
+    local templateString = table.concat( templateStringArray )
+
+    campaignDatabase:SetString( templateName, templateString )
+end
+
+function buildings_tool_base:GetMaxAvailableLevel( blueprintName )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return ""
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    if ( buildingDescRef.upgrade ~= nil and buildingDescRef.upgrade ~= "" ) then
+
+        if ( self:IsBlueprintAvailable( buildingDescRef.upgrade ) ) then
+
+            return self:GetMaxAvailableLevel( buildingDescRef.upgrade )
+        end
+    end
+
+    return blueprintName
+end
+
+function buildings_tool_base:IsBlueprintAvailable( blueprintName )
+
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        return true
+    end
+
+    local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
+    if ( researchName ~= "" ) then
+
+        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function buildings_tool_base:GetResearchForUpgrade( blueprintName )
+
+    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+
+    local categories = researchComponent.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+        local category_nodes = category.nodes
+
+        for j=1,category_nodes.count do
+
+            local node = category_nodes[j]
+
+            local awards = node.research_awards
+            for k=1,awards.count do
+
+                if awards[k].blueprint == blueprintName then
+
+                    return node.research_name
+                end
+            end
+        end
+    end
+
+    return ""
+end
+
+return buildings_tool_base
