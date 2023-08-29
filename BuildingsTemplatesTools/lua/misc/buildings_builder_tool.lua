@@ -12,7 +12,7 @@ end
 function buildings_builder_tool:init()
 
     self.stateMachine = self:CreateStateMachine()
-    self.stateMachine:AddState( "working", { enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
+    self.stateMachine:AddState( "working", { execute="OnWorkExecute" } )
     self.stateMachine:ChangeState("working")
 
     self:InitializeValues()
@@ -644,12 +644,6 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     end
 
     return testBuildable.flag
-end
-
-function buildings_builder_tool:OnWorkEnter()
-end
-
-function buildings_builder_tool:OnWorkExit()
 end
 
 function buildings_builder_tool:OnWorkExecute()
