@@ -403,8 +403,6 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     local templateString = table.concat( templateStringArray )
 
-    --LogService:Log("OnRelease self.template_name " .. self.template_name .. " templateString " .. templateString )
-
     campaignDatabase:SetString( self.template_name, templateString )
 end
 

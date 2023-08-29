@@ -42,8 +42,6 @@ function buildings_upgrader_all_tool:FillMarkerMessage()
 
         local templateName = self.templateFormat .. string.format( "%02d", number )
 
-        LogService:Log("templateName " .. templateName)
-
         local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
         if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -55,8 +53,6 @@ function buildings_upgrader_all_tool:FillMarkerMessage()
             markerText = markerText .. tostring(number)
         end
     end
-
-    LogService:Log("markerText " .. markerText)
 
     if ( string.len(markerText) > 0 ) then
 
