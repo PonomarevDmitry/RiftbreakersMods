@@ -94,6 +94,8 @@ end
 
 function eraser_rocks_tool:OnActivateEntity( entity )
 
+    EntityService:DisableCollisions( entity )
+
     EntityService:ChangePhysicsGroupId( entity, "destructible" )
 
     BuildingService:DisablePhysics( entity )
