@@ -37,6 +37,7 @@ end
 
 function wall_gate:MoveDown()
 	if ( self.down == false ) then
+		AnimationService:StopAnim( self.entity, "move_up")
 		AnimationService:StartAnim( self.entity, "move_down", false, 5 )
 		EffectService:AttachEffects( self.entity, "down" )
 		self.down = true
@@ -62,6 +63,7 @@ end
 
 function wall_gate:MoveUp()
 	if ( self.down == true ) then		
+		AnimationService:StopAnim( self.entity, "move_down")
 		AnimationService:StartAnim( self.entity, "move_up",false, 5 )
 		EffectService:AttachEffects( self.entity, "up" )
 		self:DestroyWrecks();
