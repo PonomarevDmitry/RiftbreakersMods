@@ -102,7 +102,12 @@ function eraser_rocks_tool:OnActivateEntity( entity )
 
     EntityService:RemoveComponent( entity, "PhysicsComponent" )
 
-    QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+    --QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+
+    local dissolveTime = RandFloat( 1.0, 2.0 )
+    EntityService:DissolveEntity( entity, dissolveTime )
+
+    EntityService:RequestDestroyPattern( entity, "" )
 end
 
 return eraser_rocks_tool
