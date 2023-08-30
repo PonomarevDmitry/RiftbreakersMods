@@ -62,6 +62,37 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
 
 
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_01")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_02")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_03")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_04")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_05")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_06")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_07")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_08")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_09")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_10")
+
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_11")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_12")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_13")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_14")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_15")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_16")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_17")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_18")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_19")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_20")
+
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_21")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_22")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_23")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_builder_mass_24")
+
+
+
+
+
     BuildingService:UnlockBuilding("buildings/tools/buildings_upgrader")
 
     BuildingService:UnlockBuilding("buildings/tools/buildings_upgrader_01")
