@@ -22,7 +22,7 @@ function buildings_builder_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
 
-    local marker = self.data:GetString("marker")
+    self.marker = self.data:GetString("marker")
     self.template_name = self.data:GetString("template_name")
 
     self.templateEntities = {}
@@ -70,7 +70,7 @@ function buildings_builder_tool:InitializeValues()
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
     EntityService:SetVisible( self.entity, false )
 
-    local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. marker
+    local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. self.marker
     self.markerEntity = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
     self:SpawnBuildinsTemplates()
@@ -111,7 +111,12 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     templateString = templateString or ""
 
     if ( templateString == "" ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/empty_template")
+
+        local templateCaption = "gui/hud/building_templates/template_" .. self.marker
+
+        local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
+
+        markerDB:SetString("message_text", markerText)
         markerDB:SetInt("message_visible", 1)
         return
     end
@@ -773,6 +778,7 @@ function buildings_builder_tool:OnRelease()
 
     if ( self.markerEntity ~= nil ) then
         EntityService:RemoveEntity(self.markerEntity)
+        self.markerEntity = nil
     end
 
     for buildingTemplate in Iter(self.templateEntities) do

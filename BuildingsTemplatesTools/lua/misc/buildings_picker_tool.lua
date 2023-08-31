@@ -46,20 +46,21 @@ function buildings_picker_tool:FillMarkerMessage()
         return
     end
 
+    local templateCaption = "gui/hud/building_templates/template_" .. self.marker
+
+    local markerText = "${" .. templateCaption .. "}: "
+
     local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
 
     if ( string.len(buildingsIcons) > 0 ) then
 
-        local templateCaption = "gui/hud/building_templates/template_" .. self.marker
-
-        local markerText = "${" .. templateCaption .. "}: " .. buildingsIcons
-
-        markerDB:SetString("message_text", markerText)
+        markerText = markerText .. buildingsIcons
     else
 
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
+        markerText = markerText .. "${gui/hud/messages/buildings_tool_base/template_already_created}"
     end
 
+    markerDB:SetString("message_text", markerText)
     markerDB:SetInt("message_visible", 1)
 end
 
