@@ -9,8 +9,8 @@ end
 
 function buildings_picker_tool:OnInit()
 
-    local marker = self.data:GetString("marker")
-    local markerBlueprint = "misc/marker_selector_buildings_picker_tool_" .. marker
+    self.marker = self.data:GetString("marker")
+    local markerBlueprint = "misc/marker_selector_buildings_picker_tool_" .. self.marker
 
     self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     self.popupShown = false
@@ -19,11 +19,48 @@ function buildings_picker_tool:OnInit()
 
     self.template_name = self.data:GetString("template_name")
 
-    self:FillMarkerMessageWithBuildingsIcons(self.template_name)
+    self:FillMarkerMessage()
 
     self.previousMarkedRuins = {}
     -- Radius from player to highlight
     self.radiusShowRuins = 100.0
+end
+
+function buildings_picker_tool:FillMarkerMessage()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
+    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
+
+    if ( templateString == "" ) then
+
+        markerDB:SetString("message_text", "")
+        markerDB:SetInt("message_visible", 0)
+        return
+    end
+
+    local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
+
+    if ( string.len(buildingsIcons) > 0 ) then
+
+        local templateCaption = "gui/hud/building_templates/template_" .. self.marker
+
+        local markerText = "${" .. templateCaption .. "}: " .. buildingsIcons
+
+        markerDB:SetString("message_text", markerText)
+    else
+
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
+    end
+
+    markerDB:SetInt("message_visible", 1)
 end
 
 function buildings_picker_tool:AddedToSelection( entity )

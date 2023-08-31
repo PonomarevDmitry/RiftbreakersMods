@@ -25,36 +25,11 @@ function buildings_tool_base:HideMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
-        return
-    end
-
     markerDB:SetString("message_text", "")
     markerDB:SetInt("message_visible", 0)
 end
 
-function buildings_tool_base:FillMarkerMessageWithBuildingsIcons(templateName)
-
-    local markerDB = EntityService:GetDatabase( self.childEntity )
-
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
-        return
-    end
-
-    local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
-
-    if ( templateString == "" ) then
-
-        markerDB:SetString("message_text", "")
-        markerDB:SetInt("message_visible", 0)
-        return
-    end
+function buildings_tool_base:GetTemplateBuildingsIcons(templateString)
 
     local delimiterBlueprintsGroups = "|";
     local delimiterBlueprintName = ":";
@@ -95,44 +70,7 @@ function buildings_tool_base:FillMarkerMessageWithBuildingsIcons(templateName)
             goto continue
         end
 
-        local menuIcon = ""
-
-        if ( menuIcon == "" ) then
-
-            local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
-            if ( baseBuildingDesc ~= nil ) then
-
-                local baseBuildingDescRef = reflection_helper( baseBuildingDesc )
-
-                menuIcon = baseBuildingDescRef.menu_icon or ""
-            end
-        end
-
-        if ( menuIcon == "" ) then
-            menuIcon = buildingDescRef.menu_icon or ""
-        end
-
-        if ( menuIcon == "" ) then
-
-            for i=1,buildingDescRef.connect.count do
-
-                local connectRecord = buildingDescRef.connect[i]
-
-                for j=1,connectRecord.value.count do
-
-                    local connectBlueprintName = connectRecord.value[j]
-
-                    local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
-
-                    if ( connectMenuIcon ~= "" ) then
-                        menuIcon = connectMenuIcon
-                        goto icon_found
-                    end
-                end
-            end
-        end
-
-        ::icon_found::
+        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
         if ( menuIcon == "" ) then
             goto continue
@@ -172,36 +110,80 @@ function buildings_tool_base:FillMarkerMessageWithBuildingsIcons(templateName)
         end
     end
 
-    if ( string.len(markerText) > 0 ) then
-
-        markerDB:SetString("message_text", markerText)
-    else
-
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
-    end
-
-    markerDB:SetInt("message_visible", 1)
+    return markerText
 end
 
-function buildings_tool_base:GetBuildingMenuIcon( blueprintName )
+function buildings_tool_base:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-        return ""
+    self.cacheBlueprintsMenuIcons = self.cacheBlueprintsMenuIcons or {}
+
+    if ( self.cacheBlueprintsMenuIcons[blueprintName] == nil ) then
+
+        self.cacheBlueprintsMenuIcons[blueprintName] = self:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
     end
 
-    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( buildingDesc == nil ) then
-        return ""
+    return self.cacheBlueprintsMenuIcons[blueprintName]
+end
+
+function buildings_tool_base:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
+
+    local menuIcon = ""
+
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if ( baseBuildingDesc ~= nil ) then
+
+        local baseBuildingDescRef = reflection_helper( baseBuildingDesc )
+
+        menuIcon = baseBuildingDescRef.menu_icon or ""
+
+        if ( menuIcon ~= "" ) then
+            return menuIcon
+        end
     end
 
-    local buildingDescRef = reflection_helper( buildingDesc )
-    if ( buildingDescRef == nil ) then
-        return ""
+
+    menuIcon = buildingDescRef.menu_icon or ""
+
+    if ( menuIcon ~= "" ) then
+        return menuIcon
     end
 
-    local menuIcon = buildingDescRef.menu_icon or ""
+    if ( buildingDescRef.connect.count > 0 ) then
 
-    return menuIcon
+        for i=1,buildingDescRef.connect.count do
+
+            local connectRecord = buildingDescRef.connect[i]
+
+            for j=1,connectRecord.value.count do
+
+                local connectBlueprintName = connectRecord.value[j]
+
+                if ( not ResourceManager:ResourceExists( "EntityBlueprint", connectBlueprintName ) ) then
+                    goto continue
+                end
+
+                local connectBuildingDesc = BuildingService:GetBuildingDesc( connectBlueprintName )
+                if ( connectBuildingDesc == nil ) then
+                    goto continue
+                end
+
+                local connectBuildingDescRef = reflection_helper( connectBuildingDesc )
+                if ( connectBuildingDescRef == nil ) then
+                    goto continue
+                end
+
+                local menuIcon = connectBuildingDescRef.menu_icon or ""
+
+                if ( menuIcon ~= "" ) then
+                    return menuIcon
+                end
+            end
+
+            ::continue::
+        end
+    end
+
+    return ""
 end
 
 function buildings_tool_base:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName)
@@ -370,6 +352,18 @@ function buildings_tool_base:IsBlueprintAvailable( blueprintName )
 end
 
 function buildings_tool_base:GetResearchForUpgrade( blueprintName )
+
+    self.cacheBlueprintsResearches = self.cacheBlueprintsResearches or {}
+
+    if ( self.cacheBlueprintsResearches[blueprintName] == nil ) then
+
+        self.cacheBlueprintsResearches[blueprintName] = self:CalculateResearchForUpgrade( blueprintName )
+    end
+
+    return self.cacheBlueprintsResearches[blueprintName]
+end
+
+function buildings_tool_base:CalculateResearchForUpgrade( blueprintName )
 
     local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
 
