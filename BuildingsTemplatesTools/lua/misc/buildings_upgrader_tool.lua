@@ -9,19 +9,47 @@ end
 
 function buildings_upgrader_tool:OnInit()
 
-    self.marker = self.data:GetString("marker")
-    local markerBlueprint = "misc/marker_selector_buildings_upgrader_tool_" .. self.marker
-
-    self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
-    self.popupShown = false
-
     self.scaleMap = {
         1,
     }
 
-    self.template_name = self.data:GetString("template_name")
+    self.popupShown = false
+
+    self.allTemplatesName = "all"
+
+    self.selectedTemplate = self.allTemplatesName;
+
+    self.numberFrom = self.data:GetInt("number_from")
+    self.numberTo = self.data:GetInt("number_to")
+    self.templateFormat = self.data:GetString("template_format")
+
+    self.currentChildTemplate = ""
+    self.childEntity = nil
+
+    self:UpdateMarker()
 
     self:FillMarkerMessage()
+end
+
+function buildings_upgrader_tool:UpdateMarker()
+
+    if ( self.currentChildTemplate ~= self.selectedTemplate or self.childEntity == nil) then
+
+        -- Destroy old marker
+        if (self.childEntity ~= nil) then
+
+            EntityService:RemoveEntity(self.childEntity)
+            self.childEntity = nil
+        end
+
+        local markerBlueprint = "misc/marker_selector_buildings_upgrader_tool_" .. self.selectedTemplate
+
+        -- Create new marker
+        self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+
+        -- Save number of wall layers
+        self.currentChildTemplate = self.selectedTemplate
+    end
 end
 
 function buildings_upgrader_tool:FillMarkerMessage()
@@ -35,30 +63,67 @@ function buildings_upgrader_tool:FillMarkerMessage()
         return
     end
 
-    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
+    if ( self.selectedTemplate == self.allTemplatesName ) then
 
-    if ( templateString == "" ) then
+        local templatesStr = ""
 
-        markerDB:SetString("message_text", "")
-        markerDB:SetInt("message_visible", 0)
-        return
-    end
+        for number=self.numberFrom,self.numberTo do
 
-    local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
+            local templateName = self.templateFormat .. string.format( "%02d", number )
 
-    if ( string.len(buildingsIcons) > 0 ) then
+            local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+            if ( templateString ~= nil and templateString ~= "" ) then
 
-        local templateCaption = "gui/hud/building_templates/template_" .. self.marker
+                if ( string.len(templatesStr) > 0 ) then
 
-        local markerText = "${" .. templateCaption .. "}: " .. buildingsIcons
+                    templatesStr = templatesStr .. ", "
+                end
 
-        markerDB:SetString("message_text", markerText)
+                templatesStr = templatesStr .. tostring(number)
+            end
+        end
+
+        if ( string.len(templatesStr) > 0 ) then
+
+            local markerText = "${gui/hud/building_name/buildings_upgrader_tool}: " .. templatesStr
+
+            markerDB:SetString("message_text", markerText)
+        else
+
+            markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_empty")
+        end
+
+        markerDB:SetInt("message_visible", 1)
+
     else
 
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
-    end
+        local templateName = self.templateFormat .. self.selectedTemplate
 
-    markerDB:SetInt("message_visible", 1)
+        local templateCaption = "gui/hud/building_templates/upgrade_template_" .. self.selectedTemplate
+
+        local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+        if ( templateString == "" ) then
+
+            local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
+
+            markerDB:SetString("message_text", markerText)
+        else
+
+            local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
+
+            if ( string.len(buildingsIcons) > 0 ) then
+
+                local markerText = "${" .. templateCaption .. "}: " .. buildingsIcons
+
+                markerDB:SetString("message_text", markerText)
+            else
+
+                markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
+            end
+        end
+
+        markerDB:SetInt("message_visible", 1)
+    end
 end
 
 function buildings_upgrader_tool:AddedToSelection( entity )
@@ -75,11 +140,94 @@ function buildings_upgrader_tool:FindEntitiesToSelect( selectorComponent )
     return {}
 end
 
+function buildings_upgrader_tool:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local currentTemplate = self:CheckTemplateExists(self.selectedTemplate)
+
+    local templatesArray = self:GetTemplatesArray()
+
+    local index = IndexOf( templatesArray, currentTemplate )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #templatesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = 1
+    elseif( newIndex == 0 ) then
+        newIndex = maxIndex
+    end
+
+    local newValue = templatesArray[newIndex]
+
+    self.selectedTemplate = newValue
+
+    --local selectorDB = EntityService:GetDatabase( self.selector )
+    --selectorDB:SetInt(self.configNameCellGaps, newValue)
+
+    self:UpdateMarker()
+
+    self:FillMarkerMessage()
+end
+
+function buildings_upgrader_tool:CheckTemplateExists( selectedTemplate )
+
+    local templatesArray = self:GetTemplatesArray()
+
+    selectedTemplate = selectedTemplate or templatesArray[1]
+
+    local index = IndexOf(templatesArray, selectedTemplate )
+
+    if ( index == nil ) then
+
+        return templatesArray[1]
+    end
+
+    return selectedTemplate
+end
+
+function buildings_upgrader_tool:GetTemplatesArray()
+
+    if ( self.templatesArray == nil ) then
+
+        self.templatesArray = { self.allTemplatesName }
+
+        for number=self.numberFrom,self.numberTo do
+
+            local templateName = string.format( "%02d", number )
+
+            Insert( self.templatesArray, templateName )
+        end
+    end
+
+    return self.templatesArray
+end
+
 function buildings_upgrader_tool:OnActivateSelectorRequest()
 
-    self.activated = true
+    if ( self.selectedTemplate == self.allTemplatesName ) then
 
-    self:UpgradeBlueprintsInTemplateAndSaveToDatabase(self.template_name)
+        for number=self.numberFrom,self.numberTo do
+
+            local templateName = self.templateFormat .. string.format( "%02d", number )
+
+            self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName)
+        end
+    else
+
+        local templateName = self.templateFormat .. self.selectedTemplate
+
+        self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName)
+    end
 
     self:FillMarkerMessage()
 end
