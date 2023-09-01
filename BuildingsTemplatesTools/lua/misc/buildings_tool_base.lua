@@ -115,6 +115,125 @@ function buildings_tool_base:GetTemplateBuildingsIcons(templateString)
     return markerText
 end
 
+function buildings_tool_base:GetTemplateBuildingsIconsToUpgrade(templateString)
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
+    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
+
+    local listIconsNames = {}
+    local hashIconsCount = {}
+
+    local listIconsNamesToUpgrade = {}
+    local hashIconsCountToUpgrade = {}
+
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+
+        if ( menuIcon == "" ) then
+            goto continue
+        end
+
+
+        local maxUpgradeBlueprintName = self:GetMaxAvailableLevel( blueprintName )
+        if ( maxUpgradeBlueprint == "" ) then
+            goto continue
+        end
+
+        local list = listIconsNames
+        local hash = hashIconsCount
+
+        if ( maxUpgradeBlueprintName ~= blueprintName ) then
+
+            list = listIconsNamesToUpgrade
+            hash = hashIconsCountToUpgrade
+        end
+
+        -- Split array of coordinates by ";"
+        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
+        if ( #entitiesCoordinatesArray > 0) then
+
+            if ( hash[menuIcon] == nil ) then
+
+                Insert( list, menuIcon )
+
+                hash[menuIcon] = 0
+            end
+
+            hash[menuIcon] = hash[menuIcon] + #entitiesCoordinatesArray
+        end
+
+        ::continue::
+    end
+
+    local markerText = ""
+
+    for menuIcon in Iter( listIconsNames ) do
+
+        local count = hashIconsCount[menuIcon]
+
+        if ( count > 0 ) then
+
+            if ( string.len(markerText) > 0 ) then
+
+                markerText = markerText .. ", "
+            end
+
+            markerText = markerText .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+        end
+    end
+
+    local markerTextToUpgrade = ""
+
+    for menuIcon in Iter( listIconsNamesToUpgrade ) do
+
+        local count = hashIconsCountToUpgrade[menuIcon]
+
+        if ( count > 0 ) then
+
+            if ( string.len(markerTextToUpgrade) > 0 ) then
+
+                markerTextToUpgrade = markerTextToUpgrade .. ", "
+            end
+
+            markerTextToUpgrade = markerTextToUpgrade .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+        end
+    end
+
+    return markerText, markerTextToUpgrade
+end
+
 function buildings_tool_base:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
     self.cacheBlueprintsMenuIcons = self.cacheBlueprintsMenuIcons or {}
@@ -261,19 +380,19 @@ function buildings_tool_base:UpgradeBlueprintsInTemplateAndSaveToDatabase(templa
 
 
 
-        local entityBlueprint = self:GetMaxAvailableLevel( blueprintName )
-        if ( entityBlueprint == "" ) then
+        local maxUpgradeBlueprintName = self:GetMaxAvailableLevel( blueprintName )
+        if ( maxUpgradeBlueprint == "" ) then
             goto continue
         end
 
-        if ( hashBlueprints[entityBlueprint] == nil ) then
+        if ( hashBlueprints[maxUpgradeBlueprintName] == nil ) then
 
-            Insert( listBlueprintsNames, entityBlueprint )
+            Insert( listBlueprintsNames, maxUpgradeBlueprintName )
 
-            hashBlueprints[entityBlueprint] = {}
+            hashBlueprints[maxUpgradeBlueprintName] = {}
         end
 
-        local entitiesCoordinatesStringArray = hashBlueprints[entityBlueprint]
+        local entitiesCoordinatesStringArray = hashBlueprints[maxUpgradeBlueprintName]
 
         if ( #entitiesCoordinatesStringArray > 0 ) then
             Insert( entitiesCoordinatesStringArray, delimiterEntitiesArray )

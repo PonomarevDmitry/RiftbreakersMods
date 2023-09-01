@@ -99,26 +99,39 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        local templateCaption = "gui/hud/building_templates/upgrade_template_" .. self.selectedTemplate
+        local templateUpgradeCaption = "gui/hud/building_templates/upgrade_template_" .. self.selectedTemplate
+
+        local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
         local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
         if ( templateString == "" ) then
 
-            local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
+            local markerText = "${" .. templateUpgradeCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
 
             markerDB:SetString("message_text", markerText)
         else
 
-            local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
+            local upgradedList, toUpgradeList = self:GetTemplateBuildingsIconsToUpgrade(templateString)
 
-            if ( string.len(buildingsIcons) > 0 ) then
-
-                local markerText = "${" .. templateCaption .. "}: " .. buildingsIcons
-
-                markerDB:SetString("message_text", markerText)
-            else
+            if ( string.len(upgradedList) == 0 and string.len(toUpgradeList) == 0 ) then
 
                 markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
+                
+            else
+
+                local markerText = ""
+
+                if ( string.len(upgradedList) > 0 ) then
+                    markerText = "${" .. templateCaption .. "}: " .. upgradedList
+
+                    if ( string.len(toUpgradeList) > 0 ) then
+                        markerText = markerText .. " ${gui/hud/building_templates/can_be_upgraded}: " .. toUpgradeList
+                    end
+                else
+                    markerText = "${" .. templateUpgradeCaption .. "}: " .. toUpgradeList
+                end
+
+                markerDB:SetString("message_text", markerText)
             end
         end
 
