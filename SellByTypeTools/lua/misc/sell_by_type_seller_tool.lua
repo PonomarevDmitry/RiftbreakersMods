@@ -142,27 +142,26 @@ function sell_by_type_seller_tool:IsEntityApproved( entity )
 
     if ( self.isGroup ) then
 
-        if ( self.selectedType == "tower" or self.selectedType == "trap" ) then
+        if ( self:IsBlueprintInLowNameList(blueprintName) ) then
+            return true
+        end
+
+        if ( self.selectedType == "tower" or self.selectedType == "trap" or self.selectedType == "gate" ) then
 
             local buildingDescRef = reflection_helper( buildingDesc )
 
-            if ( buildingDescRef.type ~= self.selectedType ) then
-                return false
-            end
-        else
-
-            if ( not self:IsBlueprintInLowNameList(blueprintName) ) then
-                return false
+            if ( buildingDescRef.type == self.selectedType ) then
+                return true
             end
         end
     else
 
-        if ( not self:IsBlueprintInList(blueprintName) ) then
-            return false
+        if ( self:IsBlueprintInList(blueprintName) ) then
+            return true
         end
     end
 
-    return true
+    return false
 end
 
 function sell_by_type_seller_tool:OnUpdate()
