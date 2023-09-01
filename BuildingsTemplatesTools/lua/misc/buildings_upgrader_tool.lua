@@ -67,6 +67,8 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
         local templatesStr = ""
 
+        local allIsEmpty = true
+
         for number=self.numberFrom,self.numberTo do
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
@@ -74,23 +76,33 @@ function buildings_upgrader_tool:FillMarkerMessage()
             local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
             if ( templateString ~= nil and templateString ~= "" ) then
 
-                if ( string.len(templatesStr) > 0 ) then
+                allIsEmpty = false
 
-                    templatesStr = templatesStr .. ", "
+                if ( self:CanUpgradeTemplate(templateString) ) then
+
+                    if ( string.len(templatesStr) > 0 ) then
+
+                        templatesStr = templatesStr .. ", "
+                    end
+
+                    templatesStr = templatesStr .. tostring(number)
                 end
-
-                templatesStr = templatesStr .. tostring(number)
             end
         end
 
-        if ( string.len(templatesStr) > 0 ) then
-
-            local markerText = "${gui/hud/building_name/buildings_upgrader_tool}: " .. templatesStr
-
-            markerDB:SetString("message_text", markerText)
+        if ( allIsEmpty ) then
+            markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_empty")
         else
 
-            markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_empty")
+            if ( string.len(templatesStr) > 0 ) then
+
+                local markerText = "${gui/hud/building_templates/templates_can_be_upgraded}: " .. templatesStr
+
+                markerDB:SetString("message_text", markerText)
+            else
+
+                markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_upgraded")
+            end
         end
 
         markerDB:SetInt("message_visible", 1)
@@ -106,7 +118,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
         local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
         if ( templateString == "" ) then
 
-            local markerText = "${" .. templateUpgradeCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
+            local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
 
             markerDB:SetString("message_text", markerText)
         else
@@ -227,22 +239,39 @@ end
 
 function buildings_upgrader_tool:OnActivateSelectorRequest()
 
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        return
+    end
+
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
         for number=self.numberFrom,self.numberTo do
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName)
+            self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName)
+        self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase)
     end
 
     self:FillMarkerMessage()
+end
+
+function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase)
+
+    local currentTemplateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+    if ( currentTemplateString == "" ) then
+        return
+    end
+
+    local templateString = self:UpgradeBlueprintsInTemplate(currentTemplateString)
+
+    campaignDatabase:SetString( templateName, templateString )
 end
 
 function buildings_upgrader_tool:OnRelease()

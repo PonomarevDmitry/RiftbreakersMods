@@ -234,6 +234,61 @@ function buildings_tool_base:GetTemplateBuildingsIconsToUpgrade(templateString)
     return markerText, markerTextToUpgrade
 end
 
+function buildings_tool_base:CanUpgradeTemplate(templateString)
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
+    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
+
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+
+        local maxUpgradeBlueprintName = self:GetMaxAvailableLevel( blueprintName )
+        if ( maxUpgradeBlueprint == "" ) then
+            goto continue
+        end
+
+        if ( maxUpgradeBlueprintName ~= blueprintName ) then
+
+            return true
+        end
+
+        ::continue::
+    end
+
+    return false
+end
+
 function buildings_tool_base:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
     self.cacheBlueprintsMenuIcons = self.cacheBlueprintsMenuIcons or {}
@@ -307,7 +362,7 @@ function buildings_tool_base:CalculateBuildingMenuIcon( blueprintName, buildingD
     return ""
 end
 
-function buildings_tool_base:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName)
+function buildings_tool_base:UpgradeBlueprintsInTemplate(currentTemplateString)
 
     local delimiterBlueprintsGroups = "|";
     local delimiterBlueprintName = ":";
@@ -329,20 +384,9 @@ function buildings_tool_base:UpgradeBlueprintsInTemplateAndSaveToDatabase(templa
     -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
     -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
-        return
-    end
-
-    local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
-    if ( templateString == "" ) then
-
-        return
-    end
 
 
-
-    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
+    local blueprintsGroupsArray = Split( currentTemplateString, delimiterBlueprintsGroups )
 
 
     local hashBlueprints = {}
@@ -425,7 +469,7 @@ function buildings_tool_base:UpgradeBlueprintsInTemplateAndSaveToDatabase(templa
 
     local templateString = table.concat( templateStringArray )
 
-    campaignDatabase:SetString( templateName, templateString )
+    return templateString
 end
 
 function buildings_tool_base:GetMaxAvailableLevel( blueprintName )
