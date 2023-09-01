@@ -106,9 +106,11 @@ function buildings_tool_base:GetTemplateBuildingsIcons(templateString)
                 markerText = markerText .. ", "
             end
 
-            markerText = markerText .. '<img="' .. menuIcon .. '"> ' .. tostring(count)
+            markerText = markerText .. '<img="' .. menuIcon .. '">x' .. tostring(count)
         end
     end
+
+    LogService:Log(markerText)
 
     return markerText
 end
