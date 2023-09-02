@@ -16,6 +16,8 @@ function cultivator_sapling_picker_tool:OnInit()
         1,
     }
 
+    self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
+
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", "" )
@@ -126,21 +128,25 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
 
 
-            local replacerToolBlueprintDesc = reflection_helper( BuildingService:GetBuildingDesc( "buildings/tools/sapling_replacer" ) )
 
-            QueueEvent( "ChangeSelectorRequest", self.selector, replacerToolBlueprintDesc.bp, replacerToolBlueprintDesc.ghost_bp )
+            if ( self.next_tool ~= "" ) then
 
-            local replacerToolBlueprint = replacerToolBlueprintDesc.bp
+                local nextToolBuildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( self.next_tool ) )
 
-            local lowName = BuildingService:FindLowUpgrade( replacerToolBlueprint )
+                QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
 
-            if ( lowName == replacerToolBlueprint ) then
-                lowName = replacerToolBlueprintDesc.name
+                local nextToolBlueprintName = nextToolBuildingDescRef.bp
+
+                local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
+
+                if ( lowName == nextToolBlueprintName ) then
+                    lowName = nextToolBuildingDescRef.name
+                end
+
+                BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+
+                QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
             end
-
-            BuildingService:SetBuildingLastLevel( lowName, replacerToolBlueprintDesc.name)
-
-            QueueEvent("ChangeBuildingRequest", self.selector, lowName )
 
             return
         end
