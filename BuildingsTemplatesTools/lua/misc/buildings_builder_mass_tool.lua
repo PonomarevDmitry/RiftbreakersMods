@@ -80,6 +80,16 @@ function buildings_builder_mass_tool:InitializeValues()
 
     self.nowBuildingLine = false
     self.gridEntities = {}
+
+    self.configNameCellGaps = "$buildings_builder_mass_tool_cell_count"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
+    self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
+
+    self.markerGapsConfig = -1
+    self.currentMarkerGaps = nil
 end
 
 function buildings_builder_mass_tool:SpawnBuildinsTemplates()
@@ -388,6 +398,24 @@ end
 
 function buildings_builder_mass_tool:OnUpdate()
 
+    local cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
+
+    if ( self.markerGapsConfig ~= cellGapsCount or self.currentMarkerGaps == nil) then
+
+        if (self.currentMarkerGaps ~= nil) then
+
+            EntityService:RemoveEntity(self.currentMarkerGaps)
+            self.currentMarkerGaps = nil
+        end
+
+        local markerBlueprint = "misc/marker_selector_gaps_count_" .. tostring( cellGapsCount )
+
+        self.currentMarkerGaps = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+        EntityService:SetPosition( self.currentMarkerGaps, -2, 0, 0 )
+
+        self.markerGapsConfig = cellGapsCount
+    end
+
     self.buildCost = {}
 
     local buildingsToSell = {}
@@ -405,7 +433,7 @@ function buildings_builder_mass_tool:OnUpdate()
 
             local buildEndPosition = currentTransform.position
 
-            local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition )
+            local arrayX, arrayZ = self:FindPositionsToBuildLine( self.buildStartPosition.position, buildEndPosition, cellGapsCount )
 
             self.gridEntities = self.gridEntities or {}
 
@@ -683,14 +711,14 @@ function buildings_builder_mass_tool:CreateNewTemplateBlock(newPosition, team)
     return result
 end
 
-function buildings_builder_mass_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
+function buildings_builder_mass_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition, cellGapsCount)
 
     local gridSize = self.blockGridSize
 
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
 
-    local deltaX = gridSize.x * xSign
-    local deltaZ = gridSize.z * zSign
+    local deltaX = (gridSize.x + cellGapsCount * 2) * xSign
+    local deltaZ = (gridSize.z + cellGapsCount * 2) * zSign
 
     local smallDeltaX = (gridSize.x * xSign) / 4
     local smallDeltaZ = (gridSize.z * zSign) / 4
@@ -1046,6 +1074,17 @@ end
 
 function buildings_builder_mass_tool:OnRotateSelectorRequest(evt)
 
+    self.nowBuildingLine = self.nowBuildingLine or false
+
+    if ( self.nowBuildingLine ) then
+        self:ChangeCellsGapsCount(evt)
+    else
+        self:RotateEntityTemplates(evt)
+    end
+end
+
+function buildings_builder_mass_tool:RotateEntityTemplates(evt)
+
     local degree = evt:GetDegree()
 
     local invertRotationConfig = mod_invert_rotation or 0
@@ -1130,6 +1169,77 @@ function buildings_builder_mass_tool:OnRotateSelectorRequest(evt)
     end
 end
 
+function buildings_builder_mass_tool:ChangeCellsGapsCount(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local currentGapsConfig = self:CheckConfigExists(self.cellGapsCount)
+
+    local scaleWallGaps = self:GetGapsConfigArray()
+
+    local index = IndexOf( scaleWallGaps, currentGapsConfig )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #scaleWallGaps
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = 1
+    elseif( newIndex == 0 ) then
+        newIndex = maxIndex
+    end
+
+    local newValue = scaleWallGaps[newIndex]
+
+    self.cellGapsCount = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetInt(self.configNameCellGaps, newValue)
+
+    self:OnUpdate()
+end
+
+function buildings_builder_mass_tool:CheckConfigExists( cellGapsCount )
+
+    local scaleWallGaps = self:GetGapsConfigArray()
+
+    cellGapsCount = cellGapsCount or scaleWallGaps[1]
+
+    local index = IndexOf(scaleWallGaps, cellGapsCount )
+
+    if ( index == nil ) then
+
+        return scaleWallGaps[1]
+    end
+
+    return cellGapsCount
+end
+
+function buildings_builder_mass_tool:GetGapsConfigArray()
+
+    if ( self.scaleWallGaps == nil ) then
+
+        self.scaleWallGaps = {
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+        }
+    end
+
+    return self.scaleWallGaps
+end
+
 function buildings_builder_mass_tool:OnRelease()
 
     if ( self.infoChild ~= nil ) then
@@ -1165,6 +1275,12 @@ function buildings_builder_mass_tool:OnRelease()
 
     self.nowBuildingLine = false
     self.buildStartPosition = nil
+
+    if (self.currentMarkerGaps ~= nil) then
+
+        EntityService:RemoveEntity(self.currentMarkerGaps)
+        self.currentMarkerGaps = nil
+    end
 end
 
 return buildings_builder_mass_tool
