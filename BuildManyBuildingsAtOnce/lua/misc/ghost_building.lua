@@ -140,6 +140,8 @@ function ghost_building:OnUpdate()
 
         if ( self.isBuildingWithGaps ) then
             entityOrientation = self.buildStartPosition.orientation
+
+            EntityService:SetOrientation( self.entity, entityOrientation )
         end
 
         local positionX, positionZ
