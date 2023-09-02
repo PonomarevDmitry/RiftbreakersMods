@@ -154,9 +154,6 @@ function upgrade_all_map_cat_picker_tool:OnActivateSelectorRequest()
 
             QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
 
-            local transform = EntityService:GetWorldTransform( entity )
-            EntityService:SetEntityWorldTransform( entity, transform )
-
             local nextToolBlueprintName = nextToolBuildingDescRef.bp
 
             local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
