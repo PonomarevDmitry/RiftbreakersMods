@@ -603,6 +603,12 @@ function ghost_building:OnRotateSelectorRequest(evt)
         return;
     end
 
+    self.nowBuildingLine = self.nowBuildingLine or false
+
+    if ( not self.nowBuildingLine ) then
+        return;
+    end
+
     local degree = evt:GetDegree()
 
     local change = 1
