@@ -107,17 +107,23 @@ function replace_wall_gate_tool:SetWallGateIcon()
 
         if ( self:IsWallBlueprintAvailable( blueprintName ) ) then
 
-            local buildingRef = self.buildingDescHash[blueprintName]
+            local buildingDescRef = self.buildingDescHash[blueprintName]
 
-            markerDB:SetString("wall_gate_name", buildingRef.localization_id)
-            markerDB:SetString("wall_gate_icon", buildingRef.menu_icon)
+            markerDB:SetString("wall_gate_name", buildingDescRef.localization_id)
+            markerDB:SetString("wall_gate_icon", buildingDescRef.menu_icon)
             markerDB:SetInt("wall_gate_icon_visible", 1)
 
             return
         end
     end
 
-    markerDB:SetString("wall_gate_name", "gui/hud/messages/replace_wall_gate_tool/gates_not_available")
+    local blueprintName = self.wallBluprintsArray[1]
+
+    local buildingDescRef = self.buildingDescHash[blueprintName]
+
+    local markerText = "${" .. buildingDescRef.localization_id .. "} ${gui/hud/messages/replace_wall_gate_tool/gates_not_available}"
+
+    markerDB:SetString("wall_gate_name", markerText)
     markerDB:SetString("wall_gate_icon", "")
     markerDB:SetInt("wall_gate_icon_visible", 0)
 end
