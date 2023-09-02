@@ -4,7 +4,7 @@ local base_drone = require("lua/units/air/base_drone.lua")
 class 'attack_drone' ( base_drone )
 
 function attack_drone:__init()
-    base_drone.__init(self,self)
+	base_drone.__init(self,self)
 end
 
 function attack_drone:FillInitialParams()
@@ -38,9 +38,8 @@ function attack_drone:FillInitialParams()
             StopShooting    = attack_drone.DefaultWeaponControllerStopShooting
         }
     --end
-    self.allow_target = 0
-
     self.owner = self:GetDroneOwnerTarget()
+    self.allow_target = 0.0
 end
 
 function attack_drone:OnInit()
@@ -50,7 +49,7 @@ function attack_drone:OnInit()
     self.fsm:AddState("attack", { execute="OnAttackExecute" });
     self.fsm:ChangeState("attack")
 
-    WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
+	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end
 
 function attack_drone:OnLoad()
@@ -60,11 +59,10 @@ function attack_drone:OnLoad()
 end
 
 function attack_drone:IsTargetValid(target)
-    if target == INVALID_ID or target == self.owner then
+    if target == INVALID_ID then
         return false
     end
 
-    -- Other towers don't use this logic
     if self.target_resisted_damage[ target ] ~= nil then
         return self.target_resisted_damage[ target ] < GetLogicTime()
     end
@@ -120,47 +118,39 @@ end
 
 function attack_drone:OnAttackExecute(state, dt)
     local attack_duration = state:GetDuration() - ( self.attack_start_timer or state:GetDuration())
-    local is_target_valid = self:IsTargetValid(self.drone_target)
-    local desired_target = nil
 
-    -- When the current target is not valid, try to find a new one before returning to the building
-    if self.allow_target > 0 and not is_target_valid then
-        local new_target = self:FindActionTarget() -- function returns a new valid target
-        self.allow_target = math.max(0, self.allow_target - dt);
+    if self.allow_target > 0 and not self:IsTargetValid(self.drone_target) then
+        self.allow_target = math.max(0.0, self.allow_target - dt); 
+        local new_target = self:FindActionTarget(); -- Function return the new target
         if new_target ~= INVALID_ID then
             self.drone_target = new_target
-            desired_target = new_target
-            is_target_valid = true
         end
     end
-    
-    if is_target_valid and ( attack_duration < 0.1 or self.weapon_controller.ShootAtTarget( self, self.drone_target ) ) then
-        desired_target = self.drone_target
+
+    if self:IsTargetValid( self.drone_target ) and ( attack_duration < 0.1 or self.weapon_controller.ShootAtTarget( self, self.drone_target ) ) then
+        UnitService:SetCurrentTarget(self.entity, "action", self.drone_target )
+
         self.attack_stop_timer = nil
         if self.attack_start_timer == nil then
             self.attack_start_timer = state:GetDuration()
         end
-        self.allow_target = 1
-    elseif self.allow_target == 0 and self.attack_start_timer then
+        self.allow_target = 1.0
+    elseif self.allow_target == 0 and self.attack_start_timer ~= nil then
         self.weapon_controller.StopShooting( self )
-        self.drone_target = self.owner
-        desired_target = self.drone_target
+        UnitService:SetCurrentTarget(self.entity, "action", self.owner )
         self.attack_start_timer = nil;
         self.attack_stop_timer = state:GetDuration()
     end
 
-    if desired_target ~= nil then
-        UnitService:SetCurrentTarget(self.entity, "action", desired_target)
-    end
     EntityService:LookAt( self.entity, self:GetDroneActionTarget(), true )
 
     if self.attack_stop_timer then
         local non_attack_duration = state:GetDuration() - ( self.attack_stop_timer or state:GetDuration())
         if non_attack_duration > self.non_action_timeout then
             self:SetTargetActionFinished()
+            self.attack_stop_timer = nil
         end
     end
-
 end
 
 function attack_drone:OnRelease()
@@ -191,13 +181,13 @@ function attack_drone:DefaultWeaponControllerShootAtTarget( target )
     WeaponService:RotateWeaponMuzzleToTarget( self.entity, self.drone_target )
 
     if self.is_landing or self.is_lifting then
-        return false
+        return true
     end
 
     local is_shooting = WeaponService:IsShooting( self.entity );
-    if is_shooting and ( self.is_landing or self.is_lifting) then
+    if is_shooting and ( self.is_landing or self.is_lifting ) then
         WeaponService:StopShoot(self.entity);
-        return false
+        return true
     end
 
     if not is_shooting then
