@@ -176,6 +176,10 @@ function ghost_building_trapsconstruction:OnUpdate()
 
         self.gridEntities = self.gridEntities or {}
 
+        local entityOrientation = self.buildStartPosition.orientation
+
+        EntityService:SetOrientation( self.entity, entityOrientation )
+
         local positionX, positionZ
 
         if ( #self.gridEntities > #arrayX ) then
@@ -214,7 +218,7 @@ function ghost_building_trapsconstruction:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = self:CreateNewEntity(newPosition, self.buildStartPosition.orientation, team)
+                    local lineEnt = self:CreateNewEntity(newPosition, entityOrientation, team)
 
                     Insert(gridEntitiesZ, lineEnt)
                 end
@@ -246,7 +250,7 @@ function ghost_building_trapsconstruction:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = self:CreateNewEntity(newPosition, self.buildStartPosition.orientation, team)
+                    local lineEnt = self:CreateNewEntity(newPosition, entityOrientation, team)
 
                     Insert(gridEntitiesZ, lineEnt)
                 end
@@ -275,7 +279,7 @@ function ghost_building_trapsconstruction:OnUpdate()
                 transform.scale = currentTransform.scale
                 transform.position = newPosition
 
-                transform.orientation = self.buildStartPosition.orientation
+                transform.orientation = entityOrientation
 
                 local lineEnt = gridEntitiesZ[zNumber]
                 EntityService:SetPosition( lineEnt, newPosition )
