@@ -29,6 +29,8 @@ function sell_by_type_picker_tool:OnInit()
 
     self:InitLowUpgradeList()
 
+    self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
+
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     markerDB:SetString("message_text", "")
@@ -131,21 +133,25 @@ function sell_by_type_picker_tool:OnActivateSelectorRequest()
 
 
 
-        local sellerToolBlueprintDesc = reflection_helper( BuildingService:GetBuildingDesc( "buildings/tools/sell_by_type_seller" ) )
 
-        QueueEvent( "ChangeSelectorRequest", self.selector, sellerToolBlueprintDesc.bp, sellerToolBlueprintDesc.ghost_bp )
+        if ( self.next_tool ~= "" ) then
 
-        local sellerToolBlueprintName = sellerToolBlueprintDesc.bp
+            local nextToolBuildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( self.next_tool ) )
 
-        local lowName = BuildingService:FindLowUpgrade( sellerToolBlueprintName )
+            QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
 
-        if ( lowName == sellerToolBlueprintName ) then
-            lowName = sellerToolBlueprintDesc.name
+            local nextToolBlueprintName = nextToolBuildingDescRef.bp
+
+            local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
+
+            if ( lowName == nextToolBlueprintName ) then
+                lowName = nextToolBuildingDescRef.name
+            end
+
+            BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+
+            QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
         end
-
-        BuildingService:SetBuildingLastLevel( lowName, sellerToolBlueprintDesc.name )
-
-        QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
 
         do
             return
