@@ -463,6 +463,12 @@ end
 
 function ghost_building_trapsconstruction:OnRotateSelectorRequest(evt)
 
+    self.nowBuildingLine = self.nowBuildingLine or false
+
+    if ( not self.nowBuildingLine ) then
+        return;
+    end
+
     local degree = evt:GetDegree()
 
     local change = 1
