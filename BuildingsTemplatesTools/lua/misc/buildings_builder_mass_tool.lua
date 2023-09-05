@@ -73,6 +73,10 @@ function buildings_builder_mass_tool:InitializeValues()
     local markerBlueprint = "misc/marker_selector_buildings_builder_mass_tool_" .. self.marker
     self.markerEntity = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
+    self.blockGridSize = {}
+    self.blockGridSize.x = 0
+    self.blockGridSize.z = 0
+
     self:SpawnBuildinsTemplates()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
@@ -250,7 +254,6 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
             maxZ = math.max( maxZ , positionZ + gridSize.z )
         end
 
-        self.blockGridSize = {}
         self.blockGridSize.x = maxX - minX
         self.blockGridSize.z = maxZ - minZ
     else
@@ -1142,11 +1145,14 @@ function buildings_builder_mass_tool:RotateEntityTemplates(evt)
     self.transformZX = newtransformZX
     self.transformZZ = newtransformZZ
 
-    local sizeX = self.blockGridSize.x
-    local sizeZ = self.blockGridSize.z
+    if ( self.blockGridSize ~= nil ) then
 
-    self.blockGridSize.x = sizeZ
-    self.blockGridSize.z = sizeX
+        local sizeX = self.blockGridSize.x
+        local sizeZ = self.blockGridSize.z
+
+        self.blockGridSize.x = sizeZ
+        self.blockGridSize.z = sizeX
+    end
 
     for buildingTemplate in Iter(self.templateEntities) do
 
