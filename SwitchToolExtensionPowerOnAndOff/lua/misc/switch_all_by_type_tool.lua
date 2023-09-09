@@ -16,6 +16,8 @@ function switch_all_by_type_tool:OnInit()
 
     self:InitLowUpgradeList()
 
+    self:SetTypeSetting()
+
     self.scaleMap = {
         1,
     }
@@ -23,13 +25,9 @@ function switch_all_by_type_tool:OnInit()
     self.setPower = false
     self.currentChildSetPower = nil
 
-    LogService:Log("OnInit " .. tostring(self.setPower))
-
     self:UpdateMarker()
 
     self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
-
-    self:SetTypeSetting()
 end
 
 function switch_all_by_type_tool:UpdateMarker()
@@ -263,8 +261,6 @@ function switch_all_by_type_tool:OnRotateSelectorRequest(evt)
 
     self.setPower = newValue
 
-    LogService:Log("OnRotateSelectorRequest " .. tostring(self.setPower))
-
     self:UpdateMarker()
 end
 
@@ -297,11 +293,8 @@ end
 function switch_all_by_type_tool:OnActivateSelectorRequest()
 
     if ( #self.selectedEntities == 0 ) then
-        LogService:Log("OnActivateSelectorRequest self.selectedEntities = 0")
         return
     end
-
-    LogService:Log("OnActivateSelectorRequest " .. tostring(self.setPower))
 
     for entity in Iter( self.selectedEntities ) do
 
