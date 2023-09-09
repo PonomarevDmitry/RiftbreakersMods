@@ -30,12 +30,12 @@ function turn_on_off_by_type_switch_tool:OnInit()
         else
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            markerDB:SetString("message_text", "gui/hud/sell_by_type/building_not_selected")
+            markerDB:SetString("message_text", "gui/hud/turn_on_off_tools/building_not_selected")
         end
     else
 
         markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-        markerDB:SetString("message_text", "gui/hud/sell_by_type/building_not_selected")
+        markerDB:SetString("message_text", "gui/hud/turn_on_off_tools/building_not_selected")
     end
 
 
@@ -74,12 +74,6 @@ function turn_on_off_by_type_switch_tool:SetTypeSetting()
     end
 
     self.selectedType = buildingDescRef.type
-end
-
-function turn_on_off_by_type_switch_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_violet", self.entity )
-    end
 end
 
 function turn_on_off_by_type_switch_tool:AddedToSelection( entity )

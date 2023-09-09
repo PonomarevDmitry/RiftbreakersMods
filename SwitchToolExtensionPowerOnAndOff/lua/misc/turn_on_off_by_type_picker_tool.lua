@@ -57,12 +57,6 @@ function turn_on_off_by_type_picker_tool:SetBuildingIcon()
     end
 end
 
-function turn_on_off_by_type_picker_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool", self.entity )
-    end
-end
-
 function turn_on_off_by_type_picker_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
