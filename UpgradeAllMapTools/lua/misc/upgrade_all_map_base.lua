@@ -320,62 +320,26 @@ function upgrade_all_map_base:GetMenuIcon( blueprintName )
         return ""
     end
 
-    local menuIcon = buildingDescRef.menu_icon or ""
-    if ( menuIcon ~= "" ) then
-        return menuIcon
-    end
+    local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
-    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
-    if ( baseBuildingDesc ~= nil ) then
-
-        local baseBuildingDescRef = reflection_helper( baseBuildingDesc )
-
-        menuIcon = baseBuildingDescRef.menu_icon or ""
-        if ( menuIcon ~= "" ) then
-            return menuIcon
-        end
-    end
-
-    for i=1,buildingDescRef.connect.count do
-
-        local connectRecord = buildingDescRef.connect[i]
-
-        for j=1,connectRecord.value.count do
-
-            local connectBlueprintName = connectRecord.value[j]
-
-            local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
-
-            if ( connectMenuIcon ~= "" ) then
-
-                return connectMenuIcon
-            end
-        end
-    end
-
-    return ""
+    return menuIcon
 end
 
-function upgrade_all_map_base:GetBuildingMenuIcon( blueprintName )
+function upgrade_all_map_base:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
-        return ""
+    self.cacheBlueprintsMenuIcons = self.cacheBlueprintsMenuIcons or {}
+
+    if ( self.cacheBlueprintsMenuIcons[blueprintName] == nil ) then
+
+        self.cacheBlueprintsMenuIcons[blueprintName] = self:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
     end
 
-    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-    if ( buildingDesc == nil ) then
-        return ""
-    end
+    return self.cacheBlueprintsMenuIcons[blueprintName]
+end
 
-    local buildingDescRef = reflection_helper( buildingDesc )
-    if ( buildingDescRef == nil ) then
-        return ""
-    end
+function upgrade_all_map_base:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
 
-    local menuIcon = buildingDescRef.menu_icon or ""
-    if ( menuIcon ~= "" ) then
-        return menuIcon
-    end
+    local menuIcon = ""
 
     local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
     if ( baseBuildingDesc ~= nil ) then
@@ -383,8 +347,51 @@ function upgrade_all_map_base:GetBuildingMenuIcon( blueprintName )
         local baseBuildingDescRef = reflection_helper( baseBuildingDesc )
 
         menuIcon = baseBuildingDescRef.menu_icon or ""
+
         if ( menuIcon ~= "" ) then
             return menuIcon
+        end
+    end
+
+
+    menuIcon = buildingDescRef.menu_icon or ""
+
+    if ( menuIcon ~= "" ) then
+        return menuIcon
+    end
+
+    if ( buildingDescRef.connect.count > 0 ) then
+
+        for i=1,buildingDescRef.connect.count do
+
+            local connectRecord = buildingDescRef.connect[i]
+
+            for j=1,connectRecord.value.count do
+
+                local connectBlueprintName = connectRecord.value[j]
+
+                if ( not ResourceManager:ResourceExists( "EntityBlueprint", connectBlueprintName ) ) then
+                    goto continue
+                end
+
+                local connectBuildingDesc = BuildingService:GetBuildingDesc( connectBlueprintName )
+                if ( connectBuildingDesc == nil ) then
+                    goto continue
+                end
+
+                local connectBuildingDescRef = reflection_helper( connectBuildingDesc )
+                if ( connectBuildingDescRef == nil ) then
+                    goto continue
+                end
+
+                local menuIcon = connectBuildingDescRef.menu_icon or ""
+
+                if ( menuIcon ~= "" ) then
+                    return menuIcon
+                end
+            end
+
+            ::continue::
         end
     end
 

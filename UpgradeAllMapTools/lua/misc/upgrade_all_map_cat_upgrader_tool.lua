@@ -27,6 +27,8 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
 
     self.selectedCategory = ""
 
+    self.categoryNotSelected = false
+
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     if ( self.categoryName ~= "" ) then
@@ -54,12 +56,18 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
             markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_category_not_selected")
+
+            self.categoryNotSelected = true
         end
     else
-
+    
         markerDB:SetString("message_text", "")
-        markerDB:SetInt("building_visible", 0)
+        markerDB:SetInt("building_icon_visible", 0)
+        markerDB:SetInt("building_visible", 1)
     end
+
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
 function upgrade_all_map_cat_upgrader_tool:GetScaleFromDatabase()
@@ -78,6 +86,9 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
     self.upgradeCosts = {}
 
     local upgradeCostsEntities = {}
+
+    local listIconsNames = {}
+    local hashIconsCount = {}
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -118,6 +129,19 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
             goto continue
         end
 
+        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+        if ( menuIcon ~= "" ) then
+
+            if ( hashIconsCount[menuIcon] == nil ) then
+
+                Insert( listIconsNames, menuIcon )
+
+                hashIconsCount[menuIcon] = 0
+            end
+
+            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
+        end
+
         local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do
 
@@ -131,6 +155,32 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
         ::continue::
     end
 
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    if ( self.categoryNotSelected ) then
+        markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_category_not_selected")
+    else
+
+        local buildingsIcons = ""
+
+        for menuIcon in Iter( listIconsNames ) do
+
+            local count = hashIconsCount[menuIcon]
+
+            if ( count > 0 ) then
+
+                if ( string.len(buildingsIcons) > 0 ) then
+
+                    buildingsIcons = buildingsIcons .. ", "
+                end
+
+                buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+            end
+        end
+
+        markerDB:SetString("message_text", buildingsIcons)
+    end
+
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
     if ( onScreen ) then
         BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, self.upgradeCosts )
@@ -139,6 +189,96 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
         BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, {} )
         BuildingService:OperateUpgradeCosts( self.corners, self.playerId, self.upgradeCosts )
     end
+end
+
+function upgrade_all_map_cat_upgrader_tool:GetMenuIcon( blueprintName )
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+
+    return menuIcon
+end
+
+function upgrade_all_map_cat_upgrader_tool:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+
+    self.cacheBlueprintsMenuIcons = self.cacheBlueprintsMenuIcons or {}
+
+    if ( self.cacheBlueprintsMenuIcons[blueprintName] == nil ) then
+
+        self.cacheBlueprintsMenuIcons[blueprintName] = self:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
+    end
+
+    return self.cacheBlueprintsMenuIcons[blueprintName]
+end
+
+function upgrade_all_map_cat_upgrader_tool:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
+
+    local menuIcon = ""
+
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if ( baseBuildingDesc ~= nil ) then
+
+        local baseBuildingDescRef = reflection_helper( baseBuildingDesc )
+
+        menuIcon = baseBuildingDescRef.menu_icon or ""
+
+        if ( menuIcon ~= "" ) then
+            return menuIcon
+        end
+    end
+
+
+    menuIcon = buildingDescRef.menu_icon or ""
+
+    if ( menuIcon ~= "" ) then
+        return menuIcon
+    end
+
+    if ( buildingDescRef.connect.count > 0 ) then
+
+        for i=1,buildingDescRef.connect.count do
+
+            local connectRecord = buildingDescRef.connect[i]
+
+            for j=1,connectRecord.value.count do
+
+                local connectBlueprintName = connectRecord.value[j]
+
+                if ( not ResourceManager:ResourceExists( "EntityBlueprint", connectBlueprintName ) ) then
+                    goto continue
+                end
+
+                local connectBuildingDesc = BuildingService:GetBuildingDesc( connectBlueprintName )
+                if ( connectBuildingDesc == nil ) then
+                    goto continue
+                end
+
+                local connectBuildingDescRef = reflection_helper( connectBuildingDesc )
+                if ( connectBuildingDescRef == nil ) then
+                    goto continue
+                end
+
+                local menuIcon = connectBuildingDescRef.menu_icon or ""
+
+                if ( menuIcon ~= "" ) then
+                    return menuIcon
+                end
+            end
+
+            ::continue::
+        end
+    end
+
+    return ""
 end
 
 function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorComponent )
@@ -238,6 +378,11 @@ function upgrade_all_map_cat_upgrader_tool:OnRelease()
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
         self.childEntity = nil
+    end
+
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
     end
 
     if ( tool.OnRelease ) then

@@ -25,7 +25,12 @@ function upgrade_all_map_upgrader_tool:OnInit()
     self.isGroup = false
     self.currentChildIsGroup = nil
 
+    self.buildingNoSelected = false
+
     self:UpdateMarker()
+
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
 function upgrade_all_map_upgrader_tool:UpdateMarker()
@@ -74,11 +79,15 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
             markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
+
+            self.buildingNoSelected = true
         end
     else
 
         markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
         markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
+
+        self.buildingNoSelected = true
     end
 end
 
@@ -125,6 +134,9 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
 
     local upgradeCostsEntities = {}
 
+    local listIconsNames = {}
+    local hashIconsCount = {}
+
     for entity in Iter( self.selectedEntities ) do
 
         if ( upgradeCostsEntities[entity] ~= nil ) then
@@ -164,6 +176,19 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
             goto continue
         end
 
+        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+        if ( menuIcon ~= "" ) then
+
+            if ( hashIconsCount[menuIcon] == nil ) then
+
+                Insert( listIconsNames, menuIcon )
+
+                hashIconsCount[menuIcon] = 0
+            end
+
+            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
+        end
+
         local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do
 
@@ -175,6 +200,49 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
         end
 
         ::continue::
+    end
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    if ( self.buildingNoSelected ) then
+
+        markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
+    else
+
+        local buildingsIcons = ""
+
+        for menuIcon in Iter( listIconsNames ) do
+
+            local count = hashIconsCount[menuIcon]
+
+            if ( count > 0 ) then
+
+                if ( string.len(buildingsIcons) > 0 ) then
+
+                    buildingsIcons = buildingsIcons .. ", "
+                end
+
+                buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+            end
+        end
+
+        local markerText = ""
+
+        if (string.len(buildingsIcons) > 0) then
+
+            if ( self.isGroup ) then
+                markerText = "${gui/hud/upgrade_all_map/building_group}: " .. buildingsIcons
+            else
+                markerText = buildingsIcons
+            end
+        else
+
+            if ( self.isGroup ) then
+                markerText = "gui/hud/upgrade_all_map/building_group"
+            end
+        end
+
+        markerDB:SetString("message_text", markerText)
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
@@ -301,6 +369,8 @@ function upgrade_all_map_upgrader_tool:OnRotateSelectorRequest(evt)
     self.isGroup = newValue
 
     self:UpdateMarker()
+
+    self:OnUpdate()
 end
 
 function upgrade_all_map_upgrader_tool:CheckGroupValueExists( groupValue )
@@ -354,6 +424,23 @@ function upgrade_all_map_upgrader_tool:OnActivateSelectorRequest()
         QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
 
         ::continue::
+    end
+end
+
+function upgrade_all_map_upgrader_tool:OnRelease()
+
+    if ( self.childEntity ~= nil) then
+        EntityService:RemoveEntity(self.childEntity)
+        self.childEntity = nil
+    end
+
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
+
+    if ( upgrade_all_map_base.OnRelease ) then
+        upgrade_all_map_base.OnRelease(self)
     end
 end
 
