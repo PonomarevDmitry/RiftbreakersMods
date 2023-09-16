@@ -23,7 +23,7 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
         1,
     }
 
-    self.categoryName = self.data:GetStringOrDefault("category_name", "") or ""
+    self.categoryTemplate = self.data:GetStringOrDefault("category_name", "") or ""
 
     self.selectedCategory = ""
 
@@ -31,13 +31,13 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    if ( self.categoryName ~= "" ) then
+    if ( self.categoryTemplate ~= "" ) then
 
         markerDB:SetInt("building_visible", 1)
 
         local selectorDB = EntityService:GetDatabase( self.selector )
 
-        self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryName, "" ) or ""
+        self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
         if ( self.selectedCategory ~= "" ) then
 
@@ -313,7 +313,7 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
             goto continue
         end
 
-        if ( self.categoryName ~= "" ) then
+        if ( self.categoryTemplate ~= "" ) then
 
             if ( buildingDescRef.category ~= self.selectedCategory ) then
 
