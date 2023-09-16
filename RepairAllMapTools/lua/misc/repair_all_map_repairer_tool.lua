@@ -26,6 +26,9 @@ function repair_all_map_repairer_tool:OnInit()
     self.currentChildIsGroup = nil
 
     self:UpdateMarker()
+
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
 function repair_all_map_repairer_tool:UpdateMarker()
@@ -121,30 +124,34 @@ end
 
 function repair_all_map_repairer_tool:OnUpdate()
 
-    self.upgradeCosts = {}
+    self.repairCosts = {}
 
-    local upgradeCostsEntities = {}
+    local repairCostsEntities = {}
 
     for entity in Iter( self.selectedEntities ) do
 
-        if ( upgradeCostsEntities[entity] ~= nil ) then
+        if ( repairCostsEntities[entity] ~= nil ) then
             goto continue
         end
 
-        upgradeCostsEntities[entity] = true
-
-        local skinned = EntityService:IsSkinned(entity)
+        repairCostsEntities[entity] = true
 
 
+        local isRuins = ( EntityService:GetGroup( entity ) == "##ruins##" )
+
+        if ( not isRuins ) then
+
+            if ( not BuildingService:IsBuildingFinished( entity ) ) then
+                goto continue
+            end
+        end
 
         local blueprintName = self:GetBlueprintName( entity )
         if ( blueprintName == "" ) then
             goto continue
         end
 
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-
-        local buildingDescRef = reflection_helper( buildingDesc )
+        local skinned = EntityService:IsSkinned(entity)
 
         if ( skinned ) then
             EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
@@ -152,18 +159,29 @@ function repair_all_map_repairer_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
         end
 
-        if ( not BuildingService:IsBuildingFinished( entity ) ) then
-            goto continue
+        local list = {}
+
+        if ( isRuins ) then
+
+            local database = EntityService:GetDatabase( entity )
+            if ( database ) then
+
+                local ruinsBlueprint = database:GetString("blueprint")
+
+                list = BuildingService:GetBuildCosts( ruinsBlueprint, self.playerId )
+            end
+        else
+
+            list = BuildingService:GetRepairCosts( entity )
         end
 
-        local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do
 
-            if ( self.upgradeCosts[resourceCost.first] == nil ) then
-                self.upgradeCosts[resourceCost.first] = 0
+            if ( self.repairCosts[resourceCost.first] == nil ) then
+                self.repairCosts[resourceCost.first] = 0
             end
 
-            self.upgradeCosts[resourceCost.first] = self.upgradeCosts[resourceCost.first] + resourceCost.second
+            self.repairCosts[resourceCost.first] = self.repairCosts[resourceCost.first] + resourceCost.second
         end
 
         ::continue::
@@ -171,15 +189,42 @@ function repair_all_map_repairer_tool:OnUpdate()
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
     if ( onScreen ) then
-        BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, self.upgradeCosts )
-        BuildingService:OperateUpgradeCosts( self.corners, self.playerId, {} )
+        BuildingService:OperateRepairCosts( self.infoChild, self.playerId, self.repairCosts )
+        BuildingService:OperateRepairCosts( self.corners, self.playerId, {} )
     else
-        BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, {} )
-        BuildingService:OperateUpgradeCosts( self.corners, self.playerId, self.upgradeCosts )
+        BuildingService:OperateRepairCosts( self.infoChild, self.playerId, {} )
+        BuildingService:OperateRepairCosts( self.corners, self.playerId, self.repairCosts )
     end
 end
 
 function repair_all_map_repairer_tool:FindEntitiesToSelect( selectorComponent )
+
+    local result = {}
+
+    local entitiesBuildings = self:FindRepairableBuildings()
+
+    ConcatUnique( result, entitiesBuildings )
+
+    local ruins = self:FindRuins()
+
+    ConcatUnique( result, ruins )
+
+    local distances = {}
+
+    for entity in Iter( result ) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+    end
+
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
+    end
+
+    table.sort(result, sorter)
+
+    return result
+end
+
+function repair_all_map_repairer_tool:FindRepairableBuildings()
 
     local result = {}
 
@@ -197,6 +242,12 @@ function repair_all_map_repairer_tool:FindEntitiesToSelect( selectorComponent )
 
         local healthComponent = EntityService:GetComponent(entity, "HealthComponent")
         if ( healthComponent == nil ) then
+            goto continue
+        end
+
+        local childRepair = EntityService:GetChildByName( entity, "##repair##" )
+
+        if ( childRepair ~= INVALID_ID and EntityService:IsAlive(childRepair) ) then
             goto continue
         end
 
@@ -223,17 +274,43 @@ function repair_all_map_repairer_tool:FindEntitiesToSelect( selectorComponent )
         ::continue::
     end
 
-    local distances = {}
+    return result
+end
 
-    for entity in Iter( result ) do
-        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+function repair_all_map_repairer_tool:FindRuins()
+
+    local result = {}
+
+    local ruins = FindService:FindEntitiesByGroup( "##ruins##" )
+
+    for entity in Iter( ruins ) do
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue
+        end
+
+        local database = EntityService:GetDatabase( entity )
+        if ( not database ) then
+            goto continue
+        end
+        
+        if ( not database:HasString("blueprint") ) then
+            goto continue
+        end
+
+        local blueprintName = database:GetString("blueprint")
+        if ( blueprintName == "" ) then
+            goto continue
+        end
+
+        if ( not self:IsBlueprintApproved(blueprintName) ) then
+            goto continue
+        end
+
+        Insert( result, entity )
+
+        ::continue::
     end
-
-    local sorter = function( lh, rh )
-        return distances[lh] < distances[rh]
-    end
-
-    table.sort(result, sorter)
 
     return result
 end
@@ -245,11 +322,29 @@ function repair_all_map_repairer_tool:IsEntityApproved( entity )
         return false
     end
 
+    local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+    if ( mode ~= 2 ) then
+        return false
+    end
+
     if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
         return false
     end
 
     local blueprintName = self:GetBlueprintName(entity)
+    if ( blueprintName == "" ) then
+        return false
+    end
+
+    if ( self:IsBlueprintApproved( blueprintName ) ) then
+        return true
+    end
+
+    return false
+end
+
+function repair_all_map_repairer_tool:IsBlueprintApproved( blueprintName )
+
     if ( blueprintName == "" ) then
         return false
     end
@@ -315,6 +410,8 @@ function repair_all_map_repairer_tool:OnRotateSelectorRequest(evt)
     self.isGroup = newValue
 
     self:UpdateMarker()
+
+    self:OnWorkExecute()
 end
 
 function repair_all_map_repairer_tool:CheckGroupValueExists( groupValue )
@@ -363,9 +460,9 @@ function repair_all_map_repairer_tool:OnActivateSelectorRequest()
                 QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
             end
         else
-            local child = EntityService:GetChildByName(entity, "##repair##")
+            local childRepair = EntityService:GetChildByName(entity, "##repair##")
 
-            if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(child) ) then
+            if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(childRepair) ) then
 
                 local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
                 if ( buildingComponent ~= nil ) then
@@ -392,6 +489,23 @@ function repair_all_map_repairer_tool:OnActivateSelectorRequest()
                 end
             end
         end
+    end
+end
+
+function repair_all_map_repairer_tool:OnRelease()
+
+    if ( self.childEntity ~= nil) then
+        EntityService:RemoveEntity(self.childEntity)
+        self.childEntity = nil
+    end
+
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
+
+    if ( repair_all_map_base.OnRelease ) then
+        repair_all_map_base.OnRelease(self)
     end
 end
 
