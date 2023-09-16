@@ -145,6 +145,10 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
 
         upgradeCostsEntities[entity] = true
 
+        if ( not BuildingService:IsBuildingFinished( entity ) ) then
+            goto continue
+        end
+
         local skinned = EntityService:IsSkinned(entity)
 
 
@@ -170,10 +174,6 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
         else
             EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
-
-        if ( not BuildingService:IsBuildingFinished( entity ) ) then
-            goto continue
         end
 
         local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
@@ -370,7 +370,7 @@ function upgrade_all_map_upgrader_tool:OnRotateSelectorRequest(evt)
 
     self:UpdateMarker()
 
-    self:OnUpdate()
+    self:OnWorkExecute()
 end
 
 function upgrade_all_map_upgrader_tool:CheckGroupValueExists( groupValue )
