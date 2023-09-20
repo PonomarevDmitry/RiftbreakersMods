@@ -1,0 +1,543 @@
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_incendiary"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines_incendiary"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/floating_mines"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.0"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"mech/floating_mines_incendiary_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/floating_mines_incendiary_advanced"
+
+	base_blueprint "items/weapons/floating_mines_incendiary"
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}
+
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+		}
+
+		ammo_blueprint 				"mech/floating_mines_incendiary_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines_incendiary_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_incendiary_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_incendiary"
+		item_bp			"items/weapons/floating_mines_incendiary_advanced"
+		icon			"gui/hud/items_icons/weapons/floating_mines_incendiary_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_incendiary_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/floating_mines_incendiary_extreme"
+
+	base_blueprint "items/weapons/floating_mines_incendiary"
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}
+
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_31"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_32"
+			}
+		}
+
+		ammo_blueprint 				"mech/floating_mines_incendiary_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines_incendiary_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_incendiary_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_incendiary"
+		item_bp			"items/weapons/floating_mines_incendiary_extreme"
+		icon			"gui/hud/items_icons/weapons/floating_mines_incendiary_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_incendiary_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_incendiary_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_incendiary"
+		item_bp			"items/weapons/floating_mines_incendiary"
+		icon			"gui/hud/items_icons/weapons/floating_mines_incendiary"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_incendiary"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/floating_mines_incendiary_superior"
+
+	base_blueprint "items/weapons/floating_mines_incendiary"
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}
+
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_31"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_32"
+			}
+		}
+
+		ammo_blueprint 				"mech/floating_mines_incendiary_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/floating_mines_incendiary_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/floating_mines_incendiary_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/floating_mines_incendiary"
+		item_bp			"items/weapons/floating_mines_incendiary_superior"
+		icon			"gui/hud/items_icons/weapons/floating_mines_incendiary_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_incendiary_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "mech/floating_mines_incendiary_projectile"
+	
+	base_blueprint "items/consumables/proximity_mine_base"
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+	
+		database
+		{
+			bp					string:"items/projectiles/floating_mines_incendiary_explosion"
+			delay				float:"3.0"
+			delay_before_armed	float:"1.0"
+		}			
+	}	
+
+	ResistanceComponent
+	{
+		quicksand		"0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/floating_mine.mesh"
+		material "items/weapons/floating_mines_incendiary"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/floating_mine"
+	}
+	
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"ground_unit"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				team		"hostility"
+				check_parent "0"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "5"
+			}
+		}
+	}	
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapon_hit/incendiary_mine_explosion"
+		on_world_hit_effect 	"effects/weapon_hit/incendiary_mine_explosion"
+		on_resisted_hit_effect 	"effects/weapon_hit/incendiary_mine_explosion"		
+		hit_effect_direction	"up"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		180
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			group "mine_unarmed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_placed"
+					bone "att_light"
+				}
+				Effect
+				{
+					blueprint "effects/items/mech_floating_mine_fire_beacon_armed"
+					bone "att_light"
+					delay "2"
+				}				
+			}
+		}
+		EffectGroup
+		{
+			enabled "0"
+			group	"mine_armed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_activated"
+					bone "att_light"
+				}
+			}
+		}
+	}	
+	SimpleMovementComponent
+	{
+		movement "SimpleUpDownMovement"
+		{
+			interpolator
+			{
+				start 	0
+				current 0 
+				end 	0.5
+				timer	
+				{
+					timeLimit	2
+					timePassed	0
+				}
+				mode	0
+			
+			}
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name "items/projectiles/floating_mines_incendiary_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/weapon_hit/incendiary_mine_explosion"
+	
+		DamagePattern
+		{
+			area_damage_radius	"8"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"fire"
+				}
+			}
+		}
+	}
+}
