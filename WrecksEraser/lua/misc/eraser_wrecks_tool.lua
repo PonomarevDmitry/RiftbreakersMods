@@ -17,10 +17,6 @@ function eraser_wrecks_tool:SpawnCornerBlueprint()
     end
 end
 
-function eraser_wrecks_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
-end
-
 function eraser_wrecks_tool:FindEntitiesToSelect( selectorComponent )
 
     local predicate = {
