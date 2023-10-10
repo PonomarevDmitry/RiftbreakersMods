@@ -237,10 +237,12 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
 
             local position = EntityService:GetPosition( entity )
 
-            local boundsSize = { x=1.0, y=1.0, z=1.0 }
+            local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
-            local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
-            local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
+            local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+            local min = VectorSub(position, scaleVector)
+            local max = VectorAdd(position, scaleVector)
 
             local tempSelected = FindService:FindGridMiscByBox( min, max )
 
