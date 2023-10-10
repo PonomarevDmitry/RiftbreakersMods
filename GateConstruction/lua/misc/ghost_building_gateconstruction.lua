@@ -243,7 +243,7 @@ function ghost_building_gateconstruction:OnUpdate()
             end
         end
 
-        local boundsSize = { x=1.0, y=1.0, z=1.0 }
+        local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
         local vectorBounds = VectorMulByNumber(boundsSize , 2)
 
