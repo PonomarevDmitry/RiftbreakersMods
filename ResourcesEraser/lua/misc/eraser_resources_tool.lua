@@ -32,7 +32,9 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    local scaleVector = VectorMulByNumber(self.boundsSize, self.currentScale - 0.5)
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
 
     local min = VectorSub(selectorPosition, scaleVector)
     local max = VectorAdd(selectorPosition, scaleVector)
@@ -49,10 +51,12 @@ function eraser_resources_tool:GetEntitiesResources( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=1.0, z=1.0 }
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
-    local min = VectorSub(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
-    local max = VectorAdd(selectorPosition, VectorMulByNumber(boundsSize, self.currentScale))
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
 
     local predicate = {
 
