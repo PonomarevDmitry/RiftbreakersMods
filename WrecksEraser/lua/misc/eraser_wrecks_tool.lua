@@ -47,10 +47,12 @@ function eraser_wrecks_tool:FindEntitiesToSelect( selectorComponent )
 
     local position = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=1.0, z=1.0 }
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
-    local minVector = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
-    local maxVector = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+    local minVector = VectorSub(position, scaleVector)
+    local maxVector = VectorAdd(position, scaleVector)
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
 
