@@ -107,6 +107,11 @@ end
 
 function picker_tool:AddedToSelection( entity )
 
+    self:MarkEntity( entity )
+end
+
+function picker_tool:MarkEntity( entity )
+
     if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
         self.selectedResourceComponents = self.selectedResourceComponents or {}
@@ -114,10 +119,6 @@ function picker_tool:AddedToSelection( entity )
         local childrenList = EntityService:GetChildren( entity, false )
 
         for childResource in Iter( childrenList ) do
-
-            if ( IndexOf( self.selectedResourceComponents, childResource ) ~= nil ) then
-                goto continue
-            end
 
             if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
                 goto continue
@@ -127,7 +128,9 @@ function picker_tool:AddedToSelection( entity )
                 goto continue
             end
 
-            Insert( self.selectedResourceComponents, childResource )
+            if ( IndexOf( self.selectedResourceComponents, childResource ) == nil ) then
+                Insert( self.selectedResourceComponents, childResource )
+            end
 
             QueueEvent( "SelectEntityRequest", childResource )
 
@@ -160,10 +163,6 @@ function picker_tool:RemovedFromSelection( entity )
 
         for childResource in Iter( childrenList ) do
 
-            if ( IndexOf( self.selectedResourceComponents, childResource ) == nil ) then
-                goto continue
-            end
-
             if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
                 goto continue
             end
@@ -172,7 +171,9 @@ function picker_tool:RemovedFromSelection( entity )
                 goto continue
             end
 
-            Remove( self.selectedResourceComponents, childResource )
+            if ( IndexOf( self.selectedResourceComponents, childResource ) ~= nil ) then
+                Remove( self.selectedResourceComponents, childResource )
+            end
 
             QueueEvent( "DeselectEntityRequest", childResource )
 
@@ -193,6 +194,11 @@ end
 function picker_tool:OnUpdate()
 
     self:HighlightRuins()
+
+    for entity in Iter( self.selectedEntities ) do
+
+        self:MarkEntity( entity )
+    end
 end
 
 function picker_tool:FindEntitiesToSelect( selectorComponent )
@@ -201,7 +207,9 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    local scaleVector = VectorMulByNumber(self.boundsSize, self.currentScale - 0.5)
+    local boundsSize = { x=1.0, y=20.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
 
     local min = VectorSub(selectorPosition, scaleVector)
     local max = VectorAdd(selectorPosition, scaleVector)
@@ -265,9 +273,9 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
         signature="ResourceComponent"
     }
 
-    local boundsSize = { x=1.0, y=1.0, z=1.0 }
+    local boundsSize = { x=1.0, y=20.0, z=1.0 }
 
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
 
     local min = VectorSub(selectorPosition, scaleVector)
     local max = VectorAdd(selectorPosition, scaleVector)
@@ -407,7 +415,7 @@ function picker_tool:OnActivateSelectorRequest()
 
 
 
-    
+
     local currentBiome = MissionService:GetCurrentBiomeName()
     local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( self.entity )
 
