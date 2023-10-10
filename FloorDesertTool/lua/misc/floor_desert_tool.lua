@@ -422,75 +422,7 @@ end
 
 function floor_desert_tool:FindEntitiesToSelect( selectorComponent )
 
-    local possibleSelectedEnts = {}
-
-    for xIndex=1,#self.gridEntities do
-
-        local gridEntitiesZ = self.gridEntities[xIndex]
-
-        for zIndex=1,#gridEntitiesZ do
-
-            local entity = gridEntitiesZ[zIndex]
-
-            if ( EntityService:IsAlive( entity ) ) then
-
-                local position = EntityService:GetPosition( entity )
-
-                local boundsSize = { x=1.0, y=1.0, z=1.0 }
-
-                local min = VectorSub(position, VectorMulByNumber(boundsSize, self.currentScale))
-                local max = VectorAdd(position, VectorMulByNumber(boundsSize, self.currentScale))
-
-                local tempSelected = FindService:FindGridMiscByBox( min, max )
-
-                for tempEntity in Iter( tempSelected ) do
-
-                    if ( tempEntity ~= nil and IndexOf( possibleSelectedEnts, tempEntity ) == nil ) then
-                       Insert( possibleSelectedEnts, tempEntity )
-                    end
-                end
-            end
-        end
-    end
-
-    local selectorPosition = selectorComponent.position
-
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition( lhs )
-        local p2 = EntityService:GetPosition( rhs )
-        local d1 = Distance( selectorPosition, p1 )
-        local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2
-    end
-
-    table.sort(possibleSelectedEnts, function(a,b)
-        return sorter(possibleSelectedEnts, a, b)
-    end)
-
-    local selectedEntities = {}
-
-    for entity in Iter( possibleSelectedEnts ) do
-
-        if ( IndexOf( selectedEntities, entity ) ~= nil ) then
-            goto continue
-        end
-
-        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        if ( buildingComponent == nil ) then
-            goto continue
-        end
-
-        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode >= 3 ) then
-            goto continue
-        end
-
-        Insert(selectedEntities, entity )
-
-        ::continue::
-    end
-
-    return selectedEntities
+    return {}
 end
 
 function floor_desert_tool:AddedToSelection( entity )
