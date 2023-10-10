@@ -41,10 +41,12 @@ function sell_ruins_eraser_tool:FindEntitiesToSelect( selectorComponent )
 
     local position = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=1.0, z=1.0 }
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
-    local min = VectorSub(position, VectorMulByNumber(boundsSize , self.currentScale - 0.5))
-    local max = VectorAdd(position, VectorMulByNumber(boundsSize , self.currentScale - 0.5))
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
+
+    local min = VectorSub(position, scaleVector)
+    local max = VectorAdd(position, scaleVector)
 
     local tempCollection = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 

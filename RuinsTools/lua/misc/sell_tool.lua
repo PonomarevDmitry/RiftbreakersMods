@@ -57,8 +57,14 @@ function sell_tool:FindEntitiesToSelect( selectorComponent )
     local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
 
     local position = selectorComponent.position
-    local min = VectorSub(position, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
-    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize, self.currentScale - 0.5))
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
+
+    local min = VectorSub(position, scaleVector)
+    local max = VectorAdd(position, scaleVector)
+
     local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 
     for entity in Iter( self.selectedEntities ) do
