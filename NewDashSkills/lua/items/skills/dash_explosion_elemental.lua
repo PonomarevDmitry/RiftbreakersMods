@@ -1,12 +1,12 @@
 local firetrail_dash = require("lua/items/skills/firetrail_dash.lua")
 
-class 'dash_emergency' ( firetrail_dash )
+class 'dash_explosion' ( firetrail_dash )
 
-function dash_emergency:__init()
+function dash_explosion:__init()
     dash.__init(self,self)
 end
 
-function dash_emergency:OnInit()
+function dash_explosion:OnInit()
     if ( firetrail_dash.OnInit ) then
         firetrail_dash.OnInit(self)
     end
@@ -14,7 +14,7 @@ function dash_emergency:OnInit()
     self:FillInitialParams()
 end
 
-function dash_emergency:OnLoad()
+function dash_explosion:OnLoad()
     if ( firetrail_dash.OnLoad ) then
         firetrail_dash.OnLoad(self)
     end
@@ -22,7 +22,7 @@ function dash_emergency:OnLoad()
     self:FillInitialParams()
 end
 
-function dash_emergency:FillInitialParams()
+function dash_explosion:FillInitialParams()
 
     local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
 
@@ -34,7 +34,7 @@ function dash_emergency:FillInitialParams()
     self.radiusLifeTime = database:GetFloatOrDefault( "radius_lifetime", 0 )
 end
 
-function dash_emergency:OnActivate()
+function dash_explosion:OnActivate()
 
     self:SpawnExplosion()
 
@@ -43,7 +43,7 @@ function dash_emergency:OnActivate()
     end
 end
 
-function dash_emergency:SpawnExplosion()
+function dash_explosion:SpawnExplosion()
 
     local team = EntityService:GetTeam( self.owner )
 
@@ -66,4 +66,4 @@ function dash_emergency:SpawnExplosion()
     end
 end
 
-return dash_emergency
+return dash_explosion

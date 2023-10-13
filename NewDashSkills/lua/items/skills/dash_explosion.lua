@@ -1,12 +1,12 @@
 local dash = require("lua/items/skills/dash.lua")
 
-class 'dash_emergency' ( dash )
+class 'dash_explosion' ( dash )
 
-function dash_emergency:__init()
+function dash_explosion:__init()
     dash.__init(self,self)
 end
 
-function dash_emergency:OnInit()
+function dash_explosion:OnInit()
     if ( dash.OnInit ) then
         dash.OnInit(self)
     end
@@ -14,7 +14,7 @@ function dash_emergency:OnInit()
     self:FillInitialParams()
 end
 
-function dash_emergency:OnLoad()
+function dash_explosion:OnLoad()
     if ( dash.OnLoad ) then
         dash.OnLoad(self)
     end
@@ -22,7 +22,7 @@ function dash_emergency:OnLoad()
     self:FillInitialParams()
 end
 
-function dash_emergency:FillInitialParams()
+function dash_explosion:FillInitialParams()
 
     local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
 
@@ -30,7 +30,7 @@ function dash_emergency:FillInitialParams()
     self.att = database:GetStringOrDefault( "att", "" )
 end
 
-function dash_emergency:OnActivate()
+function dash_explosion:OnActivate()
 
     self:SpawnExplosion()
 
@@ -39,7 +39,7 @@ function dash_emergency:OnActivate()
     end
 end
 
-function dash_emergency:SpawnExplosion()
+function dash_explosion:SpawnExplosion()
 
     local team = EntityService:GetTeam( self.owner )
 
@@ -51,4 +51,4 @@ function dash_emergency:SpawnExplosion()
     QueueEvent( "FadeEntityInRequest", spawned, 0.5 )
 end
 
-return dash_emergency
+return dash_explosion
