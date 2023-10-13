@@ -8,7 +8,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local buildingSystemCampaignInfoComponentRef = reflection_helper( buildingSystemCampaignInfoComponent )
 
-    local hasFloor = false
+    local hasBuilding = false
 
     local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
 
@@ -21,11 +21,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         end
 
         if ( unlocked == "floor_desert_1x1" ) then
-            hasFloor = true
+            hasBuilding = true
         end
     end
 
-    if (hasFloor) then
+    if (hasBuilding) then
 
         BuildingService:UnlockBuilding("buildings/decorations/floor_desert_tool")
     end
