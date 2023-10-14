@@ -16,7 +16,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
         local unlocked = unlocks[i]
 
-        if ( unlocked == "floor_desert_tool" ) then
+        if ( unlocked == "floor_desert_on_quicksand_tool" ) then
             return
         end
 
@@ -27,7 +27,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     if (hasBuilding) then
 
-        BuildingService:UnlockBuilding("buildings/decorations/floor_desert_tool")
+        BuildingService:UnlockBuilding("buildings/decorations/floor_desert_on_quicksand_tool")
     end
 end)
 
@@ -37,6 +37,6 @@ RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 
     if ( awardName == "buildings/decorations/floor_desert_1x1" ) then
 
-        BuildingService:UnlockBuilding("buildings/decorations/floor_desert_tool")
+        BuildingService:UnlockBuilding("buildings/decorations/floor_desert_on_quicksand_tool")
     end
 end)

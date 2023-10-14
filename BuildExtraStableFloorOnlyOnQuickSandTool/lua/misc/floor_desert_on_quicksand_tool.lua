@@ -1,23 +1,23 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-class 'floor_desert_tool' ( tool )
+class 'floor_desert_on_quicksand_tool' ( tool )
 
-function floor_desert_tool:__init()
+function floor_desert_on_quicksand_tool:__init()
     tool.__init(self,self)
 end
 
-function floor_desert_tool:OnPreInit()
+function floor_desert_on_quicksand_tool:OnPreInit()
     self.initialScale = { x=4, y=1, z=4 }
 end
 
-function floor_desert_tool:GetScaleFromDatabase()
+function floor_desert_on_quicksand_tool:GetScaleFromDatabase()
     return { x=4, y=1, z=4 }
 end
 
-function floor_desert_tool:OnInit()
+function floor_desert_on_quicksand_tool:OnInit()
     self.baseSearch = false
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_floor_desert_tool", self.entity)
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_floor_desert_on_quicksand_tool", self.entity)
 
     self.scaleMap = {
         1,
@@ -32,13 +32,13 @@ function floor_desert_tool:OnInit()
     self.currentSize = 0
 end
 
-function floor_desert_tool:SpawnCornerBlueprint()
+function floor_desert_on_quicksand_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function floor_desert_tool:FillWithFloors( blueprint, indexes )
+function floor_desert_on_quicksand_tool:FillWithFloors( blueprint, indexes )
 
     local toReplace = 1
 
@@ -154,7 +154,7 @@ function floor_desert_tool:FillWithFloors( blueprint, indexes )
     end
 end
 
-function floor_desert_tool:FinishLineBuild()
+function floor_desert_on_quicksand_tool:FinishLineBuild()
 
     self.nowBuildingLine = self.nowBuildingLine or false
 
@@ -179,7 +179,7 @@ function floor_desert_tool:FinishLineBuild()
     self.nowBuildingLine = false;
 end
 
-function floor_desert_tool:GetAllEntities()
+function floor_desert_on_quicksand_tool:GetAllEntities()
 
     local result = {}
 
@@ -198,7 +198,7 @@ function floor_desert_tool:GetAllEntities()
     return result
 end
 
-function floor_desert_tool:GetAllFreeGrids(floorEntities)
+function floor_desert_on_quicksand_tool:GetAllFreeGrids(floorEntities)
 
     local frequentBlueptinName = "buildings/decorations/floor_desert_1x1"
 
@@ -232,7 +232,7 @@ function floor_desert_tool:GetAllFreeGrids(floorEntities)
     return hashAllFreeGrids
 end
 
-function floor_desert_tool:BuildFloorEntites(floorEntities)
+function floor_desert_on_quicksand_tool:BuildFloorEntites(floorEntities)
 
     local frequentBlueptinName = "buildings/decorations/floor_desert_1x1"
 
@@ -265,7 +265,7 @@ function floor_desert_tool:BuildFloorEntites(floorEntities)
     end
 end
 
-function floor_desert_tool:BuildFloor(currentPosition, testBuildable, hashAllFreeGrids, listSelledEntities)
+function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildable, hashAllFreeGrids, listSelledEntities)
 
     local toRecreate = {}
 
@@ -347,7 +347,7 @@ function floor_desert_tool:BuildFloor(currentPosition, testBuildable, hashAllFre
     self.buildPosition = currentPosition
 end
 
-function floor_desert_tool:GetCellsToRebuild(testBuildable)
+function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable)
 
     local result = {}
 
@@ -385,7 +385,7 @@ function floor_desert_tool:GetCellsToRebuild(testBuildable)
     return result
 end
 
-function floor_desert_tool:GetTerrainType( position )
+function floor_desert_on_quicksand_tool:GetTerrainType( position )
 
     local tempEntity = EntityService:SpawnEntity( position )
     local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( tempEntity )
@@ -394,7 +394,7 @@ function floor_desert_tool:GetTerrainType( position )
     return terrainType
 end
 
-function floor_desert_tool:FindBlueprint(baseBlueprintName)
+function floor_desert_on_quicksand_tool:FindBlueprint(baseBlueprintName)
 
     local scale = EntityService:GetScale( self.entity )
 
@@ -420,18 +420,18 @@ function floor_desert_tool:FindBlueprint(baseBlueprintName)
     return baseBlueprintName
 end
 
-function floor_desert_tool:FindEntitiesToSelect( selectorComponent )
+function floor_desert_on_quicksand_tool:FindEntitiesToSelect( selectorComponent )
 
     return {}
 end
 
-function floor_desert_tool:AddedToSelection( entity )
+function floor_desert_on_quicksand_tool:AddedToSelection( entity )
 end
 
-function floor_desert_tool:RemovedFromSelection( entity )
+function floor_desert_on_quicksand_tool:RemovedFromSelection( entity )
 end
 
-function floor_desert_tool:OnUpdate()
+function floor_desert_on_quicksand_tool:OnUpdate()
 
     local currentScale = EntityService:GetScale(self.entity).x
 
@@ -496,7 +496,7 @@ function floor_desert_tool:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = EntityService:SpawnEntity("buildings/decorations/floor_desert_tool_ghost", newPosition, team )
+                    local lineEnt = EntityService:SpawnEntity("buildings/decorations/floor_desert_on_quicksand_tool_ghost", newPosition, team )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 
@@ -530,7 +530,7 @@ function floor_desert_tool:OnUpdate()
                     newPosition.y = positionY
                     newPosition.z = positionZ
 
-                    local lineEnt = EntityService:SpawnEntity("buildings/decorations/floor_desert_tool_ghost", newPosition, team )
+                    local lineEnt = EntityService:SpawnEntity("buildings/decorations/floor_desert_on_quicksand_tool_ghost", newPosition, team )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 
@@ -591,7 +591,7 @@ function floor_desert_tool:OnUpdate()
     end
 end
 
-function floor_desert_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
+function floor_desert_on_quicksand_tool:FindPositionsToBuildLine(buildStartPosition, buildEndPosition)
 
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
 
@@ -637,7 +637,7 @@ function floor_desert_tool:FindPositionsToBuildLine(buildStartPosition, buildEnd
     return arrayX, arrayZ
 end
 
-function floor_desert_tool:GetXZSigns(positionStart, positionEnd)
+function floor_desert_on_quicksand_tool:GetXZSigns(positionStart, positionEnd)
 
     local xSign = -1
     local zSign = -1
@@ -653,7 +653,7 @@ function floor_desert_tool:GetXZSigns(positionStart, positionEnd)
     return xSign, zSign
 end
 
-function floor_desert_tool:OnActivateSelectorRequest()
+function floor_desert_on_quicksand_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
@@ -669,12 +669,12 @@ function floor_desert_tool:OnActivateSelectorRequest()
     end
 end
 
-function floor_desert_tool:OnDeactivate()
+function floor_desert_on_quicksand_tool:OnDeactivate()
 
     self:FinishLineBuild()
 end
 
-function floor_desert_tool:StopBuildingGhosts()
+function floor_desert_on_quicksand_tool:StopBuildingGhosts()
 
     self:ClearGridEntities()
 
@@ -683,7 +683,7 @@ function floor_desert_tool:StopBuildingGhosts()
     self.buildStartPosition = nil
 end
 
-function floor_desert_tool:ClearGridEntities()
+function floor_desert_on_quicksand_tool:ClearGridEntities()
 
     if ( self.gridEntities ~= nil) then
         for gridEntitiesZ in Iter(self.gridEntities) do
@@ -696,7 +696,7 @@ function floor_desert_tool:ClearGridEntities()
     self.gridEntities = {}
 end
 
-function floor_desert_tool:OnRelease()
+function floor_desert_on_quicksand_tool:OnRelease()
 
     self:ClearGridEntities()
 
@@ -710,7 +710,7 @@ function floor_desert_tool:OnRelease()
     end
 end
 
-function floor_desert_tool:OnRotate()
+function floor_desert_on_quicksand_tool:OnRotate()
 end
 
-return floor_desert_tool
+return floor_desert_on_quicksand_tool
