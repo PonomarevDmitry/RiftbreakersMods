@@ -30,6 +30,8 @@ function floor_desert_on_quicksand_tool:OnInit()
     self.buildStartPosition = nil
     self.gridEntities = {}
     self.currentSize = 0
+
+    self.floorBlueprintName = "buildings/decorations/floor_desert_1x1"
 end
 
 function floor_desert_on_quicksand_tool:SpawnCornerBlueprint()
@@ -200,8 +202,6 @@ end
 
 function floor_desert_on_quicksand_tool:GetAllFreeGrids(floorEntities)
 
-    local frequentBlueptinName = "buildings/decorations/floor_desert_1x1"
-
     local hashAllFreeGrids = {}
 
     local count = #floorEntities
@@ -212,7 +212,7 @@ function floor_desert_on_quicksand_tool:GetAllFreeGrids(floorEntities)
 
         local ghostTransform = EntityService:GetWorldTransform( ghostEntity )
 
-        local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, frequentBlueptinName )
+        local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, self.floorBlueprintName )
 
         if ( test ) then
 
@@ -234,8 +234,6 @@ end
 
 function floor_desert_on_quicksand_tool:BuildFloorEntites(floorEntities)
 
-    local frequentBlueptinName = "buildings/decorations/floor_desert_1x1"
-
     local hashAllFreeGrids = self:GetAllFreeGrids(floorEntities)
 
     local count = #floorEntities
@@ -243,6 +241,8 @@ function floor_desert_on_quicksand_tool:BuildFloorEntites(floorEntities)
     self.buildPosition = EntityService:GetWorldTransform( self.selector )
 
     local entityTransform = EntityService:GetWorldTransform( self.entity )
+
+    local tempTerrainTypeEntity = EntityService:SpawnEntity( entityTransform.position )
 
     local listSelledEntities = {}
 
@@ -252,20 +252,22 @@ function floor_desert_on_quicksand_tool:BuildFloorEntites(floorEntities)
 
         local ghostTransform = EntityService:GetWorldTransform( ghostEntity )
 
-        local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, frequentBlueptinName )
+        local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, self.floorBlueprintName )
 
         if ( test ) then
 
             local testBuildable = reflection_helper(test:ToTypeInstance())
 
-            self:BuildFloor( entityTransform, testBuildable, hashAllFreeGrids, listSelledEntities )
+            self:BuildFloor( entityTransform, testBuildable, hashAllFreeGrids, listSelledEntities, tempTerrainTypeEntity )
 
             EntityService:RemoveEntity(ghostEntity)
         end
     end
+
+    EntityService:RemoveEntity(tempTerrainTypeEntity)
 end
 
-function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildable, hashAllFreeGrids, listSelledEntities)
+function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildable, hashAllFreeGrids, listSelledEntities, tempTerrainTypeEntity)
 
     local toRecreate = {}
 
@@ -331,13 +333,11 @@ function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildabl
 
     Assert( removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
 
-    local frequentBlueptinName = "buildings/decorations/floor_desert_1x1"
-
-    local cellsToBuild = self:GetCellsToRebuild(testBuildable)
+    local cellsToBuild = self:GetCellsToRebuild(testBuildable, tempTerrainTypeEntity)
 
     if ( #cellsToBuild > 0 ) then
 
-        self:FillWithFloors( self:FindBlueprint(frequentBlueptinName), cellsToBuild )
+        self:FillWithFloors( self:FindBlueprint(self.floorBlueprintName), cellsToBuild )
     end
 
     for recreateRequest in Iter( toRecreate ) do
@@ -347,7 +347,7 @@ function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildabl
     self.buildPosition = currentPosition
 end
 
-function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable)
+function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable, tempTerrainTypeEntity)
 
     local result = {}
 
@@ -370,7 +370,7 @@ function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable)
 
         local position = FindService:GetCellOrigin(idx)
 
-        local terrainType = self:GetTerrainType( position )
+        local terrainType = self:GetTerrainType( position, tempTerrainTypeEntity )
 
         if ( terrainType ~= "quicksand" ) then
 
@@ -385,11 +385,11 @@ function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable)
     return result
 end
 
-function floor_desert_on_quicksand_tool:GetTerrainType( position )
+function floor_desert_on_quicksand_tool:GetTerrainType( position, tempTerrainTypeEntity )
 
-    local tempEntity = EntityService:SpawnEntity( position )
-    local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( tempEntity )
-    EntityService:RemoveEntity(tempEntity)
+    EntityService:SetPosition( tempTerrainTypeEntity, position)
+
+    local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( tempTerrainTypeEntity )
 
     return terrainType
 end
@@ -566,9 +566,7 @@ function floor_desert_on_quicksand_tool:OnUpdate()
             end
         end
 
-        local blueprintName = "buildings/decorations/floor_desert_1x1"
-
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+        local list = BuildingService:GetBuildCosts( self.floorBlueprintName, self.playerId )
         for resourceCost in Iter(list) do
 
             if ( self.buildCost[resourceCost.first] == nil ) then
