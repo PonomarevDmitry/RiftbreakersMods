@@ -1,0 +1,63 @@
+EntityBlueprint
+{
+	name					"buildings/decorations/floor_desert_tool"
+
+	BuildingDesc
+	{
+		name				"floor_desert_tool"
+		bp					"buildings/decorations/floor_desert_tool"
+		ghost_bp			"buildings/decorations/floor_desert_tool_ghost"
+		category			"decorations"
+
+		localization_id		"gui/hud/building_name/floor_desert_tool"
+		description			"gui/hud/building_description/floor_desert_tool"
+		menu_icon			"gui/hud/tools_icons/floor_desert_tool"
+
+		require				"headquarters"
+
+		order				"0.1"
+		type				"floor_desert_tool"
+
+		building_group		"floor_desert_1x1"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/decorations/floor_desert_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"floor_desert_tool_ghost"
+		buildable			"0"
+		type				"floor_desert_tool"
+		category			"decorations"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/floor_tool.lua"
+
+		database
+		{
+			action			string:"floor_desert_tool"
+
+			blueprintName	string:"buildings/decorations/floor_desert_1x1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
