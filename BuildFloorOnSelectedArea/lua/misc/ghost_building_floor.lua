@@ -74,6 +74,12 @@ function ghost_building_floor:FillWithFloors( blueprint, indexes )
     if ( indexesCount == 0 ) then
         indexesCount = indexes.count
     end
+
+    indexesCount = indexesCount or 0
+    if ( indexesCount == 0 ) then
+        return
+    end
+
     for i = 1,indexesCount do
         local idx = indexes[i]
 
