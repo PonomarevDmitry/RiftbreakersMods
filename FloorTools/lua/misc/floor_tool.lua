@@ -269,7 +269,7 @@ function floor_tool:SpawnGhostFloorEntities()
         local lineEnt = self.linesEntities[i]
         
         EntityService:SetPosition( lineEnt, newPositions[i])
-        --EntityService:SetOrientation( lineEnt, orientation )
+        EntityService:SetOrientation( lineEnt, orientation )
         EntityService:SetScale( lineEnt, currentSize, 1.0, currentSize )
     end
 end
@@ -296,8 +296,6 @@ function floor_tool:FindPositionsToBuildLine(currentSize, cellCount)
         return result
     end
 
-    local totalIndexDict = {}
-
     local delta = currentSize * 2
 
     for indexX = 0,cellCount do
@@ -305,10 +303,8 @@ function floor_tool:FindPositionsToBuildLine(currentSize, cellCount)
 
             if ( indexX ~= 0 or indexZ ~= 0 ) then
 
+                local maxIndex = math.max(indexX, indexZ)
                 local totalIndex = indexX + indexZ
-                totalIndexDict[totalIndex] = totalIndexDict[totalIndex] or {}
-
-                local indexArray = totalIndexDict[totalIndex]
 
                 local newPosition = nil
 
@@ -317,7 +313,10 @@ function floor_tool:FindPositionsToBuildLine(currentSize, cellCount)
                 newPosition.x = indexX * delta
                 newPosition.z = indexZ * delta
 
-                Insert( indexArray, newPosition )
+                newPosition.maxIndex = maxIndex
+                newPosition.totalIndex = totalIndex
+
+                Insert( result, newPosition )
 
                 if ( indexZ ~= 0 ) then
 
@@ -326,7 +325,10 @@ function floor_tool:FindPositionsToBuildLine(currentSize, cellCount)
                     newPosition.x = indexX * delta
                     newPosition.z = - indexZ * delta
 
-                    Insert( indexArray, newPosition )
+                    newPosition.maxIndex = maxIndex
+                    newPosition.totalIndex = totalIndex
+
+                    Insert( result, newPosition )
                 end
 
                 if ( indexX ~= 0 ) then
@@ -336,7 +338,10 @@ function floor_tool:FindPositionsToBuildLine(currentSize, cellCount)
                     newPosition.x = - indexX * delta
                     newPosition.z = indexZ * delta
 
-                    Insert( indexArray, newPosition )
+                    newPosition.maxIndex = maxIndex
+                    newPosition.totalIndex = totalIndex
+
+                    Insert( result, newPosition )
                 end
 
                 if ( indexX ~= 0 and indexZ ~= 0 ) then
@@ -346,13 +351,26 @@ function floor_tool:FindPositionsToBuildLine(currentSize, cellCount)
                     newPosition.x = - indexX * delta
                     newPosition.z = - indexZ * delta
 
-                    Insert( indexArray, newPosition )
+                    newPosition.maxIndex = maxIndex
+                    newPosition.totalIndex = totalIndex
+
+                    Insert( result, newPosition )
                 end
             end
         end
     end
 
     local sorter = function( position1, position2 )
+
+        if (position1.maxIndex ~= position2.maxIndex) then
+
+            return position1.maxIndex < position2.maxIndex
+        end
+
+        if (position1.totalIndex ~= position2.totalIndex) then
+
+            return position1.totalIndex < position2.totalIndex
+        end
 
         if (position1.x ~= position2.x) then
 
@@ -362,20 +380,7 @@ function floor_tool:FindPositionsToBuildLine(currentSize, cellCount)
         return position1.z < position2.z
     end
 
-    for index = 1,2*cellCount do
-
-        local indexArray = totalIndexDict[index]
-
-        if ( indexArray ~= nil ) then
-
-            table.sort(indexArray, sorter)
-
-            for newPosition in Iter(indexArray) do
-
-                Insert( result, newPosition )
-            end
-        end
-    end
+    table.sort(result, sorter)
 
     return result
 end
