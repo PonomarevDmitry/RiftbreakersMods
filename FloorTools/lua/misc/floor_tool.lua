@@ -269,14 +269,14 @@ function floor_tool:SpawnGhostFloorEntities()
         local lineEnt = self.linesEntities[i]
         
         EntityService:SetPosition( lineEnt, newPositions[i])
-        EntityService:SetOrientation( lineEnt, orientation )
+        --EntityService:SetOrientation( lineEnt, orientation )
         EntityService:SetScale( lineEnt, currentSize, 1.0, currentSize )
     end
 end
 
 function floor_tool:SpawnGhostFloorEntity(position, orientation, currentSize)
 
-    local lineEnt = EntityService:SpawnAndAttachEntity( self.ghostBlueprintName, self.selector )
+    local lineEnt = EntityService:SpawnAndAttachEntity( "buildings/decorations/floor_tool_ghost", self.selector )
 
     EntityService:RemoveComponent( lineEnt, "LuaComponent" )
     EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
