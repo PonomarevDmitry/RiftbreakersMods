@@ -17,10 +17,6 @@ function eraser_mines_tool:SpawnCornerBlueprint()
     end
 end
 
-function eraser_mines_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
-end
-
 function eraser_mines_tool:FindEntitiesToSelect( selectorComponent )
 
     local predicate = {
