@@ -57,45 +57,18 @@ function floor_tool:InitializeValues()
         self.floorBlueprintName = self:GetFloorBlueprintName( selectorDB, parameterName, defaultFloor )
     end
 
-    self.scaleMap = {
-        1,
-        2,
-        3,
-        4,
-    }
-
-    self.nowBuilding = false
     self.linesEntities = {}
 
-    self.configNameCurrentSize = "$floor_tool_current_size"
+    self.currentSize = self.data:GetInt("size")
 
-    self.currentSize = selectorDB:GetIntOrDefault(self.configNameCurrentSize, 4)
-    self.currentSize = self:CheckSizeExists(self.currentSize)
+    self.configNameCellCount = "$floor_tool_cell_count_" .. tostring(self.currentSize)
 
-    self.configNameCellCount = "$floor_tool_cell_count"
-
-    --self.cellCount = selectorDB:GetIntOrDefault(self.configNameCellCount, 0)
-
-    self.cellCount = 0
+    self.cellCount = selectorDB:GetIntOrDefault(self.configNameCellCount, 0)
     self.cellCount = self:CheckCellCount(self.cellCount)
 
-    self:FillBuildingDesc( self.floorBlueprintName )
+    self:FillBuildingDesc()
 
     self:SpawnGhostFloorEntities()
-end
-
-function floor_tool:CheckSizeExists( currentSize )
-
-    currentSize = currentSize or self.scaleMap[4]
-
-    local index = IndexOf( self.scaleMap, currentSize )
-
-    if ( index == nil ) then
-
-        return self.scaleMap[4]
-    end
-
-    return currentSize
 end
 
 function floor_tool:CheckCellCount( cellCount )
@@ -111,8 +84,6 @@ end
 
 function floor_tool:OnRotateSelectorRequest(evt)
 
-    self.nowBuilding = self.nowBuilding or false
-
     local degree = evt:GetDegree()
 
     local change = 1
@@ -120,46 +91,19 @@ function floor_tool:OnRotateSelectorRequest(evt)
         change = -1
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
 
-    if ( self.nowBuilding ) then
+    local cellCount = self:CheckCellCount(self.cellCount)
 
-        local cellCount = self:CheckCellCount(self.cellCount)
+    local newValue = cellCount + change
 
-        local newValue = cellCount + change
-
-        if ( newValue < 0 ) then
-            newValue = 0
-        end
-
-        self.cellCount = newValue
-        
-        selectorDB:SetInt(self.configNameCellCount, newValue)
-    else
-
-        local currentSize = self:CheckSizeExists(self.currentSize)
-
-        local index = IndexOf( self.scaleMap, currentSize )
-        if ( index == nil ) then
-            index = 1
-        end
-
-        local maxIndex = #self.scaleMap
-
-        local newIndex = index + change
-
-        if ( newIndex > maxIndex ) then
-            newIndex = maxIndex
-        elseif( newIndex <= 0 ) then
-            newIndex = 1
-        end
-
-        local newValue = self.scaleMap[newIndex]
-
-        self.currentSize = newValue
-
-        selectorDB:SetInt(self.configNameCurrentSize, newValue)
+    if ( newValue < 0 ) then
+        newValue = 0
     end
+
+    self.cellCount = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetInt(self.configNameCellCount, newValue)
 
     self:SpawnGhostFloorEntities()
 end
@@ -218,9 +162,11 @@ function floor_tool:GetFloorBlueprintName( selectorDB, parameterName, defaultFlo
     return blueprintName
 end
 
-function floor_tool:FillBuildingDesc(floorBlueprintName)
+function floor_tool:FillBuildingDesc()
 
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( floorBlueprintName ) )
+    local blueprintName = EntityService:GetBlueprintName( self.entity )
+
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( blueprintName ) )
 
     self.ghostBlueprintName = buildingDesc.ghost_bp
     self.buildingDesc = buildingDesc
@@ -228,7 +174,7 @@ end
 
 function floor_tool:SpawnGhostFloorEntities()
 
-    local currentSize = self:CheckSizeExists(self.currentSize)
+    local currentSize = self.currentSize
     local cellCount = self:CheckCellCount(self.cellCount)
 
     EntityService:SetScale( self.entity, currentSize, 1.0, currentSize )
@@ -276,7 +222,7 @@ end
 
 function floor_tool:SpawnGhostFloorEntity(position, orientation, currentSize)
 
-    local lineEnt = EntityService:SpawnAndAttachEntity( "buildings/decorations/floor_tool_ghost", self.selector )
+    local lineEnt = EntityService:SpawnAndAttachEntity( self.ghostBlueprintName, self.selector )
 
     EntityService:RemoveComponent( lineEnt, "LuaComponent" )
     EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
@@ -690,12 +636,7 @@ end
 
 function floor_tool:OnActivateSelectorRequest()
 
-    if ( self.nowBuilding ) then
-
-        self:FinishLineBuild()
-    else
-        self.nowBuilding = true
-    end
+    self:FinishLineBuild()
 end
 
 function floor_tool:ClearGridEntities()
@@ -711,8 +652,6 @@ end
 function floor_tool:OnRelease()
 
     self:ClearGridEntities()
-
-    self.nowBuilding = false
 
     self.currentSize = 0
 end
