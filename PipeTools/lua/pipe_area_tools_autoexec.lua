@@ -8,6 +8,8 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local buildingSystemCampaignInfoComponentRef = reflection_helper( buildingSystemCampaignInfoComponent )
 
+    local hasAreaTool = false
+    local hasDiagonalTool = false
     local hasBuilding = false
 
     local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
@@ -17,7 +19,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         local unlocked = unlocks[i]
 
         if ( unlocked == "pipe_area_tool" ) then
-            return
+            hasAreaTool = true
+        end
+
+        if ( unlocked == "pipe_diagonal_tool" ) then
+            hasDiagonalTool = true
         end
 
         if ( unlocked == "pipeline" ) then
@@ -27,9 +33,12 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     if (hasBuilding) then
 
-        LogService:Log("Unlock pipe_area_tool in PlayerCreatedEvent")
-
-        BuildingService:UnlockBuilding("buildings/resources/pipe_area_tool")
+        if ( not hasAreaTool ) then
+            BuildingService:UnlockBuilding("buildings/resources/pipe_area_tool")
+        end
+        if ( not hasDiagonalTool ) then
+            BuildingService:UnlockBuilding("buildings/resources/pipe_diagonal_tool")
+        end
     end
 end)
 
@@ -39,8 +48,7 @@ RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 
     if ( awardName == "buildings/resources/pipe_straight" ) then
 
-        LogService:Log("Unlock pipe_area_tool in NewAwardEvent")
-
         BuildingService:UnlockBuilding("buildings/resources/pipe_area_tool")
+        BuildingService:UnlockBuilding("buildings/resources/pipe_diagonal_tool")
     end
 end)
