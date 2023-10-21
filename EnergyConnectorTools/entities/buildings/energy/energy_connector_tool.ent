@@ -1,0 +1,59 @@
+EntityBlueprint
+{
+	name					"buildings/energy/energy_connector_tool"
+
+	BuildingDesc
+	{
+		name				"energy_connector_tool"
+		bp					"buildings/energy/energy_connector_tool"
+		ghost_bp			"buildings/energy/energy_connector_tool_ghost"
+		category			"energy"
+
+		localization_id		"gui/hud/building_name/energy_connector_tool"
+		description			"gui/hud/building_description/energy_connector_tool"
+		menu_icon			"gui/hud/tools_icons/energy_connector_tool"
+
+		order				"1"
+		type				"energy_connector_tool"
+		require				"headquarters"
+
+		building_group		"energy_connector"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/energy/energy_connector_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"energy_connector_tool_ghost"
+		buildable			"0"
+		type				"energy_connector_tool"
+		category			"energy"
+	}
+
+	LuaDesc
+	{
+		script				"lua/buildings/energy/energy_connector_tool.lua"
+		database
+		{
+			action			string:"energy_connector_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
