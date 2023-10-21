@@ -18,9 +18,11 @@ function energy_connector_tool:OnInit()
 
     self.configNameSize = "$energy_connector_tool_size"
 
+    self.defaultRadius = math.ceil((self.radius + 1) / 2)
+
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.currentSize = selectorDB:GetIntOrDefault(self.configNameSize, 1)
+    self.currentSize = selectorDB:GetIntOrDefault(self.configNameSize, self.defaultRadius)
     self.currentSize = self:CheckSizeExists(self.currentSize)
 
     self:SpawnGhostConnectorEntities()
@@ -28,10 +30,12 @@ end
 
 function energy_connector_tool:CheckSizeExists( currentSize )
 
-    currentSize = currentSize or 1
+    currentSize = currentSize or self.defaultRadius
 
     if ( currentSize < 1) then
         currentSize = 1
+    elseif ( currentSize > self.radius) then
+        currentSize = self.radius
     end
 
     return currentSize
