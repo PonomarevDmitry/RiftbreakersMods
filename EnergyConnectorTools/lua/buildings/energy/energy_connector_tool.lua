@@ -18,7 +18,9 @@ function energy_connector_tool:OnInit()
 
     self.configNameSize = "$energy_connector_tool_size"
 
-    self.defaultRadius = math.ceil((self.radius + 1) / 2)
+    self.type = self.data:GetIntOrDefault("type", 1)
+
+    self.defaultRadius = math.ceil( (self.radius - 1) / 2 )
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -99,6 +101,112 @@ end
 
 function energy_connector_tool:FindPositionsToBuildLine(currentSize)
 
+    if ( self.type == 2 ) then
+
+        return self:FindPositionsType2(currentSize)
+
+    elseif ( self.type == 3 ) then
+
+        return self:FindPositionsType3(currentSize)
+    end
+
+    return self:FindPositionsType1(currentSize)
+end
+
+function energy_connector_tool:FindPositionsType1(currentSize)
+
+    local result = {}
+
+    local delta = currentSize * 2
+
+    local newPosition = nil
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = 0
+    newPosition.z = 0
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = delta
+    newPosition.z = delta
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = - delta
+    newPosition.z = delta
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = delta
+    newPosition.z = - delta
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = - delta
+    newPosition.z = - delta
+
+    Insert( result, newPosition )
+
+    return result
+end
+
+function energy_connector_tool:FindPositionsType2(currentSize)
+
+    local result = {}
+
+    local delta = currentSize * 2
+
+    local newPosition = nil
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = 0
+    newPosition.z = 0
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = 0
+    newPosition.z = delta
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = delta
+    newPosition.z = 0
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = 0
+    newPosition.z = - delta
+
+    Insert( result, newPosition )
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = - delta
+    newPosition.z = 0
+
+    Insert( result, newPosition )
+
+    return result
+end
+
+function energy_connector_tool:FindPositionsType3(currentSize)
+
     local result = {}
 
     local delta = currentSize * 2
@@ -157,7 +265,7 @@ function energy_connector_tool:FindPositionsToBuildLine(currentSize)
                 newPosition.maxIndex = maxIndex
                 newPosition.totalIndex = totalIndex
 
-                    Insert( result, newPosition )
+                Insert( result, newPosition )
             end
         end
     end
