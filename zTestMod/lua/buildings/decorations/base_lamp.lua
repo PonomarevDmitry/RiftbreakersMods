@@ -13,8 +13,6 @@ function base_lamp:OnInit()
 	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
 	
-	ItemService:SetInvisible( self.entity, true )
-
 	self:SetWorking()
 end
 
@@ -25,8 +23,6 @@ function base_lamp:OnLoad()
 	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
 	
-	ItemService:SetInvisible( self.entity, true )
-
 	self:SetWorking()
 end
 
