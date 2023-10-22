@@ -21,6 +21,10 @@ function sell_depleted:OnInit()
     self.scaleMap = {
         1,
     }
+
+    self.replaceWithConnectorsValuesArray = { false, true }
+
+    self.replaceWithConnectors = false
 end
 
 function sell_depleted:SpawnCornerBlueprint()
@@ -61,6 +65,20 @@ function sell_depleted:OnUpdate()
             end
 
             self.sellCosts[resourceCost.first ] = self.sellCosts[resourceCost.first] + resourceCost.second
+        end
+    end
+
+    if ( self.replaceWithConnectors ) then
+        
+        local list = BuildingService:GetBuildCosts( "buildings/energy/energy_connector", self.playerId )
+
+        for resourceCost in Iter(list) do
+
+            if ( self.sellCosts[resourceCost.first] == nil ) then
+               self.sellCosts[resourceCost.first] = 0
+            end
+
+            self.sellCosts[resourceCost.first ] = self.sellCosts[resourceCost.first] - 4 * resourceCost.second * #self.selectedEntities
         end
     end
 
@@ -157,13 +175,101 @@ function sell_depleted:OnActivateSelectorRequest()
         return
     end
 
+    local team = EntityService:GetTeam( self.entity )
+
     for entity in Iter( self.selectedEntities ) do
+
+        if ( self.replaceWithConnectors ) then
+
+            local transform = EntityService:GetWorldTransform( entity )
+
+            local position = transform.position
+            local orientation = transform.orientation
+
+            local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/sell_depleted/script", position, team )
+
+            local database = EntityService:GetDatabase( buildAfterSellScript )
+
+            database:SetInt( "target_entity", entity )
+            database:SetInt( "player_id", self.playerId )
+            database:SetInt( "building_count", 4 )
+
+            database:SetString( "building_blueprintname", "buildings/energy/energy_connector" )
+        end
+
+
         QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
     end
 
     QueueEvent( "LeaveBuildModeRequest", self.selector, false )
 
     EntityService:RemoveEntity( self.entity )
+end
+
+function sell_depleted:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local currentReplaceWithConnectors = self:CheckReplaceWithConnectorsValueExists(self.replaceWithConnectors)
+
+    local replaceWithConnectorsValuesArray = self.replaceWithConnectorsValuesArray
+
+    local index = IndexOf( replaceWithConnectorsValuesArray, currentReplaceWithConnectors )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #replaceWithConnectorsValuesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
+    end
+
+    local newValue = replaceWithConnectorsValuesArray[newIndex]
+
+    self.replaceWithConnectors = newValue
+
+    self:UpdateMarker()
+
+    self:OnUpdate()
+end
+
+function sell_depleted:CheckReplaceWithConnectorsValueExists( replaceWithConnectors )
+
+    local replaceWithConnectorsValuesArray = self.replaceWithConnectorsValuesArray
+
+    replaceWithConnectors = replaceWithConnectors or replaceWithConnectorsValuesArray[1]
+
+    local index = IndexOf(replaceWithConnectorsValuesArray, replaceWithConnectors )
+
+    if ( index == nil ) then
+
+        return replaceWithConnectorsValuesArray[1]
+    end
+
+    return replaceWithConnectors
+end
+
+function sell_depleted:UpdateMarker()
+
+    local markerDB = self.data
+
+    if ( self.replaceWithConnectors ) then
+
+        markerDB:SetString("message_text", "gui/hud/sell_depleted/replace_with_connectors")
+        markerDB:SetInt("message_visible", 1)
+    else
+        markerDB:SetString("message_text", "")
+        markerDB:SetInt("message_visible", 0)
+    end
 end
 
 function sell_depleted:OnRelease()
@@ -176,9 +282,6 @@ function sell_depleted:OnRelease()
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
     end
-end
-
-function sell_depleted:OnRotateSelectorRequest(evt)
 end
 
 return sell_depleted
