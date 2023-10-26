@@ -443,12 +443,10 @@ function picker_tool:OnActivateSelectorRequest()
         end
     end
 
-    local isFloor = ( string.find(terrainType, "floor") ~= nil )
-    local isTrail = ( string.find(terrainType, "trail") ~= nil )
-    local isCryoGround = ( terrainType == "cryo_ground" )
+    local isFloorTrailResourceCryoTerrain = ( string.find(terrainType, "floor") ~= nil ) or ( string.find(terrainType, "trail") ~= nil ) or ( terrainType == "resource" ) or ( terrainType == "cryo_ground" )
     local isHotGround = ( terrainType == "magma_hot_ground" or terrainType == "magma_very_hot_ground" )
 
-    if ( isHotGround or ( currentBiome == "magma" and not isFloor and not isTrail and not isCryoGround ) ) then
+    if ( isHotGround or ( currentBiome == "magma" and not isFloorTrailResourceCryoTerrain ) ) then
 
         local lowName = "cryo_station"
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
