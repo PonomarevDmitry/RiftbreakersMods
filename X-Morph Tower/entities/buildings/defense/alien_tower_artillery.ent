@@ -1,21 +1,24 @@
 EntityBlueprint
 {
-	name "buildings/defense/alien_tower_plasma"
+	name "buildings/defense/alien_tower_artillery"
 
 	BuildingDesc
 	{
-		name 				"alien_tower_plasma"
-		bp   				"buildings/defense/alien_tower_plasma"
+		name 				"alien_tower_artillery"
+		bp   				"buildings/defense/alien_tower_artillery"
 		category 			"defense"
-		localization_id		"gui/hud/building_name/alien_tower_plasma"
-		description			"gui/hud/building_description/alien_tower_plasma"
-		menu_icon			"gui/hud/building_icons/alien_tower_plasma"
+		localization_id		"gui/hud/building_name/alien_tower_artillery"
+		description			"gui/hud/building_description/alien_tower_artillery"
+		menu_icon			"gui/hud/building_icons/alien_tower_artillery"
 		require 			"headquarters"
 		order				"13"
 		type				"tower"
 		overrides			"tower,wall"
-		//upgrade				"buildings/defense/alien_tower_plasma_lvl_2"
+		//upgrade				"buildings/defense/alien_tower_artillery_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		building_group		"alien_tower_plasma"
+		buildable			"0"
 		
 		costs
 		{
@@ -138,8 +141,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/alien_tower_plasma_basic.mesh"
-		material 	"buildings/defense/alien_tower_plasma"
+		mesh 		"meshes/units/ground/alien_tower_artillery_basic.mesh"
+		material 	"buildings/defense/alien_tower_artillery"
 	}
 
 	TypeDesc
@@ -149,7 +152,7 @@ EntityBlueprint
 
 	SkeletonDesc
 	{
-		name "meshes/units/ground/alien_tower_plasma_basic"
+		name "meshes/units/ground/alien_tower_artillery_basic"
 	}
 
 	PhysicsDesc
@@ -255,12 +258,12 @@ EntityBlueprint
 	{
 		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit"
 		target_ignore "invisible"
-		speed "150"
+		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "0"
-			range_max "40"
-			aiming_range "45"
+			range_min "10"
+			range_max "70"
+			aiming_range "90"
 		}
 
 		aiming_cooldown "1"
@@ -271,6 +274,7 @@ EntityBlueprint
 		yaw "be_turret"
 		check_target_visibility "1"
 		fog_of_war_filtering "1"
+		//use_IK "0"
 	}
 
 	BurstWeaponComponent
@@ -281,21 +285,22 @@ EntityBlueprint
 			{
 				attachment "att_muzzle"
 				recoil_bone  "be_recoil"
-				recoil_time   "0.5"
-				recoil_offset   "0.9"
+				recoil_time   "0.6"
+				recoil_offset   "1.3"
 			}
 		}
 
 		WeaponAffector
 		{
 			emissive_time "0.5"
-			emissive_factor "12"
+			emissive_factor "16"
 			submesh_idx "1"
 		}
 
-		ammo_blueprint 				"buildings/defense/alien_tower_plasma_projectile"
 
-		muzzle_flash_effect 		"effects/enemies_alien_tower/plasma_muzzle"
+		ammo_blueprint 				"buildings/defense/alien_tower_artillery_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_alien_tower/artillery_muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
@@ -380,8 +385,8 @@ EntityBlueprint
 					explosion_min_power 	"3000"
 					explosion_effect 		"effects/enemies_alien_tower/tower_explosion"
 					part_physics_material   "debris_heavy"
-					part_material 			"buildings/defense/alien_tower_plasma"
-					part_prefix 			"meshes/units/ground/alien_tower_plasma_basic"
+					part_material 			"buildings/defense/alien_tower_artillery"
+					part_prefix 			"meshes/units/ground/alien_tower_artillery"
 					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
 					part_lifetime "3"
 				}
@@ -395,8 +400,8 @@ EntityBlueprint
 					explosion_min_power 	"3000"
 					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
 					part_physics_material   "debris_heavy"	
-					part_material 			"buildings/defense/alien_tower_plasma"
-					part_prefix 			"meshes/units/ground/alien_tower_plasma_basic"
+					part_material 			"buildings/defense/alien_tower_artillery"
+					part_prefix 			"meshes/units/ground/alien_tower_artillery_basic"
 					part_lifetime "3"	
 				}
 
@@ -840,7 +845,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "buildings/defense/alien_tower_plasma_projectile"
+	name "buildings/defense/alien_tower_artillery_projectile"
 	
 	base_blueprints 
 	{
@@ -850,8 +855,13 @@ EntityBlueprint
 	
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
-		material    "projectiles/laser_blue"
+		mesh 		"meshes/projectiles/artillery_shell.mesh"
+		material 	"projectiles/artillery_shell"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/artillery_shell"
 	}
 
 	MinimapItemDesc
@@ -878,16 +888,20 @@ EntityBlueprint
 		bending_radius	"5.0"
 	}
 
-	ProjectileAmmoComponent
+	SoundDesc
 	{
-		diameter				"0.2"
+		name 		"items/weapons/explosive/rocket_projectile_medium"
+	}
 
-		on_enemy_hit_effect 	"effects/enemies_alien_tower/plasma_explosion"
-		on_world_hit_effect 	"effects/enemies_alien_tower/plasma_explosion"
-		on_resisted_hit_effect	"effects/enemies_alien_tower/plasma_explosion"
-		on_shield_hit_effect	"effects/enemies_alien_tower/plasma_explosion"
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/enemies_alien_tower/artillery_explosion"
+		on_world_hit_effect 	"effects/enemies_alien_tower/artillery_explosion"
+		on_resisted_hit_effect	"effects/enemies_alien_tower/artillery_explosion"
+		on_shield_hit_effect	"effects/enemies_alien_tower/artillery_explosion"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 		hit_effect_direction	"up"  //inverse, normal, up
+		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
 	}
 
 	LifeTimeDesc
@@ -895,33 +909,50 @@ EntityBlueprint
 		time 		4
 	}
 	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/tower_artillery_projectile"
+					bone "att_exhaust"
+				}
+			}
+		}
+	}	
+	
 	children
 	{
 		EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			ribbon/heavy_plasma_blue
+				material 			ribbon/smoke_trail_02
 				update_bounds 		1
-				fade_out_time		0.2
-				uv_scroll			"0 -0.1"
+				fade_out_time		0.9
+				uv_scroll			"0 -2.5"
 				tiling_distance     "0"
-				tesselation_step 	"0.2"
+				tesselation_step 	"0.25"
 				keep_local			"0"
 
 				Ribbons
 				{
 					Ribbon
 					{
-						offset "0 0 0.25"
+						parent_attachment "att_exhaust"
+						offset "0 0 0.6"
 					}
 
 					Ribbon
 					{
-						offset "0 0 -0.25"
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.6"
 					}
 				}
 			}
 		}
-	}	
+	}
 }
