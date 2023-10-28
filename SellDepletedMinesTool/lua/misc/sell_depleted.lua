@@ -18,13 +18,22 @@ function sell_depleted:OnInit()
 
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell", self.entity)
 
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+
     self.scaleMap = {
         1,
     }
 
     self.replaceWithConnectorsValuesArray = { false, true }
 
-    self.replaceWithConnectors = false
+    self.configName = "$sell_depleted_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.replaceWithConnectors = (selectorDB:GetIntOrDefault(self.configName, 0) == 1)
+
+    self:UpdateMarker()
 end
 
 function sell_depleted:SpawnCornerBlueprint()
@@ -68,8 +77,8 @@ function sell_depleted:OnUpdate()
         end
     end
 
-    if ( self.replaceWithConnectors ) then
-        
+    if ( self.replaceWithConnectors and #self.selectedEntities > 0 ) then
+
         local list = BuildingService:GetBuildCosts( "buildings/energy/energy_connector", self.playerId )
 
         for resourceCost in Iter(list) do
@@ -237,6 +246,13 @@ function sell_depleted:OnRotateSelectorRequest(evt)
 
     self.replaceWithConnectors = newValue
 
+    local savedValue = 0;
+    if ( newValue ) then
+        savedValue = 1;
+    end
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetInt(self.configName, savedValue)
+
     self:UpdateMarker()
 
     self:OnUpdate()
@@ -277,6 +293,11 @@ function sell_depleted:OnRelease()
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
         self.childEntity = nil
+    end
+
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
     end
 
     if ( tool.OnRelease ) then
