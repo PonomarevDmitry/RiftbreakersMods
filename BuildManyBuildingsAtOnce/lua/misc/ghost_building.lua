@@ -49,9 +49,9 @@ function ghost_building:OnInit()
 
         self.isBuildingWithGaps = true
 
-        local gridSize = BuildingService:GetBuildingGridSize(self.entity)
+        local lowName = BuildingService:FindLowUpgrade( self.blueprint )
 
-        self.configNameCellGaps = "$" .. typeName .. "s_" .. tostring(gridSize.x) .. "_construction_cell_count"
+        self.configNameCellGaps = "$" .. typeName .. "s_" .. lowName .. "_construction_cell_count"
 
         local selectorDB = EntityService:GetDatabase( self.selector )
 
