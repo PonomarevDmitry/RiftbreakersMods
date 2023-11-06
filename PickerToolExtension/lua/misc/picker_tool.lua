@@ -30,13 +30,20 @@ end
 
 function picker_tool:FillSelectedBlueprints()
 
-    self.selectedBluprintsNames = {
+    self.resourceBluprintsNames = {
 
         "carbonium_factory",
         "steel_factory",
         "rare_element_mine",
 
         "liquid_pump",
+    }
+
+    self.resourceVolumeBluprintsNames = {
+
+        "carbonium_factory",
+        "steel_factory",
+        "rare_element_mine",
 
         "geothermal_powerplant",
     }
@@ -44,11 +51,11 @@ function picker_tool:FillSelectedBlueprints()
     local isCampaignBiome = MissionService:IsCampaignBiome()
 
     if ( isCampaignBiome ) then
-        self:AddExpanedArsenalCampaignEntities( self.selectedBluprintsNames )
-        self:AddExpanedArsenalSurvivalEntities( self.selectedBluprintsNames )
+        self:AddExpanedArsenalCampaignEntities( self.resourceVolumeBluprintsNames )
+        self:AddExpanedArsenalSurvivalEntities( self.resourceVolumeBluprintsNames )
     else
-        self:AddExpanedArsenalSurvivalEntities( self.selectedBluprintsNames )
-        self:AddExpanedArsenalCampaignEntities( self.selectedBluprintsNames )
+        self:AddExpanedArsenalSurvivalEntities( self.resourceVolumeBluprintsNames )
+        self:AddExpanedArsenalCampaignEntities( self.resourceVolumeBluprintsNames )
     end
 
     self.selectedBluprintsHash = {
@@ -207,7 +214,7 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=20.0, z=1.0 }
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
     local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
 
@@ -273,7 +280,7 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
         signature="ResourceComponent"
     }
 
-    local boundsSize = { x=1.0, y=20.0, z=1.0 }
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
     local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
 
@@ -530,14 +537,14 @@ function picker_tool:GetLinkedEntityBlueprint( entity )
 
     if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
 
-        local blueprintName = self:GetMineBlueprintName( entity ) or ""
+        local blueprintName = self:GetMineBlueprintName( entity, self.resourceBluprintsNames ) or ""
 
         return blueprintName
     end
 
     if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
-        local blueprintName = self:GetMineBlueprintName( entity ) or ""
+        local blueprintName = self:GetMineBlueprintName( entity, self.resourceVolumeBluprintsNames ) or ""
 
         return blueprintName
     end
@@ -585,7 +592,44 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
     return true
 end
 
-function picker_tool:GetMineBlueprintName( entity )
+function picker_tool:GetMineBlueprintName( entity, selectedBluprintsNames )
+
+    local resourceId = self:GetLinkedResource(entity)
+
+    if ( resourceId ~= "" ) then
+
+        for lowName in Iter( selectedBluprintsNames ) do
+
+            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+            if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
+                goto continue
+            end
+
+            local buildingDesc = BuildingService:GetBuildingDesc( defaultBlueprintName )
+            if ( buildingDesc == nil ) then
+                goto continue
+            end
+
+            local buildingDescRef = reflection_helper( buildingDesc )
+
+            local resourceRequirement = buildingDescRef.resource_requirement
+            if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
+                goto continue
+            end
+
+            local isResourceRequired = self:IsResourceRequired( resourceRequirement, resourceId )
+            if ( not isResourceRequired ) then
+                goto continue
+            end
+
+            do
+                return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+            end
+
+            ::continue::
+        end
+    end
 
     if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) and EntityService:CompareType( entity, "water" ) ) then
 
@@ -593,44 +637,6 @@ function picker_tool:GetMineBlueprintName( entity )
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
 
         return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-    end
-
-    local resourceId = self:GetLinkedResource(entity)
-
-    if ( resourceId == "" ) then
-        return ""
-    end
-
-    for lowName in Iter( self.selectedBluprintsNames ) do
-
-        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
-
-        if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
-            goto continue
-        end
-
-        local buildingDesc = BuildingService:GetBuildingDesc( defaultBlueprintName )
-        if ( buildingDesc == nil ) then
-            goto continue
-        end
-
-        local buildingDescRef = reflection_helper( buildingDesc )
-
-        local resourceRequirement = buildingDescRef.resource_requirement
-        if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
-            goto continue
-        end
-
-        local isResourceRequired = self:IsResourceRequired( resourceRequirement, resourceId )
-        if ( not isResourceRequired ) then
-            goto continue
-        end
-
-        do
-            return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-        end
-
-        ::continue::
     end
 
     return ""
