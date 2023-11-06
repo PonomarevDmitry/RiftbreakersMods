@@ -73,15 +73,24 @@ function find_buildings_clear_tool:UpdateMarker()
 
     elseif ( self.selectedMode == self.modeBuilding ) then
 
+        buildingIconVisible = 1
+        buildingIcon = "gui/hud/tools_icons/find_buildings_clear_tool"
+
         messageText = "gui/hud/find_buildings/building"
         markerBlueprint = "misc/marker_selector_find_buildings_clear_tool"
 
     elseif ( self.selectedMode == self.modeBuildingGroup ) then
 
+        buildingIconVisible = 1
+        buildingIcon = "gui/hud/tools_icons/find_buildings_clear_tool"
+
         messageText = "gui/hud/find_buildings/building_group"
         markerBlueprint = "misc/marker_selector_find_buildings_clear_tool"
 
     elseif ( self.selectedMode == self.modeBuildingCategory ) then
+
+        buildingIconVisible = 1
+        buildingIcon = "gui/hud/tools_icons/find_buildings_clear_category_tool"
 
         messageText = "gui/hud/find_buildings/building_category"
         markerBlueprint = "misc/marker_selector_find_buildings_clear_category_tool"
@@ -124,9 +133,9 @@ function find_buildings_clear_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
+        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
     else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
+        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
     end
 end
 

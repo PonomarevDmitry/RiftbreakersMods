@@ -522,14 +522,23 @@ function find_buildings_base:FindEntitiesToMark(blueprintName, isGroup)
         ::continue::
     end
 
-    local distances = {}
+    local positions = {}
 
     for entity in Iter( result ) do
-        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+        positions[entity] = EntityService:GetPosition( entity )
     end
 
     local sorter = function( lh, rh )
-        return distances[lh] < distances[rh]
+        
+        local lhPosition = positions[lh]
+        local rhPosition = positions[rh]
+
+        if (lhPosition.x ~= rhPosition.x) then
+
+            return lhPosition.x < rhPosition.x
+        end
+
+        return lhPosition.z < rhPosition.z
     end
 
     table.sort(result, sorter)
@@ -583,14 +592,23 @@ function find_buildings_base:FindEntitiesByCategoryToMark(selectedCategory)
         ::continue::
     end
 
-    local distances = {}
+    local positions = {}
 
     for entity in Iter( result ) do
-        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+        positions[entity] = EntityService:GetPosition( entity )
     end
 
     local sorter = function( lh, rh )
-        return distances[lh] < distances[rh]
+        
+        local lhPosition = positions[lh]
+        local rhPosition = positions[rh]
+
+        if (lhPosition.x ~= rhPosition.x) then
+
+            return lhPosition.x < rhPosition.x
+        end
+
+        return lhPosition.z < rhPosition.z
     end
 
     table.sort(result, sorter)
