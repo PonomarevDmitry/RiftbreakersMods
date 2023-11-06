@@ -2,24 +2,21 @@ local find_buildings_base = require("lua/misc/find_buildings_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'find_buildings_tool' ( find_buildings_base )
+class 'find_buildings_select_tool' ( find_buildings_base )
 
-function find_buildings_tool:__init()
+function find_buildings_select_tool:__init()
     find_buildings_base.__init(self,self)
 end
 
-function find_buildings_tool:OnPreInit()
+function find_buildings_select_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
-function find_buildings_tool:GetScaleFromDatabase()
+function find_buildings_select_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function find_buildings_tool:OnInit()
-
-    local marker_name = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
+function find_buildings_select_tool:OnInit()
 
     self.popupShown = false
 
@@ -36,12 +33,17 @@ function find_buildings_tool:OnInit()
 
     self:FillLastBuildingsList(self.modeValuesArray,self.modeBuildingLastSelected)
 
-    self.selectedMode = 0
+    self.configName = "$find_buildings_select_tool_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.selectedMode = selectorDB:GetIntOrDefault(self.configName, self.modeBuilding)
+    self.selectedMode = self:CheckModeValueExists(self.selectedMode)
 
     self:UpdateMarker()
 end
 
-function find_buildings_tool:UpdateMarker()
+function find_buildings_select_tool:UpdateMarker()
 
     local messageText = ""
     local markerBlueprint = ""
@@ -66,22 +68,22 @@ function find_buildings_tool:UpdateMarker()
         buildingIconVisible = 1
         buildingIcon = menuIcon
 
-        markerBlueprint = "misc/marker_selector_find_buildings_tool"
+        markerBlueprint = "misc/marker_selector_find_buildings_select_tool"
 
     elseif ( self.selectedMode == self.modeBuildingGroup ) then
 
         messageText = "gui/hud/find_buildings/building_group"
-        markerBlueprint = "misc/marker_selector_find_buildings_tool"
+        markerBlueprint = "misc/marker_selector_find_buildings_select_tool"
 
     elseif ( self.selectedMode == self.modeBuildingCategory ) then
 
         messageText = "gui/hud/find_buildings/building_category"
-        markerBlueprint = "misc/marker_selector_find_buildings_category_tool"
+        markerBlueprint = "misc/marker_selector_find_buildings_select_category_tool"
 
     else
 
         messageText = "gui/hud/find_buildings/building"
-        markerBlueprint = "misc/marker_selector_find_buildings_tool"
+        markerBlueprint = "misc/marker_selector_find_buildings_select_tool"
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
@@ -106,13 +108,13 @@ function find_buildings_tool:UpdateMarker()
     markerDB:SetString("message_text", messageText)
 end
 
-function find_buildings_tool:SpawnCornerBlueprint()
+function find_buildings_select_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function find_buildings_tool:AddedToSelection( entity )
+function find_buildings_select_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
@@ -122,11 +124,11 @@ function find_buildings_tool:AddedToSelection( entity )
     end
 end
 
-function find_buildings_tool:RemovedFromSelection( entity )
+function find_buildings_select_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function find_buildings_tool:FilterSelectedEntities( selectedEntities )
+function find_buildings_select_tool:FilterSelectedEntities( selectedEntities )
 
     local result = {}
 
@@ -161,11 +163,11 @@ function find_buildings_tool:FilterSelectedEntities( selectedEntities )
     return result
 end
 
-function find_buildings_tool:OnUpdate()
+function find_buildings_select_tool:OnUpdate()
 
 end
 
-function find_buildings_tool:OnActivateSelectorRequest()
+function find_buildings_select_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
 
@@ -229,7 +231,7 @@ function find_buildings_tool:OnActivateSelectorRequest()
     end
 end
 
-function find_buildings_tool:OnRotateSelectorRequest(evt)
+function find_buildings_select_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
@@ -258,10 +260,18 @@ function find_buildings_tool:OnRotateSelectorRequest(evt)
 
     self.selectedMode = newValue
 
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    if ( newValue >= self.modeBuildingLastSelected ) then
+        selectorDB:SetInt(self.configName, self.modeBuildingLastSelected)
+    else
+        selectorDB:SetInt(self.configName, newValue)
+    end
+
     self:UpdateMarker()
 end
 
-function find_buildings_tool:CheckModeValueExists( selectedMode )
+function find_buildings_select_tool:CheckModeValueExists( selectedMode )
 
     selectedMode = selectedMode or self.modeValuesArray[1]
 
@@ -275,7 +285,7 @@ function find_buildings_tool:CheckModeValueExists( selectedMode )
     return selectedMode
 end
 
-function find_buildings_tool:OnRelease()
+function find_buildings_select_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
@@ -287,4 +297,4 @@ function find_buildings_tool:OnRelease()
     end
 end
 
-return find_buildings_tool
+return find_buildings_select_tool

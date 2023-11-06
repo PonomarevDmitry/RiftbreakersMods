@@ -18,9 +18,6 @@ end
 
 function find_buildings_clear_tool:OnInit()
 
-    local marker_name = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
-
     self.popupShown = false
 
     self.scaleMap = {
@@ -37,7 +34,12 @@ function find_buildings_clear_tool:OnInit()
 
     self:FillLastBuildingsList(self.modeValuesArray,self.modeBuildingLastSelected)
 
-    self.selectedMode = 0
+    self.configName = "$find_buildings_clear_tool_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.selectedMode = selectorDB:GetIntOrDefault(self.configName, self.modeBuilding)
+    self.selectedMode = self:CheckModeValueExists(self.selectedMode)
 
     self:UpdateMarker()
 end
@@ -275,6 +277,14 @@ function find_buildings_clear_tool:OnRotateSelectorRequest(evt)
     local newValue = self.modeValuesArray[newIndex]
 
     self.selectedMode = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    if ( newValue >= self.modeBuildingLastSelected ) then
+        selectorDB:SetInt(self.configName, self.modeBuildingLastSelected)
+    else
+        selectorDB:SetInt(self.configName, newValue)
+    end
 
     self:UpdateMarker()
 end
