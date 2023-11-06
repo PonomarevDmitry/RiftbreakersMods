@@ -24,21 +24,23 @@ function find_buildings_select_tool:OnInit()
         1,
     }
 
-    self.modeBuilding = 0
-    self.modeBuildingGroup = 1
-    self.modeBuildingCategory = 2
-    self.modeBuildingLastSelected = 3
+    self.modeBuilding = 1
+    self.modeBuildingGroup = 2
+    self.modeBuildingCategory = 3
+    self.modeBuildingLastSelected = 4
 
-    self.modeValuesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory }
+    self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory }
 
-    self:FillLastBuildingsList(self.modeValuesArray,self.modeBuildingLastSelected)
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected)
 
-    self.configName = "$find_buildings_select_tool_config"
+    self.configName = "$find_buildings_tool_config"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.selectedMode = selectorDB:GetIntOrDefault(self.configName, self.modeBuilding)
     self.selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    selectorDB:SetInt(self.configName, self.selectedMode)
 
     self:UpdateMarker()
 end
@@ -48,7 +50,7 @@ function find_buildings_select_tool:UpdateMarker()
     local messageText = ""
     local markerBlueprint = ""
 
-    local buildingIconVisible = 0
+    local buildingIconVisible = 1
     local buildingIcon = ""
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
@@ -65,22 +67,19 @@ function find_buildings_select_tool:UpdateMarker()
 
         messageText = buildingDescRef.localization_id
 
-        buildingIconVisible = 1
         buildingIcon = menuIcon
 
-        markerBlueprint = "misc/marker_selector_find_buildings_select_tool"
+        markerBlueprint = "misc/marker_selector_find_buildings_last_tool"
 
     elseif ( self.selectedMode == self.modeBuildingGroup ) then
 
-        buildingIconVisible = 1
-        buildingIcon = "gui/hud/tools_icons/find_buildings_select_tool"
+        buildingIcon = "gui/hud/tools_icons/find_buildings_select_group_tool"
 
         messageText = "gui/hud/find_buildings/building_group"
-        markerBlueprint = "misc/marker_selector_find_buildings_select_tool"
+        markerBlueprint = "misc/marker_selector_find_buildings_select_group_tool"
 
     elseif ( self.selectedMode == self.modeBuildingCategory ) then
 
-        buildingIconVisible = 1
         buildingIcon = "gui/hud/tools_icons/find_buildings_select_category_tool"
 
         messageText = "gui/hud/find_buildings/building_category"
@@ -88,7 +87,6 @@ function find_buildings_select_tool:UpdateMarker()
 
     else
 
-        buildingIconVisible = 1
         buildingIcon = "gui/hud/tools_icons/find_buildings_select_tool"
 
         messageText = "gui/hud/find_buildings/building"
@@ -213,6 +211,10 @@ function find_buildings_select_tool:OnActivateSelectorRequest()
         if ( self.selectedMode == self.modeBuilding or self.selectedMode == self.modeBuildingGroup ) then
 
             if ( blueprintName ~= "" ) then
+
+                self:AddBlueprintToLastList(blueprintName)
+
+                self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected)
 
                 local buildingsList = self:FindEntitiesToMark(blueprintName, isGroup)
 

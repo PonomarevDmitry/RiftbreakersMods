@@ -38,7 +38,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
 
 
-    local maxBlueprints = 10
 
     local parameterName = "$last_selected_blueprint"
 
@@ -94,7 +93,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
                 local upgradeBlueprintName = varBuildingDescRef.upgrade
                 varBuildingDescRef = nil
 
-                if ( ResourceManager:ResourceExists( "EntityBlueprint", upgradeBlueprintName )  ) then
+                if ( upgradeBlueprintName ~= "" and upgradeBlueprintName ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", upgradeBlueprintName )  ) then
 
                     local upgradeBuildingDesc = BuildingService:GetBuildingDesc( upgradeBlueprintName )
                     if ( upgradeBuildingDesc ~= nil ) then
@@ -111,6 +110,8 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
 
     Insert( currentListArray, blueprintName )
+
+    local maxBlueprints = 10
 
     while ( #currentListArray > maxBlueprints ) do
 

@@ -616,7 +616,7 @@ function find_buildings_base:FindEntitiesByCategoryToMark(selectedCategory)
     return result
 end
 
-function find_buildings_base:FillLastBuildingsList(modeValuesArray,modeBuildingLastSelected)
+function find_buildings_base:FillLastBuildingsList(defaultModesArray,modeBuildingLastSelected)
 
     local currentList = ""
 
@@ -640,12 +640,85 @@ function find_buildings_base:FillLastBuildingsList(modeValuesArray,modeBuildingL
 
     self.lastSelectedBuildingsArray = Split( currentList, "|" )
 
+    local modeValuesArray = Copy(defaultModesArray)
+
     for index=0,#self.lastSelectedBuildingsArray-1 do
 
         Insert(modeValuesArray, (modeBuildingLastSelected + index))
     end
 
-    local modeValuesArrayStr = table.concat( modeValuesArray, "," )
+    return modeValuesArray
+end
+
+function find_buildings_base:AddBlueprintToLastList(blueprintName)
+
+    local currentList = ""
+
+    local parameterName = "$last_selected_blueprint"
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    local currentListArray = self.lastSelectedBuildingsArray
+
+
+    if ( IndexOf( currentListArray, blueprintName ) ~= nil ) then
+        Remove( currentListArray, blueprintName )
+    end
+
+    local firstLevelBlueprint = self:GetFirstLevelBuilding(blueprintName)
+
+    if ( ResourceManager:ResourceExists( "EntityBlueprint", firstLevelBlueprint )  ) then
+
+        local firstBuildingDesc = BuildingService:GetBuildingDesc( firstLevelBlueprint )
+        if ( firstBuildingDesc ~= nil ) then
+
+            local varBuildingDescRef = reflection_helper(firstBuildingDesc)
+
+            while ( varBuildingDescRef ~= nil ) do
+
+                if ( IndexOf( currentListArray, varBuildingDescRef.bp ) ~= nil ) then
+                    Remove( currentListArray, varBuildingDescRef.bp )
+                end
+
+                local upgradeBlueprintName = varBuildingDescRef.upgrade
+                varBuildingDescRef = nil
+
+                if ( upgradeBlueprintName ~= "" and upgradeBlueprintName ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", upgradeBlueprintName )  ) then
+
+                    local upgradeBuildingDesc = BuildingService:GetBuildingDesc( upgradeBlueprintName )
+                    if ( upgradeBuildingDesc ~= nil ) then
+
+                        varBuildingDescRef = reflection_helper(upgradeBuildingDesc)
+                    end
+                end
+
+            end
+        end
+    end
+
+
+
+
+    Insert( currentListArray, blueprintName )
+
+    local maxBlueprints = 10
+
+    while ( #currentListArray > maxBlueprints ) do
+
+        table.remove( currentListArray, 1 )
+    end
+
+    currentList = table.concat( currentListArray, "|" )
+
+    if ( selectorDB ) then
+        selectorDB:SetString(parameterName, currentList)
+    end
+
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( parameterName, currentList )
+    end
 end
 
 return find_buildings_base
