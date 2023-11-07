@@ -30,6 +30,11 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
+    local buildingType = buildingComponent:GetField("type"):GetValue()
+    if ( buildingType == "floor" ) then
+        return
+    end
+
     local list = BuildingService:GetBuildCosts( blueprintName, playerId )
     if ( #list == 0 ) then
         return
