@@ -24,9 +24,9 @@ function building_search_select_tool:OnInit()
         1,
     }
 
-    self.modeBuilding = 1
-    self.modeBuildingGroup = 2
-    self.modeBuildingCategory = 3
+    self.modeBuilding = 0
+    self.modeBuildingGroup = 1
+    self.modeBuildingCategory = 2
     self.modeBuildingLastSelected = 4
 
     self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory }
@@ -65,7 +65,9 @@ function building_search_select_tool:UpdateMarker()
 
         local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
 
-        messageText = buildingDescRef.localization_id
+        
+
+        messageText = "${gui/hud/building_search/mark_buildings} ${" .. buildingDescRef.localization_id .. "}"
 
         buildingIcon = menuIcon
 
@@ -75,21 +77,21 @@ function building_search_select_tool:UpdateMarker()
 
         buildingIcon = "gui/hud/tools_icons/building_search_select_group_tool"
 
-        messageText = "gui/hud/building_search/building_group"
+        messageText = "gui/hud/building_search/select_building_group"
         markerBlueprint = "misc/marker_selector_building_search_select_group_tool"
 
     elseif ( self.selectedMode == self.modeBuildingCategory ) then
 
         buildingIcon = "gui/hud/tools_icons/building_search_select_category_tool"
 
-        messageText = "gui/hud/building_search/building_category"
+        messageText = "gui/hud/building_search/select_building_category"
         markerBlueprint = "misc/marker_selector_building_search_select_category_tool"
 
     else
 
         buildingIcon = "gui/hud/tools_icons/building_search_select_tool"
 
-        messageText = "gui/hud/building_search/building"
+        messageText = "gui/hud/building_search/select_building"
         markerBlueprint = "misc/marker_selector_building_search_select_tool"
     end
 

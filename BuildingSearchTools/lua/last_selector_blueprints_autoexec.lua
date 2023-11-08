@@ -116,7 +116,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     Insert( currentListArray, blueprintName )
 
-    local maxBlueprints = 10
+    local maxBlueprints = 20
 
     while ( #currentListArray > maxBlueprints ) do
 

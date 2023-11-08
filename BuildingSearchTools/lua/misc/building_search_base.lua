@@ -713,7 +713,7 @@ function building_search_base:AddBlueprintToLastList(blueprintName)
 
     Insert( currentListArray, blueprintName )
 
-    local maxBlueprints = 10
+    local maxBlueprints = 20
 
     while ( #currentListArray > maxBlueprints ) do
 
