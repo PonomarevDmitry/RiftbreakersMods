@@ -450,6 +450,16 @@ function building_search_base:RemoveMarkEntity( building )
     end
 end
 
+function building_search_base:RemoveAllMarkers()
+
+    local entities = FindService:FindEntitiesByBlueprint( "misc/marked_building_minimap_icon" )
+
+    for entity in Iter( entities ) do
+
+        EntityService:RemoveEntity( entity )
+    end
+end
+
 function building_search_base:IsEntityApproved( entity, isGroup )
 
     isGroup = isGroup or false

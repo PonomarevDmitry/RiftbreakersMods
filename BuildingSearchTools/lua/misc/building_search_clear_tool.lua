@@ -198,12 +198,7 @@ function building_search_clear_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode == self.modeAll ) then
 
-        local entities = FindService:FindEntitiesByBlueprint( "misc/marked_building_minimap_icon" )
-
-        for entity in Iter( entities ) do
-
-            EntityService:RemoveEntity( entity )
-        end
+        self:RemoveAllMarkers()
 
         return
     end
