@@ -1,22 +1,22 @@
-local find_buildings_base = require("lua/misc/find_buildings_base.lua")
+local building_search_base = require("lua/misc/building_search_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'find_buildings_clear_tool' ( find_buildings_base )
+class 'building_search_clear_tool' ( building_search_base )
 
-function find_buildings_clear_tool:__init()
-    find_buildings_base.__init(self,self)
+function building_search_clear_tool:__init()
+    building_search_base.__init(self,self)
 end
 
-function find_buildings_clear_tool:OnPreInit()
+function building_search_clear_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
-function find_buildings_clear_tool:GetScaleFromDatabase()
+function building_search_clear_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function find_buildings_clear_tool:OnInit()
+function building_search_clear_tool:OnInit()
 
     self.popupShown = false
 
@@ -34,7 +34,7 @@ function find_buildings_clear_tool:OnInit()
 
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected)
 
-    self.configName = "$find_buildings_tool_config"
+    self.configName = "$building_search_tool_config"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -46,7 +46,7 @@ function find_buildings_clear_tool:OnInit()
     self:UpdateMarker()
 end
 
-function find_buildings_clear_tool:UpdateMarker()
+function building_search_clear_tool:UpdateMarker()
 
     local messageText = ""
     local markerBlueprint = ""
@@ -70,35 +70,35 @@ function find_buildings_clear_tool:UpdateMarker()
 
         buildingIcon = menuIcon
 
-        markerBlueprint = "misc/marker_selector_find_buildings_last_tool"
+        markerBlueprint = "misc/marker_selector_building_search_last_tool"
 
     elseif ( self.selectedMode == self.modeBuilding ) then
 
-        buildingIcon = "gui/hud/tools_icons/find_buildings_clear_tool"
+        buildingIcon = "gui/hud/tools_icons/building_search_clear_tool"
 
-        messageText = "gui/hud/find_buildings/building"
-        markerBlueprint = "misc/marker_selector_find_buildings_clear_tool"
+        messageText = "gui/hud/building_search/building"
+        markerBlueprint = "misc/marker_selector_building_search_clear_tool"
 
     elseif ( self.selectedMode == self.modeBuildingGroup ) then
 
-        buildingIcon = "gui/hud/tools_icons/find_buildings_clear_group_tool"
+        buildingIcon = "gui/hud/tools_icons/building_search_clear_group_tool"
 
-        messageText = "gui/hud/find_buildings/building_group"
-        markerBlueprint = "misc/marker_selector_find_buildings_clear_group_tool"
+        messageText = "gui/hud/building_search/building_group"
+        markerBlueprint = "misc/marker_selector_building_search_clear_group_tool"
 
     elseif ( self.selectedMode == self.modeBuildingCategory ) then
 
-        buildingIcon = "gui/hud/tools_icons/find_buildings_clear_category_tool"
+        buildingIcon = "gui/hud/tools_icons/building_search_clear_category_tool"
 
-        messageText = "gui/hud/find_buildings/building_category"
-        markerBlueprint = "misc/marker_selector_find_buildings_clear_category_tool"
+        messageText = "gui/hud/building_search/building_category"
+        markerBlueprint = "misc/marker_selector_building_search_clear_category_tool"
 
     else
 
-        buildingIcon = "gui/hud/tools_icons/find_buildings_clear_all_tool"
+        buildingIcon = "gui/hud/tools_icons/building_search_clear_all_tool"
 
-        messageText = "gui/hud/find_buildings/all"
-        markerBlueprint = "misc/marker_selector_find_buildings_clear_all_tool"
+        messageText = "gui/hud/building_search/all"
+        markerBlueprint = "misc/marker_selector_building_search_clear_all_tool"
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
@@ -123,13 +123,13 @@ function find_buildings_clear_tool:UpdateMarker()
     markerDB:SetString("message_text", messageText)
 end
 
-function find_buildings_clear_tool:SpawnCornerBlueprint()
+function building_search_clear_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function find_buildings_clear_tool:AddedToSelection( entity )
+function building_search_clear_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
@@ -139,11 +139,11 @@ function find_buildings_clear_tool:AddedToSelection( entity )
     end
 end
 
-function find_buildings_clear_tool:RemovedFromSelection( entity )
+function building_search_clear_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function find_buildings_clear_tool:FilterSelectedEntities( selectedEntities )
+function building_search_clear_tool:FilterSelectedEntities( selectedEntities )
 
     local result = {}
 
@@ -178,11 +178,11 @@ function find_buildings_clear_tool:FilterSelectedEntities( selectedEntities )
     return result
 end
 
-function find_buildings_clear_tool:OnUpdate()
+function building_search_clear_tool:OnUpdate()
 
 end
 
-function find_buildings_clear_tool:OnActivateSelectorRequest()
+function building_search_clear_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
 
@@ -198,7 +198,7 @@ function find_buildings_clear_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode == self.modeAll ) then
 
-        local entities = FindService:FindEntitiesByBlueprint( "misc/building_marked_minimap_icon" )
+        local entities = FindService:FindEntitiesByBlueprint( "misc/marked_building_minimap_icon" )
 
         for entity in Iter( entities ) do
 
@@ -262,7 +262,7 @@ function find_buildings_clear_tool:OnActivateSelectorRequest()
     end
 end
 
-function find_buildings_clear_tool:OnRotateSelectorRequest(evt)
+function building_search_clear_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
@@ -302,7 +302,7 @@ function find_buildings_clear_tool:OnRotateSelectorRequest(evt)
     self:UpdateMarker()
 end
 
-function find_buildings_clear_tool:CheckModeValueExists( selectedMode )
+function building_search_clear_tool:CheckModeValueExists( selectedMode )
 
     selectedMode = selectedMode or self.modeValuesArray[1]
 
@@ -316,16 +316,16 @@ function find_buildings_clear_tool:CheckModeValueExists( selectedMode )
     return selectedMode
 end
 
-function find_buildings_clear_tool:OnRelease()
+function building_search_clear_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
         self.childEntity = nil
     end
 
-    if ( find_buildings_base.OnRelease ) then
-        find_buildings_base.OnRelease(self)
+    if ( building_search_base.OnRelease ) then
+        building_search_base.OnRelease(self)
     end
 end
 
-return find_buildings_clear_tool
+return building_search_clear_tool

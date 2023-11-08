@@ -2,13 +2,13 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'find_buildings_base' ( tool )
+class 'building_search_base' ( tool )
 
-function find_buildings_base:__init()
+function building_search_base:__init()
     tool.__init(self,self)
 end
 
-function find_buildings_base:InitLowUpgradeList(selectedBuildingBlueprint)
+function building_search_base:InitLowUpgradeList(selectedBuildingBlueprint)
 
     self.selectedBlueprints = {}
 
@@ -43,7 +43,7 @@ function find_buildings_base:InitLowUpgradeList(selectedBuildingBlueprint)
     end
 end
 
-function find_buildings_base:GetFirstLevelBuilding(blueprintName)
+function building_search_base:GetFirstLevelBuilding(blueprintName)
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -78,7 +78,7 @@ function find_buildings_base:GetFirstLevelBuilding(blueprintName)
     return blueprintName
 end
 
-function find_buildings_base:FillCache()
+function building_search_base:FillCache()
 
     for blueprintName in Iter( self.selectedBlueprints ) do
 
@@ -86,7 +86,7 @@ function find_buildings_base:FillCache()
     end
 end
 
-function find_buildings_base:FillLowUpgradeList( list, blueprintName, seenBlueprintList )
+function building_search_base:FillLowUpgradeList( list, blueprintName, seenBlueprintList )
 
     seenBlueprintList = seenBlueprintList or {}
 
@@ -135,7 +135,7 @@ function find_buildings_base:FillLowUpgradeList( list, blueprintName, seenBluepr
     end
 end
 
-function find_buildings_base:AddToLowUpgradeList( list, buildingDescRef )
+function building_search_base:AddToLowUpgradeList( list, buildingDescRef )
 
     local lowName = BuildingService:FindLowUpgrade( buildingDescRef.bp )
 
@@ -160,7 +160,7 @@ function find_buildings_base:AddToLowUpgradeList( list, buildingDescRef )
     end
 end
 
-function find_buildings_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )
+function building_search_base:FillSelectedBlueprintsList( list, blueprintName, seenBlueprintList )
 
     seenBlueprintList = seenBlueprintList or {}
 
@@ -209,7 +209,7 @@ function find_buildings_base:FillSelectedBlueprintsList( list, blueprintName, se
     end
 end
 
-function find_buildings_base:AddToSelectedBlueprintsList( list, buildingDescRef )
+function building_search_base:AddToSelectedBlueprintsList( list, buildingDescRef )
 
     if ( IndexOf( list, buildingDescRef.bp ) == nil ) then
 
@@ -231,7 +231,7 @@ function find_buildings_base:AddToSelectedBlueprintsList( list, buildingDescRef 
     end
 end
 
-function find_buildings_base:IsBlueprintInList( blueprintName )
+function building_search_base:IsBlueprintInList( blueprintName )
 
     if ( #self.selectedBlueprints == 0 ) then
         return false
@@ -249,7 +249,7 @@ function find_buildings_base:IsBlueprintInList( blueprintName )
     return result
 end
 
-function find_buildings_base:CalcIsBlueprintInList( blueprintName )
+function building_search_base:CalcIsBlueprintInList( blueprintName )
 
     if ( #self.selectedBlueprints == 0 ) then
         return false
@@ -275,7 +275,7 @@ function find_buildings_base:CalcIsBlueprintInList( blueprintName )
     return false
 end
 
-function find_buildings_base:IsBlueprintInLowNameList( blueprintName )
+function building_search_base:IsBlueprintInLowNameList( blueprintName )
 
     if ( #self.selectedLowUpgrade == 0 ) then
         return false
@@ -293,7 +293,7 @@ function find_buildings_base:IsBlueprintInLowNameList( blueprintName )
     return result
 end
 
-function find_buildings_base:CalcIsBlueprintInLowNameList( blueprintName )
+function building_search_base:CalcIsBlueprintInLowNameList( blueprintName )
 
     if ( #self.selectedLowUpgrade == 0 ) then
         return false
@@ -315,7 +315,7 @@ function find_buildings_base:CalcIsBlueprintInLowNameList( blueprintName )
     return false
 end
 
-function find_buildings_base:GetMenuIcon( blueprintName )
+function building_search_base:GetMenuIcon( blueprintName )
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -332,7 +332,7 @@ function find_buildings_base:GetMenuIcon( blueprintName )
     return menuIcon, buildingDescRef
 end
 
-function find_buildings_base:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+function building_search_base:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
     self.cacheBlueprintsMenuIcons = self.cacheBlueprintsMenuIcons or {}
 
@@ -344,7 +344,7 @@ function find_buildings_base:GetBuildingMenuIcon( blueprintName, buildingDescRef
     return self.cacheBlueprintsMenuIcons[blueprintName]
 end
 
-function find_buildings_base:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
+function building_search_base:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
 
     local menuIcon = ""
 
@@ -405,9 +405,9 @@ function find_buildings_base:CalculateBuildingMenuIcon( blueprintName, buildingD
     return ""
 end
 
-function find_buildings_base:CreateMarkEntity( building )
+function building_search_base:CreateMarkEntity( building )
 
-    local markerBlueprintName = "misc/building_marked_minimap_icon"
+    local markerBlueprintName = "misc/marked_building_minimap_icon"
 
     local childreen = EntityService:GetChildren(building, true)
 
@@ -433,9 +433,9 @@ function find_buildings_base:CreateMarkEntity( building )
     EntityService:SetPosition( markEntity, newPosition )
 end
 
-function find_buildings_base:RemoveMarkEntity( building )
+function building_search_base:RemoveMarkEntity( building )
 
-    local markerBlueprintName = "misc/building_marked_minimap_icon"
+    local markerBlueprintName = "misc/marked_building_minimap_icon"
 
     local childreen = EntityService:GetChildren(building, true)
 
@@ -450,7 +450,7 @@ function find_buildings_base:RemoveMarkEntity( building )
     end
 end
 
-function find_buildings_base:IsEntityApproved( entity, isGroup )
+function building_search_base:IsEntityApproved( entity, isGroup )
 
     isGroup = isGroup or false
 
@@ -495,7 +495,7 @@ function find_buildings_base:IsEntityApproved( entity, isGroup )
     return false
 end
 
-function find_buildings_base:FindEntitiesToMark(blueprintName, isGroup)
+function building_search_base:FindEntitiesToMark(blueprintName, isGroup)
 
     local result = {}
 
@@ -546,7 +546,7 @@ function find_buildings_base:FindEntitiesToMark(blueprintName, isGroup)
     return result
 end
 
-function find_buildings_base:FindEntitiesByCategoryToMark(selectedCategory)
+function building_search_base:FindEntitiesByCategoryToMark(selectedCategory)
 
     local result = {}
 
@@ -616,7 +616,7 @@ function find_buildings_base:FindEntitiesByCategoryToMark(selectedCategory)
     return result
 end
 
-function find_buildings_base:FillLastBuildingsList(defaultModesArray,modeBuildingLastSelected)
+function building_search_base:FillLastBuildingsList(defaultModesArray,modeBuildingLastSelected)
 
     local currentList = ""
 
@@ -650,7 +650,7 @@ function find_buildings_base:FillLastBuildingsList(defaultModesArray,modeBuildin
     return modeValuesArray
 end
 
-function find_buildings_base:AddBlueprintToLastList(blueprintName)
+function building_search_base:AddBlueprintToLastList(blueprintName)
 
     local currentList = ""
 
@@ -721,4 +721,4 @@ function find_buildings_base:AddBlueprintToLastList(blueprintName)
     end
 end
 
-return find_buildings_base
+return building_search_base
