@@ -43,6 +43,8 @@ function move_camera_tool:InitializeValues()
     local followCameraComponent = reflection_helper( EntityService:GetComponent(cameraOwner, "FollowCameraControllerComponent") )
     self.yaw_angle = followCameraComponent.yaw_angle.radian
 
+    LogService:Log("self.yaw_angle " .. tostring(self.yaw_angle))
+
     self.oldTargetEnt = CameraService:GetFollowTarget( self.cameraEnt )
 
     self.currentSteps = 0
@@ -88,11 +90,21 @@ function move_camera_tool:OnRotateSelectorRequest( evt )
 
     self.currentSteps = self.currentSteps + change
 
+    while (self.currentSteps > 360) do
+        self.currentSteps = self.currentSteps - 360
+    end
+
+    while (self.currentSteps < 0) do
+        self.currentSteps = self.currentSteps + 360
+    end
+
     local cameraOwner = EntityService:GetParent(self.cameraEnt)
 
     local followCameraComponent = reflection_helper( EntityService:GetComponent(cameraOwner, "FollowCameraControllerComponent") )
 
-    local stepAngle = 5
+    --local stepAngle = 5
+
+    local stepAngle = 1
 
     local stepsCount = 180 / stepAngle
 
@@ -100,7 +112,7 @@ function move_camera_tool:OnRotateSelectorRequest( evt )
 
     followCameraComponent.yaw_angle.radian = self.yaw_angle + additionalAngleRadian
 
-    LogService:Log("followCameraComponent.yaw_angle.radian " .. tostring(followCameraComponent.yaw_angle.radian))
+    LogService:Log("self.currentSteps " .. tostring(self.currentSteps) .. " followCameraComponent.yaw_angle.radian " .. tostring(followCameraComponent.yaw_angle.radian))
 end
 
 function move_camera_tool:OnRelease()
