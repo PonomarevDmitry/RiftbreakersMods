@@ -37,13 +37,11 @@ function picker_tool:FillSelectedBlueprints()
         "rare_element_mine",
 
         "liquid_pump",
+
+        "geothermal_powerplant",
     }
 
     self.resourceVolumeBluprintsNames = {
-
-        "carbonium_factory",
-        "steel_factory",
-        "rare_element_mine",
 
         "geothermal_powerplant",
     }
@@ -51,10 +49,16 @@ function picker_tool:FillSelectedBlueprints()
     local isCampaignBiome = MissionService:IsCampaignBiome()
 
     if ( isCampaignBiome ) then
+        self:AddExpanedArsenalCampaignEntities( self.resourceBluprintsNames )
         self:AddExpanedArsenalCampaignEntities( self.resourceVolumeBluprintsNames )
+
+        self:AddExpanedArsenalSurvivalEntities( self.resourceBluprintsNames )
         self:AddExpanedArsenalSurvivalEntities( self.resourceVolumeBluprintsNames )
     else
+        self:AddExpanedArsenalSurvivalEntities( self.resourceBluprintsNames )
         self:AddExpanedArsenalSurvivalEntities( self.resourceVolumeBluprintsNames )
+
+        self:AddExpanedArsenalCampaignEntities( self.resourceBluprintsNames )
         self:AddExpanedArsenalCampaignEntities( self.resourceVolumeBluprintsNames )
     end
 
@@ -214,6 +218,17 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
+    self:AddRuins( selectedItems, selectorPosition )
+
+    self:AddResourceVolumes( selectedItems, selectorPosition )
+
+    self:AddResourceComponents( selectedItems, selectorPosition )
+
+    return selectedItems
+end
+
+function picker_tool:AddRuins( selectedItems, selectorPosition )
+
     local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
     local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
@@ -224,15 +239,9 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
     local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 
     ConcatUnique( selectedItems, ruins )
-
-    self:AddResourceVolumes( selectedItems, min, max, selectorPosition )
-
-    self:AddResourceComponents( selectedItems, selectorPosition )
-
-    return selectedItems
 end
 
-function picker_tool:AddResourceVolumes( selectedItems, min, max, selectorPosition )
+function picker_tool:AddResourceVolumes( selectedItems, selectorPosition )
 
     local resourceVolumeEntities = {}
 
@@ -240,6 +249,13 @@ function picker_tool:AddResourceVolumes( selectedItems, min, max, selectorPositi
 
         signature="ResourceVolumeComponent"
     }
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
@@ -418,15 +434,25 @@ function picker_tool:OnActivateSelectorRequest()
         return
     end
 
+    if ( self:ChangeSelectorToEntityByFilter( isResourceVolume ) ) then
+        return
+    end
+
 
 
 
 
 
     local currentBiome = MissionService:GetCurrentBiomeName()
-    local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( self.entity )
 
-    if ( terrainType == "quicksand" ) then
+    local currentEntityPosition = EntityService:GetPosition( self.entity )
+
+    local terrainType, overrideTerrains = self:GetTerrainTypes( currentEntityPosition )
+
+    local isQuickSand = (terrainType == "quicksand")
+    local hasDesertFloor = (IndexOf( overrideTerrains, "desert_floor" ) ~= nil)
+
+    if ( isQuickSand and not hasDesertFloor ) then
 
         local lowName = "floor_desert_1x1"
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
@@ -438,7 +464,8 @@ function picker_tool:OnActivateSelectorRequest()
         end
     end
 
-    if ( terrainType == "creeper_area" ) then
+    local isCreeperArea = (IndexOf( overrideTerrains, "creeper_area" ) ~= nil)
+    if ( isCreeperArea ) then
 
         local lowName = "floor_acid_1x1"
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
@@ -450,10 +477,10 @@ function picker_tool:OnActivateSelectorRequest()
         end
     end
 
-    local isFloorTrailResourceCryoTerrain = ( string.find(terrainType, "floor") ~= nil ) or ( string.find(terrainType, "trail") ~= nil ) or ( terrainType == "resource" ) or ( terrainType == "cryo_ground" )
-    local isHotGround = ( terrainType == "magma_hot_ground" or terrainType == "magma_very_hot_ground" )
+    local isCryoGround = ( IndexOf( overrideTerrains, "cryo_ground" ) )
+    local isHotGround = ( terrainType == "magma_hot_ground" or terrainType == "magma_very_hot_ground" or IndexOf( overrideTerrains, "magma_hot_ground" ) ~= nil or IndexOf( overrideTerrains, "magma_very_hot_ground" ) ~= nil )
 
-    if ( isHotGround or ( currentBiome == "magma" and not isFloorTrailResourceCryoTerrain ) ) then
+    if ( isHotGround and not isCryoGround ) then
 
         local lowName = "cryo_station"
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
@@ -463,13 +490,6 @@ function picker_tool:OnActivateSelectorRequest()
         if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
             return
         end
-    end
-
-    
-
-
-    if ( self:ChangeSelectorToEntityByFilter( isResourceVolume ) ) then
-        return
     end
 
 
@@ -504,6 +524,57 @@ function picker_tool:OnActivateSelectorRequest()
             end
         end
     end
+end
+
+function picker_tool:GetTerrainTypes( position )
+
+    local terrainType = ""
+    local overrideTerrains = {}
+
+    local terrainCellEntityId = EnvironmentService:GetTerrainCell(position)
+
+    if ( terrainCellEntityId ~= nil and terrainCellEntityId ~= INVALID_ID ) then
+
+        
+        
+        local terrainTypeLayerComponent = EntityService:GetComponent( terrainCellEntityId, "TerrainTypeLayerComponent" )
+
+        if ( terrainTypeLayerComponent ~= nil ) then
+
+            local terrainTypeLayerComponentRef = reflection_helper(terrainTypeLayerComponent)
+
+            if ( terrainTypeLayerComponentRef.terrain_type and terrainTypeLayerComponentRef.terrain_type.resource and terrainTypeLayerComponentRef.terrain_type.resource.name ) then
+
+                terrainType = terrainTypeLayerComponentRef.terrain_type.resource.name
+            end
+        end
+        
+        local overrideTerrainComponent = EntityService:GetComponent( terrainCellEntityId, "OverrideTerrainComponent" )
+
+        if ( overrideTerrainComponent ~= nil ) then
+
+            local overrideTerrainComponentRef = reflection_helper(overrideTerrainComponent)
+
+            if ( overrideTerrainComponentRef.terrain_overrides ) then
+
+                for i=1,overrideTerrainComponentRef.terrain_overrides.count do
+
+                    local terrainTypeHolder = overrideTerrainComponentRef.terrain_overrides[i]
+
+                    if ( terrainTypeHolder and terrainTypeHolder.resource and terrainTypeHolder.resource.name ) then
+
+                        if ( IndexOf( overrideTerrains, terrainTypeHolder.resource.name ) == nil ) then
+                            Insert( overrideTerrains, terrainTypeHolder.resource.name )
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    LogService:Log("terrainCellEntityId " .. tostring(terrainCellEntityId) .. " terrainType " .. tostring(terrainType) .. " overrideTerrains " .. table.concat( overrideTerrains, "," ))
+
+    return terrainType, overrideTerrains
 end
 
 function picker_tool:ChangeSelectorToEntityByFilter( filterFunc )
