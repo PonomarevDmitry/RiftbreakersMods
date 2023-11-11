@@ -184,15 +184,35 @@ function eraser_resources_tool:OnActivateEntity( entity )
 
         for childResource in Iter( childrenList ) do
 
-            local blueprintName = EntityService:GetBlueprintName(childResource)
-
-            LogService:Log("childResource " .. tostring(blueprintName) .. " childResource " .. tostring(childResource))
+            self:RemoveGameplayResourceComponents(childResource)
 
             EntityService:RemoveEntity(childResource)
         end
     end
 
+    self:RemoveGameplayResourceComponents(entity)
+
     QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+end
+
+function eraser_resources_tool:RemoveGameplayResourceComponents(entity)
+
+    local cellIndexes = FindService:GetEntityCellIndexes(entity)
+
+    for cellId in Iter( cellIndexes ) do
+
+        if ( EntityService:HasComponent( cellId, "GameplayResourceLayerComponent" ) ) then
+
+            EntityService:RemoveComponent( cellId, "GameplayResourceLayerComponent" )
+
+            if ( EntityService:HasComponent( cellId, "GridFlagLayerComponent" ) ) then
+
+                local gridFlagLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GridFlagLayerComponent" ) )
+
+                gridFlagLayerComponentRef.mask = 0
+            end
+        end
+    end
 end
 
 return eraser_resources_tool
