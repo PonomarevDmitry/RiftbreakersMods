@@ -238,12 +238,6 @@ function floor_desert_on_quicksand_tool:BuildFloorEntites(floorEntities)
 
     local count = #floorEntities
 
-    self.buildPosition = EntityService:GetWorldTransform( self.selector )
-
-    local entityTransform = EntityService:GetWorldTransform( self.entity )
-
-    local tempTerrainTypeEntity = EntityService:SpawnEntity( entityTransform.position )
-
     local listSelledEntities = {}
 
     for i=1,count do
@@ -258,16 +252,14 @@ function floor_desert_on_quicksand_tool:BuildFloorEntites(floorEntities)
 
             local testBuildable = reflection_helper(test:ToTypeInstance())
 
-            self:BuildFloor( entityTransform, testBuildable, hashAllFreeGrids, listSelledEntities, tempTerrainTypeEntity )
+            self:BuildFloor( testBuildable, hashAllFreeGrids, listSelledEntities )
 
             EntityService:RemoveEntity(ghostEntity)
         end
     end
-
-    EntityService:RemoveEntity(tempTerrainTypeEntity)
 end
 
-function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildable, hashAllFreeGrids, listSelledEntities, tempTerrainTypeEntity)
+function floor_desert_on_quicksand_tool:BuildFloor(testBuildable, hashAllFreeGrids, listSelledEntities)
 
     local toRecreate = {}
 
@@ -333,7 +325,7 @@ function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildabl
 
     Assert( removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
 
-    local cellsToBuild = self:GetCellsToRebuild(testBuildable, tempTerrainTypeEntity)
+    local cellsToBuild = self:GetCellsToRebuild(testBuildable)
 
     if ( #cellsToBuild > 0 ) then
 
@@ -343,11 +335,9 @@ function floor_desert_on_quicksand_tool:BuildFloor(currentPosition, testBuildabl
     for recreateRequest in Iter( toRecreate ) do
         self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
     end
-
-    self.buildPosition = currentPosition
 end
 
-function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable, tempTerrainTypeEntity)
+function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable)
 
     local result = {}
 
@@ -368,9 +358,7 @@ function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable, tempTer
             goto continue
         end
 
-        local position = FindService:GetCellOrigin(idx)
-
-        local terrainType = self:GetTerrainType( position, tempTerrainTypeEntity )
+        local terrainType = self:GetTerrainType( idx )
 
         if ( terrainType ~= "quicksand" ) then
 
@@ -385,13 +373,21 @@ function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable, tempTer
     return result
 end
 
-function floor_desert_on_quicksand_tool:GetTerrainType( position, tempTerrainTypeEntity )
+function floor_desert_on_quicksand_tool:GetTerrainType( terrainCellEntityId )
 
-    EntityService:SetPosition( tempTerrainTypeEntity, position)
+    local terrainTypeLayerComponent = EntityService:GetComponent( terrainCellEntityId, "TerrainTypeLayerComponent" )
 
-    local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( tempTerrainTypeEntity )
+    if ( terrainTypeLayerComponent ~= nil ) then
 
-    return terrainType
+        local terrainTypeLayerComponentRef = reflection_helper(terrainTypeLayerComponent)
+
+        if ( terrainTypeLayerComponentRef.terrain_type and terrainTypeLayerComponentRef.terrain_type.resource and terrainTypeLayerComponentRef.terrain_type.resource.name ) then
+
+            return terrainTypeLayerComponentRef.terrain_type.resource.name
+        end
+    end
+
+    return ""
 end
 
 function floor_desert_on_quicksand_tool:FindBlueprint(baseBlueprintName)
