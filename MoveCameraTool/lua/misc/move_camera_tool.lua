@@ -26,10 +26,6 @@ function move_camera_tool:InitializeValues()
     self.playerId = playerReferenceComponent.player_id
 
     self.action = self.data:GetStringOrDefault( "action", "")
-    if ( self.action == "") then
-        local buildingComponent = reflection_helper(EntityService:GetComponent(self.entity, "BuildingComponent") )
-        self.action = buildingComponent.type
-    end
 
     local orientation = {x=0,y=0,z=0,w=1}
     EntityService:SetOrientation( self.entity, orientation )
