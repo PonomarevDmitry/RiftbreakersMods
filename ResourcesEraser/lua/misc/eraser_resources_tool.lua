@@ -9,6 +9,8 @@ end
 
 function eraser_resources_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser_resources_tool", self.entity)
+
+    self.validVolumeResources = { "geothermal_vent", "acid_vent", "magma_vent", "supercoolant_vent" }
 end
 
 function eraser_resources_tool:SpawnCornerBlueprint()
@@ -25,31 +27,20 @@ function eraser_resources_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectedItems = {}
 
-    local entitiesResources = self:GetEntitiesResources( selectorComponent )
-    ConcatUnique( selectedItems, entitiesResources )
-
-
-
     local selectorPosition = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+    local entitiesResources = self:GetEntitiesResources( selectorPosition )
+    ConcatUnique( selectedItems, entitiesResources )
 
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
-
-    local entitiesResourceVolumes = self:GetEntitiesResourceVolumes( min, max, selectorPosition )
+    local entitiesResourceVolumes = self:GetEntitiesResourceVolumes( selectorPosition )
     ConcatUnique( selectedItems, entitiesResourceVolumes )
 
     return selectedItems
 end
 
-function eraser_resources_tool:GetEntitiesResources( selectorComponent )
+function eraser_resources_tool:GetEntitiesResources( selectorPosition )
 
     local possibleSelectedEnts = {}
-
-    local selectorPosition = selectorComponent.position
 
     local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
@@ -109,7 +100,16 @@ function eraser_resources_tool:GetEntitiesResources( selectorComponent )
     return possibleSelectedEnts
 end
 
-function eraser_resources_tool:GetEntitiesResourceVolumes( min, max, selectorPosition )
+function eraser_resources_tool:GetEntitiesResourceVolumes( selectorPosition )
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
+
+
 
     local resourceVolumeEntities = {}
 
@@ -142,7 +142,7 @@ function eraser_resources_tool:GetEntitiesResourceVolumes( min, max, selectorPos
             resourceId = resourceVolumeComponentRef.type.resource.id or ""
         end
 
-        if ( resourceId ~= "geothermal_vent" and resourceId ~= "acid_vent" and resourceId ~= "magma_vent" and resourceId ~= "supercoolant_vent" ) then
+        if ( IndexOf( self.validVolumeResources, resourceId ) == nil ) then
             goto continue
         end
 
