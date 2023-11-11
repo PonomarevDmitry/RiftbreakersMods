@@ -188,9 +188,9 @@ function eraser_resources_tool:OnActivateEntity( entity )
 
             EntityService:RemoveEntity(childResource)
         end
-    end
 
-    self:RemoveGameplayResourceComponents(entity)
+        self:RemoveGameplayResourceComponents(entity)
+    end
 
     QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 end
