@@ -92,7 +92,7 @@ function drone_player_scanner:ExecuteScanning()
 		end
 
 		QueueEvent( "EntityScanningEndEvent", self.lastTarget )
-
+		EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 		self.lastTarget = INVALID_ID
 
 		EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
@@ -104,6 +104,9 @@ function drone_player_scanner:ExecuteScanning()
 
 		local scannableComponent = EntityService:GetComponent( self.selectedEntity, "ScannableComponent" )
 		if ( scannableComponent == nil ) then
+
+			QueueEvent( "EntityScanningEndEvent", self.selectedEntity )
+			EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
 
 			if ( self.effect ~= INVALID_ID ) then
 				EntityService:RemoveEntity( self.effect )
@@ -150,6 +153,7 @@ function drone_player_scanner:ExecuteScanning()
 				EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
 
 				QueueEvent( "EntityScanningEndEvent", self.lastTarget )
+				EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 
 				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted" )
 				
@@ -200,11 +204,25 @@ function drone_player_scanner:OnWorkInProgress()
 	local target = FindClosestEntity( owner, entities )
 
 	if ( ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID ) then
+
 		self:SelectEntity( target )
+
 	elseif ( target == INVALID_ID ) then
+
 		self:SelectEntity( INVALID_ID )
 		self.selectedEntity = nil
+
 		WeaponService:StopShoot( self.entity )
+
+		if ( self.effect ~= INVALID_ID ) then
+			EntityService:RemoveEntity( self.effect )
+			self.effect = INVALID_ID
+		end
+
+		if ( self.lastTarget ~= INVALID_ID ) then
+			QueueEvent( "EntityScanningEndEvent", self.lastTarget )
+			EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )	
+		end
 	end
 end
 
@@ -231,6 +249,16 @@ function drone_player_scanner:OnTurretEvent( evt )
    else
 		WeaponService:StopShoot( self.entity )
 		self.shoting = false
+
+		if ( self.effect ~= INVALID_ID ) then
+			EntityService:RemoveEntity( self.effect )
+			self.effect = INVALID_ID
+		end
+		
+		if ( self.lastTarget ~= INVALID_ID ) then
+			QueueEvent( "EntityScanningEndEvent", self.lastTarget )
+			EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
+		end
    end
 end
 
