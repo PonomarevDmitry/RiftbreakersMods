@@ -11,14 +11,21 @@ function drone_player_scanner:__init()
 end
 
 function drone_player_scanner:OnInit()
+
+	if ( base_drone.OnInit ) then
+		base_drone.OnInit( self )
+	end
+
 	self:FillInitialParams()
 end
 
 function drone_player_scanner:OnLoad()
 
-	self:FillInitialParams()
+	if ( base_drone.OnLoad ) then
+		base_drone.OnLoad( self )
+	end
 
-	base_drone.OnLoad( self )
+	self:FillInitialParams()
 end
 
 function drone_player_scanner:FillInitialParams()
@@ -33,9 +40,13 @@ function drone_player_scanner:FillInitialParams()
 
 	self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
 
-	self.shoting = false
-	self.lastTarget = INVALID_ID
-	self.effect 	= INVALID_ID
+	self.shoting	= false
+	self.lastTarget	= INVALID_ID
+
+	if ( self.effect ~= INVALID_ID ) then
+		EntityService:RemoveEntity( self.effect )
+	end
+	self.effect		= INVALID_ID
 
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "working", { execute="OnWorkInProgress" } )
@@ -43,12 +54,12 @@ function drone_player_scanner:FillInitialParams()
 	self.fsm:ChangeState("working")
 end
 
-function drone_player_scanner:SpawnSpecifcEffect( currentTarget )
+function drone_player_scanner:SpawnSpecificEffect( currentTarget )
 
 	local size = EntityService:GetBoundsSize( currentTarget )
 
 	local effectName
-	
+
 	if ( size.x <= 2.5 ) then
 		effectName = "effects/mech/scanner_small"
 	elseif ( size.x <= 4.5 ) then
@@ -75,28 +86,35 @@ function drone_player_scanner:ExecuteScanning()
 
 	if ( self.lastTarget ~= INVALID_ID and self.lastTarget ~= self.selectedEntity ) then
 
-		EntityService:RemoveEntity( self.effect )
-		self.effect = INVALID_ID
+		if ( self.effect ~= INVALID_ID ) then
+			EntityService:RemoveEntity( self.effect )
+			self.effect = INVALID_ID
+		end
 
 		QueueEvent( "EntityScanningEndEvent", self.lastTarget )
-
+		EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 		self.lastTarget = INVALID_ID
 
 		EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 	end
-	
+
 	if ( self.selectedEntity ~= INVALID_ID ) then
 
 		WeaponService:RotateWeaponMuzzleToTarget( self.entity, self.selectedEntity )
 
-		local scannableComponent = EntityService:GetComponent( self.selectedEntity, "ScannableComponent")
+		local scannableComponent = EntityService:GetComponent( self.selectedEntity, "ScannableComponent" )
 		if ( scannableComponent == nil ) then
+
+			QueueEvent( "EntityScanningEndEvent", self.selectedEntity )
+			EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
+
+			if ( self.effect ~= INVALID_ID ) then
+				EntityService:RemoveEntity( self.effect )
+				self.effect = INVALID_ID
+			end
 
 			EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 			self:SelectEntity(INVALID_ID)
-
-			EntityService:RemoveEntity( self.effect )
-			self.effect = INVALID_ID
 
 			return
 		end
@@ -106,7 +124,7 @@ function drone_player_scanner:ExecuteScanning()
 
 			EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_active")
 
-			self:SpawnSpecifcEffect( self.selectedEntity )
+			self:SpawnSpecificEffect( self.selectedEntity )
 
 			QueueEvent( "EntityScanningStartEvent", self.selectedEntity )
 
@@ -120,7 +138,9 @@ function drone_player_scanner:ExecuteScanning()
 
 			factor = math.min( factor, 1.0 )
 
-			EffectService:SetParticleEmmissionUniform( self.effect, factor )
+			if ( self.effect ~= INVALID_ID ) then
+				EffectService:SetParticleEmmissionUniform( self.effect, factor )
+			end
 
 			if ( scanningTime >= self.maxScanTime ) then
 
@@ -128,22 +148,26 @@ function drone_player_scanner:ExecuteScanning()
 
 				ItemService:ScanEntityByPlayer( self.selectedEntity, owner )
 
-				EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" ) 
+				EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" )
 
 				EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
 
 				QueueEvent( "EntityScanningEndEvent", self.lastTarget )
+				EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 
-				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted")
+				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted" )
 				
-				EntityService:RemoveEntity( self.effect )
-				self.effect = INVALID_ID
+
+				if ( self.effect ~= INVALID_ID ) then
+					EntityService:RemoveEntity( self.effect )
+					self.effect = INVALID_ID
+				end
 
 				self:SelectEntity(INVALID_ID)
 			end
 		end
 	end
-	
+
 	self.lastTarget = self.selectedEntity;
 end
 
@@ -174,17 +198,31 @@ function drone_player_scanner:OnWorkInProgress()
 	local predicate = {
 		signature = "ScannableComponent"
 	}
-	
+
 	local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, predicate )
 
 	local target = FindClosestEntity( owner, entities )
 
 	if ( ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID ) then
+
 		self:SelectEntity( target )
+
 	elseif ( target == INVALID_ID ) then
+
 		self:SelectEntity( INVALID_ID )
 		self.selectedEntity = nil
+
 		WeaponService:StopShoot( self.entity )
+
+		if ( self.effect ~= INVALID_ID ) then
+			EntityService:RemoveEntity( self.effect )
+			self.effect = INVALID_ID
+		end
+
+		if ( self.lastTarget ~= INVALID_ID ) then
+			QueueEvent( "EntityScanningEndEvent", self.lastTarget )
+			EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )	
+		end
 	end
 end
 
@@ -211,7 +249,17 @@ function drone_player_scanner:OnTurretEvent( evt )
    else
 		WeaponService:StopShoot( self.entity )
 		self.shoting = false
-   end 
+
+		if ( self.effect ~= INVALID_ID ) then
+			EntityService:RemoveEntity( self.effect )
+			self.effect = INVALID_ID
+		end
+		
+		if ( self.lastTarget ~= INVALID_ID ) then
+			QueueEvent( "EntityScanningEndEvent", self.lastTarget )
+			EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
+		end
+   end
 end
 
 function drone_player_scanner:OnRelease()
