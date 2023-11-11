@@ -93,12 +93,9 @@ end
 
 function eraser_flora_tool:OnActivateEntity( entity )
 
-    --QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
-
     EntityService:RequestDestroyPattern( entity, "" )
 
-    local dissolveTime = RandFloat( 1.0, 2.0 )
-    EntityService:DissolveEntity( entity, dissolveTime )
+    QueueEvent( "DissolveEntityRequest", entity, 2.0, 0 )
 end
 
 return eraser_flora_tool
