@@ -3,18 +3,17 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/find_utils.lua")
 require("lua/utils/reflection.lua")
 
-class 'move_camera_tool' ( LuaEntityObject )
+class 'free_roam_camera_tool' ( LuaEntityObject )
 
-function move_camera_tool:__init()
+function free_roam_camera_tool:__init()
     LuaEntityObject.__init(self,self)
 end
 
-function move_camera_tool:init()
-
+function free_roam_camera_tool:init()
     self:InitializeValues()
 end
 
-function move_camera_tool:InitializeValues()
+function free_roam_camera_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
 
@@ -25,12 +24,12 @@ function move_camera_tool:InitializeValues()
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.selector, "PlayerReferenceComponent") )
     self.playerId = playerReferenceComponent.player_id
 
-    self.action = self.data:GetStringOrDefault( "action", "")
+    self.action = self.data:GetStringOrDefault( "action", "" )
 
-    local orientation = {x=0,y=0,z=0,w=1}
+    local orientation = { x=0, y=0, z=0, w=1 }
     EntityService:SetOrientation( self.entity, orientation )
 
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_move_camera_tool", self.entity)
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_free_roam_camera_tool", self.entity)
 
     self.cameraEnt = CameraService:GetLeadingPlayerCamera()
 
@@ -39,7 +38,7 @@ function move_camera_tool:InitializeValues()
     local followCameraComponent = reflection_helper( EntityService:GetComponent(cameraOwner, "FollowCameraControllerComponent") )
     self.yaw_angle = followCameraComponent.yaw_angle.radian
 
-    LogService:Log("self.yaw_angle " .. tostring(self.yaw_angle))
+    --LogService:Log("self.yaw_angle " .. tostring(self.yaw_angle))
 
     self.oldTargetEnt = CameraService:GetFollowTarget( self.cameraEnt )
 
@@ -49,7 +48,7 @@ function move_camera_tool:InitializeValues()
     --self.stepAngle = 1
 end
 
-function move_camera_tool:OnActivateSelectorRequest()
+function free_roam_camera_tool:OnActivateSelectorRequest()
 
     local position = EntityService:GetPosition( self.entity )
 
@@ -62,10 +61,10 @@ function move_camera_tool:OnActivateSelectorRequest()
     CameraService:SetFollowTarget( self.cameraEnt, self.tempEntity )
 end
 
-function move_camera_tool:OnDeactivateSelectorRequest()
+function free_roam_camera_tool:OnDeactivateSelectorRequest()
 end
 
-function move_camera_tool:OnRotateSelectorRequest( evt )
+function free_roam_camera_tool:OnRotateSelectorRequest( evt )
 
     local degree = evt:GetDegree()
 
@@ -105,10 +104,10 @@ function move_camera_tool:OnRotateSelectorRequest( evt )
 
     followCameraComponent.yaw_angle.radian = self.yaw_angle + additionalAngleRadian
 
-    LogService:Log("self.currentAngle " .. tostring(self.currentAngle) .. " followCameraComponent.yaw_angle.radian " .. tostring(followCameraComponent.yaw_angle.radian))
+    --LogService:Log("self.currentAngle " .. tostring(self.currentAngle) .. " followCameraComponent.yaw_angle.radian " .. tostring(followCameraComponent.yaw_angle.radian))
 end
 
-function move_camera_tool:OnRelease()
+function free_roam_camera_tool:OnRelease()
 
     local cameraOwner = EntityService:GetParent(self.cameraEnt)
 
@@ -128,4 +127,4 @@ function move_camera_tool:OnRelease()
     end
 end
 
-return move_camera_tool
+return free_roam_camera_tool

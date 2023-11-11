@@ -1,4 +1,4 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-    BuildingService:UnlockBuilding("buildings/tools/move_camera")
+    BuildingService:UnlockBuilding("buildings/tools/free_roam_camera")
 end)
