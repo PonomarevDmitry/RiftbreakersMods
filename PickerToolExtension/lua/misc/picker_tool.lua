@@ -479,8 +479,17 @@ function picker_tool:OnActivateSelectorRequest()
 
     local isCryoGround = ( IndexOf( overrideTerrains, "cryo_ground" ) )
     local isHotGround = ( terrainType == "magma_hot_ground" or terrainType == "magma_very_hot_ground" or IndexOf( overrideTerrains, "magma_hot_ground" ) ~= nil or IndexOf( overrideTerrains, "magma_very_hot_ground" ) ~= nil )
+    
+    local isFloor = false
+    for overrideTerrainType in Iter( overrideTerrains ) do
 
-    if ( isHotGround and not isCryoGround ) then
+        if ( string.find(overrideTerrainType, "floor") ~= nil ) then
+
+            isFloor = true
+        end
+    end
+
+    if ( isHotGround and not isCryoGround and not isFloor ) then
 
         local lowName = "cryo_station"
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
@@ -535,8 +544,6 @@ function picker_tool:GetTerrainTypes( position )
 
     if ( terrainCellEntityId ~= nil and terrainCellEntityId ~= INVALID_ID ) then
 
-        
-        
         local terrainTypeLayerComponent = EntityService:GetComponent( terrainCellEntityId, "TerrainTypeLayerComponent" )
 
         if ( terrainTypeLayerComponent ~= nil ) then
@@ -572,7 +579,7 @@ function picker_tool:GetTerrainTypes( position )
         end
     end
 
-    LogService:Log("terrainCellEntityId " .. tostring(terrainCellEntityId) .. " terrainType " .. tostring(terrainType) .. " overrideTerrains " .. table.concat( overrideTerrains, "," ))
+    --LogService:Log("terrainCellEntityId " .. tostring(terrainCellEntityId) .. " terrainType " .. tostring(terrainType) .. " overrideTerrains " .. table.concat( overrideTerrains, "," ))
 
     return terrainType, overrideTerrains
 end
