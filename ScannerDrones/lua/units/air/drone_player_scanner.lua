@@ -43,7 +43,7 @@ function drone_player_scanner:FillInitialParams()
 	self.shoting	= false
 	self.lastTarget	= INVALID_ID
 
-	if ( self.effect ~= INVALID_ID ) then
+	if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 		EntityService:RemoveEntity( self.effect )
 	end
 	self.effect		= INVALID_ID
