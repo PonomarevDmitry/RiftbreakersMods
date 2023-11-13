@@ -176,7 +176,7 @@ function drone_player_scanner:SelectEntity( target )
 	WeaponService:SetCustomTarget( self.entity, target )
 	self.selectedEntity = target
 
-	if target ~= INVALID_ID   then
+	if ( target ~= INVALID_ID ) then
 
 		WeaponService:RotateWeaponMuzzleToTarget( self.entity, target )
 
