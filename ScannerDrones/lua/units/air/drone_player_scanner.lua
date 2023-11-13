@@ -70,7 +70,7 @@ function drone_player_scanner:SpawnSpecificEffect( currentTarget )
 		effectName = "effects/mech/scanner_very_big"
 	end
 
-	if ( self.effect ~= INVALID_ID ) then
+	if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
 	end
@@ -84,9 +84,9 @@ function drone_player_scanner:ExecuteScanning()
 
 	--LogService:Log("ExecuteScanning " .. tostring(self.ammoEnt))
 
-	if ( self.lastTarget ~= INVALID_ID and self.lastTarget ~= self.selectedEntity ) then
+	if ( self.lastTarget ~= nil and self.lastTarget ~= INVALID_ID and self.lastTarget ~= self.selectedEntity ) then
 
-		if ( self.effect ~= INVALID_ID ) then
+		if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 			EntityService:RemoveEntity( self.effect )
 			self.effect = INVALID_ID
 		end
@@ -108,7 +108,7 @@ function drone_player_scanner:ExecuteScanning()
 			QueueEvent( "EntityScanningEndEvent", self.selectedEntity )
 			EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
 
-			if ( self.effect ~= INVALID_ID ) then
+			if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 				EntityService:RemoveEntity( self.effect )
 				self.effect = INVALID_ID
 			end
@@ -138,7 +138,7 @@ function drone_player_scanner:ExecuteScanning()
 
 			factor = math.min( factor, 1.0 )
 
-			if ( self.effect ~= INVALID_ID ) then
+			if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 				EffectService:SetParticleEmmissionUniform( self.effect, factor )
 			end
 
@@ -158,7 +158,7 @@ function drone_player_scanner:ExecuteScanning()
 				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted" )
 				
 
-				if ( self.effect ~= INVALID_ID ) then
+				if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 					EntityService:RemoveEntity( self.effect )
 					self.effect = INVALID_ID
 				end
@@ -214,12 +214,12 @@ function drone_player_scanner:OnWorkInProgress()
 
 		WeaponService:StopShoot( self.entity )
 
-		if ( self.effect ~= INVALID_ID ) then
+		if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 			EntityService:RemoveEntity( self.effect )
 			self.effect = INVALID_ID
 		end
 
-		if ( self.lastTarget ~= INVALID_ID ) then
+		if ( self.lastTarget ~= nill and self.lastTarget ~= INVALID_ID ) then
 			QueueEvent( "EntityScanningEndEvent", self.lastTarget )
 			EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )	
 		end
@@ -250,12 +250,12 @@ function drone_player_scanner:OnTurretEvent( evt )
 		WeaponService:StopShoot( self.entity )
 		self.shoting = false
 
-		if ( self.effect ~= INVALID_ID ) then
+		if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 			EntityService:RemoveEntity( self.effect )
 			self.effect = INVALID_ID
 		end
 		
-		if ( self.lastTarget ~= INVALID_ID ) then
+		if ( self.lastTarget ~= nill and self.lastTarget ~= INVALID_ID ) then
 			QueueEvent( "EntityScanningEndEvent", self.lastTarget )
 			EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 		end
@@ -263,13 +263,13 @@ function drone_player_scanner:OnTurretEvent( evt )
 end
 
 function drone_player_scanner:OnRelease()
-	if ( self.lastTarget ~= INVALID_ID) then
+	if ( self.lastTarget ~= nill and self.lastTarget ~= INVALID_ID )
 		QueueEvent( "EntityScanningEndEvent", self.lastTarget )
 		EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 		self.lastTarget = INVALID_ID
 	end
 
-	if ( self.effect ~= INVALID_ID ) then
+	if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
 	end
