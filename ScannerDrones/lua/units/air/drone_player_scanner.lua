@@ -263,7 +263,7 @@ function drone_player_scanner:OnTurretEvent( evt )
 end
 
 function drone_player_scanner:OnRelease()
-	if ( self.lastTarget ~= nill and self.lastTarget ~= INVALID_ID )
+	if ( self.lastTarget ~= nill and self.lastTarget ~= INVALID_ID ) then
 		QueueEvent( "EntityScanningEndEvent", self.lastTarget )
 		EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 		self.lastTarget = INVALID_ID
