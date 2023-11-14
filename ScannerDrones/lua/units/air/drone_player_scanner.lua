@@ -102,6 +102,8 @@ function drone_player_scanner:ExecuteScanning()
 
 		WeaponService:RotateWeaponMuzzleToTarget( self.entity, self.selectedEntity )
 
+		EntityService:LookAt( self.entity, self.selectedEntity, true )
+
 		local scannableComponent = EntityService:GetComponent( self.selectedEntity, "ScannableComponent" )
 		if ( scannableComponent == nil ) then
 
