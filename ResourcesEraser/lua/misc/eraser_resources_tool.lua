@@ -177,8 +177,7 @@ end
 
 function eraser_resources_tool:OnActivateEntity( entity )
 
-    local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
-    if ( resourceVolumeComponent ~= nil ) then
+    if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
         local childrenList = EntityService:GetChildren( entity, false )
 
@@ -188,9 +187,9 @@ function eraser_resources_tool:OnActivateEntity( entity )
 
             EntityService:RemoveEntity(childResource)
         end
-
-        self:RemoveGameplayResourceComponents(entity)
     end
+
+    self:RemoveGameplayResourceComponents(entity)
 
     QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 end
@@ -201,17 +200,45 @@ function eraser_resources_tool:RemoveGameplayResourceComponents(entity)
 
     for cellId in Iter( cellIndexes ) do
 
-        if ( EntityService:HasComponent( cellId, "GameplayResourceLayerComponent" ) ) then
-
-            EntityService:RemoveComponent( cellId, "GameplayResourceLayerComponent" )
-
-            if ( EntityService:HasComponent( cellId, "GridFlagLayerComponent" ) ) then
-
-                local gridFlagLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GridFlagLayerComponent" ) )
-
-                gridFlagLayerComponentRef.mask = 0
-            end
+        if ( not EntityService:HasComponent( cellId, "GameplayResourceLayerComponent" ) ) then
+            goto continue
         end
+
+        local gameplayResourceLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GameplayResourceLayerComponent" ) )
+
+        if ( gameplayResourceLayerComponentRef.ent == nil ) then
+            goto continue
+        end
+
+        local linkedResourceId = gameplayResourceLayerComponentRef.ent
+
+        if ( linkedResourceId.id ) then
+
+            linkedResourceId = linkedResourceId.id
+        end
+
+        if ( linkedResourceId == nil ) then
+            goto continue
+        end
+
+        if ( linkedResourceId ~= entity ) then
+            goto continue
+        end
+
+        EntityService:RemoveComponent( cellId, "GameplayResourceLayerComponent" )
+
+        if ( not EntityService:HasComponent( cellId, "GridFlagLayerComponent" ) ) then
+            goto continue
+        end
+
+        local gridFlagLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GridFlagLayerComponent" ) )
+
+        if ( gridFlagLayerComponentRef.mask ~= 0 ) then
+
+            gridFlagLayerComponentRef.mask = 0
+        end
+
+        ::continue::
     end
 end
 
