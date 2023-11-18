@@ -32,7 +32,7 @@ function building_search_clear_tool:OnInit()
 
     self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory, self.modeAll }
 
-    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected)
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected, self.selector)
 
     self.configName = "$building_search_tool_config"
 
@@ -227,9 +227,9 @@ function building_search_clear_tool:OnActivateSelectorRequest()
 
             if ( blueprintName ~= "" ) then
 
-                self:AddBlueprintToLastList(blueprintName)
+                self:AddBlueprintToLastList(blueprintName, self.selector)
 
-                self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected)
+                self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected, self.selector)
 
                 local buildingsList = self:FindEntitiesToMark(blueprintName, isGroup)
 
