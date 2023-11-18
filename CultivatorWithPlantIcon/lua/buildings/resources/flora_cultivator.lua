@@ -313,10 +313,10 @@ end
 function flora_cultivator:DisableVegetationAround()
     local drone_search_radius = self.data:GetFloatOrDefault( "drone_search_radius", 25.0 )
 
-	self.predicate = self.predicate or {
-		signature = "VegetationLifecycleEnablerComponent"
-	}
-	local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, drone_search_radius, self.predicate )
+    self.predicate = self.predicate or {
+        signature = "VegetationLifecycleEnablerComponent"
+    }
+    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, drone_search_radius, self.predicate )
 
     for entity in Iter( entities ) do
         EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent")
