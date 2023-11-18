@@ -8,21 +8,9 @@ function building_search_clear_tool:__init()
     building_search_base.__init(self,self)
 end
 
-function building_search_clear_tool:OnPreInit()
-    self.initialScale = { x=1, y=1, z=1 }
-end
-
-function building_search_clear_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
-end
-
 function building_search_clear_tool:OnInit()
 
     self.popupShown = false
-
-    self.scaleMap = {
-        1,
-    }
 
     self.modeBuilding = 0
     self.modeBuildingGroup = 1

@@ -9,6 +9,14 @@ function building_search_base:__init()
     tool.__init(self,self)
 end
 
+function building_search_base:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
+function building_search_base:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
+end
+
 function building_search_base:InitLowUpgradeList(selectedBuildingBlueprint)
 
     self.selectedBlueprints = {}
