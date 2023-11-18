@@ -28,7 +28,7 @@ function building_search_clear_tool:OnInit()
     self.modeBuildingGroup = 1
     self.modeBuildingCategory = 2
     self.modeAll = 3
-    self.modeBuildingLastSelected = 4
+    self.modeBuildingLastSelected = 100
 
     self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory, self.modeAll }
 

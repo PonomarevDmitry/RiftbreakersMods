@@ -27,7 +27,7 @@ function building_search_select_tool:OnInit()
     self.modeBuilding = 0
     self.modeBuildingGroup = 1
     self.modeBuildingCategory = 2
-    self.modeBuildingLastSelected = 4
+    self.modeBuildingLastSelected = 100
 
     self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory }
 
