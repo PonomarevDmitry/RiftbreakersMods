@@ -295,7 +295,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
 
 
     local pathDistanceArray = self:GetPathDistanceArray(pathFromStartPositionToEndPosition)
-    
+
 
     local deltaXZ = 2
 
@@ -349,7 +349,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
                         self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newBasePositionX, newBasePositionZ, position.y)
                     end
 
-                    self:AddHashMerge( hashMerge, newBasePositionX, newBasePositionZ, indexStep, hasWall )
+                    self:AddHashMerge( hashMerge, newBasePositionX, newBasePositionZ, 2 * indexStep, hasWall )
 
                     for zStep=1,(wallLinesCount - 1 - indexStep) do
 
@@ -359,8 +359,14 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
                             self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newBasePositionX, newPositionZ, position.y)
                         end
 
-                        self:AddHashMerge( hashMerge, newBasePositionX, newPositionZ, indexStep + zStep, hasWall )
+                        self:AddHashMerge( hashMerge, newBasePositionX, newPositionZ, 2 * indexStep + zStep, hasWall )
+
+                        if ( hashOriginal[newBasePositionX] and hashOriginal[newBasePositionX][newPositionZ] == true ) then
+                            goto continueZStep
+                        end
                     end
+
+                    ::continueZStep::
 
                     for xStep=1,(wallLinesCount - 1 - indexStep) do
 
@@ -370,8 +376,14 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
                             self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newBasePositionZ, position.y)
                         end
 
-                        self:AddHashMerge( hashMerge, newPositionX, newBasePositionZ, indexStep + xStep, hasWall )
+                        self:AddHashMerge( hashMerge, newPositionX, newBasePositionZ, 2 * indexStep + xStep, hasWall )
+
+                        if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][newBasePositionZ] == true ) then
+                            goto continueXStep
+                        end
                     end
+
+                    ::continueXStep::
                 end
 
 
@@ -771,7 +783,7 @@ function thorns_walls_tool:AddHashMerge(hashMerge, newPositionX, newPositionZ, i
 
     elseif ( cellConfig.currentIndex == index ) then
 
-        cellConfig.hasWall = cellConfig.hasWall or hasWall
+        cellConfig.hasWall = cellConfig.hasWall and hasWall
     end
 end
 
