@@ -238,23 +238,221 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
     local deltaXZ = 2
 
-    local hashPositions = {}
-    local positionsArray = {}
-
-    local hashMerge = {}
-
     local startSignVector = self:GetStartSignVector(pathFromStartPositionToEndPosition, positionPlayer)
 
     local vectorArray = self:GetVectorArray(pathFromStartPositionToEndPosition, startSignVector)
+    
+    local positionsArrayOrder = self:GetWallPositionInOrder(pathFromStartPositionToEndPosition, vectorArray, wallLinesConfig);
 
-    local hashOriginal = {}
+    local hashMerge = {}
 
-    for position in Iter(pathFromStartPositionToEndPosition) do
+    local arrayWallVectors = {}
 
-        hashOriginal[position.x] = hashOriginal[position.x] or {}
+    for i=1,#pathFromStartPositionToEndPosition do
 
-        hashOriginal[position.x][position.z] = true
+        local position = pathFromStartPositionToEndPosition[i]
+
+        self:AddHashMerge( hashMerge, position.x, position.z, true )
+
+        local wallVector = {}
+        wallVector.position = position
+        wallVector.isOuterCorner = false
+
+        local signVector = vectorArray[i]
+
+        local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
+
+        if ( hasChangesX and hasChangesZ ) then
+
+            local cornerX, cornerZ = self:GetCornerVector(pathFromStartPositionToEndPosition, i)
+
+            local cornerType = signVector.x * cornerX + signVector.z * cornerZ
+
+            if (cornerType > 0) then
+
+                wallVector.isOuterCorner = true
+
+                wallVector.vector = {}
+                wallVector.vector.x = cornerX
+                wallVector.vector.z = cornerZ
+
+                Insert(arrayWallVectors, wallVector)
+            end
+        else
+            wallVector.vector = signVector
+
+            Insert(arrayWallVectors, wallVector)
+        end
     end
+
+    for step=2,wallLinesConfigLen do
+
+        if ( #arrayWallVectors == 0 ) then
+            goto continue
+        end
+
+        local newArrayWallVectors = {}
+    
+        local hashPositions = {}
+
+        --LogService:Log("Start step " .. tostring(step) .. " #arrayWallVectors " .. tostring(#arrayWallVectors) )
+
+        for i=1,#arrayWallVectors do
+
+            local wallVector = arrayWallVectors[i]
+
+            local position = wallVector.position
+
+            local signVector = wallVector.vector
+
+            --LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z))
+
+            local newPositionX = position.x + signVector.x * deltaXZ
+            local newPositionZ = position.z + signVector.z * deltaXZ
+
+            if ( wallVector.isOuterCorner ) then
+
+                self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, position.x, position.y, newPositionZ, false, 0, signVector.z)
+
+                self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, newPositionX, position.y, position.z, false, signVector.x, 0)
+            end
+
+            self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, newPositionX, position.y, newPositionZ, wallVector.isOuterCorner, signVector.x, signVector.z)
+        end
+
+        --LogService:Log("End step " .. tostring(step) )
+
+        local filteredArrayNewVectors = {}
+        local hashFilteredArrayNewVectors = {}
+
+        local subStr = string.sub(wallLinesConfig, step, step)
+
+        local hasWall = ( subStr == "1" )
+
+        --LogService:Log("Start filter #newArrayWallVectors " .. tostring(#newArrayWallVectors) .. " subStr " .. tostring(subStr) .. " hasWall " .. tostring(hasWall) )
+
+        for i=1,#newArrayWallVectors do
+
+            local wallVector = newArrayWallVectors[i]
+
+            local position = wallVector.position
+
+            local signVector = wallVector.vector
+
+            --LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z))
+
+            self:AddHashMerge( hashMerge, position.x, position.z, hasWall )
+
+            local cellConfig = hashPositions[position.x][position.z]
+
+            local canContinueWallVector = self:CanContitue(cellConfig)
+
+            if ( canContinueWallVector ) then
+
+                if ( not self:HashContains(hashFilteredArrayNewVectors, position.x, position.z ) ) then
+
+                    Insert(filteredArrayNewVectors, wallVector)
+                end
+            end
+        end
+
+        --LogService:Log("End filter #newArrayWallVectors " .. tostring(#newArrayWallVectors) )
+
+
+        arrayWallVectors = filteredArrayNewVectors
+    end
+
+    ::continue::
+
+    local result = {}
+
+    for position in Iter(positionsArrayOrder) do
+
+        local hasWall = ( hashMerge[position.x] and hashMerge[position.x][position.z] and hashMerge[position.x][position.z].hasWall == true )
+
+        --LogService:Log(" Wall position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " hasWall " .. tostring(hasWall))
+
+        if ( hasWall ) then
+
+            table.insert(result, position)
+        end
+    end
+
+    return result
+end
+
+function ghost_building_line:CanContitue(cellConfig)
+
+    if ( cellConfig.count == 1 ) then
+        return true
+    end
+
+    for i=1,#cellConfig.vectors do
+
+        local vector1 = cellConfig.vectors[i]
+
+        for j=i+1,#cellConfig.vectors do
+
+            local vector2 = cellConfig.vectors[i]
+
+            if ( vector1.x ~= vector2.x or vector1.z ~= vector2.z ) then
+
+                return false
+            end
+        end
+    end
+
+    return true
+end
+
+function ghost_building_line:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, newPositionX, positionY, newPositionZ, isOuterCorner, signVectorX, signVectorZ)
+
+    local isVisited = hashMerge[newPositionX] ~= nil and hashMerge[newPositionX][newPositionZ] ~= nil
+    if ( isVisited ) then
+        return
+    end
+
+    hashPositions[newPositionX] = hashPositions[newPositionX] or {}
+
+    local hashXPosition = hashPositions[newPositionX]
+
+    hashXPosition[newPositionZ] = hashXPosition[newPositionZ] or {}
+
+    local cellConfig = hashXPosition[newPositionZ]
+
+    cellConfig.count = cellConfig.count or 0
+
+    cellConfig.count = cellConfig.count + 1
+
+    cellConfig.vectors = cellConfig.vectors or {}
+
+    local vector = {}
+    vector.x = signVectorX
+    vector.z = signVectorZ
+
+    Insert(cellConfig.vectors, vector)
+
+    local newWallVector = {}
+    newWallVector.position = {}
+    newWallVector.position.x = newPositionX
+    newWallVector.position.y = positionY
+    newWallVector.position.z = newPositionZ
+
+    newWallVector.vector = vector
+
+    newWallVector.isOuterCorner = isOuterCorner
+
+    Insert(newArrayWallVectors, newWallVector)
+end
+
+function ghost_building_line:GetWallPositionInOrder(pathFromStartPositionToEndPosition, vectorArray, wallLinesConfig)
+
+    local wallLinesConfigLen = string.len( wallLinesConfig )
+
+    local deltaXZ = 2
+
+    local hashPositions = {}
+    local positionsArray = {}
 
     for i=1,#pathFromStartPositionToEndPosition do
 
@@ -269,8 +467,6 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
             table.insert(positionsArray, position)
         end
-
-        self:AddHashMerge( hashMerge, position.x, position.z, 0, true )
 
         -- Adding new positions for wall layers
 
@@ -293,36 +489,16 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
                     local hasWall = (subStrZ == "1" )
 
-                    for xStep=1,zStep do
+                    if ( hasWall ) then
 
-                        local newPositionX = position.x + cornerX * (xStep - 1) * deltaXZ
+                        for xStep=1,zStep do
 
-                        if ( hasWall ) then
+                            local newPositionX = position.x + cornerX * (xStep - 1) * deltaXZ
 
                             self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, position.y)
                         end
-
-                        self:AddHashMerge( hashMerge, newPositionX, newPositionZ, index, hasWall )
-
-                        if ( xStep ~= 1 and zStep ~= 1 ) then
-
-                            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][newPositionZ] == true ) then
-                                goto continueZStep
-                            end
-                        end
-                    end
-
-                    ::continueZStep::
-
-                    if ( zStep ~= 1 ) then
-
-                        if ( hashOriginal[position.x] and hashOriginal[position.x][newPositionZ] == true ) then
-                            goto continueOuterCorner
-                        end
                     end
                 end
-
-                ::continueOuterCorner::
 
                 for xStep=1,wallLinesConfigLen do
 
@@ -334,60 +510,30 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
                     local hasWall = (subStrX == "1")
 
-                    for zStep=1,xStep do
+                    if ( hasWall ) then
 
-                        local newPositionZ = position.z + cornerZ * (zStep - 1) * deltaXZ
+                        for zStep=1,xStep do
 
-                        if ( hasWall ) then
+                            local newPositionZ = position.z + cornerZ * (zStep - 1) * deltaXZ
 
                             self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, position.y)
                         end
-
-                        self:AddHashMerge( hashMerge, newPositionX, newPositionZ, index, hasWall )
-
-                        if ( xStep ~= 1 and zStep ~= 1 ) then
-
-                            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][newPositionZ] == true ) then
-                                goto continueXStep
-                            end
-                        end
-                    end
-
-                    ::continueXStep::
-
-                    if ( xStep ~= 1 ) then
-
-                        if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][position.z] == true ) then
-                            goto endOuterCorner
-                        end
                     end
                 end
-
-                ::endOuterCorner::
             end
 
         elseif ( hasChangesX ) then
 
-            self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
+            self:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, signVector.z, deltaXZ, hashPositions, positionsArray)
 
         elseif ( hasChangesZ ) then
 
-            self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
+            self:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, signVector.x, deltaXZ, hashPositions, positionsArray)
 
         end
     end
 
-    local result = {}
-
-    for position in Iter(positionsArray) do
-
-        if ( hashMerge[position.x] and hashMerge[position.x][position.z] and hashMerge[position.x][position.z].hasWall == true ) then
-
-            table.insert(result, position)
-        end
-    end
-
-    return result
+    return positionsArray
 end
 
 function ghost_building_line:GetVectorArray(pathFromStartPositionToEndPosition, startSignVector)
@@ -592,7 +738,7 @@ function ghost_building_line:GetRotateDegree(pathFromStartPositionToEndPosition,
     return 0
 end
 
-function ghost_building_line:AddHashMerge(hashMerge, newPositionX, newPositionZ, index, hasWall)
+function ghost_building_line:AddHashMerge(hashMerge, newPositionX, newPositionZ, hasWall)
 
     hashMerge[newPositionX] = hashMerge[newPositionX] or {}
 
@@ -602,7 +748,6 @@ function ghost_building_line:AddHashMerge(hashMerge, newPositionX, newPositionZ,
 
         hashXPosition[newPositionZ] = {}
 
-        hashXPosition[newPositionZ].currentIndex = index
         hashXPosition[newPositionZ].hasWall = hasWall
 
         return
@@ -610,15 +755,7 @@ function ghost_building_line:AddHashMerge(hashMerge, newPositionX, newPositionZ,
 
     local cellConfig = hashXPosition[newPositionZ]
 
-    if ( cellConfig.currentIndex > index ) then
-
-        cellConfig.currentIndex = index
-        cellConfig.hasWall = hasWall
-
-    elseif ( cellConfig.currentIndex == index ) then
-
-        cellConfig.hasWall = cellConfig.hasWall or hasWall
-    end
+    cellConfig.hasWall = cellConfig.hasWall and hasWall
 end
 
 function ghost_building_line:GetXZSigns(position, positionPlayer)
@@ -752,7 +889,7 @@ function ghost_building_line:HashContains(hashPositions, newPositionX, newPositi
     return false
 end
 
-function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
+function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfig, wallLinesConfigLen, xSign, deltaXZ, hashPositions, positionsArray)
 
     for step=1,wallLinesConfigLen do
 
@@ -765,19 +902,10 @@ function ghost_building_line:AddNewPositionsByConfigByX(position, wallLinesConfi
 
             self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, position.z, position.y)
         end
-
-        self:AddHashMerge( hashMerge, newPositionX, position.z, (step - 1), hasWall )
-
-        if ( step ~= 1 ) then
-
-            if ( hashOriginal[newPositionX] and hashOriginal[newPositionX][position.z] == true ) then
-                return
-            end
-        end
     end
 end
 
-function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, hashPositions, positionsArray, hashMerge, hashOriginal)
+function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfig, wallLinesConfigLen, zSign, deltaXZ, hashPositions, positionsArray)
 
     for step=1,wallLinesConfigLen do
 
@@ -790,15 +918,6 @@ function ghost_building_line:AddNewPositionsByConfigByZ(position, wallLinesConfi
         if ( hasWall ) then
 
             self:AddNewPositionToPositionsArray(hashPositions, positionsArray, position.x, newPositionZ, position.y)
-        end
-
-        self:AddHashMerge( hashMerge, position.x, newPositionZ, (step - 1), hasWall )
-
-        if ( step ~= 1 ) then
-
-            if ( hashOriginal[position.x] and hashOriginal[position.x][newPositionZ] == true ) then
-                return
-            end
         end
     end
 end
