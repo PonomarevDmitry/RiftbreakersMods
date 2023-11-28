@@ -241,8 +241,6 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
     local startSignVector = self:GetStartSignVector(pathFromStartPositionToEndPosition, positionPlayer)
 
     local vectorArray = self:GetVectorArray(pathFromStartPositionToEndPosition, startSignVector)
-    
-    local positionsArrayOrder = self:GetWallPositionInOrder(pathFromStartPositionToEndPosition, vectorArray, wallLinesConfig);
 
     local hashMerge = {}
 
@@ -363,6 +361,8 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
     end
 
     ::continue::
+    
+    local positionsArrayOrder = self:GetWallPositionInOrder(pathFromStartPositionToEndPosition, vectorArray, wallLinesConfig)
 
     local result = {}
 
