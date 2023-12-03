@@ -502,7 +502,7 @@ function thorns_walls_tool:FillPreviousGaps(hashMerge, position, signVector)
     if ( hashMerge[previousX] ~= nil and hashMerge[previousX][previousZ] ~= nil and hashMerge[previous2X] ~= nil and hashMerge[previous2X][previous2Z] ~= nil ) then
 
         local previousHasWall = ( hashMerge[previousX][previousZ].hasWall == true )
-        local previous2HasWall = ( and hashMerge[previous2X][previous2Z].hasWall == true )
+        local previous2HasWall = ( hashMerge[previous2X][previous2Z].hasWall == true )
 
         if ( not previousHasWall and previous2HasWall ) then
 
