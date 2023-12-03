@@ -368,7 +368,7 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
 
     for position in Iter(positionsArrayOrder) do
 
-        local hasWall = ( hashMerge[position.x] and hashMerge[position.x][position.z] and hashMerge[position.x][position.z].hasWall == true )
+        local hasWall = ( hashMerge[position.x] ~= nil and hashMerge[position.x][position.z] ~= nil and hashMerge[position.x][position.z].hasWall == true )
 
         --LogService:Log(" Wall position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " hasWall " .. tostring(hasWall))
 
