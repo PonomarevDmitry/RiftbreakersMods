@@ -310,7 +310,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
     local arrayWallVectors = {}
 
 
-    LogService:Log("Start Original #pathFromStartPositionToEndPosition " .. tostring(#pathFromStartPositionToEndPosition) .. " wallLinesCount " .. tostring(wallLinesCount) )
+    --LogService:Log("Start Original #pathFromStartPositionToEndPosition " .. tostring(#pathFromStartPositionToEndPosition) .. " wallLinesCount " .. tostring(wallLinesCount) )
 
     for i=1,#pathFromStartPositionToEndPosition do
 
@@ -353,16 +353,16 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
             Insert(arrayWallVectors, wallVector)
         end
         
-        LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " isOuterCorner " .. tostring(wallVector.isOuterCorner) .. " hasWall " .. tostring(hasWall))
+        --LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " isOuterCorner " .. tostring(wallVector.isOuterCorner) .. " hasWall " .. tostring(hasWall))
     end
     
-    LogService:Log("End Original #pathFromStartPositionToEndPosition " .. tostring(#pathFromStartPositionToEndPosition) .. " wallLinesCount " .. tostring(wallLinesCount) )
+    --LogService:Log("End Original #pathFromStartPositionToEndPosition " .. tostring(#pathFromStartPositionToEndPosition) .. " wallLinesCount " .. tostring(wallLinesCount) )
 
     for step=2,wallLinesCount do
     
         local hashPositions = {}
 
-        LogService:Log("Start step " .. tostring(step) .. " #arrayWallVectors " .. tostring(#arrayWallVectors) .. " wallLinesCount " .. tostring(wallLinesCount) )
+        --LogService:Log("Start step " .. tostring(step) .. " #arrayWallVectors " .. tostring(#arrayWallVectors) .. " wallLinesCount " .. tostring(wallLinesCount) )
 
         if ( #arrayWallVectors == 0 ) then
             goto endCalculation
@@ -380,23 +380,16 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
 
             local hasWall = wallVector.hasWall
 
-            LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " isOuterCorner " .. tostring(wallVector.isOuterCorner) .. " hasWall " .. tostring(hasWall))
+            --LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " isOuterCorner " .. tostring(wallVector.isOuterCorner) .. " hasWall " .. tostring(hasWall))
 
             local newPositionX = position.x + signVector.x * deltaXZ
             local newPositionZ = position.z + signVector.z * deltaXZ
 
             if ( wallVector.isOuterCorner ) then
 
-                if ( hasWall ) then
+                self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, position.x, position.y, newPositionZ, false, 0, signVector.z, hasWall)
 
-                    self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, position.x, position.y, newPositionZ, false, 0, signVector.z, hasWall)
-
-                    self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, newPositionX, position.y, position.z, false, signVector.x, 0, hasWall)
-                else
-
-                    self:AddHashMerge( hashMerge, position.x, newPositionZ, hasWall )
-                    self:AddHashMerge( hashMerge, newPositionX, position.z, hasWall )
-                end
+                self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, newPositionX, position.y, position.z, false, signVector.x, 0, hasWall)
 
                 hasWall = not hasWall
             end
@@ -404,7 +397,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
             self:AddNewWallVector(hashMerge, hashPositions, newArrayWallVectors, newPositionX, position.y, newPositionZ, wallVector.isOuterCorner, signVector.x, signVector.z, hasWall)
         end
 
-        LogService:Log("End step " .. tostring(step) )
+        --LogService:Log("End step " .. tostring(step) )
 
 
 
@@ -421,15 +414,13 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
 
             local signVector = wallVector.vector
 
-            local hasWall = wallVector.hasWall
-
-            self:AddHashMerge( hashMerge, position.x, position.z, hasWall )
+            self:AddHashMerge( hashMerge, position.x, position.z, wallVector.hasWall )
 
             local cellConfig = hashPositions[position.x][position.z]
 
             local canContinueWallVector = self:CanContitue(cellConfig)
 
-            LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " hasWall " .. tostring(hasWall) .. " canContinueWallVector " .. tostring(canContinueWallVector))
+            --LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " hasWall " .. tostring(wallVector.hasWall) .. " canContinueWallVector " .. tostring(canContinueWallVector))
 
             if ( canContinueWallVector and not self:HashContains(hashFilteredArrayNewVectors, position.x, position.z ) ) then
 
@@ -454,9 +445,9 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
 
     for position in Iter(positionsArrayOrder) do
 
-        local hasWall = ( hashMerge[position.x] and hashMerge[position.x][position.z] and hashMerge[position.x][position.z].hasWall == true )
+        local hasWall = ( hashMerge[position.x] ~= nil and hashMerge[position.x][position.z] ~= nil and hashMerge[position.x][position.z].hasWall == true )
     
-        LogService:Log("       Wall position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " hasWall " .. tostring(hasWall))
+        --LogService:Log("       Wall position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " hasWall " .. tostring(hasWall))
 
         if ( hasWall ) then
 
