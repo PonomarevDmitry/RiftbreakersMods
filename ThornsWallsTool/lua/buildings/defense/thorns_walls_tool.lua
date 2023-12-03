@@ -422,7 +422,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
 
             --LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " hasWall " .. tostring(wallVector.hasWall) .. " canContinueWallVector " .. tostring(canContinueWallVector))
 
-            if ( canContinueWallVector and not self:HashContains(hashFilteredArrayNewVectors, position.x, position.z ) ) then
+            if ( canContinueWallVector and self:AddToHash(hashFilteredArrayNewVectors, position.x, position.z ) ) then
 
                 Insert(filteredArrayNewVectors, wallVector)
             end
@@ -619,7 +619,7 @@ function thorns_walls_tool:GetWallPositionInOrder(pathFromStartPositionToEndPosi
         local hasChangesX, hasChangesZ = self:GetPositionXZChanges(pathFromStartPositionToEndPosition, position, i)
 
         -- Add if position has not been added yet
-        if ( not self:HashContains(hashPositions, position.x, position.z ) ) then
+        if ( self:AddToHash(hashPositions, position.x, position.z ) ) then
 
             table.insert(positionsArray, position)
         end
@@ -1083,7 +1083,7 @@ end
 function thorns_walls_tool:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, newPositionZ, newPositionY)
 
     -- Add if position has not been added yet
-    if ( self:HashContains( hashPositions, newPositionX, newPositionZ ) ) then
+    if ( not self:AddToHash( hashPositions, newPositionX, newPositionZ ) ) then
         return
     end
 
@@ -1096,7 +1096,7 @@ function thorns_walls_tool:AddNewPositionToPositionsArray(hashPositions, positio
 end
 
 -- Check position has not already been added to hashPositions
-function thorns_walls_tool:HashContains(hashPositions, newPositionX, newPositionZ)
+function thorns_walls_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
 
     hashPositions[newPositionX] = hashPositions[newPositionX] or {}
 
@@ -1104,12 +1104,12 @@ function thorns_walls_tool:HashContains(hashPositions, newPositionX, newPosition
 
     if ( hashXPosition[newPositionZ] ~= nil ) then
 
-        return true
+        return false
     end
 
     hashXPosition[newPositionZ] = true
 
-    return false
+    return true
 end
 
 function thorns_walls_tool:CheckConfigExists( wallLinesCount )
