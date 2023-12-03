@@ -324,7 +324,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
 
         local hasWall = ( positionDistance % 2 ) == 0
 
-        self:AddHashMerge( hashMerge, position.x, position.z, hasWall )
+        self:AddHashMerge( hashMerge, position.x, position.z, hasWall, signVector )
 
         local wallVector = {}
         wallVector.position = position
@@ -404,7 +404,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
         local filteredArrayNewVectors = {}
         local hashFilteredArrayNewVectors = {}
 
-        LogService:Log("Start filter #newArrayWallVectors " .. tostring(#newArrayWallVectors))
+        --LogService:Log("Start filter #newArrayWallVectors " .. tostring(#newArrayWallVectors) .. " step " .. tostring(step))
 
         for i=1,#newArrayWallVectors do
 
@@ -414,7 +414,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
 
             local signVector = wallVector.vector
 
-            self:AddHashMerge( hashMerge, position.x, position.z, wallVector.hasWall )
+            self:AddHashMerge( hashMerge, position.x, position.z, wallVector.hasWall, signVector )
 
             local cellConfig = hashPositions[position.x][position.z]
 
@@ -428,7 +428,38 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
             end
         end
 
-        LogService:Log("End filter #filteredArrayNewVectors " .. tostring(#filteredArrayNewVectors) )
+        for i=1,#filteredArrayNewVectors do
+
+            local wallVector = filteredArrayNewVectors[i]
+
+            local position = wallVector.position
+
+            local signVector = wallVector.vector
+
+            local hasWall = ( hashMerge[position.x] ~= nil and hashMerge[position.x][position.z] ~= nil and hashMerge[position.x][position.z].hasWall == true )
+
+            if ( hasWall ) then
+
+                if ( wallVector.isOuterCorner ) then
+
+                    local vector1 = {}
+                    vector1.x = signVector.x
+                    vector1.z = 0
+
+                    local vector2 = {}
+                    vector2.x = 0
+                    vector2.z = signVector.z
+
+                    self:FillPreviousGaps(hashMerge, position, vector1)
+                    self:FillPreviousGaps(hashMerge, position, vector2)
+                else
+
+                    self:FillPreviousGaps(hashMerge, position, signVector, step)
+                end
+            end
+        end
+
+        --LogService:Log("End filter #filteredArrayNewVectors " .. tostring(#filteredArrayNewVectors) .. " step " .. tostring(step) )
 
         arrayWallVectors = filteredArrayNewVectors
     end
@@ -456,6 +487,54 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
     end
 
     return result, pathFromStartPositionToEndPosition
+end
+
+function thorns_walls_tool:FillPreviousGaps(hashMerge, position, signVector)
+
+    local deltaXZ = 2
+
+    local previousX = position.x - signVector.x * deltaXZ
+    local previousZ = position.z - signVector.z * deltaXZ
+
+    local previous2X = position.x - 2 * signVector.x * deltaXZ
+    local previous2Z = position.z - 2 * signVector.z * deltaXZ
+
+    if ( hashMerge[previousX] ~= nil and hashMerge[previousX][previousZ] ~= nil and hashMerge[previous2X] ~= nil and hashMerge[previous2X][previous2Z] ~= nil ) then
+
+        local previousHasWall = ( hashMerge[previousX][previousZ].hasWall == true )
+        local previous2HasWall = ( and hashMerge[previous2X][previous2Z].hasWall == true )
+
+        if ( not previousHasWall and previous2HasWall ) then
+
+            local cellConfig = hashMerge[previous2X][previous2Z]
+
+            local fillPrevious = self:FillPrevious(cellConfig, signVector)
+
+            if ( fillPrevious ) then
+
+                --LogService:Log("    FillGaps" .. " previousX " .. tostring(previousX) .. " previousZ " .. tostring(previousZ) .. " previousHasWall " .. tostring(previousHasWall) .. " previous2X " .. tostring(previous2X) .. " previous2Z " .. tostring(previous2Z) .. " previous2HasWall " .. tostring(previous2HasWall) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z))
+
+                hashMerge[previousX][previousZ].hasWall = true
+            end
+        end
+    end
+end
+
+function thorns_walls_tool:FillPrevious(cellConfig, signVector)
+
+    for i=1,#cellConfig.vectors do
+
+        local vector = cellConfig.vectors[i]
+
+        local scalarMul = vector.x * signVector.x + vector.z * signVector.z
+
+        if ( scalarMul > 0 ) then
+
+            return true
+        end
+    end
+
+    return false
 end
 
 function thorns_walls_tool:CanContitue(cellConfig)
@@ -860,7 +939,7 @@ function thorns_walls_tool:GetRotateDegree(pathFromStartPositionToEndPosition, c
     return 0
 end
 
-function thorns_walls_tool:AddHashMerge(hashMerge, newPositionX, newPositionZ, hasWall)
+function thorns_walls_tool:AddHashMerge(hashMerge, newPositionX, newPositionZ, hasWall, signVector)
 
     hashMerge[newPositionX] = hashMerge[newPositionX] or {}
 
@@ -872,12 +951,14 @@ function thorns_walls_tool:AddHashMerge(hashMerge, newPositionX, newPositionZ, h
 
         hashXPosition[newPositionZ].hasWall = hasWall
 
-        return
+        hashXPosition[newPositionZ].vectors = {}
     end
 
     local cellConfig = hashXPosition[newPositionZ]
 
     cellConfig.hasWall = cellConfig.hasWall and hasWall
+
+    Insert( cellConfig.vectors, signVector )
 end
 
 function thorns_walls_tool:GetXZSigns(position, positionPlayer)
