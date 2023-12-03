@@ -51,6 +51,8 @@ function thorns_walls_tool:InitializeValues()
     self.buildStartPosition = nil
     self.positionPlayer = nil
 
+    self.positionPlayerMarker = nil
+
     self.wallBlueprint = self:GetWallBlueprint( selectorDB )
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
@@ -1128,6 +1130,10 @@ function thorns_walls_tool:OnActivateSelectorRequest()
         local player = PlayerService:GetPlayerControlledEnt(self.playerId)
         self.positionPlayer = EntityService:GetPosition( player )
 
+        self:DestroyPositionPlayerMarker()
+
+        self.positionPlayerMarker = EntityService:SpawnEntity( "effects/multilayeredwalls_markers/objective_marker", self.positionPlayer, EntityService:GetTeam(self.entity) )
+
         self:OnWorkExecute()
     else
         self:FinishLineBuild()
@@ -1183,6 +1189,16 @@ function thorns_walls_tool:FinishLineBuild()
     self.linesEntities = {}
     self.buildStartPosition = nil
     self.positionPlayer = nil
+
+    self:DestroyPositionPlayerMarker()
+end
+
+function thorns_walls_tool:DestroyPositionPlayerMarker()
+
+    if ( self.positionPlayerMarker ~= nil ) then
+        EntityService:RemoveEntity( self.positionPlayerMarker )
+        self.positionPlayerMarker = nil
+    end
 end
 
 function thorns_walls_tool:OnRotateSelectorRequest(evt)
@@ -1244,6 +1260,8 @@ function thorns_walls_tool:OnRelease()
         EntityService:RemoveEntity(self.ghostWall)
         self.ghostWall = nil
     end
+
+    self:DestroyPositionPlayerMarker()
 
     -- Destroy Marker with layers count
     if (self.currentMarkerLines ~= nil) then
