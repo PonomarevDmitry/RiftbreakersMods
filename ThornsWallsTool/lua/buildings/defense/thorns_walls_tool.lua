@@ -363,7 +363,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
         LogService:Log("Start step " .. tostring(step) .. " #arrayWallVectors " .. tostring(#arrayWallVectors) .. " wallLinesCount " .. tostring(wallLinesCount) )
 
         if ( #arrayWallVectors == 0 ) then
-            goto continue
+            goto endCalculation
         end
 
         local newArrayWallVectors = {}
@@ -440,7 +440,7 @@ function thorns_walls_tool:FindPositionsToBuildLine( currentTransform, wallLines
         arrayWallVectors = filteredArrayNewVectors
     end
 
-    ::continue::
+    ::endCalculation::
 
     
 
