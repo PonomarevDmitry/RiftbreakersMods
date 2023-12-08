@@ -14,6 +14,8 @@ function pipe_area_tool:OnInit()
 
     self.nowBuildingLine = false
     self.gridEntities = {}
+
+    self:SpawnGhostPipeEntity()
 end
 
 function pipe_area_tool:OnUpdate()

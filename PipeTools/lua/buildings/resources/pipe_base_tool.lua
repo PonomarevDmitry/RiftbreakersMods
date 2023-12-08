@@ -62,7 +62,10 @@ function pipe_base_tool:InitializeValues()
 
     self.pipeBlueprintName = "buildings/resources/pipe_straight"
 
-    self:SpawnPipeTemplates( self.pipeBlueprintName )
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.pipeBlueprintName ) )
+
+    self.ghostBlueprintName = buildingDesc.ghost_bp
+    self.buildingDesc = buildingDesc
 end
 
 function pipe_base_tool:CreateInfoChild()
@@ -71,20 +74,6 @@ function pipe_base_tool:CreateInfoChild()
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
         EntityService:SetPosition( self.infoChild, -1, 0, 1)
     end
-end
-
-function pipe_base_tool:SpawnPipeTemplates(pipeBlueprintName)
-
-    --local markerDB = EntityService:GetDatabase( self.markerEntity )
-    --markerDB:SetString("message_text", "")
-    --markerDB:SetInt("message_visible", 0)
-
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( pipeBlueprintName ) )
-
-    self.ghostBlueprintName = buildingDesc.ghost_bp
-    self.buildingDesc = buildingDesc
-
-    self:SpawnGhostPipeEntity()
 end
 
 function pipe_base_tool:SpawnGhostPipeEntity()

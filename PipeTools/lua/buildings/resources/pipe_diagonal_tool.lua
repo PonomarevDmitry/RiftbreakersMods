@@ -32,6 +32,8 @@ function pipe_diagonal_tool:OnInit()
     -- Pipe layers config
     self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
     self.pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
+
+    self:SpawnGhostPipeEntity()
 end
 
 function pipe_diagonal_tool:OnUpdate()
@@ -609,30 +611,7 @@ function pipe_diagonal_tool:FinishLineBuild()
         local ghostEntity = self.linesEntities[i]
         local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
-        local transform = EntityService:GetWorldTransform( ghostEntity )
-        local buildingComponent = reflection_helper(EntityService:GetComponent( ghostEntity, "BuildingComponent"))
-
-        local testBuildable = self:CheckEntityBuildable( ghostEntity, transform, i )
-
-        if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
-        elseif( testBuildable.flag == CBF_OVERRIDES ) then
-            for entityToSell in Iter(testBuildable.entities_to_sell) do
-                QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
-            end
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
-
-        elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
-            local healthComponent = EntityService:GetComponent(testBuildable.entity_to_repair, "HealthComponent")
-            if ( healthComponent ~= nil ) then
-
-                local healthComponentRef = reflection_helper(healthComponent)
-
-                if ( healthComponentRef.health < healthComponentRef.max_health ) then
-                    QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
-                end
-            end
-        end
+        self:BuildEntity(ghostEntity, createCube)
 
         EntityService:RemoveEntity(ghostEntity)
     end
