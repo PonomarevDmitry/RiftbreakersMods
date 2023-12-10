@@ -84,8 +84,10 @@ function cultivator_sapling_picker_tool:UpdateMarker()
         local saplingIcon = componentRef.icon
         local saplingName = componentRef.name
 
+        local messageText = "${gui/hud/cultivator_sapling_tools/current_sapling} ${" .. saplingName .. "}"
+
         markerDB:SetString("sapling_icon", saplingIcon)
-        markerDB:SetString("sapling_name", saplingName)
+        markerDB:SetString("sapling_name", messageText)
         markerDB:SetInt("sapling_visible", 1)
     else
         markerDB:SetString("sapling_icon", "")
