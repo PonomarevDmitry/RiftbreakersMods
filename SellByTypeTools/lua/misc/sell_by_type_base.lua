@@ -11,6 +11,7 @@ end
 function sell_by_type_base:InitLowUpgradeList()
 
     self.template_name = self.data:GetString("template_name")
+    self.list_name = self.data:GetStringOrDefault("list_name", "") or ""
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -322,7 +323,7 @@ function sell_by_type_base:GetMenuIcon( blueprintName )
 
     local menuIcon = buildingDescRef.menu_icon or ""
     if ( menuIcon ~= "" ) then
-        return menuIcon
+        return menuIcon, buildingDescRef
     end
 
     local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
@@ -332,7 +333,7 @@ function sell_by_type_base:GetMenuIcon( blueprintName )
 
         menuIcon = baseBuildingDescRef.menu_icon or ""
         if ( menuIcon ~= "" ) then
-            return menuIcon
+            return menuIcon, baseBuildingDescRef
         end
     end
 
@@ -344,11 +345,11 @@ function sell_by_type_base:GetMenuIcon( blueprintName )
 
             local connectBlueprintName = connectRecord.value[j]
 
-            local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
+            local connectMenuIcon, connectBuildingDescRef = self:GetBuildingMenuIcon( connectBlueprintName )
 
             if ( connectMenuIcon ~= "" ) then
 
-                return connectMenuIcon
+                return connectMenuIcon, connectBuildingDescRef
             end
         end
     end
@@ -374,7 +375,7 @@ function sell_by_type_base:GetBuildingMenuIcon( blueprintName )
 
     local menuIcon = buildingDescRef.menu_icon or ""
     if ( menuIcon ~= "" ) then
-        return menuIcon
+        return menuIcon, buildingDescRef
     end
 
     local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
@@ -384,7 +385,7 @@ function sell_by_type_base:GetBuildingMenuIcon( blueprintName )
 
         menuIcon = baseBuildingDescRef.menu_icon or ""
         if ( menuIcon ~= "" ) then
-            return menuIcon
+            return menuIcon, baseBuildingDescRef
         end
     end
 
