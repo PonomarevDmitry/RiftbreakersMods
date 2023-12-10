@@ -1,4 +1,3 @@
-
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
@@ -12,19 +11,69 @@ function cultivator_sapling_picker_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_picker_tool", self.entity)
     self.popupShown = false
 
+    self.configName = "cultivator_sapling_picker_tool.selecteditem"
+    self.configNameList = "cultivator_sapling_picker_tool.last_selected_saplings"
+
     self.scaleMap = {
         1,
     }
+
+    self.modeSelect = 0
+    self.modeSelectLast = 100
+
+    self.defaultModesArray = { self.modeSelect }
+
+    self.modeValuesArray = self:FillLastSaplingsList(self.defaultModesArray, self.modeSelectLast, self.selector)
 
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
-    self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( "cultivator_sapling_picker_tool.selecteditem", "" )
+    self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( self.configName, "" ) or ""
+
+    if ( self.SelectedItemBlueprint == nil and self.SelectedItemBlueprint == "" or not ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
+
+        self.SelectedItemBlueprint = ""
+    end
+
+    self.selectedMode = self.modeSelect
+
+    self:UpdateMarker()
+end
+
+function cultivator_sapling_picker_tool:UpdateMarker()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
+    if ( self.selectedMode >= self.modeSelectLast ) then
+
+        local indexSapling = self.selectedMode - self.modeSelectLast
+
+        local saplingNumber = #self.lastSelectedSaplingsArray - indexSapling
+
+        local saplingBlueprintName = self.lastSelectedSaplingsArray[saplingNumber]
+
+        self.lastSelectedSapling = saplingBlueprintName
+
+
+
+
+        local blueprint = ResourceManager:GetBlueprint( saplingBlueprintName )
+
+        local component = blueprint:GetComponent("InventoryItemComponent")
+
+        local componentRef = reflection_helper(component)
+
+        local saplingIcon = componentRef.icon
+        local saplingName = componentRef.name
+
+        local messageText = "${gui/hud/cultivator_sapling_tools/last_sapling} " .. tostring(indexSapling + 1) .. ": ${" .. saplingName .. "}"
+
+        markerDB:SetString("sapling_icon", saplingIcon)
+        markerDB:SetString("sapling_name", messageText)
+        markerDB:SetInt("sapling_visible", 1)
+
+    elseif ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
 
         local blueprint = ResourceManager:GetBlueprint( self.SelectedItemBlueprint )
 
@@ -39,7 +88,8 @@ function cultivator_sapling_picker_tool:OnInit()
         markerDB:SetString("sapling_name", saplingName)
         markerDB:SetInt("sapling_visible", 1)
     else
-        self.SelectedItemBlueprint = ""
+        markerDB:SetString("sapling_icon", "")
+        markerDB:SetString("sapling_name", "")
         markerDB:SetInt("sapling_visible", 0)
     end
 end
@@ -75,6 +125,10 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
 
     local entities = {}
 
+    if ( self.selectedMode ~= self.modeSelect ) then
+        return entities
+    end
+
     for entity in Iter(selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
@@ -97,11 +151,14 @@ function cultivator_sapling_picker_tool:FilterSelectedEntities( selectedEntities
             goto continue
         end
 
-        local modItemBlueprintName = EntityService:GetBlueprintName(modItem)
+        if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" ) then
 
-        if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and modItemBlueprintName == self.SelectedItemBlueprint ) then
+            local modItemBlueprintName = EntityService:GetBlueprintName(modItem)
 
-            goto continue
+            if ( modItemBlueprintName == self.SelectedItemBlueprint ) then
+
+                goto continue
+            end
         end
 
         Insert(entities, entity)
@@ -114,6 +171,17 @@ end
 
 function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
+    if ( self.selectedMode >= self.modeSelectLast ) then
+
+        if ( self:ChangeSelector(self.lastSelectedSapling) ) then
+
+            return
+        end
+        
+        return
+    end
+
+
     for entity in Iter( self.selectedEntities ) do
 
         local modItem = ItemService:GetEquippedItem( entity, "MOD_1" )
@@ -122,37 +190,167 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
             local modItemBlueprintName = EntityService:GetBlueprintName(modItem) or ""
 
-            local selectorDB = EntityService:GetDatabase( self.selector )
+            if ( self:ChangeSelector(modItemBlueprintName) ) then
 
-            selectorDB:SetString( "cultivator_sapling_picker_tool.selecteditem", modItemBlueprintName )
-
-
-
-
-            if ( self.next_tool ~= "" ) then
-
-                local nextToolBuildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( self.next_tool ) )
-
-                QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
-
-                local nextToolBlueprintName = nextToolBuildingDescRef.bp
-
-                local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
-
-                if ( lowName == nextToolBlueprintName ) then
-                    lowName = nextToolBuildingDescRef.name
-                end
-
-                BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
-
-                QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
+                return
             end
-
-            return
         end
     end
 end
 
+function cultivator_sapling_picker_tool:ChangeSelector(modItemBlueprintName)
+
+    if ( modItemBlueprintName == "" or modItemBlueprintName == nil ) then
+        return false
+    end
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    selectorDB:SetString( self.configName, modItemBlueprintName )
+
+    self:AddSaplingToLastList(self.SelectedItemBlueprint, modItemBlueprintName, selectorDB)
+
+    if ( self.next_tool ~= "" ) then
+
+        local nextToolBuildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( self.next_tool ) )
+
+        QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
+
+        local nextToolBlueprintName = nextToolBuildingDescRef.bp
+
+        local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
+
+        if ( lowName == nextToolBlueprintName ) then
+            lowName = nextToolBuildingDescRef.name
+        end
+
+        BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+
+        QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
+    end
+
+    return true
+end
+
+function cultivator_sapling_picker_tool:FillLastSaplingsList(defaultModesArray, modeSelectLast, selector)
+
+    local selectorDB = EntityService:GetDatabase( selector )
+
+    self.lastSelectedSaplingsArray = self:GetCurrentList(self.configNameList, selectorDB)
+
+    local modeValuesArray = Copy(defaultModesArray)
+
+    for index=0,#self.lastSelectedSaplingsArray-1 do
+
+        Insert(modeValuesArray, (modeSelectLast + index))
+    end
+
+    return modeValuesArray
+end
+
+function cultivator_sapling_picker_tool:GetCurrentList(parameterName, selectorDB)
+
+    local currentListString = self:GetCurrentListString(parameterName, selectorDB)
+
+    local currentListArray = Split( currentListString, "|" )
+
+    return currentListArray
+end
+
+function cultivator_sapling_picker_tool:GetCurrentListString(parameterName, selectorDB)
+
+    local currentList = ""
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        currentList = selectorDB:GetStringOrDefault( parameterName, "" ) or ""
+    end
+
+    return currentList
+end
+
+function cultivator_sapling_picker_tool:AddSaplingToLastList(lastSelectedBlueprintName, newSelectedBlueprintName, selectorDB)
+
+    local currentListArray = self:GetCurrentList(self.configNameList, selectorDB)
+
+    if ( newSelectedBlueprintName ~= "" and newSelectedBlueprintName ~= nil ) then
+
+        if ( IndexOf( currentListArray, newSelectedBlueprintName ) ~= nil ) then
+            Remove( currentListArray, newSelectedBlueprintName )
+        end
+    end
+
+    if ( lastSelectedBlueprintName ~= "" and lastSelectedBlueprintName ~= nil ) then
+
+        if ( IndexOf( currentListArray, lastSelectedBlueprintName ) ~= nil ) then
+            Remove( currentListArray, lastSelectedBlueprintName )
+        end
+
+        Insert( currentListArray, lastSelectedBlueprintName )
+    end
+
+
+
+
+    
+
+    while ( #currentListArray > 20 ) do
+
+        table.remove( currentListArray, 1 )
+    end
+
+    local currentListString = table.concat( currentListArray, "|" )
+
+    if ( selectorDB ) then
+        selectorDB:SetString(self.configNameList, currentListString)
+    end
+end
+
+function cultivator_sapling_picker_tool:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    local index = IndexOf( self.modeValuesArray, selectedMode )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #self.modeValuesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
+    end
+
+    local newValue = self.modeValuesArray[newIndex]
+
+    self.selectedMode = newValue
+
+    self:UpdateMarker()
+end
+
+function cultivator_sapling_picker_tool:CheckModeValueExists( selectedMode )
+
+    selectedMode = selectedMode or self.modeValuesArray[1]
+
+    local index = IndexOf(self.modeValuesArray, selectedMode )
+
+    if ( index == nil ) then
+
+        return self.modeValuesArray[1]
+    end
+
+    return selectedMode
+end
 
 return cultivator_sapling_picker_tool
  
