@@ -75,12 +75,7 @@ function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorD
 
     local currentListString = LastSelectedBlueprintsListUtils:GetCurrentListString(parameterName, selectorDB, campaignDatabase)
 
-
     local currentListArray = Split( currentListString, "|" )
-
-    if ( IndexOf( currentListArray, blueprintName ) ~= nil ) then
-        Remove( currentListArray, blueprintName )
-    end
 
     return currentListArray
 end
