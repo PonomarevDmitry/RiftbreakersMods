@@ -37,6 +37,49 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
     LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selectorDB, campaignDatabase, currentListArray)
 end
 
+function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorDB, campaignDatabase)
+
+    local currentListString = LastSelectedBlueprintsListUtils:GetParameterString(parameterName, selectorDB, campaignDatabase)
+
+    local currentListArray = Split( currentListString, "|" )
+
+    return currentListArray
+end
+
+function LastSelectedBlueprintsListUtils:GetParameterString(parameterName, selectorDB, campaignDatabase)
+
+    local currentList = ""
+
+    if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+        currentList = campaignDatabase:GetString( parameterName ) or ""
+    end
+
+    if ( currentList ~= nil and currentList ~= "" ) then
+
+        return currentList
+    end
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        currentList = selectorDB:GetString( parameterName ) or ""
+    end
+
+    return currentList
+end
+
+function LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selectorDB, campaignDatabase, currentListArray)
+
+    local currentListString = table.concat( currentListArray, "|" )
+
+    if ( selectorDB ) then
+        selectorDB:SetString(parameterName, currentListString)
+    end
+
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( parameterName, currentListString )
+    end
+end
+
 function LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(currentListArray, blueprintName)
 
     if ( IndexOf( currentListArray, blueprintName ) ~= nil ) then
@@ -71,49 +114,6 @@ function LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(curre
                 end
             end
         end
-    end
-end
-
-function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorDB, campaignDatabase)
-
-    local currentListString = LastSelectedBlueprintsListUtils:GetCurrentListString(parameterName, selectorDB, campaignDatabase)
-
-    local currentListArray = Split( currentListString, "|" )
-
-    return currentListArray
-end
-
-function LastSelectedBlueprintsListUtils:GetCurrentListString(parameterName, selectorDB, campaignDatabase)
-
-    local currentList = ""
-
-    if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-        currentList = campaignDatabase:GetString( parameterName ) or ""
-    end
-
-    if ( currentList ~= nil and currentList ~= "" ) then
-
-        return currentList
-    end
-
-    if ( selectorDB and selectorDB:HasString(parameterName) ) then
-
-        currentList = selectorDB:GetString( parameterName ) or ""
-    end
-
-    return currentList
-end
-
-function LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selectorDB, campaignDatabase, currentListArray)
-
-    local currentListString = table.concat( currentListArray, "|" )
-
-    if ( selectorDB ) then
-        selectorDB:SetString(parameterName, currentListString)
-    end
-
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( parameterName, currentListString )
     end
 end
 
