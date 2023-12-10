@@ -24,6 +24,21 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
 
     local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorDB, campaignDatabase)
 
+    LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(currentListArray, blueprintName)
+
+
+    Insert( currentListArray, blueprintName )
+
+    while ( #currentListArray > LastSelectedBlueprintsListUtils.maxBlueprints ) do
+
+        table.remove( currentListArray, 1 )
+    end
+
+    LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selectorDB, campaignDatabase, currentListArray)
+end
+
+function LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(currentListArray, blueprintName)
+
     if ( IndexOf( currentListArray, blueprintName ) ~= nil ) then
         Remove( currentListArray, blueprintName )
     end
@@ -54,21 +69,9 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
                         varBuildingDescRef = reflection_helper(upgradeBuildingDesc)
                     end
                 end
-
             end
         end
     end
-
-
-
-    Insert( currentListArray, blueprintName )
-
-    while ( #currentListArray > LastSelectedBlueprintsListUtils.maxBlueprints ) do
-
-        table.remove( currentListArray, 1 )
-    end
-
-    LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selectorDB, campaignDatabase, currentListArray)
 end
 
 function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorDB, campaignDatabase)
