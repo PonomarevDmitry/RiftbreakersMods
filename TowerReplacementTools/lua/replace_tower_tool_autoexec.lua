@@ -34,6 +34,10 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
+    if ( buildingDescRef.type ~= "tower" ) then
+        return
+    end
+
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
         return
@@ -41,11 +45,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local buildingComponent = blueprint:GetComponent("BuildingComponent")
     if ( buildingComponent == nil ) then
-        return
-    end
-
-    local buildingComponentRef = reflection_helper(buildingComponent)
-    if ( buildingDescRef.type ~= "tower" ) then
         return
     end
 
