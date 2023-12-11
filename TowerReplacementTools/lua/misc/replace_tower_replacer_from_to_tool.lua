@@ -17,18 +17,14 @@ function replace_tower_replacer_from_to_tool:OnInit()
     self.missing_localization_to = self.data:GetStringOrDefault("missing_localization_to", "") or ""
 
     self.template_name_from = self.data:GetStringOrDefault("template_name_from", "") or ""
-    self.template_grid_from = self.data:GetStringOrDefault("template_grid_from", "") or ""
 
     self.template_name_to = self.data:GetStringOrDefault("template_name_to", "") or ""
-    self.template_grid_to = self.data:GetStringOrDefault("template_grid_to", "") or ""
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.fromBlueprintName = selectorDB:GetStringOrDefault( self.template_name_from, "" ) or ""
-    self.fromBlueprintGridSize = selectorDB:GetIntOrDefault( self.template_grid_from, 1 ) or 1
 
     self.toBlueprintName = selectorDB:GetStringOrDefault( self.template_name_to, "" ) or ""
-    self.toBlueprintGridSize = selectorDB:GetIntOrDefault( self.template_grid_to, 1 ) or 1
 
     self.fromBlueprintsList = {}
     self.fromCacheBlueprintsLowNames = {}
@@ -47,6 +43,12 @@ function replace_tower_replacer_from_to_tool:OnInit()
 
     if ( self.toBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.toBlueprintName ) ) then
 
+        local blueprint = ResourceManager:GetBlueprint( self.toBlueprintName )
+
+        local gridCullerComponentRef = reflection_helper(blueprint:GetComponent("GridCullerComponent"))
+
+        self.toBlueprintGridSize = self:GetGridSize( gridCullerComponentRef.Shapes[1].x )
+
         local blueprintName = self:GetFirstLevelBuilding(self.toBlueprintName)
 
         self:FillAllBlueprints(blueprintName)
@@ -57,6 +59,19 @@ function replace_tower_replacer_from_to_tool:OnInit()
 
     self.previousMarkedBuildings = {}
     self.radiusShowBuildings = 100.0
+end
+
+function replace_tower_replacer_from_to_tool:GetGridSize( xSize )
+
+    local delta = 2
+
+    local size = 0
+
+    while ( delta * size < xSize ) do
+        size = size + 1
+    end
+
+    return size
 end
 
 function replace_tower_replacer_from_to_tool:FillAllBlueprints( blueprintName )

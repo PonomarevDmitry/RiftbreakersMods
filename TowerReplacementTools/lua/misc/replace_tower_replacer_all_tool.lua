@@ -27,12 +27,11 @@ function replace_tower_replacer_all_tool:OnInit()
     self.cacheBuildCosts = {}
 
     self.template_name = self.data:GetStringOrDefault("template_name", "") or ""
-    self.template_grid = self.data:GetStringOrDefault("template_grid", "") or ""
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
-    self.selectedBuildingGridSize = selectorDB:GetIntOrDefault(self.template_grid, 1) or 1
+    self.selectedBuildingGridSize = 0
 
     self.selectedBlueprints = {}
 
@@ -42,6 +41,12 @@ function replace_tower_replacer_all_tool:OnInit()
 
     if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
+        local blueprint = ResourceManager:GetBlueprint( self.selectedBuildingBlueprint )
+
+        local gridCullerComponentRef = reflection_helper(blueprint:GetComponent("GridCullerComponent"))
+
+        self.selectedBuildingGridSize = self:GetGridSize( gridCullerComponentRef.Shapes[1].x )
+
         local blueprintName = self:GetFirstLevelBuilding(self.selectedBuildingBlueprint)
 
         self:FillAllBlueprints(blueprintName)
@@ -49,6 +54,19 @@ function replace_tower_replacer_all_tool:OnInit()
     end
 
     self:SetBuildingIcon()
+end
+
+function replace_tower_replacer_all_tool:GetGridSize( xSize )
+
+    local delta = 2
+
+    local size = 0
+
+    while ( delta * size < xSize ) do
+        size = size + 1
+    end
+
+    return size
 end
 
 function replace_tower_replacer_all_tool:FillAllBlueprints( blueprintName )

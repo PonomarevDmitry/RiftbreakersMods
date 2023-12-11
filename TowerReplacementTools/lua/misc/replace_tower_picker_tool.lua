@@ -2,6 +2,8 @@ local replace_tower_base = require("lua/misc/replace_tower_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
+local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
+
 class 'replace_tower_picker_tool' ( replace_tower_base )
 
 function replace_tower_picker_tool:__init()
@@ -28,9 +30,13 @@ function replace_tower_picker_tool:OnInit()
     }
 
     self.template_name = self.data:GetStringOrDefault("template_name", "") or ""
-    self.template_grid = self.data:GetStringOrDefault("template_grid", "") or ""
+
+    self.list_name = self.data:GetStringOrDefault("list_name", "") or ""
 
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
+
+    self.modeBuilding = 0
+    self.modeBuildingLastSelected = 100
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -42,32 +48,59 @@ function replace_tower_picker_tool:OnInit()
 
     self:InitBlueprintList(self.selectedBuildingBlueprint, self.selectedBlueprints, self.cacheBlueprintsLowNames)
 
+    self.defaultModesArray = { self.modeBuilding }
+
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
+
+    self.selectedMode = self.modeBuilding
+
     self:SetBuildingIcon()
 end
 
 function replace_tower_picker_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local messageText = ""
+    local buildingIconVisible = 0
+    local buildingIcon = ""
 
-    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
+
+        local buildingNumber = #self.lastSelectedBuildingsArray - indexBuilding
+
+        local buildingBlueprint = self.lastSelectedBuildingsArray[buildingNumber]
+
+        self.lastSelectedBuilding = buildingBlueprint
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            buildingIcon = menuIcon
+            buildingIconVisible = 1
+
+            messageText = "${gui/hud/messages/replace_tower_tool/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+        end
+
+    elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
         local menuIcon, buildingDescRef = self:GetMenuIcon( self.selectedBuildingBlueprint )
 
         if ( menuIcon ~= "" ) then
 
-            markerDB:SetString("tower_name", buildingDescRef.localization_id)
+            buildingIcon = menuIcon
+            buildingIconVisible = 1
 
-            markerDB:SetString("tower_icon", menuIcon)
-            markerDB:SetInt("tower_icon_visible", 1)
-        else
-
-            markerDB:SetString("tower_name", "")
-            markerDB:SetInt("tower_icon_visible", 0)
+            messageText = "${gui/hud/messages/replace_tower_tool/current_building} ${" .. buildingDescRef.localization_id .. "}"
         end
-    else
-        markerDB:SetString("tower_name", "")
-        markerDB:SetInt("tower_icon_visible", 0)
     end
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    markerDB:SetInt("tower_icon_visible", buildingIconVisible)
+    markerDB:SetString("tower_icon", buildingIcon)
+    markerDB:SetString("tower_name", messageText)
 end
 
 function replace_tower_picker_tool:SpawnCornerBlueprint()
@@ -94,6 +127,10 @@ function replace_tower_picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
+    if ( self.selectedMode ~= self.modeBuilding ) then
+        return entities
+    end
+
     for entity in Iter( selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
@@ -111,8 +148,8 @@ function replace_tower_picker_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local buildingRef = reflection_helper(buildingDesc)
-        if ( buildingRef.type ~= "tower" ) then
+        local buildingDescRef = reflection_helper(buildingDesc)
+        if ( buildingDescRef.type ~= "tower" ) then
             goto continue
         end
 
@@ -125,6 +162,16 @@ function replace_tower_picker_tool:FilterSelectedEntities( selectedEntities )
 end
 
 function replace_tower_picker_tool:OnActivateSelectorRequest()
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        if ( self:ChangeSelector(self.lastSelectedBuilding) ) then
+
+            return
+        end
+        
+        return
+    end
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -144,48 +191,134 @@ function replace_tower_picker_tool:OnActivateSelectorRequest()
 
         blueprintName = buildingDescHelper.bp or ""
 
-        local gridSize = BuildingService:GetBuildingGridSize(entity)
+        if ( self:ChangeSelector(blueprintName) ) then
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
-
-        selectorDB:SetString( self.template_name, blueprintName )
-        selectorDB:SetInt( self.template_grid, gridSize.x )
-
-        self.selectedBuildingBlueprint = blueprintName
-
-        self.selectedBlueprints = {}
-
-        self.cacheBlueprintsLowNames = {}
-
-        self:InitBlueprintList(self.selectedBuildingBlueprint, self.selectedBlueprints, self.cacheBlueprintsLowNames)
-
-        self:SetBuildingIcon()
-
-        if ( self.next_tool ~= "" ) then
-
-            local nextToolBuildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( self.next_tool ) )
-
-            QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
-
-            local nextToolBlueprintName = nextToolBuildingDescRef.bp
-
-            local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
-
-            if ( lowName == nextToolBlueprintName ) then
-                lowName = nextToolBuildingDescRef.name
-            end
-
-            BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
-
-            QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
-        end
-
-        do
-            return;
+            return
         end
 
         ::continue::
     end
+end
+
+function replace_tower_picker_tool:ChangeSelector(blueprintName)
+
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return false
+    end
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    selectorDB:SetString( self.template_name, blueprintName )
+
+    self.selectedBuildingBlueprint = blueprintName
+
+    self.selectedBlueprints = {}
+
+    self.cacheBlueprintsLowNames = {}
+
+    self:InitBlueprintList(self.selectedBuildingBlueprint, self.selectedBlueprints, self.cacheBlueprintsLowNames)
+
+    self:AddBlueprintToLastList(blueprintName, self.selector)
+
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
+
+    self.selectedMode = self.modeBuilding
+
+    self:SetBuildingIcon()
+
+    if ( self.next_tool ~= "" ) then
+
+        local nextToolBuildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( self.next_tool ) )
+
+        QueueEvent( "ChangeSelectorRequest", self.selector, nextToolBuildingDescRef.bp, nextToolBuildingDescRef.ghost_bp )
+
+        local nextToolBlueprintName = nextToolBuildingDescRef.bp
+
+        local lowName = BuildingService:FindLowUpgrade( nextToolBlueprintName )
+
+        if ( lowName == nextToolBlueprintName ) then
+            lowName = nextToolBuildingDescRef.name
+        end
+
+        BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+
+        QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
+    end
+
+    return true
+end
+
+function replace_tower_picker_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSelected, selector)
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    local selectorDB = EntityService:GetDatabase( selector )
+
+    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
+
+    if ( self.selectedBuildingBlueprint ~= "" and self.selectedBuildingBlueprint ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(self.lastSelectedBuildingsArray, self.selectedBuildingBlueprint)
+    end
+
+    local modeValuesArray = Copy(defaultModesArray)
+
+    for index=0,#self.lastSelectedBuildingsArray-1 do
+
+        Insert(modeValuesArray, (modeBuildingLastSelected + index))
+    end
+
+    return modeValuesArray
+end
+
+function replace_tower_picker_tool:AddBlueprintToLastList(blueprintName, selector)
+
+    LastSelectedBlueprintsListUtils:AddBlueprintToList(self.list_name, selector, blueprintName)
+end
+
+function replace_tower_picker_tool:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    local index = IndexOf( self.modeValuesArray, selectedMode )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #self.modeValuesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
+    end
+
+    local newValue = self.modeValuesArray[newIndex]
+
+    self.selectedMode = newValue
+
+    self:SetBuildingIcon()
+end
+
+function replace_tower_picker_tool:CheckModeValueExists( selectedMode )
+
+    selectedMode = selectedMode or self.modeValuesArray[1]
+
+    local index = IndexOf(self.modeValuesArray, selectedMode )
+
+    if ( index == nil ) then
+
+        return self.modeValuesArray[1]
+    end
+
+    return selectedMode
 end
 
 return replace_tower_picker_tool
