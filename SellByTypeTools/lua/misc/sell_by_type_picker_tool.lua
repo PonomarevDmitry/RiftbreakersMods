@@ -48,8 +48,6 @@ end
 function sell_by_type_picker_tool:UpdateMarker()
 
     local messageText = ""
-    local markerBlueprint = ""
-
     local buildingIconVisible = 1
     local buildingIcon = ""
 
@@ -311,4 +309,3 @@ function sell_by_type_picker_tool:CheckModeValueExists( selectedMode )
 end
 
 return sell_by_type_picker_tool
- 
