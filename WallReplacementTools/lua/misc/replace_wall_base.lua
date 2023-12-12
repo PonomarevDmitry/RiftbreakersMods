@@ -214,11 +214,11 @@ function replace_wall_base:GetMenuIcon( blueprintName )
 
             local connectBlueprintName = connectRecord.value[j]
 
-            local connectMenuIcon, connectBuildingRef = self:GetBuildingMenuIcon( connectBlueprintName )
+            local connectMenuIcon, connectBuildingDescRef = self:GetBuildingMenuIcon( connectBlueprintName )
 
             if ( connectMenuIcon ~= "" ) then
 
-                return connectMenuIcon, connectBuildingRef
+                return connectMenuIcon, connectBuildingDescRef
             end
         end
     end
