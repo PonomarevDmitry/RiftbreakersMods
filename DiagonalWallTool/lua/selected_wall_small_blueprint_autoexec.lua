@@ -1,6 +1,9 @@
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
-    local blueprintName = evt:GetBlueprint()
+    local blueprintName = evt:GetBlueprint() or ""
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return
+    end
 
     local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
