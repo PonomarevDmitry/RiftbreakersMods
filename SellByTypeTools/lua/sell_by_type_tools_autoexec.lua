@@ -17,7 +17,11 @@ end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
-    local blueprintName = evt:GetBlueprint()
+    local blueprintName = evt:GetBlueprint() or ""
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return
+    end
+
     local selector = evt:GetEntity()
 
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent(selector, "PlayerReferenceComponent") )
