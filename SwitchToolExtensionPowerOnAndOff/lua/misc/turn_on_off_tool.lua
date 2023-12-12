@@ -1,6 +1,8 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
+local PowerUtils = require("lua/utils/power_utils.lua")
+
 class 'turn_on_ff_tool' ( tool )
 
 function turn_on_ff_tool:__init()
@@ -46,7 +48,7 @@ function turn_on_ff_tool:FilterSelectedEntities( selectedEntities )
 
         if ( EntityService:GetComponent(ent, "ResourceConverterComponent") ~= nil ) then
 
-            if (self:CanChangePower(ent)) then
+            if (PowerUtils:CanChangePower(ent)) then
 
                 Insert(entities, ent)
             end
@@ -54,59 +56,6 @@ function turn_on_ff_tool:FilterSelectedEntities( selectedEntities )
     end
 
     return entities
-end
-
-function turn_on_ff_tool:CanChangePower( ent )
-
-    local blueprintName = EntityService:GetBlueprintName( ent )
-
-    if ( blueprintName == nil or blueprintName == "" ) then
-        return false
-    end
-
-    if ( switch_turn_on_off_toolCache == nil ) then
-        switch_turn_on_off_toolCache = {}
-    end
-
-    if ( switch_turn_on_off_toolCache[blueprintName] == nil ) then
-        switch_turn_on_off_toolCache[blueprintName] = self:CalcCanChangePower( blueprintName )
-    end
-
-    return switch_turn_on_off_toolCache[blueprintName]
-end
-
-function turn_on_ff_tool:CalcCanChangePower( blueprintName )
-
-    local blueprint = ResourceManager:GetBlueprint( blueprintName )
-    if ( blueprint == nil ) then
-        return false
-    end
-
-    local resourceConverterDesc = blueprint:GetComponent("ResourceConverterDesc")
-    if ( resourceConverterDesc == nil ) then
-        return false
-    end
-
-    local resourceConverterRef = reflection_helper(resourceConverterDesc)
-    if ( resourceConverterRef == nil or resourceConverterRef["in"] == nil ) then
-        return false
-    end
-
-    local inValue = resourceConverterRef["in"]
-    if ( inValue.count == 0 ) then
-        return false
-    end
-
-    for i = 1,inValue.count do
-
-        local resource = inValue[i]
-
-        if ( resource ~= nil and resource.value ~= nil and resource.value > 0 ) then
-            return true
-        end
-    end
-
-    return false
 end
 
 function turn_on_ff_tool:OnActivateEntity( entity )

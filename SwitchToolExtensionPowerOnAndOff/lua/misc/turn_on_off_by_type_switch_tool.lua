@@ -2,6 +2,8 @@ local turn_on_off_by_type_base = require("lua/misc/turn_on_off_by_type_base.lua"
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
+local PowerUtils = require("lua/utils/power_utils.lua")
+
 class 'turn_on_off_by_type_switch_tool' ( turn_on_off_by_type_base )
 
 function turn_on_off_by_type_switch_tool:__init()
@@ -104,7 +106,7 @@ function turn_on_off_by_type_switch_tool:FilterSelectedEntities( selectedEntitie
             goto continue
         end
 
-        if ( not self:CanChangePower(entity)) then
+        if ( not PowerUtils:CanChangePower(entity)) then
             goto continue
         end
 
@@ -138,7 +140,7 @@ function turn_on_off_by_type_switch_tool:IsEntityApproved( entity )
         return false
     end
 
-    if ( not self:CanChangePower(entity) ) then
+    if ( not PowerUtils:CanChangePower(entity) ) then
         return false
     end
 
