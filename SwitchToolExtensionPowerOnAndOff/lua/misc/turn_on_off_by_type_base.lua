@@ -328,7 +328,7 @@ function turn_on_off_by_type_base:GetMenuIcon( blueprintName )
 
     local menuIcon = buildingDescRef.menu_icon or ""
     if ( menuIcon ~= "" ) then
-        return menuIcon
+        return menuIcon, buildingDescRef
     end
 
     local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
@@ -338,7 +338,7 @@ function turn_on_off_by_type_base:GetMenuIcon( blueprintName )
 
         menuIcon = baseBuildingDescRef.menu_icon or ""
         if ( menuIcon ~= "" ) then
-            return menuIcon
+            return menuIcon, baseBuildingDescRef
         end
     end
 
@@ -350,11 +350,11 @@ function turn_on_off_by_type_base:GetMenuIcon( blueprintName )
 
             local connectBlueprintName = connectRecord.value[j]
 
-            local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
+            local connectMenuIcon, connectBuildingDescRef = self:GetBuildingMenuIcon( connectBlueprintName )
 
             if ( connectMenuIcon ~= "" ) then
 
-                return connectMenuIcon
+                return connectMenuIcon, connectBuildingDescRef
             end
         end
     end
@@ -380,7 +380,7 @@ function turn_on_off_by_type_base:GetBuildingMenuIcon( blueprintName )
 
     local menuIcon = buildingDescRef.menu_icon or ""
     if ( menuIcon ~= "" ) then
-        return menuIcon
+        return menuIcon, buildingDescRef
     end
 
     local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
@@ -390,62 +390,11 @@ function turn_on_off_by_type_base:GetBuildingMenuIcon( blueprintName )
 
         menuIcon = baseBuildingDescRef.menu_icon or ""
         if ( menuIcon ~= "" ) then
-            return menuIcon
+            return menuIcon, baseBuildingDescRef
         end
     end
 
     return ""
-end
-
-function turn_on_off_by_type_base:CanChangePower( entity )
-
-    local blueprintName = EntityService:GetBlueprintName( entity )
-
-    if ( blueprintName == nil or blueprintName == "" ) then
-        return false
-    end
-
-    switch_turn_on_off_toolCache = switch_turn_on_off_toolCache or {}
-
-    if ( switch_turn_on_off_toolCache[blueprintName] == nil ) then
-        switch_turn_on_off_toolCache[blueprintName] = self:CalcCanChangePower( blueprintName )
-    end
-
-    return switch_turn_on_off_toolCache[blueprintName]
-end
-
-function turn_on_off_by_type_base:CalcCanChangePower( blueprintName )
-
-    local blueprint = ResourceManager:GetBlueprint( blueprintName )
-    if ( blueprint == nil ) then
-        return false
-    end
-
-    local resourceConverterDesc = blueprint:GetComponent("ResourceConverterDesc")
-    if ( resourceConverterDesc == nil ) then
-        return false
-    end
-
-    local resourceConverterRef = reflection_helper(resourceConverterDesc)
-    if ( resourceConverterRef == nil or resourceConverterRef["in"] == nil ) then
-        return false
-    end
-
-    local inValue = resourceConverterRef["in"]
-    if ( inValue.count == 0 ) then
-        return false
-    end
-
-    for i = 1,inValue.count do
-
-        local resource = inValue[i]
-
-        if ( resource ~= nil and resource.value ~= nil and resource.value > 0 ) then
-            return true
-        end
-    end
-
-    return false
 end
 
 return turn_on_off_by_type_base
