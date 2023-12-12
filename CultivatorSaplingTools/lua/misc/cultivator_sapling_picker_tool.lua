@@ -31,7 +31,7 @@ function cultivator_sapling_picker_tool:OnInit()
 
     self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( self.configName, "" ) or ""
 
-    if ( self.SelectedItemBlueprint == nil and self.SelectedItemBlueprint == "" or not ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
+    if ( self.SelectedItemBlueprint == nil or self.SelectedItemBlueprint == "" or not ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
 
         self.SelectedItemBlueprint = ""
     end
