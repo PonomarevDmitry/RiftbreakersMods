@@ -328,7 +328,7 @@ function repair_all_map_base:GetMenuIcon( blueprintName )
 
     local menuIcon = buildingDescRef.menu_icon or ""
     if ( menuIcon ~= "" ) then
-        return menuIcon
+        return menuIcon, buildingDescRef
     end
 
     local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
@@ -338,7 +338,7 @@ function repair_all_map_base:GetMenuIcon( blueprintName )
 
         menuIcon = baseBuildingDescRef.menu_icon or ""
         if ( menuIcon ~= "" ) then
-            return menuIcon
+            return menuIcon, baseBuildingDescRef
         end
     end
 
@@ -350,11 +350,11 @@ function repair_all_map_base:GetMenuIcon( blueprintName )
 
             local connectBlueprintName = connectRecord.value[j]
 
-            local connectMenuIcon = self:GetBuildingMenuIcon( connectBlueprintName )
+            local connectMenuIcon, connectBuildingDescRef = self:GetBuildingMenuIcon( connectBlueprintName )
 
             if ( connectMenuIcon ~= "" ) then
 
-                return connectMenuIcon
+                return connectMenuIconm, connectBuildingDescRef
             end
         end
     end
@@ -380,7 +380,7 @@ function repair_all_map_base:GetBuildingMenuIcon( blueprintName )
 
     local menuIcon = buildingDescRef.menu_icon or ""
     if ( menuIcon ~= "" ) then
-        return menuIcon
+        return menuIcon, buildingDescRef
     end
 
     local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
@@ -390,7 +390,7 @@ function repair_all_map_base:GetBuildingMenuIcon( blueprintName )
 
         menuIcon = baseBuildingDescRef.menu_icon or ""
         if ( menuIcon ~= "" ) then
-            return menuIcon
+            return menuIcon, baseBuildingDescRef
         end
     end
 
