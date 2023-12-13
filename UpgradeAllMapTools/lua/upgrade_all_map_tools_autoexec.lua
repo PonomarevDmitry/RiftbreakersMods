@@ -60,7 +60,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    local parameterName = "$replace_trap_all.last_selected_buildings"
+    local parameterName = "$upgrade_all_map_picker_tool.last_selected_buildings"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
 end)
