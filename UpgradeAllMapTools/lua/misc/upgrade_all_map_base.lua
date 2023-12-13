@@ -322,7 +322,7 @@ function upgrade_all_map_base:GetMenuIcon( blueprintName )
 
     local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
 
-    return menuIcon
+    return menuIcon,buildingDescRef
 end
 
 function upgrade_all_map_base:GetBuildingMenuIcon( blueprintName, buildingDescRef )
