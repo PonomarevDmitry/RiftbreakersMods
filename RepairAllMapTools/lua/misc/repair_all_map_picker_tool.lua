@@ -86,7 +86,7 @@ function repair_all_map_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/repair_all_map/current_building} ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/repair_all_map/current_building}: ${" .. buildingDescRef.localization_id .. "}"
         end
     end
 
