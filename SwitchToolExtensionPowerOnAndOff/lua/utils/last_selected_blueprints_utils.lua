@@ -152,4 +152,32 @@ function LastSelectedBlueprintsListUtils:GetFirstLevelBuilding(blueprintName)
     return blueprintName
 end
 
+function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector, stringValue)
+
+    if ( stringValue == "" or stringValue == nil ) then
+        return
+    end
+
+
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    local selectorDB = nil
+    if (selector) then
+        selectorDB = EntityService:GetDatabase( selector )
+    end
+
+
+    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorDB, campaignDatabase)
+
+    if ( IndexOf( currentListArray, stringValue ) ~= nil ) then
+        Remove( currentListArray, stringValue )
+    end
+
+    Insert( currentListArray, stringValue )
+    
+
+
+    LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selectorDB, campaignDatabase, currentListArray)
+end
+
 return LastSelectedBlueprintsListUtils
