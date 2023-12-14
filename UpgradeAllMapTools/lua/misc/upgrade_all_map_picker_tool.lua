@@ -75,7 +75,7 @@ function upgrade_all_map_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/upgrade_all_map/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/upgrade_all_map/last_building}: " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
         end
 
     elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then

@@ -63,4 +63,16 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     local parameterName = "$upgrade_all_map_picker_tool.last_selected_buildings"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
+
+
+
+    local category = buildingDescRef.category or ""
+
+    if ( category == "" ) then
+        return
+    end
+
+    parameterName = "$upgrade_all_map_picker_tool.last_selected_categories"
+
+    LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector, category)
 end)
