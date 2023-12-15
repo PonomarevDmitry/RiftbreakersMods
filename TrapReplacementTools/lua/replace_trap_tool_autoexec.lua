@@ -2,7 +2,7 @@ require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
+local LastSelectedBlueprintsListUtils = require("lua/utils/replace_trap_tool_last_selected_blueprints_utils.lua")
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
