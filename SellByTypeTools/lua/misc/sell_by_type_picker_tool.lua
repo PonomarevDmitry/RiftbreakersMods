@@ -2,7 +2,7 @@ local sell_by_type_base = require("lua/misc/sell_by_type_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
+local LastSelectedBlueprintsListUtils = require("lua/utils/sell_by_type_tools_last_selected_blueprints_utils.lua")
 
 class 'sell_by_type_picker_tool' ( sell_by_type_base )
 
