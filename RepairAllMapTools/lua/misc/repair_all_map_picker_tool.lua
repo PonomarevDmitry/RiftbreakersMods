@@ -2,7 +2,7 @@ local repair_all_map_base = require("lua/misc/repair_all_map_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
+local LastSelectedBlueprintsListUtils = require("lua/utils/repair_all_map_tools_last_selected_blueprints_utils.lua")
 
 class 'repair_all_map_picker_tool' ( repair_all_map_base )
 
