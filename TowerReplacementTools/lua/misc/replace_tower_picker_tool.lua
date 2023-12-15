@@ -2,7 +2,7 @@ local replace_tower_base = require("lua/misc/replace_tower_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
+local LastSelectedBlueprintsListUtils = require("lua/utils/replace_tower_tool_last_selected_blueprints_utils.lua")
 
 class 'replace_tower_picker_tool' ( replace_tower_base )
 
