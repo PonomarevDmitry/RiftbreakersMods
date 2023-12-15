@@ -2,7 +2,7 @@ local replace_wall_base = require("lua/misc/replace_wall_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
+local LastSelectedBlueprintsListUtils = require("lua/utils/replace_wall_tool_last_selected_blueprints_utils.lua")
 
 class 'replace_wall_picker_tool' ( replace_wall_base )
 
