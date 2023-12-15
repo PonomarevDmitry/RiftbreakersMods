@@ -2,7 +2,7 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
+local LastSelectedBlueprintsListUtils = require("lua/utils/upgrade_all_map_tools_last_selected_blueprints_utils.lua")
 
 class 'upgrade_all_map_cat_picker_tool' ( tool )
 
