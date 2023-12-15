@@ -4,6 +4,8 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
+local LastSelectedBlueprintsListUtils = require("lua/utils/upgrade_all_map_tools_last_selected_blueprints_utils.lua")
+
 class 'upgrade_all_map_cat_upgrader_tool' ( tool )
 
 function upgrade_all_map_cat_upgrader_tool:__init()
@@ -25,49 +27,161 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
 
     self.categoryTemplate = self.data:GetStringOrDefault("category_name", "") or ""
 
+    self.list_name = self.data:GetStringOrDefault("list_name", "") or ""
+
     self.selectedCategory = ""
 
     self.categoryNotSelected = false
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    self.modeSelect = 0
+    self.modeSelectLast = 100
 
     if ( self.categoryTemplate ~= "" ) then
-
-        markerDB:SetInt("building_visible", 1)
 
         local selectorDB = EntityService:GetDatabase( self.selector )
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
-        if ( self.selectedCategory ~= "" ) then
+        self.defaultModesArray = { self.modeSelect }
 
-            markerDB:SetString("message_text", "")
-
-            local menuIcon = "gui/hud/building_icons/" .. self.selectedCategory ..  "_structures_neutral"
-
-            if ( ResourceManager:ResourceExists("Material", menuIcon) ) then
-
-                markerDB:SetString("building_icon", menuIcon)
-            else
-
-                markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            end
-        else
-
-            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_category_not_selected")
-
-            self.categoryNotSelected = true
-        end
-    else
-    
-        markerDB:SetString("message_text", "")
-        markerDB:SetInt("building_icon_visible", 0)
-        markerDB:SetInt("building_visible", 1)
+        self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
     end
+
+    self.selectedMode = self.modeSelect
+
+    self:UpdateMarker()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+end
+
+function upgrade_all_map_cat_upgrader_tool:UpdateMarker()
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    if ( self.categoryTemplate == "" ) then
+
+        markerDB:SetString("message_text", "")
+        markerDB:SetString("building_icon", "")
+        markerDB:SetInt("building_visible", 0)
+
+        return
+    end
+
+
+    markerDB:SetInt("building_visible", 1)
+
+    if ( self.selectedMode >= self.modeSelectLast ) then
+
+        local indexCategory = self.selectedMode - self.modeSelectLast
+
+        local categoryNumber = #self.lastSelectedCategoriesArray - indexCategory
+
+        self.lastSelectedCategory = self.lastSelectedCategoriesArray[categoryNumber]
+
+
+        local menuIcon = "gui/hud/building_icons/" .. self.lastSelectedCategory ..  "_structures_neutral"
+
+        local messageText = "${gui/hud/upgrade_all_map/last_building} " .. tostring(indexCategory + 1)
+
+        markerDB:SetString("building_icon", menuIcon)
+        markerDB:SetString("message_text", messageText)
+
+    elseif ( self.selectedCategory ~= "" ) then
+
+        local messageText = self:GetBuildinsDescription()
+
+        markerDB:SetString("message_text", messageText)
+
+        local menuIcon = "gui/hud/building_icons/" .. self.selectedCategory ..  "_structures_neutral"
+
+        if ( ResourceManager:ResourceExists("Material", menuIcon) ) then
+
+            markerDB:SetString("building_icon", menuIcon)
+        else
+
+            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+        end
+    else
+
+        markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+        markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_category_not_selected")
+    end
+end
+
+function upgrade_all_map_cat_upgrader_tool:GetBuildinsDescription()
+
+    local listIconsNames, hashIconsCount = self:GetIconsData()
+
+    local buildingsIcons = ""
+
+    for menuIcon in Iter( listIconsNames ) do
+
+        local count = hashIconsCount[menuIcon]
+
+        if ( count > 0 ) then
+
+            if ( string.len(buildingsIcons) > 0 ) then
+
+                buildingsIcons = buildingsIcons .. ", "
+            end
+
+            buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+        end
+    end
+
+    return buildingsIcons
+end
+
+function upgrade_all_map_cat_upgrader_tool:GetIconsData()
+
+    self.selectedEntities = self.selectedEntities or {}
+
+    local upgradeCostsEntities = {}
+
+    local listIconsNames = {}
+    local hashIconsCount = {}
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( upgradeCostsEntities[entity] ~= nil ) then
+            goto continue
+        end
+
+        upgradeCostsEntities[entity] = true
+
+        if ( not BuildingService:IsBuildingFinished( entity ) ) then
+            goto continue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+
+        if ( buildingDescRef.limit_name == "hq" ) then
+
+            goto continue
+        end
+
+        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+        if ( menuIcon ~= "" ) then
+
+            if ( hashIconsCount[menuIcon] == nil ) then
+
+                Insert( listIconsNames, menuIcon )
+
+                hashIconsCount[menuIcon] = 0
+            end
+
+            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
+        end
+
+        ::continue::
+    end
+
+    return listIconsNames,hashIconsCount
 end
 
 function upgrade_all_map_cat_upgrader_tool:GetScaleFromDatabase()
@@ -83,12 +197,11 @@ end
 
 function upgrade_all_map_cat_upgrader_tool:OnUpdate()
 
+    self:UpdateMarker()
+
     self.upgradeCosts = {}
 
     local upgradeCostsEntities = {}
-
-    local listIconsNames = {}
-    local hashIconsCount = {}
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -129,19 +242,6 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
         end
 
-        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
-        if ( menuIcon ~= "" ) then
-
-            if ( hashIconsCount[menuIcon] == nil ) then
-
-                Insert( listIconsNames, menuIcon )
-
-                hashIconsCount[menuIcon] = 0
-            end
-
-            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
-        end
-
         local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do
 
@@ -155,31 +255,7 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
         ::continue::
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    if ( self.categoryNotSelected ) then
-        markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_category_not_selected")
-    else
-
-        local buildingsIcons = ""
-
-        for menuIcon in Iter( listIconsNames ) do
-
-            local count = hashIconsCount[menuIcon]
-
-            if ( count > 0 ) then
-
-                if ( string.len(buildingsIcons) > 0 ) then
-
-                    buildingsIcons = buildingsIcons .. ", "
-                end
-
-                buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
-            end
-        end
-
-        markerDB:SetString("message_text", buildingsIcons)
-    end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
     if ( onScreen ) then
@@ -285,6 +361,10 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
 
     local result = {}
 
+    if ( self.selectedMode ~= self.modeSelect ) then
+        return result
+    end
+
     local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
     for entity in Iter( entitiesBuildings ) do
@@ -347,6 +427,16 @@ end
 
 function upgrade_all_map_cat_upgrader_tool:OnActivateSelectorRequest()
 
+    if ( self.categoryTemplate ~= "" and self.categoryTemplate ~= nil and self.selectedMode >= self.modeSelectLast ) then
+
+        if ( self:ChangeSelector(self.lastSelectedCategory) ) then
+
+            return
+        end
+        
+        return
+    end
+
     if ( #self.selectedEntities == 0 ) then
         return
     end
@@ -373,6 +463,106 @@ function upgrade_all_map_cat_upgrader_tool:OnActivateSelectorRequest()
     end
 end
 
+function upgrade_all_map_cat_upgrader_tool:ChangeSelector(category)
+
+    if ( category == "" or category == nil ) then
+        return false
+    end
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    selectorDB:SetString( self.categoryTemplate, category )
+
+    self.selectedCategory = category
+
+    self:AddCategoryToLastList(category, self.selector)
+
+    self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
+
+    self.selectedMode = self.modeSelect
+
+    self:UpdateMarker()
+
+    return true
+end
+
+function upgrade_all_map_cat_upgrader_tool:FillLastCategoriesList(defaultModesArray, modeSelectLast, selector)
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    local selectorDB = EntityService:GetDatabase( selector )
+
+    self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
+
+    if ( self.selectedCategory ~= "" and self.selectedCategory ~= nil ) then
+
+        Remove( self.lastSelectedCategoriesArray, self.selectedCategory )
+    end
+
+    local modeValuesArray = Copy(defaultModesArray)
+
+    for index=0,#self.lastSelectedCategoriesArray-1 do
+
+        Insert(modeValuesArray, (modeSelectLast + index))
+    end
+
+    return modeValuesArray
+end
+
+function upgrade_all_map_cat_upgrader_tool:AddCategoryToLastList(category, selector)
+
+    LastSelectedBlueprintsListUtils:AddStringToList(self.list_name, selector, category)
+end
+
+function upgrade_all_map_cat_upgrader_tool:OnRotateSelectorRequest(evt)
+
+    if ( self.categoryTemplate == "" ) then
+        return
+    end
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    local index = IndexOf( self.modeValuesArray, selectedMode )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #self.modeValuesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
+    end
+
+    local newValue = self.modeValuesArray[newIndex]
+
+    self.selectedMode = newValue
+
+    self:UpdateMarker()
+end
+
+function upgrade_all_map_cat_upgrader_tool:CheckModeValueExists( selectedMode )
+
+    selectedMode = selectedMode or self.modeValuesArray[1]
+
+    local index = IndexOf(self.modeValuesArray, selectedMode )
+
+    if ( index == nil ) then
+
+        return self.modeValuesArray[1]
+    end
+
+    return selectedMode
+end
+
 function upgrade_all_map_cat_upgrader_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
@@ -388,9 +578,6 @@ function upgrade_all_map_cat_upgrader_tool:OnRelease()
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
     end
-end
-
-function upgrade_all_map_cat_upgrader_tool:OnRotateSelectorRequest(evt)
 end
 
 return upgrade_all_map_cat_upgrader_tool
