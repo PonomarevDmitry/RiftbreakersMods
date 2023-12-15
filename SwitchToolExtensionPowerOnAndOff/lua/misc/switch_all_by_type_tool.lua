@@ -24,12 +24,18 @@ function switch_all_by_type_tool:OnInit()
         1,
     }
 
-    self.setPower = false
+    self.powerValuesArray = { false, true }
+
+    self.configName = "$switch_all_by_type_tool_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.setPower = (selectorDB:GetIntOrDefault(self.configName, 0) == 1)
     self.currentChildSetPower = nil
 
-    self:UpdateMarker()
-
     self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
+
+    self:UpdateMarker()
 end
 
 function switch_all_by_type_tool:UpdateMarker()
@@ -243,14 +249,12 @@ function switch_all_by_type_tool:OnRotateSelectorRequest(evt)
 
     local currentPowerValue = self:CheckPowerValueExists(self.setPower)
 
-    local powerValuesArray = self:GetPowerValuesArray()
-
-    local index = IndexOf( powerValuesArray, currentPowerValue )
+    local index = IndexOf( self.powerValuesArray, currentPowerValue )
     if ( index == nil ) then
         index = 1
     end
 
-    local maxIndex = #powerValuesArray
+    local maxIndex = #self.powerValuesArray
 
     local newIndex = index + change
     if ( newIndex > maxIndex ) then
@@ -259,20 +263,25 @@ function switch_all_by_type_tool:OnRotateSelectorRequest(evt)
         newIndex = 1
     end
 
-    local newValue = powerValuesArray[newIndex]
+    local newValue = self.powerValuesArray[newIndex]
 
     self.setPower = newValue
+
+    local savedValue = 0;
+    if ( newValue ) then
+        savedValue = 1;
+    end
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetInt(self.configName, savedValue)
 
     self:UpdateMarker()
 end
 
 function switch_all_by_type_tool:CheckPowerValueExists( powerValue )
 
-    local powerValuesArray = self:GetPowerValuesArray()
+    powerValue = powerValue or self.powerValuesArray[1]
 
-    powerValue = powerValue or powerValuesArray[1]
-
-    local index = IndexOf(powerValuesArray, powerValue )
+    local index = IndexOf(self.powerValuesArray, powerValue )
 
     if ( index == nil ) then
 
@@ -280,16 +289,6 @@ function switch_all_by_type_tool:CheckPowerValueExists( powerValue )
     end
 
     return powerValue
-end
-
-function switch_all_by_type_tool:GetPowerValuesArray()
-
-    if ( self.powerValuesArray == nil ) then
-
-        self.powerValuesArray = { false, true }
-    end
-
-    return self.powerValuesArray
 end
 
 function switch_all_by_type_tool:OnActivateSelectorRequest()
