@@ -56,6 +56,9 @@ function upgrade_all_map_cat_picker_tool:OnInit()
     self.previousMarkedBuildings = {}
     -- Radius from player to highlight buildings for upgrade
     self.radiusShowBuildingsToUpgrade = 100.0
+
+    self.currentTick = 0
+    self.tickMod = 5
 end
 
 function upgrade_all_map_cat_picker_tool:SpawnCornerBlueprint()
@@ -323,6 +326,20 @@ function upgrade_all_map_cat_picker_tool:CheckModeValueExists( selectedMode )
 end
 
 function upgrade_all_map_cat_picker_tool:HighlightBuildingsToUpgrade()
+    
+    local performFind = (self.currentTick % self.tickMod) == 0
+
+    if ( performFind ) then
+
+        self.currentTick = 0
+    end
+
+    self.currentTick = self.currentTick + 1
+
+    if ( not performFind ) then
+
+        return
+    end
 
     -- Buildings within a radius radiusShowBuildingsToUpgrade from player to highlight
     local buildings = self:FindUpgradableBuildings()
