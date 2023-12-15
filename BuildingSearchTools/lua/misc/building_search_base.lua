@@ -1,7 +1,9 @@
-local tool = require("lua/misc/tool.lua")
-local LastSelectedBlueprintsListUtils = require("lua/utils/last_selected_blueprints_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
+
+local LastSelectedBlueprintsListUtils = require("lua/utils/building_search_tools_last_selected_blueprints_utils.lua")
+
+local tool = require("lua/misc/tool.lua")
 
 class 'building_search_base' ( tool )
 
