@@ -27,6 +27,10 @@ function energy_connector_tool:OnInit()
     self.currentSize = selectorDB:GetIntOrDefault(self.configNameSize, self.defaultRadius)
     self.currentSize = self:CheckSizeExists(self.currentSize)
 
+    self.currentMarker = nil
+    self.currentMarkerSize = 0
+    self.currentMarkerBlueprint = ""
+
     self:SpawnGhostConnectorEntities()
 end
 
@@ -97,6 +101,8 @@ function energy_connector_tool:SpawnGhostConnectorEntities()
 
         self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #self.linesEntities )
     end
+
+    self:UpdateMarker(currentSize)
 end
 
 function energy_connector_tool:FindPositionsToBuildLine(currentSize)
@@ -295,6 +301,35 @@ function energy_connector_tool:FindPositionsType3(currentSize)
     return result
 end
 
+function energy_connector_tool:UpdateMarker(currentSize)
+
+    if ( self.currentMarkerSize ~= currentSize ) then
+
+        self.currentMarkerSize = currentSize
+
+        local markerBlueprint = "misc/marker_selector_energy_connector_tool_radius_" .. tostring(currentSize)
+
+        if ( currentSize > 16 ) then
+            markerBlueprint = "misc/marker_selector_energy_connector_tool_radius_g16"
+        end
+
+        if ( self.currentMarkerBlueprint ~= markerBlueprint or self.currentMarker == nil ) then
+
+            -- Destroy old marker
+            if (self.currentMarker ~= nil) then
+
+                EntityService:RemoveEntity(self.currentMarker)
+                self.currentMarker = nil
+            end
+
+            self.currentMarkerBlueprint = markerBlueprint
+
+            self.currentMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+            EntityService:SetPosition( self.currentMarker, -2, 0, 0 )
+        end
+    end
+end
+
 function energy_connector_tool:OnUpdate()
 
     for number=1,#self.linesEntities do
@@ -417,6 +452,15 @@ function energy_connector_tool:OnRelease()
         end
     end
     self.linesEntities = {}
+
+    self.currentMarkerSize = 0
+    self.currentMarkerBlueprint = ""
+
+    if (self.currentMarker ~= nil) then
+
+        EntityService:RemoveEntity(self.currentMarker)
+        self.currentMarker = nil
+    end
 
     if ( energy_connector_base_tool.OnRelease ) then
         energy_connector_base_tool.OnRelease(self)
