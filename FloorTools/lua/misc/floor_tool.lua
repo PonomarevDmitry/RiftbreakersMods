@@ -66,6 +66,10 @@ function floor_tool:InitializeValues()
     self.cellCount = selectorDB:GetIntOrDefault(self.configNameCellCount, 0)
     self.cellCount = self:CheckCellCount(self.cellCount)
 
+    self.currentCellCount = 0
+    self.currentCellCountMarker = nil
+    self.currentCellCountMarkerBlueprint = ""
+
     self:FillBuildingDesc()
 
     self:SpawnGhostFloorEntities()
@@ -217,6 +221,38 @@ function floor_tool:SpawnGhostFloorEntities()
         EntityService:SetPosition( lineEnt, newPositions[i])
         EntityService:SetOrientation( lineEnt, orientation )
         EntityService:SetScale( lineEnt, currentSize, 1.0, currentSize )
+    end
+
+    self:UpdateMarker(cellCount)
+end
+
+function floor_tool:UpdateMarker(cellCount)
+
+    local currentScale = (cellCount + 1)
+
+    if ( self.currentCellCount ~= currentScale ) then
+
+        self.currentCellCount = currentScale
+
+        local markerBlueprint = "misc/marker_selector_floor_size_" .. currentScale
+
+        if ( currentScale > 16 ) then
+            markerBlueprint = "misc/marker_selector_floor_size_g16"
+        end
+
+        if ( self.currentCellCountMarkerBlueprint ~= markerBlueprint or self.currentCellCountMarker == nil ) then
+
+            -- Destroy old marker
+            if (self.currentCellCountMarker ~= nil) then
+
+                EntityService:RemoveEntity(self.currentCellCountMarker)
+                self.currentCellCountMarker = nil
+            end
+
+            self.currentCellCountMarkerBlueprint = markerBlueprint
+
+            self.currentCellCountMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+        end
     end
 end
 
@@ -652,6 +688,15 @@ end
 function floor_tool:OnRelease()
 
     self:ClearGridEntities()
+
+    self.currentCellCount = 0
+    self.currentCellCountMarkerBlueprint = ""
+
+    if (self.currentCellCountMarker ~= nil) then
+
+        EntityService:RemoveEntity(self.currentCellCountMarker)
+        self.currentCellCountMarker = nil
+    end
 
     self.currentSize = 0
 end
