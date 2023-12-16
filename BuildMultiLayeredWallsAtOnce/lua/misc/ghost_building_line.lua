@@ -77,7 +77,9 @@ function ghost_building_line:OnUpdate()
             local markerBlueprint = "misc/marker_selector_wall_lines_" .. wallLinesConfig
 
             -- Create new marker
-            self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
+            self.currentMarkerLines = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+
+            EntityService:SetPosition( self.currentMarkerLines, -2, 0, 0 )
 
             -- Save number of wall layers
             self.markerLinesConfig = wallLinesConfig
