@@ -181,7 +181,7 @@ function cultivator_sapling_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
@@ -214,12 +214,12 @@ function cultivator_sapling_picker_tool:ChangeSelector(modItemBlueprintName)
 
     if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
 
-        self:AddSaplingToLastList(self.SelectedItemBlueprint, selectorDB)       
+        self:AddSaplingToLastList(self.SelectedItemBlueprint, selectorDB)
     end
 
     if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
 
-        self:AddSaplingToLastList(modItemBlueprintName, selectorDB)       
+        self:AddSaplingToLastList(modItemBlueprintName, selectorDB)
     end
 
     self.modeValuesArray = self:FillLastSaplingsList(self.defaultModesArray, self.modeSelectLast, self.selector)
@@ -258,7 +258,7 @@ function cultivator_sapling_picker_tool:FillLastSaplingsList(defaultModesArray, 
 
         if ( IndexOf( self.lastSelectedSaplingsArray, self.SelectedItemBlueprint ) ~= nil ) then
             Remove( self.lastSelectedSaplingsArray, self.SelectedItemBlueprint )
-        end       
+        end
     end
 
     local modeValuesArray = Copy(defaultModesArray)
@@ -309,7 +309,7 @@ function cultivator_sapling_picker_tool:AddSaplingToLastList(selectedBlueprintNa
 
 
 
-    
+
 
     while ( #currentListArray > 20 ) do
 
