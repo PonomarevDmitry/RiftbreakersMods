@@ -330,6 +330,20 @@ function flora_cultivator:OnItemEquippedEvent( evt )
         return
     end
 
+    local blueprintName = EntityService:GetBlueprintName( self.item )
+
+    local playerForEntity = self:GetPlayerForEntity(self.entity)
+    if ( playerForEntity ~= nil and playerForEntity ~= INVALID_ID ) then
+
+        local selector = PlayerService:GetPlayerSelector( playerForEntity )
+
+        if ( selector ~= nil and selector ~= INVALID_ID ) then
+            local selectorDB = EntityService:GetDatabase( selector )
+
+            self:AddSaplingToLastList(blueprintName, selectorDB)
+        end
+    end
+
     local db = EntityService:GetDatabase( self.item )
     if( db == nil ) then
         return
@@ -357,6 +371,69 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 
     self:DisableVegetationAround();
     self:RefreshDrones()
+end
+
+function flora_cultivator:GetPlayerForEntity( entity )
+
+    if ( PlayerService.GetPlayerForEntity ) then
+        return PlayerService:GetPlayerForEntity( entity )
+    end
+
+    return 0
+end
+
+function flora_cultivator:AddSaplingToLastList(selectedBlueprintName, selectorDB)
+
+    if ( selectedBlueprintName == "" or selectedBlueprintName == nil ) then
+        return
+    end
+
+    local parameterName = "cultivator_sapling_picker_tool.last_selected_saplings"
+
+    local currentListArray = self:GetCurrentList(parameterName, selectorDB)
+
+    if ( IndexOf( currentListArray, selectedBlueprintName ) ~= nil ) then
+        Remove( currentListArray, selectedBlueprintName )
+    end
+
+    Insert( currentListArray, selectedBlueprintName )
+
+
+
+
+
+
+    while ( #currentListArray > 20 ) do
+
+        table.remove( currentListArray, 1 )
+    end
+
+    local currentListString = table.concat( currentListArray, "|" )
+
+    if ( selectorDB ) then
+        selectorDB:SetString(parameterName, currentListString)
+    end
+end
+
+function flora_cultivator:GetCurrentList(parameterName, selectorDB)
+
+    local currentListString = self:GetCurrentListString(parameterName, selectorDB)
+
+    local currentListArray = Split( currentListString, "|" )
+
+    return currentListArray
+end
+
+function flora_cultivator:GetCurrentListString(parameterName, selectorDB)
+
+    local currentList = ""
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        currentList = selectorDB:GetStringOrDefault( parameterName, "" ) or ""
+    end
+
+    return currentList
 end
 
 function flora_cultivator:DestoryPlanIcon()
