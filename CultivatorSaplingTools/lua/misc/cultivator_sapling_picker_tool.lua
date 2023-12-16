@@ -1,8 +1,6 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/cultivator_sapling_tools_last_selected_utils.lua")
-
 class 'cultivator_sapling_picker_tool' ( tool )
 
 function cultivator_sapling_picker_tool:__init()
@@ -252,7 +250,7 @@ function cultivator_sapling_picker_tool:FillLastSaplingsList(defaultModesArray, 
 
     local selectorDB = EntityService:GetDatabase( selector )
 
-    self.lastSelectedSaplingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.configNameList, selectorDB)
+    self.lastSelectedSaplingsArray = self:GetCurrentList(self.configNameList, selectorDB)
 
     if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
 
