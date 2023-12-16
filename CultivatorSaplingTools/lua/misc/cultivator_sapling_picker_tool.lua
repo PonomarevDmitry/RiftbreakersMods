@@ -1,6 +1,8 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
+local LastSelectedBlueprintsListUtils = require("lua/utils/cultivator_sapling_tools_last_selected_utils.lua")
+
 class 'cultivator_sapling_picker_tool' ( tool )
 
 function cultivator_sapling_picker_tool:__init()
@@ -18,13 +20,6 @@ function cultivator_sapling_picker_tool:OnInit()
         1,
     }
 
-    self.modeSelect = 0
-    self.modeSelectLast = 100
-
-    self.defaultModesArray = { self.modeSelect }
-
-    self.modeValuesArray = self:FillLastSaplingsList(self.defaultModesArray, self.modeSelectLast, self.selector)
-
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
 
     local selectorDB = EntityService:GetDatabase( self.selector )
@@ -35,6 +30,13 @@ function cultivator_sapling_picker_tool:OnInit()
 
         self.SelectedItemBlueprint = ""
     end
+
+    self.modeSelect = 0
+    self.modeSelectLast = 100
+
+    self.defaultModesArray = { self.modeSelect }
+
+    self.modeValuesArray = self:FillLastSaplingsList(self.defaultModesArray, self.modeSelectLast, self.selector)
 
     self.selectedMode = self.modeSelect
 
@@ -210,7 +212,19 @@ function cultivator_sapling_picker_tool:ChangeSelector(modItemBlueprintName)
 
     selectorDB:SetString( self.configName, modItemBlueprintName )
 
-    self:AddSaplingToLastList(self.SelectedItemBlueprint, modItemBlueprintName, selectorDB)
+    if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
+
+        self:AddSaplingToLastList(self.SelectedItemBlueprint, selectorDB)       
+    end
+
+    if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+
+        self:AddSaplingToLastList(modItemBlueprintName, selectorDB)       
+    end
+
+    self.modeValuesArray = self:FillLastSaplingsList(self.defaultModesArray, self.modeSelectLast, self.selector)
+
+    self.selectedMode = self.modeSelect
 
     if ( self.next_tool ~= "" ) then
 
@@ -238,7 +252,14 @@ function cultivator_sapling_picker_tool:FillLastSaplingsList(defaultModesArray, 
 
     local selectorDB = EntityService:GetDatabase( selector )
 
-    self.lastSelectedSaplingsArray = self:GetCurrentList(self.configNameList, selectorDB)
+    self.lastSelectedSaplingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.configNameList, selectorDB)
+
+    if ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
+
+        if ( IndexOf( self.lastSelectedSaplingsArray, self.SelectedItemBlueprint ) ~= nil ) then
+            Remove( self.lastSelectedSaplingsArray, self.SelectedItemBlueprint )
+        end       
+    end
 
     local modeValuesArray = Copy(defaultModesArray)
 
@@ -271,25 +292,19 @@ function cultivator_sapling_picker_tool:GetCurrentListString(parameterName, sele
     return currentList
 end
 
-function cultivator_sapling_picker_tool:AddSaplingToLastList(lastSelectedBlueprintName, newSelectedBlueprintName, selectorDB)
+function cultivator_sapling_picker_tool:AddSaplingToLastList(selectedBlueprintName, selectorDB)
+
+    if ( selectedBlueprintName == "" or selectedBlueprintName == nil ) then
+        return
+    end
 
     local currentListArray = self:GetCurrentList(self.configNameList, selectorDB)
 
-    if ( newSelectedBlueprintName ~= "" and newSelectedBlueprintName ~= nil ) then
-
-        if ( IndexOf( currentListArray, newSelectedBlueprintName ) ~= nil ) then
-            Remove( currentListArray, newSelectedBlueprintName )
-        end
+    if ( IndexOf( currentListArray, selectedBlueprintName ) ~= nil ) then
+        Remove( currentListArray, selectedBlueprintName )
     end
 
-    if ( lastSelectedBlueprintName ~= "" and lastSelectedBlueprintName ~= nil ) then
-
-        if ( IndexOf( currentListArray, lastSelectedBlueprintName ) ~= nil ) then
-            Remove( currentListArray, lastSelectedBlueprintName )
-        end
-
-        Insert( currentListArray, lastSelectedBlueprintName )
-    end
+    Insert( currentListArray, selectedBlueprintName )
 
 
 
