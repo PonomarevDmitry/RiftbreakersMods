@@ -6,5 +6,6 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     BuildingService:UnlockBuilding("buildings/defense/wall_obstacles_tool")
     BuildingService:UnlockBuilding("buildings/defense/wall_obstacles_stairs_tool")
     BuildingService:UnlockBuilding("buildings/defense/wall_thorns_tool")
+    BuildingService:UnlockBuilding("buildings/defense/wall_pencil_tool")
 
 end)
