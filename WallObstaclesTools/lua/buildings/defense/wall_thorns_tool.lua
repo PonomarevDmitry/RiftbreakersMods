@@ -12,6 +12,8 @@ end
 
 function wall_thorns_tool:OnInit()
 
+    self:SpawnGhostWallEntity()
+
     local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent" ))
 
     local floorRef = reflection_helper(BuildingService:GetBuildingDesc( buildingComponent.bp ))

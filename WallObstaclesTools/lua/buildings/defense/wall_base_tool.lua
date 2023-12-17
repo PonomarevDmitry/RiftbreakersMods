@@ -63,7 +63,10 @@ function wall_base_tool:InitializeValues()
 
     self.wallBlueprintName = self:GetWallBlueprintName( selectorDB )
 
-    self:SpawnWallTemplates( self.wallBlueprintName )
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.wallBlueprintName ) )
+
+    self.ghostBlueprintName = buildingDesc.ghost_bp
+    self.buildingDesc = buildingDesc
 end
 
 function wall_base_tool:CreateInfoChild()
@@ -122,20 +125,6 @@ function wall_base_tool:GetWallBlueprintName( selectorDB )
     end
 
     return blueprintName
-end
-
-function wall_base_tool:SpawnWallTemplates(wallBlueprintName)
-
-    --local markerDB = EntityService:GetDatabase( self.markerEntity )
-    --markerDB:SetString("message_text", "")
-    --markerDB:SetInt("message_visible", 0)
-
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( wallBlueprintName ) )
-
-    self.ghostBlueprintName = buildingDesc.ghost_bp
-    self.buildingDesc = buildingDesc
-
-    self:SpawnGhostWallEntity()
 end
 
 function wall_base_tool:SpawnGhostWallEntity()
@@ -350,6 +339,44 @@ function wall_base_tool:RemoveMaterialFromOldBuildingsToSell()
         end
     end
     self.oldBuildingsToSell = {}
+end
+
+function wall_base_tool:GetConnectType( blueprintName )
+
+    for i=1,self.buildingDesc.connect.count do
+
+        local connectRecord = self.buildingDesc.connect[i]
+
+        for j=1,connectRecord.value.count do
+
+            local connectBlueprintName = connectRecord.value[j]
+
+            if ( connectBlueprintName == blueprintName ) then
+                return connectRecord.key
+            end
+        end
+    end
+
+    return -1
+end
+
+function wall_base_tool:GetBlueprintByConnectType( connectType )
+
+    for i=1,self.buildingDesc.connect.count do
+
+        local connectRecord = self.buildingDesc.connect[i]
+
+        if ( connectRecord.key == connectType and connectRecord.value.count > 0 ) then
+
+            local connectBlueprintName = connectRecord.value[1]
+
+            local buildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( connectBlueprintName ) )
+
+            return buildingDescRef.ghost_bp
+        end
+    end
+
+    return ""
 end
 
 function wall_base_tool:OnRelease()

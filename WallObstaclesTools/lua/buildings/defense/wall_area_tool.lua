@@ -12,6 +12,8 @@ end
 
 function wall_area_tool:OnInit()
 
+    self:SpawnGhostWallEntity()
+
     self.nowBuildingLine = false
     self.gridEntities = {}
 end

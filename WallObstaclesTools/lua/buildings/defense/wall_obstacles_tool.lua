@@ -12,6 +12,8 @@ end
 
 function wall_obstacles_tool:OnInit()
 
+    self:SpawnGhostWallEntity()
+
     self.nowBuildingLine = false
     self.gridEntities = {}
 

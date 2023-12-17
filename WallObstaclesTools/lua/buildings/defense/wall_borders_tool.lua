@@ -12,6 +12,8 @@ end
 
 function wall_borders_tool:OnInit()
 
+    self:SpawnGhostWallEntity()
+
     self.linesEntities = {}
     self.linesEntityInfo = {}
     self.gridEntities = {}
