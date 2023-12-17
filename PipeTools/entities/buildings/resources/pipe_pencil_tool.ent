@@ -1,0 +1,59 @@
+EntityBlueprint
+{
+	name					"buildings/resources/pipe_pencil_tool"
+
+	BuildingDesc
+	{
+		name				"pipe_pencil_tool"
+		bp					"buildings/resources/pipe_pencil_tool"
+		ghost_bp			"buildings/resources/pipe_pencil_tool_ghost"
+		category			"resources"
+
+		localization_id		"gui/hud/building_name/pipe_pencil_tool"
+		description			"gui/hud/building_description/pipe_pencil_tool"
+		menu_icon			"gui/hud/tools_icons/pipe_pencil_tool"
+
+		order				"8"
+		type				"pipe_pencil_tool"
+		require				"headquarters"
+
+		building_group		"pipeline"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/resources/pipe_pencil_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"pipe_pencil_tool_ghost"
+		buildable			"0"
+		type				"pipe_pencil_tool"
+		category			"resources"
+	}
+
+	LuaDesc
+	{
+		script				"lua/buildings/resources/pipe_pencil_tool.lua"
+		database
+		{
+			action			string:"pipe_pencil_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}

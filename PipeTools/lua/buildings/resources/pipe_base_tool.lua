@@ -86,8 +86,6 @@ function pipe_base_tool:SpawnGhostPipeEntity()
 
     local orientation = transform.orientation
 
-    local team = EntityService:GetTeam( self.entity )
-
     local buildingEntity = EntityService:SpawnAndAttachEntity( self.ghostBlueprintName, self.selector )
 
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
@@ -285,6 +283,44 @@ function pipe_base_tool:RemoveMaterialFromOldBuildingsToSell()
         end
     end
     self.oldBuildingsToSell = {}
+end
+
+function pipe_base_tool:GetConnectType( blueprintName )
+
+    for i=1,self.buildingDesc.connect.count do
+
+        local connectRecord = self.buildingDesc.connect[i]
+
+        for j=1,connectRecord.value.count do
+
+            local connectBlueprintName = connectRecord.value[j]
+
+            if ( connectBlueprintName == blueprintName ) then
+                return connectRecord.key
+            end
+        end
+    end
+
+    return -1
+end
+
+function pipe_base_tool:GetBlueprintByConnectType( connectType )
+
+    for i=1,self.buildingDesc.connect.count do
+
+        local connectRecord = self.buildingDesc.connect[i]
+
+        if ( connectRecord.key == connectType and connectRecord.value.count > 0 ) then
+
+            local connectBlueprintName = connectRecord.value[1]
+
+            local buildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( connectBlueprintName ) )
+
+            return buildingDescRef.ghost_bp
+        end
+    end
+
+    return ""
 end
 
 function pipe_base_tool:OnRelease()

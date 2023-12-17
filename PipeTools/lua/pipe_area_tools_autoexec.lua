@@ -10,6 +10,8 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local hasAreaTool = false
     local hasDiagonalTool = false
+    local hasPencilTool = false
+
     local hasBuilding = false
 
     local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
@@ -26,6 +28,10 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
             hasDiagonalTool = true
         end
 
+        if ( unlocked == "pipe_pencil_tool" ) then
+            hasPencilTool = true
+        end
+
         if ( unlocked == "pipeline" ) then
             hasBuilding = true
         end
@@ -39,6 +45,9 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         if ( not hasDiagonalTool ) then
             BuildingService:UnlockBuilding("buildings/resources/pipe_diagonal_tool")
         end
+        if ( not hasPencilTool ) then
+            BuildingService:UnlockBuilding("buildings/resources/pipe_pencil_tool")
+        end
     end
 end)
 
@@ -50,5 +59,6 @@ RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 
         BuildingService:UnlockBuilding("buildings/resources/pipe_area_tool")
         BuildingService:UnlockBuilding("buildings/resources/pipe_diagonal_tool")
+        BuildingService:UnlockBuilding("buildings/resources/pipe_pencil_tool")
     end
 end)
