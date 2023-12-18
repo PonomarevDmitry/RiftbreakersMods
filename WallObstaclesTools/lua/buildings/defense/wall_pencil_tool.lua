@@ -55,7 +55,13 @@ function wall_pencil_tool:SpawnGhostEntities()
             self.currentMarkerLines = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_diagonal_wall_lines_" .. tostring( wallLinesCount )
+        local wallLinesCountString = tostring( wallLinesCount )
+
+        if ( wallLinesCount > 16 ) then
+            wallLinesCountString = "g16"
+        end
+
+        local markerBlueprint = "misc/marker_selector_wall_pencil_size_" .. wallLinesCountString
 
         -- Create new marker
         self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
@@ -80,13 +86,7 @@ function wall_pencil_tool:SpawnGhostEntities()
 
         local innerPositions = {}
 
-        local newPosition = {}
-
-        newPosition.x = 0
-        newPosition.y = 0
-        newPosition.z = 0
-
-        Insert(innerPositions, newPosition)
+        Insert(innerPositions, 0)
 
         self:AdjustInnerList(self.innerEntities, innerPositions)
     else
@@ -173,18 +173,11 @@ function wall_pencil_tool:FindPositionsToBuildLine(wallLinesCount)
         Insert(leftPositions, newPosition)
     end
 
-    for xNumber=1,wallLinesCount-2 do
+    for i=1,wallLinesCount-2 do
 
-        for zNumber=1,wallLinesCount-2 do
+        local x = i * cellSize - center
 
-            local newPosition = {}
-
-            newPosition.x = xNumber * cellSize - center
-            newPosition.y = 0
-            newPosition.z = zNumber * cellSize - center
-
-            Insert(innerPositions, newPosition)
-        end
+        Insert(innerPositions, x)
     end
 
     return innerPositions, topPositions, rightPositions, bottomPositions, leftPositions
@@ -239,40 +232,117 @@ function wall_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
     end
 end
 
-function wall_pencil_tool:AdjustInnerList(list, newPositions)
+function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
     
     local connectType = 16
 
     local blueprintName = self:GetBlueprintByConnectType( connectType )
 
-    if ( #list > #newPositions ) then
+    local positionX, positionZ
 
-        for i=#list,#newPositions + 1,-1 do
-            EntityService:RemoveEntity(list[i])
-            list[i] = nil
+    if ( #gridArray > #arrayX ) then
+
+        for xIndex=#gridArray,#arrayX + 1,-1 do
+
+            local gridEntitiesZ = gridArray[xIndex]
+
+            for zIndex=1,#gridEntitiesZ do
+
+                EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+
+                gridEntitiesZ[zIndex] = nil
+            end
+
+            gridArray[xIndex] = nil
         end
 
-    elseif ( #list < #newPositions ) then
+    elseif ( #gridArray < #arrayX ) then
 
-        for i=#list + 1,#newPositions do
+        for xIndex=#gridArray + 1 ,#arrayX do
 
-            local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
+            positionX = arrayX[xIndex]
 
-            EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
-            EntityService:SetPosition( lineEnt, newPositions[i] )
+            local gridEntitiesZ = {}
 
-            Insert( list, lineEnt )
+            gridArray[xIndex] = gridEntitiesZ
+
+            for zIndex=1,#arrayX do
+
+                positionZ = arrayX[zIndex]
+
+                local newPosition = {}
+
+                newPosition.x = positionX
+                newPosition.y = positionY
+                newPosition.z = positionZ
+
+                local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
+
+                EntityService:RemoveComponent( lineEnt, "LuaComponent" )
+                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                EntityService:SetPosition( lineEnt, newPosition)
+
+                Insert(gridEntitiesZ, lineEnt)
+            end
         end
     end
 
-    Assert(#list == #newPositions, "ERROR: something wrong with line positioning: " .. tostring(#list) .. "/" .. tostring(#newPositions))
+    for xIndex=1,#arrayX do
 
-    for i=1,#newPositions do
+        positionX = arrayX[xIndex]
 
-        local lineEnt = list[i]
+        local gridEntitiesZ = gridArray[xIndex]
 
-        EntityService:SetPosition( lineEnt, newPositions[i])
+        if ( #gridEntitiesZ > #arrayX ) then
+
+            for zIndex=#gridEntitiesZ,#arrayX + 1,-1 do
+                EntityService:RemoveEntity(gridEntitiesZ[zIndex])
+                gridEntitiesZ[zIndex] = nil
+            end
+
+        elseif ( #gridEntitiesZ < #arrayX ) then
+
+            for zIndex=#gridEntitiesZ + 1 ,#arrayX do
+
+                positionZ = arrayX[zIndex]
+
+                local newPosition = {}
+
+                newPosition.x = positionX
+                newPosition.y = positionY
+                newPosition.z = positionZ
+
+                local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
+
+                EntityService:RemoveComponent( lineEnt, "LuaComponent" )
+                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                EntityService:SetPosition( lineEnt, newPosition)
+
+                Insert(gridEntitiesZ, lineEnt)
+            end
+        end
+    end
+
+    for xIndex=1,#arrayX do
+
+        positionX = arrayX[xIndex]
+
+        local gridEntitiesZ = gridArray[xIndex]
+
+        for zIndex=1,#arrayX do
+
+            positionZ = arrayX[zIndex]
+
+            local newPosition = {}
+
+            newPosition.x = positionX
+            newPosition.y = positionY
+            newPosition.z = positionZ
+
+            local lineEnt = gridEntitiesZ[zIndex]
+
+            EntityService:SetPosition( lineEnt, newPosition)
+        end
     end
 end
 
@@ -280,8 +350,11 @@ function wall_pencil_tool:FillLinesEntities()
 
     self.linesEntities = {}
 
-    for entity in Iter(self.innerEntities) do
-        Insert(self.linesEntities, entity)
+    for gridEntitiesZ in Iter(self.innerEntities) do
+
+        for entity in Iter(gridEntitiesZ) do
+            Insert(self.linesEntities, entity)
+        end
     end
 
     for entity in Iter(self.topEntities) do
@@ -413,7 +486,10 @@ end
 
 function wall_pencil_tool:OnRelease()
 
-    self:ClearList(self.innerEntities)
+    for gridEntitiesZ in Iter(self.innerEntities) do
+
+        self:ClearList(gridEntitiesZ)
+    end
     
     self:ClearList(self.topEntities)
     self:ClearList(self.rightEntities)
