@@ -1,0 +1,55 @@
+EntityBlueprint
+{
+	name					"buildings/tools/drone_picker"
+
+	BuildingDesc
+	{
+		name				"drone_picker"
+		bp					"buildings/tools/drone_picker"
+		ghost_bp			"buildings/tools/drone_picker_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/drone_picker_tool"
+		description			"gui/hud/building_description/drone_picker_tool"
+		menu_icon			"gui/hud/tools_icons/drone_picker_tool"
+
+		order				"40"
+		type				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/drone_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"drone_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/drone_picker_tool.lua"
+		database
+		{
+			action			string:"drone_picker_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
