@@ -146,6 +146,9 @@ function tower_mine_layer:SpawnDrones()
 
     self:CleanupDrones()
 
+    self.lifting_drones = 0
+    self.data:SetInt("lifting_drones", self.lifting_drones)
+
     local DRONE_FADE_TIME = 0.3
 
     local isActive = self.data:GetIntOrDefault( "activated", 0 ) == 1;
