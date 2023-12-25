@@ -9,7 +9,10 @@ function tower_mine_layer:__init()
 end
 
 function tower_mine_layer:OnInit()
-    drone_spawner_building.OnInit(self);
+
+    if ( drone_spawner_building.OnInit ) then
+        drone_spawner_building.OnInit(self)
+    end
 
     self.lifting_drones = 0
 
@@ -206,32 +209,39 @@ function tower_mine_layer:GetMinesArray()
 
     local result = {}
 
-    local equipment = reflection_helper( EntityService:GetComponent(self.entity, "EquipmentComponent") ).equipment[1]
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
 
-    local slots = equipment.slots
-    for i=1,slots.count do
+    if ( equipmentComponent ) then
 
-        local slot = slots[i]
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
 
-        local mineBlueprint = DEFAULT_MINE_BLUEPRINT
+        local slots = equipment.slots
+        for i=1,slots.count do
 
-        for i=1,slot.subslots.count do
+            local slot = slots[i]
 
-            local entities = slot.subslots[i]
+            local mineBlueprint = DEFAULT_MINE_BLUEPRINT
 
-            local entity = entities[1]
-            if entity and entity.id then
+            for i=1,slot.subslots.count do
 
-                local blueprintDatabase = EntityService:GetBlueprintDatabase( entity.id )
+                local entities = slot.subslots[i]
 
-                if ( blueprintDatabase and blueprintDatabase:HasString("mine_blueprint") ) then
+                local entity = entities[1]
+                if entity and entity.id then
 
-                    mineBlueprint = blueprintDatabase:GetString("mine_blueprint")
+                    local blueprintDatabase = EntityService:GetBlueprintDatabase( entity.id )
+
+                    if ( blueprintDatabase and blueprintDatabase:HasString("mine_blueprint") ) then
+
+                        mineBlueprint = blueprintDatabase:GetString("mine_blueprint")
+                    end
                 end
             end
-        end
 
-        Insert(result, mineBlueprint)
+            Insert(result, mineBlueprint)
+        end
+    else
+        Insert(result, DEFAULT_MINE_BLUEPRINT)
     end
 
     return result
