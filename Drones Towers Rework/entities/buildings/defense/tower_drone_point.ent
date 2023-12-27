@@ -2,6 +2,12 @@ EntityBlueprint
 {
 	name	"buildings/defense/tower_drone_point"
 
+	MeshDesc
+	{
+		mesh "meshes/buildings/decorations/base_lamp.mesh"
+		material "buildings/defense/tower_drone_point"
+	}
+
 	MinimapItemDesc
 	{
 		type	"quad"
@@ -18,6 +24,26 @@ EntityBlueprint
 			y "1"
 		}
 		visibility	"always"
+	}
+
+	// BOUNDS HACK FOR SPATIAL SEARCH
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x	"-1"
+				y	"-1"
+				z	"-1"
+			}
+			max
+			{
+				x	"1"
+				y	"1"
+				z	"1"
+			}
+		}
 	}
 
 	FogOfWarRevealerComponentDesc

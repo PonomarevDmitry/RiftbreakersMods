@@ -23,6 +23,8 @@ function tower_mine_layer:OnInit()
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
+
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
 end
 
 function tower_mine_layer:OnLoad()
@@ -38,6 +40,8 @@ function tower_mine_layer:OnLoad()
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
+
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
 end
 
 function tower_mine_layer:CreateDronePoint(text)
@@ -46,12 +50,12 @@ function tower_mine_layer:CreateDronePoint(text)
 
         local pointX = self.data:GetFloatOrDefault("drone_point_entity_x", 0)
         local pointZ = self.data:GetFloatOrDefault("drone_point_entity_z", 0)
-    
+
         LogService:Log(text .. " CreateDronePoint pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
 
         self.pointEntity = EntityService:SpawnAndAttachEntity( "buildings/defense/tower_drone_point", self.entity )
         EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
-    
+
         LogService:Log(text .. " CreateDronePoint drone_point_entity " .. tostring(self.pointEntity))
     end
 
@@ -81,7 +85,7 @@ function tower_mine_layer:onDronePointChange(evt)
 
     self.data:SetFloat("drone_point_entity_x", pointX)
     self.data:SetFloat("drone_point_entity_z", pointZ)
-    
+
     LogService:Log("onDronePointChange pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
 
     local transform = EntityService:GetWorldTransform( self.entity )
@@ -110,7 +114,9 @@ function tower_mine_layer:UpdateDisplayRadiusVisibility( show, entity )
 
         local count = 0
         for entityTemp,_ in pairs(self.display_radius_requesters) do
-            count = count + 1
+            if ( EntityService:IsAlive( entityTemp ) ) then
+                count = count + 1
+            end
         end
 
         if count == 1 then
@@ -120,17 +126,23 @@ function tower_mine_layer:UpdateDisplayRadiusVisibility( show, entity )
             component.min_radius = self.display_radius_size.min;
             component.max_radius = self.display_radius_size.max;
             component.max_radius_blueprint = self.display_effect_blueprint;
+
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
         end
     else
         self.display_radius_requesters[ entity ] = nil
 
         local count = 0
+
         for entityTemp,_ in pairs(self.display_radius_requesters) do
-            count = count + 1
+            if ( EntityService:IsAlive( entityTemp ) ) then
+                count = count + 1
+            end
         end
         
         if count == 0 then
             EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
+            EntityService:RemoveMaterial( self.pointEntity, "selected" )
         end
     end
 end
@@ -181,7 +193,7 @@ function tower_mine_layer:SpawnDrones()
                 else
                     QueueEvent( "FadeEntityOutRequest", drone, 1 )
                 end
-            
+
                 self:RegisterHandler( drone, "DroneLandingStartedEvent", "_OnDroneLandingStartedEvent" )
                 self:RegisterHandler( drone, "DroneLandingEndedEvent", "_OnDroneLandingEndedEvent" )
                 self:RegisterHandler( drone, "DroneLiftingStartedEvent", "_OnDroneLiftingStartedEvent" )
@@ -267,7 +279,9 @@ function tower_mine_layer:OnOperateActionMenuEvent()
         "items/tower_mines/drone_mine_root",
         "items/tower_mines/drone_mine_root_acid",
         "items/tower_mines/drone_mine_root_cryogenic",
-        "items/tower_mines/drone_mine_root_incendiary"
+        "items/tower_mines/drone_mine_root_incendiary",
+        "items/tower_mines/drone_mine_root_nuclear",
+        "items/tower_mines/drone_mine_root_gravity"
     }
 
     for blueprintName in Iter( blueprintArray ) do
@@ -289,6 +303,61 @@ function tower_mine_layer:OnOperateActionMenuEvent()
 
         if item == INVALID_ID then
             ItemService:AddItemToInventory( player, blueprintName )
+        end
+    end
+end
+
+function tower_mine_layer:TrasferingInfoToUpgrade(evt)
+
+    LogService:Log("OnBuildingStartEvent self.entity " .. tostring(self.entity))
+
+    local eventEntity = evt:GetEntity()
+
+    LogService:Log("OnBuildingStartEvent eventEntity " .. tostring(eventEntity))
+
+    if (evt:GetUpgrading()) then
+
+        local position = EntityService:GetPosition(self.entity)
+
+        local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+        local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+        local min = VectorSub(position, vectorBounds)
+        local max = VectorAdd(position, vectorBounds)
+
+        local entities = FindService:FindGridOwnersByBox( min, max )
+
+        for entity in Iter( entities ) do
+
+            if ( entity ~= eventEntity ) then
+
+                local blueprintName = EntityService:GetBlueprintName(entity)
+
+                local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+                if ( buildingDesc ~= nil ) then
+
+                    local lowName = BuildingService:FindLowUpgrade( blueprintName )
+                    if ( lowName == "tower_mine_layer" ) then
+
+                        LogService:Log("OnBuildingStartEvent entity " .. tostring(entity))
+
+                        local baseDatabase = EntityService:GetDatabase( entity )
+
+                        local pointX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
+                        local pointZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
+
+                        LogService:Log("OnBuildingStartEvent pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+
+                        self.data:SetFloat("drone_point_entity_x", pointX)
+                        self.data:SetFloat("drone_point_entity_z", pointZ)
+
+                        self:CreateDronePoint("OnBuildingStartEvent")
+
+                        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+                    end
+                end
+            end
         end
     end
 end

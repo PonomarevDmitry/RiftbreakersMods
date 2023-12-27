@@ -137,13 +137,40 @@ function drone_picker_tool:OnActivateEntity( entity )
 
         Insert( self.pickedBuildings, entity )
 
-        ShowBuildingDisplayRadiusAround( self.entity, entity )
-
     else
 
         Remove( self.pickedBuildings, entity )
+    end
 
-        HideBuildingDisplayRadiusAround( self.entity, entity )
+    local min, max = GetBuildingDisplayRadius(entity)
+    local display_effect_blueprint = nil
+
+    if max ~= nil then
+        local database = EntityService:GetBlueprintDatabase( self.entity );
+        display_effect_blueprint = database:GetStringOrDefault( "display_radius_blueprint", "effects/decals/range_circle" )
+    end
+
+    if ( #self.pickedBuildings > 0 ) then
+
+        ShowBuildingDisplayRadiusAround( self.entity, "buildings/defense/tower_mine_layer" )
+
+        if max ~= nil then
+            local displayRadiusComponent = EntityService:GetComponent(self.childEntity,"DisplayRadiusComponent")
+
+            if ( displayRadiusComponent == nil ) then
+
+                displayRadiusComponent = EntityService:CreateComponent(self.childEntity,"DisplayRadiusComponent")
+
+                local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
+                displayRadiusComponentRef.min_radius = min
+                displayRadiusComponentRef.max_radius = max
+                displayRadiusComponentRef.max_radius_blueprint = display_effect_blueprint
+            end
+        end
+    else
+        HideBuildingDisplayRadiusAround( self.entity, "buildings/defense/tower_mine_layer" )
+
+        EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
     end
 end
 
