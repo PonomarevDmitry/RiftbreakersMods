@@ -2,11 +2,23 @@ EntityBlueprint
 {
 	name			"units/drones/drone_mine_root_cryogenic"
 
-	base_blueprint	"items/consumables/proximity_mine_cryogenic_extreme"
+	base_blueprint	"items/consumables/proximity_mine_cryogenic_base"
 
 	MeshDesc
 	{
 		mesh		"meshes/items/consumables/proximity_mine_cryogenic.mesh"
 		material	"items/consumables/proximity_mine_cryogenic"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/consumables/proximity_mine_cryogenic_explosion"
+			delay				float:"1.0"
+			delay_before_armed	float:"2.0"
+		}
 	}
 }

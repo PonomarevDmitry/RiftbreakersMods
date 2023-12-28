@@ -2,11 +2,23 @@ EntityBlueprint
 {
 	name			"units/drones/drone_mine_root_nuclear"
 
-	base_blueprint	"items/consumables/proximity_mine_nuclear_extreme"
+	base_blueprint	"items/consumables/proximity_mine_nuclear_base"
 
 	MeshDesc
 	{
 		mesh		"meshes/items/consumables/proximity_mine_nuclear.mesh"
 		material	"items/consumables/proximity_mine_nuclear"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/consumables/proximity_mine_nuclear_explosion"
+			delay				float:"1.0"
+			delay_before_armed	float:"2.0"
+		}
 	}
 }
