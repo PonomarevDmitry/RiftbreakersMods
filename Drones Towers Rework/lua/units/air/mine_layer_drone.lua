@@ -76,9 +76,19 @@ function mine_layer_drone:CreateFindRequest()
 
     local owner = self:GetDroneOwnerTarget();
 
+    local pointEntity = owner
+
     local database = EntityService:GetDatabase( owner )
 
-    local pointEntity = database:GetInt("drone_point_entity")
+    if ( database and database:HasInt("drone_point_entity") ) then
+
+        local drone_point_entity = database:GetIntOrDefault("drone_point_entity", INVALID_ID)
+
+        if ( drone_point_entity ~= nil and drone_point_entity ~= INVALID_ID and EntityService:IsAlive( drone_point_entity ) ) then
+
+            pointEntity = drone_point_entity
+        end
+    end
 
     if pointEntity ~= INVALID_ID then
         self.finder.owner = pointEntity
@@ -118,9 +128,19 @@ end
 function mine_layer_drone:OnFindEnter(state)
     local owner = self:GetDroneOwnerTarget();
 
+    local pointEntity = owner
+
     local database = EntityService:GetDatabase( owner )
 
-    local pointEntity = database:GetInt("drone_point_entity")
+    if ( database and database:HasInt("drone_point_entity") ) then
+
+        local drone_point_entity = database:GetIntOrDefault("drone_point_entity", INVALID_ID)
+
+        if ( drone_point_entity ~= nil and drone_point_entity ~= INVALID_ID and EntityService:IsAlive( drone_point_entity ) ) then
+
+            pointEntity = drone_point_entity
+        end
+    end
 
     self.finder = {}
     self.finder.owner = pointEntity
