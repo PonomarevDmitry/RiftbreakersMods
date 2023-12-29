@@ -223,6 +223,18 @@ function tower_mine_layer:GetMinesArray()
 
     local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
 
+    if ( equipmentComponent == nil ) then
+        QueueEvent("RecreateComponentFromBlueprintRequest", self.entity, "EquipmentComponent" )
+
+        local blueprintName = EntityService:GetBlueprintName(self.entity)
+
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+
+        if ( blueprint ~= nil ) then
+            equipmentComponent = blueprint:GetComponent("EquipmentComponent")
+        end
+    end
+
     if ( equipmentComponent ) then
 
         local equipment = reflection_helper( equipmentComponent ).equipment[1]
@@ -315,50 +327,65 @@ function tower_mine_layer:TrasferingInfoToUpgrade(evt)
 
     LogService:Log("OnBuildingStartEvent eventEntity " .. tostring(eventEntity))
 
-    if (evt:GetUpgrading()) then
+    if (evt:GetUpgrading() == false) then
+        return
+    end
 
-        local position = EntityService:GetPosition(self.entity)
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
-        local boundsSize = { x=1.0, y=100.0, z=1.0 }
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
 
-        local vectorBounds = VectorMulByNumber(boundsSize , 2)
+    local position = EntityService:GetPosition(self.entity)
 
-        local min = VectorSub(position, vectorBounds)
-        local max = VectorAdd(position, vectorBounds)
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
-        local entities = FindService:FindGridOwnersByBox( min, max )
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
 
-        for entity in Iter( entities ) do
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
 
-            if ( entity ~= eventEntity ) then
+    local entities = FindService:FindGridOwnersByBox( min, max )
 
-                local blueprintName = EntityService:GetBlueprintName(entity)
+    for entity in Iter( entities ) do
 
-                local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-                if ( buildingDesc ~= nil ) then
-
-                    local lowName = BuildingService:FindLowUpgrade( blueprintName )
-                    if ( lowName == "tower_mine_layer" ) then
-
-                        LogService:Log("OnBuildingStartEvent entity " .. tostring(entity))
-
-                        local baseDatabase = EntityService:GetDatabase( entity )
-
-                        local pointX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
-                        local pointZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
-
-                        LogService:Log("OnBuildingStartEvent pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
-
-                        self.data:SetFloat("drone_point_entity_x", pointX)
-                        self.data:SetFloat("drone_point_entity_z", pointZ)
-
-                        self:CreateDronePoint("OnBuildingStartEvent")
-
-                        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
-                    end
-                end
-            end
+        if ( entity == eventEntity ) then
+            goto continue
         end
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper(buildingDesc)
+        if ( buildingDescRef.upgrade ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName ~= selfLowName ) then
+            goto continue
+        end
+
+        LogService:Log("OnBuildingStartEvent entity " .. tostring(entity))
+
+        local baseDatabase = EntityService:GetDatabase( entity )
+
+        local pointX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
+        local pointZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
+
+        LogService:Log("OnBuildingStartEvent pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+
+        self.data:SetFloat("drone_point_entity_x", pointX)
+        self.data:SetFloat("drone_point_entity_z", pointZ)
+
+        self:CreateDronePoint("OnBuildingStartEvent")
+
+        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+
+        ::continue::
     end
 end
 
