@@ -289,9 +289,12 @@ function tower_mine_layer:OnOperateActionMenuEvent()
 
     local blueprintArray = {
         "items/tower_mines/drone_mine_root",
+
         "items/tower_mines/drone_mine_root_acid",
         "items/tower_mines/drone_mine_root_cryogenic",
         "items/tower_mines/drone_mine_root_incendiary",
+        "items/tower_mines/drone_mine_root_energy",
+
         "items/tower_mines/drone_mine_root_nuclear",
         "items/tower_mines/drone_mine_root_gravity"
     }
