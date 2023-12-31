@@ -19,7 +19,7 @@ function tower_mine_layer:OnInit()
     LogService:Log("OnInit self.entity " .. tostring(self.entity))
 
     self:CreateDronePoint("OnInit")
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "onDronePointChange" )
+    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChangeOnDronePointChange" )
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
@@ -36,7 +36,7 @@ function tower_mine_layer:OnLoad()
     LogService:Log("OnLoad self.entity " .. tostring(self.entity))
 
     self:CreateDronePoint("OnLoad")
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "onDronePointChange" )
+    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
@@ -64,7 +64,7 @@ function tower_mine_layer:CreateDronePoint(text)
     self.data:SetInt("drone_point_entity", self.pointEntity)
 end
 
-function tower_mine_layer:onDronePointChange(evt)
+function tower_mine_layer:OnDronePointChange(evt)
 
     local eventName = evt:GetEvent()
     local eventDatabase = evt:GetDatabase()
@@ -86,11 +86,11 @@ function tower_mine_layer:onDronePointChange(evt)
     self.data:SetFloat("drone_point_entity_x", pointX)
     self.data:SetFloat("drone_point_entity_z", pointZ)
 
-    LogService:Log("onDronePointChange pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+    LogService:Log("OnDronePointChange pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
 
     local transform = EntityService:GetWorldTransform( self.entity )
 
-    self:CreateDronePoint("onDronePointChange")
+    self:CreateDronePoint("OnDronePointChange")
 
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
 
