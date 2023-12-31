@@ -88,7 +88,8 @@ function flora_cultivator:RegisterBuildMenuTracker()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
 
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
+    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
 end
 
 function flora_cultivator:CreateProductionStateMachine()
@@ -692,17 +693,23 @@ function flora_cultivator:OnDronePointChange(evt)
     end
 end
 
-function flora_cultivator:TrasferingInfoToUpgrade(evt)
+function flora_cultivator:OnBuildingStartEventGettingInfo(evt)
 
-    LogService:Log("TrasferingInfoToUpgrade self.entity " .. tostring(self.entity))
+    LogService:Log("OnBuildingStartEventGettingInfo self.entity " .. tostring(self.entity))
 
     local eventEntity = evt:GetEntity()
 
-    LogService:Log("TrasferingInfoToUpgrade eventEntity " .. tostring(eventEntity))
+    LogService:Log("OnBuildingStartEventGettingInfo eventEntity " .. tostring(eventEntity))
 
-    if (evt:GetUpgrading() == false) then
-        return
+    if (evt:GetUpgrading() == true) then
+
+        self:GettingInfoFromBaseToUpgrade(eventEntity)
+    else
+        self:GettingInfoFromRuin()
     end
+end
+
+function flora_cultivator:GettingInfoFromBaseToUpgrade()
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -742,21 +749,170 @@ function flora_cultivator:TrasferingInfoToUpgrade(evt)
             goto continue
         end
 
-        LogService:Log("TrasferingInfoToUpgrade entity " .. tostring(entity))
+        LogService:Log("GettingInfoFromBaseToUpgrade entity " .. tostring(entity))
 
         local baseDatabase = EntityService:GetDatabase( entity )
 
         local pointX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
         local pointZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
 
-        LogService:Log("TrasferingInfoToUpgrade pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+        LogService:Log("GettingInfoFromBaseToUpgrade pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
 
         self.data:SetFloat("drone_point_entity_x", pointX)
         self.data:SetFloat("drone_point_entity_z", pointZ)
 
-        self:CreateDronePoint("TrasferingInfoToUpgrade")
+        self:CreateDronePoint("GettingInfoFromBaseToUpgrade")
 
         EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+
+        ::continue::
+    end
+end
+
+function flora_cultivator:GettingInfoFromRuin()
+
+    LogService:Log("GettingInfoFromRuin self.entity " .. tostring(self.entity))
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        LogService:Log("GettingInfoFromRuin entity " .. tostring(ruinEntity))
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        LogService:Log("GettingInfoFromRuin entity " .. tostring(ruinEntity))
+
+        local pointX = ruinDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
+        local pointZ = ruinDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
+
+        LogService:Log("GettingInfoFromRuin pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+
+        self.data:SetFloat("drone_point_entity_x", pointX)
+        self.data:SetFloat("drone_point_entity_z", pointZ)
+
+        self:CreateDronePoint("GettingInfoFromRuin")
+
+        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+
+        local modItemBlueprintName = ruinDatabase:GetStringOrDefault("flora_cultivator_MOD_1", "") or ""
+
+        LogService:Log("GettingInfoFromRuin modItemBlueprintName " .. tostring(modItemBlueprintName))
+
+        if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+
+            local item = ItemService:GetFirstItemForBlueprint( self.entity, modItemBlueprintName )
+
+            if item == INVALID_ID then
+                item = ItemService:AddItemToInventory( self.entity, modItemBlueprintName )
+            end
+
+            if not ItemService:IsSameSubTypeEquipped( self.entity, item ) then
+                ItemService:EquipItemInSlot( self.entity, item, "MOD_1" )
+            end
+        end
+
+        ::continue::
+    end
+end
+
+function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
+
+    LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin self.entity " .. tostring(self.entity))
+
+    local eventEntity = evt:GetEntity()
+
+    LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin eventEntity " .. tostring(eventEntity))
+
+    if (evt:GetWasSold() == true) then
+        return
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin entity " .. tostring(ruinEntity))
+
+        local pointEntityPosition = EntityService:GetPosition(self.pointEntity)
+
+        local pointX = pointEntityPosition.x - position.x
+        local pointZ = pointEntityPosition.z - position.z
+
+        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin self.position.x " .. tostring(position.x) .. " self.position.z " .. tostring(position.z))
+        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin pointEntityPosition.x " .. tostring(pointEntityPosition.x) .. " pointEntityPosition.z " .. tostring(pointEntityPosition.z))
+
+        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+
+        ruinDatabase:SetFloat("drone_point_entity_x", pointX)
+        ruinDatabase:SetFloat("drone_point_entity_z", pointZ)
+
+        local modItemBlueprintName = ""
+
+        local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+        if ( modItem ~= nil ) then
+            modItemBlueprintName = EntityService:GetBlueprintName(modItem)
+        end
+
+        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin modItemBlueprintName " .. tostring(modItemBlueprintName))
+
+        ruinDatabase:SetString("flora_cultivator_MOD_1", modItemBlueprintName)
 
         ::continue::
     end
