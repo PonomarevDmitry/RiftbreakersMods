@@ -1,0 +1,57 @@
+EntityBlueprint
+{
+	name					"buildings/tools/repair_facility_drone_point_picker"
+
+	BuildingDesc
+	{
+		name				"repair_facility_drone_point_picker"
+		bp					"buildings/tools/repair_facility_drone_point_picker"
+		ghost_bp			"buildings/tools/repair_facility_drone_point_picker_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/repair_facility_drone_point_picker_tool"
+		description			"gui/hud/building_description/repair_facility_drone_point_picker_tool"
+		menu_icon			"gui/hud/tools_icons/repair_facility_drone_point_picker_tool"
+
+		order				"4.125"
+		type				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/repair_facility_drone_point_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"repair_facility_drone_point_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/repair_facility_drone_point_picker_tool.lua"
+		database
+		{
+			action				string:"repair_facility_drone_point_picker_tool"
+			buildingBlueprint	string:"buildings/defense/repair_facility"
+			buildingLowUpgrade	string:"repair_facility"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
