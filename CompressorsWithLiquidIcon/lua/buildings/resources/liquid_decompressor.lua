@@ -32,6 +32,7 @@ end
 function liquid_decompressor:OnLoad()
     building.OnLoad(self)
 
+    self.showLiquidIcon = self.showLiquidIcon or 0
     self:registerBuildMenuTracker()
 end
 
@@ -52,19 +53,21 @@ end
 
 function liquid_decompressor:CreateMenuEntity()
 
-    self:registerBuildMenuTracker()
-
     if ( self.compressorLiquidMenu == nil ) then
 
         self.compressorLiquidMenu = EntityService:SpawnAndAttachEntity("misc/compressor_liquid_menu", self.entity)
 
         local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
 
-        if ( self.showLiquidIcon == nil ) then
-            self.showLiquidIcon = 1
+        self.showLiquidIcon = self.showLiquidIcon or 1
+
+        local visible = 0
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+            visible = self.showLiquidIcon
         end
 
-        menuDB:SetInt("liquid_visible", self.showLiquidIcon)
+        menuDB:SetInt("liquid_visible", visible)
     end
 end
 
@@ -133,35 +136,39 @@ end
 
 function liquid_decompressor:registerBuildMenuTracker()
 
-    self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEventCompressorsShowHideIcon" )
+    self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
+    self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 end
 
-function liquid_decompressor:OnLuaGlobalEventCompressorsShowHideIcon( evt )
+function liquid_decompressor:OnEnterBuildMenuEvent( evt )
 
-    local eventName = evt:GetEvent()
+    self.showLiquidIcon = 1
 
-    if eventName == "CompressorsHideLiquidIcon" then
+    self:SetCompressorLiquidMenuVisible()
+end
 
-        self.showLiquidIcon = 0
+function liquid_decompressor:OnEnterFighterModeEvent( evt )
 
-        if ( self.compressorLiquidMenu ~= nil ) then
-            local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
-            menuDB:SetInt("liquid_visible", 0)
-        end
-    elseif eventName == "CompressorsShowLiquidIcon" then
+    self.showLiquidIcon = 0
 
-        self.showLiquidIcon = 1
+    self:SetCompressorLiquidMenuVisible()
+end
 
-        if ( self.compressorLiquidMenu ~= nil ) then
-            local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
-            menuDB:SetInt("liquid_visible", 1)
-        end
+function liquid_decompressor:SetCompressorLiquidMenuVisible()
+
+    self:CreateMenuEntity()
+
+    local visible = 0
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        visible = self.showLiquidIcon
     end
+
+    local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+    menuDB:SetInt("liquid_visible", visible)
 end
 
 function liquid_decompressor:OnItemEquippedEvent( evt )
-
-    self:registerBuildMenuTracker()
 
     self.item = evt:GetItem()
     BuildingService:ReplaceProductionByCompressedItem( self.entity, self.item, self.lastResource, self.attachment, self.production, self.consumption )
@@ -183,10 +190,12 @@ function liquid_decompressor:OnRelease()
 
     if ( self.compressorLiquidMenu ~= nil and self.compressorLiquidMenu ~= INVALID_ID ) then
         EntityService:RemoveEntity( self.compressorLiquidMenu )
+        self.compressorLiquidMenu = nil
     end
 
     if ( self.compressorNonWorking ~= nil and self.compressorNonWorking ~= INVALID_ID ) then
         EntityService:RemoveEntity( self.compressorNonWorking )
+        self.compressorNonWorking = nil
     end
 
     if ( building.OnRelease ) then

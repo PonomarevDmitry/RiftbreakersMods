@@ -12,42 +12,49 @@ function compressor:OnInit()
     self.resource = ""
     self.postfix = self.data:GetStringOrDefault( "postfix", "_pipe")
 
-    self.showLiquidIcon = 1
+    self.showLiquidIcon = 0
     self:registerBuildMenuTracker()
 end
 
 function compressor:OnLoad()
     building.OnLoad(self)
 
+    self.showLiquidIcon = self.showLiquidIcon or 0
     self:registerBuildMenuTracker()
 end
 
 function compressor:registerBuildMenuTracker()
 
-    self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEventCompressorsShowHideIcon" )
+    self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
+    self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 end
 
-function compressor:OnLuaGlobalEventCompressorsShowHideIcon( evt )
+function compressor:OnEnterBuildMenuEvent( evt )
 
-    local eventName = evt:GetEvent()
+    self.showLiquidIcon = 1
 
-    if eventName == "CompressorsHideLiquidIcon" then
+    self:SetCompressorLiquidMenuVisible()
+end
 
-        self.showLiquidIcon = 0
+function compressor:OnEnterFighterModeEvent( evt )
 
-        if ( self.compressorLiquidMenu ~= nil ) then
-            local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
-            menuDB:SetInt("liquid_visible", 0)
-        end
-    elseif eventName == "CompressorsShowLiquidIcon" then
+    self.showLiquidIcon = 0
 
-        self.showLiquidIcon = 1
+    self:SetCompressorLiquidMenuVisible()
+end
 
-        if ( self.compressorLiquidMenu ~= nil ) then
-            local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
-            menuDB:SetInt("liquid_visible", 1)
-        end
+function compressor:SetCompressorLiquidMenuVisible()
+
+    self:CreateMenuEntity()
+
+    local visible = 0
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        visible = self.showLiquidIcon
     end
+
+    local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+    menuDB:SetInt("liquid_visible", visible)
 end
 
 function compressor:CreateMenuEntity()
@@ -60,11 +67,15 @@ function compressor:CreateMenuEntity()
 
         local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
 
-        if ( self.showLiquidIcon == nil ) then
-            self.showLiquidIcon = 1
+        self.showLiquidIcon = self.showLiquidIcon or 1
+
+        local visible = 0
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+            visible = self.showLiquidIcon
         end
 
-        menuDB:SetInt("liquid_visible", self.showLiquidIcon)
+        menuDB:SetInt("liquid_visible", visible)
     end
 end
 
