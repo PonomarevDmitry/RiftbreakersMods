@@ -81,7 +81,8 @@ end
 
 function flora_cultivator:RegisterBuildMenuTracker()
 
-    self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEventCultivatorShowHideIcon" )
+    self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
+    self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 end
 
 function flora_cultivator:CreateProductionStateMachine()
@@ -446,40 +447,32 @@ function flora_cultivator:DestoryPlanIcon()
     self.cultivatorSaplingMenu = nil
 end
 
-function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon( evt )
+function flora_cultivator:OnEnterBuildMenuEvent( evt )
 
-    local eventName = evt:GetEvent()
+    self.showPlantIcon = 1
 
-    if eventName == "CultivatorHidePlantIcon" then
+    self:SetCultivatorSaplingMenuVisible()
+end
 
-        self.showPlantIcon = 0
+function flora_cultivator:OnEnterFighterModeEvent( evt )
 
-        self:CreateMenuEntity()
+    self.showPlantIcon = 0
 
-        local visible = 0
+    self:SetCultivatorSaplingMenuVisible()
+end
 
-        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-            visible = self.showPlantIcon
-        end
+function flora_cultivator:SetCultivatorSaplingMenuVisible()
 
-        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
-        menuDB:SetInt("sapling_visible", visible)
+    self:CreateMenuEntity()
 
-    elseif eventName == "CultivatorShowPlantIcon" then
+    local visible = 0
 
-        self.showPlantIcon = 1
-
-        self:CreateMenuEntity()
-
-        local visible = 0
-
-        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-            visible = self.showPlantIcon
-        end
-
-        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
-        menuDB:SetInt("sapling_visible", visible)
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        visible = self.showPlantIcon
     end
+
+    local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    menuDB:SetInt("sapling_visible", visible)
 end
 
 function flora_cultivator:OnUpdateProductionExecute()
