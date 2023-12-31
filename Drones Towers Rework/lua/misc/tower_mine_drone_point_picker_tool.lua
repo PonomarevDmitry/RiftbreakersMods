@@ -2,45 +2,48 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'drone_picker_tool' ( tool )
+class 'tower_mine_drone_point_picker_tool' ( tool )
 
-function drone_picker_tool:__init()
+function tower_mine_drone_point_picker_tool:__init()
     tool.__init(self,self)
 end
 
-function drone_picker_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_drone_picker_tool", self.entity)
+function tower_mine_drone_point_picker_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_tower_mine_drone_point_picker_tool", self.entity)
     self.popupShown = false
 
     self.scaleMap = {
         1,
     }
 
+    self.buildingBlueprint = self.data:GetStringOrDefault("buildingBlueprint", "") or ""
+    self.buildingLowUpgrade = self.data:GetStringOrDefault("buildingLowUpgrade", "") or ""
+
     self.pickedBuildings = {}
 end
 
-function drone_picker_tool:OnPreInit()
+function tower_mine_drone_point_picker_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
-function drone_picker_tool:GetScaleFromDatabase()
+function tower_mine_drone_point_picker_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function drone_picker_tool:SpawnCornerBlueprint()
+function tower_mine_drone_point_picker_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function drone_picker_tool:AddedToSelection( entity )
+function tower_mine_drone_point_picker_tool:AddedToSelection( entity )
 end
 
-function drone_picker_tool:RemovedFromSelection( entity )
+function tower_mine_drone_point_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function drone_picker_tool:OnUpdate()
+function tower_mine_drone_point_picker_tool:OnUpdate()
 
     for entity in Iter( self.pickedBuildings ) do
 
@@ -76,7 +79,7 @@ function drone_picker_tool:OnUpdate()
     end
 end
 
-function drone_picker_tool:FilterSelectedEntities( selectedEntities )
+function tower_mine_drone_point_picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
@@ -90,7 +93,7 @@ function drone_picker_tool:FilterSelectedEntities( selectedEntities )
         end
 
         local lowName = BuildingService:FindLowUpgrade( blueprintName )
-        if ( lowName ~= "tower_drone_attack" and lowName ~= "tower_mine_layer" ) then
+        if ( lowName ~= self.buildingLowUpgrade ) then
             goto continue
         end
 
@@ -102,7 +105,7 @@ function drone_picker_tool:FilterSelectedEntities( selectedEntities )
     return entities
 end
 
-function drone_picker_tool:OnActivateSelectorRequest()
+function tower_mine_drone_point_picker_tool:OnActivateSelectorRequest()
 
     if ( #self.selectedEntities > 0 ) then
 
@@ -131,7 +134,7 @@ function drone_picker_tool:OnActivateSelectorRequest()
     end
 end
 
-function drone_picker_tool:OnActivateEntity( entity )
+function tower_mine_drone_point_picker_tool:OnActivateEntity( entity )
 
     if ( IndexOf( self.pickedBuildings, entity ) == nil ) then
 
@@ -152,7 +155,7 @@ function drone_picker_tool:OnActivateEntity( entity )
 
     if ( #self.pickedBuildings > 0 ) then
 
-        ShowBuildingDisplayRadiusAround( self.entity, "buildings/defense/tower_mine_layer" )
+        ShowBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
 
         if max ~= nil then
             local displayRadiusComponent = EntityService:GetComponent(self.childEntity,"DisplayRadiusComponent")
@@ -168,16 +171,16 @@ function drone_picker_tool:OnActivateEntity( entity )
             end
         end
     else
-        HideBuildingDisplayRadiusAround( self.entity, "buildings/defense/tower_mine_layer" )
+        HideBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
 
         EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
     end
 end
 
-function drone_picker_tool:OnRotateSelectorRequest(evt)
+function tower_mine_drone_point_picker_tool:OnRotateSelectorRequest(evt)
 end
 
-function drone_picker_tool:ClearPickedBuildings()
+function tower_mine_drone_point_picker_tool:ClearPickedBuildings()
 
     if ( self.pickedBuildings ~= nil) then
         for entity in Iter( self.pickedBuildings ) do
@@ -189,7 +192,7 @@ function drone_picker_tool:ClearPickedBuildings()
     self.pickedBuildings = {}
 end
 
-function drone_picker_tool:OnRelease()
+function tower_mine_drone_point_picker_tool:OnRelease()
 
     self:ClearPickedBuildings()
 
@@ -198,4 +201,4 @@ function drone_picker_tool:OnRelease()
     end
 end
 
-return drone_picker_tool
+return tower_mine_drone_point_picker_tool
