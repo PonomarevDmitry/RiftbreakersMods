@@ -95,6 +95,8 @@ function eraser_flora_tool:OnActivateEntity( entity )
 
     EntityService:RequestDestroyPattern( entity, "" )
 
+    EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent" )
+
     QueueEvent( "DissolveEntityRequest", entity, 2.0, 0 )
 end
 
