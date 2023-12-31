@@ -292,11 +292,12 @@ function tower_mine_layer:OnOperateActionMenuEvent()
 
         "items/tower_mines/drone_mine_root_acid",
         "items/tower_mines/drone_mine_root_cryogenic",
-        "items/tower_mines/drone_mine_root_incendiary",
         "items/tower_mines/drone_mine_root_energy",
-
-        "items/tower_mines/drone_mine_root_nuclear",
+        "items/tower_mines/drone_mine_root_incendiary",
+        
+        "items/tower_mines/drone_mine_root_holo_decoy",
         "items/tower_mines/drone_mine_root_gravity",
+        "items/tower_mines/drone_mine_root_nuclear",
         "items/tower_mines/drone_mine_root_sonic"
     }
 
