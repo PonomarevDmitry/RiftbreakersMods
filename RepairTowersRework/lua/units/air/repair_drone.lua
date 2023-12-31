@@ -62,6 +62,13 @@ function repair_drone:FinishTargetAction( state )
     if state then
         state:Exit()
     end
+
+    local target = self:FindActionTarget();
+    if target ~= INVALID_ID then
+        UnitService:SetCurrentTarget( self.entity, "action", target );
+        UnitService:EmitStateMachineParam(self.entity, "action_target_found")
+        UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
+    end
 end
 
 function repair_drone:FindActionTarget()
