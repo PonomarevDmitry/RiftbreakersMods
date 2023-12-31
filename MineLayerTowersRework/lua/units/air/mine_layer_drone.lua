@@ -76,22 +76,20 @@ function mine_layer_drone:CreateFindRequest()
 
     local owner = self:GetDroneOwnerTarget();
 
-    local pointEntity = owner
-
     local database = EntityService:GetDatabase( owner )
 
-    if ( database and database:HasInt("drone_point_entity") ) then
+    if ( database and database:HasInt("drone_point_entity") and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
 
-        local drone_point_entity = database:GetIntOrDefault("drone_point_entity", INVALID_ID)
+        local pointEntity = database:GetIntOrDefault("drone_point_entity", INVALID_ID) or INVALID_ID
 
-        if ( drone_point_entity ~= nil and drone_point_entity ~= INVALID_ID and EntityService:IsAlive( drone_point_entity ) ) then
+        if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
 
-            pointEntity = drone_point_entity
+            owner = pointEntity
         end
     end
 
-    if pointEntity ~= INVALID_ID then
-        self.finder.owner = pointEntity
+    if owner ~= INVALID_ID then
+        self.finder.owner = owner
         self.finder.event_name = tostring( self.entity )
 
         FindService:CreateFindEmptySpotRequest( self.finder.owner, self.finder.event_name, self.plant_radius );
@@ -128,22 +126,20 @@ end
 function mine_layer_drone:OnFindEnter(state)
     local owner = self:GetDroneOwnerTarget();
 
-    local pointEntity = owner
-
     local database = EntityService:GetDatabase( owner )
 
-    if ( database and database:HasInt("drone_point_entity") ) then
+    if ( database and database:HasInt("drone_point_entity") and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
 
-        local drone_point_entity = database:GetIntOrDefault("drone_point_entity", INVALID_ID)
+        local pointEntity = database:GetIntOrDefault("drone_point_entity", INVALID_ID)
 
-        if ( drone_point_entity ~= nil and drone_point_entity ~= INVALID_ID and EntityService:IsAlive( drone_point_entity ) ) then
+        if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
 
-            pointEntity = drone_point_entity
+            owner = pointEntity
         end
     end
 
     self.finder = {}
-    self.finder.owner = pointEntity
+    self.finder.owner = owner
 
     if self.finder.owner ~= INVALID_ID then
         self:RegisterHandler( self.finder.owner, "TargetFoundEvent", "OnTargetFoundEvent" )
