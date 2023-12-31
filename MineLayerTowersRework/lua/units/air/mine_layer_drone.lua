@@ -73,21 +73,7 @@ function mine_layer_drone:FindActionTarget()
 end
 
 function mine_layer_drone:CreateFindRequest()
-
-    local owner = self:GetDroneOwnerTarget();
-
-    local database = EntityService:GetDatabase( owner )
-
-    if ( database and database:HasInt("drone_point_entity") and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
-
-        local pointEntity = database:GetIntOrDefault("drone_point_entity", INVALID_ID) or INVALID_ID
-
-        if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
-
-            owner = pointEntity
-        end
-    end
-
+    local owner = self:GetDroneFindCenterPoint();
     if owner ~= INVALID_ID then
         self.finder.owner = owner
         self.finder.event_name = tostring( self.entity )
@@ -124,22 +110,8 @@ function mine_layer_drone:OnTargetNotFoundEvent()
 end
 
 function mine_layer_drone:OnFindEnter(state)
-    local owner = self:GetDroneOwnerTarget();
-
-    local database = EntityService:GetDatabase( owner )
-
-    if ( database and database:HasInt("drone_point_entity") and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
-
-        local pointEntity = database:GetIntOrDefault("drone_point_entity", INVALID_ID)
-
-        if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
-
-            owner = pointEntity
-        end
-    end
-
     self.finder = {}
-    self.finder.owner = owner
+    self.finder.owner = self:GetDroneFindCenterPoint()
 
     if self.finder.owner ~= INVALID_ID then
         self:RegisterHandler( self.finder.owner, "TargetFoundEvent", "OnTargetFoundEvent" )
@@ -193,8 +165,8 @@ function mine_layer_drone:OnPlantExit()
 
         local plant_blueprint = self.data:GetStringOrDefault("plant_blueprint", "");
 
-        local entity = EntityService:SpawnEntity( plant_blueprint, target, EntityService:GetTeam(self.entity) )
-        EntityService:SpawnAndAttachEntity( self.plant_marker, entity )
+        local entity = EntityService:SpawnEntity(plant_blueprint, target, EntityService:GetTeam(self.entity) )
+        EntityService:SpawnAndAttachEntity(self.plant_marker, entity )
 
         self.is_visible = false
         QueueEvent( "FadeEntityOutRequest", self.entity, 0.1 )
@@ -205,6 +177,25 @@ function mine_layer_drone:OnPlantExit()
     end
 
     self:SetTargetActionFinished();
+end
+
+function mine_layer_drone:GetDroneFindCenterPoint()
+
+    local owner = self:GetDroneOwnerTarget();
+
+    local database = EntityService:GetDatabase( owner )
+
+    if ( database and database:HasInt("drone_point_entity") and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
+
+        local pointEntity = database:GetIntOrDefault("drone_point_entity", INVALID_ID) or INVALID_ID
+
+        if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
+
+            owner = pointEntity
+        end
+    end
+
+    return owner
 end
 
 return mine_layer_drone;
