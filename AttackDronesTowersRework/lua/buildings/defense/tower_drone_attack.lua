@@ -5,27 +5,27 @@ local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua
 class 'tower_drone_attack' ( drone_spawner_building )
 
 function tower_drone_attack:__init()
-    drone_spawner_building.__init(self,self)
+	drone_spawner_building.__init(self,self)
 end
 
 function tower_drone_attack:OnInit()
 
-    if ( drone_spawner_building.OnInit ) then
-        drone_spawner_building.OnInit(self)
-    end
+	if ( drone_spawner_building.OnInit ) then
+		drone_spawner_building.OnInit(self)
+	end
 
-    self:CreateDronePoint()
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "_onDronePointChange" )
+	self:CreateDronePoint()
+	self:RegisterHandler( self.entity, "LuaGlobalEvent", "_onDronePointChange" )
 end
 
 function tower_drone_attack:OnLoad()
 
-    if ( drone_spawner_building.OnLoad ) then
-        drone_spawner_building.OnLoad(self)
-    end
+	if ( drone_spawner_building.OnLoad ) then
+		drone_spawner_building.OnLoad(self)
+	end
 
-    self:CreateDronePoint()
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "_onDronePointChange" )
+	self:CreateDronePoint()
+	self:RegisterHandler( self.entity, "LuaGlobalEvent", "_onDronePointChange" )
 end
 
 function tower_drone_attack:CreateDronePoint()
@@ -36,7 +36,7 @@ function tower_drone_attack:CreateDronePoint()
 
 		local transform = EntityService:GetWorldTransform( self.entity )
 
-		self.pointEntity = EntityService:SpawnEntity( "buildings/defense/tower_drone_point", transform.position, team )
+		self.pointEntity = EntityService:SpawnEntity( "buildings/tower_drone_point", transform.position, team )
 	end	
 	
 	LogService:Log("drone_point_entity " .. tostring(self.pointEntity))
@@ -112,15 +112,15 @@ end
 
 function tower_drone_attack:OnRelease()
 
-    if ( self.pointEntity ~= nil ) then
+	if ( self.pointEntity ~= nil ) then
 
-        EntityService:RemoveEntity( self.pointEntity )
+		EntityService:RemoveEntity( self.pointEntity )
 		self.pointEntity = nil
-    end
+	end
 
-    if ( drone_spawner_building.OnRelease ) then
-        drone_spawner_building.OnRelease(self)
-    end
+	if ( drone_spawner_building.OnRelease ) then
+		drone_spawner_building.OnRelease(self)
+	end
 end
 
 return tower_drone_attack
