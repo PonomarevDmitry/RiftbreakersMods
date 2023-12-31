@@ -19,7 +19,7 @@ function tower_mine_layer:OnInit()
     LogService:Log("OnInit self.entity " .. tostring(self.entity))
 
     self:CreateDronePoint("OnInit")
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChangeOnDronePointChange" )
+    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
