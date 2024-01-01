@@ -689,10 +689,6 @@ function flora_cultivator:OnDronePointChange(evt)
     self:CreateDronePoint("OnDronePointChange")
 
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
-
-    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-        self:RefreshDrones()
-    end
 end
 
 function flora_cultivator:OnBuildingStartEventGettingInfo(evt)

@@ -76,15 +76,9 @@ function tower_drone_attack:OnDronePointChange(evt)
 
     LogService:Log("OnDronePointChange pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
 
-    local transform = EntityService:GetWorldTransform( self.entity )
-
     self:CreateDronePoint("OnDronePointChange")
 
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
-
-    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-        self:SpawnDrones()
-    end
 end
 
 function tower_drone_attack:UpdateDisplayRadiusVisibility( show, entity )
