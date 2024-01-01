@@ -66,15 +66,19 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
             end
 
             local isAlive = HealthService:IsAlive( entity )
-            
-            if ( EntityService:CompareType( entity, "ground_unit" ) and isAlive ) then
-            
-                return false
+
+            if ( EntityService:CompareType( entity, "ground_unit" ) or EntityService:CompareType( entity, "ground_unit_large" ) or EntityService:CompareType( entity, "ground_unit_medium" ) or EntityService:CompareType( entity, "ground_unit_small" ) ) then
+
+                if ( isAlive ) then
+                    return false
+                end
             end
-            
+
             if ( EntityService:CompareType( entity, "air_unit" ) and isAlive ) then
-            
-                return false
+
+                if ( isAlive ) then
+                    return false
+                end
             end
 
             return true
@@ -498,7 +502,7 @@ function harvester_drone:OnHarvestExit()
 
     local target = self:FindActionTarget();
     if target ~= INVALID_ID then
-        UnitService:SetCurrentTarget( self.entity, "action", target );
+        UnitService:SetCurrentTarget( self.entity, "action", target )
         UnitService:EmitStateMachineParam(self.entity, "action_target_found")
         UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
     end
