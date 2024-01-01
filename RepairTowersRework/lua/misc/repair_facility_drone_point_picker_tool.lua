@@ -9,7 +9,8 @@ function repair_facility_drone_point_picker_tool:__init()
 end
 
 function repair_facility_drone_point_picker_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_repair_facility_drone_point_picker_tool", self.entity)
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
     self.popupShown = false
 
     self.scaleMap = {
