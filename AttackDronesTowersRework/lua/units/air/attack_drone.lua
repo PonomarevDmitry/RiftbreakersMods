@@ -63,8 +63,6 @@ function attack_drone:IsTargetValid(target)
         return false
     end
 
-    LogService:Log("IsTargetValid " )
-
     if self.target_resisted_damage[ target ] ~= nil then
         return self.target_resisted_damage[ target ] < GetLogicTime()
     end
@@ -86,9 +84,6 @@ function attack_drone:OnTargetDamageResistedEvent(evt)
 end
 
 function attack_drone:SetCurrentTarget( target )
-
-    LogService:Log("SetCurrentTarget " )
-
     if self.drone_target ~= INVALID_ID then
         self:UnregisterHandler(self.drone_target, "DamageResistedEvent", "OnTargetDamageResistedEvent")
     end
@@ -102,82 +97,20 @@ function attack_drone:SetCurrentTarget( target )
     UnitService:SetCurrentTarget(self.entity, self.target_finder.name, self.drone_target)
 end
 
-function attack_drone:UpdateInitialState()
-
-    LogService:Log("UpdateInitialState " )
-
-    local owner = self:GetDroneOwnerTarget();
-
-    QueueEvent( "EnableDroneRequest", self.entity )
-
-    self.is_lifting = false
-    self.is_landing = false
-    self.has_speed_penalty = self.has_speed_penalty or false
-end
-
-function attack_drone:SetEnabled( enabled )
-
-    LogService:Log("SetEnabled " )
-
-    self.is_enabled = true
-
-    if self.OnDroneEnabled then
-        self:OnDroneEnabled()
-    end
-    UnitService:SetStateMachineParam(self.entity, "is_enabled", 1)
-end
-
-function attack_drone:OnOwnerDistanceCheckExecute()
-
-    LogService:Log("OnOwnerDistanceCheckExecute " )
-
-    local owner = self:GetDroneOwnerTarget()
-
-    --if not EntityService:IsAlive(owner) then
-    --    return
-    --end
-
-    --local distance = EntityService:GetDistance2DBetween(self.entity, owner)
-    --if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil then
-    --
-    --    if self.is_enabled then
-    --        QueueEvent( "DisableDroneRequest", self.entity )
-    --        QueueEvent( "EnableDroneRequest", self.entity )
-    --    end
-    --
-    --    local target_position = EntityService:GetPosition(owner)
-    --    target_position.y = EntityService:GetPositionY(self.entity)
-    --
-    --    EntityService:Teleport(self.entity, target_position)
-    --    QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
-    --end
-
-    local action_target = self:GetDroneActionTarget()
-    if action_target ~= INVALID_ID and not EntityService:IsAlive(action_target) then
-        self:SetTargetActionFinished()
-    end
-end
-
 function attack_drone:OnTargetHasChangedEvent(evt)
     if not self.target_finder or evt:GetTag() ~= self.target_finder.name then
         return
     end
 
-    --if not self.is_enabled then
-    --    return
-    --end
-
-    LogService:Log("OnTargetHasChangedEvent " )
+    if not self.is_enabled then
+        return
+    end
 
     local target = evt:GetTarget()
-
     self:SetCurrentTarget(target)
 end
 
 function attack_drone:FindActionTarget()
-
-    LogService:Log("FindActionTarget " )
-
     self:EnsureTargetFinder()
 
     return self.drone_target
@@ -233,33 +166,40 @@ function attack_drone:OnRelease()
 end
 
 function attack_drone:EnsureTargetFinder()
-
-    local owner = self:GetDroneOwnerTarget()
-
-    local database = EntityService:GetDatabase( owner )
-
-    local pointEntity = database:GetInt("drone_point_entity")
-
-    LogService:Log("EnsureTargetFinder pointEntity " .. tostring(pointEntity))
-
     if not self.target_finder then
+        local owner = self:GetDroneFindCenterPoint()
+        self:RegisterHandler(owner, "TargetHasChangedEvent", "OnTargetHasChangedEvent")
 
-        self:RegisterHandler(pointEntity, "TargetHasChangedEvent", "OnTargetHasChangedEvent")
-
-        self.target_finder = { name = "attack_drone##" .. tostring( self.entity ), entity = pointEntity }
+        self.target_finder = { name = "attack_drone##" .. tostring( self.entity ), entity = owner }
 
         if self.target_aggresive_only then
-            UnitService:CreateCustomFindTargetRequest( pointEntity, self.target_finder.name, self.search_radius, "hostility", "ground_unit", "AggressiveTargetFinder" );
+            UnitService:CreateCustomFindTargetRequest( owner, self.target_finder.name, self.search_radius, "hostility", "ground_unit", "AggressiveTargetFinder" );
         else
-            UnitService:CreateFindTargetRequest( pointEntity, self.target_finder.name, self.search_radius, "hostility", "ground_unit" );
+            UnitService:CreateFindTargetRequest( owner, self.target_finder.name, self.search_radius, "hostility", "ground_unit" );
         end
     end
 end
 
+function attack_drone:GetDroneFindCenterPoint()
+
+    local result = self:GetDroneOwnerTarget()
+
+    local database = EntityService:GetDatabase( result )
+
+    if ( database and database:HasInt("drone_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
+
+        local pointEntity = database:GetIntOrDefault("drone_point_entity", INVALID_ID) or INVALID_ID
+
+        if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
+
+            result = pointEntity
+        end
+    end
+
+    return result
+end
+
 function attack_drone:DefaultWeaponControllerShootAtTarget( target )
-
-    LogService:Log("DefaultWeaponControllerShootAtTarget " )
-
     WeaponService:RotateWeaponMuzzleToTarget( self.entity, self.drone_target )
 
     if self.is_landing or self.is_lifting then
@@ -280,9 +220,6 @@ function attack_drone:DefaultWeaponControllerShootAtTarget( target )
 end
 
 function attack_drone:DefaultWeaponControllerStopShooting()
-
-    LogService:Log("DefaultWeaponControllerStopShooting " )
-
     WeaponService:StopShoot(self.entity);
 end
 
