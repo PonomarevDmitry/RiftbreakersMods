@@ -1,0 +1,60 @@
+EntityBlueprint
+{
+	name					"buildings/tools/flora_collector_drone_point_picker"
+
+	BuildingDesc
+	{
+		name				"flora_collector_drone_point_picker"
+		bp					"buildings/tools/flora_collector_drone_point_picker"
+		ghost_bp			"buildings/tools/flora_collector_drone_point_picker_ghost"
+		category			"resources"
+
+		localization_id		"gui/hud/building_name/flora_collector_drone_point_picker_tool"
+		description			"gui/hud/building_description/flora_collector_drone_point_picker_tool"
+		menu_icon			"gui/hud/tools_icons/flora_collector_drone_point_picker_tool"
+
+		order				"13.125"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"flora_collector"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/flora_collector_drone_point_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"flora_collector_drone_point_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"resources"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/harvesting_buildings_drone_point_picker_tool.lua"
+		database
+		{
+			action				string:"flora_collector_drone_point_picker_tool"
+			buildingBlueprint	string:"buildings/resources/flora_collector"
+			buildingLowUpgrade	string:"flora_collector"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}

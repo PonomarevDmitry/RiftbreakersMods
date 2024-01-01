@@ -1,0 +1,60 @@
+EntityBlueprint
+{
+	name					"buildings/tools/drone_mine_drone_point_picker"
+
+	BuildingDesc
+	{
+		name				"drone_mine_drone_point_picker"
+		bp					"buildings/tools/drone_mine_drone_point_picker"
+		ghost_bp			"buildings/tools/drone_mine_drone_point_picker_ghost"
+		category			"resources"
+
+		localization_id		"gui/hud/building_name/drone_mine_drone_point_picker_tool"
+		description			"gui/hud/building_description/drone_mine_drone_point_picker_tool"
+		menu_icon			"gui/hud/tools_icons/drone_mine_drone_point_picker_tool"
+
+		order				"14.125"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"drone_mine"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/drone_mine_drone_point_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"drone_mine_drone_point_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"resources"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/harvesting_buildings_drone_point_picker_tool.lua"
+		database
+		{
+			action				string:"drone_mine_drone_point_picker_tool"
+			buildingBlueprint	string:"buildings/resources/drone_mine"
+			buildingLowUpgrade	string:"drone_mine"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
