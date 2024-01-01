@@ -177,10 +177,6 @@ function flora_collector:OnDronePointChange(evt)
     self:CreateDronePoint("OnDronePointChange")
 
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
-
-    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-        self:SpawnDrones()
-    end
 end
 
 function flora_collector:UpdateDisplayRadiusVisibility( show, entity )
