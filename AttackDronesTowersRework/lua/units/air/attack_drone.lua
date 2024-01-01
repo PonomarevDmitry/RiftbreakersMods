@@ -140,16 +140,20 @@ function attack_drone:OnAttackExecute(state, dt)
             self:SetTargetActionFinished()
             self.attack_stop_timer = nil
 
-            local target = self:FindActionTarget();
-            if ( target ~= INVALID_ID and self:IsTargetValid( target ) ) then
-
-                self:SetCurrentTarget(target)
-
-                UnitService:SetCurrentTarget( self.entity, "action", target );
-                UnitService:EmitStateMachineParam(self.entity, "action_target_found")
-                UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
-            end
+            self:TryFindNewTarget()
         end
+    end
+end
+
+function attack_drone:TryFindNewTarget()
+    local target = self:FindActionTarget();
+    if ( target ~= INVALID_ID and self:IsTargetValid( target ) ) then
+
+        self:SetCurrentTarget(target)
+
+        UnitService:SetCurrentTarget( self.entity, "action", target );
+        UnitService:EmitStateMachineParam(self.entity, "action_target_found")
+        UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
     end
 end
 
@@ -225,6 +229,88 @@ function attack_drone:TurretWeaponControllerShootAtTarget( target )
 end
 
 function attack_drone:TurretWeaponControllerStopShooting()
+end
+
+function attack_drone:OnOwnerDistanceCheckExecute()
+    local owner = self:GetDroneOwnerTarget()
+    if not EntityService:IsAlive(owner) then
+        return
+    end
+
+    local pointEntity = self:GetDroneFindCenterPoint()
+
+    local distance, closestPosition = self:GetDistanceToLineSegment(owner, pointEntity)
+
+    if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil then
+
+        if self.is_enabled then
+            QueueEvent( "DisableDroneRequest", self.entity )
+            QueueEvent( "EnableDroneRequest", self.entity )
+        end
+
+        local target_position = closestPosition
+        target_position.y = EntityService:GetPositionY(self.entity)
+
+        EntityService:Teleport(self.entity, target_position)
+        QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+    end
+
+    local action_target = self:GetDroneActionTarget()
+    if action_target ~= INVALID_ID and not EntityService:IsAlive(action_target) then
+        self:SetTargetActionFinished()
+
+        self:TryFindNewTarget()
+    end
+end
+
+function attack_drone:GetDistanceToLineSegment(owner, pointEntity)
+
+    local ownerPosition = EntityService:GetPosition(owner)
+    local pointEntityPosition = EntityService:GetPosition(pointEntity)
+
+    if ( owner == pointEntity ) then
+
+        return EntityService:GetDistance2DBetween(self.entity, owner), ownerPosition
+    end
+
+    local abx = pointEntityPosition.x - ownerPosition.x
+    local abz = pointEntityPosition.z - ownerPosition.z
+
+    if ( abx == 0 and abz == 0 ) then
+
+        return EntityService:GetDistance2DBetween(self.entity, owner), ownerPosition
+    end
+
+    local entityPosition = EntityService:GetPosition(self.entity)
+
+    local dacab = (entityPosition.x - ownerPosition.x) * abx + (entityPosition.z - ownerPosition.z) * abz
+    local dab = abx * abx + abz * abz
+
+    local coef = dacab / dab
+
+    if ( 0 <= coef and coef <= 1) then
+
+        local projectionX = ownerPosition.x + abx * coef
+        local projectionZ = ownerPosition.z + abz * coef
+
+        local result = math.sqrt( (entityPosition.x - projectionX) * (entityPosition.x - projectionX) + (entityPosition.z - projectionZ) * (entityPosition.z - projectionZ) )
+
+        local newPosition = {}
+        newPosition.x = projectionX
+        newPosition.y = 0
+        newPosition.z = projectionZ
+
+        return result, newPosition
+    end
+
+    local distance1 = EntityService:GetDistance2DBetween(self.entity, owner)
+    local distance2 = EntityService:GetDistance2DBetween(self.entity, pointEntity)
+
+    if ( distance1 < distance2) then
+        return distance1, ownerPosition
+    else
+        return distance2, pointEntityPosition
+    end
 end
 
 return attack_drone;
