@@ -136,26 +136,37 @@ end
 
 function repair_facility_drone_point_picker_tool:OnActivateEntity( entity )
 
-    if ( IndexOf( self.pickedBuildings, entity ) == nil ) then
-
-        Insert( self.pickedBuildings, entity )
-
-    else
-
-        Remove( self.pickedBuildings, entity )
-    end
-
     local min, max = GetBuildingDisplayRadius(entity)
-    local display_effect_blueprint = nil
+    local display_effect_blueprint = ""
+    local display_radius_group = ""
 
     if max ~= nil then
         local database = EntityService:GetBlueprintDatabase( self.entity );
         display_effect_blueprint = database:GetStringOrDefault( "display_radius_blueprint", "effects/decals/range_circle" )
+        display_radius_group = database:GetStringOrDefault("display_radius_group", "") or ""
+    end
+
+    if ( IndexOf( self.pickedBuildings, entity ) == nil ) then
+
+        Insert( self.pickedBuildings, entity )
+
+        if ( display_radius_group == "" ) then
+            ShowBuildingDisplayRadiusAround( self.entity, entity )
+        end
+    else
+
+        Remove( self.pickedBuildings, entity )
+
+        if ( display_radius_group == "" ) then
+            HideBuildingDisplayRadiusAround( self.entity, entity )
+        end
     end
 
     if ( #self.pickedBuildings > 0 ) then
 
-        ShowBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
+        if ( display_radius_group ~= "" ) then
+            ShowBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
+        end
 
         if max ~= nil then
             local displayRadiusComponent = EntityService:GetComponent(self.childEntity,"DisplayRadiusComponent")
@@ -171,7 +182,9 @@ function repair_facility_drone_point_picker_tool:OnActivateEntity( entity )
             end
         end
     else
-        HideBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
+        if ( display_radius_group ~= "" ) then
+            HideBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
+        end
 
         EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
     end
