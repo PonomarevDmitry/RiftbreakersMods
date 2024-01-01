@@ -323,6 +323,99 @@ function pipe_base_tool:GetBlueprintByConnectType( connectType )
     return ""
 end
 
+function pipe_base_tool:FindSingleDiagonalLine( buildStartPosition, buildEndPosition, positionPlayer )
+
+    local xSignPlayer, zSignPlayer = self:GetXZSigns(positionPlayer, buildStartPosition)
+
+    local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
+
+    local zPriority = (xSignPlayer * xSign) < 0 and (zSignPlayer * zSign) > 0
+
+    local x0 = buildStartPosition.x
+    local z0 = buildStartPosition.z
+
+    local x1 = buildEndPosition.x
+    local z1 = buildEndPosition.z
+
+    local deltaX = 2 * xSign
+    local deltaZ = 2 * zSign
+
+    local dx = math.abs(x1 - x0)
+    local dz = -math.abs(z1 - z0)
+
+    local dzAbs = math.abs(z1 - z0)
+
+    local result = {}
+
+    local positionY = buildStartPosition.y
+
+    local positionX = x0
+    local positionZ = z0
+
+    local error = dx + dz
+
+    while ( true ) do
+
+        local position = {}
+
+        position.x = positionX
+        position.y = positionY
+        position.z = positionZ
+
+        Insert(result, position)
+
+        if ( positionX == x1 and positionZ == z1 ) then
+            break
+        end
+
+        local errorMul2 = 2 * error
+
+        if ( zPriority ) then
+
+            if ( errorMul2 <= dx ) then
+                if ( positionZ == z1 ) then
+                    break
+                end
+                error = error +  dx
+                positionZ = positionZ + deltaZ
+                goto continue
+            end
+
+            if ( errorMul2 >= dz ) then
+                if positionX == x1 then
+                    break
+                end
+                error = error + dz
+                positionX = positionX + deltaX
+                goto continue
+            end
+        else
+
+            if ( errorMul2 >= dz ) then
+                if positionX == x1 then
+                    break
+                end
+                error = error + dz
+                positionX = positionX + deltaX
+                goto continue
+            end
+
+            if ( errorMul2 <= dx ) then
+                if ( positionZ == z1 ) then
+                    break
+                end
+                error = error +  dx
+                positionZ = positionZ + deltaZ
+                goto continue
+            end
+        end
+
+        ::continue::
+    end
+
+    return result
+end
+
 function pipe_base_tool:OnRelease()
 
     self:RemoveMaterialFromOldBuildingsToSell()

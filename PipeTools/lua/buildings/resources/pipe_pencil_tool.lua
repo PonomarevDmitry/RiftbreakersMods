@@ -402,11 +402,61 @@ function pipe_pencil_tool:FinishLineBuild()
 
         self:BuildEntity(lineEnt, createCube)
     end
+
+    local pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
+
+    if ( pipeLinesCount == 1 and #self.linesEntities > 0 ) then
+
+        local entity = self.linesEntities[1]
+
+        local entityTransform = EntityService:GetWorldTransform( entity )
+
+        self:BuildSingleNeighbors(entity, entityTransform)
+
+        self.buildStartPosition = entityTransform.position
+    else
+        self.buildStartPosition = nil
+    end
+end
+
+function pipe_pencil_tool:BuildSingleNeighbors(entity, entityTransform)
+
+    if ( self.buildStartPosition == nil ) then
+        return
+    end
+
+    local buildEndPosition = entityTransform.position
+
+    local differenceDistance = math.abs(self.buildStartPosition.x - buildEndPosition.x) + math.abs(self.buildStartPosition.z - buildEndPosition.z)
+    if ( differenceDistance <= 2 ) then
+        return
+    end
+
+    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
+    local positionPlayer = EntityService:GetPosition( player )
+
+    local pathFromStartPositionToEndPosition = self:FindSingleDiagonalLine( self.buildStartPosition, buildEndPosition, positionPlayer )
+
+    local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
+
+    for i=1,#pathFromStartPositionToEndPosition do
+
+        local position = pathFromStartPositionToEndPosition[i]
+
+        local buildTransform = {}
+        buildTransform.position = position
+        buildTransform.orientation = entityTransform.orientation
+        buildTransform.scale = {x=1,y=1,z=1}
+
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, buildTransform, false )
+    end
 end
 
 function pipe_pencil_tool:OnDeactivateSelectorRequest()
 
     self.activated = false
+
+    self.buildStartPosition = nil
 end
 
 function pipe_pencil_tool:OnRotateSelectorRequest(evt)
