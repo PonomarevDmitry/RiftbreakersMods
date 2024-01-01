@@ -25,7 +25,7 @@ function attack_drone:FillInitialParams()
     self.attack_start_timer = nil
     self.attack_stop_timer = nil
 
-    self.non_action_timeout = RandFloat(2.5,5.0)
+    self.non_action_timeout = RandFloat(0.5,2.0)
 
     --if EntityService:GetComponent( self.entity, "TurretComponent") ~= nil then
     --    self.weapon_controller = {
@@ -38,8 +38,6 @@ function attack_drone:FillInitialParams()
             StopShooting    = attack_drone.DefaultWeaponControllerStopShooting
         }
     --end
-
-    self.allow_target = 0.0
 end
 
 function attack_drone:OnInit()
@@ -119,15 +117,6 @@ end
 function attack_drone:OnAttackExecute(state, dt)
     local attack_duration = state:GetDuration() - ( self.attack_start_timer or state:GetDuration())
 
-    if self.allow_target > 0 and not self:IsTargetValid(self.drone_target) then
-        self.allow_target = math.max(0.0, self.allow_target - dt); 
-        local new_target = self:FindActionTarget(); -- Function return the new target
-        if new_target ~= INVALID_ID then
-            self.drone_target = new_target
-        end
-    end
-
-    local owner = self:GetDroneOwnerTarget()
 
     if self:IsTargetValid( self.drone_target ) and ( attack_duration < 0.1 or self.weapon_controller.ShootAtTarget( self, self.drone_target ) ) then
         UnitService:SetCurrentTarget(self.entity, "action", self.drone_target )
@@ -136,10 +125,9 @@ function attack_drone:OnAttackExecute(state, dt)
         if self.attack_start_timer == nil then
             self.attack_start_timer = state:GetDuration()
         end
-        self.allow_target = 1.0
-    elseif self.allow_target == 0 and self.attack_start_timer ~= nil then
+    elseif self.attack_start_timer then
         self.weapon_controller.StopShooting( self )
-        UnitService:SetCurrentTarget(self.entity, "action", owner )
+        UnitService:SetCurrentTarget(self.entity, "action", self:GetDroneOwnerTarget() )
         self.attack_start_timer = nil;
         self.attack_stop_timer = state:GetDuration()
     end
@@ -151,6 +139,16 @@ function attack_drone:OnAttackExecute(state, dt)
         if non_attack_duration > self.non_action_timeout then
             self:SetTargetActionFinished()
             self.attack_stop_timer = nil
+
+            local target = self:FindActionTarget();
+            if ( target ~= INVALID_ID and self:IsTargetValid( target ) ) then
+
+                self:SetCurrentTarget(target)
+
+                UnitService:SetCurrentTarget( self.entity, "action", target );
+                UnitService:EmitStateMachineParam(self.entity, "action_target_found")
+                UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
+            end
         end
     end
 end
