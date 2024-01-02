@@ -61,6 +61,7 @@ function pipe_pencil_tool:SpawnGhostEntities()
 
         -- Create new marker
         self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
+        EntityService:SetPosition( self.currentMarkerLines, -2, 0, 0 )
 
         -- Save number of pipe layers
         self.markerLinesConfig = pipeLinesCount
