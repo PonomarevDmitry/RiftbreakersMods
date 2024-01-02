@@ -455,11 +455,11 @@ function ghost_building_gateconstruction:GetInvertedOrientation( vectorX, vector
     -- GetExitVector    exitVector.x   0    exitVector.z   1      orientation.y 0.70710700750351        orientation.w -0.70710670948029
     -- GetExitVector    exitVector.x   0    exitVector.z  -1      orientation.y -0.70710676908493       orientation.w -0.70710694789886
 
-    -- GetExitVector    exitVector.x  1     exitVector.z 0        orientation.y 0                       orientation.w -1
-    -- GetExitVector    exitVector.x -1     exitVector.z 0        orientation.y 1                       orientation.w 0
+    -- GetExitVector    exitVector.x   1    exitVector.z   0      orientation.y 0                       orientation.w -1
+    -- GetExitVector    exitVector.x  -1    exitVector.z   0      orientation.y 1                       orientation.w 0
 
-    -- GetExitVector    exitVector.x 0      exitVector.z  1       orientation.y 0.707107                orientation.w -0.707107
-    -- GetExitVector    exitVector.x 0      exitVector.z -1       orientation.y -0.707107               orientation.w -0.707107
+    -- GetExitVector    exitVector.x   0    exitVector.z   1      orientation.y 0.707107                orientation.w -0.707107
+    -- GetExitVector    exitVector.x   0    exitVector.z  -1      orientation.y -0.707107               orientation.w -0.707107
 
 
     if ( vectorX == 1 ) then
