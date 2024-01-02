@@ -79,6 +79,21 @@ function flora_cultivator:OnLoad()
 
     self:CreateDronePoint("OnLoad")
     self:RegisterBuildMenuTracker()
+
+
+    if ( EntityService:HasComponent( self.entity, "FloraCultivatorComponent") ) then
+
+        EntityService:RemoveComponent( self.entity, "FloraCultivatorComponent")
+
+        local db = EntityService:GetDatabase( self.item )
+
+        if ( db and db:HasString("plant_prefab") ) then
+
+            local plant_prefab = db:GetStringOrDefault( "plant_prefab", "" )
+
+            self.spawn_prefab = BuildingService:CreateFloraCultivatorComponent( self.pointEntity, plant_prefab )
+        end
+    end
 end
 
 function flora_cultivator:RegisterBuildMenuTracker()
