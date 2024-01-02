@@ -78,13 +78,8 @@ end
 function repair_drone:FindActionTarget()
     self.fsm:Deactivate()
 
-    LogService:Log("FindActionTarget " )
-
     local owner = self:GetDroneOwnerTarget();
     if not EntityService:IsAlive( owner ) then
-
-        LogService:Log("not EntityService:IsAlive( owner ) " )
-        LogService:Log(" FindActionTarget not EntityService:IsAlive( owner ) " )
         return INVALID_ID
     end
 
@@ -119,7 +114,6 @@ function repair_drone:FindActionTarget()
     };
 
     if not HealthService:IsAlive( owner ) then
-        LogService:Log(" FindActionTarget not HealthService:IsAlive( owner ) " )
         return INVALID_ID
     end
 
@@ -128,23 +122,16 @@ function repair_drone:FindActionTarget()
         if component ~= nil then
 
             if Length( reflection_helper( component ).velocity ) <= 0.1 then
-                LogService:Log(" FindActionTarget return owner " )
                 return owner
             end
         end
     end
 
     if IsRequestThrottled(LOCK_TYPE_REPAIR) then
-        LogService:Log(" IsRequestThrottled(LOCK_TYPE_REPAIR) " )
         return INVALID_ID
     end
 
     local pointEntity = self:GetDroneFindCenterPoint()
-
-    local positionCenter = EntityService:GetWorldTransform( pointEntity ).position
-
-    LogService:Log(" FindActionTarget pointEntity " .. tostring(pointEntity))
-    LogService:Log(" FindActionTarget positionCenter.x " .. tostring(positionCenter.x) .. " positionCenter.z " .. tostring(positionCenter.z))
 
     local entities = FindService:FindEntitiesByPredicateInRadius( pointEntity, self.search_radius, self.predicate );
 
@@ -153,8 +140,6 @@ function repair_drone:FindActionTarget()
         self:LockTarget( target, LOCK_TYPE_REPAIR);
         self.target_last_position = EntityService:GetPosition(target)
     end
-
-    LogService:Log(" FindActionTarget target " .. tostring(target))
 
     self.fsm:ChangeState("follow")
 
@@ -174,8 +159,6 @@ function repair_drone:GetDroneFindCenterPoint()
         if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
 
             result = pointEntity
-
-            LogService:Log(" GetDroneFindCenterPoint pointEntity " .. tostring(pointEntity))
         end
     end
 
@@ -215,7 +198,7 @@ end
 function repair_drone:OnRepairEnter(state)
     local target = self:GetDroneActionTarget();
     self.target_last_position = EntityService:GetPosition(target)
-    
+
     self:OnRepairExecute(state)
 end
 
