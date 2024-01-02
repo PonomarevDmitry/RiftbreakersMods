@@ -142,7 +142,7 @@ function harvesting_buildings_drone_point_picker_tool:OnActivateEntity( entity )
     local display_radius_group = ""
 
     if max ~= nil then
-        local database = EntityService:GetBlueprintDatabase( self.entity );
+        local database = EntityService:GetBlueprintDatabase( entity ) or EntityService:GetDatabase( entity )
         display_effect_blueprint = database:GetStringOrDefault( "display_radius_blueprint", "effects/decals/range_circle" )
         display_radius_group = database:GetStringOrDefault("display_radius_group", "") or ""
     end
@@ -167,6 +167,10 @@ function harvesting_buildings_drone_point_picker_tool:OnActivateEntity( entity )
 
         if ( display_radius_group ~= "" ) then
             ShowBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
+        else
+            for entity in Iter( self.pickedBuildings ) do
+                ShowBuildingDisplayRadiusAround( self.entity, entity )
+            end
         end
 
         if max ~= nil then
