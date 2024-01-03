@@ -37,7 +37,7 @@ function MathRound( x )
     return result
 end
 
-function attack_drone:GetDistanceAndClosestPositionToLineSegment(entity, ownerEntity, pointEntity)
+function GetDistanceAndClosestPositionToLineSegment(entity, ownerEntity, pointEntity)
 
     local ownerPosition = EntityService:GetPosition(ownerEntity)
     if ( ownerEntity == pointEntity ) then
