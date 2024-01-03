@@ -21,6 +21,37 @@ function harvesting_buildings_drone_point_picker_tool:OnInit()
     self.buildingLowUpgrade = self.data:GetStringOrDefault("buildingLowUpgrade", "") or ""
 
     self.pickedBuildings = {}
+
+    local blueprintDatabase = EntityService:GetBlueprintDatabase( self.buildingBlueprint )
+
+    local min, max = self:GetBuildingDisplayRadius(blueprintDatabase)
+    self.display_effect_blueprint = ""
+    self.display_radius_group = ""
+
+    self.display_radius_min = min
+    self.display_radius_max = max
+
+    if max ~= nil then
+        self.display_effect_blueprint = blueprintDatabase:GetStringOrDefault( "display_radius_blueprint", "effects/decals/range_circle" )
+        self.display_radius_group = blueprintDatabase:GetStringOrDefault("display_radius_group", "") or ""
+    end
+
+    if ( self.display_radius_group ~= "" ) then
+        ShowBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
+    end
+end
+
+function harvesting_buildings_drone_point_picker_tool:GetBuildingDisplayRadius( blueprintDatabase )
+
+    if blueprintDatabase ~= nil then
+        for key in Iter({ "heal_radius", "range", "radius", "drone_search_radius" }) do
+            if blueprintDatabase:HasFloat( key ) then
+                return 0, blueprintDatabase:GetFloat( key )
+            end
+        end
+    end
+
+    return nil, nil
 end
 
 function harvesting_buildings_drone_point_picker_tool:OnPreInit()
@@ -108,72 +139,45 @@ end
 
 function harvesting_buildings_drone_point_picker_tool:OnActivateSelectorRequest()
 
-    if ( #self.selectedEntities > 0 ) then
+    for entity in Iter( self.selectedEntities ) do
 
-        for entity in Iter( self.selectedEntities ) do
-
-            self:OnActivateEntity( entity )
-        end
-
-        return
-    end
-
-    if ( #self.pickedBuildings == 0 ) then
-        return
-    end
-
-    local transform = EntityService:GetWorldTransform( self.entity )
-
-    local params = {
-        point_x = transform.position.x,
-        point_z = transform.position.z
-    }
-
-    for entity in Iter( self.pickedBuildings ) do
-
-        QueueEvent( "LuaGlobalEvent", entity, "DronePointChangeEvent", params )
+        self:OnActivateEntity( entity )
     end
 end
 
 function harvesting_buildings_drone_point_picker_tool:OnActivateEntity( entity )
 
-    local min, max = GetBuildingDisplayRadius(entity)
-    local display_effect_blueprint = ""
-    local display_radius_group = ""
-
-    if max ~= nil then
-        local database = EntityService:GetBlueprintDatabase( entity ) or EntityService:GetDatabase( entity )
-        display_effect_blueprint = database:GetStringOrDefault( "display_radius_blueprint", "effects/decals/range_circle" )
-        display_radius_group = database:GetStringOrDefault("display_radius_group", "") or ""
-    end
+    local isBuildingSelected
 
     if ( IndexOf( self.pickedBuildings, entity ) == nil ) then
 
+        isBuildingSelected = "1"
+
         Insert( self.pickedBuildings, entity )
 
-        if ( display_radius_group == "" ) then
+        if ( self.display_radius_group == "" ) then
             ShowBuildingDisplayRadiusAround( self.entity, entity )
         end
     else
 
+        isBuildingSelected = "0"
+
         Remove( self.pickedBuildings, entity )
 
-        if ( display_radius_group == "" ) then
+        if ( self.display_radius_group == "" ) then
             HideBuildingDisplayRadiusAround( self.entity, entity )
         end
     end
 
+    local params = {
+        isBuildingSelected = isBuildingSelected
+    }
+
+    QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
+
     if ( #self.pickedBuildings > 0 ) then
 
-        if ( display_radius_group ~= "" ) then
-            ShowBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
-        else
-            for entity in Iter( self.pickedBuildings ) do
-                ShowBuildingDisplayRadiusAround( self.entity, entity )
-            end
-        end
-
-        if max ~= nil then
+        if self.display_radius_max ~= nil then
             local displayRadiusComponent = EntityService:GetComponent(self.childEntity,"DisplayRadiusComponent")
 
             if ( displayRadiusComponent == nil ) then
@@ -181,36 +185,72 @@ function harvesting_buildings_drone_point_picker_tool:OnActivateEntity( entity )
                 displayRadiusComponent = EntityService:CreateComponent(self.childEntity,"DisplayRadiusComponent")
 
                 local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
-                displayRadiusComponentRef.min_radius = min
-                displayRadiusComponentRef.max_radius = max
-                displayRadiusComponentRef.max_radius_blueprint = display_effect_blueprint
+                displayRadiusComponentRef.min_radius = self.display_radius_min
+                displayRadiusComponentRef.max_radius = self.display_radius_max
+                displayRadiusComponentRef.max_radius_blueprint = self.display_effect_blueprint
             end
         end
     else
-        if ( display_radius_group ~= "" ) then
-            HideBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
-        end
 
         EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
     end
 end
 
 function harvesting_buildings_drone_point_picker_tool:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    if ( degree > 0 ) then
+
+        self:ClearPickedBuildings()
+    else
+
+        if ( #self.pickedBuildings == 0 ) then
+            return
+        end
+
+        local transform = EntityService:GetWorldTransform( self.entity )
+
+        local params = {
+            point_x = transform.position.x,
+            point_z = transform.position.z
+        }
+
+        for entity in Iter( self.pickedBuildings ) do
+
+            QueueEvent( "LuaGlobalEvent", entity, "DronePointChangeEvent", params )
+        end
+    end
 end
 
 function harvesting_buildings_drone_point_picker_tool:ClearPickedBuildings()
 
+    local params = {
+        isBuildingSelected = "0"
+    }
+
     if ( self.pickedBuildings ~= nil) then
         for entity in Iter( self.pickedBuildings ) do
+
+            QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
+
             self:RemovedFromSelection( entity )
 
-            HideBuildingDisplayRadiusAround( self.entity, entity )
+            if ( self.display_radius_group == "" ) then
+                HideBuildingDisplayRadiusAround( self.entity, entity )
+            end
         end
     end
     self.pickedBuildings = {}
+
+    EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
 end
 
 function harvesting_buildings_drone_point_picker_tool:OnRelease()
+
+    if ( self.display_radius_group ~= "" ) then
+        HideBuildingDisplayRadiusAround( self.entity, self.buildingBlueprint )
+    end
 
     self:ClearPickedBuildings()
 
