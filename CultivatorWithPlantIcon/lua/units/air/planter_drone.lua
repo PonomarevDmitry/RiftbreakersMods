@@ -74,12 +74,8 @@ function planter_drone:FindActionTarget()
 
     local result = {}
 
-    LogService:Log(" FindActionTarget pointEntity " .. tostring(pointEntity))
-    LogService:Log(" FindActionTarget positionCenter.x " .. tostring(positionCenter.x) .. " positionCenter.z " .. tostring(positionCenter.z))
-
     if self.data:GetStringOrDefault("plant_prefab", "") ~= "" then
         if IsRequestThrottled(LOCK_TYPE_PLANT) then
-            LogService:Log(" FindActionTarget IsRequestThrottled(LOCK_TYPE_PLANT) " )
             return INVALID_ID
         end
         
@@ -89,8 +85,6 @@ function planter_drone:FindActionTarget()
     end
 
     if not result.first then
-
-        LogService:Log(" FindActionTarget not result.first " )
         return INVALID_ID;
     end
 
@@ -116,8 +110,6 @@ function planter_drone:GetDroneFindCenterPoint()
         if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
 
             owner = pointEntity
-
-            LogService:Log(" GetDroneFindCenterPoint pointEntity " .. tostring(pointEntity))
         end
     end
 
