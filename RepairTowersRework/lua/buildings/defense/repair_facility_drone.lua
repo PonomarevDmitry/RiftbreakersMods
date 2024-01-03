@@ -11,7 +11,7 @@ end
 
 function repair_facility_drone:OnInit()
     drone_spawner_building.OnInit( self )
-    
+
     self.energy_cost = self.data:GetFloatOrDefault("energy_cost", 20)
 
     self.nearby_drones = 0
@@ -19,9 +19,10 @@ function repair_facility_drone:OnInit()
 
     self:CreateDronePoint()
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
     self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
     self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
 end
 
 function repair_facility_drone:OnLoad()
@@ -32,9 +33,10 @@ function repair_facility_drone:OnLoad()
 
     self:CreateDronePoint()
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
     self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
     self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
 end
 
 function repair_facility_drone:UpdateWorkingDrones(drone_enabled)
@@ -295,13 +297,19 @@ function repair_facility_drone:RepositionLinkEntity()
     instance.end_point.z = pointPosition.z
 end
 
-function repair_facility_drone:TrasferingInfoToUpgrade(evt)
+function repair_facility_drone:OnBuildingStartEventGettingInfo(evt)
 
     local eventEntity = evt:GetEntity()
 
-    if (evt:GetUpgrading() == false) then
-        return
+    if (evt:GetUpgrading() == true) then
+
+        self:GettingInfoFromBaseToUpgrade(eventEntity)
+    else
+        self:GettingInfoFromRuin()
     end
+end
+
+function repair_facility_drone:GettingInfoFromBaseToUpgrade(eventEntity)
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -349,6 +357,107 @@ function repair_facility_drone:TrasferingInfoToUpgrade(evt)
         local newPositionZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
 
         self:SetDronePointPosition( newPositionX, newPositionZ )
+
+        ::continue::
+    end
+end
+
+function repair_facility_drone:GettingInfoFromRuin()
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            LogService:Log("GettingInfoFromRuin blueprintName ~= selfRuinsBlueprint")
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            LogService:Log("GettingInfoFromRuin ruinPosition.x ~= position.x")
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            LogService:Log("GettingInfoFromRuin ruinDatabaseBlueprint ~= selfBlueprintName")
+            goto continue
+        end
+
+        local transform = EntityService:GetWorldTransform( self.entity )
+
+        local newPositionX = ruinDatabase:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
+        local newPositionZ = ruinDatabase:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
+
+        self:SetDronePointPosition( newPositionX, newPositionZ )
+
+        ::continue::
+    end
+end
+
+function repair_facility_drone:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
+
+    local eventEntity = evt:GetEntity()
+
+    if (evt:GetWasSold() == true) then
+        return
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        local pointPosition = EntityService:GetPosition(self.pointEntity)
+
+        ruinDatabase:SetFloat("drone_point_entity_x", pointPosition.x)
+        ruinDatabase:SetFloat("drone_point_entity_z", pointPosition.z)
 
         ::continue::
     end
