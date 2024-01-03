@@ -36,3 +36,53 @@ function MathRound( x )
 
     return result
 end
+
+function attack_drone:GetDistanceAndClosestPositionToLineSegment(entity, ownerEntity, pointEntity)
+
+    local ownerPosition = EntityService:GetPosition(ownerEntity)
+    if ( ownerEntity == pointEntity ) then
+
+        return EntityService:GetDistance2DBetween(entity, ownerEntity), ownerPosition
+    end
+
+    local pointPosition = EntityService:GetPosition(pointEntity)
+
+    local abx = pointPosition.x - ownerPosition.x
+    local abz = pointPosition.z - ownerPosition.z
+
+    if ( abx == 0 and abz == 0 ) then
+
+        return EntityService:GetDistance2DBetween(entity, ownerEntity), ownerPosition
+    end
+
+    local entityPosition = EntityService:GetPosition(entity)
+
+    local dacab = (entityPosition.x - ownerPosition.x) * abx + (entityPosition.z - ownerPosition.z) * abz
+    local dab = abx * abx + abz * abz
+
+    local coef = dacab / dab
+
+    if ( 0 <= coef and coef <= 1) then
+
+        local projectionX = ownerPosition.x + abx * coef
+        local projectionZ = ownerPosition.z + abz * coef
+
+        local result = math.sqrt( (entityPosition.x - projectionX) * (entityPosition.x - projectionX) + (entityPosition.z - projectionZ) * (entityPosition.z - projectionZ) )
+
+        local newPosition = {}
+        newPosition.x = projectionX
+        newPosition.y = 0
+        newPosition.z = projectionZ
+
+        return result, newPosition
+    end
+
+    local distance1 = EntityService:GetDistance2DBetween(entity, ownerEntity)
+    local distance2 = EntityService:GetDistance2DBetween(entity, pointEntity)
+
+    if ( distance1 < distance2) then
+        return distance1, ownerPosition
+    else
+        return distance2, pointPosition
+    end
+end
