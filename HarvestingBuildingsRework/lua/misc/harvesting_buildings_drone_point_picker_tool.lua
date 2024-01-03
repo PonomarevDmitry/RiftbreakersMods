@@ -202,9 +202,6 @@ function harvesting_buildings_drone_point_picker_tool:OnRotateSelectorRequest(ev
 
     if ( degree > 0 ) then
 
-        self:ClearPickedBuildings()
-    else
-
         if ( #self.pickedBuildings == 0 ) then
             return
         end
@@ -220,6 +217,9 @@ function harvesting_buildings_drone_point_picker_tool:OnRotateSelectorRequest(ev
 
             QueueEvent( "LuaGlobalEvent", entity, "DronePointChangeEvent", params )
         end
+    else
+
+        self:ClearPickedBuildings()
     end
 end
 
