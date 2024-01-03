@@ -1,5 +1,6 @@
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/drone_point_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'flora_cultivator' ( drone_spawner_building )
@@ -693,8 +694,21 @@ function flora_cultivator:OnDronePointChange(evt)
 
     local transform = EntityService:GetWorldTransform( self.entity )
 
-    local pointX = eventDatabase:GetFloat("point_x") - transform.position.x
-    local pointZ = eventDatabase:GetFloat("point_z") - transform.position.z
+    local newPositionX = eventDatabase:GetFloat("point_x")
+    local newPositionZ = eventDatabase:GetFloat("point_z")
+
+    local newRelativePosition ={
+        x = newPositionX - transform.position.x,
+        y = 0,
+        z = newPositionZ - transform.position.z
+    }
+
+    local inverteRotatedPosition = QuatMulVec3( QuatConj(transform.orientation), newRelativePosition )
+
+    local pointX = MathRound(inverteRotatedPosition.x)
+    local pointZ = MathRound(inverteRotatedPosition.z)
+
+    LogService:Log("OnDronePointChange inverteRotatedPosition.x " .. tostring(inverteRotatedPosition.x) .. " inverteRotatedPosition.y " .. tostring(inverteRotatedPosition.y) .. " inverteRotatedPosition.z " .. tostring(inverteRotatedPosition.z) .. " inverteRotatedPosition.w " .. tostring(inverteRotatedPosition.w))
 
     self.data:SetFloat("drone_point_entity_x", pointX)
     self.data:SetFloat("drone_point_entity_z", pointZ)
