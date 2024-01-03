@@ -17,9 +17,7 @@ function repair_facility_drone:OnInit()
     self.nearby_drones = 0
     self.working_drones = 0
 
-    LogService:Log("OnInit self.entity " .. tostring(self.entity))
-
-    self:CreateDronePoint("OnInit")
+    self:CreateDronePoint()
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
     self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
 end
@@ -30,9 +28,7 @@ function repair_facility_drone:OnLoad()
         drone_spawner_building.OnLoad(self)
     end
 
-    LogService:Log("OnLoad self.entity " .. tostring(self.entity))
-
-    self:CreateDronePoint("OnLoad")
+    self:CreateDronePoint()
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
     self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
 end
@@ -65,21 +61,21 @@ function repair_facility_drone:OnDroneLandingStarted(drone)
     --QueueEvent( "FadeEntityOutRequest", drone, 2.0 )
 end
 
-function repair_facility_drone:CreateDronePoint(text)
+function repair_facility_drone:CreateDronePoint()
 
     if ( self.pointEntity == nil ) then
 
-        local pointX = self.data:GetFloatOrDefault("drone_point_entity_x", 0)
-        local pointZ = self.data:GetFloatOrDefault("drone_point_entity_z", 0)
+        local transform = EntityService:GetWorldTransform( self.entity )
 
-        LogService:Log(text .. " CreateDronePoint pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+        local newPositionX = self.data:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
+        local newPositionZ = self.data:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
 
         local team = EntityService:GetTeam( self.entity )
-
         self.pointEntity = EntityService:SpawnAndAttachEntity( "buildings/tower_drone_point", self.entity, team )
-        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
 
-        LogService:Log(text .. " CreateDronePoint drone_point_entity " .. tostring(self.pointEntity))
+        ItemService:SetInvisible(self.pointEntity, true)
+
+        self:SetDronePointPosition( newPositionX, newPositionZ )
     end
 
     EntityService:SetName( self.pointEntity, "drone_point_entity" )
@@ -125,20 +121,14 @@ function repair_facility_drone:SetDronePointPosition( newPositionX, newPositionZ
     local pointX = MathRound(inverteRotatedPosition.x)
     local pointZ = MathRound(inverteRotatedPosition.z)
 
-    LogService:Log("OnDronePointChange inverteRotatedPosition.x " .. tostring(inverteRotatedPosition.x) .. " inverteRotatedPosition.y " .. tostring(inverteRotatedPosition.y) .. " inverteRotatedPosition.z " .. tostring(inverteRotatedPosition.z) )
-
-    LogService:Log("OnDronePointChange pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
-
-    self:CreateDronePoint("OnDronePointChange")
-
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+
+    self:RepositionLinkEntity()
 end
 
 function repair_facility_drone:UpdateDisplayRadiusVisibility( show, entity )
 
     self.display_radius_requesters = self.display_radius_requesters or {}
-
-    self:CreateDronePoint("UpdateDisplayRadiusVisibility")
 
     if show then
         if self.display_radius_requesters[ entity ] then
@@ -163,6 +153,10 @@ function repair_facility_drone:UpdateDisplayRadiusVisibility( show, entity )
             component.max_radius_blueprint = self.display_effect_blueprint;
 
             EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
+
+            self:CreateLinkEntity()
+
+            self:RepositionLinkEntity()
         end
     else
         self.display_radius_requesters[ entity ] = nil
@@ -178,17 +172,72 @@ function repair_facility_drone:UpdateDisplayRadiusVisibility( show, entity )
         if count == 0 then
             EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
             EntityService:RemoveMaterial( self.pointEntity, "selected" )
+
+            self:RemoveLinkEntity()
         end
     end
 end
 
+function repair_facility_drone:CreateLinkEntity()
+
+    if ( self.linkEntity ~= nil ) then
+        return
+    end
+
+    local team = EntityService:GetTeam( self.entity )
+    self.linkEntity = EntityService:SpawnAndAttachEntity( "effects/drone_point_effects/drone_point_link", self.entity, team)
+
+    ItemService:SetInvisible(self.linkEntity, true)
+end
+
+function repair_facility_drone:RemoveLinkEntity()
+
+    if ( self.linkEntity == nil ) then
+        return
+    end
+
+    EntityService:RemoveEntity(self.linkEntity)
+    self.linkEntity = nil
+end
+
+function repair_facility_drone:RepositionLinkEntity()
+
+    if ( self.linkEntity == nil or self.pointEntity == nil ) then
+        return
+    end
+
+    local selfPosition = EntityService:GetPosition(self.entity)
+    local pointPosition = EntityService:GetPosition(self.pointEntity)
+
+    local direction = VectorMulByNumber( Normalize( VectorSub( pointPosition, selfPosition ) ), 2.0 )
+    selfPosition = VectorAdd(selfPosition, direction)
+
+    local lightningComponent = reflection_helper(EntityService:GetComponent(self.linkEntity, "LightningComponent"))
+
+    local container = rawget(lightningComponent.lighning_vec, "__ptr");
+
+    local item = container:GetItem(0)
+    if ( item == nil ) then 
+        item = container:CreateItem()
+    end
+
+    local instance =  reflection_helper(item)
+
+    local sizeSelf = EntityService:GetBoundsSize( self.entity )
+    local sizePoint = EntityService:GetBoundsSize( self.pointEntity )
+
+    instance.start_point.x = selfPosition.x
+    instance.start_point.y = selfPosition.y + sizeSelf.y + 2
+    instance.start_point.z = selfPosition.z
+
+    instance.end_point.x = pointPosition.x
+    instance.end_point.y = pointPosition.y + sizePoint.y + 2
+    instance.end_point.z = pointPosition.z
+end
+
 function repair_facility_drone:TrasferingInfoToUpgrade(evt)
 
-    LogService:Log("TrasferingInfoToUpgrade self.entity " .. tostring(self.entity))
-
     local eventEntity = evt:GetEntity()
-
-    LogService:Log("TrasferingInfoToUpgrade eventEntity " .. tostring(eventEntity))
 
     if (evt:GetUpgrading() == false) then
         return
@@ -232,23 +281,31 @@ function repair_facility_drone:TrasferingInfoToUpgrade(evt)
             goto continue
         end
 
-        LogService:Log("TrasferingInfoToUpgrade entity " .. tostring(entity))
-
         local baseDatabase = EntityService:GetDatabase( entity )
 
-        local pointX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
-        local pointZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
+        local transform = EntityService:GetWorldTransform( self.entity )
 
-        LogService:Log("TrasferingInfoToUpgrade pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+        local newPositionX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
+        local newPositionZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
 
-        self.data:SetFloat("drone_point_entity_x", pointX)
-        self.data:SetFloat("drone_point_entity_z", pointZ)
-
-        self:CreateDronePoint("TrasferingInfoToUpgrade")
-
-        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+        self:SetDronePointPosition( newPositionX, newPositionZ )
 
         ::continue::
+    end
+end
+
+function repair_facility_drone:OnRelease()
+
+    self:RemoveLinkEntity()
+
+    if ( self.pointEntity ~= nil ) then
+
+        EntityService:RemoveEntity( self.pointEntity )
+        self.pointEntity = nil
+    end
+
+    if ( drone_spawner_building.OnRelease ) then
+        drone_spawner_building.OnRelease(self)
     end
 end
 
