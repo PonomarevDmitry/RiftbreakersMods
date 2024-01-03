@@ -100,13 +100,31 @@ function repair_facility_drone:OnDronePointChange(evt)
         return
     end
 
+    local newPositionX = eventDatabase:GetFloat("point_x")
+    local newPositionZ = eventDatabase:GetFloat("point_z")
+
+    self:SetDronePointPosition( newPositionX, newPositionZ )
+end
+
+function repair_facility_drone:SetDronePointPosition( newPositionX, newPositionZ )
+
+    self.data:SetFloat("drone_point_entity_x", newPositionX)
+    self.data:SetFloat("drone_point_entity_z", newPositionZ)
+
     local transform = EntityService:GetWorldTransform( self.entity )
 
-    local pointX = eventDatabase:GetFloat("point_x") - transform.position.x
-    local pointZ = eventDatabase:GetFloat("point_z") - transform.position.z
+    local newRelativePosition ={
+        x = newPositionX - transform.position.x,
+        y = 0,
+        z = newPositionZ - transform.position.z
+    }
 
-    self.data:SetFloat("drone_point_entity_x", pointX)
-    self.data:SetFloat("drone_point_entity_z", pointZ)
+    local inverteRotatedPosition = QuatMulVec3( QuatConj(transform.orientation), newRelativePosition )
+
+    local pointX = MathRound(inverteRotatedPosition.x)
+    local pointZ = MathRound(inverteRotatedPosition.z)
+
+    LogService:Log("OnDronePointChange inverteRotatedPosition.x " .. tostring(inverteRotatedPosition.x) .. " inverteRotatedPosition.y " .. tostring(inverteRotatedPosition.y) .. " inverteRotatedPosition.z " .. tostring(inverteRotatedPosition.z) )
 
     LogService:Log("OnDronePointChange pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
 
