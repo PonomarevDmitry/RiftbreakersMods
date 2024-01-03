@@ -1,6 +1,7 @@
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/drone_point_utils.lua")
+require("lua/utils/database_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'repair_facility_drone' ( drone_spawner_building )
@@ -18,8 +19,10 @@ function repair_facility_drone:OnInit()
     self.working_drones = 0
 
     self:CreateDronePoint()
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
+    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
     self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+    self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
+    self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
 end
 
 function repair_facility_drone:OnLoad()
@@ -29,8 +32,10 @@ function repair_facility_drone:OnLoad()
     end
 
     self:CreateDronePoint()
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
+    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
     self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+    self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
+    self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
 end
 
 function repair_facility_drone:UpdateWorkingDrones(drone_enabled)
@@ -83,7 +88,7 @@ function repair_facility_drone:CreateDronePoint()
     self.data:SetInt("drone_point_entity", self.pointEntity)
 end
 
-function repair_facility_drone:OnDronePointChange(evt)
+function repair_facility_drone:OnDronePointEvent(evt)
 
     local eventName = evt:GetEvent()
     local eventDatabase = evt:GetDatabase()
@@ -93,14 +98,44 @@ function repair_facility_drone:OnDronePointChange(evt)
         return
     end
 
-    if ( eventName ~= "DronePointChangeEvent" ) then
+    if ( eventName == "DronePointChangeEvent" ) then
+        local newPositionX = eventDatabase:GetFloat("point_x")
+        local newPositionZ = eventDatabase:GetFloat("point_z")
+
+        self:SetDronePointPosition( newPositionX, newPositionZ )
+
+    elseif ( eventName == "DronePointSelectedEvent" ) then
+
+        local selected = ( eventDatabase:GetStringOrDefault("isBuildingSelected", "0") == "1" )
+
+        DatabaseFullLog( eventDatabase )
+
+        self.dronePointSelected = selected
+
+        self:UpdateDronePointSkinMaterial()
+    end
+end
+
+function repair_facility_drone:OnActivateEntityRequestDronePoint( evt )
+
+    if ( evt:GetEntity() ~= self.entity) then
         return
     end
 
-    local newPositionX = eventDatabase:GetFloat("point_x")
-    local newPositionZ = eventDatabase:GetFloat("point_z")
+    self.dronePointSelected = true
 
-    self:SetDronePointPosition( newPositionX, newPositionZ )
+    self:UpdateDronePointSkinMaterial()
+end
+
+function repair_facility_drone:OnDeactivateEntityRequestDronePoint( evt )
+
+    if ( evt:GetEntity() ~= self.entity) then
+        return
+    end
+
+    self.dronePointSelected = false
+
+    self:UpdateDronePointSkinMaterial()
 end
 
 function repair_facility_drone:SetDronePointPosition( newPositionX, newPositionZ )
@@ -152,7 +187,13 @@ function repair_facility_drone:UpdateDisplayRadiusVisibility( show, entity )
             component.max_radius = self.display_radius_size.max;
             component.max_radius_blueprint = self.display_effect_blueprint;
 
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
+            self.dronePointSelected = self.dronePointSelected or false
+
+            if ( self.dronePointSelected ) then
+                EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
+            else
+                EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
+            end
 
             self:CreateLinkEntity()
 
@@ -175,6 +216,28 @@ function repair_facility_drone:UpdateDisplayRadiusVisibility( show, entity )
 
             self:RemoveLinkEntity()
         end
+    end
+end
+
+function repair_facility_drone:UpdateDronePointSkinMaterial()
+
+    local count = 0
+    for entityTemp,_ in pairs(self.display_radius_requesters) do
+        if ( EntityService:IsAlive( entityTemp ) ) then
+            count = count + 1
+        end
+    end
+
+    self.dronePointSelected = self.dronePointSelected or false
+
+    if count == 1 then
+        if ( self.dronePointSelected ) then
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
+        else
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
+        end
+    else
+        EntityService:RemoveMaterial( self.pointEntity, "selected" )
     end
 end
 
