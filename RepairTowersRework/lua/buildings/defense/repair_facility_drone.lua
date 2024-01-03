@@ -1,5 +1,6 @@
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
+require("lua/utils/drone_point_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'repair_facility_drone' ( drone_spawner_building )
