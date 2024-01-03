@@ -1,4 +1,5 @@
 require("lua/utils/string_utils.lua")
+require("lua/utils/drone_point_utils.lua")
 
 local base_drone = require("lua/units/air/base_drone.lua")
 class 'attack_drone' ( base_drone )
@@ -239,7 +240,7 @@ function attack_drone:OnOwnerDistanceCheckExecute()
 
     local pointEntity = self:GetDroneFindCenterPoint()
 
-    local distance, closestPosition = self:GetDistanceToLineSegment(owner, pointEntity)
+    local distance, closestPosition = GetDistanceAndClosestPositionToLineSegment(self.entity, owner, pointEntity)
 
     if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil then
 
@@ -260,56 +261,6 @@ function attack_drone:OnOwnerDistanceCheckExecute()
         self:SetTargetActionFinished()
 
         self:TryFindNewTarget()
-    end
-end
-
-function attack_drone:GetDistanceToLineSegment(owner, pointEntity)
-
-    local ownerPosition = EntityService:GetPosition(owner)
-    local pointEntityPosition = EntityService:GetPosition(pointEntity)
-
-    if ( owner == pointEntity ) then
-
-        return EntityService:GetDistance2DBetween(self.entity, owner), ownerPosition
-    end
-
-    local abx = pointEntityPosition.x - ownerPosition.x
-    local abz = pointEntityPosition.z - ownerPosition.z
-
-    if ( abx == 0 and abz == 0 ) then
-
-        return EntityService:GetDistance2DBetween(self.entity, owner), ownerPosition
-    end
-
-    local entityPosition = EntityService:GetPosition(self.entity)
-
-    local dacab = (entityPosition.x - ownerPosition.x) * abx + (entityPosition.z - ownerPosition.z) * abz
-    local dab = abx * abx + abz * abz
-
-    local coef = dacab / dab
-
-    if ( 0 <= coef and coef <= 1) then
-
-        local projectionX = ownerPosition.x + abx * coef
-        local projectionZ = ownerPosition.z + abz * coef
-
-        local result = math.sqrt( (entityPosition.x - projectionX) * (entityPosition.x - projectionX) + (entityPosition.z - projectionZ) * (entityPosition.z - projectionZ) )
-
-        local newPosition = {}
-        newPosition.x = projectionX
-        newPosition.y = 0
-        newPosition.z = projectionZ
-
-        return result, newPosition
-    end
-
-    local distance1 = EntityService:GetDistance2DBetween(self.entity, owner)
-    local distance2 = EntityService:GetDistance2DBetween(self.entity, pointEntity)
-
-    if ( distance1 < distance2) then
-        return distance1, ownerPosition
-    else
-        return distance2, pointEntityPosition
     end
 end
 
