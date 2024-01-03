@@ -1,7 +1,6 @@
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/drone_point_utils.lua")
-require("lua/utils/database_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'repair_facility_drone' ( drone_spawner_building )
@@ -107,8 +106,6 @@ function repair_facility_drone:OnDronePointEvent(evt)
     elseif ( eventName == "DronePointSelectedEvent" ) then
 
         local selected = ( eventDatabase:GetStringOrDefault("isBuildingSelected", "0") == "1" )
-
-        DatabaseFullLog( eventDatabase )
 
         self.dronePointSelected = selected
 
