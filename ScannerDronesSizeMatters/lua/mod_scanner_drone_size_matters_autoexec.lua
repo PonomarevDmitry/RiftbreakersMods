@@ -1,0 +1,1 @@
+mod_scanner_drone_size_matters = 1
