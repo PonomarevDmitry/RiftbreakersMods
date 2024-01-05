@@ -107,6 +107,13 @@ function ghost_building_line:OnUpdate()
             for i=#self.linesEntities + 1 ,#newPositions do
 
                 local lineEnt = EntityService:SpawnEntity(self.ghostBlueprint, newPositions[i], team )
+                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+                end
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
                 Insert(self.linesEntities, lineEnt)
             end
@@ -121,6 +128,14 @@ function ghost_building_line:OnUpdate()
             transform.position = newPositions[i]
 
             local entity = self.linesEntities[i]
+            if ( EntityService:HasComponent( entity, "DisplayRadiusComponent" ) ) then
+                EntityService:RemoveComponent( entity, "DisplayRadiusComponent" )
+            end
+
+            if ( EntityService:HasComponent( entity, "GhostLineCreatorComponent" ) ) then
+                EntityService:RemoveComponent( entity, "GhostLineCreatorComponent" )
+            end
+
             self:CheckEntityBuildable(entity, transform, false, i, false)
             EntityService:SetPosition( entity, newPositions[i])
             EntityService:SetOrientation(entity, transform.orientation )
