@@ -139,7 +139,13 @@ function thorns_walls_tool:SpawnWallTemplates()
     local newPosition = EntityService:GetWorldTransform( self.entity ).position
 
     local buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.ghost_bp, self.selector )
+    if ( EntityService:HasComponent( buildingEntity, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( buildingEntity, "DisplayRadiusComponent" )
+    end
 
+    if ( EntityService:HasComponent( buildingEntity, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( buildingEntity, "GhostLineCreatorComponent" )
+    end
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
     EntityService:SetOrientation( buildingEntity, orientation )
 
@@ -197,6 +203,14 @@ function thorns_walls_tool:OnWorkExecute()
             for i=#self.linesEntities + 1 ,#newPositions do
 
                 local lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPositions[i], team )
+
+                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+                end
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
                 Insert( self.linesEntities, lineEnt )
             end
