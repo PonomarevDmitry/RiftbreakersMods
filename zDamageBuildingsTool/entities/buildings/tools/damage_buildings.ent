@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name					"buildings/tools/damage_buildings"
+
+	BuildingDesc
+	{
+		name				"damage_buildings"
+		bp					"buildings/tools/damage_buildings"
+		ghost_bp			"buildings/tools/damage_buildings_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/damage_buildings"
+		description			"gui/hud/building_description/damage_buildings"
+		menu_icon			"gui/hud/tools_icons/damage_buildings_tool"
+
+		order				"80"
+		type				"damage_buildings"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/damage_buildings_ghost"
+
+	BuildingDesc
+	{
+		name				"damage_buildings_ghost"
+		buildable			"0"
+		type				"damage_buildings"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/damage_buildings_tool.lua"
+
+		database
+		{
+			action			string:"damage_buildings"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
