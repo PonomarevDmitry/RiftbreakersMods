@@ -229,7 +229,7 @@ function repair_facility_drone:UpdateDronePointSkinMaterial()
 
     self.dronePointSelected = self.dronePointSelected or false
 
-    if count == 1 then
+    if count > 0 then
         if ( self.dronePointSelected ) then
             EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
         else
