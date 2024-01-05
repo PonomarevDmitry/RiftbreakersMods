@@ -12,754 +12,664 @@ local BUILD_MODE_ACTION_MAPPER_NAME = BuildingService:GetBuildModeActionMapperNa
 
 
 function selector:__init()
-	LuaEntityObject.__init(self,self)
+    LuaEntityObject.__init(self,self)
 end
 
 function selector:init()
-	self:RegisterHandler( self.entity, "ChangeSelectorRequest",				"OnChangeSelectorRequest" )
-	self:RegisterHandler( self.entity, "ChangeSelectorModeRequest",			"OnChangeSelectorModeRequest" )
-	self:RegisterHandler( self.entity, "ActivateSelectorRequest",			"OnActivateSelectorRequest" )
-	self:RegisterHandler( self.entity, "DeactivateSelectorRequest",			"OnDeactivateSelectorRequest" )
-	self:RegisterHandler( self.entity, "LeaveBuildModeRequest",				"OnLeaveBuildModeRequest" )
-	self:RegisterHandler( self.entity, "RotateSelectorRequest",				"OnRotateSelectorRequest" )
-	self:RegisterHandler( INVALID_ID, "ActivateEntityRequest",				"OnActivateEntityRequest" )
-	self:RegisterHandler( INVALID_ID, "DeactivateEntityRequest",			"OnDeactivateEntityRequest" )
+    self:RegisterHandler( self.entity, "ChangeSelectorRequest",				"OnChangeSelectorRequest" )
+    self:RegisterHandler( self.entity, "ChangeSelectorModeRequest",			"OnChangeSelectorModeRequest" )
+    self:RegisterHandler( self.entity, "ActivateSelectorRequest",			"OnActivateSelectorRequest" )
+    self:RegisterHandler( self.entity, "DeactivateSelectorRequest",			"OnDeactivateSelectorRequest" )
+    self:RegisterHandler( self.entity, "LeaveBuildModeRequest",				"OnLeaveBuildModeRequest" )
+    self:RegisterHandler( self.entity, "RotateSelectorRequest",				"OnRotateSelectorRequest" )
+    self:RegisterHandler( INVALID_ID, "ActivateEntityRequest",				"OnActivateEntityRequest" )
+    self:RegisterHandler( INVALID_ID, "DeactivateEntityRequest",			"OnDeactivateEntityRequest" )
 
-	self.stateMachine = self:CreateStateMachine()
-	self.stateMachine:AddState( "invalid", { enter="OnInvalidEnter", exit="OnInvalidExit"} )
-	self.stateMachine:AddState( "select", {enter="OnSelectEnter", execute="OnSelectInProgress", exit="OnSelectExit" } )
-	self.stateMachine:AddState( "build", {enter="OnBuildEnter", execute="OnBuildInProgress", exit="OnBuildExit"} )
+    self.stateMachine = self:CreateStateMachine()
+    self.stateMachine:AddState( "invalid", { enter="OnInvalidEnter", exit="OnInvalidExit"} )
+    self.stateMachine:AddState( "select", {enter="OnSelectEnter", execute="OnSelectInProgress", exit="OnSelectExit" } )
+    self.stateMachine:AddState( "build", {enter="OnBuildEnter", execute="OnBuildInProgress", exit="OnBuildExit"} )
 
-	self:InitializeValues()
+    self:InitializeValues()
 end
 
 function selector:InitializeValues()
-	self.mode = SM_INVALID
-	self.selector = INVALID_ID
-	self.cameraCuller = INVALID_ID
-	self.blueprint = ""
-	self.ghostBlueprint = ""
-	self.selectedEntities = {}
-	self.activatedEntities = {}
-	self.baseBlueprint = "misc/marker_selector"
-	self.cornerBlueprint = "misc/marker_selector_corner"
-	self.cameraCullerBlueprint = "misc/selector_camera_culler"
-	self.boundsSize = {x=0,y=0,z=0}
-	self.transform = EntityService:GetWorldTransform( self.entity )
-	self.selectorPosition = nil
-	self.category = ""
-	self.type = ""
-	self.activated = false
-	self.resizeScale = {}
-	self.rotations = {}
+    self.mode = SM_INVALID
+    self.selector = INVALID_ID
+    self.cameraCuller = INVALID_ID
+    self.blueprint = ""
+    self.ghostBlueprint = ""
+    self.selectedEntities = {}
+    self.activatedEntities = {}
+    self.baseBlueprint = "misc/marker_selector"
+    self.cornerBlueprint = "misc/marker_selector_corner"
+    self.cameraCullerBlueprint = "misc/selector_camera_culler"
+    self.boundsSize = {x=0,y=0,z=0}
+    self.transform = EntityService:GetWorldTransform( self.entity )
+    self.selectorPosition = nil
+    self.category = ""
+    self.type = ""
+    self.activated = false
+    self.resizeScale = {}
+    self.rotations = {}
 
-	-- Saving wall settings to this object
-	self.wallLinesSettings = {}
+    local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.entity, "PlayerReferenceComponent") )
+    self.playerId = playerReferenceComponent.player_id
 
-	local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.entity, "PlayerReferenceComponent") )
-	self.playerId = playerReferenceComponent.player_id
-
-	self.stateMachine:ChangeState("invalid")
+    self.stateMachine:ChangeState("invalid")
 end
 
 function selector:RemoveCurrentSelector()
-	if ( EntityService:IsAlive( self.selector ) ) then
-		EntityService:RemoveEntity( self.selector )
-		self.selector = INVALID_ID
-		local buildingSelectorComponent = reflection_helper(EntityService:GetComponent(self.entity, "BuildingSelectorComponent"))
-		buildingSelectorComponent.blueprint_entity = self.selector
-	end
+    if ( EntityService:IsAlive( self.selector ) ) then
+        EntityService:RemoveEntity( self.selector )
+        self.selector = INVALID_ID
+        local buildingSelectorComponent = reflection_helper(EntityService:GetComponent(self.entity, "BuildingSelectorComponent"))
+        buildingSelectorComponent.blueprint_entity = self.selector
+    end
 end
 
 function selector:OnChangeSelectorRequest( evt )
-	if ( self.blueprint == evt:GetBlueprint()) then
-		return
-	end
+    if ( self.blueprint == evt:GetBlueprint()) then
+        return
+    end
 
-	self.blueprint = evt:GetBlueprint()
-	self.ghostBlueprint = evt:GetGhostBlueprint()
-	if ( self.mode == SM_BUILD ) then
-		self:ChangeBlueprint(self.blueprint, self.ghostBlueprint)
-	end
+    self.blueprint = evt:GetBlueprint()
+    self.ghostBlueprint = evt:GetGhostBlueprint()
+    if ( self.mode == SM_BUILD ) then
+        self:ChangeBlueprint(self.blueprint, self.ghostBlueprint)
+    end
 end
 
 function selector:RemoveScaleInfo()
-	if ( self.showScaleInfo ~= nil ) then
-		EntityService:RemoveEntity( self.showScaleInfo )
-		self.showScaleInfo = nil
-	end
+    if ( self.showScaleInfo ~= nil ) then
+        EntityService:RemoveEntity( self.showScaleInfo )
+        self.showScaleInfo = nil
+    end
 end
 
 function selector:OnInvalidEnter()
-	self:DeselectAllEntities()
-	self:DeactivateAllEntities()
+    self:DeselectAllEntities()
+    self:DeactivateAllEntities()
 
-	QueueEvent("RemoveEntityToTraceRequest", self.selector )
-	QueueEvent("EnterFighterModeEvent", PlayerService:GetPlayerControlledEnt( self.playerId ) , self.playerId )
-	self:RemoveCurrentSelector()
-	PlayerService:OperateActionMapper( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, false )
-	self:RemoveScaleInfo()
+    QueueEvent("RemoveEntityToTraceRequest", self.selector )
+    QueueEvent("EnterFighterModeEvent", PlayerService:GetPlayerControlledEnt( self.playerId ) , self.playerId )
+    self:RemoveCurrentSelector()
+    PlayerService:OperateActionMapper( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, false )
+    self:RemoveScaleInfo()
 
-	if EntityService:IsAlive( self.cameraCuller ) then
-		EntityService:RemoveEntity( self.cameraCuller )
-		self.cameraCuller = INVALID_ID
-	end
+    if EntityService:IsAlive( self.cameraCuller ) then
+        EntityService:RemoveEntity( self.cameraCuller )
+        self.cameraCuller = INVALID_ID
+    end
 end
 
 function selector:OnInvalidExit()
-	QueueEvent("EnterBuildModeEvent",  PlayerService:GetPlayerControlledEnt(self.playerId ) , self.playerId, self.entity, self.blueprint )
-	QueueEvent("EnterBuildMenuEvent", self.selector )
-	PlayerService:OperateActionMapper(  self.entity, BUILD_MODE_ACTION_MAPPER_NAME, true )
+    QueueEvent("EnterBuildModeEvent",  PlayerService:GetPlayerControlledEnt(self.playerId ) , self.playerId, self.entity, self.blueprint )
+    QueueEvent("EnterBuildMenuEvent", self.selector )
+    PlayerService:OperateActionMapper(  self.entity, BUILD_MODE_ACTION_MAPPER_NAME, true )
 
-	if not EntityService:IsAlive( self.cameraCuller ) then
-		self.cameraCuller = EntityService:SpawnAndAttachEntity( self.cameraCullerBlueprint, self.entity )
-	end
+    if not EntityService:IsAlive( self.cameraCuller ) then
+        self.cameraCuller = EntityService:SpawnAndAttachEntity( self.cameraCullerBlueprint, self.entity )
+    end
 end
 
 function selector:ChangeBlueprint( blueprintName, ghostBlueprint )
-	self:RemoveCurrentSelector()
-	self.blueprint = blueprintName
-	self.ghostBlueprint = ghostBlueprint
+    self:RemoveCurrentSelector()
+    self.blueprint = blueprintName
+    self.ghostBlueprint = ghostBlueprint
 
-	if ( self.ghostBlueprint ~= "" ) then
-		self.selector = EntityService:SpawnAndAttachEntity(self.ghostBlueprint, self.entity )
-	else
-		self.selector = EntityService:SpawnAndAttachEntity(self.blueprint, self.entity )
-	end
+    if ( self.ghostBlueprint ~= "" ) then
+        self.selector = EntityService:SpawnAndAttachEntity(self.ghostBlueprint, self.entity )
+    else
+        self.selector = EntityService:SpawnAndAttachEntity(self.blueprint, self.entity )
+    end
 
-	local boundsSize = EntityService:GetBoundsSize( self.selector)
-	self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
+    local boundsSize = EntityService:GetBoundsSize( self.selector)
+    self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-	self.boundsSize.x = math.max( self.boundsSize.x, 1.0)
-	self.boundsSize.y = 1
-	self.boundsSize.z = math.max( self.boundsSize.z, 1.0)
+    self.boundsSize.x = math.max( self.boundsSize.x, 1.0)
+    self.boundsSize.y = 1
+    self.boundsSize.z = math.max( self.boundsSize.z, 1.0)
 
-	local buildingSelectorComponent = reflection_helper(EntityService:GetComponent(self.entity, "BuildingSelectorComponent"))
-	buildingSelectorComponent.blueprint_entity = self.selector
+    local buildingSelectorComponent = reflection_helper(EntityService:GetComponent(self.entity, "BuildingSelectorComponent"))
+    buildingSelectorComponent.blueprint_entity = self.selector
 
-	local database = EntityService:GetDatabase( self.selector )
+    local database = EntityService:GetDatabase( self.selector )
 
-	database:SetInt("activated", self.activated and 1 or 0 )
-	database:SetFloat("position_x", self.transform.position.x)
-	database:SetFloat("position_y", self.transform.position.y)
-	database:SetFloat("position_z", self.transform.position.z)
+    database:SetInt("activated", self.activated and 1 or 0 )
+    database:SetFloat("position_x", self.transform.position.x)
+    database:SetFloat("position_y", self.transform.position.y)
+    database:SetFloat("position_z", self.transform.position.z)
 
-	if ( self.activationTransform ) then
-		database:SetFloat("activation_position_x", self.activationTransform.position.x)
-		database:SetFloat("activation_position_y", self.activationTransform.position.y)
-		database:SetFloat("activation_position_z", self.activationTransform.position.z)
-	end
+    if ( self.activationTransform ) then
+        database:SetFloat("activation_position_x", self.activationTransform.position.x)
+        database:SetFloat("activation_position_y", self.activationTransform.position.y)
+        database:SetFloat("activation_position_z", self.activationTransform.position.z)
+    end
 
-	database:SetFloat("scale_x", math.floor( self.transform.scale.x + 0.5 ))
-	database:SetFloat("scale_y", math.floor( self.transform.scale.y + 0.5 ))
-	database:SetFloat("scale_z", math.floor( self.transform.scale.z + 0.5 ))
+    database:SetFloat("scale_x", math.floor( self.transform.scale.x + 0.5 ))
+    database:SetFloat("scale_y", math.floor( self.transform.scale.y + 0.5 ))
+    database:SetFloat("scale_z", math.floor( self.transform.scale.z + 0.5 ))
 
-	if ( self.resizeScale[self.blueprint] ~= nil ) then
-		local resizeScale = self.resizeScale[self.blueprint]
-		database:SetFloat("resize_scale_x", math.floor( resizeScale.x + 0.5 ))
-		database:SetFloat("resize_scale_y", math.floor( resizeScale.y + 0.5 ))
-		database:SetFloat("resize_scale_z", math.floor( resizeScale.z + 0.5 ))
-	end
+    if ( self.resizeScale[self.blueprint] ~= nil ) then
+        local resizeScale = self.resizeScale[self.blueprint]
+        database:SetFloat("resize_scale_x", math.floor( resizeScale.x + 0.5 ))
+        database:SetFloat("resize_scale_y", math.floor( resizeScale.y + 0.5 ))
+        database:SetFloat("resize_scale_z", math.floor( resizeScale.z + 0.5 ))
+    end
 
-	local lowBlueprint = BuildingService:FindLowUpgrade( self.blueprint )
-	if (self.rotations ~= nil and self.rotations[lowBlueprint] ~= nil ) then
-		local rotation = self.rotations[lowBlueprint];
-		EntityService:SetOrientation( self.selector, rotation)
-	end
+    local lowBlueprint = BuildingService:FindLowUpgrade( self.blueprint )
+    if (self.rotations ~= nil and self.rotations[lowBlueprint] ~= nil ) then
+        local rotation = self.rotations[lowBlueprint];
+        EntityService:SetOrientation( self.selector, rotation)
+    end
 
 
-	self.category = BuildingService:GetBuildingCategory( self.blueprint )
-	self.type = BuildingService:GetBuildingType( self.selector )
+    self.category = BuildingService:GetBuildingCategory( self.blueprint )
+    self.type = BuildingService:GetBuildingType( self.selector )
 
-	local typeName = ""
-	local buildingMode = ""
-	local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
-	if( buildingDesc ~= nil ) then
-		local buildingDescHelper = reflection_helper(buildingDesc)
-		typeName = buildingDescHelper.type
-		buildingMode = buildingDescHelper.building_mode
-	end
+    local typeName = ""
+    local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
+    if( buildingDesc ~= nil ) then
+        local buildingDescHelper = reflection_helper(buildingDesc)
+        typeName = buildingDescHelper.type
+    end
 
-	-- Loading saved setting value wall_lines_config
-	if ( buildingMode == "line" and typeName == "wall" ) then
+    -- Loading one common size for all floors
+    if ( self.category == "decorations" and typeName == "floor" ) then
 
-		if (self.wallLinesSettings ~= nil and self.wallLinesSettings["Walls"] ~= nil ) then
+        if ( self.resizeScale ~= nil and self.resizeScale["Floors"] ~= nil ) then
 
-			-- Only one common settings for all walls
-			local wallLinesConfig = self.wallLinesSettings["Walls"]
+            local resizeScale = self.resizeScale["Floors"]
 
-			database:SetString("wall_lines_config", tostring(wallLinesConfig))
-		end
-	end
+            database:SetFloat("resize_scale_x", math.floor( resizeScale.x + 0.5 ))
+            database:SetFloat("resize_scale_y", math.floor( resizeScale.y + 0.5 ))
+            database:SetFloat("resize_scale_z", math.floor( resizeScale.z + 0.5 ))
+        end
+    end
 
-	-- Loading one common size for all floors
-	if ( self.category == "decorations" and typeName == "floor" ) then
+    -- Loading one common size for all Tools
+    if ( self.category == "tools" and typeName ~= "picker" and typeName ~= "sell" ) then
 
-		if ( self.resizeScale ~= nil and self.resizeScale["Floors"] ~= nil ) then
+        if ( self.resizeScale ~= nil and self.resizeScale["Tools"] ~= nil ) then
 
-			local resizeScale = self.resizeScale["Floors"]
+            local resizeScale = self.resizeScale["Tools"]
 
-			database:SetFloat("resize_scale_x", math.floor( resizeScale.x + 0.5 ))
-			database:SetFloat("resize_scale_y", math.floor( resizeScale.y + 0.5 ))
-			database:SetFloat("resize_scale_z", math.floor( resizeScale.z + 0.5 ))
-		end
-	end
+            database:SetFloat("resize_scale_x", math.floor( resizeScale.x + 0.5 ))
+            database:SetFloat("resize_scale_y", math.floor( resizeScale.y + 0.5 ))
+            database:SetFloat("resize_scale_z", math.floor( resizeScale.z + 0.5 ))
+        end
+    end
 
-	-- Loading one common size for all Tools
-	if ( self.category == "tools" and typeName ~= "picker" and typeName ~= "sell" ) then
+    QueueEvent("AddEntityToTraceRequest", self.selector, self.blueprint )
 
-		if ( self.resizeScale ~= nil and self.resizeScale["Tools"] ~= nil ) then
-
-			local resizeScale = self.resizeScale["Tools"]
-
-			database:SetFloat("resize_scale_x", math.floor( resizeScale.x + 0.5 ))
-			database:SetFloat("resize_scale_y", math.floor( resizeScale.y + 0.5 ))
-			database:SetFloat("resize_scale_z", math.floor( resizeScale.z + 0.5 ))
-		end
-	end
-
-	QueueEvent("AddEntityToTraceRequest", self.selector, self.blueprint )
-
-	if ( (self.type == "floor" or self.category == "tools") and ConsoleService:GetConfig( "showed_change_info" ) == "0" )then
-		if ( self.showScaleInfo == nil ) then
-			self.showScaleInfo = EntityService:SpawnAndAttachEntity("misc/scale_info", self.entity )
-		end
-	elseif ( self.showScaleInfo ~= nil ) then
-		EntityService:RemoveEntity( self.showScaleInfo )
-		self.showScaleInfo = nil
-	end
+    if ( (self.type == "floor" or self.category == "tools") and ConsoleService:GetConfig( "showed_change_info" ) == "0" )then
+        if ( self.showScaleInfo == nil ) then
+            self.showScaleInfo = EntityService:SpawnAndAttachEntity("misc/scale_info", self.entity )
+        end
+    elseif ( self.showScaleInfo ~= nil ) then
+        EntityService:RemoveEntity( self.showScaleInfo )
+        self.showScaleInfo = nil
+    end
 end
 
 function selector:OnSelectEnter()
-	self:ChangeBlueprint(self.baseBlueprint, "")
-	self.selectedEntities = {}
-	self.activatedEntities = {}
-	self.maxSelectedEntities = 1
-	self.selectorPosition = nil
-	self:RemoveScaleInfo()
+    self:ChangeBlueprint(self.baseBlueprint, "")
+    self.selectedEntities = {}
+    self.activatedEntities = {}
+    self.maxSelectedEntities = 1
+    self.selectorPosition = nil
+    self:RemoveScaleInfo()
 end
 
 function  selector:OnSelectExit()
-	self:DeactivateAllEntities()
-	self:DeselectAllEntities()
+    self:DeactivateAllEntities()
+    self:DeselectAllEntities()
 end
 
 function selector:FindEntitiesToSelect( selectorComponent)
-	local position = selectorComponent.position
+    local position = selectorComponent.position
 
-	local predicate = {
-		signature="SelectableComponent",
-		filter = function(entity)
-			local pos = EntityService:GetPosition(entity )
-			local distance = Distance( position, pos )
+    self.predicate = self.predicate or {
+        signature="SelectableComponent",
+        filter = function(entity)
+            local pos = EntityService:GetPosition(entity )
+            local distance = Distance( position, pos )
 
-			if ( EntityService:GetGroup(entity ) == "##ruins##" ) then
-				local bounds = EntityService:GetBoundsSize( entity )
-				local size = Length(bounds)
-				return distance <= size
-			end
+            if ( EntityService:GetGroup(entity ) == "##ruins##" ) then
+                local bounds = EntityService:GetBoundsSize( entity )
+                local size = Length(bounds)
+                return distance <= size
+            end
 
-			if( EntityService:GetComponent( entity, "BuildingComponent" ) ~= nil ) then
-				return false
-			end
+            if( EntityService:GetComponent( entity, "BuildingComponent" ) ~= nil ) then
+                return false
+            end
 
-			return distance < self.boundsSize.x
-		end
-	};
+            return distance < self.boundsSize.x
+        end
+    };
 
-	local min = VectorSub(position, self.boundsSize )
-	local max = VectorAdd(position, self.boundsSize )
-	local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
-	if ( #possibleSelectedEnts == 0 ) then
-		local min = VectorSub(position, VectorMulByNumber( self.boundsSize, 0.5) )
-		local max = VectorAdd(position, VectorMulByNumber( self.boundsSize, 0.5) )
-		possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, predicate );
-	end
+    local min = VectorSub(position, self.boundsSize )
+    local max = VectorAdd(position, self.boundsSize )
+    local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
+    if ( #possibleSelectedEnts == 0 ) then
+        local min = VectorSub(position, VectorMulByNumber( self.boundsSize, 0.5) )
+        local max = VectorAdd(position, VectorMulByNumber( self.boundsSize, 0.5) )
+        possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, self.predicate );
+    end
 
-	local sorter = function( t, lhs, rhs )
-		local p1 = EntityService:GetPosition(lhs )
-		local p2 = EntityService:GetPosition(rhs )
-		local d1 = Distance( position, p1 )
-		local d2 = Distance( position, p2 )
-		return d1 < d2
-	end
+    local sorter = function( t, lhs, rhs )
+        local p1 = EntityService:GetPosition(lhs )
+        local p2 = EntityService:GetPosition(rhs )
+        local d1 = Distance( position, p1 )
+        local d2 = Distance( position, p2 )
+        return d1 < d2
+    end
 
-	table.sort(possibleSelectedEnts, function(a,b) return sorter(possibleSelectedEnts, a, b) end)
+    table.sort(possibleSelectedEnts, function(a,b) return sorter(possibleSelectedEnts, a, b) end)
 
-	local selectedEntities = {}
-	for entity in Iter(possibleSelectedEnts ) do
-		local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
-		if ( selectableComponent == nil ) then goto continue end
+    local selectedEntities = {}
+    for entity in Iter(possibleSelectedEnts ) do
+        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        if ( selectableComponent == nil ) then goto continue end
 
-		local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
 
-		if ( buildingComponent ~= nil ) then
-			local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-			if ( mode <= 2 ) then goto continue end
-		end
+        if ( buildingComponent ~= nil ) then
+            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+            if ( mode <= 2 ) then goto continue end
+        end
 
-		Insert(selectedEntities, entity )
-		::continue::
-	end
+        Insert(selectedEntities, entity )
+        ::continue::
+    end
 
-	return selectedEntities
+    return selectedEntities
 end
 
 function selector:DeselectEntity( entity )
-	QueueEvent("DeselectEntityRequest", entity )
+    QueueEvent("DeselectEntityRequest", entity )
 
-	HideBuildingDisplayRadiusAround( self.entity, entity )
+    HideBuildingDisplayRadiusAround( self.entity, entity )
 end
 
 function selector:DeselectAllEntities()
-	for entity in Iter ( self.selectedEntities ) do
-		self:DeselectEntity( entity )
-	end
-	Clear( self.selectedEntities )
+    for entity in Iter ( self.selectedEntities ) do
+        self:DeselectEntity( entity )
+    end
+    Clear( self.selectedEntities )
 end
 
 function selector:DeactivateEntity( entity )
-	QueueEvent("DeactivateEntityRequest", entity, self.playerId  )
+    QueueEvent("DeactivateEntityRequest", entity, self.playerId  )
 end
 
 function selector:DeactivateAllEntities()
-	for entity in Iter ( self.activatedEntities ) do
-		self:DeactivateEntity( entity )
-	end
-	Clear( self.activatedEntities )
+    for entity in Iter ( self.activatedEntities ) do
+        self:DeactivateEntity( entity )
+    end
+    Clear( self.activatedEntities )
 end
 
 function selector:SelectEntity( entity )
-	QueueEvent("SelectEntityRequest", entity )
+    QueueEvent("SelectEntityRequest", entity )
 
-	ShowBuildingDisplayRadiusAround( self.entity, entity )
+    ShowBuildingDisplayRadiusAround( self.entity, entity )
 end
 
 function selector:OperateSelection(selectedEntities, selectorComponent)
-	if ( #selectedEntities == 0 ) then
-		self:DeselectAllEntities()
+    if ( #selectedEntities == 0 ) then
+        self:DeselectAllEntities()
 
-		if ( self.blueprint ~= self.baseBlueprint ) then
-			self:ChangeBlueprint(self.baseBlueprint, "")
-		end
-	else
-		local maxSelected = math.min( #selectedEntities, self.maxSelectedEntities )
-		for i=#selectedEntities,maxSelected+1,-1 do
-			selectedEntities[i] = nil
-		end
+        if ( self.blueprint ~= self.baseBlueprint ) then
+            self:ChangeBlueprint(self.baseBlueprint, "")
+        end
+    else
+        local maxSelected = math.min( #selectedEntities, self.maxSelectedEntities )
+        for i=#selectedEntities,maxSelected+1,-1 do
+            selectedEntities[i] = nil
+        end
 
-		local changed = false
-		for entity in Iter(self.selectedEntities) do --deselect old selected entities
-			if( IndexOf( selectedEntities, entity ) == nil ) then
-				self:DeselectEntity( entity )
-				changed = true
-			end
-		end
+        local changed = false
+        for entity in Iter(self.selectedEntities) do --deselect old selected entities
+            if( IndexOf( selectedEntities, entity ) == nil ) then
+                self:DeselectEntity( entity )
+                changed = true
+            end
+        end
 
-		if( self.maxSelectedEntities > 1 and self.blueprint ~= self.baseBlueprint  ) then
-			self:ChangeBlueprint(self.baseBlueprint, "")
-		end
+        if( self.maxSelectedEntities > 1 and self.blueprint ~= self.baseBlueprint  ) then
+            self:ChangeBlueprint(self.baseBlueprint, "")
+        end
 
-		local newPosition = {x=0,y=0,z=0}
-		local diagonal = {x=1,y=1,z=1}
-		for entity in Iter(selectedEntities ) do
-			if ( IndexOf( self.selectedEntities, entity ) == nil ) then -- select new entities
-				self:SelectEntity( entity )
-			end
-			newPosition = VectorAdd( newPosition, EntityService:GetPosition(entity ))
-			diagonal = BuildingService:GetBuildingGridSize(entity)
-		end
+        local newPosition = {x=0,y=0,z=0}
+        local diagonal = {x=1,y=1,z=1}
+        for entity in Iter(selectedEntities ) do
+            if ( IndexOf( self.selectedEntities, entity ) == nil ) then -- select new entities
+                self:SelectEntity( entity )
+            end
+            newPosition = VectorAdd( newPosition, EntityService:GetPosition(entity ))
+            diagonal = BuildingService:GetBuildingGridSize(entity)
+        end
 
-		local mod = 1 / #selectedEntities
-		newPosition = VectorMulByNumber(newPosition, mod )
+        local mod = 1 / #selectedEntities
+        newPosition = VectorMulByNumber(newPosition, mod )
 
-		self.selectorPosition = newPosition
+        self.selectorPosition = newPosition
 
-		local container = selectorComponent:GetField("position_override"):ToContainer()
-		local item = container:GetItem(0)
-		if ( item == nil ) then item = container:CreateItem() end
+        local container = selectorComponent:GetField("position_override"):ToContainer()
+        local item = container:GetItem(0)
+        if ( item == nil ) then item = container:CreateItem() end
 
-		local itemHelper = reflection_helper(item)
-		itemHelper.x = self.selectorPosition.x
-		itemHelper.y = self.selectorPosition.y
-		itemHelper.z = self.selectorPosition.z
+        local itemHelper = reflection_helper(item)
+        itemHelper.x = self.selectorPosition.x
+        itemHelper.y = self.selectorPosition.y
+        itemHelper.z = self.selectorPosition.z
 
 
-		if ( (self.maxSelectedEntities == 1 and self.blueprint == self.baseBlueprint) or changed  ) then
-			self:ChangeBlueprint(self.cornerBlueprint, "")
-			diagonal.y = 1
-			diagonal.x = math.max((math.max(SnapValue(diagonal.x, 0.5 ),1.0) - 0.5), 1.0)
-			diagonal.z = math.max((math.max(SnapValue(diagonal.z, 0.5 ),1.0) - 0.5), 1.0)
+        if ( (self.maxSelectedEntities == 1 and self.blueprint == self.baseBlueprint) or changed  ) then
+            self:ChangeBlueprint(self.cornerBlueprint, "")
+            diagonal.y = 1
+            diagonal.x = math.max((math.max(SnapValue(diagonal.x, 0.5 ),1.0) - 0.5), 1.0)
+            diagonal.z = math.max((math.max(SnapValue(diagonal.z, 0.5 ),1.0) - 0.5), 1.0)
 
-			local children = EntityService:GetChildren( self.selector, true )
-			for child in Iter(children ) do
-				local childPos = EntityService:GetLocalPosition(child)
-				childPos = VectorMul(childPos, diagonal)
-				EntityService:SetPosition(child,childPos)
-			end
-		end
+            local children = EntityService:GetChildren( self.selector, true )
+            for child in Iter(children ) do
+                local childPos = EntityService:GetLocalPosition(child)
+                childPos = VectorMul(childPos, diagonal)
+                EntityService:SetPosition(child,childPos)
+            end
+        end
 
-		self.selectedEntities = selectedEntities
-	end
+        self.selectedEntities = selectedEntities
+    end
 end
 
 function selector:CheckMechActionMapperAction()
-	local blocking = #self.selectedEntities > 0
-	if ( blocking ~= self.blocking) then
-		self.blocking = blocking
-		PlayerService:SetActionBlocking( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, "SELECT_BUILDING", self.blocking )
-	end
+    local blocking = #self.selectedEntities > 0
+    if ( blocking ~= self.blocking) then
+        self.blocking = blocking
+        PlayerService:SetActionBlocking( self.entity, BUILD_MODE_ACTION_MAPPER_NAME, "SELECT_BUILDING", self.blocking )
+    end
 end
 
 function selector:OnSelectInProgress()
-	local selectorComponent = EntityService:GetComponent(self.entity, "BuildingSelectorComponent")
-	local selectedEntities =  self:FindEntitiesToSelect( reflection_helper(selectorComponent) )
-	self:OperateSelection( selectedEntities, selectorComponent )
-	self:CheckMechActionMapperAction()
+    local selectorComponent = EntityService:GetComponent(self.entity, "BuildingSelectorComponent")
+    local selectedEntities =  self:FindEntitiesToSelect( reflection_helper(selectorComponent) )
+    self:OperateSelection( selectedEntities, selectorComponent )
+    self:CheckMechActionMapperAction()
 end
 
 function selector:OnBuildEnter()
-	if ( self.blueprint == "" or self.blueprint == self.baseBlueprint ) then
-		self:ChangeSelectorMode(SM_SELECT)
-		return
-	end
+    if ( self.blueprint == "" or self.blueprint == self.baseBlueprint ) then
+        self:ChangeSelectorMode(SM_SELECT)
+        return
+    end
 
-	self:DeselectAllEntities()
-	self:DeactivateAllEntities()
+    self:DeselectAllEntities()
+    self:DeactivateAllEntities()
 
-	self:ChangeBlueprint(self.blueprint, self.ghostBlueprint)
+    self:ChangeBlueprint(self.blueprint, self.ghostBlueprint)
 end
 
 function selector:OnBuildExit()
-	self:RemoveScaleInfo()
+    self:RemoveScaleInfo()
 
 end
 
 function selector:OnBuildInProgress()
-	self.transform = EntityService:GetWorldTransform( self.selector )
-	if ( EntityService:IsAlive(self.selector ) and (self.category == "tools" or self.type == "floor")) then
+    self.transform = EntityService:GetWorldTransform( self.selector )
+    if ( EntityService:IsAlive(self.selector ) and (self.category == "tools" or self.type == "floor")) then
 
-		self.resizeScale[self.blueprint] = self.transform.scale
+        self.resizeScale[self.blueprint] = self.transform.scale
 
-		-- Saving resizeScale for all Tools except picker (uses size only 1x1) and sell (does not load saved value)
-		if (self.category == "tools" and self.type ~= "picker" and self.type ~= "sell") then
+        -- Saving resizeScale for all Tools except picker (uses size only 1x1) and sell (does not load saved value)
+        if (self.category == "tools" and self.type ~= "picker" and self.type ~= "sell") then
 
-			self.resizeScale["Tools"] = self.transform.scale
-		end
+            self.resizeScale["Tools"] = self.transform.scale
+        end
 
-		-- Saving resizeScale for all floors
-		if (self.category == "decorations" and self.type == "floor" ) then
+        -- Saving resizeScale for all floors
+        if (self.category == "decorations" and self.type == "floor" ) then
 
-			self.resizeScale["Floors"] = self.transform.scale
+            self.resizeScale["Floors"] = self.transform.scale
 
-		end
-	end
+        end
+    end
 end
 
 function selector:ChangeSelectorMode( mode )
-	if ( mode == self.mode ) then return end
-	if ( mode ~= SM_BUILD and mode ~= SM_SELECT and mode ~= SM_INVALID ) then
-		--Assert( false, "Requested selector mode is out of range" )
-		return
-	end
+    if ( mode == self.mode ) then return end
+    if ( mode ~= SM_BUILD and mode ~= SM_SELECT and mode ~= SM_INVALID ) then
+        --Assert( false, "Requested selector mode is out of range" )
+        return
+    end
 
-	local selectorComponent = reflection_helper(EntityService:GetComponent(self.entity , "BuildingSelectorComponent"))
-	selectorComponent.mode = mode
-	self.mode = mode
-	if ( self.mode == SM_BUILD ) then
-		self.stateMachine:ChangeState("build")
-	elseif ( self.mode == SM_SELECT ) then
-		self.stateMachine:ChangeState("select")
-	else
-		self.stateMachine:ChangeState("invalid")
-		self.mode = SM_INVALID
-	end
+    local selectorComponent = reflection_helper(EntityService:GetComponent(self.entity , "BuildingSelectorComponent"))
+    selectorComponent.mode = mode
+    self.mode = mode
+    if ( self.mode == SM_BUILD ) then
+        self.stateMachine:ChangeState("build")
+    elseif ( self.mode == SM_SELECT ) then
+        self.stateMachine:ChangeState("select")
+    else
+        self.stateMachine:ChangeState("invalid")
+        self.mode = SM_INVALID
+    end
 end
 
 function selector:OnChangeSelectorModeRequest( evt )
-	self:ChangeSelectorMode( evt:GetMode())
+    self:ChangeSelectorMode( evt:GetMode())
 end
 
 function selector:ActivateEntity( entity )
-	QueueEvent("ActivateEntityRequest", entity, self.playerId )
+    QueueEvent("ActivateEntityRequest", entity, self.playerId )
 end
 
 function selector:OnActivateSelect()
-	local changed = false
-	for entity in Iter(self.activatedEntities) do --deselect old selected entities
-		if( IndexOf( self.selectedEntities, entity ) == nil ) then
-			self:DeactivateEntity( entity )
-		end
-	end
-	for entity in Iter(self.selectedEntities ) do
-		if( IndexOf( self.activatedEntities, entity ) ~= nil ) then goto continue end
+    local changed = false
+    for entity in Iter(self.activatedEntities) do --deselect old selected entities
+        if( IndexOf( self.selectedEntities, entity ) == nil ) then
+            self:DeactivateEntity( entity )
+        end
+    end
+    for entity in Iter(self.selectedEntities ) do
+        if( IndexOf( self.activatedEntities, entity ) ~= nil ) then goto continue end
 
-		local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
-		Assert(selectableComponent ~= nil, "ERROR: No selectable component in selected entity!")
-		self:ActivateEntity( entity )
-		::continue::
-	end
-	self.activatedEntities = self.selectedEntities
+        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        Assert(selectableComponent ~= nil, "ERROR: No selectable component in selected entity!")
+        self:ActivateEntity( entity )
+        ::continue::
+    end
+    self.activatedEntities = self.selectedEntities
 end
 
 function selector:OnActivateBuild()
 end
 
 function selector:OnActivateSelectorRequest( evt )
-	if ( self.mode == SM_SELECT) then
-		self:OnActivateSelect()
-	elseif(self.mode == SM_BUILD ) then
-		self:OnActivateBuild()
-	end
-	self.activated = true
-	self.activationTransform = EntityService:GetWorldTransform( self.selector )
+    if ( self.mode == SM_SELECT) then
+        self:OnActivateSelect()
+    elseif(self.mode == SM_BUILD ) then
+        self:OnActivateBuild()
+    end
+    self.activated = true
+    self.activationTransform = EntityService:GetWorldTransform( self.selector )
 end
 
 function selector:OnDeactivateSelectorRequest( evt )
-	self.activated = false
-	self.activationTransform = nil
+    self.activated = false
+    self.activationTransform = nil
 end
 
 function selector:OnLeaveBuildModeRequest( evt )
-	local fullExit =  evt:GetFullExit()
-	if( fullExit ) then
-		self:ChangeSelectorMode( SM_INVALID )
-	else
-		self:ChangeSelectorMode( self.mode + 1 ) -- what about 'SM_INVALID + 1' ???
-	end
+    local fullExit =  evt:GetFullExit()
+    if( fullExit ) then
+        self:ChangeSelectorMode( SM_INVALID )
+    else
+        self:ChangeSelectorMode( self.mode + 1 ) -- what about 'SM_INVALID + 1' ???
+    end
 end
 
 function selector:OnActivateEntityRequest( evt )
-	if ( evt:GetPlayer() ~= self.playerId) then
-		return
-	end
+    if ( evt:GetPlayer() ~= self.playerId) then
+        return
+    end
 
-	local entity = evt:GetEntity()
-	if (IndexOf(self.activatedEntities, entity )~= nil ) then
-		return
-	end
+    local entity = evt:GetEntity()
+    if (IndexOf(self.activatedEntities, entity )~= nil ) then
+        return
+    end
 
-	Insert(self.activatedEntities, evt:GetEntity())
+    Insert(self.activatedEntities, evt:GetEntity())
 end
 
 function selector:OnDeactivateEntityRequest( evt )
-	if ( evt:GetPlayer() ~= self.playerId) then
-		return
-	end
-	Remove(self.activatedEntities, evt:GetEntity())
+    if ( evt:GetPlayer() ~= self.playerId) then
+        return
+    end
+    Remove(self.activatedEntities, evt:GetEntity())
 end
 
 function selector:ResizeFloor( degree )
 
-	-- Floor sizes
-	self.scaleMapFloor = {
-		1,
-		2,
-		3,
-		4,
+    -- Floor sizes
+    self.scaleMapFloor = {
+        1,
+        2,
+        3,
+        4,
 
-		8,
+        8,
 
-		12,
+        12,
 
-		-- 16,
-		-- 20,
-		-- 24,
-		-- 28,
-		-- 32,
-	}
+        -- 16,
+        -- 20,
+        -- 24,
+        -- 28,
+        -- 32,
+    }
 
-	local currentScale = EntityService:GetScale(self.selector).x
+    local currentScale = EntityService:GetScale(self.selector).x
 
-	local maxIndex = #self.scaleMapFloor
+    local maxIndex = #self.scaleMapFloor
 
-	local change = 1
+    local change = 1
 
-	if ( degree > 0 ) then
-		change = -1
-	end
+    if ( degree > 0 ) then
+        change = -1
+    end
 
-	local index = IndexOf(self.scaleMapFloor, currentScale )
-	if ( index == nil ) then index = 1 end
+    local index = IndexOf(self.scaleMapFloor, currentScale )
+    if ( index == nil ) then index = 1 end
 
-	local newIndex = index + change
-	if ( newIndex > maxIndex ) then
-		newIndex = 1
-	elseif( newIndex == 0 ) then
-		newIndex = maxIndex
-	end
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = 1
+    elseif( newIndex == 0 ) then
+        newIndex = maxIndex
+    end
 
-	local newScale = self.scaleMapFloor[newIndex]
+    local newScale = self.scaleMapFloor[newIndex]
 
-	self.currentScale = newScale
+    self.currentScale = newScale
 
-	EntityService:SetScale( self.selector, newScale, 1.0, newScale)
+    EntityService:SetScale( self.selector, newScale, 1.0, newScale)
 
-	local savedValue = { x = newScale, y = 1.0, z = newScale }
+    local savedValue = { x = newScale, y = 1.0, z = newScale }
 
-	self.resizeScale[self.blueprint] = savedValue
+    self.resizeScale[self.blueprint] = savedValue
 
-	-- Saving resizeScale for all floors
-	self.resizeScale["Floors"] = savedValue
+    -- Saving resizeScale for all floors
+    self.resizeScale["Floors"] = savedValue
 
-	if ( self.OnUpdate ) then
-		self:OnUpdate()
-	end
+    if ( self.OnUpdate ) then
+        self:OnUpdate()
+    end
 end
 
 function selector:RotateBuilding( degree )
 
-	local invertRotationConfig = mod_invert_rotation or 0
+    local invertRotationConfig = mod_invert_rotation or 0
 
-	invertRotationConfig = tonumber(invertRotationConfig)
+    invertRotationConfig = tonumber(invertRotationConfig)
 
-	-- Inverting rotation
-	if ( invertRotationConfig == 1 ) then
-		degree = -degree
-	end
+    -- Inverting rotation
+    if ( invertRotationConfig == 1 ) then
+        degree = -degree
+    end
 
-	EntityService:Rotate(self.selector, 0.0, 1.0, 0.0, degree )
-	local transform = EntityService:GetWorldTransform( self.selector )
+    EntityService:Rotate(self.selector, 0.0, 1.0, 0.0, degree )
+    local transform = EntityService:GetWorldTransform( self.selector )
 
-	local lowBlueprint = BuildingService:FindLowUpgrade( self.blueprint )
-	self.rotations[lowBlueprint] = transform.orientation
-end
-
--- Increasing the number of wall layers
-function selector:IncreaseWallLinesCount( degree )
-
-	local scaleWallLines = {
-		-- 1
-		"1",
-
-		-- 2
-		"11",
-
-		-- 3
-		"101",
-		"111",
-
-		-- 4
-		"1011",
-		"1111",
-
-		-- 5
-		"10101",
-		"11111",
-
-		-- 6
-		"101011",
-		"111111",
-
-		-- 7
-		"1010101",
-
-		-- 8
-		"10101011",
-
-		-- 9
-		"101010101",
-
-		-- 10
-		"1010101011",
-
-		-- 11
-		"10101010101",
-	}
-
-	local database = EntityService:GetDatabase( self.selector )
-
-	local currentLinesConfig = database:GetStringOrDefault("wall_lines_config", "1")
-
-	local change = 1
-	if ( degree > 0 ) then
-		change = -1
-	end
-
-	local index = IndexOf(scaleWallLines, currentLinesConfig )
-	if ( index == nil ) then
-		index = 1
-	end
-
-	local maxIndex = #scaleWallLines
-
-	local newIndex = index + change
-	if ( newIndex > maxIndex ) then
-		newIndex = 1
-	elseif( newIndex == 0 ) then
-		newIndex = maxIndex
-	end
-
-	local newValue = scaleWallLines[newIndex]
-
-	database:SetString("wall_lines_config", newValue)
-
-	if ( self.wallLinesSettings == nil ) then
-		self.wallLinesSettings = {}
-	end
-
-	self.wallLinesSettings["Walls"] = newValue
-
-	if ( self.OnUpdate ) then
-		self:OnUpdate()
-	end
+    local lowBlueprint = BuildingService:FindLowUpgrade( self.blueprint )
+    self.rotations[lowBlueprint] = transform.orientation
 end
 
 function selector:OnRotateSelectorRequest( evt )
-	if ( self.mode ~= SM_BUILD) then
-		return
-	end
+    if ( self.mode == SM_SELECT) then
+        
+        local degree = evt:GetDegree()
 
-	if (self.showScaleInfo ~= nil and EntityService:IsAlive(self.showScaleInfo ) ) then
-		EntityService:RemoveEntity(self.showScaleInfo)
-		self.showScaleInfo = nil
-		ConsoleService:ExecuteCommand( "showed_change_info 1" )
-	end
+        if ( degree > 0 and #self.activatedEntities > 0 ) then
 
-	local data = EntityService:GetDatabase( self.selector)
-	local action = ""
-	if ( data ) then
-		action = data:GetStringOrDefault( "action", "")
-	end
+            local transform = EntityService:GetWorldTransform( self.entity )
 
-	local degree = evt:GetDegree()
+            local params = {
+                point_x = transform.position.x,
+                point_z = transform.position.z
+            }
 
-	if ( action == "line" ) then
+            for entity in Iter( self.activatedEntities ) do
 
-		local typeName = ""
-		local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
-		if( buildingDesc ~= nil ) then
-			local buildingDescHelper = reflection_helper(buildingDesc)
-			typeName = buildingDescHelper.type
-		end
+                QueueEvent( "LuaGlobalEvent", entity, "DronePointChangeEvent", params )
+            end
+        end
 
-		if ( typeName == "wall" ) then
-			self:IncreaseWallLinesCount( degree )
-		else
-			self:RotateBuilding( degree )
-		end
+        return
+    end
 
-	elseif ( action == "floor" ) then
-		self:ResizeFloor( degree )
-	elseif (action == "" ) then
-		self:RotateBuilding( degree )
-	end
+    if ( self.mode ~= SM_BUILD) then
+        return
+    end
+
+    if (self.showScaleInfo ~= nil and EntityService:IsAlive(self.showScaleInfo ) ) then
+        EntityService:RemoveEntity(self.showScaleInfo)
+        self.showScaleInfo = nil
+        ConsoleService:ExecuteCommand( "showed_change_info 1" )
+    end
+
+    local data = EntityService:GetDatabase( self.selector)
+    local action = ""
+    if ( data ) then
+        action = data:GetStringOrDefault( "action", "")
+    end
+
+    local degree = evt:GetDegree()
+
+    if ( action == "floor" ) then
+        self:ResizeFloor( degree )
+    elseif (action == "" ) then
+        self:RotateBuilding( degree )
+    end
 
 end
 
 function selector:OnLoad( )
-	if  (self.resizeScale == nil ) then
-		self.resizeScale = {}
-	end
-	if ( self.rotations == nil ) then
-		self.rotations = {}
-	end
-	if ( self.cameraCuller == nil ) then
-		self.cameraCuller = INVALID_ID
-	end
-	if ( self.cameraCullerBlueprint == nil ) then
-		self.cameraCullerBlueprint = "misc/selector_camera_culler"
-	end
+    if  (self.resizeScale == nil ) then
+        self.resizeScale = {}
+    end
+    if ( self.rotations == nil ) then
+        self.rotations = {}
+    end
+    if ( self.cameraCuller == nil ) then
+        self.cameraCuller = INVALID_ID
+    end
+    if ( self.cameraCullerBlueprint == nil ) then
+        self.cameraCullerBlueprint = "misc/selector_camera_culler"
+    end
 end
 
 return selector

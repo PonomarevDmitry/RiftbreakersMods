@@ -41,6 +41,27 @@ function ghost_building_line:OnInit()
     self.markerLinesConfig = "0"
     self.currentMarkerLines = nil
     self.isWall = ( typeName == "wall" )
+
+    self.wallLinesConfig = "1"
+
+    self.configNameWallsConfig = "$ghost_building_line_config"
+
+    if ( self.isWall ) then
+
+        local selectorDB = EntityService:GetDatabase( self.selector )
+
+        -- Wall layers config
+        self.wallLinesConfig = selectorDB:GetStringOrDefault(self.configNameWallsConfig, "1")
+        self.wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
+    end
+
+    if ( EntityService:HasComponent( self.entity, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( self.entity, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( self.entity, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( self.entity, "GhostLineCreatorComponent" )
+    end
 end
 
 function ghost_building_line:CreateInfoChild()
@@ -59,10 +80,7 @@ function ghost_building_line:OnUpdate()
 
     if (self.isWall) then
 
-        -- Wall layers config
-        wallLinesConfig = self.data:GetStringOrDefault("wall_lines_config", "1")
-
-        wallLinesConfig = self:CheckConfigExists(wallLinesConfig)
+        wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
 
         -- Correct Marker to show right number of wall layers
         if ( self.markerLinesConfig ~= wallLinesConfig or self.currentMarkerLines == nil) then
@@ -170,49 +188,7 @@ function ghost_building_line:CheckConfigExists( wallLinesConfig )
 
     wallLinesConfig = wallLinesConfig or "1"
 
-    local scaleWallLines = {
-        -- 1
-        "1",
-
-        -- 2
-        "11",
-
-        -- 3
-        "101",
-        "111",
-
-        -- 4
-        "1011",
-        "1111",
-
-        -- 5
-        "10101",
-        "11111",
-
-        -- 6
-        "101011",
-        "111111",
-
-        -- 7
-        "1010101",
-        "1111111",
-
-        -- 8
-        "10101011",
-        "11111111",
-
-        -- 9
-        "101010101",
-        "111111111",
-
-        -- 10
-        "1010101011",
-        "1111111111",
-
-        -- 11
-        "10101010101",
-        "11111111111",
-    }
+    local scaleWallLines = self:GetWallConfigArray()
 
     local index = IndexOf(scaleWallLines, wallLinesConfig )
 
@@ -222,6 +198,53 @@ function ghost_building_line:CheckConfigExists( wallLinesConfig )
     end
 
     return wallLinesConfig
+end
+
+function ghost_building_line:GetWallConfigArray()
+
+    if ( self.scaleWallLines == nil ) then
+
+        self.scaleWallLines = {
+            -- 1
+            "1",
+
+            -- 2
+            "11",
+
+            -- 3
+            "101",
+            "111",
+
+            -- 4
+            "1011",
+            "1111",
+
+            -- 5
+            "10101",
+            "11111",
+
+            -- 6
+            "101011",
+            "111111",
+
+            -- 7
+            "1010101",
+
+            -- 8
+            "10101011",
+
+            -- 9
+            "101010101",
+
+            -- 10
+            "1010101011",
+
+            -- 11
+            "10101010101",
+        }
+    end
+
+    return self.scaleWallLines
 end
 
 -- Get positions to build wall entites
@@ -1021,6 +1044,53 @@ end
 
 function ghost_building_line:OnDeactivate()
     self:FinishLineBuild()
+end
+
+function ghost_building_line:OnRotateSelectorRequest(evt)
+    if ( ghost.OnRotateSelectorRequest ) then
+        ghost.OnRotateSelectorRequest(self, evt)
+    end
+
+    if (self.isWall) then
+        self:IncreaseWallLinesCount( evt )
+    end
+end
+
+-- Increasing the number of wall layers
+function ghost_building_line:IncreaseWallLinesCount( evt )
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local scaleWallLines = self:GetWallConfigArray()
+
+    local currentLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
+
+    local index = IndexOf( scaleWallLines, currentLinesConfig ) or 1
+
+    local maxIndex = #scaleWallLines
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = 1
+    elseif( newIndex <= 0 ) then
+        newIndex = maxIndex
+    end
+
+    local newValue = scaleWallLines[newIndex]
+
+    self.wallLinesConfig = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    selectorDB:SetString(self.configNameWallsConfig, newValue)
+
+    if ( self.OnUpdate ) then
+        self:OnUpdate()
+    end
 end
 
 function ghost_building_line:OnRelease()
