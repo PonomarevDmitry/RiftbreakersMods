@@ -144,11 +144,34 @@ function drone_player_scanner:ExecuteScanning()
                 EffectService:SetParticleEmmissionUniform( self.effect, factor )
             end
 
-            if ( scanningTime >= self.maxScanTime ) then
+            local maxScanTime = self.maxScanTime
+
+            if ( mod_scanner_drone_instant_scan and mod_scanner_drone_instant_scan == 1 ) then
+                maxScanTime = 0
+            end
+
+            if ( scanningTime >= maxScanTime ) then
+
+                local scansCount = 1
+
+                if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
+                    local size = EntityService:GetBoundsSize( self.selectedEntity )
+                    if ( size.x <= 2.5 ) then
+                        scansCount = 2
+                    elseif ( size.x <= 4.5 ) then
+                        scansCount = 4
+                    elseif ( size.x <= 9.5 ) then
+                        scansCount = 8
+                    else
+                        scansCount = 20
+                    end
+                end
 
                 local owner = self.data:GetIntOrDefault( "owner", 0 )
 
-                ItemService:ScanEntityByPlayer( self.selectedEntity, owner )
+                for i=1,scansCount do
+                    ItemService:ScanEntityByPlayer( self.selectedEntity, owner )
+                end
 
                 EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" )
 
