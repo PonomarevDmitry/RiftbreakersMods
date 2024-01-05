@@ -133,6 +133,14 @@ function diagonal_wall_tool:SpawnWallTemplates()
 
     local buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.ghost_bp, self.selector )
 
+    if ( EntityService:HasComponent( buildingEntity, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( buildingEntity, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( buildingEntity, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( buildingEntity, "GhostLineCreatorComponent" )
+    end
+
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
     EntityService:SetOrientation( buildingEntity, orientation )
 
@@ -205,6 +213,14 @@ function diagonal_wall_tool:OnWorkExecute()
             if ( lineEnt == nil ) then
 
                 lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
+
+                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+                end
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
 
