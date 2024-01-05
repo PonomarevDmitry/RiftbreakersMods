@@ -111,11 +111,64 @@ function tower_mine_drone_point_picker_tool:OnUpdate()
     end
 end
 
+function tower_mine_drone_point_picker_tool:FindEntitiesToSelect( selectorComponent )
+
+    local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
+
+    local towerDronePointsParents = self:FindTowerDronePointsParents(selectorComponent.position)
+
+    ConcatUnique( selectedItems, towerDronePointsParents )
+
+    return selectedItems
+end
+
+function tower_mine_drone_point_picker_tool:FindTowerDronePointsParents(position)
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 0.5)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local result = {}
+
+    local entities = FindService:FindEntitiesByBlueprintInBox( "buildings/tower_drone_point", min, max )
+
+    for entity in Iter( entities ) do
+
+        local parentEntity = EntityService:GetParent(entity)
+        if ( parentEntity == nil or parentEntity == INVALID_ID ) then
+            goto continue
+        end
+
+        local parentBlueprintName = EntityService:GetBlueprintName(parentEntity)
+
+        local buildingDesc = BuildingService:GetBuildingDesc( parentBlueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local lowName = BuildingService:FindLowUpgrade( parentBlueprintName )
+        if ( lowName ~= self.buildingLowUpgrade ) then
+            goto continue
+        end
+
+        Insert(result, parentEntity)
+
+        ::continue::
+    end
+
+    return result
+end
+
 function tower_mine_drone_point_picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    for entity in Iter(selectedEntities ) do
+    for entity in Iter( selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
 
@@ -139,41 +192,57 @@ end
 
 function tower_mine_drone_point_picker_tool:OnActivateSelectorRequest()
 
+    self.activated = true
+
     for entity in Iter( self.selectedEntities ) do
 
-        self:OnActivateEntity( entity )
+        self:OnActivateEntity( entity, true, true )
     end
+
+    self:ShowDisplayRadiusComponent()
 end
 
-function tower_mine_drone_point_picker_tool:OnActivateEntity( entity )
+function tower_mine_drone_point_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreDisplayingRadiusComponent )
 
-    local isBuildingSelected
+    removalEnabled = removalEnabled or false
+    ignoreDisplayingRadiusComponent = ignoreDisplayingRadiusComponent or false
 
     if ( IndexOf( self.pickedBuildings, entity ) == nil ) then
-
-        isBuildingSelected = "1"
 
         Insert( self.pickedBuildings, entity )
 
         if ( self.display_radius_group == "" ) then
             ShowBuildingDisplayRadiusAround( self.entity, entity )
         end
-    else
 
-        isBuildingSelected = "0"
+        local params = {
+            isBuildingSelected = "1"
+        }
+
+        QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
+
+    elseif (removalEnabled) then
 
         Remove( self.pickedBuildings, entity )
 
         if ( self.display_radius_group == "" ) then
             HideBuildingDisplayRadiusAround( self.entity, entity )
         end
+
+        local params = {
+            isBuildingSelected = "0"
+        }
+
+        QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
     end
 
-    local params = {
-        isBuildingSelected = isBuildingSelected
-    }
+    if ( not ignoreDisplayingRadiusComponent ) then
 
-    QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
+        self:ShowDisplayRadiusComponent()
+    end
+end
+
+function tower_mine_drone_point_picker_tool:ShowDisplayRadiusComponent()
 
     if ( #self.pickedBuildings > 0 ) then
 
