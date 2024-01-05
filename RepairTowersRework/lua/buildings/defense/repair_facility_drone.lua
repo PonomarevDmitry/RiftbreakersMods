@@ -289,7 +289,7 @@ function repair_facility_drone:RepositionLinkEntity()
     local sizePoint = EntityService:GetBoundsSize( self.pointEntity )
 
     instance.start_point.x = selfPosition.x
-    instance.start_point.y = selfPosition.y + sizeSelf.y + 2
+    instance.start_point.y = selfPosition.y + sizeSelf.y
     instance.start_point.z = selfPosition.z
 
     instance.end_point.x = pointPosition.x
