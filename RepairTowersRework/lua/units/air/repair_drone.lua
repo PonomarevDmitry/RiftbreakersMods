@@ -177,6 +177,8 @@ function repair_drone:OnDroneTargetAction( target )
     if not EntityService:IsAlive( target ) then
         self:SetTargetActionFinished();
         self.fsm:ChangeState("follow")
+
+        self:TryFindNewTarget()
     else
         self.fsm:ChangeState("repair")
     end
