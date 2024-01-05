@@ -233,6 +233,14 @@ function wall_obstacles_tool:CreateNewEntity(newPosition, orientation, team)
         result = EntityService:SpawnEntity( self.wallBlueprintName, newPosition, team )
     end
 
+    if ( EntityService:HasComponent( result, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( result, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( result, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( result, "GhostLineCreatorComponent" )
+    end
+
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
 

@@ -213,6 +213,14 @@ function wall_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
 
             local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
 
+            if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+            end
+
+            if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+            end
+
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
             EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
@@ -279,6 +287,14 @@ function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
 
                 local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
 
+                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+                end
+
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
                 EntityService:SetPosition( lineEnt, newPosition)
@@ -314,6 +330,14 @@ function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
                 newPosition.z = positionZ
 
                 local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
+
+                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+                end
 
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )

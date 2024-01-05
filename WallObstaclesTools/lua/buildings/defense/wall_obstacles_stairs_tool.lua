@@ -346,6 +346,14 @@ function wall_obstacles_stairs_tool:CreateNewEntity(newPosition, orientation, te
 
     EntityService:ChangeMaterial( result, "selector/hologram_blue" )
 
+    if ( EntityService:HasComponent( result, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( result, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( result, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( result, "GhostLineCreatorComponent" )
+    end
+
     return result
 end
 

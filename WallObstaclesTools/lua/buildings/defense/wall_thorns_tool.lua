@@ -91,6 +91,14 @@ function wall_thorns_tool:OnUpdate()
 
                 local lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPositions[i], team )
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
+
+                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+                end
                 Insert( self.linesEntities, lineEnt )
             end
         end
@@ -139,6 +147,14 @@ function wall_thorns_tool:OnUpdate()
             for i=#self.floorEntities + 1 ,#pathFromStartPositionToEndPosition do
 
                 local lineEnt = EntityService:SpawnEntity( self.floorBlueprintName, pathFromStartPositionToEndPosition[i], team )
+
+                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+                end
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
 

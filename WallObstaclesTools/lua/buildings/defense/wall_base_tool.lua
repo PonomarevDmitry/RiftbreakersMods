@@ -145,6 +145,14 @@ function wall_base_tool:SpawnGhostWallEntity()
     EntityService:SetOrientation( buildingEntity, orientation )
     EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
 
+    if ( EntityService:HasComponent( buildingEntity, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( buildingEntity, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( buildingEntity, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( buildingEntity, "GhostLineCreatorComponent" )
+    end
+
     self.ghostWall = buildingEntity
 end
 
