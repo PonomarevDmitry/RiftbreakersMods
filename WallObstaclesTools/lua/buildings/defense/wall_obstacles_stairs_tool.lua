@@ -244,6 +244,8 @@ function wall_obstacles_stairs_tool:OnUpdate()
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetOrientation( lineEnt, transform.orientation )
 
+                self:RemoveUselessComponents(lineEnt)
+
                 local buildingComponent = reflection_helper( EntityService:GetComponent( lineEnt, "BuildingComponent" ) )
 
                 local blueprintName = buildingComponent.bp
@@ -346,13 +348,7 @@ function wall_obstacles_stairs_tool:CreateNewEntity(newPosition, orientation, te
 
     EntityService:ChangeMaterial( result, "selector/hologram_blue" )
 
-    if ( EntityService:HasComponent( result, "DisplayRadiusComponent" ) ) then
-        EntityService:RemoveComponent( result, "DisplayRadiusComponent" )
-    end
-
-    if ( EntityService:HasComponent( result, "GhostLineCreatorComponent" ) ) then
-        EntityService:RemoveComponent( result, "GhostLineCreatorComponent" )
-    end
+    self:RemoveUselessComponents(result)
 
     return result
 end

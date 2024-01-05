@@ -92,13 +92,8 @@ function wall_thorns_tool:OnUpdate()
                 local lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPositions[i], team )
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
 
-                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
-                end
+                self:RemoveUselessComponents(lineEnt)
 
-                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-                end
                 Insert( self.linesEntities, lineEnt )
             end
         end
@@ -109,17 +104,19 @@ function wall_thorns_tool:OnUpdate()
             transform.orientation = currentTransform.orientation
             transform.position = newPositions[i]
 
-            local entity = self.linesEntities[i]
-            EntityService:SetPosition( entity, newPositions[i])
-            EntityService:SetOrientation(entity, transform.orientation )
+            local lineEnt = self.linesEntities[i]
+            EntityService:SetPosition( lineEnt, newPositions[i])
+            EntityService:SetOrientation(lineEnt, transform.orientation )
 
-            local testBuildable = self:CheckEntityBuildable(entity, transform, i)
+            self:RemoveUselessComponents(lineEnt)
+
+            local testBuildable = self:CheckEntityBuildable(lineEnt, transform, i)
 
             if ( testBuildable ~= nil) then
                 self:AddToEntitiesToSellList(testBuildable)
             end
 
-            BuildingService:CheckAndFixBuildingConnection(entity)
+            BuildingService:CheckAndFixBuildingConnection(lineEnt)
         end
 
         local list = BuildingService:GetBuildCosts( self.wallBlueprintName, self.playerId )
@@ -148,13 +145,8 @@ function wall_thorns_tool:OnUpdate()
 
                 local lineEnt = EntityService:SpawnEntity( self.floorBlueprintName, pathFromStartPositionToEndPosition[i], team )
 
-                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
-                end
+                self:RemoveUselessComponents(lineEnt)
 
-                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-                end
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
 
@@ -170,6 +162,8 @@ function wall_thorns_tool:OnUpdate()
             transform.position = pathFromStartPositionToEndPosition[i]
 
             local entity = self.floorEntities[i]
+
+            self:RemoveUselessComponents(entity)
 
             EntityService:ChangeMaterial( entity, "selector/hologram_blue" )
             EntityService:SetPosition( entity, pathFromStartPositionToEndPosition[i] )

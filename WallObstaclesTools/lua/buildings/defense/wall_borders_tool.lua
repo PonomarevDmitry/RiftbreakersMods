@@ -93,13 +93,7 @@ function wall_borders_tool:OnUpdate()
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
 
-                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
-                end
-
-                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-                end
+                self:RemoveUselessComponents(lineEnt)
 
                 EntityService:SetOrientation(lineEnt, currentTransform.orientation )
                 EntityService:SetPosition( lineEnt, newPosition)
@@ -134,6 +128,8 @@ function wall_borders_tool:OnUpdate()
         for i=1,#newLinesEntities do
 
             local lineEnt = newLinesEntities[i]
+
+            self:RemoveUselessComponents(lineEnt)
 
             local transform = EntityService:GetWorldTransform( lineEnt )
 

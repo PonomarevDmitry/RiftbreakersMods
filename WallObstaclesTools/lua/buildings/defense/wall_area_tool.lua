@@ -142,6 +142,8 @@ function wall_area_tool:OnUpdate()
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetOrientation( lineEnt, transform.orientation )
 
+                self:RemoveUselessComponents(lineEnt)
+
                 local id = (xIndex -1 ) * #arrayX + zIndex
 
                 local testBuildable = self:CheckEntityBuildable( lineEnt, transform, id )
@@ -197,13 +199,7 @@ function wall_area_tool:CreateNewEntity(newPosition, orientation, team)
         result = EntityService:SpawnEntity( self.wallBlueprintName, newPosition, team )
     end
 
-    if ( EntityService:HasComponent( result, "DisplayRadiusComponent" ) ) then
-        EntityService:RemoveComponent( result, "DisplayRadiusComponent" )
-    end
-
-    if ( EntityService:HasComponent( result, "GhostLineCreatorComponent" ) ) then
-        EntityService:RemoveComponent( result, "GhostLineCreatorComponent" )
-    end
+    self:RemoveUselessComponents(result)
 
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
