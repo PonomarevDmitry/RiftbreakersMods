@@ -27,7 +27,7 @@ function flora_cultivator:OnInit()
 
     self:CreateProductionStateMachine()
 
-    self:CreateDronePoint("OnInit")
+    self:CreateDronePoint()
     self:RegisterBuildMenuTracker()
 end
 
@@ -79,7 +79,7 @@ function flora_cultivator:OnLoad()
 
     self:CreateProductionStateMachine()
 
-    self:CreateDronePoint("OnLoad")
+    self:CreateDronePoint()
     self:RegisterBuildMenuTracker()
 
 
@@ -103,10 +103,13 @@ function flora_cultivator:RegisterBuildMenuTracker()
     self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
-
+    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
+	
     self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
     self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
+	
+    self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
+    self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
 end
 
 function flora_cultivator:CreateProductionStateMachine()
@@ -145,6 +148,8 @@ end
 function flora_cultivator:OnRelease()
 
     self:DestoryPlanIcon()
+
+    self:RemoveLinkEntity()
 
     if ( self.pointEntity ~= nil ) then
         EntityService:RemoveEntity( self.pointEntity )
@@ -448,6 +453,8 @@ function flora_cultivator:GetPlayerForEntity( entity )
     return 0
 end
 
+-- #region Sapling List
+
 function flora_cultivator:AddSaplingToLastList(selectedBlueprintName, selectorDB)
 
     if ( selectedBlueprintName == "" or selectedBlueprintName == nil ) then
@@ -501,6 +508,8 @@ function flora_cultivator:GetCurrentListString(parameterName, selectorDB)
 
     return currentList
 end
+
+-- #endregion Sapling List
 
 function flora_cultivator:DestoryPlanIcon()
 
@@ -686,21 +695,23 @@ function flora_cultivator:IsResourceInGatherable( resourceName, resourceList )
     return false
 end
 
-function flora_cultivator:CreateDronePoint(text)
+-- #region Drone Point
+
+function flora_cultivator:CreateDronePoint()
 
     if ( self.pointEntity == nil ) then
 
-        local pointX = self.data:GetFloatOrDefault("drone_point_entity_x", 0)
-        local pointZ = self.data:GetFloatOrDefault("drone_point_entity_z", 0)
+        local transform = EntityService:GetWorldTransform( self.entity )
 
-        LogService:Log(text .. " CreateDronePoint pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+        local newPositionX = self.data:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
+        local newPositionZ = self.data:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
 
         local team = EntityService:GetTeam( self.entity )
-
         self.pointEntity = EntityService:SpawnAndAttachEntity( "misc/area_center_point", self.entity, team )
-        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
 
-        LogService:Log(text .. " CreateDronePoint drone_point_entity " .. tostring(self.pointEntity))
+        ItemService:SetInvisible(self.pointEntity, true)
+
+        self:SetDronePointPosition( newPositionX, newPositionZ )
     end
 
     EntityService:SetName( self.pointEntity, "drone_point_entity" )
@@ -708,7 +719,7 @@ function flora_cultivator:CreateDronePoint(text)
     self.data:SetInt("drone_point_entity", self.pointEntity)
 end
 
-function flora_cultivator:OnDronePointChange(evt)
+function flora_cultivator:OnDronePointEvent(evt)
 
     local eventName = evt:GetEvent()
     local eventDatabase = evt:GetDatabase()
@@ -718,14 +729,50 @@ function flora_cultivator:OnDronePointChange(evt)
         return
     end
 
-    if ( eventName ~= "AreaCenterPointChangeEvent" ) then
+    if ( eventName == "AreaCenterPointChangeEvent" ) then
+        local newPositionX = eventDatabase:GetFloat("point_x")
+        local newPositionZ = eventDatabase:GetFloat("point_z")
+
+        self:SetDronePointPosition( newPositionX, newPositionZ )
+
+    elseif ( eventName == "DronePointSelectedEvent" ) then
+
+        local selected = ( eventDatabase:GetStringOrDefault("isBuildingSelected", "0") == "1" )
+
+        self.dronePointSelected = selected
+
+        self:UpdateDronePointSkinMaterial()
+    end
+end
+
+function flora_cultivator:OnActivateEntityRequestDronePoint( evt )
+
+    if ( evt:GetEntity() ~= self.entity) then
         return
     end
 
-    local transform = EntityService:GetWorldTransform( self.entity )
+    self.dronePointSelected = true
 
-    local newPositionX = eventDatabase:GetFloat("point_x")
-    local newPositionZ = eventDatabase:GetFloat("point_z")
+    self:UpdateDronePointSkinMaterial()
+end
+
+function flora_cultivator:OnDeactivateEntityRequestDronePoint( evt )
+
+    if ( evt:GetEntity() ~= self.entity) then
+        return
+    end
+
+    self.dronePointSelected = false
+
+    self:UpdateDronePointSkinMaterial()
+end
+
+function flora_cultivator:SetDronePointPosition( newPositionX, newPositionZ )
+
+    self.data:SetFloat("drone_point_entity_x", newPositionX)
+    self.data:SetFloat("drone_point_entity_z", newPositionZ)
+
+    local transform = EntityService:GetWorldTransform( self.entity )
 
     local newRelativePosition ={
         x = newPositionX - transform.position.x,
@@ -738,23 +785,151 @@ function flora_cultivator:OnDronePointChange(evt)
     local pointX = SnapValue(inverteRotatedPosition.x, 1)
     local pointZ = SnapValue(inverteRotatedPosition.z, 1)
 
-    LogService:Log("OnDronePointChange inverteRotatedPosition.x " .. tostring(inverteRotatedPosition.x) .. " inverteRotatedPosition.y " .. tostring(inverteRotatedPosition.y) .. " inverteRotatedPosition.z " .. tostring(inverteRotatedPosition.z) .. " inverteRotatedPosition.w " .. tostring(inverteRotatedPosition.w))
-
-    self.data:SetFloat("drone_point_entity_x", pointX)
-    self.data:SetFloat("drone_point_entity_z", pointZ)
-
-    LogService:Log("OnDronePointChange pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
-
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+
+    self:RepositionLinkEntity()
+end
+
+function flora_cultivator:UpdateDisplayRadiusVisibility( show, entity )
+
+    self.display_radius_requesters = self.display_radius_requesters or {}
+
+    if show then
+        if self.display_radius_requesters[ entity ] then
+            return
+        end
+
+        self.display_radius_requesters[ entity ] = true
+
+        local count = 0
+        for entityTemp,_ in pairs(self.display_radius_requesters) do
+            if ( EntityService:IsAlive( entityTemp ) ) then
+                count = count + 1
+            end
+        end
+
+        if count == 1 then
+            EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" );
+
+            local component = reflection_helper( EntityService:CreateComponent(self.pointEntity,"DisplayRadiusComponent") )
+            component.min_radius = self.display_radius_size.min;
+            component.max_radius = self.display_radius_size.max;
+            component.max_radius_blueprint = self.display_effect_blueprint;
+
+            self.dronePointSelected = self.dronePointSelected or false
+
+            if ( self.dronePointSelected ) then
+                EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
+            else
+                EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
+            end
+
+            self:CreateLinkEntity()
+
+            self:RepositionLinkEntity()
+        end
+    else
+        self.display_radius_requesters[ entity ] = nil
+
+        local count = 0
+
+        for entityTemp,_ in pairs(self.display_radius_requesters) do
+            if ( EntityService:IsAlive( entityTemp ) ) then
+                count = count + 1
+            end
+        end
+        
+        if count == 0 then
+            EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
+            EntityService:RemoveMaterial( self.pointEntity, "selected" )
+
+            self:RemoveLinkEntity()
+        end
+    end
+end
+
+function flora_cultivator:UpdateDronePointSkinMaterial()
+
+    local count = 0
+    for entityTemp,_ in pairs(self.display_radius_requesters) do
+        if ( EntityService:IsAlive( entityTemp ) ) then
+            count = count + 1
+        end
+    end
+
+    self.dronePointSelected = self.dronePointSelected or false
+
+    if count > 0 then
+        if ( self.dronePointSelected ) then
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
+        else
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
+        end
+    else
+        EntityService:RemoveMaterial( self.pointEntity, "selected" )
+    end
+end
+
+function flora_cultivator:CreateLinkEntity()
+
+    if ( self.linkEntity ~= nil ) then
+        return
+    end
+
+    local team = EntityService:GetTeam( self.entity )
+    self.linkEntity = EntityService:SpawnAndAttachEntity( "effects/area_center_point_effects/area_center_point_link", self.entity, team)
+
+    ItemService:SetInvisible(self.linkEntity, true)
+end
+
+function flora_cultivator:RemoveLinkEntity()
+
+    if ( self.linkEntity == nil ) then
+        return
+    end
+
+    EntityService:RemoveEntity(self.linkEntity)
+    self.linkEntity = nil
+end
+
+function flora_cultivator:RepositionLinkEntity()
+
+    if ( self.linkEntity == nil or self.pointEntity == nil ) then
+        return
+    end
+
+    local selfPosition = EntityService:GetPosition(self.entity)
+    local pointPosition = EntityService:GetPosition(self.pointEntity)
+
+    local direction = VectorMulByNumber( Normalize( VectorSub( pointPosition, selfPosition ) ), 2.0 )
+    selfPosition = VectorAdd(selfPosition, direction)
+
+    local lightningComponent = reflection_helper(EntityService:GetComponent(self.linkEntity, "LightningComponent"))
+
+    local container = rawget(lightningComponent.lighning_vec, "__ptr");
+
+    local item = container:GetItem(0)
+    if ( item == nil ) then 
+        item = container:CreateItem()
+    end
+
+    local instance =  reflection_helper(item)
+
+    local sizeSelf = EntityService:GetBoundsSize( self.entity )
+    local sizePoint = EntityService:GetBoundsSize( self.pointEntity )
+
+    instance.start_point.x = selfPosition.x
+    instance.start_point.y = selfPosition.y + sizeSelf.y
+    instance.start_point.z = selfPosition.z
+
+    instance.end_point.x = pointPosition.x
+    instance.end_point.y = pointPosition.y + sizePoint.y + 2
+    instance.end_point.z = pointPosition.z
 end
 
 function flora_cultivator:OnBuildingStartEventGettingInfo(evt)
 
-    LogService:Log("OnBuildingStartEventGettingInfo self.entity " .. tostring(self.entity))
-
     local eventEntity = evt:GetEntity()
-
-    LogService:Log("OnBuildingStartEventGettingInfo eventEntity " .. tostring(eventEntity))
 
     if (evt:GetUpgrading() == true) then
 
@@ -764,7 +939,7 @@ function flora_cultivator:OnBuildingStartEventGettingInfo(evt)
     end
 end
 
-function flora_cultivator:GettingInfoFromBaseToUpgrade()
+function flora_cultivator:GettingInfoFromBaseToUpgrade(eventEntity)
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -804,27 +979,20 @@ function flora_cultivator:GettingInfoFromBaseToUpgrade()
             goto continue
         end
 
-        LogService:Log("GettingInfoFromBaseToUpgrade entity " .. tostring(entity))
-
         local baseDatabase = EntityService:GetDatabase( entity )
 
-        local pointX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
-        local pointZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
+        local transform = EntityService:GetWorldTransform( self.entity )
 
-        LogService:Log("GettingInfoFromBaseToUpgrade pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
+        local newPositionX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
+        local newPositionZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
 
-        self.data:SetFloat("drone_point_entity_x", pointX)
-        self.data:SetFloat("drone_point_entity_z", pointZ)
-
-        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
+        self:SetDronePointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end
 end
 
 function flora_cultivator:GettingInfoFromRuin()
-
-    LogService:Log("GettingInfoFromRuin self.entity " .. tostring(self.entity))
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -845,11 +1013,13 @@ function flora_cultivator:GettingInfoFromRuin()
 
         local blueprintName = EntityService:GetBlueprintName(ruinEntity)
         if ( blueprintName ~= selfRuinsBlueprint ) then
+            LogService:Log("GettingInfoFromRuin blueprintName ~= selfRuinsBlueprint")
             goto continue
         end
 
         local ruinPosition = EntityService:GetPosition(ruinEntity)
         if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            LogService:Log("GettingInfoFromRuin ruinPosition.x ~= position.x")
             goto continue
         end
 
@@ -857,24 +1027,20 @@ function flora_cultivator:GettingInfoFromRuin()
 
         local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
         if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            LogService:Log("GettingInfoFromRuin ruinDatabaseBlueprint ~= selfBlueprintName")
             goto continue
         end
 
-        LogService:Log("GettingInfoFromRuin ruinEntity " .. tostring(ruinEntity))
+        local transform = EntityService:GetWorldTransform( self.entity )
 
-        local pointX = ruinDatabase:GetFloatOrDefault("drone_point_entity_x", 0)
-        local pointZ = ruinDatabase:GetFloatOrDefault("drone_point_entity_z", 0)
+        local newPositionX = ruinDatabase:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
+        local newPositionZ = ruinDatabase:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
 
-        LogService:Log("GettingInfoFromRuin pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
-
-        self.data:SetFloat("drone_point_entity_x", pointX)
-        self.data:SetFloat("drone_point_entity_z", pointZ)
-
-        EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
-
-        local modItemBlueprintName = ruinDatabase:GetStringOrDefault("flora_cultivator_MOD_1", "") or ""
+        self:SetDronePointPosition( newPositionX, newPositionZ )
 
         self.saplingFromRuins = ""
+
+        local modItemBlueprintName = ruinDatabase:GetStringOrDefault("flora_cultivator_MOD_1", "") or ""
 
         LogService:Log("GettingInfoFromRuin modItemBlueprintName " .. tostring(modItemBlueprintName))
 
@@ -888,11 +1054,7 @@ end
 
 function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 
-    LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin self.entity " .. tostring(self.entity))
-
     local eventEntity = evt:GetEntity()
-
-    LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin eventEntity " .. tostring(eventEntity))
 
     if (evt:GetWasSold() == true) then
         return
@@ -932,20 +1094,10 @@ function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
             goto continue
         end
 
-        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin entity " .. tostring(ruinEntity))
+        local pointPosition = EntityService:GetPosition(self.pointEntity)
 
-        local pointEntityPosition = EntityService:GetPosition(self.pointEntity)
-
-        local pointX = pointEntityPosition.x - position.x
-        local pointZ = pointEntityPosition.z - position.z
-
-        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin self.position.x " .. tostring(position.x) .. " self.position.z " .. tostring(position.z))
-        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin pointEntityPosition.x " .. tostring(pointEntityPosition.x) .. " pointEntityPosition.z " .. tostring(pointEntityPosition.z))
-
-        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
-
-        ruinDatabase:SetFloat("drone_point_entity_x", pointX)
-        ruinDatabase:SetFloat("drone_point_entity_z", pointZ)
+        ruinDatabase:SetFloat("drone_point_entity_x", pointPosition.x)
+        ruinDatabase:SetFloat("drone_point_entity_z", pointPosition.z)
 
         local modItemBlueprintName = ""
 
@@ -963,50 +1115,6 @@ function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
     end
 end
 
-function flora_cultivator:UpdateDisplayRadiusVisibility( show, entity )
-
-    self.display_radius_requesters = self.display_radius_requesters or {}
-
-    if show then
-        if self.display_radius_requesters[ entity ] then
-            return
-        end
-
-        self.display_radius_requesters[ entity ] = true
-
-        local count = 0
-        for entityTemp,_ in pairs(self.display_radius_requesters) do
-            if ( EntityService:IsAlive( entityTemp ) ) then
-                count = count + 1
-            end
-        end
-
-        if count == 1 then
-            EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" );
-
-            local component = reflection_helper( EntityService:CreateComponent(self.pointEntity,"DisplayRadiusComponent") )
-            component.min_radius = self.display_radius_size.min;
-            component.max_radius = self.display_radius_size.max;
-            component.max_radius_blueprint = self.display_effect_blueprint;
-
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-        end
-    else
-        self.display_radius_requesters[ entity ] = nil
-
-        local count = 0
-
-        for entityTemp,_ in pairs(self.display_radius_requesters) do
-            if ( EntityService:IsAlive( entityTemp ) ) then
-                count = count + 1
-            end
-        end
-        
-        if count == 0 then
-            EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
-            EntityService:RemoveMaterial( self.pointEntity, "selected" )
-        end
-    end
-end
+-- #endregion Drone Point
 
 return flora_cultivator
