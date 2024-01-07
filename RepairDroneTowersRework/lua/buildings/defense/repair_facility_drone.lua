@@ -1,5 +1,6 @@
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
+require("lua/utils/numeric_utils.lua")
 require("lua/utils/area_center_point_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
@@ -152,8 +153,8 @@ function repair_facility_drone:SetDronePointPosition( newPositionX, newPositionZ
 
     local inverteRotatedPosition = QuatMulVec3( QuatConj(transform.orientation), newRelativePosition )
 
-    local pointX = MathRound(inverteRotatedPosition.x)
-    local pointZ = MathRound(inverteRotatedPosition.z)
+    local pointX = SnapValue(inverteRotatedPosition.x, 1)
+    local pointZ = SnapValue(inverteRotatedPosition.z, 1)
 
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
 

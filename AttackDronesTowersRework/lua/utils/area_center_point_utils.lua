@@ -23,20 +23,6 @@ function QuatMulVec3( quat, vec )
     return { x =  oq.x, y = oq.y, z = oq.z };
 end
 
-function MathRound( x )
-
-    local result
-
-    if ( x >= 0 ) then
-
-        result = math.floor(x + 0.5)
-    else
-        result = math.ceil(x - 0.5)
-    end
-
-    return result
-end
-
 function GetDistanceAndClosestPositionToLineSegment(entity, ownerEntity, pointEntity)
 
     local ownerPosition = EntityService:GetPosition(ownerEntity)

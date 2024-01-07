@@ -1,5 +1,6 @@
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/numeric_utils.lua")
 require("lua/utils/area_center_point_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
@@ -176,8 +177,8 @@ function flora_collector:OnDronePointChange(evt)
 
     local inverteRotatedPosition = QuatMulVec3( QuatConj(transform.orientation), newRelativePosition )
 
-    local pointX = MathRound(inverteRotatedPosition.x)
-    local pointZ = MathRound(inverteRotatedPosition.z)
+    local pointX = SnapValue(inverteRotatedPosition.x, 1)
+    local pointZ = SnapValue(inverteRotatedPosition.z, 1)
 
     LogService:Log("OnDronePointChange inverteRotatedPosition.x " .. tostring(inverteRotatedPosition.x) .. " inverteRotatedPosition.y " .. tostring(inverteRotatedPosition.y) .. " inverteRotatedPosition.z " .. tostring(inverteRotatedPosition.z) .. " inverteRotatedPosition.w " .. tostring(inverteRotatedPosition.w))
 
