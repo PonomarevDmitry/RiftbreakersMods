@@ -22,6 +22,10 @@ function flora_cultivator_drone_point_picker_tool:OnInit()
 
     self.pickedBuildings = {}
 
+    self.entitiesShowBuildingDisplayRadiusAround = {}
+    self.tickCurrent = 0
+    self.tickMod = 5
+
     local blueprintDatabase = EntityService:GetBlueprintDatabase( self.buildingBlueprint )
 
     local min, max = self:GetBuildingDisplayRadius(blueprintDatabase)
@@ -76,6 +80,10 @@ function flora_cultivator_drone_point_picker_tool:RemovedFromSelection( entity )
 end
 
 function flora_cultivator_drone_point_picker_tool:OnUpdate()
+
+    if ( self.display_radius_group == "" ) then
+        self:ShowBuildingDisplayRadiusWithoutGroup()
+    end
 
     for entity in Iter( self.pickedBuildings ) do
 
@@ -190,6 +198,71 @@ function flora_cultivator_drone_point_picker_tool:FilterSelectedEntities( select
     return entities
 end
 
+function flora_cultivator_drone_point_picker_tool:ShowBuildingDisplayRadiusWithoutGroup()
+
+    local performFind = (self.tickCurrent % self.tickMod) == 0
+
+    if ( performFind ) then
+
+        self.tickCurrent = 0
+    end
+
+    self.tickCurrent = self.tickCurrent + 1
+
+    if ( not performFind ) then
+        return
+    end
+
+    local newList = self:FindBuildingLowUpgrade()
+
+    self.entitiesShowBuildingDisplayRadiusAround = self.entitiesShowBuildingDisplayRadiusAround or {}
+
+    for entity in Iter( self.entitiesShowBuildingDisplayRadiusAround ) do
+
+        if ( IndexOf( newList, entity ) ~= nil ) then
+            goto continue
+        end
+
+        HideBuildingDisplayRadiusAround( self.entity, entity )
+
+        ::continue::
+    end
+
+    for entity in Iter( newList ) do
+        ShowBuildingDisplayRadiusAround( self.entity, entity )
+    end
+
+    self.entitiesShowBuildingDisplayRadiusAround = newList
+end
+
+function flora_cultivator_drone_point_picker_tool:FindBuildingLowUpgrade()
+
+    local buildings = FindService:FindEntitiesByType( "building" )
+
+    local result = {}
+
+    for entity in Iter( buildings ) do
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName ~= self.buildingLowUpgrade ) then
+            goto continue
+        end
+
+        Insert( result, entity )
+
+        ::continue::
+    end
+
+    return result
+end
+
 function flora_cultivator_drone_point_picker_tool:OnActivateSelectorRequest()
 
     self.activated = true
@@ -211,10 +284,6 @@ function flora_cultivator_drone_point_picker_tool:OnActivateEntity( entity, remo
 
         Insert( self.pickedBuildings, entity )
 
-        if ( self.display_radius_group == "" ) then
-            ShowBuildingDisplayRadiusAround( self.entity, entity )
-        end
-
         local params = {
             isBuildingSelected = "1"
         }
@@ -224,10 +293,6 @@ function flora_cultivator_drone_point_picker_tool:OnActivateEntity( entity, remo
     elseif (removalEnabled) then
 
         Remove( self.pickedBuildings, entity )
-
-        if ( self.display_radius_group == "" ) then
-            HideBuildingDisplayRadiusAround( self.entity, entity )
-        end
 
         local params = {
             isBuildingSelected = "0"
@@ -247,11 +312,11 @@ function flora_cultivator_drone_point_picker_tool:ShowDisplayRadiusComponent()
     if ( #self.pickedBuildings > 0 ) then
 
         if self.display_radius_max ~= nil then
-            local displayRadiusComponent = EntityService:GetComponent(self.childEntity,"DisplayRadiusComponent")
+            local displayRadiusComponent = EntityService:GetComponent(self.childEntity, "DisplayRadiusComponent")
 
             if ( displayRadiusComponent == nil ) then
 
-                displayRadiusComponent = EntityService:CreateComponent(self.childEntity,"DisplayRadiusComponent")
+                displayRadiusComponent = EntityService:CreateComponent(self.childEntity, "DisplayRadiusComponent")
 
                 local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
                 displayRadiusComponentRef.min_radius = self.display_radius_min
@@ -304,10 +369,6 @@ function flora_cultivator_drone_point_picker_tool:ClearPickedBuildings()
             QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
 
             self:RemovedFromSelection( entity )
-
-            if ( self.display_radius_group == "" ) then
-                HideBuildingDisplayRadiusAround( self.entity, entity )
-            end
         end
     end
     self.pickedBuildings = {}
@@ -322,6 +383,14 @@ function flora_cultivator_drone_point_picker_tool:OnRelease()
     end
 
     self:ClearPickedBuildings()
+
+    if ( self.entitiesShowBuildingDisplayRadiusAround ~= nil) then
+        for entity in Iter( self.entitiesShowBuildingDisplayRadiusAround ) do
+
+            HideBuildingDisplayRadiusAround( self.entity, entity )
+        end
+    end
+    self.entitiesShowBuildingDisplayRadiusAround = {}
 
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
