@@ -42,7 +42,7 @@ function tower_drone_attack:CreateDronePoint(text)
 
         local team = EntityService:GetTeam( self.entity )
 
-        self.pointEntity = EntityService:SpawnAndAttachEntity( "buildings/tower_drone_point", self.entity, team )
+        self.pointEntity = EntityService:SpawnAndAttachEntity( "misc/area_center_point", self.entity, team )
         EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
 
         LogService:Log(text .. " CreateDronePoint drone_point_entity " .. tostring(self.pointEntity))

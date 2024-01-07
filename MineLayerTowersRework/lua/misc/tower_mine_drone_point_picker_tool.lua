@@ -143,7 +143,7 @@ function tower_mine_drone_point_picker_tool:FindTowerDronePointsParents(position
 
     local result = {}
 
-    local entities = FindService:FindEntitiesByBlueprintInBox( "buildings/tower_drone_point", min, max )
+    local entities = FindService:FindEntitiesByBlueprintInBox( "misc/area_center_point", min, max )
 
     for entity in Iter( entities ) do
 

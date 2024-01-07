@@ -77,7 +77,7 @@ function repair_facility_drone:CreateDronePoint()
         local newPositionZ = self.data:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
 
         local team = EntityService:GetTeam( self.entity )
-        self.pointEntity = EntityService:SpawnAndAttachEntity( "buildings/tower_drone_point", self.entity, team )
+        self.pointEntity = EntityService:SpawnAndAttachEntity( "misc/area_center_point", self.entity, team )
 
         ItemService:SetInvisible(self.pointEntity, true)
 
