@@ -1,5 +1,5 @@
 require("lua/utils/numeric_utils.lua")
-require("lua/utils/drone_point_utils.lua")
+require("lua/utils/area_center_point_utils.lua")
 
 local base_drone = require("lua/units/air/base_drone.lua")
 class 'repair_drone' ( base_drone )
