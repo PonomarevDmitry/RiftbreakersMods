@@ -624,7 +624,7 @@ function selector:OnRotateSelectorRequest( evt )
 
             for entity in Iter( self.activatedEntities ) do
 
-                QueueEvent( "LuaGlobalEvent", entity, "DronePointChangeEvent", params )
+                QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointChangeEvent", params )
             end
         end
 

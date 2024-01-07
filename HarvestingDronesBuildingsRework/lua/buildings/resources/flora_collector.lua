@@ -160,7 +160,7 @@ function flora_collector:OnDronePointChange(evt)
         return
     end
 
-    if ( eventName ~= "DronePointChangeEvent" ) then
+    if ( eventName ~= "AreaCenterPointChangeEvent" ) then
         return
     end
 

@@ -100,7 +100,7 @@ function repair_facility_drone:OnDronePointEvent(evt)
         return
     end
 
-    if ( eventName == "DronePointChangeEvent" ) then
+    if ( eventName == "AreaCenterPointChangeEvent" ) then
         local newPositionX = eventDatabase:GetFloat("point_x")
         local newPositionZ = eventDatabase:GetFloat("point_z")
 

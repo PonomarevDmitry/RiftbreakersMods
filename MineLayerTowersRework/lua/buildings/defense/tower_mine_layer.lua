@@ -78,7 +78,7 @@ function tower_mine_layer:OnDronePointChange(evt)
         return
     end
 
-    if ( eventName ~= "DronePointChangeEvent" ) then
+    if ( eventName ~= "AreaCenterPointChangeEvent" ) then
         return
     end
 

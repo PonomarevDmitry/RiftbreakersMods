@@ -718,7 +718,7 @@ function flora_cultivator:OnDronePointChange(evt)
         return
     end
 
-    if ( eventName ~= "DronePointChangeEvent" ) then
+    if ( eventName ~= "AreaCenterPointChangeEvent" ) then
         return
     end
 

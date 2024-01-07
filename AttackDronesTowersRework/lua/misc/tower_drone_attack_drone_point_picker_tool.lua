@@ -349,7 +349,7 @@ function tower_drone_attack_drone_point_picker_tool:OnRotateSelectorRequest(evt)
 
         for entity in Iter( self.pickedBuildings ) do
 
-            QueueEvent( "LuaGlobalEvent", entity, "DronePointChangeEvent", params )
+            QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointChangeEvent", params )
         end
     else
 

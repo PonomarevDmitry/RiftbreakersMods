@@ -349,7 +349,7 @@ function harvesting_buildings_drone_point_picker_tool:OnRotateSelectorRequest(ev
 
         for entity in Iter( self.pickedBuildings ) do
 
-            QueueEvent( "LuaGlobalEvent", entity, "DronePointChangeEvent", params )
+            QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointChangeEvent", params )
         end
     else
 

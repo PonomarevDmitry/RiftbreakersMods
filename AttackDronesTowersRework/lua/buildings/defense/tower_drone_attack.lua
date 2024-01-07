@@ -64,7 +64,7 @@ function tower_drone_attack:OnDronePointChange(evt)
         return
     end
 
-    if ( eventName ~= "DronePointChangeEvent" ) then
+    if ( eventName ~= "AreaCenterPointChangeEvent" ) then
         return
     end
 
