@@ -20,10 +20,12 @@ function repair_facility_drone:OnInit()
 
     self:CreateDronePoint()
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
+
     self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
+    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
+
     self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
     self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
-    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
 end
 
 function repair_facility_drone:OnLoad()
@@ -33,11 +35,14 @@ function repair_facility_drone:OnLoad()
     end
 
     self:CreateDronePoint()
+
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
+
     self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
+    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
+
     self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
     self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
-    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
 end
 
 function repair_facility_drone:UpdateWorkingDrones(drone_enabled)
