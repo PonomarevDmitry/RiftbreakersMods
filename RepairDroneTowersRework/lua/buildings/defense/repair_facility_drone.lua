@@ -248,7 +248,7 @@ function repair_facility_drone:CreateLinkEntity()
     end
 
     local team = EntityService:GetTeam( self.entity )
-    self.linkEntity = EntityService:SpawnAndAttachEntity( "effects/drone_point_effects/drone_point_link", self.entity, team)
+    self.linkEntity = EntityService:SpawnAndAttachEntity( "effects/area_center_point_effects/area_center_point_link", self.entity, team)
 
     ItemService:SetInvisible(self.linkEntity, true)
 end
