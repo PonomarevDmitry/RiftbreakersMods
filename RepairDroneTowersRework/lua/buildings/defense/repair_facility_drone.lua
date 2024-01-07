@@ -68,6 +68,8 @@ function repair_facility_drone:OnDroneLandingStarted(drone)
     --QueueEvent( "FadeEntityOutRequest", drone, 2.0 )
 end
 
+-- #region Drone Point
+
 function repair_facility_drone:CreateDronePoint()
 
     if ( self.pointEntity == nil ) then
@@ -463,6 +465,8 @@ function repair_facility_drone:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
         ::continue::
     end
 end
+
+-- #endregion Drone Point
 
 function repair_facility_drone:OnRelease()
 
