@@ -1,0 +1,62 @@
+EntityBlueprint
+{
+	name					"buildings/tools/loot_collector_drone_point_picker"
+
+	BuildingDesc
+	{
+		name				"loot_collector_drone_point_picker"
+		bp					"buildings/tools/loot_collector_drone_point_picker"
+		ghost_bp			"buildings/tools/loot_collector_drone_point_picker_ghost"
+		category			"resources"
+
+		localization_id		"gui/hud/building_name/loot_collector_drone_point_picker_tool"
+		description			"gui/hud/building_description/loot_collector_drone_point_picker_tool"
+		menu_icon			"gui/hud/tools_icons/loot_collector_drone_point_picker_tool"
+
+		order				"14.125"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"loot_collector"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/loot_collector_drone_point_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"loot_collector_drone_point_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"resources"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/loot_collector_drone_point_picker_tool.lua"
+		database
+		{
+			action				string:"loot_collector_drone_point_picker_tool"
+			buildingBlueprint	string:"buildings/resources/loot_collector"
+			buildingLowUpgrade	string:"loot_collector"
+
+			marker_name			string:"misc/marker_selector_loot_collector_drone_point_picker_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}

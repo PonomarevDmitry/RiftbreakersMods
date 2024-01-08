@@ -1,0 +1,48 @@
+import * from "materials/scripts/pbr.material"
+
+material effects/area_center_point_effects/area_center_point_link
+{
+	render_group 61
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware none
+
+			glow 1
+			emissive 255 128 0 1
+
+			vertex_program_ref forward_object_texture_vp
+			{
+			}
+
+			fragment_program_ref unlit_emissive_gradient_fp
+			{
+			}
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+		}
+	}
+}
