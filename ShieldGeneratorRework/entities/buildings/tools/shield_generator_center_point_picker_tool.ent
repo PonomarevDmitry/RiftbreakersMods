@@ -1,0 +1,62 @@
+EntityBlueprint
+{
+	name					"buildings/tools/shield_generator_center_point_picker"
+
+	BuildingDesc
+	{
+		name				"shield_generator_center_point_picker"
+		bp					"buildings/tools/shield_generator_center_point_picker"
+		ghost_bp			"buildings/tools/shield_generator_center_point_picker_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/shield_generator_center_point_picker_tool"
+		description			"gui/hud/building_description/shield_generator_center_point_picker_tool"
+		menu_icon			"gui/hud/tools_icons/shield_generator_center_point_picker_tool"
+
+		order				"18.125"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"shield_generator"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/shield_generator_center_point_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"shield_generator_center_point_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/shield_generator_center_point_picker_tool.lua"
+		database
+		{
+			action				string:"shield_generator_center_point_picker_tool"
+			buildingBlueprint	string:"buildings/defense/shield_generator"
+			buildingLowUpgrade	string:"shield_generator"
+
+			marker_name			string:"misc/marker_selector_shield_generator_center_point_picker_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
