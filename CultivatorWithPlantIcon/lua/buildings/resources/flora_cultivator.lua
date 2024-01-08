@@ -27,7 +27,7 @@ function flora_cultivator:OnInit()
 
     self:CreateProductionStateMachine()
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
     self:RegisterBuildMenuTracker()
 end
 
@@ -79,7 +79,7 @@ function flora_cultivator:OnLoad()
 
     self:CreateProductionStateMachine()
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
     self:RegisterBuildMenuTracker()
 
 
@@ -697,7 +697,7 @@ end
 
 -- #region Drone Point
 
-function flora_cultivator:CreateDronePoint()
+function flora_cultivator:CreateCenterPoint()
 
     if ( self.pointEntity == nil ) then
 
@@ -711,7 +711,7 @@ function flora_cultivator:CreateDronePoint()
 
         ItemService:SetInvisible(self.pointEntity, true)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
     end
 
     EntityService:SetName( self.pointEntity, "center_point_entity" )
@@ -733,7 +733,7 @@ function flora_cultivator:OnDronePointEvent(evt)
         local newPositionX = eventDatabase:GetFloat("point_x")
         local newPositionZ = eventDatabase:GetFloat("point_z")
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
     elseif ( eventName == "AreaCenterPointSelectedEvent" ) then
 
@@ -767,7 +767,7 @@ function flora_cultivator:OnDeactivateEntityRequestDronePoint( evt )
     self:UpdateDronePointSkinMaterial()
 end
 
-function flora_cultivator:SetDronePointPosition( newPositionX, newPositionZ )
+function flora_cultivator:SetCenterPointPosition( newPositionX, newPositionZ )
 
     self.data:SetFloat("center_point_entity_x", newPositionX)
     self.data:SetFloat("center_point_entity_z", newPositionZ)
@@ -986,7 +986,7 @@ function flora_cultivator:GettingInfoFromBaseToUpgrade(eventEntity)
         local newPositionX = baseDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = baseDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end
@@ -1036,7 +1036,7 @@ function flora_cultivator:GettingInfoFromRuin()
         local newPositionX = ruinDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = ruinDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         self.saplingFromRuins = ""
 

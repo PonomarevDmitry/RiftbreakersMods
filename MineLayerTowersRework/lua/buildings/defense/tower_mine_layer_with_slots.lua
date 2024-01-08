@@ -18,7 +18,7 @@ function tower_mine_layer_with_slots:OnInit()
 
     self.lifting_drones = 0
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
 
@@ -40,7 +40,7 @@ function tower_mine_layer_with_slots:OnLoad()
         drone_spawner_building.OnLoad(self)
     end
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
 
@@ -235,7 +235,7 @@ end
 
 -- #region Drone Point
 
-function tower_mine_layer_with_slots:CreateDronePoint()
+function tower_mine_layer_with_slots:CreateCenterPoint()
 
     if ( self.pointEntity == nil ) then
 
@@ -249,7 +249,7 @@ function tower_mine_layer_with_slots:CreateDronePoint()
 
         ItemService:SetInvisible(self.pointEntity, true)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
     end
 
     EntityService:SetName( self.pointEntity, "center_point_entity" )
@@ -271,7 +271,7 @@ function tower_mine_layer_with_slots:OnDronePointEvent(evt)
         local newPositionX = eventDatabase:GetFloat("point_x")
         local newPositionZ = eventDatabase:GetFloat("point_z")
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
     elseif ( eventName == "AreaCenterPointSelectedEvent" ) then
 
@@ -305,7 +305,7 @@ function tower_mine_layer_with_slots:OnDeactivateEntityRequestDronePoint( evt )
     self:UpdateDronePointSkinMaterial()
 end
 
-function tower_mine_layer_with_slots:SetDronePointPosition( newPositionX, newPositionZ )
+function tower_mine_layer_with_slots:SetCenterPointPosition( newPositionX, newPositionZ )
 
     self.data:SetFloat("center_point_entity_x", newPositionX)
     self.data:SetFloat("center_point_entity_z", newPositionZ)
@@ -524,7 +524,7 @@ function tower_mine_layer_with_slots:GettingInfoFromBaseToUpgrade(eventEntity)
         local newPositionX = baseDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = baseDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end
@@ -574,7 +574,7 @@ function tower_mine_layer_with_slots:GettingInfoFromRuin()
         local newPositionX = ruinDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = ruinDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end

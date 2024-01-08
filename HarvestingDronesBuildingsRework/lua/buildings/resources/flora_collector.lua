@@ -22,7 +22,7 @@ function flora_collector:OnLoad()
 
     self:CreateDebugStateMachine()
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
 
@@ -44,7 +44,7 @@ function flora_collector:OnInit()
 
     self.harvested_resources = {}
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
 
@@ -142,7 +142,7 @@ end
 
 -- #region Drone Point
 
-function flora_collector:CreateDronePoint()
+function flora_collector:CreateCenterPoint()
 
     if ( self.pointEntity == nil ) then
 
@@ -156,7 +156,7 @@ function flora_collector:CreateDronePoint()
 
         ItemService:SetInvisible(self.pointEntity, true)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
     end
 
     EntityService:SetName( self.pointEntity, "center_point_entity" )
@@ -178,7 +178,7 @@ function flora_collector:OnDronePointEvent(evt)
         local newPositionX = eventDatabase:GetFloat("point_x")
         local newPositionZ = eventDatabase:GetFloat("point_z")
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
     elseif ( eventName == "AreaCenterPointSelectedEvent" ) then
 
@@ -212,7 +212,7 @@ function flora_collector:OnDeactivateEntityRequestDronePoint( evt )
     self:UpdateDronePointSkinMaterial()
 end
 
-function flora_collector:SetDronePointPosition( newPositionX, newPositionZ )
+function flora_collector:SetCenterPointPosition( newPositionX, newPositionZ )
 
     self.data:SetFloat("center_point_entity_x", newPositionX)
     self.data:SetFloat("center_point_entity_z", newPositionZ)
@@ -431,7 +431,7 @@ function flora_collector:GettingInfoFromBaseToUpgrade(eventEntity)
         local newPositionX = baseDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = baseDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end
@@ -481,7 +481,7 @@ function flora_collector:GettingInfoFromRuin()
         local newPositionX = ruinDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = ruinDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end

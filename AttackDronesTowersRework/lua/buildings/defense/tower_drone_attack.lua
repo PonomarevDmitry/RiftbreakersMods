@@ -16,7 +16,7 @@ function tower_drone_attack:OnInit()
         drone_spawner_building.OnInit(self)
     end
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
 
@@ -33,7 +33,7 @@ function tower_drone_attack:OnLoad()
         drone_spawner_building.OnLoad(self)
     end
 
-    self:CreateDronePoint()
+    self:CreateCenterPoint()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
 
@@ -46,7 +46,7 @@ end
 
 -- #region Drone Point
 
-function tower_drone_attack:CreateDronePoint()
+function tower_drone_attack:CreateCenterPoint()
 
     if ( self.pointEntity == nil ) then
 
@@ -60,7 +60,7 @@ function tower_drone_attack:CreateDronePoint()
 
         ItemService:SetInvisible(self.pointEntity, true)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
     end
 
     EntityService:SetName( self.pointEntity, "center_point_entity" )
@@ -82,7 +82,7 @@ function tower_drone_attack:OnDronePointEvent(evt)
         local newPositionX = eventDatabase:GetFloat("point_x")
         local newPositionZ = eventDatabase:GetFloat("point_z")
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
     elseif ( eventName == "AreaCenterPointSelectedEvent" ) then
 
@@ -116,7 +116,7 @@ function tower_drone_attack:OnDeactivateEntityRequestDronePoint( evt )
     self:UpdateDronePointSkinMaterial()
 end
 
-function tower_drone_attack:SetDronePointPosition( newPositionX, newPositionZ )
+function tower_drone_attack:SetCenterPointPosition( newPositionX, newPositionZ )
 
     self.data:SetFloat("center_point_entity_x", newPositionX)
     self.data:SetFloat("center_point_entity_z", newPositionZ)
@@ -335,7 +335,7 @@ function tower_drone_attack:GettingInfoFromBaseToUpgrade(eventEntity)
         local newPositionX = baseDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = baseDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end
@@ -385,7 +385,7 @@ function tower_drone_attack:GettingInfoFromRuin()
         local newPositionX = ruinDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
         local newPositionZ = ruinDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
-        self:SetDronePointPosition( newPositionX, newPositionZ )
+        self:SetCenterPointPosition( newPositionX, newPositionZ )
 
         ::continue::
     end
