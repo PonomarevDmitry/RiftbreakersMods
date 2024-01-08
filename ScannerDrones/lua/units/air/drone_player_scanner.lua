@@ -54,6 +54,12 @@ function drone_player_scanner:FillInitialParams()
     self.fsm:ChangeState("working")
 end
 
+function drone_player_scanner:FindActionTarget()
+    self:OnWorkInProgress()
+
+    return (self.selectedEntity or INVALID_ID)
+end
+
 function drone_player_scanner:SpawnSpecificEffect( currentTarget )
 
     local size = EntityService:GetBoundsSize( currentTarget )
@@ -117,6 +123,9 @@ function drone_player_scanner:ExecuteScanning()
 
             EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
             self:SelectEntity(INVALID_ID)
+
+            self:SetTargetActionFinished()
+            self:TryFindNewTarget()
 
             return
         end
@@ -189,6 +198,9 @@ function drone_player_scanner:ExecuteScanning()
                 end
 
                 self:SelectEntity(INVALID_ID)
+
+                self:SetTargetActionFinished()
+                self:TryFindNewTarget()
             end
         end
     end
@@ -211,6 +223,15 @@ function drone_player_scanner:SelectEntity( target )
     end
 end
 
+function drone_player_scanner:TryFindNewTarget()
+    local target = self:FindActionTarget();
+    if target ~= INVALID_ID then
+        UnitService:SetCurrentTarget( self.entity, "action", target )
+        UnitService:EmitStateMachineParam(self.entity, "action_target_found")
+        UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
+    end
+end
+
 function drone_player_scanner:OnWorkInProgress()
 
     self.predicate = self.predicate or {
@@ -223,20 +244,21 @@ function drone_player_scanner:OnWorkInProgress()
 
     local target = FindClosestEntity( owner, entities )
 
-    if ( ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID ) then
+    if ( ( self.selectedEntity == INVALID_ID or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID ) then
 
         self:SelectEntity( target )
 
-    elseif ( self.selectedEntity ~= nil and self.shoting == true) then
+    elseif ( self.selectedEntity ~= INVALID_ID and self.shoting == true) then
 
         self:ExecuteScanning()
 
     elseif ( target == INVALID_ID ) then
 
         self:SelectEntity( INVALID_ID )
-        self.selectedEntity = nil
+        self:SetTargetActionFinished()
 
         WeaponService:StopShoot( self.entity )
+        self.shoting = false
 
         if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
             EntityService:RemoveEntity( self.effect )
@@ -304,7 +326,7 @@ function drone_player_scanner:OnRelease()
 end
 
 function drone_player_scanner:OnDroneTargetAction( target )
-    self:SetTargetActionFinished()
+    
 end
 
 return drone_player_scanner
