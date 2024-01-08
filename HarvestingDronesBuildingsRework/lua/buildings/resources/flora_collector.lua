@@ -458,13 +458,11 @@ function flora_collector:GettingInfoFromRuin()
 
         local blueprintName = EntityService:GetBlueprintName(ruinEntity)
         if ( blueprintName ~= selfRuinsBlueprint ) then
-            LogService:Log("GettingInfoFromRuin blueprintName ~= selfRuinsBlueprint")
             goto continue
         end
 
         local ruinPosition = EntityService:GetPosition(ruinEntity)
         if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
-            LogService:Log("GettingInfoFromRuin ruinPosition.x ~= position.x")
             goto continue
         end
 
@@ -472,7 +470,6 @@ function flora_collector:GettingInfoFromRuin()
 
         local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
         if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
-            LogService:Log("GettingInfoFromRuin ruinDatabaseBlueprint ~= selfBlueprintName")
             goto continue
         end
 
