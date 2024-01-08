@@ -273,7 +273,7 @@ function tower_mine_layer_with_slots:OnDronePointEvent(evt)
 
         self:SetDronePointPosition( newPositionX, newPositionZ )
 
-    elseif ( eventName == "DronePointSelectedEvent" ) then
+    elseif ( eventName == "AreaCenterPointSelectedEvent" ) then
 
         local selected = ( eventDatabase:GetStringOrDefault("isBuildingSelected", "0") == "1" )
 

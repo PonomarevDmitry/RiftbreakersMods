@@ -288,7 +288,7 @@ function flora_cultivator_drone_point_picker_tool:OnActivateEntity( entity, remo
             isBuildingSelected = "1"
         }
 
-        QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
+        QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointSelectedEvent", params )
 
     elseif (removalEnabled) then
 
@@ -298,7 +298,7 @@ function flora_cultivator_drone_point_picker_tool:OnActivateEntity( entity, remo
             isBuildingSelected = "0"
         }
 
-        QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
+        QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointSelectedEvent", params )
     end
 
     if ( not ignoreDisplayingRadiusComponent ) then
@@ -366,7 +366,7 @@ function flora_cultivator_drone_point_picker_tool:ClearPickedBuildings()
     if ( self.pickedBuildings ~= nil) then
         for entity in Iter( self.pickedBuildings ) do
 
-            QueueEvent( "LuaGlobalEvent", entity, "DronePointSelectedEvent", params )
+            QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointSelectedEvent", params )
 
             self:RemovedFromSelection( entity )
         end

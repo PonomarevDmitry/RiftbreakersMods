@@ -180,7 +180,7 @@ function flora_collector:OnDronePointEvent(evt)
 
         self:SetDronePointPosition( newPositionX, newPositionZ )
 
-    elseif ( eventName == "DronePointSelectedEvent" ) then
+    elseif ( eventName == "AreaCenterPointSelectedEvent" ) then
 
         local selected = ( eventDatabase:GetStringOrDefault("isBuildingSelected", "0") == "1" )
 
