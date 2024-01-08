@@ -81,8 +81,8 @@ function repair_facility_drone:CreateDronePoint()
 
         local transform = EntityService:GetWorldTransform( self.entity )
 
-        local newPositionX = self.data:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
-        local newPositionZ = self.data:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
+        local newPositionX = self.data:GetFloatOrDefault("center_point_entity_x", transform.position.x)
+        local newPositionZ = self.data:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
         local team = EntityService:GetTeam( self.entity )
         self.pointEntity = EntityService:SpawnAndAttachEntity( "misc/area_center_point", self.entity, team )
@@ -92,9 +92,9 @@ function repair_facility_drone:CreateDronePoint()
         self:SetDronePointPosition( newPositionX, newPositionZ )
     end
 
-    EntityService:SetName( self.pointEntity, "drone_point_entity" )
+    EntityService:SetName( self.pointEntity, "center_point_entity" )
 
-    self.data:SetInt("drone_point_entity", self.pointEntity)
+    self.data:SetInt("center_point_entity", self.pointEntity)
 end
 
 function repair_facility_drone:OnDronePointEvent(evt)
@@ -147,8 +147,8 @@ end
 
 function repair_facility_drone:SetDronePointPosition( newPositionX, newPositionZ )
 
-    self.data:SetFloat("drone_point_entity_x", newPositionX)
-    self.data:SetFloat("drone_point_entity_z", newPositionZ)
+    self.data:SetFloat("center_point_entity_x", newPositionX)
+    self.data:SetFloat("center_point_entity_z", newPositionZ)
 
     local transform = EntityService:GetWorldTransform( self.entity )
 
@@ -361,8 +361,8 @@ function repair_facility_drone:GettingInfoFromBaseToUpgrade(eventEntity)
 
         local transform = EntityService:GetWorldTransform( self.entity )
 
-        local newPositionX = baseDatabase:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
-        local newPositionZ = baseDatabase:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
+        local newPositionX = baseDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
+        local newPositionZ = baseDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
         self:SetDronePointPosition( newPositionX, newPositionZ )
 
@@ -411,8 +411,8 @@ function repair_facility_drone:GettingInfoFromRuin()
 
         local transform = EntityService:GetWorldTransform( self.entity )
 
-        local newPositionX = ruinDatabase:GetFloatOrDefault("drone_point_entity_x", transform.position.x)
-        local newPositionZ = ruinDatabase:GetFloatOrDefault("drone_point_entity_z", transform.position.z)
+        local newPositionX = ruinDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
+        local newPositionZ = ruinDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
         self:SetDronePointPosition( newPositionX, newPositionZ )
 
@@ -464,8 +464,8 @@ function repair_facility_drone:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 
         local pointPosition = EntityService:GetPosition(self.pointEntity)
 
-        ruinDatabase:SetFloat("drone_point_entity_x", pointPosition.x)
-        ruinDatabase:SetFloat("drone_point_entity_z", pointPosition.z)
+        ruinDatabase:SetFloat("center_point_entity_x", pointPosition.x)
+        ruinDatabase:SetFloat("center_point_entity_z", pointPosition.z)
 
         ::continue::
     end

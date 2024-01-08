@@ -189,9 +189,9 @@ function attack_drone:GetDroneFindCenterPoint()
 
     local database = EntityService:GetDatabase( result )
 
-    if ( database and database:HasInt("drone_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
+    if ( database and database:HasInt("center_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
 
-        local pointEntity = database:GetIntOrDefault("drone_point_entity", INVALID_ID) or INVALID_ID
+        local pointEntity = database:GetIntOrDefault("center_point_entity", INVALID_ID) or INVALID_ID
 
         if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
 
