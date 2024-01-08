@@ -4,13 +4,13 @@ require("lua/utils/numeric_utils.lua")
 require("lua/utils/area_center_point_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
-class 'tower_mine_layer' ( drone_spawner_building )
+class 'tower_mine_layer_with_slots' ( drone_spawner_building )
 
-function tower_mine_layer:__init()
+function tower_mine_layer_with_slots:__init()
     drone_spawner_building.__init(self,self)
 end
 
-function tower_mine_layer:OnInit()
+function tower_mine_layer_with_slots:OnInit()
 
     if ( drone_spawner_building.OnInit ) then
         drone_spawner_building.OnInit(self)
@@ -18,49 +18,43 @@ function tower_mine_layer:OnInit()
 
     self.lifting_drones = 0
 
-    LogService:Log("OnInit self.entity " .. tostring(self.entity))
-
-    self:CreateDronePoint("OnInit")
+    self:CreateDronePoint()
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
-    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
 
-function tower_mine_layer:OnLoad()
+function tower_mine_layer_with_slots:OnLoad()
 
     if ( drone_spawner_building.OnLoad ) then
         drone_spawner_building.OnLoad(self)
     end
 
-    LogService:Log("OnLoad self.entity " .. tostring(self.entity))
-
-    self:CreateDronePoint("OnLoad")
+    self:CreateDronePoint()
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointChange" )
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
-    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "TrasferingInfoToUpgrade" )
+    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
 
-function tower_mine_layer:CreateDronePoint(text)
+function tower_mine_layer_with_slots:CreateDronePoint()
 
     if ( self.pointEntity == nil ) then
 
         local pointX = self.data:GetFloatOrDefault("drone_point_entity_x", 0)
         local pointZ = self.data:GetFloatOrDefault("drone_point_entity_z", 0)
 
-        LogService:Log(text .. " CreateDronePoint pointX " .. tostring(pointX) .. " pointZ " .. tostring(pointZ))
-
         local team = EntityService:GetTeam( self.entity )
 
         self.pointEntity = EntityService:SpawnAndAttachEntity( "misc/area_center_point", self.entity, team )
         EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
-
-        LogService:Log(text .. " CreateDronePoint drone_point_entity " .. tostring(self.pointEntity))
     end
 
     EntityService:SetName( self.pointEntity, "drone_point_entity" )
@@ -68,7 +62,7 @@ function tower_mine_layer:CreateDronePoint(text)
     self.data:SetInt("drone_point_entity", self.pointEntity)
 end
 
-function tower_mine_layer:OnDronePointChange(evt)
+function tower_mine_layer_with_slots:OnDronePointChange(evt)
 
     local eventName = evt:GetEvent()
     local eventDatabase = evt:GetDatabase()
@@ -110,7 +104,7 @@ function tower_mine_layer:OnDronePointChange(evt)
     EntityService:SetPosition( self.pointEntity, pointX, 0, pointZ )
 end
 
-function tower_mine_layer:UpdateDisplayRadiusVisibility( show, entity )
+function tower_mine_layer_with_slots:UpdateDisplayRadiusVisibility( show, entity )
 
     self.display_radius_requesters = self.display_radius_requesters or {}
 
@@ -158,17 +152,17 @@ function tower_mine_layer:UpdateDisplayRadiusVisibility( show, entity )
     end
 end
 
-function tower_mine_layer:OnDroneLiftingStarted()
+function tower_mine_layer_with_slots:OnDroneLiftingStarted()
     self.lifting_drones = self.lifting_drones + 1
     self.data:SetInt("lifting_drones", self.lifting_drones)
 end
 
-function tower_mine_layer:OnDroneLiftingEnded()
+function tower_mine_layer_with_slots:OnDroneLiftingEnded()
     self.lifting_drones = self.lifting_drones - 1
     self.data:SetInt("lifting_drones", self.lifting_drones)
 end
 
-function tower_mine_layer:SpawnDrones()
+function tower_mine_layer_with_slots:SpawnDrones()
 
     self:CleanupDrones()
 
@@ -226,7 +220,7 @@ function tower_mine_layer:SpawnDrones()
     end
 end
 
-function tower_mine_layer:GetMinesArray()
+function tower_mine_layer_with_slots:GetMinesArray()
 
     local DEFAULT_MINE_BLUEPRINT = "units/drones/drone_mine_root";
 
@@ -282,21 +276,21 @@ function tower_mine_layer:GetMinesArray()
     return result
 end
 
-function tower_mine_layer:OnItemEquippedEvent( evt )
+function tower_mine_layer_with_slots:OnItemEquippedEvent( evt )
 
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         self:SpawnDrones()
     end
 end
 
-function tower_mine_layer:OnItemUnequippedEvent( evt )
+function tower_mine_layer_with_slots:OnItemUnequippedEvent( evt )
 
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         self:SpawnDrones()
     end
 end
 
-function tower_mine_layer:OnOperateActionMenuEvent()
+function tower_mine_layer_with_slots:OnOperateActionMenuEvent()
 
     local blueprintArray = {
         "items/tower_mines/drone_mine_root",
@@ -335,7 +329,7 @@ function tower_mine_layer:OnOperateActionMenuEvent()
     end
 end
 
-function tower_mine_layer:TrasferingInfoToUpgrade(evt)
+function tower_mine_layer_with_slots:TrasferingInfoToUpgrade(evt)
 
     LogService:Log("OnBuildingStartEvent self.entity " .. tostring(self.entity))
 
@@ -405,4 +399,4 @@ function tower_mine_layer:TrasferingInfoToUpgrade(evt)
     end
 end
 
-return tower_mine_layer
+return tower_mine_layer_with_slots
