@@ -1,0 +1,1 @@
+mod_scanner_drone_no_sound = 1
