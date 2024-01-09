@@ -41,6 +41,11 @@ function drone_spawner_building:OnInit()
 
 		self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
 		self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+
+		if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+			self:SpawnLandingSpots()
+			self:SpawnDrones()
+		end
 	end
 end
 
