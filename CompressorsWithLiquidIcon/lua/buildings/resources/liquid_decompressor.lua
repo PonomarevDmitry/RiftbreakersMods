@@ -140,6 +140,10 @@ function liquid_decompressor:registerBuildMenuTracker()
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 end
 
+function liquid_decompressor:OnLuaGlobalEventCompressorsShowHideIcon()
+    -- Legacy Empty function
+end
+
 function liquid_decompressor:OnEnterBuildMenuEvent( evt )
 
     self.showLiquidIcon = 1

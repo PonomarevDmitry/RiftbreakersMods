@@ -29,6 +29,10 @@ function compressor:registerBuildMenuTracker()
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 end
 
+function compressor:OnLuaGlobalEventCompressorsShowHideIcon()
+    -- Legacy Empty function
+end
+
 function compressor:OnEnterBuildMenuEvent( evt )
 
     self.showLiquidIcon = 1
