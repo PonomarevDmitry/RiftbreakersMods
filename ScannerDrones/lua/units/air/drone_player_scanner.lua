@@ -52,6 +52,20 @@ function drone_player_scanner:FillInitialParams()
     self.fsm:AddState( "working", { execute="OnWorkInProgress" } )
 
     self.fsm:ChangeState("working")
+
+
+
+    local beamWeaponComponent = EntityService:GetComponent( self.entity, "BeamWeaponComponent" )
+    if ( beamWeaponComponent ~= nil ) then
+
+        local beamWeaponComponentRef = reflection_helper(beamWeaponComponent)
+
+        if ( mod_scanner_drone_no_sound and mod_scanner_drone_no_sound == 1 ) then
+            beamWeaponComponentRef.fire_effect = "effects/mech/bioscanner_muzzle_no_sound"
+        else
+            beamWeaponComponentRef.fire_effect = "effects/mech/bioscanner_muzzle"
+        end
+    end
 end
 
 function drone_player_scanner:FindActionTarget()
@@ -74,6 +88,10 @@ function drone_player_scanner:SpawnSpecificEffect( currentTarget )
         effectName = "effects/mech/scanner_big"
     else
         effectName = "effects/mech/scanner_very_big"
+    end
+
+    if ( mod_scanner_drone_no_sound and mod_scanner_drone_no_sound == 1 ) then
+        effectName = effectName .. "_no_sound"
     end
 
     if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
@@ -190,7 +208,7 @@ function drone_player_scanner:ExecuteScanning()
                 EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )
 
                 EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted" )
-                
+
 
                 if ( self.effect ~= nill and self.effect ~= INVALID_ID ) then
                     EntityService:RemoveEntity( self.effect )
