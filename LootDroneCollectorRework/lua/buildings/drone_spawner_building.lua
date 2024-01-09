@@ -339,6 +339,15 @@ end
 
 function drone_spawner_building:UpdateDisplayRadiusVisibility( show, entity )
 
+	local blueprintName = EntityService:GetBlueprintName(self.entity)
+	local lowName = BuildingService:FindLowUpgrade( blueprintName )
+	if ( lowName ~= "loot_collector" ) then
+
+		building.UpdateDisplayRadiusVisibility(self, show, entity)
+
+		return
+	end
+
 	self.display_radius_requesters = self.display_radius_requesters or {}
 
 	if show then
