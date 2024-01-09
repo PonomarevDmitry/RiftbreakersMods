@@ -1117,4 +1117,8 @@ end
 
 -- #endregion Drone Point
 
+function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon()
+    -- Legacy Empty function
+end
+
 return flora_cultivator
