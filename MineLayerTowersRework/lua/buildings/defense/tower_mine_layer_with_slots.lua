@@ -6,6 +6,8 @@ require("lua/utils/area_center_point_utils.lua")
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'tower_mine_layer_with_slots' ( drone_spawner_building )
 
+local DEFAULT_TOWER_MINE_BLUEPRINT = "items/tower_mines/drone_mine_root";
+
 function tower_mine_layer_with_slots:__init()
     drone_spawner_building.__init(self,self)
 end
@@ -19,19 +21,11 @@ function tower_mine_layer_with_slots:OnInit()
     self.lifting_drones = 0
 
     self:CreateCenterPoint()
+    self:RegisterEventHandlers()
 
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
-
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
-    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
-
-    self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
-    self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
-
-    self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
-    self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
-
-    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        self:EquipEmptySlots()
+    end
 end
 
 function tower_mine_layer_with_slots:OnLoad()
@@ -41,6 +35,12 @@ function tower_mine_layer_with_slots:OnLoad()
     end
 
     self:CreateCenterPoint()
+    self:RegisterEventHandlers()
+
+    self:EquipEmptySlots()
+end
+
+function tower_mine_layer_with_slots:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
 
@@ -124,6 +124,44 @@ function tower_mine_layer_with_slots:SpawnDrones()
     end
 end
 
+function tower_mine_layer_with_slots:OnBuildingEnd()
+
+    if ( drone_spawner_building.OnBuildingEnd ) then
+        drone_spawner_building.OnBuildingEnd(self)
+    end
+
+    self:EquipEmptySlots()
+end
+
+function tower_mine_layer_with_slots:EquipEmptySlots()
+
+    local default_item = ItemService:GetFirstItemForBlueprint( self.entity, DEFAULT_TOWER_MINE_BLUEPRINT )
+
+    if ( default_item == INVALID_ID ) then
+        default_item = ItemService:AddItemToInventory( self.entity, DEFAULT_TOWER_MINE_BLUEPRINT )
+    end
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+            if ( modItem == nil or modItem == INVALID_ID ) then
+
+                if ( not ItemService:IsSameSubTypeEquipped( self.entity, default_item ) ) then
+                    ItemService:EquipItemInSlot( self.entity, default_item, slot.name )
+                end
+            end
+        end
+    end
+end
+
 function tower_mine_layer_with_slots:GetMinesArray()
 
     local DEFAULT_MINE_BLUEPRINT = "units/drones/drone_mine_root";
@@ -155,19 +193,13 @@ function tower_mine_layer_with_slots:GetMinesArray()
 
             local mineBlueprint = DEFAULT_MINE_BLUEPRINT
 
-            for i=1,slot.subslots.count do
+            local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+            if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
 
-                local entities = slot.subslots[i]
+                if ( blueprintDatabase and blueprintDatabase:HasString("mine_blueprint") ) then
 
-                local entity = entities[1]
-                if entity and entity.id then
-
-                    local blueprintDatabase = EntityService:GetBlueprintDatabase( entity.id )
-
-                    if ( blueprintDatabase and blueprintDatabase:HasString("mine_blueprint") ) then
-
-                        mineBlueprint = blueprintDatabase:GetString("mine_blueprint")
-                    end
+                    mineBlueprint = blueprintDatabase:GetString("mine_blueprint")
                 end
             end
 
@@ -185,9 +217,28 @@ function tower_mine_layer_with_slots:OnItemEquippedEvent( evt )
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         self:SpawnDrones()
     end
+
+    local slotName = evt:GetSlot()
+    local item = evt:GetItem()
+
+    local itemBlueprintName = ""
+
+    if ( item ~= nil and item ~= INVALID_ID ) then
+        itemBlueprintName = EntityService:GetBlueprintName(item)
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local key = selfLowName .. "_" .. slotName
+
+    local database = EntityService:GetDatabase( self.entity )
+    database:SetString(key, itemBlueprintName)
 end
 
 function tower_mine_layer_with_slots:OnItemUnequippedEvent( evt )
+
+    self:EquipEmptySlots()
 
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         self:SpawnDrones()
