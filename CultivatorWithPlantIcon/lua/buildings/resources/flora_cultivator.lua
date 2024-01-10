@@ -29,6 +29,32 @@ function flora_cultivator:OnInit()
 
     self:CreateCenterPoint()
     self:RegisterBuildMenuTracker()
+
+    if ( EntityService:HasComponent( self.entity, "FloraCultivatorComponent") ) then
+        EntityService:RemoveComponent( self.entity, "FloraCultivatorComponent")
+    end
+
+    local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+
+    if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
+
+        if ( db and db:HasString("plant_prefab") ) then
+
+            local plant_prefab = db:GetStringOrDefault( "plant_prefab", "" )
+
+            self.spawn_prefab = BuildingService:CreateFloraCultivatorComponent( self.pointEntity, plant_prefab )
+        end
+    end
+
+    self:PopulateSpecialActionInfo()
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        self:SpawnLandingSpots()
+        self:SpawnDrones()
+    else
+        self:RefreshDrones()
+    end
 end
 
 function IsEquippedItemBlueprintValid( entity, new_blueprint )
@@ -73,6 +99,7 @@ function flora_cultivator:OnLoad()
         if self.item and self.item ~= INVALID_ID then
             if not IsEquippedItemBlueprintValid( self.item, default_blueprint ) then
                 ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
+                self:PopulateSpecialActionInfo()
             end
         end
     end
@@ -82,12 +109,14 @@ function flora_cultivator:OnLoad()
     self:CreateCenterPoint()
     self:RegisterBuildMenuTracker()
 
-
     if ( EntityService:HasComponent( self.entity, "FloraCultivatorComponent") ) then
-
         EntityService:RemoveComponent( self.entity, "FloraCultivatorComponent")
+    end
 
-        local db = EntityService:GetDatabase( self.item )
+    local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+
+    if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
 
         if ( db and db:HasString("plant_prefab") ) then
 
@@ -96,6 +125,10 @@ function flora_cultivator:OnLoad()
             self.spawn_prefab = BuildingService:CreateFloraCultivatorComponent( self.pointEntity, plant_prefab )
         end
     end
+
+    self:RefreshDrones()
+
+    self:PopulateSpecialActionInfo()
 end
 
 function flora_cultivator:RegisterBuildMenuTracker()
@@ -125,24 +158,50 @@ end
 
 function flora_cultivator:CreateMenuEntity()
 
-    self:RegisterBuildMenuTracker()
+    local cultivatorSaplingMenuBlueprintName = "misc/cultivator_sapling_menu"
 
     if ( self.cultivatorSaplingMenu == nil ) then
 
-        self.cultivatorSaplingMenu = EntityService:SpawnAndAttachEntity("misc/cultivator_sapling_menu", self.entity)
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == cultivatorSaplingMenuBlueprintName ) then
 
-        local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
-
-        self.showPlantIcon = self.showPlantIcon or 1
-
-        local visible = 0
-
-        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-            visible = self.showPlantIcon
+                self.cultivatorSaplingMenu = child
+                goto continue
+            end
         end
 
-        menuDB:SetInt("sapling_visible", visible)
+        ::continue::
     end
+
+    if ( self.cultivatorSaplingMenu == nil ) then
+
+        self.cultivatorSaplingMenu = EntityService:SpawnAndAttachEntity(cultivatorSaplingMenuBlueprintName, self.entity)
+    end
+
+    if ( self.cultivatorSaplingMenu ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == cultivatorSaplingMenuBlueprintName and child ~= self.cultivatorSaplingMenu ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
+    end
+
+    local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+
+    self.showPlantIcon = self.showPlantIcon or 1
+
+    local visible = 0
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        visible = self.showPlantIcon
+    end
+
+    menuDB:SetInt("sapling_visible", visible)
 end
 
 function flora_cultivator:OnRelease()
@@ -191,8 +250,6 @@ function flora_cultivator:OnBuildingEnd()
         drone_spawner_building.OnBuildingEnd(self)
     end
 
-    self:PopulateSpecialActionInfo()
-
     self:DisableVegetationAround();
 
     local default_blueprint = self:GetDefaultSaplingItem()
@@ -215,16 +272,16 @@ function flora_cultivator:OnBuildingEnd()
 
         if ( self.item ~= INVALID_ID ) then
             if not ItemService:IsSameSubTypeEquipped( self.entity, self.item ) then
-                LogService:Log(" OnBuildingEnd EquipItemInSlot self.item ")
                 ItemService:EquipItemInSlot( self.entity, self.item, "MOD_1" )
+                self:PopulateSpecialActionInfo()
                 return
             end
         end
     end
 
     if not ItemService:IsSameSubTypeEquipped( self.entity, self.default_item ) then
-        LogService:Log(" OnBuildingEnd EquipItemInSlot self.default_item ")
         ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
+        self:PopulateSpecialActionInfo()
     end
 end
 
@@ -239,17 +296,15 @@ end
 
 function flora_cultivator:OnActivate()
 
-    LogService:Log(" OnActivate ")
-
     if ( self.item ~= INVALID_ID and self.item ~= nil ) then
         if not ItemService:IsSameSubTypeEquipped( self.entity, self.item ) then
-            LogService:Log(" OnActivate EquipItemInSlot self.item ")
             ItemService:EquipItemInSlot( self.entity, self.item, "MOD_1" )
+            self:PopulateSpecialActionInfo()
         end
     elseif ( self.default_item ~= INVALID_ID and self.default_item ~= nil ) then
         if not ItemService:IsSameSubTypeEquipped( self.entity, self.default_item ) then
-            LogService:Log(" OnActivate EquipItemInSlot self.default_item ")
             ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
+            self:PopulateSpecialActionInfo()
         end
     end
 
@@ -264,14 +319,16 @@ function flora_cultivator:PopulateSpecialActionInfo()
 
     self:OnUpdateProductionExecute()
 
-    if ( self.item == INVALID_ID or self.item == nil ) then
+    local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+
+    if ( modItem == INVALID_ID or modItem == nil ) then
 
         self.data:SetString("action_icon", "gui/hud/tools_icons/sapling" )
         self:DestoryPlanIcon()
         return
     end
 
-    local material = ItemService:GetItemIcon( self.item )
+    local material = ItemService:GetItemIcon( modItem )
 
     if ( not IsNullOrEmpty( material ) ) then
         self.data:SetString("action_icon", material )
@@ -279,7 +336,7 @@ function flora_cultivator:PopulateSpecialActionInfo()
         self.data:SetString("action_icon", "gui/hud/tools_icons/sapling" )
     end
 
-    local blueprintName = EntityService:GetBlueprintName( self.item )
+    local blueprintName = EntityService:GetBlueprintName( modItem )
     if ( IsNullOrEmpty( blueprintName ) ) then
         self:DestoryPlanIcon()
         return
@@ -357,6 +414,7 @@ function flora_cultivator:OnLuaGlobalEvent( evt )
         self.data:SetString("sapling_item", sapling_item )
         self.default_item = ItemService:AddItemToInventory( self.entity, sapling_item)
         ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
+        self:PopulateSpecialActionInfo()
 
         self:RefreshDrones()
     else
@@ -389,17 +447,12 @@ end
 
 function flora_cultivator:OnItemEquippedEvent( evt )
 
-    LogService:Log(" OnItemEquippedEvent ")
-
     self.item = evt:GetItem()
     if ( EntityService:IsAlive(self.item) == false ) then
-        LogService:Log(" OnItemEquippedEvent EntityService:IsAlive(self.item) == false")
         return
     end
 
     local blueprintName = EntityService:GetBlueprintName( self.item )
-
-    LogService:Log(" OnItemEquippedEvent blueprintName " .. tostring(blueprintName))
 
     local playerForEntity = self:GetPlayerForEntity(self.entity)
     if ( playerForEntity ~= nil and playerForEntity ~= INVALID_ID ) then
@@ -431,10 +484,9 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 
         plant_prefab = db:GetStringOrDefault( "plant_prefab", "" )
 
-        LogService:Log(" OnItemEquippedEvent plant_prefab " .. tostring(plant_prefab))
-
         self.spawn_prefab = BuildingService:CreateFloraCultivatorComponent( self.pointEntity, plant_prefab )
     else
+        EntityService:RemoveComponent( self.pointEntity, "FloraCultivatorComponent")
         self.spawn_prefab = nil
     end
 
@@ -551,13 +603,15 @@ end
 
 function flora_cultivator:OnUpdateProductionExecute()
 
-    if ( self.item == INVALID_ID or self.item == nil ) then
+    local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+
+    if ( modItem == INVALID_ID or modItem == nil ) then
 
         self.data:SetString( "stat_categories", "" )
         return
     end
 
-    local blueprintName = EntityService:GetBlueprintName( self.item )
+    local blueprintName = EntityService:GetBlueprintName( modItem )
     if ( IsNullOrEmpty( blueprintName ) ) then
 
         self.data:SetString( "stat_categories", "" )
@@ -699,6 +753,25 @@ end
 
 function flora_cultivator:CreateCenterPoint()
 
+    local pointEntityBlueprintName = "misc/area_center_point"
+
+    if ( self.pointEntity == nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == pointEntityBlueprintName ) then
+
+                self.pointEntity = child
+                ItemService:SetInvisible(self.pointEntity, true)
+
+                goto continue
+            end
+        end
+
+        ::continue::
+    end
+
     if ( self.pointEntity == nil ) then
 
         local transform = EntityService:GetWorldTransform( self.entity )
@@ -707,11 +780,22 @@ function flora_cultivator:CreateCenterPoint()
         local newPositionZ = self.data:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
         local team = EntityService:GetTeam( self.entity )
-        self.pointEntity = EntityService:SpawnAndAttachEntity( "misc/area_center_point", self.entity, team )
+        self.pointEntity = EntityService:SpawnAndAttachEntity( pointEntityBlueprintName, self.entity, team )
 
         ItemService:SetInvisible(self.pointEntity, true)
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
+    end
+
+    if ( self.pointEntity ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == pointEntityBlueprintName and child ~= self.pointEntity ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
     end
 
     EntityService:SetName( self.pointEntity, "center_point_entity" )
@@ -872,14 +956,42 @@ end
 
 function flora_cultivator:CreateLinkEntity()
 
-    if ( self.linkEntity ~= nil ) then
-        return
+    local linkEntityBlueprintName = "effects/area_center_point_effects/flora_cultivator_area_center_point_link"
+
+    if ( self.linkEntity == nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == linkEntityBlueprintName ) then
+
+                self.linkEntity = child
+                ItemService:SetInvisible(self.linkEntity, true)
+
+                goto continue
+            end
+        end
+
+        ::continue::
     end
 
-    local team = EntityService:GetTeam( self.entity )
-    self.linkEntity = EntityService:SpawnAndAttachEntity( "effects/area_center_point_effects/flora_cultivator_area_center_point_link", self.entity, team)
+    if ( self.linkEntity == nil ) then
 
-    ItemService:SetInvisible(self.linkEntity, true)
+        local team = EntityService:GetTeam( self.entity )
+        self.linkEntity = EntityService:SpawnAndAttachEntity( linkEntityBlueprintName, self.entity, team)
+        ItemService:SetInvisible(self.linkEntity, true)
+    end
+
+    if ( self.linkEntity ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == linkEntityBlueprintName and child ~= self.linkEntity ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
+    end
 end
 
 function flora_cultivator:RemoveLinkEntity()
@@ -1013,13 +1125,11 @@ function flora_cultivator:GettingInfoFromRuin()
 
         local blueprintName = EntityService:GetBlueprintName(ruinEntity)
         if ( blueprintName ~= selfRuinsBlueprint ) then
-            LogService:Log("GettingInfoFromRuin blueprintName ~= selfRuinsBlueprint")
             goto continue
         end
 
         local ruinPosition = EntityService:GetPosition(ruinEntity)
         if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
-            LogService:Log("GettingInfoFromRuin ruinPosition.x ~= position.x")
             goto continue
         end
 
@@ -1027,7 +1137,6 @@ function flora_cultivator:GettingInfoFromRuin()
 
         local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
         if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
-            LogService:Log("GettingInfoFromRuin ruinDatabaseBlueprint ~= selfBlueprintName")
             goto continue
         end
 
@@ -1041,8 +1150,6 @@ function flora_cultivator:GettingInfoFromRuin()
         self.saplingFromRuins = ""
 
         local modItemBlueprintName = ruinDatabase:GetStringOrDefault("flora_cultivator_MOD_1", "") or ""
-
-        LogService:Log("GettingInfoFromRuin modItemBlueprintName " .. tostring(modItemBlueprintName))
 
         if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
             self.saplingFromRuins = modItemBlueprintName
@@ -1106,8 +1213,6 @@ function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
         if ( modItem ~= nil and modItem ~= INVALID_ID ) then
             modItemBlueprintName = EntityService:GetBlueprintName(modItem)
         end
-
-        LogService:Log("OnBuildingRemovedEventTrasferingInfoToRuin GetEquippedItem modItem " .. tostring(modItem) .. " modItemBlueprintName " .. tostring(modItemBlueprintName))
 
         ruinDatabase:SetString("flora_cultivator_MOD_1", modItemBlueprintName)
 
