@@ -77,6 +77,25 @@ end
 
 function repair_facility_drone:CreateCenterPoint()
 
+    local pointEntityBlueprintName = "misc/area_center_point"
+
+    if ( self.pointEntity == nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == pointEntityBlueprintName ) then
+
+                self.pointEntity = child
+                ItemService:SetInvisible(self.pointEntity, true)
+
+                goto continue
+            end
+        end
+
+        ::continue::
+    end
+
     if ( self.pointEntity == nil ) then
 
         local transform = EntityService:GetWorldTransform( self.entity )
@@ -85,11 +104,22 @@ function repair_facility_drone:CreateCenterPoint()
         local newPositionZ = self.data:GetFloatOrDefault("center_point_entity_z", transform.position.z)
 
         local team = EntityService:GetTeam( self.entity )
-        self.pointEntity = EntityService:SpawnAndAttachEntity( "misc/area_center_point", self.entity, team )
+        self.pointEntity = EntityService:SpawnAndAttachEntity( pointEntityBlueprintName, self.entity, team )
 
         ItemService:SetInvisible(self.pointEntity, true)
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
+    end
+
+    if ( self.pointEntity ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == pointEntityBlueprintName and child ~= self.pointEntity ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
     end
 
     EntityService:SetName( self.pointEntity, "center_point_entity" )
@@ -250,14 +280,42 @@ end
 
 function repair_facility_drone:CreateLinkEntity()
 
-    if ( self.linkEntity ~= nil ) then
-        return
+    local linkEntityBlueprintName = "effects/area_center_point_effects/area_center_point_link"
+
+    if ( self.linkEntity == nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == linkEntityBlueprintName ) then
+
+                self.linkEntity = child
+                ItemService:SetInvisible(self.linkEntity, true)
+
+                goto continue
+            end
+        end
+
+        ::continue::
     end
 
-    local team = EntityService:GetTeam( self.entity )
-    self.linkEntity = EntityService:SpawnAndAttachEntity( "effects/area_center_point_effects/area_center_point_link", self.entity, team)
+    if ( self.linkEntity == nil ) then
 
-    ItemService:SetInvisible(self.linkEntity, true)
+        local team = EntityService:GetTeam( self.entity )
+        self.linkEntity = EntityService:SpawnAndAttachEntity( linkEntityBlueprintName, self.entity, team)
+        ItemService:SetInvisible(self.linkEntity, true)
+    end
+
+    if ( self.linkEntity ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == linkEntityBlueprintName and child ~= self.linkEntity ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
+    end
 end
 
 function repair_facility_drone:RemoveLinkEntity()
