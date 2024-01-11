@@ -573,6 +573,10 @@ function flora_cultivator:DestoryPlanIcon()
     self.cultivatorSaplingMenu = nil
 end
 
+function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon()
+    -- Legacy Empty function
+end
+
 function flora_cultivator:OnEnterBuildMenuEvent( evt )
 
     self.showPlantIcon = 1
@@ -1221,9 +1225,5 @@ function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 end
 
 -- #endregion Drone Point
-
-function flora_cultivator:OnLuaGlobalEventCultivatorShowHideIcon()
-    -- Legacy Empty function
-end
 
 return flora_cultivator
