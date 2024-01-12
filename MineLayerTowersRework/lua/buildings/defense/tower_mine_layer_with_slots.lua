@@ -840,12 +840,25 @@ function tower_mine_layer_with_slots:CreateMenuEntity()
 
     local menuBlueprintName = "misc/tower_mine_layer_slots_menu"
 
+    if ( self.menuEntity ~= nil and not EntityService:IsAlive(self.menuEntity) ) then
+        self.menuEntity = nil
+    end
+
+    if ( self.menuEntity ~= nil ) then
+
+        local menuParent = EntityService:GetParent( self.menuEntity )
+
+        if ( menuParent == nil or menuParent == INVALID_ID or menuParent ~= self.entity ) then
+            self.menuEntity = nil
+        end
+    end
+
     if ( self.menuEntity == nil ) then
 
         local children = EntityService:GetChildren( self.entity, true )
         for child in Iter(children) do
             local blueprintName = EntityService:GetBlueprintName( child )
-            if ( blueprintName == menuBlueprintName ) then
+            if ( blueprintName == menuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
                 self.menuEntity = child
                 goto continue
@@ -870,6 +883,11 @@ function tower_mine_layer_with_slots:CreateMenuEntity()
                 EntityService:RemoveEntity( child )
             end
         end
+    end
+
+    if ( self.menuEntity == nil or self.menuEntity == INVALID_ID or not EntityService:IsAlive( self.menuEntity ) ) then
+        self.menuEntity = nil
+        return
     end
 
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
