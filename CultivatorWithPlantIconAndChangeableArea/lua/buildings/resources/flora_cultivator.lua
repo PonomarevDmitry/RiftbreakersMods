@@ -160,12 +160,25 @@ function flora_cultivator:CreateMenuEntity()
 
     local cultivatorSaplingMenuBlueprintName = "misc/cultivator_sapling_menu"
 
+    if ( self.cultivatorSaplingMenu ~= nil and not EntityService:IsAlive(self.cultivatorSaplingMenu) ) then
+        self.cultivatorSaplingMenu = nil
+    end
+
+    if ( self.cultivatorSaplingMenu ~= nil ) then
+
+        local menuParent = EntityService:GetParent( self.cultivatorSaplingMenu )
+
+        if ( menuParent == nil or menuParent == INVALID_ID or menuParent ~= self.entity ) then
+            self.cultivatorSaplingMenu = nil
+        end
+    end
+
     if ( self.cultivatorSaplingMenu == nil ) then
 
         local children = EntityService:GetChildren( self.entity, true )
         for child in Iter(children) do
             local blueprintName = EntityService:GetBlueprintName( child )
-            if ( blueprintName == cultivatorSaplingMenuBlueprintName ) then
+            if ( blueprintName == cultivatorSaplingMenuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
                 self.cultivatorSaplingMenu = child
                 goto continue
@@ -191,9 +204,20 @@ function flora_cultivator:CreateMenuEntity()
         end
     end
 
-    local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    if ( self.cultivatorSaplingMenu == nil or self.cultivatorSaplingMenu == INVALID_ID or not EntityService:IsAlive( self.cultivatorSaplingMenu ) ) then
+        self.cultivatorSaplingMenu = nil
+        return
+    end
 
-    self.showPlantIcon = self.showPlantIcon or 1
+    local sizeSelf = EntityService:GetBoundsSize( self.entity )
+    EntityService:SetPosition( self.cultivatorSaplingMenu, 0, sizeSelf.y, 0 )
+
+    local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    if ( menuDB == nil ) then
+        return
+    end
+
+    self.showPlantIcon = self.showPlantIcon or 0
 
     local visible = 0
 
@@ -281,8 +305,9 @@ function flora_cultivator:OnBuildingEnd()
 
     if not ItemService:IsSameSubTypeEquipped( self.entity, self.default_item ) then
         ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
-        self:PopulateSpecialActionInfo()
     end
+
+    self:PopulateSpecialActionInfo()
 end
 
 function flora_cultivator:_OnBuildingModifiedEvent()
@@ -365,11 +390,19 @@ function flora_cultivator:PopulateSpecialActionInfo()
 
     self:CreateMenuEntity()
 
+    if ( self.cultivatorSaplingMenu == nil or self.cultivatorSaplingMenu == INVALID_ID or not EntityService:IsAlive(self.cultivatorSaplingMenu) ) then
+        self.cultivatorSaplingMenu = nil
+        return
+    end
+
     local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    if ( menuDB == nil ) then
+        return
+    end
     menuDB:SetString("sapling_icon", saplingIcon)
     menuDB:SetString("sapling_name", saplingName)
 
-    self.showPlantIcon = self.showPlantIcon or 1
+    self.showPlantIcon = self.showPlantIcon or 0
 
     local visible = 0
 
@@ -597,11 +630,21 @@ function flora_cultivator:SetCultivatorSaplingMenuVisible()
 
     local visible = 0
 
+    self.showPlantIcon = self.showPlantIcon or 0
+
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         visible = self.showPlantIcon
     end
 
+    if ( self.cultivatorSaplingMenu == nil or self.cultivatorSaplingMenu == INVALID_ID or not EntityService:IsAlive(self.cultivatorSaplingMenu) ) then
+        self.cultivatorSaplingMenu = nil
+        return
+    end
+
     local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    if ( menuDB == nil ) then
+        return
+    end
     menuDB:SetInt("sapling_visible", visible)
 end
 
