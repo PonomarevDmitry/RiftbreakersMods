@@ -23,9 +23,21 @@ function tower_mine_layer_with_slots:OnInit()
     self:CreateCenterPoint()
     self:RegisterEventHandlers()
 
+    self:CreateMenuEntity()
+
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         self:EquipEmptySlots()
     end
+
+    local owner = self.data:GetIntOrDefault( "owner", 0 )
+
+    if ( PlayerService:IsInFighterMode( owner ) ) then
+        self.showMenu = 0
+    else
+        self.showMenu = 1
+    end
+
+    self:PopulateSpecialActionInfo()
 end
 
 function tower_mine_layer_with_slots:OnLoad()
@@ -37,7 +49,13 @@ function tower_mine_layer_with_slots:OnLoad()
     self:CreateCenterPoint()
     self:RegisterEventHandlers()
 
+    self:CreateMenuEntity()
+
     self:EquipEmptySlots()
+
+    self.showMenu = self.showMenu or 0
+
+    self:PopulateSpecialActionInfo()
 end
 
 function tower_mine_layer_with_slots:RegisterEventHandlers()
@@ -54,6 +72,9 @@ function tower_mine_layer_with_slots:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
 
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
+
+    self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
+    self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 end
 
 function tower_mine_layer_with_slots:OnDroneLiftingStarted()
@@ -234,6 +255,8 @@ function tower_mine_layer_with_slots:OnItemEquippedEvent( evt )
 
     local database = EntityService:GetDatabase( self.entity )
     database:SetString(key, itemBlueprintName)
+
+    self:PopulateSpecialActionInfo()
 end
 
 function tower_mine_layer_with_slots:OnItemUnequippedEvent( evt )
@@ -243,6 +266,8 @@ function tower_mine_layer_with_slots:OnItemUnequippedEvent( evt )
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         self:SpawnDrones()
     end
+
+    self:PopulateSpecialActionInfo()
 end
 
 function tower_mine_layer_with_slots:OnOperateActionMenuEvent()
@@ -738,5 +763,187 @@ function tower_mine_layer_with_slots:OnBuildingRemovedEventTrasferingInfoToRuin(
 end
 
 -- #endregion Drone Point
+
+function tower_mine_layer_with_slots:OnRelease()
+
+    if ( self.menuEntity ~= nil ) then
+        EntityService:RemoveEntity( self.menuEntity )
+        self.menuEntity = nil
+    end
+
+    self:RemoveLinkEntity()
+
+    if ( self.pointEntity ~= nil ) then
+        EntityService:RemoveEntity( self.pointEntity )
+        self.pointEntity = nil
+    end
+
+    if ( drone_spawner_building.OnRelease ) then
+        drone_spawner_building.OnRelease( self )
+    end
+end
+
+function tower_mine_layer_with_slots:_OnBuildingModifiedEvent()
+
+    if ( drone_spawner_building._OnBuildingModifiedEvent ) then
+        drone_spawner_building._OnBuildingModifiedEvent(self)
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_mine_layer_with_slots:OnBuildingEnd()
+
+    if ( drone_spawner_building.OnBuildingEnd ) then
+        drone_spawner_building.OnBuildingEnd(self)
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_mine_layer_with_slots:OnEnterBuildMenuEvent( evt )
+
+    self.showMenu = 1
+
+    self:SetMenuVisible(self.menuEntity)
+end
+
+function tower_mine_layer_with_slots:OnEnterFighterModeEvent( evt )
+
+    self.showMenu = 0
+
+    self:SetMenuVisible(self.menuEntity)
+end
+
+function tower_mine_layer_with_slots:SetMenuVisible(menuEntity)
+
+    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
+        return
+    end
+
+    local visible = 0
+
+    self.showMenu = self.showMenu or 0
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        visible = self.showMenu
+    end
+
+    local menuDB = EntityService:GetDatabase( menuEntity )
+    if ( menuDB ) then
+        menuDB:SetInt("menu_visible", visible)
+    end
+end
+
+function tower_mine_layer_with_slots:CreateMenuEntity()
+
+    local menuBlueprintName = "misc/tower_mine_layer_slots_menu"
+
+    if ( self.menuEntity == nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == menuBlueprintName ) then
+
+                self.menuEntity = child
+                goto continue
+            end
+        end
+
+        ::continue::
+    end
+
+    if ( self.menuEntity == nil ) then
+    
+        local team = EntityService:GetTeam( self.entity )
+        self.menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
+    end
+
+    if ( self.menuEntity ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == menuBlueprintName and child ~= self.menuEntity ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
+    end
+
+    local sizeSelf = EntityService:GetBoundsSize( self.entity )
+    EntityService:SetPosition( self.menuEntity, 0, sizeSelf.y, 0 )
+
+    local menuDB = EntityService:GetDatabase( self.menuEntity )
+    if ( menuDB ) then
+        menuDB:SetInt("menu_visible", 0)
+    end
+end
+
+function tower_mine_layer_with_slots:PopulateSpecialActionInfo()
+
+    local menuEntity = self.menuEntity
+    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
+        return
+    end
+
+    local menuDB = EntityService:GetDatabase( menuEntity )
+    if ( menuDB == nil ) then
+        return
+    end
+
+    menuDB:SetInt("slot_visible_1", 0)
+    menuDB:SetInt("slot_visible_2", 0)
+    menuDB:SetInt("slot_visible_3", 0)
+
+    menuDB:SetString("slot_icon_1", "")
+    menuDB:SetString("slot_icon_2", "")
+    menuDB:SetString("slot_icon_3", "")
+    
+    menuDB:SetString("slot_name_1", "")
+    menuDB:SetString("slot_name_2", "")
+    menuDB:SetString("slot_name_3", "")
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent == nil ) then
+        menuDB:SetInt("menu_visible", 0)
+        return
+    end
+
+    local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+    local slotsCount = 1
+
+    local slots = equipment.slots
+    for i=1,slots.count do
+
+        local slot = slots[i]
+
+        local blueprintName = DEFAULT_TOWER_MINE_BLUEPRINT
+
+        local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+            blueprintName = EntityService:GetBlueprintName( modItem )
+        end
+
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+        if ( blueprint ~= nil ) then
+
+            local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
+            if ( inventoryItemComponent ~= nil ) then
+
+                local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
+
+                menuDB:SetInt("slot_visible_" .. tostring(slotsCount), 1)
+                menuDB:SetString("slot_icon_" .. tostring(slotsCount), inventoryItemComponentRef.icon)
+                menuDB:SetString("slot_name_" .. tostring(slotsCount), inventoryItemComponentRef.name)
+
+                slotsCount = slotsCount + 1
+            end
+        end
+    end
+
+    self:SetMenuVisible(menuEntity)
+end
 
 return tower_mine_layer_with_slots
