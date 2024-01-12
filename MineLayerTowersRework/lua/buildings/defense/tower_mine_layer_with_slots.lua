@@ -25,10 +25,6 @@ function tower_mine_layer_with_slots:OnInit()
 
     self:CreateMenuEntity()
 
-    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-        self:EquipEmptySlots()
-    end
-
     local owner = self.data:GetIntOrDefault( "owner", 0 )
 
     if ( PlayerService:IsInFighterMode( owner ) ) then
@@ -50,8 +46,6 @@ function tower_mine_layer_with_slots:OnLoad()
     self:RegisterEventHandlers()
 
     self:CreateMenuEntity()
-
-    self:EquipEmptySlots()
 
     self.showMenu = self.showMenu or 0
 
@@ -151,7 +145,7 @@ function tower_mine_layer_with_slots:OnBuildingEnd()
         drone_spawner_building.OnBuildingEnd(self)
     end
 
-    self:EquipEmptySlots()
+    self:PopulateSpecialActionInfo()
 end
 
 function tower_mine_layer_with_slots:EquipEmptySlots()
@@ -260,8 +254,6 @@ function tower_mine_layer_with_slots:OnItemEquippedEvent( evt )
 end
 
 function tower_mine_layer_with_slots:OnItemUnequippedEvent( evt )
-
-    self:EquipEmptySlots()
 
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
         self:SpawnDrones()
@@ -787,6 +779,15 @@ function tower_mine_layer_with_slots:_OnBuildingModifiedEvent()
 
     if ( drone_spawner_building._OnBuildingModifiedEvent ) then
         drone_spawner_building._OnBuildingModifiedEvent(self)
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_mine_layer_with_slots:OnBuildingStart()
+
+    if ( drone_spawner_building.OnBuildingStart ) then
+        drone_spawner_building.OnBuildingStart(self)
     end
 
     self:PopulateSpecialActionInfo()
