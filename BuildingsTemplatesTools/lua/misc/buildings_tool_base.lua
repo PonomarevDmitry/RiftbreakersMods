@@ -110,8 +110,6 @@ function buildings_tool_base:GetTemplateBuildingsIcons(templateString)
         end
     end
 
-    LogService:Log(markerText)
-
     return markerText
 end
 
