@@ -59,17 +59,19 @@ function upgrade_all_map_cat_upgrader_tool:UpdateMarker()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
+    markerDB:SetInt("building_visible", 1)
+
     if ( self.categoryTemplate == "" ) then
 
-        markerDB:SetString("message_text", "")
+        local messageText = self:GetBuildinsDescription()
+
+        markerDB:SetString("message_text", messageText)
+
         markerDB:SetString("building_icon", "")
-        markerDB:SetInt("building_visible", 0)
+        markerDB:SetInt("building_icon_visible", 0)
 
         return
     end
-
-
-    markerDB:SetInt("building_visible", 1)
 
     if ( self.selectedMode >= self.modeSelectLast ) then
 
@@ -85,6 +87,8 @@ function upgrade_all_map_cat_upgrader_tool:UpdateMarker()
         local messageText = "${gui/hud/upgrade_all_map/last_building} " .. tostring(indexCategory + 1)
 
         markerDB:SetString("building_icon", menuIcon)
+        markerDB:SetInt("building_icon_visible", 1)
+
         markerDB:SetString("message_text", messageText)
 
     elseif ( self.selectedCategory ~= "" ) then
@@ -102,9 +106,12 @@ function upgrade_all_map_cat_upgrader_tool:UpdateMarker()
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
         end
+        markerDB:SetInt("building_icon_visible", 1)
     else
 
         markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+        markerDB:SetInt("building_icon_visible", 1)
+
         markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_category_not_selected")
     end
 end
