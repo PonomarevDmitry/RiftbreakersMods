@@ -139,15 +139,6 @@ function tower_mine_layer_with_slots:SpawnDrones()
     end
 end
 
-function tower_mine_layer_with_slots:OnBuildingEnd()
-
-    if ( drone_spawner_building.OnBuildingEnd ) then
-        drone_spawner_building.OnBuildingEnd(self)
-    end
-
-    self:PopulateSpecialActionInfo()
-end
-
 function tower_mine_layer_with_slots:EquipEmptySlots()
 
     local default_item = ItemService:GetFirstItemForBlueprint( self.entity, DEFAULT_TOWER_MINE_BLUEPRINT )
@@ -660,6 +651,8 @@ function tower_mine_layer_with_slots:GettingInfoFromRuin()
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
     local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
 
     local position = EntityService:GetPosition(self.entity)
@@ -699,6 +692,36 @@ function tower_mine_layer_with_slots:GettingInfoFromRuin()
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
 
+        self.slotItemsFromRuins = {}
+
+        local blueprint = ResourceManager:GetBlueprint( selfBlueprintName )
+
+        if ( blueprint ~= nil ) then
+            local equipmentComponent = blueprint:GetComponent("EquipmentComponent")
+            if ( equipmentComponent ~= nil ) then
+
+                local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+                local slots = equipment.slots
+                for i=1,slots.count do
+
+                    local slot = slots[i]
+
+                    local databaseParameter = selfLowName .. "_" .. slot.name
+
+                    local modItemBlueprintName = ruinDatabase:GetStringOrDefault(databaseParameter, "") or ""
+
+                    local towerMineBlueprintName = ""
+
+                    if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+                        towerMineBlueprintName = modItemBlueprintName
+                    end
+
+                    self.slotItemsFromRuins[databaseParameter] = towerMineBlueprintName
+                end
+            end
+        end
+
         ::continue::
     end
 end
@@ -712,6 +735,8 @@ function tower_mine_layer_with_slots:OnBuildingRemovedEventTrasferingInfoToRuin(
     end
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
 
     local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
 
@@ -749,6 +774,29 @@ function tower_mine_layer_with_slots:OnBuildingRemovedEventTrasferingInfoToRuin(
 
         ruinDatabase:SetFloat("center_point_entity_x", pointPosition.x)
         ruinDatabase:SetFloat("center_point_entity_z", pointPosition.z)
+
+        local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+        if ( equipmentComponent ~= nil ) then
+
+            local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+            local slots = equipment.slots
+            for i=1,slots.count do
+
+                local slot = slots[i]
+
+                local towerMineBlueprintName = DEFAULT_TOWER_MINE_BLUEPRINT
+
+                local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+                if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+                    towerMineBlueprintName = EntityService:GetBlueprintName( modItem )
+                end
+
+                local databaseParameter = selfLowName .. "_" .. slot.name
+
+                ruinDatabase:SetString(databaseParameter, towerMineBlueprintName)
+            end
+        end
 
         ::continue::
     end
@@ -797,6 +845,43 @@ function tower_mine_layer_with_slots:OnBuildingEnd()
 
     if ( drone_spawner_building.OnBuildingEnd ) then
         drone_spawner_building.OnBuildingEnd(self)
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    self.slotItemsFromRuins = self.slotItemsFromRuins or {}
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ~= nil ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            local databaseParameter = selfLowName .. "_" .. slot.name
+
+            local modItemBlueprintName = self.slotItemsFromRuins[databaseParameter] or ""
+
+            if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+
+                local item = ItemService:GetFirstItemForBlueprint( self.entity, modItemBlueprintName )
+
+                if ( item == INVALID_ID ) then
+                    item = ItemService:AddItemToInventory( self.entity, modItemBlueprintName )
+                end
+
+                if ( item ~= INVALID_ID ) then
+                    if ( not ItemService:IsSameSubTypeEquipped( self.entity, item ) ) then
+                        ItemService:EquipItemInSlot( self.entity, item, slot.name )
+                    end
+                end
+            end
+        end
     end
 
     self:PopulateSpecialActionInfo()
