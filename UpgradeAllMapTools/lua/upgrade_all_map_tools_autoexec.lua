@@ -68,8 +68,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local category = buildingDescRef.category or ""
 
-    LogService:Log("blueprintName " .. blueprintName .. " category " .. category)
-
     if ( category == "" ) then
         return
     end
