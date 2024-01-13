@@ -947,13 +947,7 @@ function flora_cultivator:UpdateDisplayRadiusVisibility( show, entity )
             component.max_radius = self.display_radius_size.max;
             component.max_radius_blueprint = self.display_effect_blueprint;
 
-            self.dronePointSelected = self.dronePointSelected or false
-
-            if ( self.dronePointSelected ) then
-                EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
-            else
-                EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-            end
+            self:SetPointEntitySelectedSkin()
 
             self:CreateLinkEntity()
 
@@ -979,6 +973,27 @@ function flora_cultivator:UpdateDisplayRadiusVisibility( show, entity )
     end
 end
 
+function flora_cultivator:SetPointEntitySelectedSkin()
+
+    self.dronePointSelected = self.dronePointSelected or false
+
+    local isSkinned = EntityService:IsSkinned(self.pointEntity)
+
+    if ( self.dronePointSelected ) then
+        if ( isSkinned ) then
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_pass", "selected" )
+        else
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
+        end
+    else
+        if ( isSkinned ) then
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_blue", "selected" )
+        else
+            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
+        end
+    end
+end
+
 function flora_cultivator:UpdateDronePointSkinMaterial()
 
     local count = 0
@@ -991,11 +1006,7 @@ function flora_cultivator:UpdateDronePointSkinMaterial()
     self.dronePointSelected = self.dronePointSelected or false
 
     if count > 0 then
-        if ( self.dronePointSelected ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-        end
+        self:SetPointEntitySelectedSkin()
     else
         EntityService:RemoveMaterial( self.pointEntity, "selected" )
     end
