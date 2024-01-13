@@ -32,9 +32,6 @@ function harvesting_buildings_drone_point_picker_tool:OnInit()
     self.display_effect_blueprint = ""
     self.display_radius_group = ""
 
-    self.display_radius_min = min
-    self.display_radius_max = max
-
     if max ~= nil then
         self.display_effect_blueprint = blueprintDatabase:GetStringOrDefault( "display_radius_blueprint", "effects/decals/range_circle" )
         self.display_radius_group = blueprintDatabase:GetStringOrDefault("display_radius_group", "") or ""
@@ -311,23 +308,60 @@ function harvesting_buildings_drone_point_picker_tool:ShowDisplayRadiusComponent
 
     if ( #self.pickedBuildings > 0 ) then
 
-        if self.display_radius_max ~= nil then
-            local displayRadiusComponent = EntityService:GetComponent(self.childEntity, "DisplayRadiusComponent")
+        local min = nil
+        local max = nil
 
-            if ( displayRadiusComponent == nil ) then
+        for entity in Iter( self.pickedBuildings ) do
 
-                displayRadiusComponent = EntityService:CreateComponent(self.childEntity, "DisplayRadiusComponent")
+            local entityDatabase = EntityService:GetDatabase( entity )
 
-                local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
-                displayRadiusComponentRef.min_radius = self.display_radius_min
-                displayRadiusComponentRef.max_radius = self.display_radius_max
-                displayRadiusComponentRef.max_radius_blueprint = self.display_effect_blueprint
+            local entityMin, entityMax = self:GetBuildingDisplayRadius(entityDatabase)
+
+            if ( entityMax ~= nil ) then
+
+                if ( min ~= nil ) then
+                    min = math.min(min, entityMin)
+                else
+                    min = entityMin
+                end
+
+                if ( max ~= nil ) then
+                    max = math.max(max, entityMax)
+                else
+                    max = entityMax
+                end
+            end
+        end
+
+        local displayRadiusComponent = EntityService:GetComponent(self.childEntity, "DisplayRadiusComponent")
+
+        if ( displayRadiusComponent == nil ) then
+
+            self:CreateDisplayRadiusComponent(min, max)
+        else
+            local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
+
+            if (displayRadiusComponentRef.max_radius ~= max) then
+
+                EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
+
+                self:CreateDisplayRadiusComponent(min, max)
             end
         end
     else
 
         EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
     end
+end
+
+function harvesting_buildings_drone_point_picker_tool:CreateDisplayRadiusComponent(min, max)
+
+    local displayRadiusComponent = EntityService:CreateComponent(self.childEntity, "DisplayRadiusComponent")
+
+    local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
+    displayRadiusComponentRef.min_radius = min
+    displayRadiusComponentRef.max_radius = max
+    displayRadiusComponentRef.max_radius_blueprint = self.display_effect_blueprint
 end
 
 function harvesting_buildings_drone_point_picker_tool:OnRotateSelectorRequest(evt)
