@@ -119,6 +119,8 @@ function loot_collector_drone:OnUpdate()
     if not self:ValidateTarget( loot_target ) then
         self:SetTargetActionFinished()
         self:DisableEffect()
+
+        self:TryFindNewTarget()
     end
 end
 
@@ -193,6 +195,8 @@ end
 
 function loot_collector_drone:OnDroneTargetAction( target )
     self:SetTargetActionFinished()
+
+    self:TryFindNewTarget()
 end
 
 function loot_collector_drone:GetDroneFindCenterPoint()
@@ -243,6 +247,15 @@ function loot_collector_drone:OnOwnerDistanceCheckExecute()
         self:SetTargetActionFinished()
 
         self:TryFindNewTarget()
+    end
+end
+
+function loot_collector_drone:TryFindNewTarget()
+    local target = self:FindActionTarget();
+    if target ~= INVALID_ID then
+        UnitService:SetCurrentTarget( self.entity, "action", target );
+        UnitService:EmitStateMachineParam(self.entity, "action_target_found")
+        UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
     end
 end
 
