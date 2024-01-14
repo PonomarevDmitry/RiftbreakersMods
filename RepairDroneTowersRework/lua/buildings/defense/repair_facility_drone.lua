@@ -77,14 +77,31 @@ end
 
 function repair_facility_drone:CreateCenterPoint()
 
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
     local pointEntityBlueprintName = "misc/area_center_point"
+
+    if ( self.pointEntity ~= nil and not EntityService:IsAlive(self.pointEntity) ) then
+        self.pointEntity = nil
+    end
+
+    if ( self.pointEntity ~= nil ) then
+
+        local pointEntityParent = EntityService:GetParent( self.pointEntity )
+
+        if ( pointEntityParent == nil or pointEntityParent == INVALID_ID or pointEntityParent ~= self.entity ) then
+            self.pointEntity = nil
+        end
+    end
 
     if ( self.pointEntity == nil ) then
 
         local children = EntityService:GetChildren( self.entity, true )
         for child in Iter(children) do
             local blueprintName = EntityService:GetBlueprintName( child )
-            if ( blueprintName == pointEntityBlueprintName ) then
+            if ( blueprintName == pointEntityBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
                 self.pointEntity = child
                 ItemService:SetInvisible(self.pointEntity, true)
@@ -98,10 +115,15 @@ function repair_facility_drone:CreateCenterPoint()
 
     if ( self.pointEntity == nil ) then
 
-        local transform = EntityService:GetWorldTransform( self.entity )
+        local newPositionX = 0
+        local newPositionZ = 0
 
-        local newPositionX = self.data:GetFloatOrDefault("center_point_entity_x", transform.position.x)
-        local newPositionZ = self.data:GetFloatOrDefault("center_point_entity_z", transform.position.z)
+        if ( self.data:HasVector(selfLowName .. "_center_point_vector") ) then
+            local vector = self.data:GetVector(selfLowName .. "_center_point_vector")
+
+            newPositionX = vector.x
+            newPositionZ = vector.z
+        end
 
         local team = EntityService:GetTeam( self.entity )
         self.pointEntity = EntityService:SpawnAndAttachEntity( pointEntityBlueprintName, self.entity, team )
@@ -138,8 +160,11 @@ function repair_facility_drone:OnDronePointEvent(evt)
     end
 
     if ( eventName == "AreaCenterPointChangeEvent" ) then
-        local newPositionX = eventDatabase:GetFloat("point_x")
-        local newPositionZ = eventDatabase:GetFloat("point_z")
+
+        local selfPosition = EntityService:GetPosition( self.entity )
+
+        local newPositionX = eventDatabase:GetFloat("point_x") - selfPosition.x
+        local newPositionZ = eventDatabase:GetFloat("point_z") - selfPosition.z
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
 
@@ -177,16 +202,19 @@ end
 
 function repair_facility_drone:SetCenterPointPosition( newPositionX, newPositionZ )
 
-    self.data:SetFloat("center_point_entity_x", newPositionX)
-    self.data:SetFloat("center_point_entity_z", newPositionZ)
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
-    local transform = EntityService:GetWorldTransform( self.entity )
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
 
     local newRelativePosition ={
-        x = newPositionX - transform.position.x,
+        x = newPositionX,
         y = 0,
-        z = newPositionZ - transform.position.z
+        z = newPositionZ
     }
+
+    self.data:SetVector(selfLowName .. "_center_point_vector", newRelativePosition)
+
+    local transform = EntityService:GetWorldTransform( self.entity )
 
     local inverteRotatedPosition = QuatMulVec3( QuatConj(transform.orientation), newRelativePosition )
 
@@ -427,11 +455,19 @@ function repair_facility_drone:GettingInfoFromBaseToUpgrade(eventEntity)
         end
 
         local baseDatabase = EntityService:GetDatabase( entity )
+        if ( baseDatabase == nil ) then
+            goto continue
+        end
 
-        local transform = EntityService:GetWorldTransform( self.entity )
+        local newPositionX = 0
+        local newPositionZ = 0
 
-        local newPositionX = baseDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
-        local newPositionZ = baseDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
+        if ( baseDatabase and baseDatabase:HasVector(selfLowName .. "_center_point_vector") ) then
+            local vector = baseDatabase:GetVector(selfLowName .. "_center_point_vector")
+
+            newPositionX = vector.x
+            newPositionZ = vector.z
+        end
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
 
@@ -442,6 +478,8 @@ end
 function repair_facility_drone:GettingInfoFromRuin()
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
 
     local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
 
@@ -469,16 +507,24 @@ function repair_facility_drone:GettingInfoFromRuin()
         end
 
         local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        if ( ruinDatabase == nil ) then
+            goto continue
+        end
 
         local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
         if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
             goto continue
         end
 
-        local transform = EntityService:GetWorldTransform( self.entity )
+        local newPositionX = 0
+        local newPositionZ = 0
 
-        local newPositionX = ruinDatabase:GetFloatOrDefault("center_point_entity_x", transform.position.x)
-        local newPositionZ = ruinDatabase:GetFloatOrDefault("center_point_entity_z", transform.position.z)
+        if ( ruinDatabase and ruinDatabase:HasVector(selfLowName .. "_center_point_vector") ) then
+            local vector = ruinDatabase:GetVector(selfLowName .. "_center_point_vector")
+
+            newPositionX = vector.x
+            newPositionZ = vector.z
+        end
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
 
@@ -496,6 +542,8 @@ function repair_facility_drone:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
     local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
 
     local position = EntityService:GetPosition(self.entity)
@@ -522,16 +570,25 @@ function repair_facility_drone:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
         end
 
         local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        if ( ruinDatabase == nil ) then
+            goto continue
+        end
 
         local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
         if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
             goto continue
         end
 
-        local pointPosition = EntityService:GetPosition(self.pointEntity)
+        local pointPosition = EntityService:GetPosition( self.pointEntity )
+        local selfPosition = EntityService:GetPosition( self.entity )
 
-        ruinDatabase:SetFloat("center_point_entity_x", pointPosition.x)
-        ruinDatabase:SetFloat("center_point_entity_z", pointPosition.z)
+        local pointPositionVector = {
+            x = pointPosition.x - selfPosition.x,
+            y = 0,
+            z = pointPosition.z - selfPosition.z
+        }
+
+        ruinDatabase:SetVector(selfLowName .. "_center_point_vector", pointPositionVector)
 
         ::continue::
     end
