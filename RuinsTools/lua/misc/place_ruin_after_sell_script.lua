@@ -24,6 +24,51 @@ function place_ruin_after_sell_script:init()
     self.orientation = self.transform.orientation
 
     self:RegisterHandler( self.targetEntity, "BuildingSellEndEvent", "OnBuildingSellEndEvent" )
+
+    local targetEntityLowNameKeyPrefix = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.targetEntity) ) .. "_"
+
+    self.databaseStringValues = {}
+    self.databaseFloatValues = {}
+    self.databaseIntValues = {}
+    self.databaseVectorValues = {}
+
+    local database = EntityService:GetDatabase( self.targetEntity )
+    if ( database == nil ) then
+        return
+    end
+
+    local stringKeys = database:GetStringKeys()
+    for key in Iter( stringKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            self.databaseStringValues[key] = database:GetString(key)
+        end
+    end
+
+    local floatKeys = database:GetFloatKeys()
+    for key in Iter( floatKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            self.databaseFloatValues[key] = database:GetFloat(key)
+        end
+    end
+
+    local intKeys = database:GetIntKeys()
+    for key in Iter( intKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            self.databaseIntValues[key] = database:GetInt(key)
+        end
+    end
+
+    local keyVector = targetEntityLowNameKeyPrefix .. "center_point_vector"
+    if ( database:HasVector(keyVector) ) then
+
+        self.databaseVectorValues[keyVector] = database:GetVector(keyVector)
+    end
 end
 
 function place_ruin_after_sell_script:OnBuildingSellEndEvent()
@@ -48,6 +93,27 @@ function place_ruin_after_sell_script:OnBuildingSellEndEvent()
 
     EntityService:SetOrientation( newRuinsEntity, self.orientation )
     EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
+
+    local database = EntityService:GetDatabase( newRuinsEntity )
+    if ( database == nil ) then
+        return
+    end
+
+    for key, value in pairs( self.databaseStringValues ) do
+        database:SetString(key, value)
+    end
+
+    for key, value in pairs( self.databaseFloatValues ) do
+        database:SetFloat(key, value)
+    end
+
+    for key, value in pairs( self.databaseIntValues ) do
+        database:SetInt(key, value)
+    end
+
+    for key, value in pairs( self.databaseVectorValues ) do
+        database:SetVector(key, value)
+    end
 
     self:DestroySelf()
 end
