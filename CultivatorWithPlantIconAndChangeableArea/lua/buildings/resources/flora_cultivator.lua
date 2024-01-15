@@ -288,15 +288,15 @@ function flora_cultivator:OnBuildingEnd()
 
     if ( self.saplingFromRuins ~= "" and self.saplingFromRuins ~= nil ) then
 
-        self.item = ItemService:GetFirstItemForBlueprint( self.entity, self.saplingFromRuins )
+        local modItem = ItemService:GetFirstItemForBlueprint( self.entity, self.saplingFromRuins )
 
-        if self.item == INVALID_ID then
-            self.item = ItemService:AddItemToInventory( self.entity, self.saplingFromRuins )
+        if ( modItem == INVALID_ID ) then
+            modItem = ItemService:AddItemToInventory( self.entity, self.saplingFromRuins )
         end
 
-        if ( self.item ~= INVALID_ID ) then
-            if not ItemService:IsSameSubTypeEquipped( self.entity, self.item ) then
-                ItemService:EquipItemInSlot( self.entity, self.item, "MOD_1" )
+        if ( modItem ~= INVALID_ID ) then
+            if ( not IsEquippedItemBlueprintValid( modItem, default_blueprint ) ) then
+                ItemService:EquipItemInSlot( self.entity, modItem, "MOD_1" )
                 self:PopulateSpecialActionInfo()
                 return
             end
