@@ -4,13 +4,13 @@ require("lua/utils/numeric_utils.lua")
 require("lua/utils/area_center_point_utils.lua")
 
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
-class 'tower_drone_attack' ( drone_spawner_building )
+class 'tower_drone_attack_with_slots' ( drone_spawner_building )
 
-function tower_drone_attack:__init()
+function tower_drone_attack_with_slots:__init()
     drone_spawner_building.__init(self,self)
 end
 
-function tower_drone_attack:OnInit()
+function tower_drone_attack_with_slots:OnInit()
 
     if ( drone_spawner_building.OnInit ) then
         drone_spawner_building.OnInit(self)
@@ -27,7 +27,7 @@ function tower_drone_attack:OnInit()
     self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
 end
 
-function tower_drone_attack:OnLoad()
+function tower_drone_attack_with_slots:OnLoad()
 
     if ( drone_spawner_building.OnLoad ) then
         drone_spawner_building.OnLoad(self)
@@ -46,7 +46,7 @@ end
 
 -- #region Drone Point
 
-function tower_drone_attack:CreateCenterPoint()
+function tower_drone_attack_with_slots:CreateCenterPoint()
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -120,7 +120,7 @@ function tower_drone_attack:CreateCenterPoint()
     self.data:SetInt("center_point_entity", self.pointEntity)
 end
 
-function tower_drone_attack:OnDronePointEvent(evt)
+function tower_drone_attack_with_slots:OnDronePointEvent(evt)
 
     local eventName = evt:GetEvent()
     local eventDatabase = evt:GetDatabase()
@@ -149,7 +149,7 @@ function tower_drone_attack:OnDronePointEvent(evt)
     end
 end
 
-function tower_drone_attack:OnActivateEntityRequestDronePoint( evt )
+function tower_drone_attack_with_slots:OnActivateEntityRequestDronePoint( evt )
 
     if ( evt:GetEntity() ~= self.entity) then
         return
@@ -160,7 +160,7 @@ function tower_drone_attack:OnActivateEntityRequestDronePoint( evt )
     self:UpdateDronePointSkinMaterial()
 end
 
-function tower_drone_attack:OnDeactivateEntityRequestDronePoint( evt )
+function tower_drone_attack_with_slots:OnDeactivateEntityRequestDronePoint( evt )
 
     if ( evt:GetEntity() ~= self.entity) then
         return
@@ -171,7 +171,7 @@ function tower_drone_attack:OnDeactivateEntityRequestDronePoint( evt )
     self:UpdateDronePointSkinMaterial()
 end
 
-function tower_drone_attack:SetCenterPointPosition( newPositionX, newPositionZ )
+function tower_drone_attack_with_slots:SetCenterPointPosition( newPositionX, newPositionZ )
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -197,7 +197,7 @@ function tower_drone_attack:SetCenterPointPosition( newPositionX, newPositionZ )
     self:RepositionLinkEntity()
 end
 
-function tower_drone_attack:UpdateDisplayRadiusVisibility( show, entity )
+function tower_drone_attack_with_slots:UpdateDisplayRadiusVisibility( show, entity )
 
     self.display_radius_requesters = self.display_radius_requesters or {}
 
@@ -249,7 +249,7 @@ function tower_drone_attack:UpdateDisplayRadiusVisibility( show, entity )
     end
 end
 
-function tower_drone_attack:SetPointEntitySelectedSkin()
+function tower_drone_attack_with_slots:SetPointEntitySelectedSkin()
 
     self.dronePointSelected = self.dronePointSelected or false
 
@@ -270,7 +270,7 @@ function tower_drone_attack:SetPointEntitySelectedSkin()
     end
 end
 
-function tower_drone_attack:UpdateDronePointSkinMaterial()
+function tower_drone_attack_with_slots:UpdateDronePointSkinMaterial()
 
     local count = 0
     for entityTemp,_ in pairs(self.display_radius_requesters) do
@@ -288,7 +288,7 @@ function tower_drone_attack:UpdateDronePointSkinMaterial()
     end
 end
 
-function tower_drone_attack:CreateLinkEntity()
+function tower_drone_attack_with_slots:CreateLinkEntity()
 
     local linkEntityBlueprintName = "effects/area_center_point_effects/area_center_point_link"
 
@@ -328,7 +328,7 @@ function tower_drone_attack:CreateLinkEntity()
     end
 end
 
-function tower_drone_attack:RemoveLinkEntity()
+function tower_drone_attack_with_slots:RemoveLinkEntity()
 
     if ( self.linkEntity == nil ) then
         return
@@ -338,7 +338,7 @@ function tower_drone_attack:RemoveLinkEntity()
     self.linkEntity = nil
 end
 
-function tower_drone_attack:RepositionLinkEntity()
+function tower_drone_attack_with_slots:RepositionLinkEntity()
 
     if ( self.linkEntity == nil or self.pointEntity == nil ) then
         return
@@ -373,7 +373,7 @@ function tower_drone_attack:RepositionLinkEntity()
     instance.end_point.z = pointPosition.z
 end
 
-function tower_drone_attack:OnBuildingStartEventGettingInfo(evt)
+function tower_drone_attack_with_slots:OnBuildingStartEventGettingInfo(evt)
 
     local eventEntity = evt:GetEntity()
 
@@ -385,7 +385,7 @@ function tower_drone_attack:OnBuildingStartEventGettingInfo(evt)
     end
 end
 
-function tower_drone_attack:GettingInfoFromBaseToUpgrade(eventEntity)
+function tower_drone_attack_with_slots:GettingInfoFromBaseToUpgrade(eventEntity)
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -446,7 +446,7 @@ function tower_drone_attack:GettingInfoFromBaseToUpgrade(eventEntity)
     end
 end
 
-function tower_drone_attack:GettingInfoFromRuin()
+function tower_drone_attack_with_slots:GettingInfoFromRuin()
 
     local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
 
@@ -503,7 +503,7 @@ function tower_drone_attack:GettingInfoFromRuin()
     end
 end
 
-function tower_drone_attack:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
+function tower_drone_attack_with_slots:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 
     local eventEntity = evt:GetEntity()
 
@@ -567,7 +567,7 @@ end
 
 -- #endregion Drone Point
 
-function tower_drone_attack:OnRelease()
+function tower_drone_attack_with_slots:OnRelease()
 
     self:RemoveLinkEntity()
 
@@ -582,4 +582,4 @@ function tower_drone_attack:OnRelease()
     end
 end
 
-return tower_drone_attack
+return tower_drone_attack_with_slots
