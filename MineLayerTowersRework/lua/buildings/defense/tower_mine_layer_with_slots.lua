@@ -35,6 +35,8 @@ function tower_mine_layer_with_slots:OnInit()
         self.showMenu = 1
     end
 
+    self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_equipment" )
+
     self:PopulateSpecialActionInfo()
 end
 
@@ -52,6 +54,8 @@ function tower_mine_layer_with_slots:OnLoad()
     self:FillMinesArrays()
 
     self.showMenu = self.showMenu or 0
+
+    self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_equipment" )
 
     self:PopulateSpecialActionInfo()
 end
