@@ -127,7 +127,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower_drone_attack.lua"
+		script "lua/buildings/defense/tower_drone_attack_with_slots.lua"
 		
 		database
 		{
@@ -139,6 +139,32 @@ EntityBlueprint
 			drone_attachments		string:"att_landing,att_landing_1"
 			drone_per_spot			int:"2"
 			drone_visible_on_spot 	int:"0"
+		}
+	}
+
+	EquipmentComponent
+	{
+		equipment
+		{
+			Equipment Equipment
+			{
+				slots
+				{
+					EquipmentSlot
+					{
+						name			"MOD_1"
+						allow_types		"tower_attack_drone"
+						subslots_count	"1"
+					}
+
+					EquipmentSlot
+					{
+						name			"MOD_2"
+						allow_types		"tower_attack_drone"
+						subslots_count	"1"
+					}
+				}
+			}
 		}
 	}
 }

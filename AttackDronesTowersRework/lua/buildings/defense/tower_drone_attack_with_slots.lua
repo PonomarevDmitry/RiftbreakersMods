@@ -6,6 +6,8 @@ require("lua/utils/area_center_point_utils.lua")
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'tower_drone_attack_with_slots' ( drone_spawner_building )
 
+local DEFAULT_TOWER_ATTACK_DRONE_BLUEPRINT = "items/tower_attack_drones/drone_attack_acid";
+
 function tower_drone_attack_with_slots:__init()
     drone_spawner_building.__init(self,self)
 end
@@ -17,14 +19,23 @@ function tower_drone_attack_with_slots:OnInit()
     end
 
     self:CreateCenterPoint()
+    self:RegisterEventHandlers()
 
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
+    self:CreateMenuEntity()
 
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
-    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
+    self:FillDronesArrays()
 
-    self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
-    self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+    local owner = self.data:GetIntOrDefault( "owner", 0 )
+
+    if ( PlayerService:IsInFighterMode( owner ) ) then
+        self.showMenu = 0
+    else
+        self.showMenu = 1
+    end
+
+    self.data:SetString("action_icon", "gui/menu/research/icons/towers_drone_attack" )
+
+    self:PopulateSpecialActionInfo()
 end
 
 function tower_drone_attack_with_slots:OnLoad()
@@ -34,14 +45,242 @@ function tower_drone_attack_with_slots:OnLoad()
     end
 
     self:CreateCenterPoint()
+    self:RegisterEventHandlers()
 
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
+    self:CreateMenuEntity()
+
+    self:FillDronesArrays()
+
+    self.showMenu = self.showMenu or 0
+
+    self.data:SetString("action_icon", "gui/menu/research/icons/towers_drone_attack" )
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_drone_attack_with_slots:FillDronesArrays()
+
+    self.blueprintArray = {
+        "items/tower_attack_drones/drone_attack_acid",
+
+        "items/tower_attack_drones/drone_attack_physical",
+        "items/tower_attack_drones/drone_attack_cryogenic",
+        "items/tower_attack_drones/drone_attack_energy",
+        "items/tower_attack_drones/drone_attack_fire",
+        "items/tower_attack_drones/drone_attack_area",
+    }
+
+    self.researchesForDronesHash = {
+
+        --["items/tower_attack_drones/drone_mine_root_acid"] = "gui/menu/research/name/mech_weapons_corrosive_gun_standard",
+        --["items/tower_attack_drones/drone_mine_root_cryogenic"] = "gui/menu/research/name/consumable_proximity_mine_cryo_standard",
+        --["items/tower_attack_drones/drone_mine_root_energy"] = "gui/menu/research/name/mech_weapons_energy_standard",
+        --["items/tower_attack_drones/drone_mine_root_incendiary"] = "gui/menu/research/name/mech_weapons_liquid_advanced",
+    }
+end
+
+function tower_drone_attack_with_slots:RegisterEventHandlers()
+
+    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
 
     self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
     self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
 
     self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
     self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+
+    self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
+    self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+
+    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
+
+    self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
+    self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
+end
+
+function tower_drone_attack_with_slots:SpawnDrones()
+
+    self:CleanupDrones();
+
+    local DRONE_FADE_TIME = 0.3
+
+    local isActive = self.data:GetIntOrDefault( "activated", 0 ) == 1;
+
+    local blueprints = self:GetDronesTemplatesArray()
+
+    local droneIdx = 0;
+
+    for attachmentNumber=1,#self.drone_landing_spots do
+
+        local attachment = self.drone_landing_spots[attachmentNumber]
+
+        local drone_blueprint = blueprints[ ( (attachmentNumber-1) % #blueprints ) + 1 ]
+
+        for i=1,self.drone_per_attachment do
+
+            local drone = EntityService:SpawnEntity( drone_blueprint, attachment, EntityService:GetTeam(self.entity) )
+            EntityService:SetScale( drone, 0.75,0.75,0.75 )
+
+            UnitService:SetCurrentTarget( drone, "owner", attachment )
+            if self.drones_visible then
+                QueueEvent( "FadeEntityInRequest", drone, DRONE_FADE_TIME )
+            else
+                QueueEvent( "FadeEntityOutRequest", drone, 1 )
+            end
+            
+            self:RegisterHandler( drone, "DroneLandingStartedEvent", "_OnDroneLandingStartedEvent" )
+            self:RegisterHandler( drone, "DroneLandingEndedEvent", "_OnDroneLandingEndedEvent" )
+            self:RegisterHandler( drone, "DroneLiftingStartedEvent", "_OnDroneLiftingStartedEvent" )
+            self:RegisterHandler( drone, "DroneLiftingEndedEvent", "_OnDroneLiftingEndedEvent" )
+            self:DroneSpawned( drone )
+
+            local database = EntityService:GetDatabase( drone )
+            database:SetInt("drone_id", droneIdx )
+            database:SetFloat("drone_search_radius", self.drone_search_radius )
+            droneIdx = droneIdx + 1
+            Insert( self.drones, drone )
+
+            self:UpdateActiveDrones( drone, isActive )
+        end
+    end
+end
+
+function tower_drone_attack_with_slots:GetDronesTemplatesArray()
+
+    local DEFAULT_DRONE_BLUEPRINT = "units/drones/drone_attack";
+
+    local result = {}
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+
+    if ( equipmentComponent == nil ) then
+        QueueEvent("RecreateComponentFromBlueprintRequest", self.entity, "EquipmentComponent" )
+
+        local blueprintName = EntityService:GetBlueprintName(self.entity)
+
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+
+        if ( blueprint ~= nil ) then
+            equipmentComponent = blueprint:GetComponent("EquipmentComponent")
+        end
+    end
+
+    if ( equipmentComponent ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            local droneBlueprint = DEFAULT_DRONE_BLUEPRINT
+
+            local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+            if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
+
+                if ( blueprintDatabase and blueprintDatabase:HasString("drone_blueprint") ) then
+
+                    droneBlueprint = blueprintDatabase:GetString("drone_blueprint")
+                end
+            end
+
+            Insert(result, droneBlueprint)
+        end
+    else
+        Insert(result, DEFAULT_DRONE_BLUEPRINT)
+    end
+
+    return result
+end
+
+function tower_drone_attack_with_slots:OnItemEquippedEvent( evt )
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        self:SpawnDrones()
+    end
+
+    local slotName = evt:GetSlot()
+    local item = evt:GetItem()
+
+    local itemBlueprintName = ""
+
+    if ( item ~= nil and item ~= INVALID_ID ) then
+        itemBlueprintName = EntityService:GetBlueprintName(item)
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local key = selfLowName .. "_" .. slotName
+
+    local database = EntityService:GetDatabase( self.entity )
+    database:SetString(key, itemBlueprintName)
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_drone_attack_with_slots:OnItemUnequippedEvent( evt )
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        self:SpawnDrones()
+    end
+
+    local slotName = evt:GetSlot()
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local key = selfLowName .. "_" .. slotName
+
+    local database = EntityService:GetDatabase( self.entity )
+    database:SetString(key, "")
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_drone_attack_with_slots:OnOperateActionMenuEvent()
+
+    self:AddDronesItemsToEntity(self.entity)
+
+    local owner = self.data:GetIntOrDefault( "owner", 0 )
+
+    local player = PlayerService:GetPlayerControlledEnt( owner )
+
+    self:AddDronesItemsToEntity(player)
+end
+
+function tower_drone_attack_with_slots:AddDronesItemsToEntity(entity)
+
+    for blueprintName in Iter( self.blueprintArray ) do
+
+        local isDroneUnlocked = self:IsDroneUnlocked(blueprintName)
+        if ( not isDroneUnlocked ) then
+            goto continue
+        end
+
+        local item = ItemService:GetFirstItemForBlueprint( entity, blueprintName )
+        if ( item ~= INVALID_ID and item ~= nil) then
+            goto continue
+        end
+
+        ItemService:AddItemToInventory( entity, blueprintName )
+
+        ::continue::
+    end
+end
+
+function tower_drone_attack_with_slots:IsDroneUnlocked(blueprintName)
+
+    local researchName = self.researchesForDronesHash[blueprintName]
+
+    if ( researchName ~= nil and researchName ~= "" ) then
+
+        return PlayerService:IsResearchUnlocked( researchName )
+    end
+
+    return true
 end
 
 -- #region Drone Point
@@ -580,6 +819,233 @@ function tower_drone_attack_with_slots:OnRelease()
     if ( drone_spawner_building.OnRelease ) then
         drone_spawner_building.OnRelease(self)
     end
+end
+
+function tower_drone_attack_with_slots:_OnBuildingModifiedEvent()
+
+    if ( drone_spawner_building._OnBuildingModifiedEvent ) then
+        drone_spawner_building._OnBuildingModifiedEvent(self)
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_drone_attack_with_slots:OnBuildingStart()
+
+    if ( drone_spawner_building.OnBuildingStart ) then
+        drone_spawner_building.OnBuildingStart(self)
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_drone_attack_with_slots:OnBuildingEnd()
+
+    if ( drone_spawner_building.OnBuildingEnd ) then
+        drone_spawner_building.OnBuildingEnd(self)
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    self.slotItemsFromRuins = self.slotItemsFromRuins or {}
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ~= nil ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            local databaseParameter = selfLowName .. "_" .. slot.name
+
+            local modItemBlueprintName = self.slotItemsFromRuins[databaseParameter] or ""
+
+            if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+
+                local item = ItemService:GetFirstItemForBlueprint( self.entity, modItemBlueprintName )
+
+                if ( item == INVALID_ID ) then
+                    item = ItemService:AddItemToInventory( self.entity, modItemBlueprintName )
+                end
+
+                if ( item ~= INVALID_ID ) then
+                    if ( not ItemService:IsSameSubTypeEquipped( self.entity, item ) ) then
+                        ItemService:EquipItemInSlot( self.entity, item, slot.name )
+                    end
+                end
+            end
+        end
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
+function tower_drone_attack_with_slots:OnEnterBuildMenuEvent( evt )
+
+    self.showMenu = 1
+
+    self:SetMenuVisible(self.menuEntity)
+end
+
+function tower_drone_attack_with_slots:OnEnterFighterModeEvent( evt )
+
+    self.showMenu = 0
+
+    self:SetMenuVisible(self.menuEntity)
+end
+
+function tower_drone_attack_with_slots:SetMenuVisible(menuEntity)
+
+    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
+        return
+    end
+
+    local visible = 0
+
+    self.showMenu = self.showMenu or 0
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        visible = self.showMenu
+    end
+
+    local menuDB = EntityService:GetDatabase( menuEntity )
+    if ( menuDB ) then
+        menuDB:SetInt("menu_visible", visible)
+    end
+end
+
+function tower_drone_attack_with_slots:CreateMenuEntity()
+
+    local menuBlueprintName = "misc/tower_drone_attack_slots_menu"
+
+    if ( self.menuEntity ~= nil and not EntityService:IsAlive(self.menuEntity) ) then
+        self.menuEntity = nil
+    end
+
+    if ( self.menuEntity ~= nil ) then
+
+        local menuParent = EntityService:GetParent( self.menuEntity )
+
+        if ( menuParent == nil or menuParent == INVALID_ID or menuParent ~= self.entity ) then
+            self.menuEntity = nil
+        end
+    end
+
+    if ( self.menuEntity == nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == menuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
+
+                self.menuEntity = child
+                goto continue
+            end
+        end
+
+        ::continue::
+    end
+
+    if ( self.menuEntity == nil ) then
+    
+        local team = EntityService:GetTeam( self.entity )
+        self.menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
+    end
+
+    if ( self.menuEntity ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == menuBlueprintName and child ~= self.menuEntity ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
+    end
+
+    if ( self.menuEntity == nil or self.menuEntity == INVALID_ID or not EntityService:IsAlive( self.menuEntity ) ) then
+        self.menuEntity = nil
+        return
+    end
+
+    local sizeSelf = EntityService:GetBoundsSize( self.entity )
+    EntityService:SetPosition( self.menuEntity, 0, sizeSelf.y, 0 )
+
+    local menuDB = EntityService:GetDatabase( self.menuEntity )
+    if ( menuDB ) then
+        menuDB:SetInt("menu_visible", 0)
+    end
+end
+
+function tower_drone_attack_with_slots:PopulateSpecialActionInfo()
+
+    local menuEntity = self.menuEntity
+    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
+        return
+    end
+
+    local menuDB = EntityService:GetDatabase( menuEntity )
+    if ( menuDB == nil ) then
+        return
+    end
+
+    menuDB:SetInt("slot_visible_1", 0)
+    menuDB:SetInt("slot_visible_2", 0)
+    menuDB:SetInt("slot_visible_3", 0)
+
+    menuDB:SetString("slot_icon_1", "")
+    menuDB:SetString("slot_icon_2", "")
+    menuDB:SetString("slot_icon_3", "")
+    
+    menuDB:SetString("slot_name_1", "")
+    menuDB:SetString("slot_name_2", "")
+    menuDB:SetString("slot_name_3", "")
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent == nil ) then
+        menuDB:SetInt("menu_visible", 0)
+        return
+    end
+
+    local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+    local slotsCount = 1
+
+    local slots = equipment.slots
+    for i=1,slots.count do
+
+        local slot = slots[i]
+
+        local blueprintName = DEFAULT_TOWER_ATTACK_DRONE_BLUEPRINT
+
+        local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+            blueprintName = EntityService:GetBlueprintName( modItem )
+        end
+
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+        if ( blueprint ~= nil ) then
+
+            local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
+            if ( inventoryItemComponent ~= nil ) then
+
+                local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
+
+                menuDB:SetInt("slot_visible_" .. tostring(slotsCount), 1)
+                menuDB:SetString("slot_icon_" .. tostring(slotsCount), inventoryItemComponentRef.icon)
+                menuDB:SetString("slot_name_" .. tostring(slotsCount), inventoryItemComponentRef.name)
+
+                slotsCount = slotsCount + 1
+            end
+        end
+    end
+
+    self:SetMenuVisible(menuEntity)
 end
 
 return tower_drone_attack_with_slots
