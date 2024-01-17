@@ -67,11 +67,101 @@ EntityBlueprint
 		}
 		
 		muzzles_per_fire			"1"
-		ammo_blueprint				"mech/sniper_rifle_projectile"
-		muzzle_flash_effect			"effects/tower_attack_drones_effects/sniper_rifle_fire"
+		ammo_blueprint				"units/drones/tower_attack_drones/drone_attack_fire_projectile"
+		muzzle_flash_effect			"effects/tower_attack_drones_effects/lava_gun_fire"
 
 		burst_column_spacing		"1"
 		burst_rate					"0.1"
 		burst_column_angle			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name	"units/drones/tower_attack_drones/drone_attack_fire_projectile"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/projectile
+		lights/point/orange_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x	"1"
+			y	"1"
+			z	"0"
+			w	"1"
+		}
+		size
+		{
+			x	"1"
+			y	"1"
+		}
+		visibility		"discovered"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect		"effects/tower_attack_drones_effects/lava_gun_hit"
+		on_world_hit_effect		"effects/tower_attack_drones_effects/lava_gun_hit"
+		on_resisted_hit_effect	"effects/weapons_generic/projectile_hit_resisted"
+
+		hit_effect_direction	"up"
+		collision_3d			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_2d			"ground_unit|destructible"
+	}
+	
+	ParticleDesc
+	{
+		name	"rift/mech_sniper_rifle_bullet"
+	}
+
+	LifeTimeDesc
+	{
+		time		2
+		type		"camera"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			ParticleDesc
+			{
+				name	"rift/mech_sniper_rifle_bullet_trail"
+			}
+		}
+
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material			ribbon/rifle_trail_red
+				update_bounds		1
+				fade_out_time		0.25
+				uv_scroll			"0 -2.5"
+				tiling_distance	"0"
+				tesselation_step	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset	"0 0 0.3"
+					}
+
+					Ribbon
+					{
+						offset	"0 0 -0.3"
+					}
+				}
+			}
+		}
 	}
 }
