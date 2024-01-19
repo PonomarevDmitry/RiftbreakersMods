@@ -382,6 +382,8 @@ function flora_collector:UpdateDronePointSkinMaterial()
     else
         EntityService:RemoveMaterial( self.pointEntity, "selected" )
     end
+
+    self:RepositionLinkEntity()
 end
 
 function flora_collector:CreateLinkEntity()
@@ -446,9 +448,9 @@ function flora_collector:RepositionLinkEntity()
     local direction = VectorMulByNumber( Normalize( VectorSub( pointPosition, selfPosition ) ), 2.0 )
     selfPosition = VectorAdd(selfPosition, direction)
 
-    local lightningComponent = reflection_helper(EntityService:GetComponent(self.linkEntity, "LightningComponent"))
+    local lightningComponentRef = reflection_helper(EntityService:GetComponent(self.linkEntity, "LightningComponent"))
 
-    local container = rawget(lightningComponent.lighning_vec, "__ptr");
+    local container = rawget(lightningComponentRef.lighning_vec, "__ptr");
 
     local item = container:GetItem(0)
     if ( item == nil ) then 
@@ -467,6 +469,14 @@ function flora_collector:RepositionLinkEntity()
     instance.end_point.x = pointPosition.x
     instance.end_point.y = pointPosition.y + sizePoint.y + 2
     instance.end_point.z = pointPosition.z
+
+    self.dronePointSelected = self.dronePointSelected or false
+
+    if ( self.dronePointSelected ) then
+        lightningComponentRef.material = "effects/area_center_point_effects/area_center_point_link_selected"
+    else
+        lightningComponentRef.material = "effects/area_center_point_effects/area_center_point_link"
+    end
 end
 
 function flora_collector:OnBuildingStartEventGettingInfo(evt)
