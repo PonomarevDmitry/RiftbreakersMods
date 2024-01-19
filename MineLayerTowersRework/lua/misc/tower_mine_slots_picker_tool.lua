@@ -145,18 +145,18 @@ function tower_mine_slots_picker_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
+function tower_mine_slots_picker_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
+end
+
 function tower_mine_slots_picker_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
     else
         EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
-end
-
-function tower_mine_slots_picker_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 

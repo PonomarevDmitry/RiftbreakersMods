@@ -110,18 +110,18 @@ function tower_mine_slots_replacer_tool:SetSlotsIcons(slotsArray, markerDB)
     end
 end
 
+function tower_mine_slots_replacer_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
+end
+
 function tower_mine_slots_replacer_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
     else
         EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
-end
-
-function tower_mine_slots_replacer_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
