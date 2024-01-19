@@ -18,9 +18,16 @@ function damage_buildings_tool:SpawnCornerBlueprint()
 end
 
 function damage_buildings_tool:AddedToSelection( entity )
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+    end
 end
 
 function damage_buildings_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial(entity, "selected" )
 end
 
 function damage_buildings_tool:OnRotate()
