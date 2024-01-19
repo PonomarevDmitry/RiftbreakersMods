@@ -6,7 +6,7 @@ require("lua/utils/area_center_point_utils.lua")
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'tower_mine_layer_with_slots' ( drone_spawner_building )
 
-local DEFAULT_TOWER_MINE_BLUEPRINT = "items/tower_mines/drone_mine_root";
+local DEFAULT_TOWER_MINE_BLUEPRINT = "items/tower_mines/drone_mine_root"
 
 function tower_mine_layer_with_slots:__init()
     drone_spawner_building.__init(self,self)
@@ -145,7 +145,7 @@ function tower_mine_layer_with_slots:SpawnDrones()
 
     local DRONE_FADE_TIME = 0.3
 
-    local isActive = self.data:GetIntOrDefault( "activated", 0 ) == 1;
+    local isActive = ( self.data:GetIntOrDefault( "activated", 0 ) == 1 )
 
     local blueprints = Split( self.drone_blueprint, ",") 
 
@@ -225,7 +225,7 @@ end
 
 function tower_mine_layer_with_slots:GetMinesArray()
 
-    local DEFAULT_MINE_BLUEPRINT = "units/drones/drone_mine_root";
+    local DEFAULT_MINE_BLUEPRINT = "units/drones/drone_mine_root"
 
     local result = {}
 
@@ -546,12 +546,12 @@ function tower_mine_layer_with_slots:UpdateDisplayRadiusVisibility( show, entity
         end
 
         if count == 1 then
-            EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" );
+            EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
 
             local component = reflection_helper( EntityService:CreateComponent(self.pointEntity,"DisplayRadiusComponent") )
-            component.min_radius = self.display_radius_size.min;
-            component.max_radius = self.display_radius_size.max;
-            component.max_radius_blueprint = self.display_effect_blueprint;
+            component.min_radius = self.display_radius_size.min
+            component.max_radius = self.display_radius_size.max
+            component.max_radius_blueprint = self.display_effect_blueprint
 
             self:SetPointEntitySelectedSkin()
 
@@ -682,7 +682,7 @@ function tower_mine_layer_with_slots:RepositionLinkEntity()
 
     local lightningComponent = reflection_helper(EntityService:GetComponent(self.linkEntity, "LightningComponent"))
 
-    local container = rawget(lightningComponent.lighning_vec, "__ptr");
+    local container = rawget(lightningComponent.lighning_vec, "__ptr")
 
     local item = container:GetItem(0)
     if ( item == nil ) then 
@@ -1149,7 +1149,7 @@ function tower_mine_layer_with_slots:PopulateSpecialActionInfo()
     menuDB:SetString("slot_icon_1", "")
     menuDB:SetString("slot_icon_2", "")
     menuDB:SetString("slot_icon_3", "")
-    
+
     menuDB:SetString("slot_name_1", "")
     menuDB:SetString("slot_name_2", "")
     menuDB:SetString("slot_name_3", "")
