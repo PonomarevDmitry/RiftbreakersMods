@@ -25,6 +25,7 @@ function tower_mine_slots_picker_tool:OnInit()
     self.buildingLowUpgrade = self.data:GetStringOrDefault("buildingLowUpgrade", "") or ""
     self.current_localization = self.data:GetString("current_localization")
     self.last_localization = self.data:GetString("last_localization")
+    self.item_type = self.data:GetString("item_type")
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
 
     local selectorDB = EntityService:GetDatabase( self.selector )
@@ -231,7 +232,11 @@ function tower_mine_slots_picker_tool:GetSlotsValues(equipmentComponent, entity)
             local modItem = ItemService:GetEquippedItem( entity, slot.name )
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-                blueprintName = EntityService:GetBlueprintName( modItem )
+                local itemType = ItemService:GetItemType( modItem )
+
+                if ( itemType == self.item_type ) then
+                    blueprintName = EntityService:GetBlueprintName( modItem )
+                end
             end
         end
 
