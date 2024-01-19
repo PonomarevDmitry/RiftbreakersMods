@@ -1,0 +1,135 @@
+EntityBlueprint
+{
+	name					"buildings/tools/tower_mine_slots_picker"
+
+	BuildingDesc
+	{
+		name				"tower_mine_slots_picker"
+		bp					"buildings/tools/tower_mine_slots_picker"
+		ghost_bp			"buildings/tools/tower_mine_slots_picker_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/tower_mine_slots_picker_tool"
+		description			"gui/hud/building_description/tower_mine_slots_picker_tool"
+		menu_icon			"gui/hud/tools_icons/tower_mine_slots_picker_tool"
+
+		order				"15.125"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"tower_mine_layer"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/tower_mine_slots_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"tower_mine_slots_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/tower_mine_slots_picker_tool.lua"
+		database
+		{
+			action				string:"tower_mine_slots_picker_tool"
+			buildingLowUpgrade	string:"tower_mine_layer"
+
+			marker_name			string:"misc/marker_selector_tower_mine_slots_picker_tool"
+
+			config_name			string:"$tower_mine_slots_picker_tool.selectedslots"
+			config_list_name	string:"$tower_mine_slots_picker_tool.last_selected_slots"
+
+			default_mod			string:"items/tower_mines/drone_mine_root"
+
+			//next_tool			string:"buildings/tools/tower_mine_slots_replacer"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/tower_mine_slots_replacer"
+
+	BuildingDesc
+	{
+		name				"tower_mine_slots_replacer"
+		bp					"buildings/tools/tower_mine_slots_replacer"
+		ghost_bp			"buildings/tools/tower_mine_slots_replacer_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/tower_mine_slots_replacer_tool"
+		description			"gui/hud/building_description/tower_mine_slots_replacer_tool"
+		menu_icon			"gui/hud/tools_icons/tower_mine_slots_replacer_tool"
+
+		order				"15.125"
+		type				"tower_mine_slots_replacer"
+
+		buildable			"0"
+		building_group		"tower_mine_layer"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/tower_mine_slots_replacer_ghost"
+
+	BuildingDesc
+	{
+		name				"tower_mine_slots_replacer_ghost"
+		buildable			"0"
+		type				"tower_mine_slots_replacer"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/tower_mine_slots_replacer_tool.lua"
+		database
+		{
+			action				string:"tower_mine_slots_replacer_tool"
+			buildingLowUpgrade	string:"tower_mine_layer"
+
+			config_name			string:"$tower_mine_slots_picker_tool.selectedslots"
+			config_list_name	string:"$tower_mine_slots_picker_tool.last_selected_slots"
+
+			default_mod			string:"items/tower_mines/drone_mine_root"
+
+			marker_name			string:"misc/marker_selector_tower_mine_slots_replacer_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
