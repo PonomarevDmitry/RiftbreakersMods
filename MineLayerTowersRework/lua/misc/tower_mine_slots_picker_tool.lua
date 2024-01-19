@@ -15,6 +15,7 @@ function tower_mine_slots_picker_tool:OnInit()
 
     self.configName = self.data:GetString("config_name")
     self.configNameList = self.data:GetString("config_list_name")
+    self.configNameListLength = self.data:GetInt("config_list_length")
 
     self.scaleMap = {
         1,
@@ -22,19 +23,15 @@ function tower_mine_slots_picker_tool:OnInit()
 
     self.defaultModBlueprintName = self.data:GetString("default_mod")
     self.buildingLowUpgrade = self.data:GetStringOrDefault("buildingLowUpgrade", "") or ""
+    self.current_localization = self.data:GetString("current_localization")
+    self.last_localization = self.data:GetString("last_localization")
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
-
-    LogService:Log("defaultModBlueprintName " .. self.defaultModBlueprintName)
-    LogService:Log("buildingLowUpgrade " .. self.buildingLowUpgrade)
-    LogService:Log("next_tool " .. self.next_tool)
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     self.SelectedSlotsBlueprints = nil
 
     local currentValue = selectorDB:GetStringOrDefault( self.configName, "" ) or ""
-
-    LogService:Log("currentValue " .. currentValue)
 
     if ( currentValue ~= nil and currentValue ~= "" and currentValue ~= ",," ) then
 
@@ -97,7 +94,7 @@ function tower_mine_slots_picker_tool:UpdateMarker()
 
         self:SetSlotsIcons(self.lastSelectedSlots, markerDB)
 
-        local messageText = "${gui/hud/tower_mine_slots_tools/last_slots}: " .. tostring(indexSlots + 1)
+        local messageText = "${" .. self.last_localization .. "}: " .. tostring(indexSlots + 1)
 
         markerDB:SetString("message_text", messageText)
         markerDB:SetInt("menu_visible", 1)
@@ -106,7 +103,7 @@ function tower_mine_slots_picker_tool:UpdateMarker()
 
         self:SetSlotsIcons(self.SelectedSlotsBlueprints, markerDB)
 
-        local messageText = "${gui/hud/tower_mine_slots_tools/current_slots}"
+        local messageText = "${" .. self.current_localization .. "}"
 
         markerDB:SetString("message_text", messageText)
         markerDB:SetInt("menu_visible", 1)
@@ -185,7 +182,6 @@ function tower_mine_slots_picker_tool:FilterSelectedEntities( selectedEntities )
         end
 
         local lowName = BuildingService:FindLowUpgrade( blueprintName )
-
         if ( lowName ~= self.buildingLowUpgrade ) then
             goto continue
         end
@@ -237,8 +233,6 @@ function tower_mine_slots_picker_tool:GetSlotsValues(equipmentComponent, entity)
 
                 blueprintName = EntityService:GetBlueprintName( modItem )
             end
-
-            LogService:Log("slot " .. slot.name .. " blueprintName " .. tostring(blueprintName))
         end
 
         Insert(result, blueprintName)
@@ -255,8 +249,29 @@ function tower_mine_slots_picker_tool:IsEqualSlots(slots1, slots2)
 
     for i=1,3 do
 
-        local slot1 = slots1[i]
-        local slot2 = slots2[i]
+        local slot1 = slots1[i] or ""
+        local slot2 = slots2[i] or ""
+
+        if ( slot1 == "" or slot2 == "" ) then
+            goto continue
+        end
+
+        if ( slot1 ~= slot2 ) then
+            return false
+        end
+
+        ::continue::
+    end
+
+    return true
+end
+
+function tower_mine_slots_picker_tool:IsFullEqualSlots(slots1, slots2)
+
+    for i=1,3 do
+
+        local slot1 = slots1[i] or ""
+        local slot2 = slots2[i] or ""
 
         if ( slot1 ~= slot2 ) then
             return false
@@ -372,7 +387,7 @@ function tower_mine_slots_picker_tool:GetSlotsIndexOf( array, slots )
 
     for index, value in ipairs( array ) do
 
-        if ( self:IsEqualSlots(value, slots) ) then
+        if ( self:IsFullEqualSlots(value, slots) ) then
             return index
         end
     end
@@ -402,8 +417,6 @@ function tower_mine_slots_picker_tool:GetCurrentListString(parameterName, select
 
     local currentList = ""
 
-    LogService:Log("currentList " .. currentList)
-
     if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
         currentList = selectorDB:GetStringOrDefault( parameterName, "" ) or ""
@@ -431,7 +444,7 @@ function tower_mine_slots_picker_tool:AddSlotsToLastList(slots, selectorDB)
 
     Insert( currentListArray, slots )
 
-    while ( #currentListArray > 20 ) do
+    while ( #currentListArray > self.configNameListLength ) do
 
         table.remove( currentListArray, 1 )
     end
@@ -459,8 +472,6 @@ function tower_mine_slots_picker_tool:AddSlotsToLastList(slots, selectorDB)
     end
 
     local currentListString = table.concat( templateStringArray )
-
-    LogService:Log("currentListString " .. currentListString)
 
     if ( selectorDB ) then
         selectorDB:SetString(self.configNameList, currentListString)
@@ -514,4 +525,3 @@ function tower_mine_slots_picker_tool:CheckModeValueExists( selectedMode )
 end
 
 return tower_mine_slots_picker_tool
- 

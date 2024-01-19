@@ -215,9 +215,7 @@ function tower_mine_layer_with_slots:EquipEmptySlots()
             local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
             if ( modItem == nil or modItem == INVALID_ID ) then
 
-                if ( not ItemService:IsSameSubTypeEquipped( self.entity, default_item ) ) then
-                    ItemService:EquipItemInSlot( self.entity, default_item, slot.name )
-                end
+                ItemService:EquipItemInSlot( self.entity, default_item, slot.name )
             end
         end
     end
@@ -1022,9 +1020,8 @@ function tower_mine_layer_with_slots:OnBuildingEnd()
                 end
 
                 if ( item ~= INVALID_ID ) then
-                    if ( not ItemService:IsSameSubTypeEquipped( self.entity, item ) ) then
-                        ItemService:EquipItemInSlot( self.entity, item, slot.name )
-                    end
+
+                    ItemService:EquipItemInSlot( self.entity, item, slot.name )
                 end
             end
         end
