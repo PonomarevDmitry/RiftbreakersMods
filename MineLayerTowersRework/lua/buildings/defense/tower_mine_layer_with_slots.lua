@@ -25,8 +25,6 @@ function tower_mine_layer_with_slots:OnInit()
 
     self:CreateMenuEntity()
 
-    self:FillMinesArrays()
-
     local owner = self.data:GetIntOrDefault( "owner", 0 )
 
     if ( PlayerService:IsInFighterMode( owner ) ) then
@@ -51,60 +49,11 @@ function tower_mine_layer_with_slots:OnLoad()
 
     self:CreateMenuEntity()
 
-    self:FillMinesArrays()
-
     self.showMenu = self.showMenu or 0
 
     self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_equipment" )
 
     self:PopulateSpecialActionInfo()
-end
-
-function tower_mine_layer_with_slots:FillMinesArrays()
-
-    self.blueprintArray = {
-        "items/tower_mines/drone_mine_root",
-
-        "items/tower_mines/drone_mine_root_acid",
-        "items/tower_mines/drone_mine_root_cryogenic",
-        "items/tower_mines/drone_mine_root_energy",
-        "items/tower_mines/drone_mine_root_incendiary",
-
-        "items/tower_mines/drone_mine_root_holo_decoy",
-        "items/tower_mines/drone_mine_root_gravity",
-        "items/tower_mines/drone_mine_root_nuclear",
-        "items/tower_mines/drone_mine_root_sonic"
-    }
-
-    self.researchesForMinesHash = {
-
-        ["items/tower_mines/drone_mine_root_acid"] = "gui/menu/research/name/mech_weapons_corrosive_gun_standard",
-        ["items/tower_mines/drone_mine_root_cryogenic"] = "gui/menu/research/name/consumable_proximity_mine_cryo_standard",
-        ["items/tower_mines/drone_mine_root_energy"] = "gui/menu/research/name/mech_weapons_energy_standard",
-        ["items/tower_mines/drone_mine_root_incendiary"] = "gui/menu/research/name/mech_weapons_liquid_advanced",
-
-        ["items/tower_mines/drone_mine_root_nuclear"] = "gui/menu/research/name/consumable_nuclear_mine_standard",
-        ["items/tower_mines/drone_mine_root_sonic"] = "gui/menu/research/name/consumable_sonic_grenades_standard",
-    }
-
-    self.globalAwardsForMinesHash = {
-
-        ["items/tower_mines/drone_mine_root_holo_decoy"] = {
-
-            "items/consumables/holo_decoy_standard_item",
-            "items/consumables/holo_decoy_advanced_item",
-            "items/consumables/holo_decoy_superior_item",
-            "items/consumables/holo_decoy_extreme_item"
-        },
-
-        ["items/tower_mines/drone_mine_root_gravity"] = {
-
-            "items/consumables/proximity_mine_gravity_standard_item",
-            "items/consumables/proximity_mine_gravity_advanced_item",
-            "items/consumables/proximity_mine_gravity_superior_item",
-            "items/consumables/proximity_mine_gravity_extreme_item"
-        }
-    }
 end
 
 function tower_mine_layer_with_slots:RegisterEventHandlers()
@@ -119,8 +68,6 @@ function tower_mine_layer_with_slots:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
-
-    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 
     self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
@@ -189,33 +136,6 @@ function tower_mine_layer_with_slots:SpawnDrones()
                 Insert( self.drones, drone )
 
                 self:UpdateActiveDrones( drone, isActive )
-            end
-        end
-    end
-end
-
-function tower_mine_layer_with_slots:EquipEmptySlots()
-
-    local default_item = ItemService:GetFirstItemForBlueprint( self.entity, DEFAULT_TOWER_MINE_BLUEPRINT )
-
-    if ( default_item == INVALID_ID ) then
-        default_item = ItemService:AddItemToInventory( self.entity, DEFAULT_TOWER_MINE_BLUEPRINT )
-    end
-
-    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
-    if ( equipmentComponent ) then
-
-        local equipment = reflection_helper( equipmentComponent ).equipment[1]
-
-        local slots = equipment.slots
-        for i=1,slots.count do
-
-            local slot = slots[i]
-
-            local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
-            if ( modItem == nil or modItem == INVALID_ID ) then
-
-                ItemService:EquipItemInSlot( self.entity, default_item, slot.name )
             end
         end
     end
@@ -314,62 +234,6 @@ function tower_mine_layer_with_slots:OnItemUnequippedEvent( evt )
     database:SetString(key, "")
 
     self:PopulateSpecialActionInfo()
-end
-
-function tower_mine_layer_with_slots:OnOperateActionMenuEvent()
-
-    self:AddMinesItemsToEntity(self.entity)
-
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
-
-    local player = PlayerService:GetPlayerControlledEnt( owner )
-
-    self:AddMinesItemsToEntity(player)
-end
-
-function tower_mine_layer_with_slots:AddMinesItemsToEntity(entity)
-
-    for blueprintName in Iter( self.blueprintArray ) do
-
-        local isMineUnlocked = self:IsMineUnlocked(blueprintName)
-        if ( not isMineUnlocked ) then
-            goto continue
-        end
-
-        local item = ItemService:GetFirstItemForBlueprint( entity, blueprintName )
-        if ( item ~= INVALID_ID and item ~= nil) then
-            goto continue
-        end
-
-        ItemService:AddItemToInventory( entity, blueprintName )
-
-        ::continue::
-    end
-end
-
-function tower_mine_layer_with_slots:IsMineUnlocked(blueprintName)
-
-    local researchName = self.researchesForMinesHash[blueprintName]
-    local globalAwardList = self.globalAwardsForMinesHash[blueprintName]
-
-    if ( researchName ~= nil and researchName ~= "" ) then
-
-        return PlayerService:IsResearchUnlocked( researchName )
-    end
-
-    if ( globalAwardList ~= nil ) then
-
-        for itemName in Iter( globalAwardList ) do
-
-            if ( PlayerService:HasGlobalAward( itemName ) ) then
-                return true
-            end
-        end
-
-        return false
-    end
-
-    return true
 end
 
 -- #region Drone Point
