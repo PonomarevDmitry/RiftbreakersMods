@@ -27,13 +27,7 @@ function shield_generator:OnInit()
 	--self.fsm:ChangeState("idle")
 
 	self:CreateCenterPoint()
-	self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
-
-	self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
-	self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
-
-	self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
-	self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+	self:RegisterEventHandlers()
 end
 
 function shield_generator:OnWorkInProgress( state )
@@ -96,6 +90,11 @@ function shield_generator:OnLoad()
 	end
 
 	self:CreateCenterPoint()
+	self:RegisterEventHandlers()
+end
+
+function shield_generator:RegisterEventHandlers()
+
 	self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
 
 	self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )

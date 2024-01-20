@@ -30,23 +30,7 @@ function drone_spawner_building:OnInit()
 	self.version = DRONE_SPAWNER_BUILDING_CURRENT_VERSION
 	self:FillInitialParams();
 
-	local blueprintName = EntityService:GetBlueprintName(self.entity)
-	local lowName = BuildingService:FindLowUpgrade( blueprintName )
-	if ( lowName == "loot_collector" ) then
-		self:CreateCenterPoint()
-		self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
-
-		self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
-		self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
-
-		self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
-		self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
-
-		if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-			self:SpawnLandingSpots()
-			self:SpawnDrones()
-		end
-	end
+	self:AttachEventHandlersToLootCollector()
 end
 
 function drone_spawner_building:SpawnLandingSpots()
@@ -77,18 +61,25 @@ function drone_spawner_building:OnLoad()
 
 	building.OnLoad(self)
 
+	self:AttachEventHandlersToLootCollector()
+end
+
+function drone_spawner_building:AttachEventHandlersToLootCollector()
+
 	local blueprintName = EntityService:GetBlueprintName(self.entity)
 	local lowName = BuildingService:FindLowUpgrade( blueprintName )
-	if ( lowName == "loot_collector" ) then
-		self:CreateCenterPoint()
-		self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
-
-		self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
-		self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
-
-		self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
-		self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+	if ( lowName ~= "loot_collector" ) then
+		return
 	end
+
+	self:CreateCenterPoint()
+	self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
+
+	self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
+	self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
+
+	self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
+	self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
 end
 
 function drone_spawner_building:UpdateActiveDrones(drone, active)

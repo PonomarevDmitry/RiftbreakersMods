@@ -23,14 +23,7 @@ function flora_collector:OnLoad()
     self:CreateDebugStateMachine()
 
     self:CreateCenterPoint()
-
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
-
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
-    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
-
-    self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
-    self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+    self:RegisterEventHandlers()
 end
 
 function flora_collector:OnInit()
@@ -45,6 +38,10 @@ function flora_collector:OnInit()
     self.harvested_resources = {}
 
     self:CreateCenterPoint()
+    self:RegisterEventHandlers()
+end
+
+function flora_collector:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent")
 

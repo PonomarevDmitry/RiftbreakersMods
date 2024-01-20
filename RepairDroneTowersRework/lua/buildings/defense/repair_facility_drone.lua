@@ -19,13 +19,7 @@ function repair_facility_drone:OnInit()
     self.working_drones = 0
 
     self:CreateCenterPoint()
-    self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
-
-    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
-    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
-
-    self:RegisterHandler( self.entity, "ActivateEntityRequest", "OnActivateEntityRequestDronePoint" )
-    self:RegisterHandler( self.entity, "DeactivateEntityRequest", "OnDeactivateEntityRequestDronePoint" )
+    self:RegisterEventHandlers()
 end
 
 function repair_facility_drone:OnLoad()
@@ -35,6 +29,10 @@ function repair_facility_drone:OnLoad()
     end
 
     self:CreateCenterPoint()
+    self:RegisterEventHandlers()
+end
+
+function repair_facility_drone:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnDronePointEvent" )
 
