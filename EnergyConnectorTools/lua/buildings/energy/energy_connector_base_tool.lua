@@ -196,6 +196,8 @@ function energy_connector_base_tool:BuildEntity(entity, transform, createCube)
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
+        self:BuildDesertFloor(transform)
+
         QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
@@ -220,6 +222,82 @@ function energy_connector_base_tool:BuildEntity(entity, transform, createCube)
     end
 
     return testBuildable.flag
+end
+
+function energy_connector_base_tool:BuildDesertFloor(spot)
+
+    local antiQuickSandFloor = "buildings/decorations/floor_desert_1x1"
+
+    if ( BuildingService:IsBuildingAvailable( self.playerId, antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then
+
+        local buildDesertFloor = self:ShouldBuildDesertFloor( spot.position )
+
+        if ( buildDesertFloor ) then
+
+            local transformFloor = {}
+            transformFloor.position = spot.position
+            transformFloor.orientation = { x=0, y=0, z=0, w=1}
+            transformFloor.scale = { x=1, y=1, z=1}
+
+            QueueEvent("BuildFloorRequest", INVALID_ID, self.playerId, antiQuickSandFloor, transformFloor )
+        end
+    end
+end
+
+function energy_connector_base_tool:ShouldBuildDesertFloor( position )
+
+    local terrainType = ""
+
+    local overrideTerrains = {}
+
+    local terrainCellEntityId = EnvironmentService:GetTerrainCell(position)
+
+    if ( terrainCellEntityId ~= nil and terrainCellEntityId ~= INVALID_ID ) then
+        
+        local terrainTypeLayerComponent = EntityService:GetComponent( terrainCellEntityId, "TerrainTypeLayerComponent" )
+
+        if ( terrainTypeLayerComponent ~= nil ) then
+
+            local terrainTypeLayerComponentRef = reflection_helper(terrainTypeLayerComponent)
+
+            if ( terrainTypeLayerComponentRef.terrain_type and terrainTypeLayerComponentRef.terrain_type.resource and terrainTypeLayerComponentRef.terrain_type.resource.name ) then
+
+                terrainType = terrainTypeLayerComponentRef.terrain_type.resource.name
+            end
+        end
+        
+        local overrideTerrainComponent = EntityService:GetComponent( terrainCellEntityId, "OverrideTerrainComponent" )
+
+        if ( overrideTerrainComponent ~= nil ) then
+
+            local overrideTerrainComponentRef = reflection_helper(overrideTerrainComponent)
+
+            if ( overrideTerrainComponentRef.terrain_overrides ) then
+
+                for i=1,overrideTerrainComponentRef.terrain_overrides.count do
+
+                    local terrainTypeHolder = overrideTerrainComponentRef.terrain_overrides[i]
+
+                    if ( terrainTypeHolder and terrainTypeHolder.resource and terrainTypeHolder.resource.name ) then
+
+                        if ( IndexOf( overrideTerrains, terrainTypeHolder.resource.name ) == nil ) then
+                            Insert( overrideTerrains, terrainTypeHolder.resource.name )
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    local isQuickSand = (terrainType == "quicksand")
+    local hasDesertFloor = (IndexOf( overrideTerrains, "desert_floor" ) ~= nil)
+
+    if ( isQuickSand and not hasDesertFloor ) then
+
+        return true
+    end
+
+    return false
 end
 
 function energy_connector_base_tool:OnActivateSelectorRequest()
