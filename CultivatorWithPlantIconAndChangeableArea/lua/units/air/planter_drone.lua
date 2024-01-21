@@ -99,21 +99,21 @@ end
 
 function planter_drone:GetDroneFindCenterPoint()
 
-    local owner = self:GetDroneOwnerTarget()
+    local result = self:GetDroneOwnerTarget()
 
-    local database = EntityService:GetDatabase( owner )
+    local database = EntityService:GetDatabase( result )
 
-    if ( database and database:HasInt("center_point_entity") and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
+    if ( database and database:HasInt("center_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
 
         local pointEntity = database:GetIntOrDefault("center_point_entity", INVALID_ID) or INVALID_ID
 
         if ( pointEntity ~= nil and pointEntity ~= INVALID_ID and EntityService:IsAlive( pointEntity ) ) then
 
-            owner = pointEntity
+            result = pointEntity
         end
     end
 
-    return owner
+    return result
 end
 
 function planter_drone:OnDroneTargetAction( target )
