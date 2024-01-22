@@ -25,17 +25,17 @@ function place_ruin_after_sell_script:init()
 
     self:RegisterHandler( self.targetEntity, "BuildingSellEndEvent", "OnBuildingSellEndEvent" )
 
+    local database = EntityService:GetDatabase( self.targetEntity )
+    if ( database == nil ) then
+        return
+    end
+
     local targetEntityLowNameKeyPrefix = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.targetEntity) ) .. "_"
 
     self.databaseStringValues = {}
     self.databaseFloatValues = {}
     self.databaseIntValues = {}
     self.databaseVectorValues = {}
-
-    local database = EntityService:GetDatabase( self.targetEntity )
-    if ( database == nil ) then
-        return
-    end
 
     local stringKeys = database:GetStringKeys()
     for key in Iter( stringKeys ) do
