@@ -8,6 +8,10 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local buildingSystemCampaignInfoComponentRef = reflection_helper( buildingSystemCampaignInfoComponent )
 
+    local hasDronePointPicker = false
+    local hasSlotsPicker = false
+    local hasSlotsReplacer = false
+
     local hasBuilding = false
 
     local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
@@ -17,7 +21,15 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         local unlocked = unlocks[i]
 
         if ( unlocked == "tower_drone_attack_drone_point_picker" ) then
-            return
+            hasDronePointPicker = true
+        end
+
+        if ( unlocked == "tower_drone_attack_slots_picker" ) then
+            hasSlotsPicker = true
+        end
+
+        if ( unlocked == "tower_drone_attack_slots_replacer" ) then
+            hasSlotsReplacer = true
         end
 
         if ( unlocked == "tower_drone_attack" ) then
@@ -25,9 +37,15 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         end
     end
 
+    if ( hasDronePointPicker and hasSlotsPicker and hasSlotsReplacer ) then
+        return
+    end
+
     if (hasBuilding) then
 
         BuildingService:UnlockBuilding("buildings/tools/tower_drone_attack_drone_point_picker")
+        BuildingService:UnlockBuilding("buildings/tools/tower_drone_attack_slots_picker")
+        BuildingService:UnlockBuilding("buildings/tools/tower_drone_attack_slots_replacer")
     end
 end)
 
@@ -38,5 +56,7 @@ RegisterGlobalEventHandler("NewAwardEvent", function(evt)
     if ( awardName == "buildings/defense/tower_drone_attack" ) then
 
         BuildingService:UnlockBuilding("buildings/tools/tower_drone_attack_drone_point_picker")
+        BuildingService:UnlockBuilding("buildings/tools/tower_drone_attack_slots_picker")
+        BuildingService:UnlockBuilding("buildings/tools/tower_drone_attack_slots_replacer")
     end
 end)

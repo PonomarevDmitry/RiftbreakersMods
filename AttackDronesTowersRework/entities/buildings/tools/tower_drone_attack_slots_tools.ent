@@ -1,0 +1,144 @@
+EntityBlueprint
+{
+	name					"buildings/tools/tower_drone_attack_slots_picker"
+
+	BuildingDesc
+	{
+		name				"tower_drone_attack_slots_picker"
+		bp					"buildings/tools/tower_drone_attack_slots_picker"
+		ghost_bp			"buildings/tools/tower_drone_attack_slots_picker_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/tower_drone_attack_slots_picker_tool"
+		description			"gui/hud/building_description/tower_drone_attack_slots_picker_tool"
+		menu_icon			"gui/hud/tools_icons/tower_drone_attack_slots_picker_tool"
+
+		order				"16.125"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"tower_drone_attack"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/tower_drone_attack_slots_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"tower_drone_attack_slots_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/tower_drone_attack_slots_picker_tool.lua"
+		database
+		{
+			action					string:"tower_drone_attack_slots_picker_tool"
+			buildingLowUpgrade		string:"tower_drone_attack"
+
+			marker_name				string:"misc/marker_selector_tower_drone_attack_slots_picker_tool"
+
+			config_name				string:"$tower_drone_attack_slots_picker_tool.selectedslots"
+			config_list_name		string:"$tower_drone_attack_slots_picker_tool.last_selected_slots"
+
+			config_list_length		int:"40"
+
+			default_mod				string:"items/tower_attack_drones/drone_attack_acid"
+
+			current_localization	string:"gui/hud/tower_drone_attack_slots_tools/current_slots"
+			last_localization		string:"gui/hud/tower_drone_attack_slots_tools/last_slots"
+
+			item_type				string:"tower_attack_drone"
+
+			next_tool				string:"buildings/tools/tower_drone_attack_slots_replacer"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/tower_drone_attack_slots_replacer"
+
+	BuildingDesc
+	{
+		name				"tower_drone_attack_slots_replacer"
+		bp					"buildings/tools/tower_drone_attack_slots_replacer"
+		ghost_bp			"buildings/tools/tower_drone_attack_slots_replacer_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/tower_drone_attack_slots_replacer_tool"
+		description			"gui/hud/building_description/tower_drone_attack_slots_replacer_tool"
+		menu_icon			"gui/hud/tools_icons/tower_drone_attack_slots_replacer_tool"
+
+		order				"16.125"
+		type				"tower_drone_attack_slots_replacer"
+
+		buildable			"0"
+		building_group		"tower_drone_attack"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/tower_drone_attack_slots_replacer_ghost"
+
+	BuildingDesc
+	{
+		name				"tower_drone_attack_slots_replacer_ghost"
+		buildable			"0"
+		type				"tower_drone_attack_slots_replacer"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/tower_drone_attack_slots_replacer_tool.lua"
+		database
+		{
+			action					string:"tower_drone_attack_slots_replacer_tool"
+			buildingLowUpgrade		string:"tower_drone_attack"
+
+			marker_name				string:"misc/marker_selector_tower_drone_attack_slots_replacer_tool"
+
+			config_name				string:"$tower_drone_attack_slots_picker_tool.selectedslots"
+			config_list_name		string:"$tower_drone_attack_slots_picker_tool.last_selected_slots"
+
+			default_mod				string:"items/tower_attack_drones/drone_attack_acid"
+
+			missing_localization	string:"gui/hud/tower_drone_attack_slots_tools/mods_not_selected"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}

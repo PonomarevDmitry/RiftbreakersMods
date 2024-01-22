@@ -23,8 +23,6 @@ function tower_drone_attack_with_slots:OnInit()
 
     self:CreateMenuEntity()
 
-    self:FillDronesArrays()
-
     local owner = self.data:GetIntOrDefault( "owner", 0 )
 
     if ( PlayerService:IsInFighterMode( owner ) ) then
@@ -49,34 +47,11 @@ function tower_drone_attack_with_slots:OnLoad()
 
     self:CreateMenuEntity()
 
-    self:FillDronesArrays()
-
     self.showMenu = self.showMenu or 0
 
     self.data:SetString("action_icon", "gui/menu/research/icons/towers_drone_attack" )
 
     self:PopulateSpecialActionInfo()
-end
-
-function tower_drone_attack_with_slots:FillDronesArrays()
-
-    self.blueprintArray = {
-        "items/tower_attack_drones/drone_attack_acid",
-
-        "items/tower_attack_drones/drone_attack_physical",
-        "items/tower_attack_drones/drone_attack_cryogenic",
-        "items/tower_attack_drones/drone_attack_energy",
-        "items/tower_attack_drones/drone_attack_fire",
-        "items/tower_attack_drones/drone_attack_area",
-    }
-
-    self.researchesForDronesHash = {
-
-        --["items/tower_attack_drones/drone_mine_root_acid"] = "gui/menu/research/name/mech_weapons_corrosive_gun_standard",
-        --["items/tower_attack_drones/drone_mine_root_cryogenic"] = "gui/menu/research/name/consumable_proximity_mine_cryo_standard",
-        --["items/tower_attack_drones/drone_mine_root_energy"] = "gui/menu/research/name/mech_weapons_energy_standard",
-        --["items/tower_attack_drones/drone_mine_root_incendiary"] = "gui/menu/research/name/mech_weapons_liquid_advanced",
-    }
 end
 
 function tower_drone_attack_with_slots:RegisterEventHandlers()
@@ -91,8 +66,6 @@ function tower_drone_attack_with_slots:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
-
-    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 
     self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
@@ -238,49 +211,6 @@ function tower_drone_attack_with_slots:OnItemUnequippedEvent( evt )
     database:SetString(key, "")
 
     self:PopulateSpecialActionInfo()
-end
-
-function tower_drone_attack_with_slots:OnOperateActionMenuEvent()
-
-    self:AddDronesItemsToEntity(self.entity)
-
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
-
-    local player = PlayerService:GetPlayerControlledEnt( owner )
-
-    self:AddDronesItemsToEntity(player)
-end
-
-function tower_drone_attack_with_slots:AddDronesItemsToEntity(entity)
-
-    for blueprintName in Iter( self.blueprintArray ) do
-
-        local isDroneUnlocked = self:IsDroneUnlocked(blueprintName)
-        if ( not isDroneUnlocked ) then
-            goto continue
-        end
-
-        local item = ItemService:GetFirstItemForBlueprint( entity, blueprintName )
-        if ( item ~= INVALID_ID and item ~= nil) then
-            goto continue
-        end
-
-        ItemService:AddItemToInventory( entity, blueprintName )
-
-        ::continue::
-    end
-end
-
-function tower_drone_attack_with_slots:IsDroneUnlocked(blueprintName)
-
-    local researchName = self.researchesForDronesHash[blueprintName]
-
-    if ( researchName ~= nil and researchName ~= "" ) then
-
-        return PlayerService:IsResearchUnlocked( researchName )
-    end
-
-    return true
 end
 
 -- #region Drone Point
@@ -748,6 +678,36 @@ function tower_drone_attack_with_slots:GettingInfoFromRuin()
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
 
+        self.slotItemsFromRuins = {}
+
+        local blueprint = ResourceManager:GetBlueprint( selfBlueprintName )
+
+        if ( blueprint ~= nil ) then
+            local equipmentComponent = blueprint:GetComponent("EquipmentComponent")
+            if ( equipmentComponent ~= nil ) then
+
+                local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+                local slots = equipment.slots
+                for i=1,slots.count do
+
+                    local slot = slots[i]
+
+                    local databaseParameter = selfLowName .. "_" .. slot.name
+
+                    local modItemBlueprintName = ruinDatabase:GetStringOrDefault(databaseParameter, "") or ""
+
+                    local towerDroneBlueprintName = ""
+
+                    if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+                        towerDroneBlueprintName = modItemBlueprintName
+                    end
+
+                    self.slotItemsFromRuins[databaseParameter] = towerDroneBlueprintName
+                end
+            end
+        end
+
         ::continue::
     end
 end
@@ -809,6 +769,29 @@ function tower_drone_attack_with_slots:OnBuildingRemovedEventTrasferingInfoToRui
         }
 
         ruinDatabase:SetVector(selfLowName .. "_center_point_vector", pointPositionVector)
+
+        local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+        if ( equipmentComponent ~= nil ) then
+
+            local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+            local slots = equipment.slots
+            for i=1,slots.count do
+
+                local slot = slots[i]
+
+                local towerDroneBlueprintName = DEFAULT_TOWER_ATTACK_DRONE_BLUEPRINT
+
+                local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+                if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+                    towerDroneBlueprintName = EntityService:GetBlueprintName( modItem )
+                end
+
+                local databaseParameter = selfLowName .. "_" .. slot.name
+
+                ruinDatabase:SetString(databaseParameter, towerDroneBlueprintName)
+            end
+        end
 
         ::continue::
     end
@@ -884,9 +867,8 @@ function tower_drone_attack_with_slots:OnBuildingEnd()
                 end
 
                 if ( item ~= INVALID_ID ) then
-                    if ( not ItemService:IsSameSubTypeEquipped( self.entity, item ) ) then
-                        ItemService:EquipItemInSlot( self.entity, item, slot.name )
-                    end
+
+                    ItemService:EquipItemInSlot( self.entity, item, slot.name )
                 end
             end
         end
