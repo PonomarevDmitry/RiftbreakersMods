@@ -1,20 +1,20 @@
 EntityBlueprint
 {
-	name  					"buildings/resources/drone_mine_lvl_3"
-	base_blueprint 			"buildings/resources/drone_mine_lvl_2"	
+	name  					"buildings/resources/drone_mine_lvl_2"
+	base_blueprint 			"buildings/resources/drone_mine"
 
 	BuildingDesc
 	{
 		buildable 			"0"	
-		name 				"drone_mine_lvl_3"
-		bp   				"buildings/resources/drone_mine_lvl_3"
+		name 				"drone_mine_lvl_2"
+		bp   				"buildings/resources/drone_mine_lvl_2"
 		category 			"resources"
 		localization_id		"gui/hud/building_name/drone_mine"
 		description			"gui/hud/building_description/drone_mine"
-		menu_icon			"gui/hud/building_icons/drone_mine_lvl3"
+		menu_icon			"gui/hud/building_icons/drone_mine_lvl2"
 		require 			"headquarters"
 		order				"14"
-		//upgrade				"buildings/resources/drone_mine_lvl_4"	
+		upgrade				"buildings/resources/drone_mine_lvl_3"	
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"		
 		
 		costs
@@ -25,10 +25,10 @@ EntityBlueprint
 				building_time 10
 				building_cost
 				{
-					carbonium 	"800"
-					steel 		"800"
+					carbonium 	"400"
+					steel 		"400"
 					ai			"1"
-					palladium	"100"
+					cobalt		"50"
 				}
 			}		
 		}
@@ -41,7 +41,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value				"200"
+				value				"150"
 			}			
 		}
 		
@@ -110,8 +110,10 @@ EntityBlueprint
 			search_type			string:""
 			drone_search_radius	float:"100"
 			drone_blueprint		string:"units/drones/drone_resource_collector"
-			drone_attachments	string:"att_landing,att_landing_1,att_landing_2"
-			drone_per_spot		int:"9"
+			drone_attachments	string:"att_landing,att_landing_1"
+			drone_per_spot		int:"3"
+
+			drone_harvest_factor	float:"2.0"
 
 			display_radius_blueprint string:"effects/decals/range_circle_harvesting"
 		}
@@ -119,8 +121,8 @@ EntityBlueprint
 	
 	HealthDesc
 	{
-		max_health 					"2000"
-		health 						"2000"
+		max_health 					"1500"
+		health 						"1500"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -183,14 +185,13 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/resources/drone_mine_lvl_3.mesh"
-		material "buildings/resources/drone_mine_lvl_3"
+		mesh "meshes/buildings/resources/drone_mine_lvl_2.mesh"
+		material "buildings/resources/drone_mine_lvl_2"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/resources/drone_mine_lvl_3"
+		name "meshes/buildings/resources/drone_mine_lvl_2"
 	}	
-}	
-	
+}
 
