@@ -344,16 +344,24 @@ function harvester_drone:OnUnloadEnter(state)
 end
 
 function harvester_drone:UnloadResource( resource, amount )
+
+    local harvestFactor = 1.0
+
     local owner = self:GetDroneOwnerTarget();
     if owner ~= INVALID_ID then
         local database = EntityService:GetDatabase( owner )
         if database ~= nil then
-            local value = database:GetFloatOrDefault("harvested_resources." .. resource, 0.0)
-            database:SetFloat("harvested_resources." .. resource, value + amount )
+
+            harvestFactor = database:GetFloatOrDefault("drone_harvest_factor", 1.0)
+
+            local key = "harvested_resources." .. resource
+
+            local value = database:GetFloatOrDefault(key, 0.0)
+            database:SetFloat(key, value + amount * harvestFactor)
         end
     end
 
-    PlayerService:AddResourceAmount(resource, amount);
+    PlayerService:AddResourceAmount(resource, amount * harvestFactor);
 
     self:UpdateResourceStorage(resource, -amount);
 end
