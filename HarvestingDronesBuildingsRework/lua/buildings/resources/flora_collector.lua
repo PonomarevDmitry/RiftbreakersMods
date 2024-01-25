@@ -170,11 +170,9 @@ function flora_collector:CreateCenterPoint()
                 self.pointEntity = child
                 ItemService:SetInvisible(self.pointEntity, true)
 
-                goto continue
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.pointEntity == nil ) then
@@ -397,11 +395,9 @@ function flora_collector:CreateLinkEntity()
                 self.linkEntity = child
                 ItemService:SetInvisible(self.linkEntity, true)
 
-                goto continue
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.linkEntity == nil ) then

@@ -246,11 +246,9 @@ function tower_drone_attack_with_slots:CreateCenterPoint()
                 self.pointEntity = child
                 ItemService:SetInvisible(self.pointEntity, true)
 
-                goto continue
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.pointEntity == nil ) then
@@ -473,11 +471,9 @@ function tower_drone_attack_with_slots:CreateLinkEntity()
                 self.linkEntity = child
                 ItemService:SetInvisible(self.linkEntity, true)
 
-                goto continue
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.linkEntity == nil ) then
@@ -936,11 +932,10 @@ function tower_drone_attack_with_slots:CreateMenuEntity()
             if ( blueprintName == menuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
                 self.menuEntity = child
-                goto continue
+
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.menuEntity == nil ) then

@@ -181,11 +181,10 @@ function flora_cultivator:CreateMenuEntity()
             if ( blueprintName == cultivatorSaplingMenuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
                 self.cultivatorSaplingMenu = child
-                goto continue
+
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.cultivatorSaplingMenu == nil ) then
@@ -829,11 +828,9 @@ function flora_cultivator:CreateCenterPoint()
                 self.pointEntity = child
                 ItemService:SetInvisible(self.pointEntity, true)
 
-                goto continue
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.pointEntity == nil ) then
@@ -1056,11 +1053,9 @@ function flora_cultivator:CreateLinkEntity()
                 self.linkEntity = child
                 ItemService:SetInvisible(self.linkEntity, true)
 
-                goto continue
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.linkEntity == nil ) then

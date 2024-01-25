@@ -135,11 +135,10 @@ function flora_cultivator:CreateMenuEntity()
             if ( blueprintName == cultivatorSaplingMenuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
                 self.cultivatorSaplingMenu = child
-                goto continue
+
+                break
             end
         end
-
-        ::continue::
     end
 
     if ( self.cultivatorSaplingMenu == nil ) then
