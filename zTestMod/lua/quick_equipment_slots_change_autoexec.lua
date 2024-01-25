@@ -16,6 +16,18 @@ require("lua/utils/table_utils.lua")
 -- load_eq_left standart
 -- load_eq_right standart
 
+ConsoleService:ExecuteCommand('bind num_1 "load_eq_usable usableConfig1"')
+
+ConsoleService:ExecuteCommand('bind num_2 "load_eq_usable usableConfig2"')
+
+ConsoleService:ExecuteCommand('bind num_3 "load_eq_usable usableConfig3"')
+
+ConsoleService:ExecuteCommand('bind num_7 "save_eq_usable usableConfig1"')
+
+ConsoleService:ExecuteCommand('bind num_8 "save_eq_usable usableConfig2"')
+
+ConsoleService:ExecuteCommand('bind num_9 "save_eq_usable usableConfig3"')
+
 ConsoleService:RegisterCommand( "save_eq_upgrade", function( args )
 
     if not Assert( #args == 1, "Command save_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
