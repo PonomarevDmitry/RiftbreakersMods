@@ -182,16 +182,8 @@ function drone_player_scanner:ExecuteScanning()
                 local scansCount = 1
 
                 if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
-                    local size = EntityService:GetBoundsSize( self.selectedEntity )
-                    if ( size.x <= 2.5 ) then
-                        scansCount = 2
-                    elseif ( size.x <= 4.5 ) then
-                        scansCount = 4
-                    elseif ( size.x <= 9.5 ) then
-                        scansCount = 8
-                    else
-                        scansCount = 20
-                    end
+
+                    scansCount = self:GetScansCount(self.selectedEntity)
                 end
 
                 local owner = self.data:GetIntOrDefault( "owner", 0 )
@@ -224,6 +216,25 @@ function drone_player_scanner:ExecuteScanning()
     end
 
     self.lastTarget = self.selectedEntity;
+end
+
+function drone_player_scanner:GetScansCount( entity )
+
+    local scansCount = 1
+
+    local size = EntityService:GetBoundsSize( entity )
+
+    if ( size.x <= 2.5 ) then
+        scansCount = 2
+    elseif ( size.x <= 4.5 ) then
+        scansCount = 4
+    elseif ( size.x <= 9.5 ) then
+        scansCount = 8
+    else
+        scansCount = 20
+    end
+
+    return scansCount
 end
 
 function drone_player_scanner:SelectEntity( target )
@@ -260,7 +271,7 @@ function drone_player_scanner:OnWorkInProgress()
 
     local entities = FindService:FindEntitiesByPredicateInRadius( owner, self.search_radius, self.predicate )
 
-    local target = FindClosestEntity( owner, entities )
+    local target = self:FindBestEntity( owner, entities )
 
     if ( ( self.selectedEntity == INVALID_ID or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID ) then
 
@@ -287,6 +298,43 @@ function drone_player_scanner:OnWorkInProgress()
             QueueEvent( "EntityScanningEndEvent", self.lastTarget )
             EffectService:DestroyEffectsByGroup( self.lastTarget, "scannable" )	
         end
+    end
+end
+
+function drone_player_scanner:FindBestEntity( owner, entities )
+
+    if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
+
+        local best = {
+            entity = INVALID_ID,
+            distance = nil,
+            scansCount = -1
+        };
+
+        for entity in Iter( entities ) do
+
+            local scansCount = drone_player_scanner:GetScansCount( entity )
+
+            local distance = EntityService:GetDistanceBetween( owner, entity )
+
+            if ( best.entity == INVALID_ID or scansCount > best.scansCount ) then
+
+                best.entity = entity
+                best.distance = distance
+                best.scansCount = scansCount
+
+            elseif ( scansCount == best.scansCount and best.distance > distance ) then
+
+                best.entity = entity
+                best.distance = distance
+                best.scansCount = scansCount
+            end
+        end
+
+        return best.entity
+
+    else
+        return FindClosestEntity( owner, entities )
     end
 end
 
