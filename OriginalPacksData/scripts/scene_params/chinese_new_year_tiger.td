@@ -2,32 +2,63 @@ TimeOfDayPreset
 {
 	timeofday_sunrise
 	{
-		skybox_specular_intensity "0.300"
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			fog_height "25.000"
+			fade_in_distance "55.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}
+
+		skybox_specular_intensity "0.125"
+		physics_gravity_factor "1.000"
 		time_of_day "2"
 		skybox_diffuse_intensity "0.180"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
-			z "0.283"
+			z "0.250"
 			x "1.000"
-			y "0.768"
-			w "14.818"
+			y "0.753"
+			w "20.000"
 		}
 
 		weather_effect
-		light_size "0.060"
+		light_size "0.050"
 		fog_params
 		{
-			end "54.000"
+			end "62.000"
 			color
 			{
-				z "0.012"
-				x "0.462"
-				y "0.133"
-				w "1.000"
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
 			}
 
-			start "30.000"
-			density "0.304"
+			start "47.000"
+			density "0.202"
 		}
 
 	}
@@ -44,32 +75,63 @@ TimeOfDayPreset
 
 	timeofday_day
 	{
-		skybox_specular_intensity "0.314"
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			fog_height "0.000"
+			fade_in_distance "50.000"
+			fog_density "0.025"
+			fade_in_falloff "20.000"
+		}
+
+		skybox_specular_intensity "0.850"
+		physics_gravity_factor "1.000"
 		time_of_day "0"
-		skybox_diffuse_intensity "0.253"
+		skybox_diffuse_intensity "0.500"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
-			z "0.296"
-			x "0.584"
-			y "0.533"
-			w "15.364"
+			z "0.376"
+			x "1.000"
+			y "0.784"
+			w "12.000"
 		}
 
 		weather_effect
-		light_size "0.030"
+		light_size "0.000"
 		fog_params
 		{
-			end "54.000"
+			end "58.000"
 			color
 			{
-				z "0.000"
-				x "0.768"
-				y "0.122"
-				w "1.000"
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
 			}
 
-			start "30.000"
-			density "0.301"
+			start "46.000"
+			density "0.300"
 		}
 
 	}
@@ -86,9 +148,40 @@ TimeOfDayPreset
 
 	timeofday_night
 	{
-		skybox_specular_intensity "0.100"
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			fog_height "0.100"
+			fade_in_distance "50.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}
+
+		skybox_specular_intensity "0.050"
+		physics_gravity_factor "1.000"
 		time_of_day "3"
 		skybox_diffuse_intensity "0.100"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
 			z "0.000"
@@ -101,39 +194,70 @@ TimeOfDayPreset
 		light_size "0.200"
 		fog_params
 		{
-			end "60.000"
+			end "68.000"
 			color
 			{
-				z "0.003"
-				x "0.381"
-				y "0.089"
-				w "1.000"
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
 			}
 
-			start "30.000"
-			density "0.302"
+			start "52.000"
+			density "0.000"
 		}
 
 	}
 
 	timeofday_sunset
 	{
-		skybox_specular_intensity "0.253"
+		volumetric_fog_params
+		{
+			fog_height_falloff "0.085"
+			albedo
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			max_distance "100.000"
+			scattering_distribution "0.000"
+			extinction_scale "0.750"
+			emissive
+			{
+				z "0.102"
+				x "0.982"
+				y "0.361"
+				w "20.000"
+			}
+
+			fog_height "25.000"
+			fade_in_distance "55.000"
+			fog_density "0.025"
+			fade_in_falloff "10.000"
+		}
+
+		skybox_specular_intensity "0.100"
+		physics_gravity_factor "1.000"
 		time_of_day "1"
-		skybox_diffuse_intensity "0.213"
+		skybox_diffuse_intensity "0.180"
+		clouds_opacity "0.000"
+		bloom_params
 		light_color
 		{
 			z "0.102"
 			x "0.982"
 			y "0.361"
-			w "16.091"
+			w "20.000"
 		}
 
 		weather_effect
-		light_size "0.060"
+		light_size "0.050"
 		fog_params
 		{
-			end "56.000"
+			end "61.000"
 			color
 			{
 				z "0.031"
@@ -142,8 +266,8 @@ TimeOfDayPreset
 				w "1.000"
 			}
 
-			start "30.000"
-			density "0.301"
+			start "50.000"
+			density "0.198"
 		}
 
 	}
