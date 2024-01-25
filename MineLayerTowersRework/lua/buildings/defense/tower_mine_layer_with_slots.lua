@@ -960,7 +960,7 @@ function tower_mine_layer_with_slots:CreateMenuEntity()
 
                 self.menuEntity = child
 
-                breakbreak
+                break
             end
         end
     end
