@@ -62,15 +62,30 @@ function attack_drone:IsTargetValid(target)
         return false
     end
 
+    if ( not EntityService:IsAlive( target ) ) then
+        self.target_resisted_damage[ target ] = nil
+        return false
+    end
+
+    if ( not HealthService:IsAlive( target ) ) then
+        self.target_resisted_damage[ target ] = nil
+        return false
+    end
+
+    local owner = self:GetDroneOwnerTarget()
+    local pointEntity = self:GetDroneFindCenterPoint()
+
+    local distance, closestPosition = GetDistanceAndClosestPositionToLineSegment(target, owner, pointEntity)
+
+    if ( distance > self.search_radius ) then
+        return false
+    end
+
     if self.target_resisted_damage[ target ] ~= nil then
         return self.target_resisted_damage[ target ] < GetLogicTime()
     end
 
-    if EntityService:GetDistance2DBetween( target, self.target_finder.entity ) > self.search_radius then
-        return false
-    end
-
-    return HealthService:IsAlive( target )
+    return true
 end
 
 function attack_drone:OnTargetDamageResistedEvent(evt)
@@ -116,6 +131,15 @@ function attack_drone:FindActionTarget()
 end
 
 function attack_drone:OnAttackExecute(state, dt)
+
+    local currentLogicTime = GetLogicTime()
+
+    for key, value in pairs( self.target_resisted_damage ) do
+        if ( not EntityService:IsAlive( key ) or not HealthService:IsAlive( key ) or value < currentLogicTime ) then
+            self.target_resisted_damage[key] = nil
+        end
+    end
+
     local attack_duration = state:GetDuration() - ( self.attack_start_timer or state:GetDuration())
 
 
@@ -138,6 +162,9 @@ function attack_drone:OnAttackExecute(state, dt)
     if self.attack_stop_timer then
         local non_attack_duration = state:GetDuration() - ( self.attack_stop_timer or state:GetDuration())
         if non_attack_duration > self.non_action_timeout then
+
+            self:SetCurrentTarget(INVALID_ID)
+
             self:SetTargetActionFinished()
             self.attack_stop_timer = nil
 
@@ -258,6 +285,10 @@ function attack_drone:OnOwnerDistanceCheckExecute()
 
     local action_target = self:GetDroneActionTarget()
     if action_target ~= INVALID_ID and not EntityService:IsAlive(action_target) then
+
+        self.target_resisted_damage[ action_target ] = nil
+        self:SetCurrentTarget(INVALID_ID)
+
         self:SetTargetActionFinished()
 
         self:TryFindNewTarget()
