@@ -16,193 +16,411 @@ require("lua/utils/table_utils.lua")
 -- load_eq_left standart
 -- load_eq_right standart
 
-ConsoleService:ExecuteCommand('bind num_1 "load_eq_usable usableConfig1"')
+mod_quick_equipment_mode_save = 0
 
-ConsoleService:ExecuteCommand('bind num_2 "load_eq_usable usableConfig2"')
 
-ConsoleService:ExecuteCommand('bind num_3 "load_eq_usable usableConfig3"')
 
-ConsoleService:ExecuteCommand('bind num_7 "save_eq_usable usableConfig1"')
+ConsoleService:ExecuteCommand('bind num_0 "change_quick_equipment_mode_save"')
 
-ConsoleService:ExecuteCommand('bind num_8 "save_eq_usable usableConfig2"')
+ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( args )
 
-ConsoleService:ExecuteCommand('bind num_9 "save_eq_usable usableConfig3"')
+    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
-ConsoleService:RegisterCommand( "save_eq_upgrade", function( args )
+    mod_quick_equipment_mode_save = 1 - mod_quick_equipment_mode_save
 
-    if not Assert( #args == 1, "Command save_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
+    if ( mod_quick_equipment_mode_save == 1 ) then
+        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_save", 0 )
+    else
+        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_load", 0 )
     end
-
-    local configName = args[1]
-
-    LogService:Log("save_eq_upgrade " .. configName )
-
-    QuickEquipmentSlotsUtils:SaveEquipment( "upgrade", configName )
-end)
-
-ConsoleService:RegisterCommand( "save_eq_usable", function( args )
-
-    if not Assert( #args == 1, "Command save_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
-    end
-
-    local configName = args[1]
-
-    LogService:Log("save_eq_usable " .. configName )
-
-    QuickEquipmentSlotsUtils:SaveEquipment( "usable", configName )
-end)
-
-ConsoleService:RegisterCommand( "save_eq_left", function( args )
-
-    if not Assert( #args == 1, "Command save_eq_left requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
-    end
-
-    local configName = args[1]
-
-    LogService:Log("save_eq_left " .. configName )
-
-    QuickEquipmentSlotsUtils:SaveEquipment( "left_hand", configName )
-end)
-
-ConsoleService:RegisterCommand( "save_eq_right", function( args )
-
-    if not Assert( #args == 1, "Command save_eq_right requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
-    end
-
-    local configName = args[1]
-
-    LogService:Log("save_eq_right " .. configName )
-
-    QuickEquipmentSlotsUtils:SaveEquipment( "right_hand", configName )
-end)
-
-ConsoleService:RegisterCommand( "save_eq_weapon", function( args )
-
-    if not Assert( #args == 1, "Command save_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
-    end
-
-    local configName = args[1]
-
-    LogService:Log("save_eq_weapon " .. configName )
-    
-    QuickEquipmentSlotsUtils:SaveEquipment( "left_hand", configName )
-    QuickEquipmentSlotsUtils:SaveEquipment( "right_hand", configName )
-end)
-
-ConsoleService:RegisterCommand( "save_eq_all", function( args )
-
-    if not Assert( #args == 1, "Command save_eq_all requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
-    end
-
-    local configName = args[1]
-
-    LogService:Log("save_eq_all " .. configName )
-    
-    QuickEquipmentSlotsUtils:SaveEquipment( "upgrade", configName )
-    QuickEquipmentSlotsUtils:SaveEquipment( "usable", configName )
-
-    QuickEquipmentSlotsUtils:SaveEquipment( "left_hand", configName )
-    QuickEquipmentSlotsUtils:SaveEquipment( "right_hand", configName )
 end)
 
 
 
+ConsoleService:ExecuteCommand('bind num_1 "operate_eq_usable usableConfig1 quick_usable_1"')
+ConsoleService:ExecuteCommand('bind num_2 "operate_eq_usable usableConfig2 quick_usable_2"')
+ConsoleService:ExecuteCommand('bind num_3 "operate_eq_usable usableConfig3 quick_usable_3"')
 
+ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
 
-
-
-
-ConsoleService:RegisterCommand( "load_eq_upgrade", function( args )
-
-    if not Assert( #args == 1, "Command load_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
+    if not Assert( #args >= 2, "Command operate_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
         return 
     end
 
     local configName = args[1]
+    local announcement = args[2]
 
-    LogService:Log("load_eq_upgrade " .. configName )
+    local fullAnnouncement = "voice_over/announcement/"
 
-    QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
+    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
+    if ( mod_quick_equipment_mode_save == 1 ) then
+        fullAnnouncement = fullAnnouncement .. "save/"
+    else
+        fullAnnouncement = fullAnnouncement .. "load/"
+    end
+
+    fullAnnouncement = fullAnnouncement .. announcement
+
+    LogService:Log("operate_eq_usable configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
+
+    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+
+    if ( mod_quick_equipment_mode_save == 1 ) then
+
+        local confimMessage = "voice_over/announcement/confirm/" .. announcement
+
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "usable", configName, fullAnnouncement, confimMessage )
+    else
+        QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+    end
 end)
 
-ConsoleService:RegisterCommand( "load_eq_usable", function( args )
 
-    if not Assert( #args == 1, "Command load_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
+
+ConsoleService:ExecuteCommand('bind num_4 "operate_eq_upgrade upgradeConfig1 quick_upgrade_1"')
+ConsoleService:ExecuteCommand('bind num_5 "operate_eq_upgrade upgradeConfig2 quick_upgrade_2"')
+ConsoleService:ExecuteCommand('bind num_6 "operate_eq_upgrade upgradeConfig3 quick_upgrade_3"')
+
+ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
+
+    if not Assert( #args >= 2, "Command operate_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
         return 
     end
 
     local configName = args[1]
+    local announcement = args[2]
 
-    LogService:Log("load_eq_usable " .. configName )
+    local fullAnnouncement = "voice_over/announcement/"
 
-    QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
+    if ( mod_quick_equipment_mode_save == 1 ) then
+        fullAnnouncement = fullAnnouncement .. "save/"
+    else
+        fullAnnouncement = fullAnnouncement .. "load/"
+    end
+
+    fullAnnouncement = fullAnnouncement .. announcement
+
+    LogService:Log("operate_eq_upgrade configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
+
+    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+
+    if ( mod_quick_equipment_mode_save == 1 ) then
+
+        local confimMessage = "voice_over/announcement/confirm/" .. announcement
+
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "upgrade", configName, fullAnnouncement, confimMessage )
+    else
+        QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
+    end
 end)
 
-ConsoleService:RegisterCommand( "load_eq_left", function( args )
 
-    if not Assert( #args == 1, "Command load_eq_left requires one arguments! [configname] " .. tostring(#args) ) then
+
+ConsoleService:ExecuteCommand('bind num_7 "operate_eq_weapon weaponConfig1 quick_weapon_1"')
+ConsoleService:ExecuteCommand('bind num_8 "operate_eq_weapon weaponConfig2 quick_weapon_2"')
+ConsoleService:ExecuteCommand('bind num_9 "operate_eq_weapon weaponConfig3 quick_weapon_3"')
+
+ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
+
+    if not Assert( #args >= 2, "Command operate_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
         return 
     end
 
     local configName = args[1]
+    local announcement = args[2]
 
-    LogService:Log("load_eq_left " .. configName )
+    local fullAnnouncement = "voice_over/announcement/"
 
-    QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
+    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
+    if ( mod_quick_equipment_mode_save == 1 ) then
+        fullAnnouncement = fullAnnouncement .. "save/"
+    else
+        fullAnnouncement = fullAnnouncement .. "load/"
+    end
+
+    fullAnnouncement = fullAnnouncement .. announcement
+
+    LogService:Log("operate_eq_weapon configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
+
+    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+
+    if ( mod_quick_equipment_mode_save == 1 ) then
+
+        local confimMessage = "voice_over/announcement/confirm/" .. announcement
+
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", configName, fullAnnouncement, confimMessage )
+    else
+        QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
+        QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+    end
 end)
 
-ConsoleService:RegisterCommand( "load_eq_right", function( args )
 
-    if not Assert( #args == 1, "Command load_eq_right requires one arguments! [configname] " .. tostring(#args) ) then
+
+ConsoleService:ExecuteCommand('bind / "operate_eq_dash_skill dashSkillConfig1 quick_dash_skill_1"')
+ConsoleService:ExecuteCommand('bind * "operate_eq_dash_skill dashSkillConfig2 quick_dash_skill_2"')
+ConsoleService:ExecuteCommand('bind - "operate_eq_dash_skill dashSkillConfig3 quick_dash_skill_3"')
+
+ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
+
+    if not Assert( #args >= 2, "Command operate_eq_dash_skill requires one arguments! [configname] " .. tostring(#args) ) then
         return 
     end
 
     local configName = args[1]
+    local announcement = args[2]
 
-    LogService:Log("load_eq_right " .. configName )
+    local fullAnnouncement = "voice_over/announcement/"
 
-    QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
-end)
-
-ConsoleService:RegisterCommand( "load_eq_weapon", function( args )
-
-    if not Assert( #args == 1, "Command load_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
+    if ( mod_quick_equipment_mode_save == 1 ) then
+        fullAnnouncement = fullAnnouncement .. "save/"
+    else
+        fullAnnouncement = fullAnnouncement .. "load/"
     end
 
-    local configName = args[1]
+    fullAnnouncement = fullAnnouncement .. announcement
 
-    LogService:Log("load_eq_weapon " .. configName )
-    
-    QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
-    QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+    LogService:Log("operate_eq_dash_skill configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
 
-end)
+    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
 
-ConsoleService:RegisterCommand( "load_eq_all", function( args )
+    if ( mod_quick_equipment_mode_save == 1 ) then
 
-    if not Assert( #args == 1, "Command load_eq_all requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
+        local confimMessage = "voice_over/announcement/confirm/" .. announcement
+
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "dash_skill", configName, fullAnnouncement, confimMessage )
+    else
+        QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
     end
-
-    local configName = args[1]
-
-    LogService:Log("load_eq_all " .. configName )
-    
-    QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
-    QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
-
-    QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
-    QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
-
 end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--ConsoleService:RegisterCommand( "save_eq_upgrade", function( args )
+--
+--    if not Assert( #args == 1, "Command save_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("save_eq_upgrade " .. configName )
+--
+--    QuickEquipmentSlotsUtils:SaveEquipment( "upgrade", configName )
+--end)
+--
+--ConsoleService:RegisterCommand( "load_eq_upgrade", function( args )
+--
+--    if not Assert( #args == 1, "Command load_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("load_eq_upgrade " .. configName )
+--
+--    QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
+--
+--end)
+--
+--
+--
+--
+--
+--
+--
+--ConsoleService:RegisterCommand( "save_eq_usable", function( args )
+--
+--    if not Assert( #args == 1, "Command save_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("save_eq_usable " .. configName )
+--
+--    QuickEquipmentSlotsUtils:SaveEquipment( "usable", configName )
+--end)
+--
+--ConsoleService:RegisterCommand( "load_eq_usable", function( args )
+--
+--    if not Assert( #args == 1, "Command load_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("load_eq_usable " .. configName )
+--
+--    QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+--
+--end)
+--
+--
+--
+--
+--
+--
+--
+--ConsoleService:RegisterCommand( "save_eq_left", function( args )
+--
+--    if not Assert( #args == 1, "Command save_eq_left requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("save_eq_left " .. configName )
+--
+--    QuickEquipmentSlotsUtils:SaveEquipment( "left_hand", configName )
+--end)
+--
+--ConsoleService:RegisterCommand( "load_eq_left", function( args )
+--
+--    if not Assert( #args == 1, "Command load_eq_left requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("load_eq_left " .. configName )
+--
+--    QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
+--
+--end)
+--
+--
+--
+--
+--
+--
+--
+--ConsoleService:RegisterCommand( "save_eq_right", function( args )
+--
+--    if not Assert( #args == 1, "Command save_eq_right requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("save_eq_right " .. configName )
+--
+--    QuickEquipmentSlotsUtils:SaveEquipment( "right_hand", configName )
+--end)
+--
+--ConsoleService:RegisterCommand( "load_eq_right", function( args )
+--
+--    if not Assert( #args == 1, "Command load_eq_right requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("load_eq_right " .. configName )
+--
+--    QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+--
+--end)
+--
+--
+--
+--
+--
+--
+--
+--ConsoleService:RegisterCommand( "save_eq_weapon", function( args )
+--
+--    if not Assert( #args == 1, "Command save_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("save_eq_weapon " .. configName )
+--    
+--    QuickEquipmentSlotsUtils:SaveEquipment( "left_hand", configName )
+--    QuickEquipmentSlotsUtils:SaveEquipment( "right_hand", configName )
+--end)
+--
+--ConsoleService:RegisterCommand( "load_eq_weapon", function( args )
+--
+--    if not Assert( #args == 1, "Command load_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("load_eq_weapon " .. configName )
+--    
+--    QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
+--    QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+--
+--end)
+--
+--
+--
+--
+--
+--
+--
+--ConsoleService:RegisterCommand( "save_eq_all", function( args )
+--
+--    if not Assert( #args == 1, "Command save_eq_all requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("save_eq_all " .. configName )
+--    
+--    QuickEquipmentSlotsUtils:SaveEquipment( "upgrade", configName )
+--    QuickEquipmentSlotsUtils:SaveEquipment( "usable", configName )
+--
+--    QuickEquipmentSlotsUtils:SaveEquipment( "left_hand", configName )
+--    QuickEquipmentSlotsUtils:SaveEquipment( "right_hand", configName )
+--end)
+--
+--ConsoleService:RegisterCommand( "load_eq_all", function( args )
+--
+--    if not Assert( #args == 1, "Command load_eq_all requires one arguments! [configname] " .. tostring(#args) ) then
+--        return 
+--    end
+--
+--    local configName = args[1]
+--
+--    LogService:Log("load_eq_all " .. configName )
+--    
+--    QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
+--    QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+--
+--    QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
+--    QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+--
+--end)
