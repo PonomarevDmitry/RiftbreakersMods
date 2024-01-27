@@ -739,11 +739,13 @@ function buildings_builder_tool:TransferDatabaseInfoFromTemplateToEntity(databas
     if ( databaseInfo.databaseVectorValues ) then
         for key, vector in pairs( databaseInfo.databaseVectorValues ) do
 
-            local newVector = {}
-            newVector.y = vector.y
+            local newVectorX, newVectorZ = self:GetVectorDelta( vector.x, vector.z )
 
-            newVector.x = self.transformXX * vector.x + self.transformXZ * vector.z
-            newVector.z = self.transformZX * vector.x + self.transformZZ * vector.z
+            local newVector = {
+                y = vector.y,
+                x = newVectorX,
+                z = newVectorZ
+            }
 
             database:SetVector(key, newVector)
         end

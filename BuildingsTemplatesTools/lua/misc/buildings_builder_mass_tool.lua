@@ -663,6 +663,7 @@ function buildings_builder_mass_tool:CreateNewTemplateBlock(newPosition, team)
         newBuildingTemplate.parentTemplate = buildingTemplate
 
         newBuildingTemplate.blueprint = buildingTemplate.blueprint
+        newBuildingTemplate.databaseInfo = buildingTemplate.databaseInfo
 
         newBuildingTemplate.buildingDesc = buildingTemplate.buildingDesc
         newBuildingTemplate.createCube = buildingTemplate.createCube
@@ -940,6 +941,11 @@ function buildings_builder_mass_tool:FilterLimitedAndUnimited(allTemplates)
                 local limitNameQueue = limitedBuildingsHash[limitName]
 
                 Insert( limitNameQueue, entity )
+
+                if ( buildingTemplate.databaseInfo ~= nil and buildingTemplate.databaseInfo ~= "" ) then
+            
+                    self:TransferDatabaseInfoFromTemplateToEntity(buildingTemplate.databaseInfo, entity)
+                end
             else
                 Insert( unlimitedBuildings, buildingTemplate )
             end
@@ -1009,11 +1015,17 @@ function buildings_builder_mass_tool:BuildEntity(buildingTemplate)
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
+
+        self:CreateRuinsBeforeBuilding(buildingTemplate.databaseInfo, buildingComponent.bp, transform)
+
         QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
         for entityToSell in Iter(testBuildable.entities_to_sell) do
             QueueEvent( "SellBuildingRequest", entityToSell, self.playerId, false )
         end
+
+        self:CreateRuinsBeforeBuilding(buildingTemplate.databaseInfo, buildingComponent.bp, transform)
+
         QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
@@ -1029,6 +1041,85 @@ function buildings_builder_mass_tool:BuildEntity(buildingTemplate)
     end
 
     return testBuildable.flag
+end
+
+function buildings_builder_mass_tool:CreateRuinsBeforeBuilding(databaseInfoString, blueprintName, transform)
+
+    if ( databaseInfoString == nil or databaseInfoString == "" ) then
+        return
+    end
+            
+    local ruinsBlueprint = blueprintName .. "_ruins"
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
+        return
+    end
+
+    local team = EntityService:GetTeam( self.entity )
+
+    local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, transform.position, team )
+
+    local playerReferenceRef = reflection_helper( EntityService:CreateComponent( newRuinsEntity, "PlayerReferenceComponent" ) )
+
+    playerReferenceRef.player_id = self.playerId
+    playerReferenceRef.reference_type.internal_enum = 4
+
+    EntityService:SetOrientation( newRuinsEntity, transform.orientation )
+    EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
+
+    self:TransferDatabaseInfoFromTemplateToEntity(databaseInfoString, newRuinsEntity)
+end
+
+function buildings_builder_mass_tool:TransferDatabaseInfoFromTemplateToEntity(databaseInfoString, entity)
+
+    if ( databaseInfoString == nil or databaseInfoString == "" ) then
+        return
+    end
+
+    local databaseInfo = TemplatesSerializeUtils:DeserializeObject( databaseInfoString )
+    if ( databaseInfo == nil ) then
+        return
+    end
+
+    local database = EntityService:GetDatabase( entity )
+    if ( database == nil ) then
+        return
+    end
+
+    database:SetInt("$building_has_databaseInfo", 1)
+
+    if ( databaseInfo.databaseStringValues ) then
+        for key, value in pairs( databaseInfo.databaseStringValues ) do
+            database:SetString(key, value)
+        end
+    end
+
+    if ( databaseInfo.databaseFloatValues ) then
+        for key, value in pairs( databaseInfo.databaseFloatValues ) do
+            database:SetFloat(key, value)
+        end
+    end
+
+    if ( databaseInfo.databaseIntValues ) then
+        for key, value in pairs( databaseInfo.databaseIntValues ) do
+            database:SetInt(key, value)
+        end
+    end
+
+    if ( databaseInfo.databaseVectorValues ) then
+        for key, vector in pairs( databaseInfo.databaseVectorValues ) do
+
+            local newVectorX, newVectorZ = self:GetVectorDelta( vector.x, vector.z )
+
+            local newVector = {
+                y = vector.y,
+                x = newVectorX,
+                z = newVectorZ
+            }
+
+            database:SetVector(key, newVector)
+        end
+    end
 end
 
 function buildings_builder_mass_tool:OnWorkExecute()
