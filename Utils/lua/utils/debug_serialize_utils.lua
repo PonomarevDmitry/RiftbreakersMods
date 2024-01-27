@@ -1,39 +1,41 @@
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 
-function IsTable( field )
+local DebugSerializeUtils = {}
+
+function DebugSerializeUtils:IsTable( field )
     return type(field) == "table"
 end
 
-function IsNumber( field )
+function DebugSerializeUtils:IsNumber( field )
     return type(field) == "number"
 end
 
-function IsString( field )
+function DebugSerializeUtils:IsString( field )
     return type(field) == "string"
 end
 
-function IsBoolean( field )
+function DebugSerializeUtils:IsBoolean( field )
     return type(field) == "boolean"
 end
 
-function toboolean( x )
+function DebugSerializeUtils:toboolean( x )
    return x == "true"
 end
 
-function SerializeObject( field )
+function DebugSerializeUtils:SerializeObject( field )
     if type( field ) == "table" then
-        return SerializeTable( field )
+        return DebugSerializeUtils:SerializeTable( field )
     end
 
     return "[" .. type( field ) .. "] " .. tostring( field )
 end
 
-function SerializeField( fieldName, field )
-    return fieldName .. " : " .. SerializeObject( field )
+function DebugSerializeUtils:SerializeField( fieldName, field )
+    return fieldName .. " : " .. DebugSerializeUtils:SerializeObject( field )
 end
 
-function FindScope( opening, ending, str )
+function DebugSerializeUtils:FindScope( opening, ending, str )
     local openingIdx = nil
     local endingIdx = nil
 
@@ -61,13 +63,13 @@ function FindScope( opening, ending, str )
     return { startPos = openingIdx, endPos = endingIdx }
 end
 
-function SerializeTable( field )
+function DebugSerializeUtils:SerializeTable( field )
     local data = "[" .. type( field ) .. "] {\n"
     for key, value in pairs( field ) do
 
-        local keyDesc = SerializeObject( key )
+        local keyDesc = DebugSerializeUtils:SerializeObject( key )
 
-        local fieldDescription = SerializeField( keyDesc, value )
+        local fieldDescription = DebugSerializeUtils:SerializeField( keyDesc, value )
 
         local singleItemStringSplit = Split( fieldDescription, "\n" )
 
@@ -88,17 +90,15 @@ function SerializeTable( field )
     return data .. "}"
 end
 
-function SerializeFields( object, fields )
+function DebugSerializeUtils:SerializeFields( object, fields )
     local data = ""
 
     for fieldName in Iter( fields ) do
         local field = object[ fieldName ]
-        data = data .. SerializeField( fieldName, field )
+        data = data .. DebugSerializeUtils:SerializeField( fieldName, field )
     end
 
     return data
 end
 
-return function(...)
-
-end
+return DebugSerializeUtils
