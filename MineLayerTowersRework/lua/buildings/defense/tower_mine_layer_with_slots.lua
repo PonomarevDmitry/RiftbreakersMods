@@ -697,7 +697,7 @@ function tower_mine_layer_with_slots:GettingInfoFromRuin()
 
         self:SetCenterPointPosition( newPositionX, newPositionZ )
 
-        self.slotItemsFromRuins = {}
+        self.slotItemsFromRuins = self.slotItemsFromRuins or {}
 
         local blueprint = ResourceManager:GetBlueprint( selfBlueprintName )
 
@@ -809,6 +809,30 @@ function tower_mine_layer_with_slots:OnBuildingRemovedEventTrasferingInfoToRuin(
                 local databaseParameter = selfLowName .. "_" .. slot.name
 
                 ruinDatabase:SetString(databaseParameter, towerMineBlueprintName)
+            end
+        else
+            self.slotItemsFromRuins = self.slotItemsFromRuins or {}
+
+            local blueprint = ResourceManager:GetBlueprint( selfBlueprintName )
+            if ( blueprint ~= nil ) then
+                local equipmentComponent = blueprint:GetComponent("EquipmentComponent")
+                if ( equipmentComponent ~= nil ) then
+
+                    local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+                    local slots = equipment.slots
+                    for i=1,slots.count do
+
+                        local slot = slots[i]
+
+                        local databaseParameter = selfLowName .. "_" .. slot.name
+
+                        if ( self.slotItemsFromRuins[databaseParameter] and self.slotItemsFromRuins[databaseParameter] ~= nil and self.slotItemsFromRuins[databaseParameter] ~= "" ) then
+
+                            ruinDatabase:SetString(databaseParameter, tostring(self.slotItemsFromRuins[databaseParameter]))
+                        end
+                    end
+                end
             end
         end
 
