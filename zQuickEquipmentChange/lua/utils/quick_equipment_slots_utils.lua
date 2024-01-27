@@ -23,21 +23,25 @@ function QuickEquipmentSlotsUtils:SaveEquipment( slotNamePrefix, configName )
 
     local player = PlayerService:GetPlayerControlledEnt(0)
     if player == INVALID_ID then
-        return
+        return LOAD_RESULT_INVALID
     end
 
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
-        return
+        return LOAD_RESULT_INVALID
     end
 
     local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+    if ( equipment == nil ) then
+        return LOAD_RESULT_INVALID
+    end
+
     if equipment.id then
         equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
     end
 
     if ( equipment == nil ) then
-        return
+        return LOAD_RESULT_INVALID
     end
 
     --LogService:Log( "QuickEquipmentSlotsUtils equipment " .. tostring(equipment) )
@@ -98,11 +102,17 @@ function QuickEquipmentSlotsUtils:SaveEquipment( slotNamePrefix, configName )
         ::continue::
     end
 
+    if ( configContent == "" ) then
+        return LOAD_RESULT_EMPTY
+    end
+
     local keyName = QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName )
 
     --LogService:Log("save_equipment key " .. keyName .. " configContent " .. configContent )
 
     campaignDatabase:SetString( keyName, configContent )
+
+    return LOAD_RESULT_SUCCESS
 end
 
 function QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName )
@@ -112,8 +122,8 @@ function QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName 
     return keyName
 end
 
-local LOAD_RESULT_FAIL   = 1
-local LOAD_RESULT_EMPTY  = 2
+local LOAD_RESULT_FAIL    = 1
+local LOAD_RESULT_EMPTY   = 2
 local LOAD_RESULT_INVALID = 3
 local LOAD_RESULT_SUCCESS = 4
 
@@ -130,6 +140,10 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     end
     
     local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+    if ( equipment == nil ) then
+        return LOAD_RESULT_INVALID
+    end
+
     if equipment.id then
         equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
     end

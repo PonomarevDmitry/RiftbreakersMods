@@ -22,6 +22,24 @@ mod_quick_equipment_mode_save = 0
 
 ConsoleService:ExecuteCommand('bind num_0 "change_quick_equipment_mode_save"')
 
+ConsoleService:ExecuteCommand('bind num_1 "operate_eq_usable QuickConfig1 quick_usable_1"')
+ConsoleService:ExecuteCommand('bind num_2 "operate_eq_usable QuickConfig2 quick_usable_2"')
+ConsoleService:ExecuteCommand('bind num_3 "operate_eq_usable QuickConfig3 quick_usable_3"')
+
+ConsoleService:ExecuteCommand('bind num_4 "operate_eq_upgrade QuickConfig1 quick_upgrade_1"')
+ConsoleService:ExecuteCommand('bind num_5 "operate_eq_upgrade QuickConfig2 quick_upgrade_2"')
+ConsoleService:ExecuteCommand('bind num_6 "operate_eq_upgrade QuickConfig3 quick_upgrade_3"')
+
+ConsoleService:ExecuteCommand('bind num_7 "operate_eq_weapon QuickConfig1 quick_weapon_1"')
+ConsoleService:ExecuteCommand('bind num_8 "operate_eq_weapon QuickConfig2 quick_weapon_2"')
+ConsoleService:ExecuteCommand('bind num_9 "operate_eq_weapon QuickConfig3 quick_weapon_3"')
+
+ConsoleService:ExecuteCommand('bind / "operate_eq_dash_skill QuickConfig1 quick_dash_skill_1"')
+ConsoleService:ExecuteCommand('bind * "operate_eq_dash_skill QuickConfig2 quick_dash_skill_2"')
+ConsoleService:ExecuteCommand('bind - "operate_eq_dash_skill QuickConfig3 quick_dash_skill_3"')
+
+
+
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( args )
 
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
@@ -29,17 +47,16 @@ ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( ar
     mod_quick_equipment_mode_save = 1 - mod_quick_equipment_mode_save
 
     if ( mod_quick_equipment_mode_save == 1 ) then
+
         SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_save", 0 )
+        SoundService:Play( "items/weapons/bullet/small_machinegun_equipped" )
     else
         SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_load", 0 )
+        SoundService:Play( "items/weapons/energy/blaster_equipped" )
     end
 end)
 
 
-
-ConsoleService:ExecuteCommand('bind num_1 "operate_eq_usable usableConfig1 quick_usable_1"')
-ConsoleService:ExecuteCommand('bind num_2 "operate_eq_usable usableConfig2 quick_usable_2"')
-ConsoleService:ExecuteCommand('bind num_3 "operate_eq_usable usableConfig3 quick_usable_3"')
 
 ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
 
@@ -70,10 +87,6 @@ end)
 
 
 
-ConsoleService:ExecuteCommand('bind num_4 "operate_eq_upgrade upgradeConfig1 quick_upgrade_1"')
-ConsoleService:ExecuteCommand('bind num_5 "operate_eq_upgrade upgradeConfig2 quick_upgrade_2"')
-ConsoleService:ExecuteCommand('bind num_6 "operate_eq_upgrade upgradeConfig3 quick_upgrade_3"')
-
 ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
 
     if not Assert( #args >= 2, "Command operate_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
@@ -102,10 +115,6 @@ ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
 end)
 
 
-
-ConsoleService:ExecuteCommand('bind num_7 "operate_eq_weapon weaponConfig1 quick_weapon_1"')
-ConsoleService:ExecuteCommand('bind num_8 "operate_eq_weapon weaponConfig2 quick_weapon_2"')
-ConsoleService:ExecuteCommand('bind num_9 "operate_eq_weapon weaponConfig3 quick_weapon_3"')
 
 ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
@@ -136,10 +145,6 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 end)
 
 
-
-ConsoleService:ExecuteCommand('bind / "operate_eq_dash_skill dashSkillConfig1 quick_dash_skill_1"')
-ConsoleService:ExecuteCommand('bind * "operate_eq_dash_skill dashSkillConfig2 quick_dash_skill_2"')
-ConsoleService:ExecuteCommand('bind - "operate_eq_dash_skill dashSkillConfig3 quick_dash_skill_3"')
 
 ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
 
