@@ -48,11 +48,12 @@ ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( ar
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_save", 0 )
         SoundService:Play( "items/weapons/bullet/small_machinegun_equipped" )
+        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_save", 0 )
     else
-        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_load", 0 )
+
         SoundService:Play( "items/weapons/energy/blaster_equipped" )
+        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_load", 0 )
     end
 end)
 
