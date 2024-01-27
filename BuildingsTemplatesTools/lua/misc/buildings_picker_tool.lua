@@ -1,5 +1,6 @@
 local buildings_tool_base = require("lua/misc/buildings_tool_base.lua")
 require("lua/utils/table_utils.lua")
+local TemplatesSerializeUtils = require("lua/misc/buildings_serialize_utils.lua")
 
 class 'buildings_picker_tool' ( buildings_tool_base )
 
@@ -423,6 +424,12 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         Insert( entitiesCoordinatesStringArray, delimiterBetweenCoordinates )
 
         Insert( entitiesCoordinatesStringArray, string.format(formatFloat, orientation.w) )
+
+        local databaseInfo = self:GetDatabaseInfo(entity)
+        if ( databaseInfo ~= "" ) then
+            Insert( entitiesCoordinatesStringArray, delimiterBetweenCoordinates )
+            Insert( entitiesCoordinatesStringArray, databaseInfo )
+        end
     end
 
     local templateStringArray = {}
@@ -446,6 +453,76 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
     local templateString = table.concat( templateStringArray )
 
     campaignDatabase:SetString( self.template_name, templateString )
+
+    LogService:Log("templateString " .. templateString)
+end
+
+function buildings_picker_tool:GetDatabaseInfo(entity)
+
+    local database = EntityService:GetDatabase( entity )
+    if ( database == nil ) then
+        return ""
+    end
+
+    local targetEntityLowNameKeyPrefix = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(entity) ) .. "_"
+
+    local databaseStringValues = nil
+    local databaseFloatValues = nil
+    local databaseIntValues = nil
+    local databaseVectorValues = nil
+
+    local stringKeys = database:GetStringKeys()
+    for key in Iter( stringKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            databaseStringValues = databaseStringValues or {}
+            databaseStringValues[key] = database:GetString(key)
+        end
+    end
+
+    local floatKeys = database:GetFloatKeys()
+    for key in Iter( floatKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            databaseFloatValues = databaseFloatValues or {}
+            databaseFloatValues[key] = database:GetFloat(key)
+        end
+    end
+
+    local intKeys = database:GetIntKeys()
+    for key in Iter( intKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            databaseIntValues = databaseIntValues or {}
+            databaseIntValues[key] = database:GetInt(key)
+        end
+    end
+
+    local keyVector = targetEntityLowNameKeyPrefix .. "center_point_vector"
+    if ( database:HasVector(keyVector) ) then
+        databaseVectorValues = databaseVectorValues or {}
+        databaseVectorValues[keyVector] = database:GetVector(keyVector)
+    end
+
+    if ( databaseStringValues or databaseFloatValues or databaseIntValues or databaseVectorValues ) then
+
+        local result = {}
+        result.databaseStringValues = databaseStringValues
+        result.databaseFloatValues = databaseFloatValues
+        result.databaseIntValues = databaseIntValues
+        result.databaseVectorValues = databaseVectorValues
+
+        local result = TemplatesSerializeUtils:SerializeObject( result )
+
+        LogService:Log("result " .. result)
+
+        return result
+    else
+        return ""
+    end
 end
 
 function buildings_picker_tool:OnRelease()

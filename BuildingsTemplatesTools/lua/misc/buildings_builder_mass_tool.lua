@@ -2,6 +2,7 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
+local TemplatesSerializeUtils = require("lua/misc/buildings_serialize_utils.lua")
 
 class 'buildings_builder_mass_tool' ( LuaEntityObject )
 
@@ -268,7 +269,7 @@ function buildings_builder_mass_tool:CreateSingleBuildingTemplate( blueprintName
     local valuesArray = Split( entityString, delimiterBetweenCoordinates )
 
     -- Only 4 values in valuesArray
-    if ( #valuesArray ~= 4 ) then
+    if ( #valuesArray < 4 ) then
         return
     end
 
@@ -283,9 +284,12 @@ function buildings_builder_mass_tool:CreateSingleBuildingTemplate( blueprintName
         return
     end
 
+    local databaseInfo = valuesArray[5]
+
     local buildingTemplate = {}
 
     buildingTemplate.blueprint = blueprintName
+    buildingTemplate.databaseInfo = databaseInfo
 
     for resourceCost in Iter( list ) do
 
@@ -829,7 +833,7 @@ function buildings_builder_mass_tool:FinishLineBuild()
 
                 local entitiesListString = table.concat( entitiesListArray )
 
-                local builder = EntityService:SpawnEntity( "misc/mass_limited_buildings_builder", self.entity, "" )
+                local builder = EntityService:SpawnEntity( "misc/templates_mass_limited_buildings_builder", self.entity, "" )
 
                 local database = EntityService:GetDatabase( builder )
 

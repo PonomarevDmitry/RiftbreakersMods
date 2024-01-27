@@ -3,13 +3,13 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
-class 'mass_limited_buildings_builder' ( LuaEntityObject )
+class 'templates_mass_limited_buildings_builder' ( LuaEntityObject )
 
-function mass_limited_buildings_builder:__init()
+function templates_mass_limited_buildings_builder:__init()
     LuaEntityObject.__init(self, self)
 end
 
-function mass_limited_buildings_builder:init()
+function templates_mass_limited_buildings_builder:init()
 
     self.playerId = self.data:GetInt("playerId")
 
@@ -51,7 +51,7 @@ function mass_limited_buildings_builder:init()
     self.stateMachine:ChangeState("working")
 end
 
-function mass_limited_buildings_builder:onWorking( state )
+function templates_mass_limited_buildings_builder:onWorking( state )
 
     if ( #self.limitedBuildingsQueue == 0 ) then
 
@@ -80,7 +80,7 @@ function mass_limited_buildings_builder:onWorking( state )
     end
 end
 
-function mass_limited_buildings_builder:BuildEntity(entity)
+function templates_mass_limited_buildings_builder:BuildEntity(entity)
 
     local transform = EntityService:GetWorldTransform( entity )
 
@@ -137,6 +137,8 @@ function mass_limited_buildings_builder:BuildEntity(entity)
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
+        self:CreateRuinsBeforeBuilding(entity, blueprintName, transform)
+
         QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
@@ -144,6 +146,8 @@ function mass_limited_buildings_builder:BuildEntity(entity)
         for entityToSell in Iter(testBuildable.entities_to_sell) do
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
+
+        self:CreateRuinsBeforeBuilding(entity, blueprintName, transform)
 
         QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
 
@@ -163,7 +167,82 @@ function mass_limited_buildings_builder:BuildEntity(entity)
     return testBuildable.flag
 end
 
-function mass_limited_buildings_builder:CheckEntityBuildable( entity, transform, blueprintName, id )
+function templates_mass_limited_buildings_builder:CreateRuinsBeforeBuilding(entity, blueprintName, transform)
+
+    local database = EntityService:GetDatabase( entity )
+    if ( database == nil ) then
+        return
+    end
+
+    if ( not database:HasInt("$building_has_databaseInfo") ) then
+        return
+    end
+            
+    local ruinsBlueprint = blueprintName .. "_ruins"
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
+        return
+    end
+
+    local team = EntityService:GetTeam( self.entity )
+
+    local newRuinsEntity = EntityService:SpawnEntity( ruinsBlueprint, transform.position, team )
+
+    local playerReferenceRef = reflection_helper( EntityService:CreateComponent( newRuinsEntity, "PlayerReferenceComponent" ) )
+
+    playerReferenceRef.player_id = self.playerId
+    playerReferenceRef.reference_type.internal_enum = 4
+
+    EntityService:SetOrientation( newRuinsEntity, transform.orientation )
+    EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
+
+    self:TransferDatabaseInfoFromTemplateToEntity(database, newRuinsEntity, blueprintName)
+end
+
+function templates_mass_limited_buildings_builder:TransferDatabaseInfoFromTemplateToEntity(originalDatabase, entity, blueprintName)
+
+    local database = EntityService:GetDatabase( entity )
+    if ( database == nil ) then
+        return
+    end
+
+
+    local targetEntityLowNameKeyPrefix = BuildingService:FindLowUpgrade( blueprintName ) .. "_"
+
+    local stringKeys = originalDatabase:GetStringKeys()
+    for key in Iter( stringKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            database:SetString(key, originalDatabase:GetString(key))
+        end
+    end
+
+    local floatKeys = originalDatabase:GetFloatKeys()
+    for key in Iter( floatKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            database:SetFloat(key, originalDatabase:GetFloat(key))
+        end
+    end
+
+    local intKeys = originalDatabase:GetIntKeys()
+    for key in Iter( intKeys ) do
+
+        local stringNumber = string.find( key, targetEntityLowNameKeyPrefix )
+        if ( stringNumber == 1 ) then
+            database:SetInt(key, originalDatabase:GetInt(key))
+        end
+    end
+
+    local keyVector = targetEntityLowNameKeyPrefix .. "center_point_vector"
+    if ( originalDatabase:HasVector(keyVector) ) then
+        database:SetVector(keyVector, originalDatabase:GetVector(keyVector))
+    end
+end
+
+function templates_mass_limited_buildings_builder:CheckEntityBuildable( entity, transform, blueprintName, id )
 
     id = id or 1
     local test = nil
@@ -212,7 +291,7 @@ function mass_limited_buildings_builder:CheckEntityBuildable( entity, transform,
     return testBuildable
 end
 
-function mass_limited_buildings_builder:GetTooCloseAnnoucement( blueprintName )
+function templates_mass_limited_buildings_builder:GetTooCloseAnnoucement( blueprintName )
 
     self.cacheTooCloseAnnoucement = self.cacheTooCloseAnnoucement or {}
 
@@ -230,7 +309,7 @@ function mass_limited_buildings_builder:GetTooCloseAnnoucement( blueprintName )
     return result
 end
 
-function mass_limited_buildings_builder:GetCreateCube( blueprintName )
+function templates_mass_limited_buildings_builder:GetCreateCube( blueprintName )
 
     self.cacheGetCreateCube = self.cacheGetCreateCube or {}
 
@@ -251,7 +330,7 @@ function mass_limited_buildings_builder:GetCreateCube( blueprintName )
     return result
 end
 
-function mass_limited_buildings_builder:GetBuildingDesc( blueprintName )
+function templates_mass_limited_buildings_builder:GetBuildingDesc( blueprintName )
 
     self.cacheBuildingDesc = self.cacheBuildingDesc or {}
 
@@ -267,7 +346,7 @@ function mass_limited_buildings_builder:GetBuildingDesc( blueprintName )
     return result
 end
 
-function mass_limited_buildings_builder:OnRelease()
+function templates_mass_limited_buildings_builder:OnRelease()
 
     if ( self.limitedBuildingsQueue ~= nil) then
         for ghost in Iter(self.limitedBuildingsQueue) do
@@ -276,4 +355,4 @@ function mass_limited_buildings_builder:OnRelease()
     end
 end
 
-return mass_limited_buildings_builder
+return templates_mass_limited_buildings_builder

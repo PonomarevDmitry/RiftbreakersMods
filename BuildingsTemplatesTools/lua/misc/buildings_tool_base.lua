@@ -1,5 +1,6 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
+local TemplatesSerializeUtils = require("lua/misc/buildings_serialize_utils.lua")
 
 class 'buildings_tool_base' ( tool )
 
