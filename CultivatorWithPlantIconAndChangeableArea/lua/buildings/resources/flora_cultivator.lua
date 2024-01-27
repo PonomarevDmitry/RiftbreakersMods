@@ -37,8 +37,14 @@ function flora_cultivator:OnInit()
     local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
 
     if ( modItem ~= nil and modItem ~= INVALID_ID ) then
-        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
 
+        local database = EntityService:GetDatabase( self.entity )
+        if ( database ~= nil ) then
+            local selfLowName = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.entity) )
+            database:SetString(selfLowName .. "_MOD_1", EntityService:GetBlueprintName(modItem))
+        end
+
+        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
         if ( db and db:HasString("plant_prefab") ) then
 
             local plant_prefab = db:GetStringOrDefault( "plant_prefab", "" )
@@ -116,8 +122,14 @@ function flora_cultivator:OnLoad()
     local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
 
     if ( modItem ~= nil and modItem ~= INVALID_ID ) then
-        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
 
+        local database = EntityService:GetDatabase( self.entity )
+        if ( database ~= nil ) then
+            local selfLowName = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.entity) )
+            database:SetString(selfLowName .. "_MOD_1", EntityService:GetBlueprintName(modItem))
+        end
+
+        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
         if ( db and db:HasString("plant_prefab") ) then
 
             local plant_prefab = db:GetStringOrDefault( "plant_prefab", "" )
@@ -485,6 +497,16 @@ function flora_cultivator:OnItemEquippedEvent( evt )
     end
 
     local blueprintName = EntityService:GetBlueprintName( self.item )
+
+    local slotName = evt:GetSlot()
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local key = selfLowName .. "_" .. slotName
+
+    local database = EntityService:GetDatabase( self.entity )
+    database:SetString(key, blueprintName)
 
     local playerForEntity = self:GetPlayerForEntity(self.entity)
     if ( playerForEntity ~= nil and playerForEntity ~= INVALID_ID ) then
@@ -1326,15 +1348,24 @@ function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 
         ruinDatabase:SetVector(selfLowName .. "_center_point_vector", pointPositionVector)
 
-        local modItemBlueprintName = ""
+        local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+        if ( equipmentComponent ~= nil ) then
 
-        local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+            local modItemBlueprintName = ""
 
-        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
-            modItemBlueprintName = EntityService:GetBlueprintName(modItem)
+            local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+
+            if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+                modItemBlueprintName = EntityService:GetBlueprintName(modItem)
+            end
+
+            ruinDatabase:SetString(selfLowName .. "_MOD_1", modItemBlueprintName)
+        else
+
+            self.saplingFromRuins = self.saplingFromRuins or ""
+
+            ruinDatabase:SetString(selfLowName .. "_MOD_1", self.saplingFromRuins)
         end
-
-        ruinDatabase:SetString(selfLowName .. "_MOD_1", modItemBlueprintName)
 
         ::continue::
     end
