@@ -27,6 +27,16 @@ function flora_cultivator:OnInit()
 
     self:RegisterBuildMenuTracker()
 
+    local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+    if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+
+        local database = EntityService:GetDatabase( self.entity )
+        if ( database ~= nil ) then
+            local selfLowName = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.entity) )
+            database:SetString(selfLowName .. "_MOD_1", EntityService:GetBlueprintName(modItem))
+        end
+    end
+
     self:PopulateSpecialActionInfo()
 
     if ( BuildingService:IsBuildingFinished( self.entity ) ) then
@@ -88,6 +98,16 @@ function flora_cultivator:OnLoad()
 
     self:RegisterBuildMenuTracker()
 
+    local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+    if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+
+        local database = EntityService:GetDatabase( self.entity )
+        if ( database ~= nil ) then
+            local selfLowName = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.entity) )
+            database:SetString(selfLowName .. "_MOD_1", EntityService:GetBlueprintName(modItem))
+        end
+    end
+
     self:RefreshDrones()
 
     self:PopulateSpecialActionInfo()
@@ -97,6 +117,9 @@ function flora_cultivator:RegisterBuildMenuTracker()
 
     self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
+
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
+    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
 end
 
 function flora_cultivator:CreateProductionStateMachine()
@@ -228,6 +251,25 @@ function flora_cultivator:OnBuildingEnd()
 
     if self.default_item == INVALID_ID then
         self.default_item = ItemService:AddItemToInventory( self.entity, default_blueprint )
+    end
+
+    self.saplingFromRuins = self.saplingFromRuins or ""
+
+    if ( self.saplingFromRuins ~= "" and self.saplingFromRuins ~= nil ) then
+
+        local modItem = ItemService:GetFirstItemForBlueprint( self.entity, self.saplingFromRuins )
+
+        if ( modItem == INVALID_ID ) then
+            modItem = ItemService:AddItemToInventory( self.entity, self.saplingFromRuins )
+        end
+
+        if ( modItem ~= INVALID_ID ) then
+            if ( IsEquippedItemBlueprintValid( modItem, default_blueprint ) ) then
+                ItemService:EquipItemInSlot( self.entity, modItem, "MOD_1" )
+                self:PopulateSpecialActionInfo()
+                return
+            end
+        end
     end
 
     if not ItemService:IsSameSubTypeEquipped( self.entity, self.default_item ) then
@@ -413,6 +455,16 @@ function flora_cultivator:OnItemEquippedEvent( evt )
     end
 
     local blueprintName = EntityService:GetBlueprintName( self.item )
+
+    local slotName = evt:GetSlot()
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local key = selfLowName .. "_" .. slotName
+
+    local database = EntityService:GetDatabase( self.entity )
+    database:SetString(key, blueprintName)
 
     local playerForEntity = self:GetPlayerForEntity(self.entity)
     if ( playerForEntity ~= nil and playerForEntity ~= INVALID_ID ) then
@@ -721,6 +773,139 @@ function flora_cultivator:IsResourceInGatherable( resourceName, resourceList )
     end
 
     return false
+end
+
+function flora_cultivator:OnBuildingStartEventGettingInfo(evt)
+
+    local eventEntity = evt:GetEntity()
+
+    if (evt:GetUpgrading() == false) then
+
+        self:GettingInfoFromRuin()
+    end
+end
+
+function flora_cultivator:GettingInfoFromRuin()
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        if ( ruinDatabase == nil ) then
+            goto continue
+        end
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        self.saplingFromRuins = ""
+
+        local modItemBlueprintName = ruinDatabase:GetStringOrDefault(selfLowName .. "_MOD_1", "") or ""
+
+        if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+            self.saplingFromRuins = modItemBlueprintName
+        end
+
+        ::continue::
+    end
+end
+
+function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
+
+    local eventEntity = evt:GetEntity()
+
+    if (evt:GetWasSold() == true) then
+        return
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        if ( ruinDatabase == nil ) then
+            goto continue
+        end
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+        if ( equipmentComponent ~= nil ) then
+
+            local modItemBlueprintName = ""
+
+            local modItem = ItemService:GetEquippedItem( self.entity, "MOD_1" )
+
+            if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+                modItemBlueprintName = EntityService:GetBlueprintName(modItem)
+            end
+
+            ruinDatabase:SetString(selfLowName .. "_MOD_1", modItemBlueprintName)
+        else
+
+            self.saplingFromRuins = self.saplingFromRuins or ""
+
+            ruinDatabase:SetString(selfLowName .. "_MOD_1", self.saplingFromRuins)
+        end
+
+        ::continue::
+    end
 end
 
 return flora_cultivator
