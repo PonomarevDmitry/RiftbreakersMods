@@ -20,7 +20,9 @@ end
 
 function QuickEquipmentSlotsUtils:SaveEquipment( slotNamePrefix, configName )
 
-    local player = PlayerService:GetPlayerControlledEnt(0)
+    local player_id = 0
+
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
     if player == INVALID_ID then
         return LOAD_RESULT_INVALID
     end
@@ -127,8 +129,10 @@ local LOAD_RESULT_INVALID = 3
 local LOAD_RESULT_SUCCESS = 4
 
 function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
+
+    local player_id = 0
     
-    local player = PlayerService:GetPlayerControlledEnt(0)
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
     if player == INVALID_ID then
         return LOAD_RESULT_INVALID
     end
@@ -159,7 +163,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
     configContent = configContent or ""
 
-    --LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
+    LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
 
     if ( configContent == "" ) then
         return LOAD_RESULT_EMPTY
@@ -208,7 +212,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
         for subSlotString in Iter( subSlotsConfigArray ) do
 
-            local subSlotResult = QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, selectedSlot.subslots_count, subSlotString )
+            local subSlotResult = QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipment, slotName, selectedSlot.subslots_count, subSlotString )
 
             result = result or subSlotResult
         end
@@ -223,7 +227,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     end
 end
 
-function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslots_count, subSlotString )
+function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipment, slotName, subslots_count, subSlotString )
 
     local subSlotStringArray = Split( subSlotString, "," )
 
@@ -262,23 +266,62 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
         return false
     end
 
-    LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subslots_count " .. tostring(subslots_count) )
+    
 
     if ( subslots_count > 1 ) then
 
-        local player = PlayerService:GetPlayerControlledEnt( 0 )
+        local equipedItemInSlot = self:GetEquipedItemInSlot(equipment, slotName, subSlotNumber)
 
-        if ( player ~= nil and player ~= INVALID_ID ) then
-            ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber)
+        if ( equipedItemInSlot ~= nil ) then
 
-            return true
+            LogService:Log("UnequipItemRequest player " .. tostring(player) .. " playerEntityName " .. tostring(EntityService:GetBlueprintName( player )) .. " slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " equipedItemInSlot " .. tostring(equipedItemInSlot) .. " equipedItemInSlotBlueprintName " .. tostring(EntityService:GetBlueprintName( equipedItemInSlot )) .. " subslots_count " .. tostring(subslots_count) )
+            QueueEvent("UnequipItemRequest", player, equipedItemInSlot, slotName )
         end
+        
+        LogService:Log("TryEquipItemInSlot player " .. tostring(player) .. " playerEntityName " .. tostring(EntityService:GetBlueprintName( player )) .. " slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
+
+        ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber - 1)
+
+        return true
     else
-        PlayerService:EquipItemInSlot( 0, subSlotEntityId, slotName )
+        LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
+
+        PlayerService:EquipItemInSlot( player_id, subSlotEntityId, slotName )
         return true
     end
 
     return false
+end
+
+function QuickEquipmentSlotsUtils:GetEquipedItemInSlot( equipment, slotName, subSlotNumber )
+
+    local slots = equipment.slots
+
+    for slotNumber=1,slots.count do
+
+        local slot = slots[slotNumber]
+
+        if ( slot.name == slotName ) then
+
+            local entities = slot.subslots[subSlotNumber]
+            if ( entities == nil ) then
+                return nil
+            end
+
+            local subSlotEntityId = entities[1]
+            if (subSlotEntityId == nil) then
+                return nil
+            end
+
+            if subSlotEntityId.id then
+                subSlotEntityId = subSlotEntityId.id
+            end
+
+            return subSlotEntityId
+        end
+    end
+
+    return nil
 end
 
 function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, announcement )
