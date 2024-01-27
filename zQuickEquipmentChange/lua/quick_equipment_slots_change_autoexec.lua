@@ -50,29 +50,21 @@ ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
     local configName = args[1]
     local announcement = args[2]
 
-    local fullAnnouncement = "voice_over/announcement/"
-
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
     if ( mod_quick_equipment_mode_save == 1 ) then
-        fullAnnouncement = fullAnnouncement .. "save/"
-    else
-        fullAnnouncement = fullAnnouncement .. "load/"
-    end
 
-    fullAnnouncement = fullAnnouncement .. announcement
-
-    LogService:Log("operate_eq_usable configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
-
-    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
-
-    if ( mod_quick_equipment_mode_save == 1 ) then
-
+        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
         local confimMessage = "voice_over/announcement/confirm/" .. announcement
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "usable", configName, fullAnnouncement, confimMessage )
     else
-        QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+        local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+
+        SoundService:Play( sound )
+        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
 end)
 
@@ -91,29 +83,21 @@ ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
     local configName = args[1]
     local announcement = args[2]
 
-    local fullAnnouncement = "voice_over/announcement/"
-
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
     if ( mod_quick_equipment_mode_save == 1 ) then
-        fullAnnouncement = fullAnnouncement .. "save/"
-    else
-        fullAnnouncement = fullAnnouncement .. "load/"
-    end
 
-    fullAnnouncement = fullAnnouncement .. announcement
-
-    LogService:Log("operate_eq_upgrade configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
-
-    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
-
-    if ( mod_quick_equipment_mode_save == 1 ) then
-
+        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
         local confimMessage = "voice_over/announcement/confirm/" .. announcement
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "upgrade", configName, fullAnnouncement, confimMessage )
     else
-        QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
+        local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
+
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+
+        SoundService:Play( sound )
+        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
 end)
 
@@ -132,30 +116,22 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
     local configName = args[1]
     local announcement = args[2]
 
-    local fullAnnouncement = "voice_over/announcement/"
-
-    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
-
-    if ( mod_quick_equipment_mode_save == 1 ) then
-        fullAnnouncement = fullAnnouncement .. "save/"
-    else
-        fullAnnouncement = fullAnnouncement .. "load/"
-    end
-
-    fullAnnouncement = fullAnnouncement .. announcement
-
-    LogService:Log("operate_eq_weapon configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
-
-    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
-
     if ( mod_quick_equipment_mode_save == 1 ) then
 
+        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
         local confimMessage = "voice_over/announcement/confirm/" .. announcement
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", configName, fullAnnouncement, confimMessage )
     else
-        QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
-        QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+        local loadResult1 = QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
+        local loadResult2 = QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+
+        local loadResult = QuickEquipmentSlotsUtils:CombineResults(loadResult1, loadResult2)
+
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+
+        SoundService:Play( sound )
+        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
 end)
 
@@ -174,29 +150,21 @@ ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
     local configName = args[1]
     local announcement = args[2]
 
-    local fullAnnouncement = "voice_over/announcement/"
-
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
     if ( mod_quick_equipment_mode_save == 1 ) then
-        fullAnnouncement = fullAnnouncement .. "save/"
-    else
-        fullAnnouncement = fullAnnouncement .. "load/"
-    end
 
-    fullAnnouncement = fullAnnouncement .. announcement
-
-    LogService:Log("operate_eq_dash_skill configName " .. configName .. " fullAnnouncement " .. fullAnnouncement )
-
-    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
-
-    if ( mod_quick_equipment_mode_save == 1 ) then
-
+        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
         local confimMessage = "voice_over/announcement/confirm/" .. announcement
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "dash_skill", configName, fullAnnouncement, confimMessage )
     else
-        QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
+        local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
+
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+
+        SoundService:Play( sound )
+        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
 end)
 

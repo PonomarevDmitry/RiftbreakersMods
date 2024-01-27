@@ -100,7 +100,7 @@ function QuickEquipmentSlotsUtils:SaveEquipment( slotNamePrefix, configName )
 
     local keyName = QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName )
 
-    LogService:Log("save_equipment key " .. keyName .. " configContent " .. configContent )
+    --LogService:Log("save_equipment key " .. keyName .. " configContent " .. configContent )
 
     campaignDatabase:SetString( keyName, configContent )
 end
@@ -112,16 +112,21 @@ function QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName 
     return keyName
 end
 
+local LOAD_RESULT_FAIL   = 1
+local LOAD_RESULT_EMPTY  = 2
+local LOAD_RESULT_INVALID = 3
+local LOAD_RESULT_SUCCESS = 4
+
 function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     
     local player = PlayerService:GetPlayerControlledEnt(0)
     if player == INVALID_ID then
-        return
+        return LOAD_RESULT_INVALID
     end
 
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
-        return
+        return LOAD_RESULT_INVALID
     end
     
     local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
@@ -130,7 +135,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     end
 
     if ( equipment == nil ) then
-        return
+        return LOAD_RESULT_INVALID
     end
 
     local slots = equipment.slots
@@ -141,11 +146,13 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
     configContent = configContent or ""
 
-    LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
+    --LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
 
     if ( configContent == "" ) then
-        return
+        return LOAD_RESULT_EMPTY
     end
+
+    local result = false
 
     local configContentArray = Split( configContent, "|" )
 
@@ -188,10 +195,18 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
         for subSlotString in Iter( subSlotsConfigArray ) do
 
-            QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, selectedSlot.subslots_count, subSlotString )
+            local subSlotResult = QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, selectedSlot.subslots_count, subSlotString )
+
+            result = result or subSlotResult
         end
 
         ::continue::
+    end
+
+    if ( result ) then
+        return LOAD_RESULT_SUCCESS
+    else
+        return LOAD_RESULT_FAIL
     end
 end
 
@@ -200,7 +215,7 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
     local subSlotStringArray = Split( subSlotString, "," )
 
     if ( #subSlotStringArray ~= 3 ) then
-        return
+        return false
     end
 
     local subSlotNumber = tonumber(subSlotStringArray[1])
@@ -208,40 +223,91 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
     local subSlotEntityBlueprintName = tostring(subSlotStringArray[3])
 
     if ( subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == "" or subSlotEntityBlueprintName == nil ) then
-        return
+        return false
     end
 
     if ( subslots_count < subSlotNumber or subSlotNumber <= 0 ) then
-        return
+        return false
     end
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
-        return
+        return false
     end
 
     local blueprintName = EntityService:GetBlueprintName( subSlotEntityId ) or ""
 
-    LogService:Log("#blueprintName subSlotEntityId " .. tostring(subSlotEntityId) .. " blueprintName " .. tostring(blueprintName) )
+    --LogService:Log("#blueprintName subSlotEntityId " .. tostring(subSlotEntityId) .. " blueprintName " .. tostring(blueprintName) )
 
     if ( blueprintName == "") then
-        LogService:Log("#blueprintName == nil " )
-        return
+        --LogService:Log("#blueprintName == nil " )
+        return false
     end
 
     if ( blueprintName ~= subSlotEntityBlueprintName) then
-        LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
-        return
+        --LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
+        return false
     end
 
-    LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) )
-
-    --ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber - 1 )
-
-    --QueueEvent("UnequipItemRequest", player, subSlotEntityId, slotName )
-
-    --QueueEvent("EquipItemRequest", player, subSlotEntityId, slotName )
+    --LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) )
 
     PlayerService:EquipItemInSlot( 0, subSlotEntityId, slotName )
+
+    return true
+end
+
+function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, announcement )
+
+    local fullAnnouncement = "voice_over/announcement/load/"
+
+    if ( loadResult == LOAD_RESULT_SUCCESS ) then
+        fullAnnouncement = fullAnnouncement .. "success/"
+    elseif ( loadResult == LOAD_RESULT_FAIL ) then
+        fullAnnouncement = fullAnnouncement .. "fail/"
+    elseif ( loadResult == LOAD_RESULT_EMPTY ) then
+        fullAnnouncement = fullAnnouncement .. "empty/"
+    else
+        fullAnnouncement = fullAnnouncement .. "invalid/"
+    end
+
+    fullAnnouncement = fullAnnouncement .. announcement
+    
+    local sound = ""
+    if ( loadResult == LOAD_RESULT_SUCCESS ) then
+        sound = "items/item_equipped_default"
+    else
+        sound = "gui/cannot_use_item"
+    end
+    
+    return sound, fullAnnouncement
+end
+
+function QuickEquipmentSlotsUtils:CombineResults(loadResult1, loadResult2 )
+
+    if ( loadResult1 == LOAD_RESULT_SUCCESS or loadResult2 == LOAD_RESULT_SUCCESS ) then
+        return LOAD_RESULT_SUCCESS
+    end
+
+    if ( loadResult1 == LOAD_RESULT_EMPTY and loadResult2 == LOAD_RESULT_EMPTY ) then
+        return LOAD_RESULT_EMPTY
+    end
+
+    if ( loadResult1 == LOAD_RESULT_EMPTY ) then
+        return loadResult2
+    end
+
+    if ( loadResult2 == LOAD_RESULT_EMPTY ) then
+        return loadResult1
+    end
+
+    if ( loadResult1 == LOAD_RESULT_FAIL or loadResult2 == LOAD_RESULT_FAIL ) then
+        return LOAD_RESULT_FAIL
+    end
+
+    if ( loadResult1 == LOAD_RESULT_INVALID and loadResult2 == LOAD_RESULT_INVALID ) then
+        return LOAD_RESULT_INVALID
+    end
+
+    return LOAD_RESULT_FAIL
 end
 
 return QuickEquipmentSlotsUtils;

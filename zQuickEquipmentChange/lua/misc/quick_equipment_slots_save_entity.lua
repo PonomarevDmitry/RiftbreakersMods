@@ -28,14 +28,14 @@ function quick_equipment_slots_save_entity:OnGuiPopupResultEvent( evt)
 
     if ( evt:GetResult() == "button_yes" ) then
 
-        SoundService:PlayAnnouncement( self.announcement, 0 )
-
         local slotNamesArray = Split( self.slotNamePrefix, "," )
 
         for slotsString in Iter( slotNamesArray ) do
 
             QuickEquipmentSlotsUtils:SaveEquipment( slotsString, self.configName )
         end
+
+        SoundService:PlayAnnouncement( self.announcement, 0 )
     end
 
     self:DestroySelf()
