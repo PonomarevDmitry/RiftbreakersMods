@@ -295,6 +295,26 @@
 
 
 
+--RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
+--
+--    local text = "PickedUpItemEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--        local inventory = evt:GetInventory()
+--
+--        text = text .. "\n" .. "entity " .. tostring(entity) .. " entityName " .. tostring(EntityService:GetBlueprintName( entity ))
+--
+--        text = text .. "\n" .. "inventory " .. tostring(entity) .. " inventory " .. tostring(EntityService:GetBlueprintName( inventory ))
+--    end
+--
+--    LogService:Log(text)
+--end)
+
+
+
+
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
