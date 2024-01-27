@@ -8,27 +8,78 @@
 --    if (evt ~= nil) then
 --
 --        local entity = evt:GetEntity()
---        local entityName = EntityService:GetBlueprintName( entity )
 --
 --        local itemEnt = evt:GetItemEnt()
---        local itemEntName = EntityService:GetBlueprintName( itemEnt )
 --
 --        local slot = evt:GetSlot()
 --
 --        text = text .. "\n" .. "slot " .. tostring(slot)
 --
---        text = text .. "\n" .. "entityName " .. tostring(entityName)
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
 --
---        text = text .. "\n" .. "entity " .. tostring(entity)
+--        text = text .. "\n" .. "itemEntBlueprintName " .. tostring(EntityService:GetBlueprintName( itemEnt )) .. " itemEnt " .. tostring(itemEnt)
 --
---        text = text .. "\n" .. "itemEntName " .. tostring(itemEntName)
---
---        text = text .. "\n" .. "itemEnt " .. tostring(itemEnt)
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
 --end)
-
+--
+--RegisterGlobalEventHandler("EquipItemEvent", function(evt)
+--
+--    local text = "EquipItemEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        local itemEnt = evt:GetItemEnt()
+--
+--        local owner = evt:GetOwner()
+--
+--        local slot = evt:GetSlot()
+--
+--        text = text .. "\n" .. "slot " .. tostring(slot)
+--
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        text = text .. "\n" .. "itemEntBlueprintName " .. tostring(EntityService:GetBlueprintName( itemEnt )) .. " itemEnt " .. tostring(itemEnt)
+--
+--        text = text .. "\n" .. "ownerBlueprintName " .. tostring(EntityService:GetBlueprintName( owner )) .. " owner " .. tostring(owner)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+--
+--RegisterGlobalEventHandler("ItemEquipedEvent", function(evt)
+--
+--    local text = "ItemEquipedEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        local item = evt:GetItem()
+--
+--        local slot = evt:GetSlot()
+--
+--        text = text .. "\n" .. "slot " .. tostring(slot)
+--
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        text = text .. "\n" .. "itemBlueprintName " .. tostring(EntityService:GetBlueprintName( item )) .. " item " .. tostring(item)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+--
 --RegisterGlobalEventHandler("UnequipItemRequest", function(evt)
 --
 --    local text = "UnequipItemRequest " .. tostring(evt)
@@ -36,22 +87,19 @@
 --    if (evt ~= nil) then
 --
 --        local entity = evt:GetEntity()
---        local entityName = EntityService:GetBlueprintName( entity )
 --
 --        local itemEnt = evt:GetItemEnt()
---        local itemEntName = EntityService:GetBlueprintName( itemEnt )
 --
 --        local slot = evt:GetSlot()
 --
 --        text = text .. "\n" .. "slot " .. tostring(slot)
 --
---        text = text .. "\n" .. "entityName " .. tostring(entityName)
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
 --
---        text = text .. "\n" .. "entity " .. tostring(entity)
+--        text = text .. "\n" .. "itemBlueprintName " .. tostring(EntityService:GetBlueprintName( itemEnt ))  .. " itemEnt " .. tostring(itemEnt)
 --
---        text = text .. "\n" .. "itemEntName " .. tostring(itemEntName)
---
---        text = text .. "\n" .. "itemEnt " .. tostring(itemEnt)
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
