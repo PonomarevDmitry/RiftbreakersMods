@@ -4,7 +4,7 @@ require("lua/utils/string_utils.lua")
 
 local QuickEquipmentSlotsUtils = {}
 
-function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefix, configName, announcement, confirm )
+function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, slotName, configName )
 
     local entity = EntityService:SpawnEntity( "misc/quick_equipment_slots_save_entity", 0, 0, 0, "" )
 
@@ -13,10 +13,9 @@ function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefix, configN
         return
     end
 
-    database:SetString("slotNamePrefix", slotNamePrefix)
+    database:SetString("slotNamePrefixArray", slotNamePrefixArray)
+    database:SetString("slotName", slotName)
     database:SetString("configName", configName)
-    database:SetString("announcement", announcement)
-    database:SetString("confirm", confirm)
 end
 
 function QuickEquipmentSlotsUtils:SaveEquipment( slotNamePrefix, configName )
@@ -240,7 +239,8 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
         return false
     end
 
-    if ( subslots_count < subSlotNumber or subSlotNumber <= 0 ) then
+    if ( subSlotNumber <= 0 or subSlotNumber > subslots_count ) then
+        LogService:Log("subSlotNumber <= 0 or subSlotNumber > subslots_count " )
         return false
     end
 
@@ -250,23 +250,35 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
 
     local blueprintName = EntityService:GetBlueprintName( subSlotEntityId ) or ""
 
-    --LogService:Log("#blueprintName subSlotEntityId " .. tostring(subSlotEntityId) .. " blueprintName " .. tostring(blueprintName) )
+    LogService:Log("#blueprintName subSlotEntityId " .. tostring(subSlotEntityId) .. " blueprintName " .. tostring(blueprintName) )
 
     if ( blueprintName == "") then
-        --LogService:Log("#blueprintName == nil " )
+        LogService:Log("#blueprintName == nil " )
         return false
     end
 
     if ( blueprintName ~= subSlotEntityBlueprintName) then
-        --LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
+        LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
         return false
     end
 
-    --LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) )
+    LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subslots_count " .. tostring(subslots_count) )
 
-    PlayerService:EquipItemInSlot( 0, subSlotEntityId, slotName )
+    if ( subslots_count > 1 ) then
 
-    return true
+        local player = PlayerService:GetPlayerControlledEnt( 0 )
+
+        if ( player ~= nil and player ~= INVALID_ID ) then
+            ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber)
+
+            return true
+        end
+    else
+        PlayerService:EquipItemInSlot( 0, subSlotEntityId, slotName )
+        return true
+    end
+
+    return false
 end
 
 function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, announcement )

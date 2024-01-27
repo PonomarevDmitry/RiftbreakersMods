@@ -72,10 +72,7 @@ ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
-        local confimMessage = "voice_over/announcement/confirm/" .. announcement
-
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "usable", configName, fullAnnouncement, confimMessage )
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "usable", "usable", configName )
     else
         local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
 
@@ -101,10 +98,7 @@ ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
-        local confimMessage = "voice_over/announcement/confirm/" .. announcement
-
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "upgrade", configName, fullAnnouncement, confimMessage )
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "upgrade", "upgrade", configName )
     else
         local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
 
@@ -128,10 +122,7 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
-        local confimMessage = "voice_over/announcement/confirm/" .. announcement
-
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", configName, fullAnnouncement, confimMessage )
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
     else
         local loadResult1 = QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
         local loadResult2 = QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
@@ -160,10 +151,7 @@ ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        local fullAnnouncement = "voice_over/announcement/save/" .. announcement
-        local confimMessage = "voice_over/announcement/confirm/" .. announcement
-
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "dash_skill", configName, fullAnnouncement, confimMessage )
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "dash_skill", "dash_skill", configName )
     else
         local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
 
