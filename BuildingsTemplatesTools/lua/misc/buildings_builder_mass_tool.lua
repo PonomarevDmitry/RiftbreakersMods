@@ -190,7 +190,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
-        --  Do not create cubes for building_mode "line"
+        -- Do not create cubes for building_mode "line"
         local createCube = not ( buildingDescRef.building_mode == "line" )
 
         -- Split array of coordinates by ";"
@@ -943,7 +943,7 @@ function buildings_builder_mass_tool:FilterLimitedAndUnimited(allTemplates)
                 Insert( limitNameQueue, entity )
 
                 if ( buildingTemplate.databaseInfo ~= nil and buildingTemplate.databaseInfo ~= "" ) then
-            
+
                     self:TransferDatabaseInfoFromTemplateToEntity(buildingTemplate.databaseInfo, entity)
                 end
             else
@@ -993,11 +993,11 @@ function buildings_builder_mass_tool:BuildEntity(buildingTemplate)
     end
 
     local missingResources = testBuildable.missing_resources
-    if ( missingResources.count  > 0 ) then
+    if ( missingResources.count > 0 ) then
 
         local soundAnnouncement = "voice_over/announcement/not_enough_resources"
 
-        if ( missingResources.count  == 1 ) then
+        if ( missingResources.count == 1 ) then
 
             local singleMissingResource = missingResources[1]
 
@@ -1048,7 +1048,7 @@ function buildings_builder_mass_tool:CreateRuinsBeforeBuilding(databaseInfoStrin
     if ( databaseInfoString == nil or databaseInfoString == "" ) then
         return
     end
-            
+
     local ruinsBlueprint = blueprintName .. "_ruins"
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then

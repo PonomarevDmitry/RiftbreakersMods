@@ -177,7 +177,7 @@ function templates_mass_limited_buildings_builder:CreateRuinsBeforeBuilding(enti
     if ( not database:HasInt("$building_has_databaseInfo") ) then
         return
     end
-            
+
     local ruinsBlueprint = blueprintName .. "_ruins"
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then

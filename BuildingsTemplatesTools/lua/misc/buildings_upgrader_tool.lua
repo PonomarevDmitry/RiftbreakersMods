@@ -128,7 +128,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
             if ( string.len(upgradedList) == 0 and string.len(toUpgradeList) == 0 ) then
 
                 markerDB:SetString("message_text", "gui/hud/messages/buildings_tool_base/template_already_created")
-                
+
             else
 
                 local markerText = ""

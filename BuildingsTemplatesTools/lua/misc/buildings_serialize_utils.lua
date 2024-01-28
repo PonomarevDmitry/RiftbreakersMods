@@ -72,11 +72,11 @@ function TemplatesSerializeUtils:DeserializeField( data )
     if ( scope.startPos == nil or scope.endPos == nil or namePos == nil ) then
         return nil
     end
-    
+
     local name = string.sub( data, scope.startPos + 1, namePos - 1 )
     local value = string.sub( data, namePos + 1, scope.endPos - 1 )
 
-    return { 
+    return {
         name = name,
         value = TemplatesSerializeUtils:DeserializeObject( value ),
         endPos = scope.endPos
@@ -104,7 +104,7 @@ function TemplatesSerializeUtils:DeserializeTable( data )
         if ( keyInfo == nil ) then
             break
         end
-        
+
         tableData = string.sub( tableData, keyInfo.endPos + 1 )
 
         Assert( keyInfo.name == "key", "Deserialization: expected `key` got `" .. keyInfo.name .. "`" )
@@ -113,7 +113,7 @@ function TemplatesSerializeUtils:DeserializeTable( data )
         if ( valueInfo == nil ) then
             break
         end
-        
+
         tableData = string.sub( tableData, valueInfo.endPos + 1 )
 
         Assert( valueInfo.name == "value", "Deserialization: expected `value` got `" .. valueInfo.name .. "`" )

@@ -41,7 +41,7 @@ function buildings_builder_tool:InitializeValues()
 
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
-    self:RegisterHandler( self.selector,  "RotateSelectorRequest",      "OnRotateSelectorRequest" )
+    self:RegisterHandler( self.selector, "RotateSelectorRequest",       "OnRotateSelectorRequest" )
 
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent( self.selector, "PlayerReferenceComponent" ) )
     self.playerId = playerReferenceComponent.player_id
@@ -173,7 +173,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
-        --  Do not create cubes for building_mode "line"
+        -- Do not create cubes for building_mode "line"
         local createCube = not ( buildingDescRef.building_mode == "line" )
 
         -- Split array of coordinates by ";"
@@ -311,7 +311,7 @@ function buildings_builder_tool:GetVectorDelta( positionX, positionZ )
     return deltaX, deltaZ
 end
 
-function buildings_builder_tool:GetBuildInfo( entity  )
+function buildings_builder_tool:GetBuildInfo( entity )
     local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent" )
     if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!" ) ) then
         return nil
@@ -341,7 +341,7 @@ function buildings_builder_tool:CheckEntityBuildable( entity, transform, bluepri
 
     local skinned = EntityService:IsSkinned(entity)
 
-    if ( testBuildable.flag == CBF_REPAIR  ) then
+    if ( testBuildable.flag == CBF_REPAIR ) then
 
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 ) ) then
             if ( skinned ) then
@@ -364,7 +364,7 @@ function buildings_builder_tool:CheckEntityBuildable( entity, transform, bluepri
             else
                 EntityService:ChangeMaterial( entity, "selector/hologram_active" )
             end
-        elseif ( canBuild  ) then
+        elseif ( canBuild ) then
             EntityService:ChangeMaterial( entity, "selector/hologram_blue" )
         else
             EntityService:ChangeMaterial( entity, "selector/hologram_red" )
@@ -428,7 +428,7 @@ function buildings_builder_tool:OnUpdate()
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
 
-    if ( self.activated  ) then
+    if ( self.activated ) then
 
         self:FinishLineBuild()
     end
@@ -555,7 +555,7 @@ function buildings_builder_tool:FilterLimitedAndUnimited()
                 EntityService:ChangeMaterial( doubleEntity, "selector/hologram_blue" )
 
                 if ( buildingTemplate.databaseInfo ~= nil and buildingTemplate.databaseInfo ~= "" ) then
-            
+
                     self:TransferDatabaseInfoFromTemplateToEntity(buildingTemplate.databaseInfo, doubleEntity)
                 end
 
@@ -623,11 +623,11 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     end
 
     local missingResources = testBuildable.missing_resources
-    if ( missingResources.count  > 0 ) then
+    if ( missingResources.count > 0 ) then
 
         local soundAnnouncement = "voice_over/announcement/not_enough_resources"
 
-        if ( missingResources.count  == 1 ) then
+        if ( missingResources.count == 1 ) then
 
             local singleMissingResource = missingResources[1]
 
@@ -647,7 +647,7 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
         self:CreateRuinsBeforeBuilding(buildingTemplate.databaseInfo, buildingComponent.bp, transform)
-        
+
         QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
@@ -678,7 +678,7 @@ function buildings_builder_tool:CreateRuinsBeforeBuilding(databaseInfoString, bl
     if ( databaseInfoString == nil or databaseInfoString == "" ) then
         return
     end
-            
+
     local ruinsBlueprint = blueprintName .. "_ruins"
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
