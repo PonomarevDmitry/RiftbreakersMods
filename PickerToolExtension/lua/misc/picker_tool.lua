@@ -479,7 +479,7 @@ function picker_tool:OnActivateSelectorRequest()
 
     local isCryoGround = ( IndexOf( overrideTerrains, "cryo_ground" ) )
     local isHotGround = ( terrainType == "magma_hot_ground" or terrainType == "magma_very_hot_ground" or IndexOf( overrideTerrains, "magma_hot_ground" ) ~= nil or IndexOf( overrideTerrains, "magma_very_hot_ground" ) ~= nil )
-    
+
     local isFloor = false
     for overrideTerrainType in Iter( overrideTerrains ) do
 
@@ -506,7 +506,7 @@ function picker_tool:OnActivateSelectorRequest()
     if ( currentBiome == "caverns" ) then
 
         local minModificator = 0.05
-    
+
         local windModificator = BuildingService:GetWindPowerModificator( self.entity )
         if ( windModificator >= minModificator ) then
 
@@ -555,7 +555,7 @@ function picker_tool:GetTerrainTypes( position )
                 terrainType = terrainTypeLayerComponentRef.terrain_type.resource.name
             end
         end
-        
+
         local overrideTerrainComponent = EntityService:GetComponent( terrainCellEntityId, "OverrideTerrainComponent" )
 
         if ( overrideTerrainComponent ~= nil ) then
