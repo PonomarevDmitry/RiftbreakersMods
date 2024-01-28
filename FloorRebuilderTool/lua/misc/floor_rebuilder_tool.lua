@@ -730,7 +730,7 @@ function floor_rebuilder_tool:OnUpdate()
 
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
-    
+
     if ( onScreen ) then
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
         BuildingService:OperateBuildCosts( self.corners, self.playerId, {} )
