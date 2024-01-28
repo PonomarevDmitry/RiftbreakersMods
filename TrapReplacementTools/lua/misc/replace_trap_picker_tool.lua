@@ -165,7 +165,7 @@ function replace_trap_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
