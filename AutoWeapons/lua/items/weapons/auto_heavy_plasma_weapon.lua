@@ -29,7 +29,7 @@ function auto_heavy_plasma_weapon:OnShieldEnter( state )
 end
 
 function auto_heavy_plasma_weapon:OnShieldExecute( state, dt )
-    if state:GetDuration() > 0.3 and not self.shieldCreated then 
+    if state:GetDuration() > 0.3 and not self.shieldCreated then
         self:CreateShield()
     end
 end
@@ -42,7 +42,7 @@ function auto_heavy_plasma_weapon:CreateShield()
     local db = EntityService:GetDatabase( self.owner )
     if db ~= nil then
         local counter = db:GetIntOrDefault( "heavy_plasma_shield_counter", 0 )
-        if counter == 0 then 
+        if counter == 0 then
             self.shield = EntityService:SpawnAndAttachEntity( "items/weapons/heavy_plasma_shield", self.owner, "be_body_upper", EntityService:GetTeam( self.owner ) )
             db:SetInt( "heavy_plasma_shield_counter", 1 )
             db:SetInt( "heavy_plasma_shield_ent", self.shield )
@@ -88,7 +88,7 @@ end
 
 function auto_heavy_plasma_weapon:OnUnequipped()
     autofire_weapon.OnUnequipped( self )
-    if self.shieldCreated then 
+    if self.shieldCreated then
         self:RemoveShield()
         self.shieldCreated = false
     end
