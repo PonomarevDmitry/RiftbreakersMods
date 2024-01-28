@@ -610,7 +610,7 @@ end
 
 function selector:OnRotateSelectorRequest( evt )
     if ( self.mode == SM_SELECT) then
-        
+
         local degree = evt:GetDegree()
 
         if ( degree > 0 and #self.activatedEntities > 0 ) then
