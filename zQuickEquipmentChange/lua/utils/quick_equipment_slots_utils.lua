@@ -426,6 +426,7 @@ function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArra
                 hashBlueprint[slotDesc.blueprintName].count = 0
 
                 hashBlueprint[slotDesc.blueprintName].slotStr = '<img="' .. slotDesc.icon .. '"> ${' .. slotDesc.name .. '}'
+                --hashBlueprint[slotDesc.blueprintName].slotStr = '<img="' .. slotDesc.icon .. '">'
             end
 
             hashBlueprint[slotDesc.blueprintName].count = hashBlueprint[slotDesc.blueprintName].count + 1
@@ -447,7 +448,7 @@ function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArra
             result = result .. ", "
         end
 
-        result = result .. slotStr
+        result = result .. '<style="inventory_stats_icon">' .. slotStr .. '</style>'
     end
 
     LogService:Log("slotsDescription " .. debug_serialize_utils:SerializeObject(slotsDescription))
