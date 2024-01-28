@@ -39,7 +39,7 @@ function sell_by_type_picker_tool:OnInit()
     }
 
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
-    
+
     self.selectedMode = self.modeBuilding
 
     self:UpdateMarker()
@@ -63,7 +63,7 @@ function sell_by_type_picker_tool:UpdateMarker()
 
         local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
 
-        
+
         if ( menuIcon ~= "" ) then
 
             buildingIcon = menuIcon
@@ -195,7 +195,7 @@ function sell_by_type_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
