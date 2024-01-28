@@ -92,7 +92,7 @@ end
 function loot_collector_drone:DisableEffect()
     if not self.is_working then
         return
-    end 
+    end
 
     self.is_working = false
     EffectService:DestroyEffectsByGroup(self.entity, "working")
@@ -179,7 +179,7 @@ function loot_collector_drone:FindActionTarget()
     local pointEntity = self:GetDroneFindCenterPoint()
 
     local entities = FindService:FindEntitiesByPredicateInRadius( pointEntity, self.search_radius, self.predicate );
-    
+
     local item = FindFarthestEntity( owner, entities )
     local target = EntityService:GetParent( item )
     if target ~= INVALID_ID then

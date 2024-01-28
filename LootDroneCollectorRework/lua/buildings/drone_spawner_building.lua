@@ -131,8 +131,8 @@ function drone_spawner_building:SpawnDrones()
 
 	local isActive = self.data:GetIntOrDefault( "activated", 0 ) == 1;
 
-	local blueprints = Split( self.drone_blueprint, ",") 
-	
+	local blueprints = Split( self.drone_blueprint, ",")
+
 	local droneIdx = 0;
 	for attachment in Iter( self.drone_landing_spots ) do
 		for i=1,self.drone_per_attachment do
@@ -146,7 +146,7 @@ function drone_spawner_building:SpawnDrones()
 			else
 				QueueEvent( "FadeEntityOutRequest", drone, 1 )
 			end
-			
+
 			self:RegisterHandler( drone, "DroneLandingStartedEvent", "_OnDroneLandingStartedEvent" )
 			self:RegisterHandler( drone, "DroneLandingEndedEvent", "_OnDroneLandingEndedEvent" )
 			self:RegisterHandler( drone, "DroneLiftingStartedEvent", "_OnDroneLiftingStartedEvent" )
@@ -435,7 +435,7 @@ function drone_spawner_building:UpdateDisplayRadiusVisibility( show, entity )
 				count = count + 1
 			end
 		end
-		
+
 		if count == 0 then
 			EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
 			EntityService:RemoveMaterial( self.pointEntity, "selected" )
@@ -551,7 +551,7 @@ function drone_spawner_building:RepositionLinkEntity()
 	local container = rawget(lightningComponentRef.lighning_vec, "__ptr");
 
 	local item = container:GetItem(0)
-	if ( item == nil ) then 
+	if ( item == nil ) then
 		item = container:CreateItem()
 	end
 
