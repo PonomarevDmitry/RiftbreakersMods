@@ -158,7 +158,7 @@ function turn_on_off_by_type_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
