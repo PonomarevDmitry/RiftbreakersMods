@@ -84,7 +84,7 @@ function upgrade_tool:OnUpdate()
 end
 
 function upgrade_tool:HighlightBuildingsToUpgrade()
-    
+
     local performFind = (self.currentTick % self.tickMod) == 0
 
     if ( performFind ) then
