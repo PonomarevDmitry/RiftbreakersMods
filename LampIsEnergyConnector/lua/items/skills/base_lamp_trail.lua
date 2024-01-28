@@ -344,7 +344,7 @@ function base_lamp_trail:ShouldBuildDesertFloor( position )
     local terrainCellEntityId = EnvironmentService:GetTerrainCell(position)
 
     if ( terrainCellEntityId ~= nil and terrainCellEntityId ~= INVALID_ID ) then
-        
+
         local terrainTypeLayerComponent = EntityService:GetComponent( terrainCellEntityId, "TerrainTypeLayerComponent" )
 
         if ( terrainTypeLayerComponent ~= nil ) then
@@ -356,7 +356,7 @@ function base_lamp_trail:ShouldBuildDesertFloor( position )
                 terrainType = terrainTypeLayerComponentRef.terrain_type.resource.name
             end
         end
-        
+
         local overrideTerrainComponent = EntityService:GetComponent( terrainCellEntityId, "OverrideTerrainComponent" )
 
         if ( overrideTerrainComponent ~= nil ) then
