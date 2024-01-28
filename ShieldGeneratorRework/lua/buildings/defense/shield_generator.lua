@@ -71,7 +71,7 @@ function shield_generator:OnDeactivate()
 	local state = self.fsm:GetState("working")
 	if ( state ~= nil ) then
 		state:Exit()
-	end	 
+	end
 end
 
 function shield_generator:OnLoad()
@@ -413,7 +413,7 @@ function shield_generator:RepositionLinkEntity()
 	local container = rawget(lightningComponentRef.lighning_vec, "__ptr");
 
 	local item = container:GetItem(0)
-	if ( item == nil ) then 
+	if ( item == nil ) then
 		item = container:CreateItem()
 	end
 
