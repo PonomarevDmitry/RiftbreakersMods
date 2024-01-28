@@ -91,7 +91,7 @@ function mine_layer_drone:OnTargetFoundEvent(evt)
     if evt:GetTag() ~= self.finder.event_name then
         return
     end
-    
+
     local position = evt:GetTarget()
     if FindService:IsSpotEmpty( position ) then
         local marker = EntityService:SpawnEntity(self.plant_marker, position, self.team );
@@ -161,7 +161,7 @@ function mine_layer_drone:OnPlantExit()
     EffectService:DestroyEffectsByGroup(self.entity, "work");
 
     local target = self:GetDroneActionTarget();
-    if EntityService:IsAlive(target) then 
+    if EntityService:IsAlive(target) then
         EntityService:RemovePropsInEntityBounds( target )
 
         local plant_blueprint = self.data:GetStringOrDefault("plant_blueprint", "");

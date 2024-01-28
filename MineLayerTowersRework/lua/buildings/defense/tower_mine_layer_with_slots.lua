@@ -94,7 +94,7 @@ function tower_mine_layer_with_slots:SpawnDrones()
 
     local isActive = ( self.data:GetIntOrDefault( "activated", 0 ) == 1 )
 
-    local blueprints = Split( self.drone_blueprint, ",") 
+    local blueprints = Split( self.drone_blueprint, ",")
 
     local droneIdx = 0
 
@@ -429,7 +429,7 @@ function tower_mine_layer_with_slots:UpdateDisplayRadiusVisibility( show, entity
                 count = count + 1
             end
         end
-        
+
         if count == 0 then
             EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
             EntityService:RemoveMaterial( self.pointEntity, "selected" )
@@ -545,7 +545,7 @@ function tower_mine_layer_with_slots:RepositionLinkEntity()
     local container = rawget(lightningComponentRef.lighning_vec, "__ptr")
 
     local item = container:GetItem(0)
-    if ( item == nil ) then 
+    if ( item == nil ) then
         item = container:CreateItem()
     end
 
@@ -990,7 +990,7 @@ function tower_mine_layer_with_slots:CreateMenuEntity()
     end
 
     if ( self.menuEntity == nil ) then
-    
+
         local team = EntityService:GetTeam( self.entity )
         self.menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
     end
