@@ -131,7 +131,7 @@ local LOAD_RESULT_SUCCESS = 4
 function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
     local player_id = 0
-    
+
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if player == INVALID_ID then
         return LOAD_RESULT_INVALID
@@ -141,7 +141,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     if ( campaignDatabase == nil ) then
         return LOAD_RESULT_INVALID
     end
-    
+
     local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
     if ( equipment == nil ) then
         return LOAD_RESULT_INVALID
@@ -266,7 +266,7 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
         return false
     end
 
-    
+
 
     if ( subslots_count > 1 ) then
 
@@ -277,7 +277,7 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
             LogService:Log("UnequipItemRequest player " .. tostring(player) .. " playerEntityName " .. tostring(EntityService:GetBlueprintName( player )) .. " slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " equipedItemInSlot " .. tostring(equipedItemInSlot) .. " equipedItemInSlotBlueprintName " .. tostring(EntityService:GetBlueprintName( equipedItemInSlot )) .. " subslots_count " .. tostring(subslots_count) )
             QueueEvent("UnequipItemRequest", player, equipedItemInSlot, slotName )
         end
-        
+
         LogService:Log("TryEquipItemInSlot player " .. tostring(player) .. " playerEntityName " .. tostring(EntityService:GetBlueprintName( player )) .. " slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
 
         ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber - 1)
@@ -339,14 +339,14 @@ function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, annou
     end
 
     fullAnnouncement = fullAnnouncement .. announcement
-    
+
     local sound = ""
     if ( loadResult == LOAD_RESULT_SUCCESS ) then
         sound = "items/item_equipped_default"
     else
         sound = "gui/cannot_use_item"
     end
-    
+
     return sound, fullAnnouncement
 end
 

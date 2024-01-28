@@ -43,7 +43,7 @@ function quick_equipment_slots_save_entity:OnGuiPopupResultEvent( evt)
         local slotNameLocal = "quick_equipment_slots_change/slots/" .. self.slotName
 
         local fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/saving} <style="header_35">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_to} <style="header_35">${' .. configNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_end}'
-        
+
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
 

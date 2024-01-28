@@ -62,7 +62,7 @@ end)
 ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
 
     if not Assert( #args >= 2, "Command operate_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
+        return
     end
 
     local configName = args[1]
@@ -88,7 +88,7 @@ end)
 ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
 
     if not Assert( #args >= 2, "Command operate_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
+        return
     end
 
     local configName = args[1]
@@ -114,7 +114,7 @@ end)
 ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
     if not Assert( #args >= 2, "Command operate_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
+        return
     end
 
     local configName = args[1]
@@ -141,7 +141,7 @@ end)
 ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
 
     if not Assert( #args >= 2, "Command operate_eq_dash_skill requires one arguments! [configname] " .. tostring(#args) ) then
-        return 
+        return
     end
 
     local configName = args[1]
@@ -188,7 +188,7 @@ end)
 --ConsoleService:RegisterCommand( "save_eq_upgrade", function( args )
 --
 --    if not Assert( #args == 1, "Command save_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -201,7 +201,7 @@ end)
 --ConsoleService:RegisterCommand( "load_eq_upgrade", function( args )
 --
 --    if not Assert( #args == 1, "Command load_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -221,7 +221,7 @@ end)
 --ConsoleService:RegisterCommand( "save_eq_usable", function( args )
 --
 --    if not Assert( #args == 1, "Command save_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -234,7 +234,7 @@ end)
 --ConsoleService:RegisterCommand( "load_eq_usable", function( args )
 --
 --    if not Assert( #args == 1, "Command load_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -254,7 +254,7 @@ end)
 --ConsoleService:RegisterCommand( "save_eq_left", function( args )
 --
 --    if not Assert( #args == 1, "Command save_eq_left requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -267,7 +267,7 @@ end)
 --ConsoleService:RegisterCommand( "load_eq_left", function( args )
 --
 --    if not Assert( #args == 1, "Command load_eq_left requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -287,7 +287,7 @@ end)
 --ConsoleService:RegisterCommand( "save_eq_right", function( args )
 --
 --    if not Assert( #args == 1, "Command save_eq_right requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -300,7 +300,7 @@ end)
 --ConsoleService:RegisterCommand( "load_eq_right", function( args )
 --
 --    if not Assert( #args == 1, "Command load_eq_right requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
@@ -320,13 +320,13 @@ end)
 --ConsoleService:RegisterCommand( "save_eq_weapon", function( args )
 --
 --    if not Assert( #args == 1, "Command save_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
 --
 --    LogService:Log("save_eq_weapon " .. configName )
---    
+--
 --    QuickEquipmentSlotsUtils:SaveEquipment( "left_hand", configName )
 --    QuickEquipmentSlotsUtils:SaveEquipment( "right_hand", configName )
 --end)
@@ -334,13 +334,13 @@ end)
 --ConsoleService:RegisterCommand( "load_eq_weapon", function( args )
 --
 --    if not Assert( #args == 1, "Command load_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
 --
 --    LogService:Log("load_eq_weapon " .. configName )
---    
+--
 --    QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
 --    QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
 --
@@ -355,13 +355,13 @@ end)
 --ConsoleService:RegisterCommand( "save_eq_all", function( args )
 --
 --    if not Assert( #args == 1, "Command save_eq_all requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
 --
 --    LogService:Log("save_eq_all " .. configName )
---    
+--
 --    QuickEquipmentSlotsUtils:SaveEquipment( "upgrade", configName )
 --    QuickEquipmentSlotsUtils:SaveEquipment( "usable", configName )
 --
@@ -372,13 +372,13 @@ end)
 --ConsoleService:RegisterCommand( "load_eq_all", function( args )
 --
 --    if not Assert( #args == 1, "Command load_eq_all requires one arguments! [configname] " .. tostring(#args) ) then
---        return 
+--        return
 --    end
 --
 --    local configName = args[1]
 --
 --    LogService:Log("load_eq_all " .. configName )
---    
+--
 --    QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
 --    QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
 --
