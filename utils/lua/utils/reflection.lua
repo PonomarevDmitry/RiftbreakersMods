@@ -58,12 +58,12 @@ TypeContainerHelper.mt = {
             if item == nil then
                 return nil
             end
-    
+
             local value = GetPodValue(item)
             if value ~= nil then
                 return value
             end
-    
+
             return reflection_helper( item )
         end
 
@@ -86,10 +86,10 @@ TypeContainerHelper.mt = {
         local result = "Container.count = " .. tostring(itemsCount)
         result = result .. "\n{\n"
 
-        for i = 1, ptr:GetItemCount() do 
+        for i = 1, ptr:GetItemCount() do
 
             result = result .. "\n    [" .. tostring(i) .. "] = "
-        
+
             local field = ptr:GetItem(i - 1)
 
             if field ~= nil then
@@ -130,7 +130,7 @@ TypeContainerHelper.mt = {
 
             result = result .. ",\n"
         end
-                            
+
         result = result .. "}\n"
 
         return result

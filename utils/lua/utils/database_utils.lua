@@ -25,7 +25,7 @@ function DatabaseFullLog( database )
     for key in Iter( stringKeys ) do
 
         local value = database:GetString(key)
-        
+
         LogService:Log("database.String[" .. key .. "] = " .. value )
     end
 
@@ -36,7 +36,7 @@ function DatabaseFullLog( database )
     for key in Iter( floatKeys ) do
 
         local value = database:GetFloat(key)
-        
+
         LogService:Log("database.Float[" .. key .. "] = " .. tostring(value) )
     end
 
@@ -47,7 +47,7 @@ function DatabaseFullLog( database )
     for key in Iter( intKeys ) do
 
         local value = database:GetInt(key)
-        
+
         LogService:Log("database.Int[" .. key .. "] = " .. tostring(value) )
     end
 end
