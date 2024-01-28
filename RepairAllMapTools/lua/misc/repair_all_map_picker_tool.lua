@@ -185,7 +185,7 @@ function repair_all_map_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 

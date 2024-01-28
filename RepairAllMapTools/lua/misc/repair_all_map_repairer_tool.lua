@@ -54,7 +54,7 @@ function repair_all_map_repairer_tool:UpdateMarker()
             self.childEntity = nil
         end
 
-        
+
         -- Create new marker
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
 
@@ -293,7 +293,7 @@ function repair_all_map_repairer_tool:FindRuins()
         if ( not database ) then
             goto continue
         end
-        
+
         if ( not database:HasString("blueprint") ) then
             goto continue
         end

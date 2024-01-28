@@ -297,7 +297,7 @@ function repair_all_map_cat_repairer_tool:FindRuins()
         if ( not database ) then
             goto continue
         end
-        
+
         if ( not database:HasString("blueprint") ) then
             goto continue
         end
@@ -380,7 +380,7 @@ function repair_all_map_cat_repairer_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
