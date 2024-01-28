@@ -264,7 +264,7 @@ function repair_facility_drone:UpdateDisplayRadiusVisibility( show, entity )
                 count = count + 1
             end
         end
-        
+
         if count == 0 then
             EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
             EntityService:RemoveMaterial( self.pointEntity, "selected" )
@@ -380,7 +380,7 @@ function repair_facility_drone:RepositionLinkEntity()
     local container = rawget(lightningComponentRef.lighning_vec, "__ptr");
 
     local item = container:GetItem(0)
-    if ( item == nil ) then 
+    if ( item == nil ) then
         item = container:CreateItem()
     end
 

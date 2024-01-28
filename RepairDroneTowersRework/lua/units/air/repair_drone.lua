@@ -94,7 +94,7 @@ function repair_drone:FindActionTarget()
 
             if entity == owner then
                 return false
-            end 
+            end
 
             if not HealthService:IsAlive(entity) then
                 return false
@@ -193,7 +193,7 @@ function repair_drone:HasTargetMoved( target )
     if not self.target_last_position then
         self.target_last_position = target_position
     end
-    
+
     local distance = Length(VectorSub(self.target_last_position, target_position))
     return distance >= 1.0
 end
@@ -226,7 +226,7 @@ function repair_drone:OnRepairExecute( state )
     if not EffectService:HasEffectByGroup(self.entity, "work") then
         EffectService:AttachEffects(self.entity, "work");
     end
-    
+
     EffectService:SpawnEffects(target, "repair");
 
     local health = HealthService:GetHealth(target);
