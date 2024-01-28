@@ -166,7 +166,7 @@ function replace_wall_gate_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
