@@ -224,7 +224,7 @@ function ghost_building:OnUpdate()
         end
 
         local idCheckBuildable = 1
-        
+
         for xNumber=1,#arrayX do
 
             positionX = arrayX[xNumber]
