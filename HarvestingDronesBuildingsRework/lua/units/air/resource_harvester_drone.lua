@@ -47,7 +47,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
     self.predicate = self.predicate or {
         type=self.search_type,
         signature="LootComponent",
-        filter = function(entity) 
+        filter = function(entity)
             if self:IsTargetLocked(entity, LOCK_TYPE_HARVESTER) then
                 return false
             end
@@ -56,7 +56,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
                 return false
             end
 
-            
+
             if not EntityService:IsInFinalVegetationChainPhase( entity ) then
                 return false
             end
@@ -133,7 +133,7 @@ function harvester_drone:FindResourceVeinEntity(owner, source)
     self.predicate = self.predicate or {
         type=self.search_type,
         signature="ResourceComponent,GridMarkerComponent",
-        filter = function(entity) 
+        filter = function(entity)
             if self:IsTargetLocked(entity, LOCK_TYPE_HARVESTER) then
                 return false
             end
