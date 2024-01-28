@@ -324,21 +324,22 @@ function QuickEquipmentSlotsUtils:GetEquipedItemInSlot( equipment, slotName, sub
     return nil
 end
 
-function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, announcement )
+function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, slotName, configName )
 
-    local fullAnnouncement = "voice_over/announcement/load/"
+    local configNameLocal = "quick_equipment_slots_change/configs/name/" .. configName
+    local slotNameLocal = "quick_equipment_slots_change/slots/" .. slotName
+
+    local fullAnnouncement = ""
 
     if ( loadResult == LOAD_RESULT_SUCCESS ) then
-        fullAnnouncement = fullAnnouncement .. "success/"
+        fullAnnouncement = '<style="header_35">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/load/load_from} <style="header_35">${' .. configNameLocal .. '} ${voice_over/announcement/quick_equipment_slots_change/load/success/loaded}</style>'
     elseif ( loadResult == LOAD_RESULT_FAIL ) then
-        fullAnnouncement = fullAnnouncement .. "fail/"
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/fail/fail} <style="header_35">${' .. slotNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/load/load_from} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/fail/fail_end}</style>'
     elseif ( loadResult == LOAD_RESULT_EMPTY ) then
-        fullAnnouncement = fullAnnouncement .. "empty/"
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/load/empty} <style="header_35">${' .. slotNameLocal .. '} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
     else
-        fullAnnouncement = fullAnnouncement .. "invalid/"
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid} <style="header_35">${' .. slotNameLocal .. '} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/invalid/invalid_end}</style>'
     end
-
-    fullAnnouncement = fullAnnouncement .. announcement
 
     local sound = ""
     if ( loadResult == LOAD_RESULT_SUCCESS ) then

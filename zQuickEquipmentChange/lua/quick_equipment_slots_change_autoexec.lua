@@ -22,21 +22,21 @@ mod_quick_equipment_mode_save = 0
 
 ConsoleService:ExecuteCommand('bind num_0 "change_quick_equipment_mode_save"')
 
-ConsoleService:ExecuteCommand('bind num_1 "operate_eq_usable QuickConfig1 quick_usable_1"')
-ConsoleService:ExecuteCommand('bind num_2 "operate_eq_usable QuickConfig2 quick_usable_2"')
-ConsoleService:ExecuteCommand('bind num_3 "operate_eq_usable QuickConfig3 quick_usable_3"')
+ConsoleService:ExecuteCommand('bind num_1 "operate_eq_usable QuickConfig01"')
+ConsoleService:ExecuteCommand('bind num_2 "operate_eq_usable QuickConfig02"')
+ConsoleService:ExecuteCommand('bind num_3 "operate_eq_usable QuickConfig03"')
 
-ConsoleService:ExecuteCommand('bind num_4 "operate_eq_upgrade QuickConfig1 quick_upgrade_1"')
-ConsoleService:ExecuteCommand('bind num_5 "operate_eq_upgrade QuickConfig2 quick_upgrade_2"')
-ConsoleService:ExecuteCommand('bind num_6 "operate_eq_upgrade QuickConfig3 quick_upgrade_3"')
+ConsoleService:ExecuteCommand('bind num_4 "operate_eq_upgrade QuickConfig01"')
+ConsoleService:ExecuteCommand('bind num_5 "operate_eq_upgrade QuickConfig02"')
+ConsoleService:ExecuteCommand('bind num_6 "operate_eq_upgrade QuickConfig03"')
 
-ConsoleService:ExecuteCommand('bind num_7 "operate_eq_weapon QuickConfig1 quick_weapon_1"')
-ConsoleService:ExecuteCommand('bind num_8 "operate_eq_weapon QuickConfig2 quick_weapon_2"')
-ConsoleService:ExecuteCommand('bind num_9 "operate_eq_weapon QuickConfig3 quick_weapon_3"')
+ConsoleService:ExecuteCommand('bind num_7 "operate_eq_weapon QuickConfig01"')
+ConsoleService:ExecuteCommand('bind num_8 "operate_eq_weapon QuickConfig02"')
+ConsoleService:ExecuteCommand('bind num_9 "operate_eq_weapon QuickConfig03"')
 
-ConsoleService:ExecuteCommand('bind / "operate_eq_dash_skill QuickConfig1 quick_dash_skill_1"')
-ConsoleService:ExecuteCommand('bind * "operate_eq_dash_skill QuickConfig2 quick_dash_skill_2"')
-ConsoleService:ExecuteCommand('bind - "operate_eq_dash_skill QuickConfig3 quick_dash_skill_3"')
+ConsoleService:ExecuteCommand('bind / "operate_eq_dash_skill QuickConfig01"')
+ConsoleService:ExecuteCommand('bind * "operate_eq_dash_skill QuickConfig02"')
+ConsoleService:ExecuteCommand('bind - "operate_eq_dash_skill QuickConfig03"')
 
 
 
@@ -61,12 +61,11 @@ end)
 
 ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
 
-    if not Assert( #args >= 2, "Command operate_eq_usable requires one arguments! [configname] " .. tostring(#args) ) then
+    if not Assert( #args >= 1, "Command operate_eq_usable requires 1 arguments! [configname] " .. tostring(#args) ) then
         return
     end
 
     local configName = args[1]
-    local announcement = args[2]
 
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
@@ -76,7 +75,7 @@ ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
     else
         local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "usable", configName)
 
         SoundService:Play( sound )
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
@@ -87,12 +86,11 @@ end)
 
 ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
 
-    if not Assert( #args >= 2, "Command operate_eq_upgrade requires one arguments! [configname] " .. tostring(#args) ) then
+    if not Assert( #args >= 1, "Command operate_eq_upgrade requires 1 arguments! [configname] " .. tostring(#args) ) then
         return
     end
 
     local configName = args[1]
-    local announcement = args[2]
 
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
@@ -102,7 +100,7 @@ ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
     else
         local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "upgrade", configName)
 
         SoundService:Play( sound )
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
@@ -113,12 +111,11 @@ end)
 
 ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
-    if not Assert( #args >= 2, "Command operate_eq_weapon requires one arguments! [configname] " .. tostring(#args) ) then
+    if not Assert( #args >= 1, "Command operate_eq_weapon requires 1 arguments! [configname] " .. tostring(#args) ) then
         return
     end
 
     local configName = args[1]
-    local announcement = args[2]
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
@@ -129,7 +126,7 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
         local loadResult = QuickEquipmentSlotsUtils:CombineResults(loadResult1, loadResult2)
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "weapon", configName)
 
         SoundService:Play( sound )
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
@@ -140,12 +137,11 @@ end)
 
 ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
 
-    if not Assert( #args >= 2, "Command operate_eq_dash_skill requires one arguments! [configname] " .. tostring(#args) ) then
+    if not Assert( #args >= 1, "Command operate_eq_dash_skill requires 1 arguments! [configname] " .. tostring(#args) ) then
         return
     end
 
     local configName = args[1]
-    local announcement = args[2]
 
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
@@ -155,7 +151,7 @@ ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
     else
         local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, announcement)
+        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "dash_skill", configName)
 
         SoundService:Play( sound )
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
