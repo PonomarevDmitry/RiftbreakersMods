@@ -78,7 +78,7 @@ function planter_drone:FindActionTarget()
         if IsRequestThrottled(LOCK_TYPE_PLANT) then
             return INVALID_ID
         end
-        
+
         result = FindService:FindEmptyCultivatorSpotInRadius( pointEntity, self.plant_radius, "vegetation", "floor,desert_floor,acid_floor,magma_floor");
     elseif self.data:GetStringOrDefault("plant_blueprint", "") ~= "" then
         result = FindService:FindEmptySpotInRadius( pointEntity, self.plant_radius, "vegetation", "floor,desert_floor,acid_floor,magma_floor");
@@ -136,7 +136,7 @@ function planter_drone:OnPlantExit()
     EffectService:DestroyEffectsByGroup(self.entity, "work");
 
     local target = self:GetDroneActionTarget();
-    if EntityService:IsAlive(target) then 
+    if EntityService:IsAlive(target) then
         EntityService:RemovePropsInEntityBounds( target )
 
         local plant_blueprint = self.data:GetStringOrDefault("plant_blueprint", "");
@@ -151,7 +151,7 @@ function planter_drone:OnPlantExit()
             local pointEntity = self:GetDroneFindCenterPoint()
 
             local pos = EntityService:GetPosition(target)
-            
+
             local entities = BuildingService:SpawnCultivatorSaplingsAt( pointEntity, pos );
             for entity in Iter(entities) do
                 EffectService:SpawnEffect(entity, self.plant_effect );
