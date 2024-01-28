@@ -73,12 +73,9 @@ ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "usable", "usable", configName )
     else
-        local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+        local loadResult, slotsDescription, slotsNamesArray = QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "usable", configName)
-
-        SoundService:Play( sound )
-        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "usable", configName, slotsDescription, slotsNamesArray)
     end
 end)
 
@@ -98,12 +95,9 @@ ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "upgrade", "upgrade", configName )
     else
-        local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
+        local loadResult, slotsDescription, slotsNamesArray = QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "upgrade", configName)
-
-        SoundService:Play( sound )
-        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "upgrade", configName, slotsDescription, slotsNamesArray)
     end
 end)
 
@@ -121,15 +115,15 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
     else
-        local loadResult1 = QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
-        local loadResult2 = QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
+        local loadResult1, slotsDescription1, slotsNamesArray1 = QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
+        local loadResult2, slotsDescription2, slotsNamesArray2 = QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
 
         local loadResult = QuickEquipmentSlotsUtils:CombineResults(loadResult1, loadResult2)
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "weapon", configName)
+        local slotsDescription = QuickEquipmentSlotsUtils:CombineSlotsDescriptions( slotsDescription1, slotsDescription2 )
+        local slotsNamesArray = QuickEquipmentSlotsUtils:CombineSlotsNamesArrays( slotsNamesArray1, slotsNamesArray2 )
 
-        SoundService:Play( sound )
-        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsDescription, slotsNamesArray)
     end
 end)
 
@@ -149,12 +143,9 @@ ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "dash_skill", "dash_skill", configName )
     else
-        local loadResult = QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
+        local loadResult, slotsDescription, slotsNamesArray = QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
 
-        local sound, fullAnnouncement = QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound(loadResult, "dash_skill", configName)
-
-        SoundService:Play( sound )
-        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "dash_skill", configName, slotsDescription, slotsNamesArray)
     end
 end)
 

@@ -1,6 +1,7 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
+local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 local QuickEquipmentSlotsUtils = {}
 
@@ -130,21 +131,24 @@ local LOAD_RESULT_SUCCESS = 4
 
 function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
+    local slotsDescription = {}
+    local slotsNamesArray = {}
+
     local player_id = 0
 
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if player == INVALID_ID then
-        return LOAD_RESULT_INVALID
+        return LOAD_RESULT_INVALID, slotsDescription, slotsNamesArray
     end
 
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
-        return LOAD_RESULT_INVALID
+        return LOAD_RESULT_INVALID, slotsDescription, slotsNamesArray
     end
 
     local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
     if ( equipment == nil ) then
-        return LOAD_RESULT_INVALID
+        return LOAD_RESULT_INVALID, slotsDescription, slotsNamesArray
     end
 
     if equipment.id then
@@ -152,7 +156,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     end
 
     if ( equipment == nil ) then
-        return LOAD_RESULT_INVALID
+        return LOAD_RESULT_INVALID, slotsDescription, slotsNamesArray
     end
 
     local slots = equipment.slots
@@ -166,7 +170,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
 
     if ( configContent == "" ) then
-        return LOAD_RESULT_EMPTY
+        return LOAD_RESULT_EMPTY, slotsDescription, slotsNamesArray
     end
 
     local result = false
@@ -212,7 +216,18 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
         for subSlotString in Iter( subSlotsConfigArray ) do
 
-            local subSlotResult = QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipment, slotName, selectedSlot.subslots_count, subSlotString )
+            local subSlotResult, slotDesc, subSlotNumber = QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipment, slotName, selectedSlot.subslots_count, subSlotString )
+
+            if ( subSlotResult ) then
+
+                if ( IndexOf(slotsNamesArray, slotName) == nil ) then
+                    Insert( slotsNamesArray, slotName )
+                end
+
+                slotsDescription[slotName] = slotsDescription[slotName] or {}
+
+                slotsDescription[slotName][subSlotNumber] = slotDesc
+            end
 
             result = result or subSlotResult
         end
@@ -221,18 +236,20 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     end
 
     if ( result ) then
-        return LOAD_RESULT_SUCCESS
+        return LOAD_RESULT_SUCCESS, slotsDescription, slotsNamesArray
     else
-        return LOAD_RESULT_FAIL
+        return LOAD_RESULT_FAIL, slotsDescription, slotsNamesArray
     end
 end
 
 function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipment, slotName, subslots_count, subSlotString )
 
+    local slotDesc = {}
+
     local subSlotStringArray = Split( subSlotString, "," )
 
     if ( #subSlotStringArray ~= 3 ) then
-        return false
+        return false, slotDesc, 0
     end
 
     local subSlotNumber = tonumber(subSlotStringArray[1])
@@ -240,16 +257,16 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
     local subSlotEntityBlueprintName = tostring(subSlotStringArray[3])
 
     if ( subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == "" or subSlotEntityBlueprintName == nil ) then
-        return false
+        return false, slotDesc, 0
     end
 
     if ( subSlotNumber <= 0 or subSlotNumber > subslots_count ) then
         LogService:Log("subSlotNumber <= 0 or subSlotNumber > subslots_count " )
-        return false
+        return false, slotDesc, 0
     end
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
-        return false
+        return false, slotDesc, 0
     end
 
     local blueprintName = EntityService:GetBlueprintName( subSlotEntityId ) or ""
@@ -258,15 +275,32 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
 
     if ( blueprintName == "") then
         LogService:Log("#blueprintName == nil " )
-        return false
+        return false, slotDesc, 0
     end
 
     if ( blueprintName ~= subSlotEntityBlueprintName) then
         LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
-        return false
+        return false, slotDesc, 0
     end
 
+    slotDesc.rarity = 0
+    slotDesc.blueprintName = blueprintName
 
+    local modComponent = EntityService:GetComponent(subSlotEntityId, "EntityModComponent")
+    if ( modComponent ~= nil ) then
+        slotDesc.rarity = reflection_helper( modComponent ).rarity
+    end
+
+    local inventoryItemComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemComponent")
+    if ( inventoryItemComponent ~= nil ) then
+
+        local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
+        
+        slotDesc.name = inventoryItemComponentRef.name
+        slotDesc.icon = inventoryItemComponentRef.bigger_icon
+    end
+
+    
 
     if ( subslots_count > 1 ) then
 
@@ -282,15 +316,15 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
 
         ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber - 1)
 
-        return true
+        return true, slotDesc, subSlotNumber
     else
         LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
 
         PlayerService:EquipItemInSlot( player_id, subSlotEntityId, slotName )
-        return true
+        return true, slotDesc, subSlotNumber
     end
 
-    return false
+    return false, slotDesc, subSlotNumber
 end
 
 function QuickEquipmentSlotsUtils:GetEquipedItemInSlot( equipment, slotName, subSlotNumber )
@@ -324,7 +358,7 @@ function QuickEquipmentSlotsUtils:GetEquipedItemInSlot( equipment, slotName, sub
     return nil
 end
 
-function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, slotName, configName )
+function QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound( loadResult, slotName, configName, slotsDescription, slotsNamesArray )
 
     local configNameLocal = "quick_equipment_slots_change/configs/name/" .. configName
     local slotNameLocal = "quick_equipment_slots_change/slots/" .. slotName
@@ -348,10 +382,116 @@ function QuickEquipmentSlotsUtils:GetLoadAnnouncementAndSound( loadResult, slotN
         sound = "gui/cannot_use_item"
     end
 
-    return sound, fullAnnouncement
+    SoundService:Play( sound )
+    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+
+    if ( loadResult == LOAD_RESULT_SUCCESS ) then
+
+        if ( slotsDescription ) then
+
+            local slotsIcons = QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArray)
+
+            if ( slotsIcons ~= "" ) then
+                SoundService:PlayAnnouncement( slotsIcons, 0 )
+            end
+        end
+    end
 end
 
-function QuickEquipmentSlotsUtils:CombineResults(loadResult1, loadResult2 )
+function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArray)
+    
+    local listBlueprint = {}
+    local hashBlueprint = {}
+
+    for slotName in Iter( slotsNamesArray ) do
+
+        local slotConfig = slotsDescription[slotName]
+
+        local keys = {}
+        for subSlotNumber,_ in pairs(slotConfig) do 
+            Insert( keys, subSlotNumber ) 
+        end
+
+        table.sort(keys)
+
+        for subSlotNumber in Iter( keys ) do
+            
+            local slotDesc = slotConfig[subSlotNumber]
+
+            if ( hashBlueprint[slotDesc.blueprintName] == nil ) then
+
+                Insert( listBlueprint, slotDesc.blueprintName )
+
+                hashBlueprint[slotDesc.blueprintName] = {}
+                hashBlueprint[slotDesc.blueprintName].count = 0
+
+                hashBlueprint[slotDesc.blueprintName].slotStr = '<img="' .. slotDesc.icon .. '"> ${' .. slotDesc.name .. '}'
+            end
+
+            hashBlueprint[slotDesc.blueprintName].count = hashBlueprint[slotDesc.blueprintName].count + 1
+        end
+    end
+
+    local result = ""
+
+    for blueprintName in Iter( listBlueprint ) do
+
+        local count = hashBlueprint[blueprintName].count
+        local slotStr = hashBlueprint[blueprintName].slotStr
+
+        if ( count > 1 ) then
+            slotStr = slotStr .. ' x' .. tostring(count)
+        end
+
+        if ( string.len(result) > 0 ) then
+            result = result .. ", "
+        end
+
+        result = result .. slotStr
+    end
+
+    LogService:Log("slotsDescription " .. debug_serialize_utils:SerializeObject(slotsDescription))
+    LogService:Log("result " .. result)
+
+    return result
+end
+
+function QuickEquipmentSlotsUtils:GetRarityStyle( rarity )
+
+    -- 0 "gui/menu/inventory/item_level_0"
+    -- 1 "gui/menu/inventory/item_level_1"
+    -- 2 "gui/menu/inventory/item_level_2"
+    -- 3 "gui/menu/inventory/item_level_3"
+
+    if ( 0 <= rarity and rarity <= 3) then
+        return "gui/menu/inventory/item_level_" .. tostring(rarity)
+    end
+
+    return "gui/menu/inventory/item_level_0"
+end
+
+function QuickEquipmentSlotsUtils:CombineSlotsNamesArrays( slotsNamesArray1, slotsNamesArray2 )
+
+    for slotName in Iter( slotsNamesArray2 ) do
+
+        if ( IndexOf(slotsNamesArray1, slotName) == nil ) then
+            Insert( slotsNamesArray1, slotName )
+        end
+    end
+
+    return slotsNamesArray1
+end
+
+function QuickEquipmentSlotsUtils:CombineSlotsDescriptions( slotsDescription1, slotsDescription2 )
+
+    for key,value in pairs(slotsDescription2) do
+        slotsDescription1[key] = value
+    end
+
+    return slotsDescription1
+end
+
+function QuickEquipmentSlotsUtils:CombineResults( loadResult1, loadResult2 )
 
     if ( loadResult1 == LOAD_RESULT_SUCCESS or loadResult2 == LOAD_RESULT_SUCCESS ) then
         return LOAD_RESULT_SUCCESS
