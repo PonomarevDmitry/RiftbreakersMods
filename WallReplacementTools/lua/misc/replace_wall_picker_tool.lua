@@ -171,7 +171,7 @@ function replace_wall_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
