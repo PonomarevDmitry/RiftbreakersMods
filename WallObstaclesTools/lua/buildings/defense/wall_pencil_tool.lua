@@ -13,7 +13,7 @@ end
 function wall_pencil_tool:OnInit()
 
     self.linesEntities = {}
-    
+
     self.innerEntities = {}
 
     self.topEntities = {}
@@ -91,7 +91,7 @@ function wall_pencil_tool:SpawnGhostEntities()
 
         self:AdjustInnerList(self.innerEntities, innerPositions)
     else
-        
+
         local innerPositions,topPositions,rightPositions,bottomPositions,leftPositions = self:FindPositionsToBuildLine( wallLinesCount )
 
         self:AdjustInnerList(self.innerEntities, innerPositions)
@@ -185,7 +185,7 @@ function wall_pencil_tool:FindPositionsToBuildLine(wallLinesCount)
 end
 
 function wall_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degreeT)
-    
+
     local connectTypeCorner = 4
     local connectTypeT = 8
 
@@ -236,7 +236,7 @@ function wall_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
 end
 
 function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
-    
+
     local connectType = 16
 
     local blueprintName = self:GetBlueprintByConnectType( connectType )
@@ -547,7 +547,7 @@ function wall_pencil_tool:OnRelease()
 
         self:ClearList(gridEntitiesZ)
     end
-    
+
     self:ClearList(self.topEntities)
     self:ClearList(self.rightEntities)
     self:ClearList(self.bottomEntities)

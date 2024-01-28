@@ -210,7 +210,7 @@ function wall_thorns_tool:FindPositionsToBuildLine( currentTransform, wallLinesC
 
 
     local deltaXZ = 2
-    
+
     local startSignVector = self:GetStartSignVector(pathFromStartPositionToEndPosition, positionPlayer)
 
     local vectorArray = self:GetVectorArray(pathFromStartPositionToEndPosition, startSignVector)
@@ -264,14 +264,14 @@ function wall_thorns_tool:FindPositionsToBuildLine( currentTransform, wallLinesC
 
             Insert(arrayWallVectors, wallVector)
         end
-        
+
         --LogService:Log("    i " .. tostring(i) .. " wallVector position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " signVector.x " .. tostring(signVector.x) .. " signVector.z " .. tostring(signVector.z) .. " isOuterCorner " .. tostring(wallVector.isOuterCorner) .. " hasWall " .. tostring(hasWall))
     end
-    
+
     --LogService:Log("End Original #pathFromStartPositionToEndPosition " .. tostring(#pathFromStartPositionToEndPosition) .. " wallLinesCount " .. tostring(wallLinesCount) )
 
     for step=2,wallLinesCount do
-    
+
         local hashPositions = {}
 
         --LogService:Log("Start step " .. tostring(step) .. " #arrayWallVectors " .. tostring(#arrayWallVectors) .. " wallLinesCount " .. tostring(wallLinesCount) )
@@ -378,7 +378,7 @@ function wall_thorns_tool:FindPositionsToBuildLine( currentTransform, wallLinesC
 
     ::endCalculation::
 
-    
+
 
 
 
@@ -389,7 +389,7 @@ function wall_thorns_tool:FindPositionsToBuildLine( currentTransform, wallLinesC
     for position in Iter(positionsArrayOrder) do
 
         local hasWall = ( hashMerge[position.x] ~= nil and hashMerge[position.x][position.z] ~= nil and hashMerge[position.x][position.z].hasWall == true )
-    
+
         --LogService:Log("       Wall position.x " .. tostring(position.x) .. " position.z " .. tostring(position.z) .. " hasWall " .. tostring(hasWall))
 
         if ( hasWall ) then
@@ -975,7 +975,7 @@ end
 function wall_thorns_tool:AddNewPositionsByConfigByX(position, wallLinesCount, xSign, deltaXZ, hashPositions, positionsArray)
 
     for index=0,wallLinesCount-1 do
-        
+
         local newPositionX = position.x + xSign * index * deltaXZ
 
         self:AddNewPositionToPositionsArray(hashPositions, positionsArray, newPositionX, position.z, position.y)
@@ -985,7 +985,7 @@ end
 function wall_thorns_tool:AddNewPositionsByConfigByZ(position, wallLinesCount, zSign, deltaXZ, hashPositions, positionsArray)
 
     for index=0,wallLinesCount-1 do
-        
+
         local newPositionZ = position.z + zSign * index * deltaXZ
 
         self:AddNewPositionToPositionsArray(hashPositions, positionsArray, position.x, newPositionZ, position.y)
