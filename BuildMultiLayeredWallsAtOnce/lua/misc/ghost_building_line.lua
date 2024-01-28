@@ -330,7 +330,7 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
         end
 
         local newArrayWallVectors = {}
-    
+
         local hashPositions = {}
 
         --LogService:Log("Start step " .. tostring(step) .. " #arrayWallVectors " .. tostring(#arrayWallVectors) )
@@ -401,7 +401,7 @@ function ghost_building_line:CreateSolidWalls(pathFromStartPositionToEndPosition
     end
 
     ::continue::
-    
+
     local positionsArrayOrder = self:GetWallPositionInOrder(pathFromStartPositionToEndPosition, vectorArray, wallLinesConfig)
 
     local result = {}
