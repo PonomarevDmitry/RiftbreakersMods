@@ -1,0 +1,62 @@
+EntityBlueprint
+{
+	name					"buildings/tools/store_resources"
+
+	BuildingDesc
+	{
+		name				"store_resources"
+		bp					"buildings/tools/store_resources"
+		ghost_bp			"buildings/tools/store_resources_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/store_resources"
+		description			"gui/hud/building_description/store_resources"
+		menu_icon			"gui/hud/tools_icons/store_resources_tool"
+
+		order				"80"
+		type				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/store_resources_ghost"
+
+	BuildingDesc
+	{
+		name				"store_resources_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/store_resources_tool.lua"
+
+		database
+		{
+			action			string:"store_resources"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+
+	GuiDesc
+	{
+		def_name					"gui/template/store_resources_tool_menu"
+		use_database_component		"1"
+	}
+}
