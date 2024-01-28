@@ -440,7 +440,7 @@ function upgrade_all_map_cat_upgrader_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 

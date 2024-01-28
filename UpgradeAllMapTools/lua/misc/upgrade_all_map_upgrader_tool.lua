@@ -56,7 +56,7 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
             self.childEntity = nil
         end
 
-        
+
         -- Create new marker
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
 

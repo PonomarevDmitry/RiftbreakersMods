@@ -178,7 +178,7 @@ function upgrade_all_map_cat_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 
@@ -326,7 +326,7 @@ function upgrade_all_map_cat_picker_tool:CheckModeValueExists( selectedMode )
 end
 
 function upgrade_all_map_cat_picker_tool:HighlightBuildingsToUpgrade()
-    
+
     local performFind = (self.currentTick % self.tickMod) == 0
 
     if ( performFind ) then
