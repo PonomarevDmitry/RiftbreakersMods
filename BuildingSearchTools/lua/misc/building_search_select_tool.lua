@@ -53,7 +53,7 @@ function building_search_select_tool:UpdateMarker()
 
         local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
 
-        
+
 
         messageText = "${gui/hud/building_search/mark_buildings} ${" .. buildingDescRef.localization_id .. "}"
 
@@ -97,7 +97,7 @@ function building_search_select_tool:UpdateMarker()
     end
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
-    
+
     markerDB:SetInt("building_icon_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
 

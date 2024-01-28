@@ -550,7 +550,7 @@ function building_search_base:FindEntitiesToMark(blueprintName, isGroup)
     end
 
     local sorter = function( lh, rh )
-        
+
         local lhPosition = positions[lh]
         local rhPosition = positions[rh]
 
@@ -620,7 +620,7 @@ function building_search_base:FindEntitiesByCategoryToMark(selectedCategory)
     end
 
     local sorter = function( lh, rh )
-        
+
         local lhPosition = positions[lh]
         local rhPosition = positions[rh]
 

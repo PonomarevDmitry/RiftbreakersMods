@@ -103,7 +103,7 @@ function building_search_clear_tool:UpdateMarker()
     end
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
-    
+
     markerDB:SetInt("building_icon_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
 
