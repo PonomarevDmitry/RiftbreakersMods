@@ -169,7 +169,7 @@ function replace_tower_picker_tool:OnActivateSelectorRequest()
 
             return
         end
-        
+
         return
     end
 

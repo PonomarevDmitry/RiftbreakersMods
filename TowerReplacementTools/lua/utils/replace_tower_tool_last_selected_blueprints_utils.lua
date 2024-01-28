@@ -174,7 +174,7 @@ function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector
     end
 
     Insert( currentListArray, stringValue )
-    
+
 
 
     LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selectorDB, campaignDatabase, currentListArray)
