@@ -100,7 +100,7 @@ function tower_drone_attack_with_slots:SpawnDrones()
             else
                 QueueEvent( "FadeEntityOutRequest", drone, 1 )
             end
-            
+
             self:RegisterHandler( drone, "DroneLandingStartedEvent", "_OnDroneLandingStartedEvent" )
             self:RegisterHandler( drone, "DroneLandingEndedEvent", "_OnDroneLandingEndedEvent" )
             self:RegisterHandler( drone, "DroneLiftingStartedEvent", "_OnDroneLiftingStartedEvent" )
@@ -406,7 +406,7 @@ function tower_drone_attack_with_slots:UpdateDisplayRadiusVisibility( show, enti
                 count = count + 1
             end
         end
-        
+
         if count == 0 then
             EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
             EntityService:RemoveMaterial( self.pointEntity, "selected" )
@@ -522,7 +522,7 @@ function tower_drone_attack_with_slots:RepositionLinkEntity()
     local container = rawget(lightningComponentRef.lighning_vec, "__ptr");
 
     local item = container:GetItem(0)
-    if ( item == nil ) then 
+    if ( item == nil ) then
         item = container:CreateItem()
     end
 
@@ -963,7 +963,7 @@ function tower_drone_attack_with_slots:CreateMenuEntity()
     end
 
     if ( self.menuEntity == nil ) then
-    
+
         local team = EntityService:GetTeam( self.entity )
         self.menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
     end
@@ -1012,7 +1012,7 @@ function tower_drone_attack_with_slots:PopulateSpecialActionInfo()
     menuDB:SetString("slot_icon_1", "")
     menuDB:SetString("slot_icon_2", "")
     menuDB:SetString("slot_icon_3", "")
-    
+
     menuDB:SetString("slot_name_1", "")
     menuDB:SetString("slot_name_2", "")
     menuDB:SetString("slot_name_3", "")
