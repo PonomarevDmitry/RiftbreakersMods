@@ -217,7 +217,7 @@ function floor_tool:SpawnGhostFloorEntities()
         transform.position = newPositions[i]
 
         local lineEnt = self.linesEntities[i]
-        
+
         EntityService:SetPosition( lineEnt, newPositions[i])
         EntityService:SetOrientation( lineEnt, orientation )
         EntityService:SetScale( lineEnt, currentSize, 1.0, currentSize )
