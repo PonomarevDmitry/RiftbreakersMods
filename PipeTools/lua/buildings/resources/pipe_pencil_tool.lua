@@ -15,7 +15,7 @@ function pipe_pencil_tool:OnInit()
     self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
 
     self.linesEntities = {}
-    
+
     self.innerEntities = {}
 
     self.topEntities = {}
@@ -93,7 +93,7 @@ function pipe_pencil_tool:SpawnGhostEntities()
 
         self:AdjustList(self.innerEntities, innerPositions)
     else
-        
+
         local innerPositions,topPositions,rightPositions,bottomPositions,leftPositions = self:FindPositionsToBuildLine( pipeLinesCount )
 
         self:AdjustList(self.innerEntities, innerPositions)
@@ -194,7 +194,7 @@ function pipe_pencil_tool:FindPositionsToBuildLine(pipeLinesCount)
 end
 
 function pipe_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degreeT)
-    
+
     local connectTypeCorner = 4
     local connectTypeT = 8
 
@@ -243,7 +243,7 @@ function pipe_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
 end
 
 function pipe_pencil_tool:AdjustList(list, newPositions)
-    
+
     local connectType = 16
 
     local blueprintName = self:GetBlueprintByConnectType( connectType )
@@ -501,7 +501,7 @@ end
 function pipe_pencil_tool:OnRelease()
 
     self:ClearList(self.innerEntities)
-    
+
     self:ClearList(self.topEntities)
     self:ClearList(self.rightEntities)
     self:ClearList(self.bottomEntities)
