@@ -21,9 +21,54 @@ function quick_equipment_slots_save_entity:init()
     local configNameLocal = "quick_equipment_slots_change/configs/name/" .. self.configName
     local slotNameLocal = "quick_equipment_slots_change/slots/" .. self.slotName
 
-    local confimMessage = '${voice_over/announcement/quick_equipment_slots_change/confirming} <style="header_35">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/confirming_to} <style="header_35">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/confirming_end}</style>'
+    local loadResult = LOAD_RESULT_EMPTY
+    local slotsDescription = {}
+    local slotsNamesArray = {}
 
-    GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", confimMessage)
+    local slotNamesArray = Split( self.slotNamePrefixArray, "," )
+    for slotsString in Iter( slotNamesArray ) do
+
+        local loadResultEquipment, slotsDescriptionEquipment, slotsNamesArrayEquipment = QuickEquipmentSlotsUtils:GetEquipmentInfo( slotsString, self.configName )
+
+        loadResult = QuickEquipmentSlotsUtils:CombineResults(loadResult, loadResultEquipment)
+        slotsDescription = QuickEquipmentSlotsUtils:CombineSlotsDescriptions( slotsDescription, slotsDescriptionEquipment )
+        slotsNamesArray = QuickEquipmentSlotsUtils:CombineSlotsNamesArrays( slotsNamesArray, slotsNamesArrayEquipment )
+    end
+
+    local confimMessage = '${voice_over/announcement/quick_equipment_slots_change/confirming}\r\n<style="header_35">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/confirming_to} <style="header_35">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/confirming_end}</style>'
+
+    for slotName in Iter( slotsNamesArray ) do
+
+        local slotConfig = slotsDescription[slotName]
+
+        local keys = {}
+        for subSlotNumber,_ in pairs(slotConfig) do 
+            Insert( keys, subSlotNumber ) 
+        end
+
+        table.sort(keys)
+
+        for subSlotNumber in Iter( keys ) do
+            
+            local slotDesc = slotConfig[subSlotNumber]
+
+            confimMessage = confimMessage .. "\r\n" .. " " .. slotName
+
+            if ( #keys > 1 ) then
+                confimMessage = confimMessage .. " "  .. tostring(subSlotNumber)
+            end
+
+            local rarityStyle = '<style="' .. QuickEquipmentSlotsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
+
+            local slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
+
+            confimMessage = confimMessage .. ': ' .. slotStr
+        end
+    end
+
+    LogService:Log("confimMessage " .. confimMessage)
+
+    GuiService:OpenPopup(self.entity, "gui/popup/quick_equipment_slots_popup_ingame_2buttons", confimMessage)
 end
 
 function quick_equipment_slots_save_entity:OnGuiPopupResultEvent( evt)
@@ -42,7 +87,7 @@ function quick_equipment_slots_save_entity:OnGuiPopupResultEvent( evt)
         local configNameLocal = "quick_equipment_slots_change/configs/name/" .. self.configName
         local slotNameLocal = "quick_equipment_slots_change/slots/" .. self.slotName
 
-        local fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/saving} <style="header_35">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_to} <style="header_35">${' .. configNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_end}'
+        local fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/saving} <style="header_24">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_to} <style="header_24">${' .. configNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_end}'
 
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end

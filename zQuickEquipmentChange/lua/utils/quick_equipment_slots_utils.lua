@@ -19,6 +19,79 @@ function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, sl
     database:SetString("configName", configName)
 end
 
+function QuickEquipmentSlotsUtils:GetEquipmentInfo( slotNamePrefix, configName )
+
+    local player_id = 0
+    local slotsDescription = {}
+    local slotsNamesArray = {}
+
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if player == INVALID_ID then
+        return LOAD_RESULT_INVALID, slotsDescription, slotsNamesArray
+    end
+
+    local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+    if ( equipment == nil ) then
+        return LOAD_RESULT_INVALID, slotsDescription, slotsNamesArray
+    end
+
+    if equipment.id then
+        equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
+    end
+
+    if ( equipment == nil ) then
+        return LOAD_RESULT_INVALID, slotsDescription, slotsNamesArray
+    end
+
+    slotNamePrefix = string.lower(slotNamePrefix)
+
+    local slots = equipment.slots
+
+    for slotNumber=1,slots.count do
+
+        local slot = slots[slotNumber]
+
+        local slotName = string.lower(slot.name)
+
+        if ( string.find( slotName, slotNamePrefix ) == nil ) then
+            goto continue
+        end
+
+        for subSlotNumber=1,slot.subslots.count do
+
+            local entities = slot.subslots[subSlotNumber]
+
+            local subSlotEntityId = entities[1]
+
+            if (subSlotEntityId) then
+
+                if subSlotEntityId.id then
+                    subSlotEntityId = subSlotEntityId.id
+                end
+
+                local subSlotEntityBlueprintName = EntityService:GetBlueprintName( subSlotEntityId ) or ""
+
+                if ( subSlotEntityBlueprintName ~= "" ) then
+
+                    if ( IndexOf(slotsNamesArray, slotName) == nil ) then
+                        Insert( slotsNamesArray, slotName )
+                    end
+
+                    local slotDesc = QuickEquipmentSlotsUtils:GetSlotDesc( subSlotEntityBlueprintName, subSlotEntityId )
+
+                    slotsDescription[slotName] = slotsDescription[slotName] or {}
+
+                    slotsDescription[slotName][subSlotNumber] = slotDesc
+                end
+            end
+        end
+
+        ::continue::
+    end
+
+    return LOAD_RESULT_SUCCESS, slotsDescription, slotsNamesArray
+end
+
 function QuickEquipmentSlotsUtils:SaveEquipment( slotNamePrefix, configName )
 
     local player_id = 0
@@ -244,12 +317,10 @@ end
 
 function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipment, slotName, subslots_count, subSlotString )
 
-    local slotDesc = {}
-
     local subSlotStringArray = Split( subSlotString, "," )
 
     if ( #subSlotStringArray ~= 3 ) then
-        return false, slotDesc, 0
+        return false, {}, 0
     end
 
     local subSlotNumber = tonumber(subSlotStringArray[1])
@@ -257,16 +328,16 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
     local subSlotEntityBlueprintName = tostring(subSlotStringArray[3])
 
     if ( subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == "" or subSlotEntityBlueprintName == nil ) then
-        return false, slotDesc, 0
+        return false, {}, 0
     end
 
     if ( subSlotNumber <= 0 or subSlotNumber > subslots_count ) then
         LogService:Log("subSlotNumber <= 0 or subSlotNumber > subslots_count " )
-        return false, slotDesc, 0
+        return false, {}, 0
     end
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
-        return false, slotDesc, 0
+        return false, {}, 0
     end
 
     local blueprintName = EntityService:GetBlueprintName( subSlotEntityId ) or ""
@@ -275,21 +346,29 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
 
     if ( blueprintName == "") then
         LogService:Log("#blueprintName == nil " )
-        return false, slotDesc, 0
+        return false, {}, 0
     end
 
     if ( blueprintName ~= subSlotEntityBlueprintName) then
         LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
-        return false, slotDesc, 0
+        return false, {}, 0
     end
+
+    local slotDesc = QuickEquipmentSlotsUtils:GetSlotDesc( blueprintName, subSlotEntityId )
+
+    LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
+
+    QueueEvent( "EquipmentChangeRequest", player, slotName, subSlotNumber-1, subSlotEntityId )
+
+    return true, slotDesc, subSlotNumber
+end
+
+function QuickEquipmentSlotsUtils:GetSlotDesc( blueprintName, subSlotEntityId )
+
+    local slotDesc = {}
 
     slotDesc.rarity = 0
     slotDesc.blueprintName = blueprintName
-
-    local modComponent = EntityService:GetComponent(subSlotEntityId, "EntityModComponent")
-    if ( modComponent ~= nil ) then
-        slotDesc.rarity = reflection_helper( modComponent ).rarity
-    end
 
     local inventoryItemComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemComponent")
     if ( inventoryItemComponent ~= nil ) then
@@ -298,13 +377,15 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
         
         slotDesc.name = inventoryItemComponentRef.name
         slotDesc.icon = inventoryItemComponentRef.bigger_icon
+        slotDesc.rarity = inventoryItemComponentRef.rarity
     end
 
-    LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
+    local modComponent = EntityService:GetComponent(subSlotEntityId, "EntityModComponent")
+    if ( modComponent ~= nil ) then
+        slotDesc.rarity = reflection_helper( modComponent ).rarity
+    end
 
-    QueueEvent( "EquipmentChangeRequest", player, slotName, subSlotNumber-1, subSlotEntityId )
-
-    return true, slotDesc, subSlotNumber
+    return slotDesc
 end
 
 function QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound( loadResult, slotName, configName, slotsDescription, slotsNamesArray )
@@ -315,13 +396,13 @@ function QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound( loadResult, slot
     local fullAnnouncement = ""
 
     if ( loadResult == LOAD_RESULT_SUCCESS ) then
-        fullAnnouncement = '<style="header_35">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/load/load_from} <style="header_35">${' .. configNameLocal .. '} ${voice_over/announcement/quick_equipment_slots_change/load/success/loaded}</style>'
+        fullAnnouncement = '<style="header_24">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/load/load_from} <style="header_24">${' .. configNameLocal .. '} ${voice_over/announcement/quick_equipment_slots_change/load/success/loaded}</style>'
     elseif ( loadResult == LOAD_RESULT_FAIL ) then
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/fail/fail} <style="header_35">${' .. slotNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/load/load_from} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/fail/fail_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/fail/fail} <style="header_24">${' .. slotNameLocal .. '}</style><style="header_24">${voice_over/announcement/quick_equipment_slots_change/load/load_from} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/fail/fail_end}</style>'
     elseif ( loadResult == LOAD_RESULT_EMPTY ) then
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/load/empty} <style="header_35">${' .. slotNameLocal .. '} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/load/empty} <style="header_24">${' .. slotNameLocal .. '}</style> <style="header_24">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
     else
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid} <style="header_35">${' .. slotNameLocal .. '} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/invalid/invalid_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid} <style="header_24">${' .. slotNameLocal .. '}</style> <style="header_24">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/invalid/invalid_end}</style>'
     end
 
     local sound = ""
@@ -388,15 +469,15 @@ function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArra
         local count = hashBlueprint[blueprintName].count
         local slotDesc = hashBlueprint[blueprintName].slotDesc
 
-        local rarityStyle = self:GetRarityStyle( slotDesc.rarity )
+        local rarityStyle = QuickEquipmentSlotsUtils:GetRaritySmallStyle( slotDesc.rarity )
 
         local slotStr = '${' .. slotDesc.name .. '}'
 
-        local iconStr = '<style="inventory_stats_icon"><img="' .. slotDesc.icon .. '"></style>'
+        local iconStr = '<style="inventory_stats_icon">' .. '<img="' .. slotDesc.icon .. '">' .. '</style>'
+        --local iconStr = '<img="' .. slotDesc.icon .. '">'
 
-        --local slotStr = '<style="' .. rarityStyle .. '">${' .. slotDesc.name .. '}</style>'
+        local slotStr = '<style="' .. rarityStyle .. '">${' .. slotDesc.name .. '}</style>'
         --local slotStr = '<img="' .. slotDesc.icon .. '"> ${' .. slotDesc.name .. '}'
-        --local slotStr = '<img="' .. slotDesc.icon .. '">'
 
         if ( count > 1 ) then
             slotStr = slotStr .. ' x' .. tostring(count)
@@ -424,16 +505,30 @@ end
 
 function QuickEquipmentSlotsUtils:GetRarityStyle( rarity )
 
-    -- 0 "gui/menu/inventory/item_level_0"
-    -- 1 "gui/menu/inventory/item_level_1"
-    -- 2 "gui/menu/inventory/item_level_2"
-    -- 3 "gui/menu/inventory/item_level_3"
+    -- 0 "item_level_0"
+    -- 1 "item_level_1"
+    -- 2 "item_level_2"
+    -- 3 "item_level_3"
 
     if ( 0 <= rarity and rarity <= 3) then
-        return "gui/menu/inventory/item_level_" .. tostring(rarity)
+        return "item_level_" .. tostring(rarity)
     end
 
-    return "gui/menu/inventory/item_level_0"
+    return "item_level_0"
+end
+
+function QuickEquipmentSlotsUtils:GetRaritySmallStyle( rarity )
+
+    -- 0 "smallest_item_level_0"
+    -- 1 "smallest_item_level_1"
+    -- 2 "smallest_item_level_2"
+    -- 3 "smallest_item_level_3"
+
+    if ( 0 <= rarity and rarity <= 3) then
+        return "smallest_item_level_" .. tostring(rarity)
+    end
+
+    return "smallest_item_level_0"
 end
 
 function QuickEquipmentSlotsUtils:CombineSlotsNamesArrays( slotsNamesArray1, slotsNamesArray2 )
