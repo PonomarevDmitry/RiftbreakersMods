@@ -42,7 +42,7 @@ function quick_equipment_slots_save_entity:init()
         local slotConfig = slotsDescription[slotName]
 
         local keys = {}
-        for subSlotNumber,_ in pairs(slotConfig) do 
+        for subSlotNumber,_ in pairs(slotConfig.SubSlots) do 
             Insert( keys, subSlotNumber ) 
         end
 
@@ -50,7 +50,7 @@ function quick_equipment_slots_save_entity:init()
 
         for subSlotNumber in Iter( keys ) do
             
-            local slotDesc = slotConfig[subSlotNumber]
+            local slotDesc = slotConfig.SubSlots[subSlotNumber]
 
             confimMessage = confimMessage .. "\r\n" .. " " .. slotName
 

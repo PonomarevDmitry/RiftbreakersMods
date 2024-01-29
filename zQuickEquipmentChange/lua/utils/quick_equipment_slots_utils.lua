@@ -81,7 +81,14 @@ function QuickEquipmentSlotsUtils:GetEquipmentInfo( slotNamePrefix, configName )
 
                     slotsDescription[slotName] = slotsDescription[slotName] or {}
 
-                    slotsDescription[slotName][subSlotNumber] = slotDesc
+                    local slotConfig = slotsDescription[slotName]
+
+                    slotConfig.Number = slotNumber
+                    slotConfig.SubSlotsCount = slot.subslots.count
+
+                    slotConfig.SubSlots = slotConfig.SubSlots or {}
+
+                    slotConfig.SubSlots[subSlotNumber] = slotDesc
                 end
             end
         end
@@ -269,6 +276,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
         local slotExists = false
 
         local selectedSlot = nil
+        local selectedSlotNumber = nil
 
         for slotNumber=1,slots.count do
 
@@ -276,6 +284,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
             if selectedSlot.name == slotName then
                 slotExists = true
+                selectedSlotNumber = slotNumber
                 break
             end
         end
@@ -299,7 +308,14 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
                 slotsDescription[slotName] = slotsDescription[slotName] or {}
 
-                slotsDescription[slotName][subSlotNumber] = slotDesc
+                local slotConfig = slotsDescription[slotName]
+
+                slotConfig.Number = selectedSlotNumber
+                slotConfig.SubSlotsCount = selectedSlot.subslots_count
+
+                slotConfig.SubSlots = slotConfig.SubSlots or {}
+
+                slotConfig.SubSlots[subSlotNumber] = slotDesc
             end
 
             result = result or subSlotResult
@@ -438,7 +454,7 @@ function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArra
         local slotConfig = slotsDescription[slotName]
 
         local keys = {}
-        for subSlotNumber,_ in pairs(slotConfig) do 
+        for subSlotNumber,_ in pairs(slotConfig.SubSlots) do 
             Insert( keys, subSlotNumber ) 
         end
 
@@ -446,7 +462,7 @@ function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArra
 
         for subSlotNumber in Iter( keys ) do
             
-            local slotDesc = slotConfig[subSlotNumber]
+            local slotDesc = slotConfig.SubSlots[subSlotNumber]
 
             if ( hashBlueprint[slotDesc.blueprintName] == nil ) then
 
