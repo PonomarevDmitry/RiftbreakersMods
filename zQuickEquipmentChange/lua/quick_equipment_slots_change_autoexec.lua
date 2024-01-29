@@ -18,26 +18,23 @@ require("lua/utils/table_utils.lua")
 
 mod_quick_equipment_mode_save = 0
 
+ConsoleService:ExecuteCommand('bind / "operate_quick_equipment dash_skill QuickConfig01"')
+ConsoleService:ExecuteCommand('bind * "operate_quick_equipment dash_skill QuickConfig02"')
+ConsoleService:ExecuteCommand('bind - "operate_quick_equipment dash_skill QuickConfig03"')
 
+ConsoleService:ExecuteCommand('bind num_7 "operate_quick_equipment upgrade QuickConfig01"')
+ConsoleService:ExecuteCommand('bind num_8 "operate_quick_equipment upgrade QuickConfig02"')
+ConsoleService:ExecuteCommand('bind num_9 "operate_quick_equipment upgrade QuickConfig03"')
+
+ConsoleService:ExecuteCommand('bind num_4 "operate_eq_weapon QuickConfig01"')
+ConsoleService:ExecuteCommand('bind num_5 "operate_eq_weapon QuickConfig02"')
+ConsoleService:ExecuteCommand('bind num_6 "operate_eq_weapon QuickConfig03"')
+
+ConsoleService:ExecuteCommand('bind num_1 "operate_quick_equipment usable QuickConfig01"')
+ConsoleService:ExecuteCommand('bind num_2 "operate_quick_equipment usable QuickConfig02"')
+ConsoleService:ExecuteCommand('bind num_3 "operate_quick_equipment usable QuickConfig03"')
 
 ConsoleService:ExecuteCommand('bind num_0 "change_quick_equipment_mode_save"')
-
-ConsoleService:ExecuteCommand('bind num_1 "operate_eq_usable QuickConfig01"')
-ConsoleService:ExecuteCommand('bind num_2 "operate_eq_usable QuickConfig02"')
-ConsoleService:ExecuteCommand('bind num_3 "operate_eq_usable QuickConfig03"')
-
-ConsoleService:ExecuteCommand('bind num_4 "operate_eq_upgrade QuickConfig01"')
-ConsoleService:ExecuteCommand('bind num_5 "operate_eq_upgrade QuickConfig02"')
-ConsoleService:ExecuteCommand('bind num_6 "operate_eq_upgrade QuickConfig03"')
-
-ConsoleService:ExecuteCommand('bind num_7 "operate_eq_weapon QuickConfig01"')
-ConsoleService:ExecuteCommand('bind num_8 "operate_eq_weapon QuickConfig02"')
-ConsoleService:ExecuteCommand('bind num_9 "operate_eq_weapon QuickConfig03"')
-
-ConsoleService:ExecuteCommand('bind / "operate_eq_dash_skill QuickConfig01"')
-ConsoleService:ExecuteCommand('bind * "operate_eq_dash_skill QuickConfig02"')
-ConsoleService:ExecuteCommand('bind - "operate_eq_dash_skill QuickConfig03"')
-
 
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( args )
@@ -59,45 +56,24 @@ end)
 
 
 
-ConsoleService:RegisterCommand( "operate_eq_usable", function( args )
+ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
 
-    if not Assert( #args >= 1, "Command operate_eq_usable requires 1 arguments! [configname] " .. tostring(#args) ) then
+    if not Assert( #args >= 2, "Command operate_eq_usable requires 2 arguments! [configname] " .. tostring(#args) ) then
         return
     end
-
-    local configName = args[1]
+    
+    local slotsName = args[1]
+    local configName = args[2]
 
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "usable", "usable", configName )
+        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotsName, slotsName, configName )
     else
-        local loadResult, slotsDescription, slotsNamesArray = QuickEquipmentSlotsUtils:LoadEquipment( "usable", configName )
+        local loadResult, slotsDescription, slotsNamesArray = QuickEquipmentSlotsUtils:LoadEquipment( slotsName, configName )
 
-        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "usable", configName, slotsDescription, slotsNamesArray)
-    end
-end)
-
-
-
-ConsoleService:RegisterCommand( "operate_eq_upgrade", function( args )
-
-    if not Assert( #args >= 1, "Command operate_eq_upgrade requires 1 arguments! [configname] " .. tostring(#args) ) then
-        return
-    end
-
-    local configName = args[1]
-
-    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
-
-    if ( mod_quick_equipment_mode_save == 1 ) then
-
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "upgrade", "upgrade", configName )
-    else
-        local loadResult, slotsDescription, slotsNamesArray = QuickEquipmentSlotsUtils:LoadEquipment( "upgrade", configName )
-
-        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "upgrade", configName, slotsDescription, slotsNamesArray)
+        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, slotsName, configName, slotsDescription, slotsNamesArray)
     end
 end)
 
@@ -124,28 +100,6 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
         local slotsNamesArray = QuickEquipmentSlotsUtils:CombineSlotsNamesArrays( slotsNamesArray1, slotsNamesArray2 )
 
         QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsDescription, slotsNamesArray)
-    end
-end)
-
-
-
-ConsoleService:RegisterCommand( "operate_eq_dash_skill", function( args )
-
-    if not Assert( #args >= 1, "Command operate_eq_dash_skill requires 1 arguments! [configname] " .. tostring(#args) ) then
-        return
-    end
-
-    local configName = args[1]
-
-    mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
-
-    if ( mod_quick_equipment_mode_save == 1 ) then
-
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "dash_skill", "dash_skill", configName )
-    else
-        local loadResult, slotsDescription, slotsNamesArray = QuickEquipmentSlotsUtils:LoadEquipment( "dash_skill", configName )
-
-        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "dash_skill", configName, slotsDescription, slotsNamesArray)
     end
 end)
 

@@ -300,62 +300,11 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, player_id, equipm
         slotDesc.icon = inventoryItemComponentRef.bigger_icon
     end
 
-    
+    LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
 
-    if ( subslots_count > 1 ) then
+    QueueEvent( "EquipmentChangeRequest", player, slotName, subSlotNumber-1, subSlotEntityId )
 
-        local equipedItemInSlot = self:GetEquipedItemInSlot(equipment, slotName, subSlotNumber)
-
-        if ( equipedItemInSlot ~= nil ) then
-
-            LogService:Log("UnequipItemRequest player " .. tostring(player) .. " playerEntityName " .. tostring(EntityService:GetBlueprintName( player )) .. " slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " equipedItemInSlot " .. tostring(equipedItemInSlot) .. " equipedItemInSlotBlueprintName " .. tostring(EntityService:GetBlueprintName( equipedItemInSlot )) .. " subslots_count " .. tostring(subslots_count) )
-            QueueEvent("UnequipItemRequest", player, equipedItemInSlot, slotName )
-        end
-
-        LogService:Log("TryEquipItemInSlot player " .. tostring(player) .. " playerEntityName " .. tostring(EntityService:GetBlueprintName( player )) .. " slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
-
-        ItemService:TryEquipItemInSlot( player, subSlotEntityId, slotName, subSlotNumber - 1)
-
-        return true, slotDesc, subSlotNumber
-    else
-        LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
-
-        PlayerService:EquipItemInSlot( player_id, subSlotEntityId, slotName )
-        return true, slotDesc, subSlotNumber
-    end
-
-    return false, slotDesc, subSlotNumber
-end
-
-function QuickEquipmentSlotsUtils:GetEquipedItemInSlot( equipment, slotName, subSlotNumber )
-
-    local slots = equipment.slots
-
-    for slotNumber=1,slots.count do
-
-        local slot = slots[slotNumber]
-
-        if ( slot.name == slotName ) then
-
-            local entities = slot.subslots[subSlotNumber]
-            if ( entities == nil ) then
-                return nil
-            end
-
-            local subSlotEntityId = entities[1]
-            if (subSlotEntityId == nil) then
-                return nil
-            end
-
-            if subSlotEntityId.id then
-                subSlotEntityId = subSlotEntityId.id
-            end
-
-            return subSlotEntityId
-        end
-    end
-
-    return nil
+    return true, slotDesc, subSlotNumber
 end
 
 function QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound( loadResult, slotName, configName, slotsDescription, slotsNamesArray )
@@ -424,32 +373,48 @@ function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsDescription, slotsNamesArra
 
                 hashBlueprint[slotDesc.blueprintName] = {}
                 hashBlueprint[slotDesc.blueprintName].count = 0
-
-                hashBlueprint[slotDesc.blueprintName].slotStr = '<img="' .. slotDesc.icon .. '"> ${' .. slotDesc.name .. '}'
-                --hashBlueprint[slotDesc.blueprintName].slotStr = '<img="' .. slotDesc.icon .. '">'
+                hashBlueprint[slotDesc.blueprintName].slotDesc = slotDesc
             end
 
             hashBlueprint[slotDesc.blueprintName].count = hashBlueprint[slotDesc.blueprintName].count + 1
         end
     end
 
-    local result = ""
+    local resultText = ""
+    local resultIcons = ""
 
     for blueprintName in Iter( listBlueprint ) do
 
         local count = hashBlueprint[blueprintName].count
-        local slotStr = hashBlueprint[blueprintName].slotStr
+        local slotDesc = hashBlueprint[blueprintName].slotDesc
+
+        local rarityStyle = self:GetRarityStyle( slotDesc.rarity )
+
+        local slotStr = '${' .. slotDesc.name .. '}'
+
+        local iconStr = '<style="inventory_stats_icon"><img="' .. slotDesc.icon .. '"></style>'
+
+        --local slotStr = '<style="' .. rarityStyle .. '">${' .. slotDesc.name .. '}</style>'
+        --local slotStr = '<img="' .. slotDesc.icon .. '"> ${' .. slotDesc.name .. '}'
+        --local slotStr = '<img="' .. slotDesc.icon .. '">'
 
         if ( count > 1 ) then
             slotStr = slotStr .. ' x' .. tostring(count)
+            iconStr = tostring(count) .. 'x' .. iconStr
         end
 
-        if ( string.len(result) > 0 ) then
-            result = result .. ", "
+        if ( string.len(resultText) > 0 ) then
+            resultText = resultText .. ", "
+            resultIcons = resultIcons .. ", "
         end
 
-        result = result .. '<style="inventory_stats_icon">' .. slotStr .. '</style>'
+        --resultText = resultText .. '<style="inventory_stats_icon">' .. slotStr .. '</style>'
+
+        resultText = resultText .. '' .. slotStr .. ''
+        resultIcons = resultIcons .. '' .. iconStr .. ''
     end
+
+    local result = resultText .. " " .. resultIcons
 
     LogService:Log("slotsDescription " .. debug_serialize_utils:SerializeObject(slotsDescription))
     LogService:Log("result " .. result)
