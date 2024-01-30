@@ -13,16 +13,20 @@ function store_resources_tool:OnInit()
     self.currentValue = 500
     self.stepValue = 100
 
-    self.resourceName = "carbon_vein"
+    self.veinName = self.data:GetString("vein")
+    self.resourceName = self.data:GetString("resource")
 
-    self.configName = "$store_resources_tool_config." .. self.resourceName
+    self.configName = "$store_resources_tool_config." .. self.veinName
 
     local selectorDB = EntityService:GetDatabase( self.selector )
     if ( selectorDB ) then
         self.currentValue = selectorDB:GetIntOrDefault(self.configName, self.currentValue)
     end
 
-    self:UpdateMarker()
+    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+
+    self:OnUpdate()
 end
 
 function store_resources_tool:OnPreInit()
@@ -39,12 +43,24 @@ function store_resources_tool:SpawnCornerBlueprint()
     end
 end
 
-function store_resources_tool:UpdateMarker()
+function store_resources_tool:OnUpdate()
 
-    local markerDB = self.data
+    self.buildCost = {}
 
-    markerDB:SetString("message_text", tostring(self.currentValue))
-    markerDB:SetInt("message_visible", 1)
+    self.buildCost[self.resourceName] = self.currentValue
+
+    if ( self.infoChild == nil ) then
+        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    end
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+
+    if ( onScreen ) then
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
+    else
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
+    end
 end
 
 function store_resources_tool:FindEntitiesToSelect( selectorComponent )
@@ -64,12 +80,14 @@ function store_resources_tool:OnActivateSelectorRequest()
         return
     end
 
+    PlayerService:AddResourceAmount( self.resourceName, -self.currentValue )
+
     local treasureSpotFind = FindService:FindEmptySpotInRadius( self.entity, 1.0, "", "" ).second
 
     local newEnt = ResourceService:FindEmptySpace(0, 0)
     EntityService:SetPosition(newEnt, treasureSpotFind.x, treasureSpotFind.y, treasureSpotFind.z)
 
-    ResourceService:SpawnResources( newEnt, "resources/volume_template_resource", self.resourceName, self.currentValue, self.currentValue )
+    ResourceService:SpawnResources( newEnt, "resources/volume_template_resource", self.veinName, self.currentValue, self.currentValue )
 
     EntityService:RemoveEntity(newEnt)
 end
@@ -96,7 +114,7 @@ function store_resources_tool:OnRotateSelectorRequest(evt)
         selectorDB:SetInt(self.configName, newValue)
     end
 
-    self:UpdateMarker()
+    self:OnUpdate()
 end
 
 function store_resources_tool:OnRelease()
