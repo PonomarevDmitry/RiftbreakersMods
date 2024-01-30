@@ -76,7 +76,7 @@ function quick_equipment_slots_save_entity:init()
         end
     end
 
-    LogService:Log("confimMessage " .. confimMessage)
+    --LogService:Log("confimMessage " .. confimMessage)
 
     GuiService:OpenPopup(self.entity, "gui/popup/quick_equipment_slots_popup_ingame_2buttons", confimMessage)
 end

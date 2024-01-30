@@ -231,7 +231,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
     configContent = configContent or ""
 
-    LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
+    --LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
 
     if ( configContent == "" ) then
         return LOAD_RESULT_EMPTY, slotsHash, slotsNamesArray
@@ -247,12 +247,12 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
     for template in Iter( configContentArray ) do
 
-        LogService:Log("load_equipment template " .. template )
+        --LogService:Log("load_equipment template " .. template )
 
         local slotValuesArray = Split( template, ":" )
 
         if ( #slotValuesArray ~= 2 ) then
-            LogService:Log("#slotValuesArray ~= 2 " )
+            --LogService:Log("#slotValuesArray ~= 2 " )
             goto continue
         end
 
@@ -260,7 +260,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
         local subSlotsConfig = slotValuesArray[2]
 
         if ( string.find( string.lower(slotName), slotNamePrefix ) == nil ) then
-            LogService:Log("string.find( string.lower(slotName), slotNamePrefix ) ~= nil slotName " .. slotName ..  " slotNamePrefix " .. slotNamePrefix  )
+            --LogService:Log("string.find( string.lower(slotName), slotNamePrefix ) ~= nil slotName " .. slotName ..  " slotNamePrefix " .. slotNamePrefix  )
             goto continue
         end
 
@@ -281,7 +281,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
         end
 
         if ( not slotExists ) then
-            LogService:Log("not slotExists " )
+            --LogService:Log("not slotExists " )
             goto continue
         end
 
@@ -331,7 +331,7 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
     local subSlotStringArray = Split( subSlotString, "," )
 
     if ( #subSlotStringArray ~= 3 ) then
-        LogService:Log("#subSlotStringArray ~= 3 " )
+        --LogService:Log("#subSlotStringArray ~= 3 " )
         return false
     end
 
@@ -339,34 +339,34 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
     local subSlotEntityId = tonumber(subSlotStringArray[2])
     local subSlotEntityBlueprintName = tostring(subSlotStringArray[3])
 
-    LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
+    --LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
 
     if ( subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == "" or subSlotEntityBlueprintName == nil ) then
-        LogService:Log("subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == nil" )
+        --LogService:Log("subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == nil" )
         return false
     end
 
     if ( subSlotNumber <= 0 or subSlotNumber > subslots_count ) then
-        LogService:Log("subSlotNumber <= 0 or subSlotNumber > subslots_count " )
+        --LogService:Log("subSlotNumber <= 0 or subSlotNumber > subslots_count " )
         return false
     end
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
-        LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
+        --LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
         return false
     end
 
     local blueprintName = EntityService:GetBlueprintName( subSlotEntityId ) or ""
 
-    LogService:Log("#blueprintName subSlotEntityId " .. tostring(subSlotEntityId) .. " blueprintName " .. tostring(blueprintName) )
+    --LogService:Log("#blueprintName subSlotEntityId " .. tostring(subSlotEntityId) .. " blueprintName " .. tostring(blueprintName) )
 
     if ( blueprintName == "") then
-        LogService:Log("#blueprintName == nil " )
+        --LogService:Log("#blueprintName == nil " )
         return false
     end
 
     if ( blueprintName ~= subSlotEntityBlueprintName) then
-        LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
+        --LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
         return false
     end
 
