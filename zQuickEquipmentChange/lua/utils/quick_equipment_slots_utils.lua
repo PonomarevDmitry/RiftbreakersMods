@@ -107,7 +107,7 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefix, configNa
 
                         subSlotsConfig = subSlotsConfig .. tostring(subSlotNumber) .. "," .. itemKey .. "," .. tostring(subSlotEntityBlueprintName)
 
-                        --LogService:Log("EquipItemInSlot slot.name " .. slot.name .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " itemKey " .. tostring(itemKey) .. " slot.subslots.count " .. tostring(slot.subslots.count) )
+                        LogService:Log("EquipItemInSlot slot.name " .. slot.name .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " itemKey " .. tostring(itemKey) .. " slot.subslots.count " .. tostring(slot.subslots.count) )
                     end
                 end
             end
@@ -334,7 +334,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
         for subSlotString in Iter( subSlotsConfigArray ) do
 
-            local subSlotResult, slotDesc, subSlotNumber, subSlotEntityId = QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, selectedSlot.name, selectedSlot.subslots_count, subSlotString )
+            local subSlotResult, slotDesc, subSlotNumber, subSlotEntityId = QuickEquipmentSlotsUtils:LoadItemToSlot( player, selectedSlot.name, selectedSlot.subslots_count, subSlotString )
 
             if ( subSlotResult ) then
 
@@ -369,7 +369,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
     end
 end
 
-function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslots_count, subSlotString )
+function QuickEquipmentSlotsUtils:LoadItemToSlot( player, slotName, subslots_count, subSlotString )
 
     local subSlotStringArray = Split( subSlotString, "," )
 
@@ -403,6 +403,20 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
         --LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
+        return false
+    end
+
+    local inventoryItemComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemComponent")
+    if ( inventoryItemComponent == nil ) then
+        return false
+    end
+
+    local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
+    if ( inventoryItemComponentRef.owner == nil or inventoryItemComponentRef.owner.id == nil or inventoryItemComponentRef.owner.id == INVALID_ID ) then
+        return false
+    end
+
+    if ( inventoryItemComponentRef.owner.id ~= player ) then
         return false
     end
 
