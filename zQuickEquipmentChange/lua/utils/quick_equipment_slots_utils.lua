@@ -3,6 +3,11 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
+local LOAD_RESULT_FAIL    = 1
+local LOAD_RESULT_EMPTY   = 2
+local LOAD_RESULT_INVALID = 3
+local LOAD_RESULT_SUCCESS = 4
+
 local QuickEquipmentSlotsUtils = {}
 
 function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, slotLocalizationName, configName )
@@ -42,7 +47,7 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefix, configNa
         return LOAD_RESULT_INVALID, slotsHash, ""
     end
 
-    LogService:Log( "QuickEquipmentSlotsUtils equipment " .. tostring(equipment) )
+    --LogService:Log( "QuickEquipmentSlotsUtils equipment " .. tostring(equipment) )
 
     slotNamePrefix = string.lower(slotNamePrefix)
 
@@ -112,11 +117,11 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefix, configNa
         ::continue::
     end
 
-    if ( configContent == "" ) then
+    if ( configContent ~= "" and configContent ~= nil and string.len( configContent ) > 0 ) then
+        return LOAD_RESULT_SUCCESS, slotsHash, configContent
+    else
         return LOAD_RESULT_EMPTY, slotsHash, configContent
     end
-
-    return LOAD_RESULT_SUCCESS, slotsHash, configContent
 end
 
 function QuickEquipmentSlotsUtils:GetPlayerSlotsEquipment( slotNamePrefix )
@@ -190,11 +195,6 @@ function QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName 
     return keyName
 end
 
-local LOAD_RESULT_FAIL    = 1
-local LOAD_RESULT_EMPTY   = 2
-local LOAD_RESULT_INVALID = 3
-local LOAD_RESULT_SUCCESS = 4
-
 function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
     local slotsHash = {}
@@ -231,7 +231,7 @@ function QuickEquipmentSlotsUtils:LoadEquipment( slotNamePrefix, configName )
 
     configContent = configContent or ""
 
-    --LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
+    LogService:Log("load_equipment key " .. keyName .. " configContent " .. configContent )
 
     if ( configContent == "" ) then
         return LOAD_RESULT_EMPTY, slotsHash, slotsNamesArray
@@ -352,7 +352,7 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
     end
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
-        --LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
+        LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
         return false
     end
 

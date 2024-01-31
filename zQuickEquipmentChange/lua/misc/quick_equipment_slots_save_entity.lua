@@ -4,6 +4,11 @@ require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 local QuickEquipmentSlotsUtils = require("lua/utils/quick_equipment_slots_utils.lua")
 
+local LOAD_RESULT_FAIL    = 1
+local LOAD_RESULT_EMPTY   = 2
+local LOAD_RESULT_INVALID = 3
+local LOAD_RESULT_SUCCESS = 4
+
 class 'quick_equipment_slots_save_entity' ( LuaEntityObject )
 
 function quick_equipment_slots_save_entity:__init()
@@ -16,13 +21,12 @@ function quick_equipment_slots_save_entity:init()
     self.slotLocalizationName = self.data:GetString("slotLocalizationName")
     self.configName = self.data:GetString("configName")
 
-    self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
-
     local configNameLocal = "quick_equipment_slots_change/configs/name/" .. self.configName
     local slotLocalizationNameFull = "quick_equipment_slots_change/slots/" .. self.slotLocalizationName
 
-    local loadResult = LOAD_RESULT_EMPTY
     local slotsHashToSave = {}
+
+    local hasConfig = false
 
     self.configBySlot = {}
 
@@ -31,19 +35,29 @@ function quick_equipment_slots_save_entity:init()
     local slotNamesArray = Split( self.slotNamePrefixArray, "," )
     for slotsString in Iter( slotNamesArray ) do
 
-        local loadResultEquipment, slotsHashEquipment, configContent = QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotsString, self.configName )
+        local saveResultEquipment, slotsHashEquipment, configContent = QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotsString, self.configName )
 
-        loadResult = QuickEquipmentSlotsUtils:CombineResults(loadResult, loadResultEquipment)
         slotsHashToSave = QuickEquipmentSlotsUtils:CombineSlotsHashs( slotsHashToSave, slotsHashEquipment )
 
         local playerSlotsArrayEquipment = QuickEquipmentSlotsUtils:GetPlayerSlotsEquipment( slotsString )
 
         playerSlotsArray = QuickEquipmentSlotsUtils:CombineSlotsNamesArrays( playerSlotsArray, playerSlotsArrayEquipment )
 
-        if ( loadResultEquipment == LOAD_RESULT_SUCCESS ) then
+        if ( saveResultEquipment == LOAD_RESULT_SUCCESS ) then
 
+            hasConfig = true
             self.configBySlot[slotsString] = configContent
         end
+    end
+
+    if ( not hasConfig) then
+
+        local message = '${voice_over/announcement/quick_equipment_slots_change/nothing_to_save}\r\n<style="header_35">${' .. slotLocalizationNameFull .. '}</style>${voice_over/announcement/quick_equipment_slots_change/nothing_to_save_to} <style="header_35">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/nothing_to_save_end}</style>'
+
+        GuiService:OpenPopup(INVALID_ID, "gui/popup/popup_template_1button", message)
+
+        self:DestroySelf()
+        return
     end
 
     local confimMessage = '${voice_over/announcement/quick_equipment_slots_change/confirming}\r\n<style="header_35">${' .. slotLocalizationNameFull .. '}</style>${voice_over/announcement/quick_equipment_slots_change/confirming_to} <style="header_35">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/confirming_end}</style>'
@@ -78,6 +92,7 @@ function quick_equipment_slots_save_entity:init()
 
     --LogService:Log("confimMessage " .. confimMessage)
 
+    self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
     GuiService:OpenPopup(self.entity, "gui/popup/quick_equipment_slots_popup_ingame_2buttons", confimMessage)
 end
 
