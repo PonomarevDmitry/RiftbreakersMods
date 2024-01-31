@@ -10,6 +10,8 @@ local LOAD_RESULT_SUCCESS = 4
 
 local QuickEquipmentSlotsUtils = {}
 
+QuickEquipmentSlotsUtils.EntitiesCache = {}
+
 function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, slotLocalizationName, configName )
 
     local entity = EntityService:SpawnEntity( "misc/quick_equipment_slots_save_entity", 0, 0, 0, "" )
@@ -81,25 +83,32 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefix, configNa
 
                 if ( subSlotEntityBlueprintName ~= "" ) then
 
-                    local slotDesc = QuickEquipmentSlotsUtils:GetSlotDesc( subSlotEntityBlueprintName, subSlotEntityId )
+                    local itemKey = QuickEquipmentSlotsUtils:GetItemKey(subSlotEntityId)
 
-                    slotsHash[slot.name] = slotsHash[slot.name] or {}
+                    if ( itemKey ) then
 
-                    local slotConfig = slotsHash[slot.name]
+                        local slotDesc = QuickEquipmentSlotsUtils:GetSlotDesc( subSlotEntityBlueprintName, subSlotEntityId )
 
-                    slotConfig.Name = slot.name
-                    slotConfig.Number = slotNumber
-                    slotConfig.SubSlotsCount = slot.subslots.count
+                        slotsHash[slot.name] = slotsHash[slot.name] or {}
 
-                    slotConfig.SubSlots = slotConfig.SubSlots or {}
+                        local slotConfig = slotsHash[slot.name]
 
-                    slotConfig.SubSlots[subSlotNumber] = slotDesc
+                        slotConfig.Name = slot.name
+                        slotConfig.Number = slotNumber
+                        slotConfig.SubSlotsCount = slot.subslots.count
 
-                    if ( string.len( subSlotsConfig ) > 0 ) then
-                        subSlotsConfig = subSlotsConfig .. ";"
+                        slotConfig.SubSlots = slotConfig.SubSlots or {}
+
+                        slotConfig.SubSlots[subSlotNumber] = slotDesc
+
+                        if ( string.len( subSlotsConfig ) > 0 ) then
+                            subSlotsConfig = subSlotsConfig .. ";"
+                        end
+
+                        subSlotsConfig = subSlotsConfig .. tostring(subSlotNumber) .. "," .. itemKey .. "," .. tostring(subSlotEntityBlueprintName)
+
+                        --LogService:Log("EquipItemInSlot slot.name " .. slot.name .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " itemKey " .. tostring(itemKey) .. " slot.subslots.count " .. tostring(slot.subslots.count) )
                     end
-
-                    subSlotsConfig = subSlotsConfig .. tostring(subSlotNumber) .. "," .. tostring(subSlotEntityId) .. "," .. tostring(subSlotEntityBlueprintName)
                 end
             end
         end
@@ -122,6 +131,40 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefix, configNa
     else
         return LOAD_RESULT_EMPTY, slotsHash, configContent
     end
+end
+
+function QuickEquipmentSlotsUtils:GetItemKey( subSlotEntityId )
+
+    local database = EntityService:GetDatabase( subSlotEntityId )
+    if ( database == nil ) then
+        return nil
+    end
+
+    local itemKeyName = "$QuickEquipmentSlotsUtils_KeyId"
+
+    local itemKey = ""
+
+    if ( database:HasString(itemKeyName) ) then
+
+        itemKey = database:GetString(itemKeyName)
+    else
+
+        itemKey = QuickEquipmentSlotsUtils:GenerateGuid()
+
+        database:SetString(itemKeyName, itemKey)
+    end
+
+    QuickEquipmentSlotsUtils.EntitiesCache[itemKey] = subSlotEntityId
+
+    return itemKey
+end
+
+function QuickEquipmentSlotsUtils:GenerateGuid()
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
 end
 
 function QuickEquipmentSlotsUtils:GetPlayerSlotsEquipment( slotNamePrefix )
@@ -336,13 +379,13 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
     end
 
     local subSlotNumber = tonumber(subSlotStringArray[1])
-    local subSlotEntityId = tonumber(subSlotStringArray[2])
+    local itemKey = tostring(subSlotStringArray[2])
     local subSlotEntityBlueprintName = tostring(subSlotStringArray[3])
 
-    --LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " subSlotEntityId " .. tostring(subSlotEntityId) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
+    --LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " itemKey " .. tostring(itemKey) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
 
-    if ( subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == "" or subSlotEntityBlueprintName == nil ) then
-        --LogService:Log("subSlotNumber == nil or subSlotEntityId == nil or subSlotEntityBlueprintName == nil" )
+    if ( subSlotNumber == nil or itemKey == nil or subSlotEntityBlueprintName == "" or subSlotEntityBlueprintName == nil ) then
+        --LogService:Log("subSlotNumber == nil or itemKey == nil or subSlotEntityBlueprintName == nil" )
         return false
     end
 
@@ -351,8 +394,15 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
         return false
     end
 
+    local subSlotEntityId = QuickEquipmentSlotsUtils:FindItemByKey( player, itemKey, blueprintName )
+
+    if ( subSlotEntityId == nil or subSlotEntityId == INVALID_ID ) then
+        --LogService:Log("subSlotEntityId == nil or subSlotEntityId == INVALID_ID " )
+        return false
+    end
+
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
-        LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
+        --LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
         return false
     end
 
@@ -373,6 +423,63 @@ function QuickEquipmentSlotsUtils:LoadEquipmentToSlot( player, slotName, subslot
     local slotDesc = QuickEquipmentSlotsUtils:GetSlotDesc( blueprintName, subSlotEntityId )
 
     return true, slotDesc, subSlotNumber, subSlotEntityId
+end
+
+function QuickEquipmentSlotsUtils:FindItemByKey( player, itemKey, blueprintName )
+
+    local itemKeyName = "$QuickEquipmentSlotsUtils_KeyId"
+
+    if ( QuickEquipmentSlotsUtils.EntitiesCache[itemKey] ~= nil ) then
+        return QuickEquipmentSlotsUtils.EntitiesCache[itemKey]
+    end
+
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent ~= nil ) then
+
+        local inventoryComponentRef = reflection_helper( inventoryComponent )
+        
+        while ( inventoryComponentRef.reference_entity ~= nil and inventoryComponentRef.reference_entity.id ~= INVALID_ID ) do
+
+            inventoryComponent = EntityService:GetComponent(inventoryComponentRef.reference_entity.id, "InventoryComponent")
+
+            if ( inventoryComponent == nil ) then
+                inventoryComponentRef = nil
+                break
+            end
+
+            inventoryComponentRef = reflection_helper( inventoryComponent )
+        end
+
+        if ( inventoryComponentRef ~= nil and inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items ~= nil ) then
+
+            local inventoryItems = inventoryComponentRef.inventory.items
+
+            for itemNumber=1,inventoryItems.count do
+
+                local itemEntity = inventoryItems[itemNumber]
+
+                if ( itemEntity ~= nil and itemEntity.id ~= nil) then
+
+                    local database = EntityService:GetDatabase( itemEntity.id )
+                    if ( database ~= nil ) then
+
+                        if ( database:HasString(itemKeyName) ) then
+
+                            local itemDatabaseKey = database:GetString(itemKeyName)
+
+                            QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = itemEntity.id
+
+                            if ( itemDatabaseKey == itemKey ) then
+                                return itemEntity.id
+                            end
+                        end   
+                    end                 
+                end
+            end
+        end
+    end
+
+    return INVALID_ID
 end
 
 function QuickEquipmentSlotsUtils:GetSlotDesc( blueprintName, subSlotEntityId )
