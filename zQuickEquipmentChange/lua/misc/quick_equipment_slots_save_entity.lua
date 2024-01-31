@@ -30,18 +30,12 @@ function quick_equipment_slots_save_entity:init()
 
     self.configBySlot = {}
 
-    local playerSlotsArray = {}
-
     local slotNamesArray = Split( self.slotNamePrefixArray, "," )
     for slotsString in Iter( slotNamesArray ) do
 
         local saveResultEquipment, slotsHashEquipment, configContent = QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotsString, self.configName )
 
         slotsHashToSave = QuickEquipmentSlotsUtils:CombineSlotsHashs( slotsHashToSave, slotsHashEquipment )
-
-        local playerSlotsArrayEquipment = QuickEquipmentSlotsUtils:GetPlayerSlotsEquipment( slotsString )
-
-        playerSlotsArray = QuickEquipmentSlotsUtils:CombineSlotsNamesArrays( playerSlotsArray, playerSlotsArrayEquipment )
 
         if ( saveResultEquipment == LOAD_RESULT_SUCCESS ) then
 
@@ -60,9 +54,11 @@ function quick_equipment_slots_save_entity:init()
         return
     end
 
+    local playerSlotsArrayEquipment = QuickEquipmentSlotsUtils:GetPlayerSlotsEquipmentInfo()
+
     local confimMessage = '${voice_over/announcement/quick_equipment_slots_change/confirming}\r\n<style="header_35">${' .. slotLocalizationNameFull .. '}</style>${voice_over/announcement/quick_equipment_slots_change/confirming_to} <style="header_35">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/confirming_end}</style>'
 
-    for slotConfig in Iter( playerSlotsArray ) do
+    for slotConfig in Iter( playerSlotsArrayEquipment ) do
 
         local slotConfigToSave = slotsHashToSave[slotConfig.Name]
 
