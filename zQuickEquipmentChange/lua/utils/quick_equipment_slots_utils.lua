@@ -133,6 +133,198 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefix, configNa
     end
 end
 
+function QuickEquipmentSlotsUtils:GetLoadEquipmentInfo( slotNamePrefix, configName )
+
+    local slotsHash = {}
+
+    local player_id = 0
+
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if player == INVALID_ID then
+        return slotsHash
+    end
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        return slotsHash
+    end
+
+    local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+    if ( equipment == nil ) then
+        return slotsHash
+    end
+
+    if equipment.id then
+        equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
+    end
+
+    if ( equipment == nil ) then
+        return slotsHash
+    end
+
+    local keyName = QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName )
+
+    local configContent = campaignDatabase:GetStringOrDefault( keyName, "" )
+
+    configContent = configContent or ""
+
+    if ( configContent == "" ) then
+        return slotsHash
+    end
+
+    local result = false
+
+    local slots = equipment.slots
+
+    slotNamePrefix = string.lower(slotNamePrefix)
+
+    local configContentArray = Split( configContent, "|" )
+
+    for template in Iter( configContentArray ) do
+
+        --LogService:Log("load_equipment template " .. template )
+
+        local slotValuesArray = Split( template, ":" )
+
+        if ( #slotValuesArray ~= 2 ) then
+            --LogService:Log("#slotValuesArray ~= 2 " )
+            goto continue
+        end
+
+        local slotName = slotValuesArray[1]
+        local subSlotsConfig = slotValuesArray[2]
+
+        if ( string.find( string.lower(slotName), slotNamePrefix ) == nil ) then
+            --LogService:Log("string.find( string.lower(slotName), slotNamePrefix ) ~= nil slotName " .. slotName ..  " slotNamePrefix " .. slotNamePrefix  )
+            goto continue
+        end
+
+        local slotExists = false
+
+        local selectedSlot = nil
+        local selectedSlotNumber = nil
+
+        for slotNumber=1,slots.count do
+
+            selectedSlot = slots[slotNumber]
+
+            if string.lower(selectedSlot.name) == string.lower(slotName) then
+                slotExists = true
+                selectedSlotNumber = slotNumber
+                break
+            end
+        end
+
+        if ( not slotExists ) then
+            --LogService:Log("not slotExists " )
+            goto continue
+        end
+
+
+        -- Split array of coordinates by ";"
+        local subSlotsConfigArray = Split( subSlotsConfig, ";" )
+
+        for subSlotString in Iter( subSlotsConfigArray ) do
+
+            local subSlotResult, slotDesc, subSlotNumber, subSlotEntityId = QuickEquipmentSlotsUtils:LoadItemToSlot( player, selectedSlot.name, selectedSlot.subslots_count, subSlotString )
+
+            if ( subSlotResult ) then
+
+                slotsHash[slotName] = slotsHash[slotName] or {}
+
+                local slotConfig = slotsHash[slotName]
+
+                slotConfig.Number = selectedSlotNumber
+                slotConfig.SubSlotsCount = selectedSlot.subslots_count
+
+                slotConfig.SubSlots = slotConfig.SubSlots or {}
+
+                slotConfig.SubSlots[subSlotNumber] = slotDesc
+            end
+
+            result = result or subSlotResult
+        end
+
+        ::continue::
+    end
+
+    if ( result ) then
+        return slotsHash
+    else
+        return slotsHash
+    end
+end
+
+function QuickEquipmentSlotsUtils:LoadItemToSlot( player, slotName, subslots_count, subSlotString )
+
+    local subSlotStringArray = Split( subSlotString, "," )
+
+    if ( #subSlotStringArray ~= 3 ) then
+        --LogService:Log("#subSlotStringArray ~= 3 " )
+        return false
+    end
+
+    local subSlotNumber = tonumber(subSlotStringArray[1])
+    local itemKey = tostring(subSlotStringArray[2])
+    local subSlotEntityBlueprintName = tostring(subSlotStringArray[3])
+
+    --LogService:Log("EquipItemInSlot slotName " .. slotName .. " subSlotNumber " .. tostring(subSlotNumber) .. " itemKey " .. tostring(itemKey) .. " subSlotEntityBlueprintName " .. tostring(subSlotEntityBlueprintName) .. " subslots_count " .. tostring(subslots_count) )
+
+    if ( subSlotNumber == nil or itemKey == nil or subSlotEntityBlueprintName == "" or subSlotEntityBlueprintName == nil ) then
+        --LogService:Log("subSlotNumber == nil or itemKey == nil or subSlotEntityBlueprintName == nil" )
+        return false
+    end
+
+    if ( subSlotNumber <= 0 or subSlotNumber > subslots_count ) then
+        --LogService:Log("subSlotNumber <= 0 or subSlotNumber > subslots_count " )
+        return false
+    end
+
+    local subSlotEntityId = QuickEquipmentSlotsUtils:FindItemByKey( player, itemKey, blueprintName )
+
+    if ( subSlotEntityId == nil or subSlotEntityId == INVALID_ID ) then
+        --LogService:Log("subSlotEntityId == nil or subSlotEntityId == INVALID_ID " )
+        return false
+    end
+
+    if ( not EntityService:IsAlive( subSlotEntityId ) ) then
+        --LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
+        return false
+    end
+
+    local inventoryItemComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemComponent")
+    if ( inventoryItemComponent == nil ) then
+        return false
+    end
+
+    local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
+    if ( inventoryItemComponentRef.owner == nil or inventoryItemComponentRef.owner.id == nil or inventoryItemComponentRef.owner.id == INVALID_ID ) then
+        return false
+    end
+
+    if ( inventoryItemComponentRef.owner.id ~= player ) then
+        return false
+    end
+
+    local blueprintName = EntityService:GetBlueprintName( subSlotEntityId ) or ""
+
+    --LogService:Log("#blueprintName subSlotEntityId " .. tostring(subSlotEntityId) .. " blueprintName " .. tostring(blueprintName) )
+
+    if ( blueprintName == "") then
+        --LogService:Log("#blueprintName == nil " )
+        return false
+    end
+
+    if ( blueprintName ~= subSlotEntityBlueprintName) then
+        --LogService:Log("#blueprintName ~= subSlotEntityBlueprintName " )
+        return false
+    end
+
+    local slotDesc = QuickEquipmentSlotsUtils:GetSlotDesc( blueprintName, subSlotEntityId )
+
+    return true, slotDesc, subSlotNumber, subSlotEntityId
+end
+
 function QuickEquipmentSlotsUtils:GetOrCreateItemKey( subSlotEntityId )
 
     local database = EntityService:GetDatabase( subSlotEntityId )

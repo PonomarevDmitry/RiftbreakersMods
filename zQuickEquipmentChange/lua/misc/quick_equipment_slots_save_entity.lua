@@ -25,6 +25,7 @@ function quick_equipment_slots_save_entity:init()
     local slotLocalizationNameFull = "quick_equipment_slots_change/slots/" .. self.slotLocalizationName
 
     local slotsHashToSave = {}
+    local slotsHashCurrent = {}
 
     local hasConfig = false
 
@@ -42,6 +43,9 @@ function quick_equipment_slots_save_entity:init()
             hasConfig = true
             self.configBySlot[slotsString] = configContent
         end
+
+        slotsHashEquipment = QuickEquipmentSlotsUtils:GetLoadEquipmentInfo( slotsString, self.configName )
+        slotsHashCurrent = QuickEquipmentSlotsUtils:CombineSlotsHashs( slotsHashCurrent, slotsHashEquipment )
     end
 
     if ( not hasConfig) then
@@ -77,10 +81,19 @@ function quick_equipment_slots_save_entity:init()
                     end
 
                     local rarityStyle = '<style="' .. QuickEquipmentSlotsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
-
                     local slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
 
                     confimMessage = confimMessage .. ': ' .. slotStr
+
+                    if ( slotsHashCurrent[slotConfig.Name] ~= nil and slotsHashCurrent[slotConfig.Name].SubSlots[subSlotNumber] ~= nil ) then
+
+                        slotDesc = slotsHashCurrent[slotConfig.Name].SubSlots[subSlotNumber]
+
+                        rarityStyle = '<style="' .. QuickEquipmentSlotsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
+                        slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
+
+                        confimMessage = confimMessage .. ' ${quick_equipment_slots_change/old} ' .. slotStr
+                    end
                 end
             end
         end
