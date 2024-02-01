@@ -705,19 +705,19 @@ end
 
 function QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound( loadResult, slotName, configName, slotsHash )
 
-    local configNameLocal = "quick_equipment_slots_change/configs/name/" .. configName
-    local slotNameLocal = "quick_equipment_slots_change/slots/" .. slotName
+    local configNameLocal = "${quick_equipment_slots_change/configs/name/" .. configName .. '}'
+    local slotLocalizationNameFull = "${quick_equipment_slots_change/slots/" .. slotName .. '}'
 
     local fullAnnouncement = ""
 
     if ( loadResult == LOAD_RESULT_SUCCESS ) then
-        fullAnnouncement = '<style="header_24">${' .. slotNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/load/load_from} <style="header_24">${' .. configNameLocal .. '} ${voice_over/announcement/quick_equipment_slots_change/load/success/loaded}</style>'
+        fullAnnouncement = '<style="header_24">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/quick_equipment_slots_change/load/load_from} <style="header_24">' .. configNameLocal .. ' ${voice_over/announcement/quick_equipment_slots_change/load/success/loaded}</style>'
     elseif ( loadResult == LOAD_RESULT_FAIL ) then
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/fail/fail} <style="header_24">${' .. slotNameLocal .. '}</style><style="header_24">${voice_over/announcement/quick_equipment_slots_change/load/load_from} ${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/fail/fail_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/fail/fail} <style="header_24">' .. slotLocalizationNameFull .. '</style><style="header_24">${voice_over/announcement/quick_equipment_slots_change/load/load_from} ' .. configNameLocal .. '${voice_over/announcement/quick_equipment_slots_change/fail/fail_end}</style>'
     elseif ( loadResult == LOAD_RESULT_EMPTY ) then
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/load/empty} <style="header_24">${' .. slotNameLocal .. '}</style> <style="header_24">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/load/empty} <style="header_24">' .. slotLocalizationNameFull .. '</style> <style="header_24">' .. configNameLocal .. '${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
     else
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid} <style="header_24">${' .. slotNameLocal .. '}</style> <style="header_24">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/invalid/invalid_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid} <style="header_24">' .. slotLocalizationNameFull .. '</style> <style="header_24">' .. configNameLocal .. '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid_end}</style>'
     end
 
     local sound = ""

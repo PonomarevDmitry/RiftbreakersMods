@@ -21,8 +21,7 @@ function quick_equipment_slots_save_entity:init()
     self.slotLocalizationName = self.data:GetString("slotLocalizationName")
     self.configName = self.data:GetString("configName")
 
-    local configNameLocal = "quick_equipment_slots_change/configs/name/" .. self.configName
-    local slotLocalizationNameFull = "quick_equipment_slots_change/slots/" .. self.slotLocalizationName
+    local slotLocalizationNameFull = "${quick_equipment_slots_change/slots/" .. self.slotLocalizationName .. '}'
 
     local slotsHashToSave = {}
     local slotsHashCurrent = {}
@@ -50,17 +49,18 @@ function quick_equipment_slots_save_entity:init()
 
     if ( not hasConfig) then
 
-        local message = '${voice_over/announcement/quick_equipment_slots_change/nothing_to_save}\r\n<style="header_35">${' .. slotLocalizationNameFull .. '}</style>${voice_over/announcement/quick_equipment_slots_change/nothing_to_save_to} <style="header_35">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/nothing_to_save_end}</style>'
+        local message = '<style="header_35">${voice_over/announcement/quick_equipment_slots_change/load/empty} ' .. slotLocalizationNameFull .. '${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
 
         GuiService:OpenPopup(INVALID_ID, "gui/popup/popup_template_1button", message)
 
-        self:DestroySelf()
         return
     end
+    
+    local configNameLocal = "${quick_equipment_slots_change/configs/name/" .. self.configName .. '}'
 
     local playerSlotsArrayEquipment = QuickEquipmentSlotsUtils:GetPlayerSlotsEquipmentInfo()
 
-    local confimMessage = '${voice_over/announcement/quick_equipment_slots_change/confirming}\r\n<style="header_35">${' .. slotLocalizationNameFull .. '}</style>${voice_over/announcement/quick_equipment_slots_change/confirming_to} <style="header_35">${' .. configNameLocal .. '}${voice_over/announcement/quick_equipment_slots_change/confirming_end}</style>'
+    local confimMessage = '${voice_over/announcement/quick_equipment_slots_change/confirming}\r\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/quick_equipment_slots_change/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/quick_equipment_slots_change/confirming_end}</style>'
 
     for slotConfig in Iter( playerSlotsArrayEquipment ) do
 
@@ -101,13 +101,13 @@ function quick_equipment_slots_save_entity:init()
 
     --LogService:Log("confimMessage " .. confimMessage)
 
-    self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+    self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
     GuiService:OpenPopup(self.entity, "gui/popup/quick_equipment_slots_popup_ingame_2buttons", confimMessage)
 end
 
 function quick_equipment_slots_save_entity:OnGuiPopupResultEvent( evt)
 
-    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
 
     if ( evt:GetResult() == "button_yes" ) then
 
@@ -115,10 +115,10 @@ function quick_equipment_slots_save_entity:OnGuiPopupResultEvent( evt)
             QuickEquipmentSlotsUtils:SaveSettingKeyName( slotsString, self.configName, configContent )
         end
 
-        local configNameLocal = "quick_equipment_slots_change/configs/name/" .. self.configName
-        local slotLocalizationNameFull = "quick_equipment_slots_change/slots/" .. self.slotLocalizationName
+        local configNameLocal = "${quick_equipment_slots_change/configs/name/" .. self.configName .. '}'
+        local slotLocalizationNameFull = "${quick_equipment_slots_change/slots/" .. self.slotLocalizationName .. '}'
 
-        local fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/saving} <style="header_24">${' .. slotLocalizationNameFull .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_to} <style="header_24">${' .. configNameLocal .. '}</style>${voice_over/announcement/quick_equipment_slots_change/saving_end}'
+        local fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/saving} <style="header_24">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/quick_equipment_slots_change/saving_to} <style="header_24">' .. configNameLocal .. '</style>${voice_over/announcement/quick_equipment_slots_change/saving_end}'
 
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
