@@ -105,7 +105,7 @@ function quick_equipment_slots_save_entity:init()
     GuiService:OpenPopup(self.entity, "gui/popup/quick_equipment_slots_popup_ingame_2buttons", confimMessage)
 end
 
-function quick_equipment_slots_save_entity:OnGuiPopupResultEvent( evt)
+function quick_equipment_slots_save_entity:OnGuiPopupResultEventSaveResult( evt)
 
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
 
