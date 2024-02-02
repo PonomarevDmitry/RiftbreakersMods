@@ -1,5 +1,9 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
+    do
+        return
+    end
+
     local playerId = evt:GetPlayerId()
     
     local player = PlayerService:GetPlayerControlledEnt(playerId)
