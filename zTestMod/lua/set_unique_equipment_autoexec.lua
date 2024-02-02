@@ -48,7 +48,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
                         if ( fieldValue == true ) then
                             --LogService:Log( "set_unique_equipment slot.name " .. tostring(slot.name) .. " subslots " .. tostring(j) .. " entity index " .. tostring(k) .. " entity " .. tostring(entity) .. " entityBlueprintName " .. tostring(entityBlueprintName) .. " costComponentRef " .. tostring(costComponentRef) )
 
-                            field:SetValue("false")
+                            field:SetValue("0")
                         end
                     end
                 end
