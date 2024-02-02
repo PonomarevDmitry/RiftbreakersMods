@@ -109,29 +109,61 @@
 
 
 
+--RegisterGlobalEventHandler("ItemCraftedEvent", function(evt)
+--
+--    local text = "ItemCraftedEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local blueprint = evt:GetBlueprint()
+--
+--        local item = evt:GetItem()
+--
+--        local itemName = ItemService:GetItemName( item )
+--
+--        local sink = evt:GetSink()
+--
+--        text = text .. "\n" .. "blueprint " .. tostring(blueprint)
+--
+--        text = text .. "\n" .. "sinkBlueprintName " .. tostring(EntityService:GetBlueprintName( sink )) .. " sink " .. tostring(sink)
+--
+--        text = text .. "\n" .. "itemBlueprintName " .. tostring(EntityService:GetBlueprintName( item )) .. " item " .. tostring(item)
+--
+--        text = text .. "\n" .. "itemName " .. tostring(itemName)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+
+
 --RegisterGlobalEventHandler("AddItemToInventoryRequest", function(evt)
 --
 --    local text = "AddItemToInventoryRequest " .. tostring(evt)
 --
 --    if (evt ~= nil) then
 --
---        local inventoryEnt = evt:GetInventoryEnt()
---        local inventoryEntName = EntityService:GetBlueprintName( inventoryEnt )
---
 --        local item = evt:GetItem()
---        local itemName = EntityService:GetBlueprintName( item )
 --
---        text = text .. "\n" .. "inventoryEntName " .. tostring(inventoryEntName)
+--        local inventoryEnt = evt:GetInventoryEnt()
 --
---        text = text .. "\n" .. "inventoryEnt " .. tostring(inventoryEnt)
+--        local itemName = ItemService:GetItemName( item )
+--
+--        text = text .. "\n" .. "itemBlueprintName " .. tostring(EntityService:GetBlueprintName( item )) .. " item " .. tostring(item)
 --
 --        text = text .. "\n" .. "itemName " .. tostring(itemName)
 --
---        text = text .. "\n" .. "item " .. tostring(item)
+--        text = text .. "\n" .. "inventoryEntBlueprintName " .. tostring(EntityService:GetBlueprintName( inventoryEnt )) .. " inventoryEnt " .. tostring(inventoryEnt)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
 --end)
+
 
 --RegisterGlobalEventHandler("RemoveItemFromInventoryRequest", function(evt)
 --
@@ -139,19 +171,46 @@
 --
 --    if (evt ~= nil) then
 --
---        local inventoryEnt = evt:GetInventoryEnt()
---        local inventoryEntName = EntityService:GetBlueprintName( inventoryEnt )
---
 --        local item = evt:GetItem()
---        local itemName = EntityService:GetBlueprintName( item )
 --
---        text = text .. "\n" .. "inventoryEntName " .. tostring(inventoryEntName)
+--        local inventoryEnt = evt:GetInventoryEnt()
 --
---        text = text .. "\n" .. "inventoryEnt " .. tostring(inventoryEnt)
+--        local itemName = ItemService:GetItemName( item )
+--
+--        text = text .. "\n" .. "itemBlueprintName " .. tostring(EntityService:GetBlueprintName( item )) .. " item " .. tostring(item)
 --
 --        text = text .. "\n" .. "itemName " .. tostring(itemName)
 --
+--        text = text .. "\n" .. "inventoryEntBlueprintName " .. tostring(EntityService:GetBlueprintName( inventoryEnt )) .. " inventoryEnt " .. tostring(inventoryEnt)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+
+
+--RegisterGlobalEventHandler("CreateItemInInventoryRequest", function(evt)
+--
+--    local text = "CreateItemInInventoryRequest " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local item = evt:GetItem()
+--
+--        local inventoryEnt = evt:GetInventoryEnt()
+--
+--        local eventType = evt:GetEventType()
+--
+--        text = text .. "\n" .. "eventType " .. tostring(eventType)
+--
 --        text = text .. "\n" .. "item " .. tostring(item)
+--
+--        text = text .. "\n" .. "inventoryEntBlueprintName " .. tostring(EntityService:GetBlueprintName( inventoryEnt )) .. " inventoryEnt " .. tostring(inventoryEnt)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
