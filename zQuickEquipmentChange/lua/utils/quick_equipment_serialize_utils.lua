@@ -65,17 +65,23 @@ end
 
 function QuickEquipmentSerializeUtils:DeserializeField( data )
     local scope = QuickEquipmentSerializeUtils:FindScope( "<", ">", data )
+    if ( scope.startPos == nil or scope.endPos == nil ) then
+        return nil 
+    end
 
     local namePos = string.find( data, ":" )
-
-    if ( scope.startPos == nil or scope.endPos == nil or namePos == nil ) then
+    if ( namePos == nil ) then
         return nil 
     end
     
     local name = string.sub( data, scope.startPos + 1, namePos - 1 )
     local value = string.sub( data, namePos + 1, scope.endPos - 1 )
 
-    return { name = name, value = QuickEquipmentSerializeUtils:DeserializeObject( value ), endPos = scope.endPos }
+    return {
+        name = name,
+        value = QuickEquipmentSerializeUtils:DeserializeObject( value ),
+        endPos = scope.endPos
+    }
 end
 
 function QuickEquipmentSerializeUtils:SerializeTable( field )
@@ -88,9 +94,12 @@ function QuickEquipmentSerializeUtils:SerializeTable( field )
 end
 
 function QuickEquipmentSerializeUtils:DeserializeTable( data )
-    local scope = QuickEquipmentSerializeUtils:FindScope( "[", "]", data )
-
     local object = {}
+
+    local scope = QuickEquipmentSerializeUtils:FindScope( "[", "]", data )
+    if ( scope.startPos == nil or scope.endPos == nil ) then
+        return object 
+    end
 
     local tableData = string.sub( data, scope.startPos + 1, scope.endPos - 1 )
     while tableData ~= nil do
@@ -102,7 +111,7 @@ function QuickEquipmentSerializeUtils:DeserializeTable( data )
         
         tableData = string.sub( tableData, keyInfo.endPos + 1 )
 
-        Assert( keyInfo.name == "key", "Deserialization: expected `key` got `" .. keyInfo.name .. "`" )
+        Assert( keyInfo.name == "key", "QuickEquipmentSerializeUtils.Deserialization: expected `key` got `" .. keyInfo.name .. "`" )
 
         local valueInfo = QuickEquipmentSerializeUtils:DeserializeField( tableData )
         
@@ -113,7 +122,7 @@ function QuickEquipmentSerializeUtils:DeserializeTable( data )
         
         tableData = string.sub( tableData, valueInfo.endPos + 1 )
 
-        Assert( valueInfo.name == "value", "Deserialization: expected `value` got `" .. valueInfo.name .. "`" )
+        Assert( valueInfo.name == "value", "QuickEquipmentSerializeUtils.Deserialization: expected `value` got `" .. valueInfo.name .. "`" )
 
         if #tableData == 0 then
             tableData = nil
