@@ -1,7 +1,8 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
+local QuickEquipmentSlotsUtils = require("lua/utils/quick_equipment_slots_utils.lua")
 
-QuickEquipmentSlotsUtils = require("lua/utils/quick_equipment_slots_utils.lua")
+globalQuickEquipmentSlotsUtilsEntitiesCache = globalQuickEquipmentSlotsUtilsEntitiesCache or {}
 
 -- save_eq_upgrade standart
 -- save_eq_upgrade standart2
@@ -124,5 +125,5 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
         return
     end
 
-    QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = entity
+    globalQuickEquipmentSlotsUtilsEntitiesCache[itemDatabaseKey] = entity
 end)

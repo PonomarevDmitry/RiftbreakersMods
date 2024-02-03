@@ -2,7 +2,7 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 local QuickEquipmentSerializeUtils = require("lua/utils/quick_equipment_serialize_utils.lua")
-local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
+--local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 local LOAD_RESULT_FAIL    = 1
 local LOAD_RESULT_EMPTY   = 2
@@ -10,8 +10,6 @@ local LOAD_RESULT_INVALID = 3
 local LOAD_RESULT_SUCCESS = 4
 
 local QuickEquipmentSlotsUtils = {}
-
-QuickEquipmentSlotsUtils.EntitiesCache = QuickEquipmentSlotsUtils.EntitiesCache or {}
 
 function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, slotLocalizationName, configName )
 
@@ -137,7 +135,7 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefixArray, con
     end
 
     --LogService:Log("GetSaveEquipmentInfo slotsHash " .. debug_serialize_utils:SerializeObject(slotsHash))
-    LogService:Log("GetSaveEquipmentInfo configContent " .. debug_serialize_utils:SerializeObject(configContent))
+    --LogService:Log("GetSaveEquipmentInfo configContent " .. debug_serialize_utils:SerializeObject(configContent))
 
     if ( #configContent > 0 ) then
         return LOAD_RESULT_SUCCESS, slotsHash, configContent
@@ -229,7 +227,7 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
         return LOAD_RESULT_FAIL, slotsHash
     end
 
-    LogService:Log("GetLoadEquipmentInfo equipItems " .. tostring(equipItems) .. " configContent " .. debug_serialize_utils:SerializeObject(configContent))
+    --LogService:Log("GetLoadEquipmentInfo equipItems " .. tostring(equipItems) .. " configContent " .. debug_serialize_utils:SerializeObject(configContent))
 
     slotNamePrefixArray = string.lower(slotNamePrefixArray)
 
@@ -352,14 +350,14 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
 
     local itemKey = subSlotConfig.quickItemKey
 
-    if ( QuickEquipmentSlotsUtils.EntitiesCache[itemKey] ~= nil ) then
+    if ( globalQuickEquipmentSlotsUtilsEntitiesCache[itemKey] ~= nil ) then
 
-        local entityId = QuickEquipmentSlotsUtils.EntitiesCache[itemKey]
+        local entityId = globalQuickEquipmentSlotsUtilsEntitiesCache[itemKey]
 
         if ( EntityService:IsAlive( entityId ) ) then
             return entityId, false
         else
-            QuickEquipmentSlotsUtils.EntitiesCache[itemKey] = nil
+            globalQuickEquipmentSlotsUtilsEntitiesCache[itemKey] = nil
         end
     end
 
@@ -418,7 +416,7 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
                 local itemDatabaseKey = database:GetString(itemKeyConfigName) or ""
                 if ( itemDatabaseKey ~= "" and itemDatabaseKey ~= nil ) then
 
-                    QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = itemEntity.id
+                    globalQuickEquipmentSlotsUtilsEntitiesCache[itemDatabaseKey] = itemEntity.id
 
                     if ( itemDatabaseKey == itemKey ) then
                         return itemEntity.id, false
@@ -458,7 +456,7 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
 
             local itemDatabaseKey = QuickEquipmentSlotsUtils:GetOrCreateItemKey( maxEntityId )
             if ( itemDatabaseKey ~= "" or itemDatabaseKey ~= nil ) then
-                QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = maxEntityId
+                globalQuickEquipmentSlotsUtilsEntitiesCache[itemDatabaseKey] = maxEntityId
 
                 QuickEquipmentSlotsUtils:UpdateSubSlotConfig(subSlotConfig, maxEntityId, EntityService:GetBlueprintName( maxEntityId ), itemDatabaseKey)
 
@@ -491,7 +489,7 @@ function QuickEquipmentSlotsUtils:GetOrCreateItemKey( subSlotEntityId )
         database:SetString(itemKeyConfigName, itemKey)
     end
 
-    QuickEquipmentSlotsUtils.EntitiesCache[itemKey] = subSlotEntityId
+    globalQuickEquipmentSlotsUtilsEntitiesCache[itemKey] = subSlotEntityId
 
     return itemKey
 end
@@ -554,7 +552,7 @@ function QuickEquipmentSlotsUtils:SaveSettingKeyName( slotLocalizationName, conf
 
     local configContentString = QuickEquipmentSerializeUtils:SerializeObject(configContent)
 
-    LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
+    --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
     --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContentString " .. configContentString )
 
     local campaignDatabase = CampaignService:GetCampaignData()
