@@ -98,3 +98,41 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
         QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsHash)
     end
 end)
+
+
+RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
+
+    if (evt == nil) then
+        return
+    end
+
+    local entity = evt:GetEntity()
+
+    local itemKeyConfigName = "$QuickEquipmentSlotsUtils_KeyId"
+
+    local itemType = ItemService:GetItemType(entity)
+
+    local isRightType = QuickEquipmentSlotsUtils:IsRightType(itemType)
+
+    if ( not isRightType ) then
+        return
+    end
+
+    local database = EntityService:GetDatabase( entity )
+    if ( database == nil ) then
+        return
+    end
+
+    if ( not database:HasString(itemKeyConfigName) ) then
+        return
+    end
+
+    local itemDatabaseKey = database:GetString(itemKeyConfigName) or ""
+    if ( itemDatabaseKey == "" ) then
+        return
+    end
+
+    QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = entity
+
+    LogService:Log("InventoryItemCreatedEvent entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity) .. " quickItemKey " .. tostring(itemDatabaseKey))
+end)

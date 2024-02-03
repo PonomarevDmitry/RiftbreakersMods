@@ -201,7 +201,7 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
 
     configContentString = configContentString or ""
 
-    LogService:Log("GetLoadEquipmentInfo configContentString " .. configContentString)
+    LogService:Log("GetLoadEquipmentInfo equipItems " .. tostring(equipItems) .. " configContentString " .. configContentString)
 
     if ( configContentString == "" ) then
         return LOAD_RESULT_EMPTY, slotsHash
@@ -243,7 +243,6 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
         end
 
         if ( not slotExists ) then
-            --LogService:Log("not slotExists " )
             goto continue
         end
 
@@ -369,26 +368,7 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
 
         local itemType = ItemService:GetItemType(itemEntity.id)
 
-        local isRightType = (
-            itemType == "range_weapon"
-            or itemType == "melee_weapon"
-
-            or itemType == "upgrade"
-
-            or itemType == "skill"
-            or itemType == "consumable"
-
-            or itemType == "dash_skill"
-            or itemType == "movement_skill"
-
-            -- or itemType == "barrier"
-            -- or itemType == "shield"
-            -- or itemType == "equipment"
-            -- or itemType == "passive"
-            -- or itemType == "upgrade_parts"
-            -- or itemType == "misc"
-            -- or itemType == "interactive"
-        );
+        local isRightType = QuickEquipmentSlotsUtils:IsRightType(itemType)
 
         if ( not isRightType ) then
             goto continue
@@ -701,42 +681,30 @@ function QuickEquipmentSlotsUtils:GetRaritySmallStyle( rarity )
     return "smallest_item_level_0"
 end
 
-function QuickEquipmentSlotsUtils:CombineSlotsHashs( slotsHash1, slotsHash2 )
+function QuickEquipmentSlotsUtils:IsRightType( itemType )
 
-    for key,value in pairs(slotsHash2) do
-        slotsHash1[key] = value
-    end
+    local isRightType = (
+        itemType == "range_weapon"
+        or itemType == "melee_weapon"
 
-    return slotsHash1
-end
+        or itemType == "upgrade"
 
-function QuickEquipmentSlotsUtils:CombineResults( loadResult1, loadResult2 )
+        or itemType == "skill"
+        or itemType == "consumable"
 
-    if ( loadResult1 == LOAD_RESULT_SUCCESS or loadResult2 == LOAD_RESULT_SUCCESS ) then
-        return LOAD_RESULT_SUCCESS
-    end
+        or itemType == "dash_skill"
+        or itemType == "movement_skill"
 
-    if ( loadResult1 == LOAD_RESULT_EMPTY and loadResult2 == LOAD_RESULT_EMPTY ) then
-        return LOAD_RESULT_EMPTY
-    end
+        -- or itemType == "barrier"
+        -- or itemType == "shield"
+        -- or itemType == "equipment"
+        -- or itemType == "passive"
+        -- or itemType == "upgrade_parts"
+        -- or itemType == "misc"
+        -- or itemType == "interactive"
+    );
 
-    if ( loadResult1 == LOAD_RESULT_EMPTY ) then
-        return loadResult2
-    end
-
-    if ( loadResult2 == LOAD_RESULT_EMPTY ) then
-        return loadResult1
-    end
-
-    if ( loadResult1 == LOAD_RESULT_FAIL or loadResult2 == LOAD_RESULT_FAIL ) then
-        return LOAD_RESULT_FAIL
-    end
-
-    if ( loadResult1 == LOAD_RESULT_INVALID and loadResult2 == LOAD_RESULT_INVALID ) then
-        return LOAD_RESULT_INVALID
-    end
-
-    return LOAD_RESULT_FAIL
+    return isRightType
 end
 
 return QuickEquipmentSlotsUtils;
