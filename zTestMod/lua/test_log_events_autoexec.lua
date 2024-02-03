@@ -217,6 +217,24 @@
 --end)
 
 
+--RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
+--
+--    local text = "InventoryItemCreatedEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+
+
 
 
 
