@@ -74,7 +74,7 @@ function quick_equipment_slots_save_entity:init()
                         rarityStyle = '<style="' .. QuickEquipmentSlotsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
                         slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
 
-                        confimMessage = confimMessage .. ' ${quick_equipment_slots_change/old} ' .. slotStr
+                        confimMessage = confimMessage .. ' ${quick_equipment_slots_change/previous} ' .. slotStr
                     end
                 end
             end
