@@ -20,33 +20,15 @@ function quick_equipment_slots_save_entity:init()
     self.slotLocalizationName = self.data:GetString("slotLocalizationName")
     self.configName = self.data:GetString("configName")
 
+    local saveResultEquipment, slotsHashToSave, configContent = QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( self.slotNamePrefixArray, self.configName )
+
+    self.configContent = configContent
+
+    local loadResultEquipment, slotsHashCurrent = QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
+
     local slotLocalizationNameFull = "${quick_equipment_slots_change/slots/" .. self.slotLocalizationName .. '}'
 
-    local slotsHashToSave = {}
-    local slotsHashCurrent = {}
-
-    local hasConfig = false
-
-    self.configBySlot = {}
-
-    local slotNamesArray = Split( self.slotNamePrefixArray, "," )
-    for slotsString in Iter( slotNamesArray ) do
-
-        local saveResultEquipment, slotsHashEquipment, configContent = QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotsString, self.configName )
-
-        slotsHashToSave = QuickEquipmentSlotsUtils:CombineSlotsHashs( slotsHashToSave, slotsHashEquipment )
-
-        if ( saveResultEquipment == LOAD_RESULT_SUCCESS ) then
-
-            hasConfig = true
-            self.configBySlot[slotsString] = configContent
-        end
-
-        slotsHashEquipment = QuickEquipmentSlotsUtils:GetLoadEquipmentInfo( slotsString, self.configName )
-        slotsHashCurrent = QuickEquipmentSlotsUtils:CombineSlotsHashs( slotsHashCurrent, slotsHashEquipment )
-    end
-
-    if ( not hasConfig) then
+    if ( #self.configContent == 0) then
 
         local message = '<style="header_35">${voice_over/announcement/quick_equipment_slots_change/load/empty} ' .. slotLocalizationNameFull .. '${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
 
@@ -110,9 +92,7 @@ function quick_equipment_slots_save_entity:OnGuiPopupResultEventSaveResult( evt)
 
     if ( evt:GetResult() == "button_yes" ) then
 
-        for slotsString,configContent in pairs(self.configBySlot) do 
-            QuickEquipmentSlotsUtils:SaveSettingKeyName( slotsString, self.configName, configContent )
-        end
+        QuickEquipmentSlotsUtils:SaveSettingKeyName( self.slotLocalizationName, self.configName, self.configContent )
 
         local configNameLocal = "${quick_equipment_slots_change/configs/name/" .. self.configName .. '}'
         local slotLocalizationNameFull = "${quick_equipment_slots_change/slots/" .. self.slotLocalizationName .. '}'

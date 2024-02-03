@@ -72,7 +72,7 @@ ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotsName, slotsName, configName )
     else
-        local loadResult, slotsHash = QuickEquipmentSlotsUtils:LoadEquipment( slotsName, configName )
+        local loadResult, slotsHash = QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotsName, slotsName, configName, true )
 
         QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, slotsName, configName, slotsHash)
     end
@@ -92,12 +92,8 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
         QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
     else
-        local loadResult1, slotsHash1 = QuickEquipmentSlotsUtils:LoadEquipment( "left_hand", configName )
-        local loadResult2, slotsHash2 = QuickEquipmentSlotsUtils:LoadEquipment( "right_hand", configName )
 
-        local loadResult = QuickEquipmentSlotsUtils:CombineResults(loadResult1, loadResult2)
-
-        local slotsHash = QuickEquipmentSlotsUtils:CombineSlotsHashs( slotsHash1, slotsHash2 )
+        local loadResult, slotsHash = QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( "left_hand,right_hand", "weapon", configName, true )
 
         QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsHash)
     end
