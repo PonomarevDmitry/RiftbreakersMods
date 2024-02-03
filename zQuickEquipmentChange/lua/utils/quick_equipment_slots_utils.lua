@@ -118,6 +118,7 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefixArray, con
                         end
 
                         local subSlotConfig = {}
+
                         subSlotConfig.quickItemKey = itemKey
                         subSlotConfig.blueprintName = subSlotEntityBlueprintName
                         subSlotConfig.entityId = subSlotEntityId
@@ -327,59 +328,93 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
 
     local itemKeyConfigName = "$QuickEquipmentSlotsUtils_KeyId"
 
+    local itemKey = subSlotConfig.quickItemKey
+
     if ( QuickEquipmentSlotsUtils.EntitiesCache[itemKey] ~= nil ) then
         return QuickEquipmentSlotsUtils.EntitiesCache[itemKey]
     end
 
     local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
-    if ( inventoryComponent ~= nil ) then
+    if ( inventoryComponent == nil ) then
+        return INVALID_ID
+    end
 
-        local inventoryComponentRef = reflection_helper( inventoryComponent )
-        
-        while ( inventoryComponentRef.reference_entity ~= nil and inventoryComponentRef.reference_entity.id ~= INVALID_ID ) do
+    local inventoryComponentRef = reflection_helper( inventoryComponent )
 
-            inventoryComponent = EntityService:GetComponent(inventoryComponentRef.reference_entity.id, "InventoryComponent")
+    while ( inventoryComponentRef.reference_entity ~= nil and inventoryComponentRef.reference_entity.id ~= INVALID_ID ) do
 
-            if ( inventoryComponent == nil ) then
-                inventoryComponentRef = nil
-                break
-            end
+        inventoryComponent = EntityService:GetComponent(inventoryComponentRef.reference_entity.id, "InventoryComponent")
 
-            inventoryComponentRef = reflection_helper( inventoryComponent )
+        if ( inventoryComponent == nil ) then
+            inventoryComponentRef = nil
+            break
         end
 
-        if ( inventoryComponentRef ~= nil and inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items ~= nil ) then
+        inventoryComponentRef = reflection_helper( inventoryComponent )
+    end
 
-            local inventoryItems = inventoryComponentRef.inventory.items
+    if ( inventoryComponentRef == nil or inventoryComponentRef.inventory == nil or inventoryComponentRef.inventory.items == nil ) then
+        return INVALID_ID
+    end
 
-            for itemNumber=1,inventoryItems.count do
+    local inventoryItems = inventoryComponentRef.inventory.items
 
-                local itemEntity = inventoryItems[itemNumber]
+    for itemNumber=1,inventoryItems.count do
 
-                if ( itemEntity ~= nil and itemEntity.id ~= nil) then
+        local itemEntity = inventoryItems[itemNumber]
 
-                    local itemType = ItemService:GetItemType(itemEntity.id)
-
-                    if ( itemType == "range_weapon" or itemType == "melee_weapon" or itemType == "skill" or itemType == "consumable" or itemType == "upgrade" or itemType == "dash_skill" or itemType == "movement_skill" or itemType == "barrier" or itemType == "shield" or itemType == "equipment" ) then
-
-                        local database = EntityService:GetDatabase( itemEntity.id )
-                        if ( database ~= nil ) then
-
-                            if ( database:HasString(itemKeyConfigName) ) then
-
-                                local itemDatabaseKey = database:GetString(itemKeyConfigName)
-
-                                QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = itemEntity.id
-
-                                if ( itemDatabaseKey == itemKey ) then
-                                    return itemEntity.id
-                                end
-                            end
-                        end
-                    end             
-                end
-            end
+        if ( itemEntity == nil or itemEntity.id == nil) then
+            goto continue
         end
+
+        local itemType = ItemService:GetItemType(itemEntity.id)
+
+        local isRightType = (
+            itemType == "range_weapon"
+            or itemType == "melee_weapon"
+
+            or itemType == "upgrade"
+
+            or itemType == "skill"
+            or itemType == "consumable"
+
+            or itemType == "dash_skill"
+            or itemType == "movement_skill"
+
+            -- or itemType == "barrier"
+            -- or itemType == "shield"
+            -- or itemType == "equipment"
+            -- or itemType == "passive"
+            -- or itemType == "upgrade_parts"
+            -- or itemType == "misc"
+            -- or itemType == "interactive"
+        );
+
+        if ( not isRightType ) then
+            goto continue
+        end
+
+        local database = EntityService:GetDatabase( itemEntity.id )
+        if ( database == nil ) then
+            goto continue
+        end
+
+        if ( not database:HasString(itemKeyConfigName) ) then
+            goto continue
+        end
+
+        local itemDatabaseKey = database:GetString(itemKeyConfigName) or ""
+        if ( itemDatabaseKey == "" ) then
+            goto continue
+        end
+
+        QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = itemEntity.id
+
+        if ( itemDatabaseKey == itemKey ) then
+            return itemEntity.id
+        end
+
+        ::continue::
     end
 
     return INVALID_ID
@@ -499,7 +534,7 @@ function QuickEquipmentSlotsUtils:GetSlotDesc( blueprintName, subSlotEntityId )
     if ( inventoryItemComponent ~= nil ) then
 
         local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
-        
+
         slotDesc.name = inventoryItemComponentRef.name
         slotDesc.icon = inventoryItemComponentRef.bigger_icon
     end
@@ -567,7 +602,7 @@ end
 function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsHash)
 
     local playerSlotsArrayEquipment = QuickEquipmentSlotsUtils:GetPlayerSlotsEquipmentInfo()
-    
+
     local listBlueprint = {}
     local hashBlueprint = {}
 
@@ -577,7 +612,7 @@ function QuickEquipmentSlotsUtils:GetSlotsIcons(slotsHash)
         if ( slotConfigToLoad ~= nil ) then
 
             for subSlotNumber=1,slotConfig.SubSlotsCount do
-            
+
                 local slotDesc = slotConfigToLoad.SubSlots[subSlotNumber]
                 if ( slotDesc ~= nil ) then
 
