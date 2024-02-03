@@ -2,7 +2,6 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
-local QuickEquipmentSlotsUtils = require("lua/utils/quick_equipment_slots_utils.lua")
 
 local LOAD_RESULT_FAIL    = 1
 local LOAD_RESULT_EMPTY   = 2
