@@ -125,6 +125,4 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
     end
 
     QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = entity
-
-    LogService:Log("InventoryItemCreatedEvent entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity) .. " itemType " .. tostring(itemType) .. " quickItemKey " .. tostring(itemDatabaseKey))
 end)

@@ -119,25 +119,7 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefixArray, con
 
                         local subSlotConfig = {}
 
-                        subSlotConfig.quickItemKey = itemKey
-                        subSlotConfig.blueprintName = subSlotEntityBlueprintName
-                        subSlotConfig.entityId = subSlotEntityId
-                        subSlotConfig.itemName = ItemService:GetItemName(subSlotEntityId)
-                        subSlotConfig.itemType = ItemService:GetItemType(subSlotEntityId)
-                        subSlotConfig.itemSubType = ItemService:GetItemSubType(subSlotEntityId)
-                        subSlotConfig.itemRarity = QuickEquipmentSlotsUtils:GetItemRarity(subSlotEntityId)
-                        subSlotConfig.itemUnique = false
-                        subSlotConfig.replaceLowerQuality = false
-
-                        local costComponent = EntityService:GetComponent( subSlotEntityId, "CostComponent" )
-                        if ( costComponent ~= nil ) then
-                            subSlotConfig.itemUnique = reflection_helper( costComponent ).is_unique
-                        end
-
-                        local inventoryItemComponent = EntityService:GetComponent( subSlotEntityId, "InventoryItemComponent" )
-                        if ( inventoryItemComponent ~= nil ) then
-                            subSlotConfig.replaceLowerQuality = reflection_helper( inventoryItemComponent ).replace_lower_quality
-                        end
+                        QuickEquipmentSlotsUtils:UpdateSubSlotConfig(subSlotConfig, subSlotEntityId, subSlotEntityBlueprintName, itemKey)
 
                         slotConfig.SubSlots[subSlotNumber] = subSlotConfig
                     end
@@ -174,6 +156,29 @@ function QuickEquipmentSlotsUtils:IsSlotFits( slotName, slotNamesArray )
     end
 
     return false
+end
+
+function QuickEquipmentSlotsUtils:UpdateSubSlotConfig(subSlotConfig, subSlotEntityId, subSlotEntityBlueprintName, itemKey)
+
+    subSlotConfig.quickItemKey = itemKey
+    subSlotConfig.blueprintName = subSlotEntityBlueprintName
+    subSlotConfig.entityId = subSlotEntityId
+    subSlotConfig.itemName = ItemService:GetItemName(subSlotEntityId)
+    subSlotConfig.itemType = ItemService:GetItemType(subSlotEntityId)
+    subSlotConfig.itemSubType = ItemService:GetItemSubType(subSlotEntityId)
+    subSlotConfig.itemRarity = QuickEquipmentSlotsUtils:GetItemRarity(subSlotEntityId)
+    subSlotConfig.itemUnique = false
+    subSlotConfig.replaceLowerQuality = false
+
+    local costComponent = EntityService:GetComponent( subSlotEntityId, "CostComponent" )
+    if ( costComponent ~= nil ) then
+        subSlotConfig.itemUnique = reflection_helper( costComponent ).is_unique
+    end
+
+    local inventoryItemComponent = EntityService:GetComponent( subSlotEntityId, "InventoryItemComponent" )
+    if ( inventoryItemComponent ~= nil ) then
+        subSlotConfig.replaceLowerQuality = reflection_helper( inventoryItemComponent ).replace_lower_quality
+    end
 end
 
 function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePrefixArray, slotLocalizationName, configName, equipItems )
@@ -234,6 +239,8 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
 
     local slots = equipment.slots
 
+    local needConfigUpdate = false
+
     for slotTemplate in Iter( configContent ) do
 
         local slotName = slotTemplate.Name
@@ -266,9 +273,11 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
 
             if ( 1 <= subSlotNumber and subSlotNumber <= selectedSlot.subslots_count ) then
 
-                local subSlotResult, slotDesc, subSlotEntityId = QuickEquipmentSlotsUtils:LoadItemToSlot( player, subSlotConfig )
+                local subSlotResult, slotDesc, subSlotEntityId, itemUpdated = QuickEquipmentSlotsUtils:LoadItemToSlot( player, subSlotConfig )
 
                 if ( subSlotResult ) then
+
+                    needConfigUpdate = needConfigUpdate or itemUpdated
 
                     if ( equipItems ) then
                         QueueEvent( "EquipmentChangeRequest", player, slotName, subSlotNumber-1, subSlotEntityId )
@@ -293,6 +302,10 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
         ::continue::
     end
 
+    if ( needConfigUpdate ) then
+        QuickEquipmentSlotsUtils:SaveSettingKeyName( slotLocalizationName, configName, configContent )
+    end
+
     if ( result ) then
         return LOAD_RESULT_SUCCESS, slotsHash
     else
@@ -302,15 +315,13 @@ end
 
 function QuickEquipmentSlotsUtils:LoadItemToSlot( player, subSlotConfig )
 
-    local subSlotEntityId = QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
+    local subSlotEntityId, itemUpdated = QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
 
     if ( subSlotEntityId == nil or subSlotEntityId == INVALID_ID ) then
-        --LogService:Log("subSlotEntityId == nil or subSlotEntityId == INVALID_ID " )
         return false
     end
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
-        --LogService:Log("not EntityService:IsAlive( subSlotEntityId ) " )
         return false
     end
 
@@ -332,7 +343,7 @@ function QuickEquipmentSlotsUtils:LoadItemToSlot( player, subSlotConfig )
 
     local slotDesc = QuickEquipmentSlotsUtils:GetSlotDesc( blueprintName, subSlotEntityId )
 
-    return true, slotDesc, subSlotEntityId
+    return true, slotDesc, subSlotEntityId, itemUpdated
 end
 
 function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
@@ -342,12 +353,19 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
     local itemKey = subSlotConfig.quickItemKey
 
     if ( QuickEquipmentSlotsUtils.EntitiesCache[itemKey] ~= nil ) then
-        return QuickEquipmentSlotsUtils.EntitiesCache[itemKey]
+
+        local entityId = QuickEquipmentSlotsUtils.EntitiesCache[itemKey]
+
+        if ( EntityService:IsAlive( entityId ) ) then
+            return entityId, false
+        else
+            QuickEquipmentSlotsUtils.EntitiesCache[itemKey] = nil
+        end
     end
 
     local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
     if ( inventoryComponent == nil ) then
-        return INVALID_ID
+        return INVALID_ID, false
     end
 
     local inventoryComponentRef = reflection_helper( inventoryComponent )
@@ -365,8 +383,10 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
     end
 
     if ( inventoryComponentRef == nil or inventoryComponentRef.inventory == nil or inventoryComponentRef.inventory.items == nil ) then
-        return INVALID_ID
+        return INVALID_ID, false
     end
+
+    local itemsByName = {}
 
     local inventoryItems = inventoryComponentRef.inventory.items
 
@@ -375,6 +395,10 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
         local itemEntity = inventoryItems[itemNumber]
 
         if ( itemEntity == nil or itemEntity.id == nil) then
+            goto continue
+        end
+
+        if ( not EntityService:IsAlive( itemEntity.id )) then
             goto continue
         end
 
@@ -387,29 +411,63 @@ function QuickEquipmentSlotsUtils:FindItemByKey( player, subSlotConfig )
         end
 
         local database = EntityService:GetDatabase( itemEntity.id )
-        if ( database == nil ) then
-            goto continue
+        if ( database ~= nil ) then
+
+            if ( database:HasString(itemKeyConfigName) ) then
+
+                local itemDatabaseKey = database:GetString(itemKeyConfigName) or ""
+                if ( itemDatabaseKey ~= "" and itemDatabaseKey ~= nil ) then
+
+                    QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = itemEntity.id
+
+                    if ( itemDatabaseKey == itemKey ) then
+                        return itemEntity.id, false
+                    end
+                end
+            end
         end
 
-        if ( not database:HasString(itemKeyConfigName) ) then
-            goto continue
-        end
-
-        local itemDatabaseKey = database:GetString(itemKeyConfigName) or ""
-        if ( itemDatabaseKey == "" ) then
-            goto continue
-        end
-
-        QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = itemEntity.id
-
-        if ( itemDatabaseKey == itemKey ) then
-            return itemEntity.id
+        if ( subSlotConfig.replaceLowerQuality ) then
+            
+            local itemName = ItemService:GetItemName(itemEntity.id)
+            if ( itemName == subSlotConfig.itemName ) then
+                Insert( itemsByName, itemEntity.id )
+            end
         end
 
         ::continue::
     end
 
-    return INVALID_ID
+    if ( subSlotConfig.replaceLowerQuality and #itemsByName > 0 ) then
+
+        local maxEntityId = nil
+        local maxRarity = subSlotConfig.itemRarity
+            
+        for entityId in Iter( itemsByName ) do
+
+            local itemRarity = QuickEquipmentSlotsUtils:GetItemRarity(entityId)
+
+            if ( maxEntityId == nil or itemRarity >= maxRarity ) then
+
+                maxEntityId = entityId
+                maxRarity = itemRarity
+            end
+        end
+
+        if ( maxEntityId ~= nil ) then
+
+            local itemDatabaseKey = QuickEquipmentSlotsUtils:GetOrCreateItemKey( maxEntityId )
+            if ( itemDatabaseKey ~= "" or itemDatabaseKey ~= nil ) then
+                QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = maxEntityId
+
+                QuickEquipmentSlotsUtils:UpdateSubSlotConfig(subSlotConfig, maxEntityId, EntityService:GetBlueprintName( maxEntityId ), itemDatabaseKey)
+
+                return maxEntityId, true
+            end
+        end
+    end
+
+    return INVALID_ID, false
 end
 
 function QuickEquipmentSlotsUtils:GetOrCreateItemKey( subSlotEntityId )
@@ -490,13 +548,13 @@ function QuickEquipmentSlotsUtils:GetPlayerSlotsEquipmentInfo()
     return slotsArray
 end
 
-function QuickEquipmentSlotsUtils:SaveSettingKeyName( slotNamePrefix, configName, configContent )
+function QuickEquipmentSlotsUtils:SaveSettingKeyName( slotLocalizationName, configName, configContent )
 
-    local keyName = QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName )
+    local keyName = QuickEquipmentSlotsUtils:GetSettingKeyName( slotLocalizationName, configName )
 
     local configContentString = QuickEquipmentSerializeUtils:SerializeObject(configContent)
 
-    --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
+    LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
     --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContentString " .. configContentString )
 
     local campaignDatabase = CampaignService:GetCampaignData()
@@ -507,9 +565,9 @@ function QuickEquipmentSlotsUtils:SaveSettingKeyName( slotNamePrefix, configName
     campaignDatabase:SetString( keyName, configContentString )
 end
 
-function QuickEquipmentSlotsUtils:GetSettingKeyName( slotNamePrefix, configName )
+function QuickEquipmentSlotsUtils:GetSettingKeyName( slotLocalizationName, configName )
 
-    local keyName = "$QuickEquipmentSlotsUtils." .. slotNamePrefix .. "." .. configName
+    local keyName = "$QuickEquipmentSlotsUtils." .. slotLocalizationName .. "." .. configName
 
     return keyName
 end
