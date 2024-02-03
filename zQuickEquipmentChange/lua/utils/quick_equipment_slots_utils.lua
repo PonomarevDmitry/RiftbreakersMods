@@ -126,6 +126,18 @@ function QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( slotNamePrefixArray, con
                         subSlotConfig.itemType = ItemService:GetItemType(subSlotEntityId)
                         subSlotConfig.itemSubType = ItemService:GetItemSubType(subSlotEntityId)
                         subSlotConfig.itemRarity = QuickEquipmentSlotsUtils:GetItemRarity(subSlotEntityId)
+                        subSlotConfig.itemUnique = false
+                        subSlotConfig.replaceLowerQuality = false
+
+                        local costComponent = EntityService:GetComponent( subSlotEntityId, "CostComponent" )
+                        if ( costComponent ~= nil ) then
+                            subSlotConfig.itemUnique = reflection_helper( costComponent ).is_unique
+                        end
+
+                        local inventoryItemComponent = EntityService:GetComponent( subSlotEntityId, "InventoryItemComponent" )
+                        if ( inventoryItemComponent ~= nil ) then
+                            subSlotConfig.replaceLowerQuality = reflection_helper( inventoryItemComponent ).replace_lower_quality
+                        end
 
                         slotConfig.SubSlots[subSlotNumber] = subSlotConfig
                     end
@@ -201,7 +213,7 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
 
     configContentString = configContentString or ""
 
-    LogService:Log("GetLoadEquipmentInfo equipItems " .. tostring(equipItems) .. " configContentString " .. configContentString)
+    --LogService:Log("GetLoadEquipmentInfo equipItems " .. tostring(equipItems) .. " configContentString " .. configContentString)
 
     if ( configContentString == "" ) then
         return LOAD_RESULT_EMPTY, slotsHash
@@ -212,7 +224,7 @@ function QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePr
         return LOAD_RESULT_FAIL, slotsHash
     end
 
-    LogService:Log("GetLoadEquipmentInfo configContent " .. debug_serialize_utils:SerializeObject(configContent))
+    LogService:Log("GetLoadEquipmentInfo equipItems " .. tostring(equipItems) .. " configContent " .. debug_serialize_utils:SerializeObject(configContent))
 
     slotNamePrefixArray = string.lower(slotNamePrefixArray)
 
@@ -484,8 +496,8 @@ function QuickEquipmentSlotsUtils:SaveSettingKeyName( slotNamePrefix, configName
 
     local configContentString = QuickEquipmentSerializeUtils:SerializeObject(configContent)
 
-    LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
-    LogService:Log("SaveSettingKeyName key " .. keyName .. " configContentString " .. configContentString )
+    --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
+    --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContentString " .. configContentString )
 
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then

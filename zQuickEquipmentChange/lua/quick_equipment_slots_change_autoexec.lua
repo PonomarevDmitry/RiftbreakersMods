@@ -108,31 +108,23 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
     local entity = evt:GetEntity()
 
-    local itemKeyConfigName = "$QuickEquipmentSlotsUtils_KeyId"
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
 
     local itemType = ItemService:GetItemType(entity)
 
     local isRightType = QuickEquipmentSlotsUtils:IsRightType(itemType)
-
     if ( not isRightType ) then
         return
     end
 
-    local database = EntityService:GetDatabase( entity )
-    if ( database == nil ) then
-        return
-    end
-
-    if ( not database:HasString(itemKeyConfigName) ) then
-        return
-    end
-
-    local itemDatabaseKey = database:GetString(itemKeyConfigName) or ""
-    if ( itemDatabaseKey == "" ) then
+    local itemDatabaseKey = QuickEquipmentSlotsUtils:GetOrCreateItemKey( entity )
+    if ( itemDatabaseKey == "" or itemDatabaseKey == nil ) then
         return
     end
 
     QuickEquipmentSlotsUtils.EntitiesCache[itemDatabaseKey] = entity
 
-    LogService:Log("InventoryItemCreatedEvent entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity) .. " quickItemKey " .. tostring(itemDatabaseKey))
+    LogService:Log("InventoryItemCreatedEvent entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity) .. " itemType " .. tostring(itemType) .. " quickItemKey " .. tostring(itemDatabaseKey))
 end)
