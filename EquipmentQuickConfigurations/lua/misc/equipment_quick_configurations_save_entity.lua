@@ -37,7 +37,7 @@ function equipment_quick_configurations_save_entity:init()
 
         return
     end
-    
+
     local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
 
     local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo()

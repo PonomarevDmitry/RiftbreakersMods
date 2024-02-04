@@ -426,7 +426,7 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
         end
 
         if ( subSlotConfig.replaceLowerQuality ) then
-            
+
             local itemName = ItemService:GetItemName(itemEntity.id)
             if ( itemName == subSlotConfig.itemName ) then
                 Insert( itemsByName, itemEntity.id )
@@ -440,7 +440,7 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
 
         local maxEntityId = nil
         local maxRarity = subSlotConfig.itemRarity
-            
+
         for entityId in Iter( itemsByName ) do
 
             local itemRarity = EquipmentQuickConfigurationsUtils:GetItemRarity(entityId)

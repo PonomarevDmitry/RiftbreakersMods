@@ -32,7 +32,7 @@ ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
     if not Assert( #args >= 2, "Command operate_eq_usable requires 2 arguments! [configname] " .. tostring(#args) ) then
         return
     end
-    
+
     local slotsName = args[1]
     local configName = args[2]
 

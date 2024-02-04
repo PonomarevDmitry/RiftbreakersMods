@@ -66,14 +66,14 @@ end
 function QuickEquipmentSerializeUtils:DeserializeField( data )
     local scope = QuickEquipmentSerializeUtils:FindScope( "<", ">", data )
     if ( scope.startPos == nil or scope.endPos == nil ) then
-        return nil 
+        return nil
     end
 
     local namePos = string.find( data, ":" )
     if ( namePos == nil ) then
-        return nil 
+        return nil
     end
-    
+
     local name = string.sub( data, scope.startPos + 1, namePos - 1 )
     local value = string.sub( data, namePos + 1, scope.endPos - 1 )
 
@@ -98,28 +98,26 @@ function QuickEquipmentSerializeUtils:DeserializeTable( data )
 
     local scope = QuickEquipmentSerializeUtils:FindScope( "[", "]", data )
     if ( scope.startPos == nil or scope.endPos == nil ) then
-        return object 
+        return object
     end
 
     local tableData = string.sub( data, scope.startPos + 1, scope.endPos - 1 )
     while tableData ~= nil do
+
         local keyInfo = QuickEquipmentSerializeUtils:DeserializeField( tableData )
-        
         if ( keyInfo == nil ) then
             break
         end
-        
+
         tableData = string.sub( tableData, keyInfo.endPos + 1 )
 
         Assert( keyInfo.name == "key", "QuickEquipmentSerializeUtils.Deserialization: expected `key` got `" .. keyInfo.name .. "`" )
 
         local valueInfo = QuickEquipmentSerializeUtils:DeserializeField( tableData )
-        
-        
         if ( valueInfo == nil ) then
             break
         end
-        
+
         tableData = string.sub( tableData, valueInfo.endPos + 1 )
 
         Assert( valueInfo.name == "value", "QuickEquipmentSerializeUtils.Deserialization: expected `value` got `" .. valueInfo.name .. "`" )
