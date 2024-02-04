@@ -17,7 +17,7 @@ RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
     if string.find(itemBlueprint, "items/loot/weapon_mods") == nil then
         return
     end
-    
+
     local maxCountStandard = 32
     local maxCountAdvanced = 32
     local maxCountSuperior = 160
@@ -27,7 +27,7 @@ RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
     local itemLevel = ItemService:GetItemLevel( itemEntity )
 
     local playerEntity = evt:GetInventory()
-    
+
     local numItemsInInv = ItemService:GetItemCount( playerEntity, itemBlueprint )
 
     --LogService:Log( "PickedUpItemEvent itemBlueprint " .. tostring(itemBlueprint) .. " numItemsInInv " .. tostring(numItemsInInv) .. " itemName " .. tostring(itemName) .. " itemLevel " .. tostring(itemLevel) )
@@ -39,30 +39,30 @@ RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
     --end
 
     local disassemblyEntity = false
-        
+
     if string.find(itemBlueprint, "standard") then
-            
+
         if numItemsInInv > maxCountStandard then
 
             disassemblyEntity = true
         end
 
     elseif string.find(itemBlueprint, "advanced") then
-            
+
         if numItemsInInv > maxCountAdvanced then
 
             disassemblyEntity = true
         end
 
     elseif string.find(itemBlueprint, "superior") then
-            
+
         if numItemsInInv > maxCountSuperior then
 
             disassemblyEntity = true
         end
 
     elseif string.find(itemBlueprint, "extreme") then
-            
+
         if numItemsInInv > maxCountExtreme then
 
             disassemblyEntity = true
@@ -72,13 +72,13 @@ RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
     if ( not disassemblyEntity ) then
         return
     end
-    
+
     --local playerReferenceComponent = reflection_helper( EntityService:GetComponent( playerEntity, "PlayerReferenceComponent" ) )
     --local playerId = playerReferenceComponent.player_id
     --LogService:Log( "PickedUpItemEvent playerId " .. tostring(playerId) )
 
     --LogService:Log( "Mod destroyed DissassemblyItemRequest" )
-        
+
     --QueueEvent("DissassemblyItemRequest", event_sink, itemEntity, playerId, playerEntity )
 
     --LogService:Log( "Mod destroyed by DissassemblyItemRequest" )

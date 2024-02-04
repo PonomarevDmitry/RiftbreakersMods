@@ -3,7 +3,7 @@
 
 if not cheat_init then --Make all one-time
     cheat_init = true
-    
+
     --CONTROLS
     map_cheats   = false
     ammo_cheat   = false
@@ -12,11 +12,11 @@ if not cheat_init then --Make all one-time
     give_all_mods = false
     debug_rifle = false
     --all_tech = false
-    
+
     if not ( CampaignService:GetCurrentCampaignType() == "survival" and DifficultyService:GetCurrentDifficultyName() == "sandbox" ) then
         return
     end
-    
+
     if ammo_cheat then
         ConsoleService:ExecuteCommand("cheat_unlimited_ammo 1")
     end
@@ -25,18 +25,18 @@ if not cheat_init then --Make all one-time
         ConsoleService:ExecuteCommand("cheat_minimap_teleport_on_click 1")
     end
 
-    if map_cheats then 
+    if map_cheats then
         ConsoleService:ExecuteCommand("cheat_reveal_minimap 1")
     end
-        
+
     if free_build then
         ConsoleService:ExecuteCommand("cheat_free_build 1")
     end
-        
+
     if no_cost then
         ConsoleService:ExecuteCommand("cheat_unlimited_money 1")
     end
-        
+
     if give_all_mods then
 
         RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
@@ -48,10 +48,10 @@ if not cheat_init then --Make all one-time
                 PlayerService:AddItemToInventory(playerId, "items/weapons/laser_sword_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_extreme_item")
-                    
+
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_extreme_item")
-                    
+
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_burst_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_shot_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_rate_extreme_item")
