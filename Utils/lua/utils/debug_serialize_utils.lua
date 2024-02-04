@@ -35,34 +35,6 @@ function DebugSerializeUtils:SerializeField( fieldName, field )
     return fieldName .. " : " .. DebugSerializeUtils:SerializeObject( field )
 end
 
-function DebugSerializeUtils:FindScope( opening, ending, str )
-    local openingIdx = nil
-    local endingIdx = nil
-
-    local chars = StringTable( str )
-
-    local depth = 0
-    for idx = 1, #chars do
-        if chars[ idx ] == opening then
-            if openingIdx == nil then
-                openingIdx = idx
-            else
-                depth = depth + 1
-            end
-        end
-
-        if chars[ idx ] == ending then
-            if depth == 0 then
-                endingIdx = idx
-            else
-                depth = depth - 1
-            end
-        end
-    end
-
-    return { startPos = openingIdx, endPos = endingIdx }
-end
-
 function DebugSerializeUtils:SerializeTable( field )
     local data = "[" .. type( field ) .. "] {\n"
     for key, value in pairs( field ) do
