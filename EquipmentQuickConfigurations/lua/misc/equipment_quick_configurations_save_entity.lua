@@ -2,47 +2,47 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
-local EquipmentQuickConfugurationsUtils = require("lua/utils/equipment_quick_confugurations_utils.lua")
+local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
 
 local LOAD_RESULT_FAIL    = 1
 local LOAD_RESULT_EMPTY   = 2
 local LOAD_RESULT_INVALID = 3
 local LOAD_RESULT_SUCCESS = 4
 
-class 'equipment_quick_confugurations_save_entity' ( LuaEntityObject )
+class 'equipment_quick_configurations_save_entity' ( LuaEntityObject )
 
-function equipment_quick_confugurations_save_entity:__init()
+function equipment_quick_configurations_save_entity:__init()
     LuaEntityObject.__init(self, self)
 end
 
-function equipment_quick_confugurations_save_entity:init()
+function equipment_quick_configurations_save_entity:init()
 
     self.slotNamePrefixArray = self.data:GetString("slotNamePrefixArray")
     self.slotLocalizationName = self.data:GetString("slotLocalizationName")
     self.configName = self.data:GetString("configName")
 
-    local saveResultEquipment, slotsHashToSave, configContent = EquipmentQuickConfugurationsUtils:GetSaveEquipmentInfo( self.slotNamePrefixArray, self.configName )
+    local saveResultEquipment, slotsHashToSave, configContent = EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( self.slotNamePrefixArray, self.configName )
 
     self.configContent = configContent
 
-    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfugurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
+    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
 
-    local slotLocalizationNameFull = "${equipment_quick_confugurations/slots/" .. self.slotLocalizationName .. '}'
+    local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
 
     if ( #self.configContent == 0) then
 
-        local message = '<style="header_35">${voice_over/announcement/equipment_quick_confugurations/load/empty} ' .. slotLocalizationNameFull .. '${voice_over/announcement/equipment_quick_confugurations/load/empty_end}</style>'
+        local message = '<style="header_35">${voice_over/announcement/equipment_quick_configurations/load/empty} ' .. slotLocalizationNameFull .. '${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>'
 
         GuiService:OpenPopup(INVALID_ID, "gui/popup/popup_template_1button", message)
 
         return
     end
     
-    local configNameLocal = "${equipment_quick_confugurations/configs/name/" .. self.configName .. '}'
+    local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
 
-    local playerSlotsArrayEquipment = EquipmentQuickConfugurationsUtils:GetPlayerSlotsEquipmentInfo()
+    local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo()
 
-    local confimMessage = '${voice_over/announcement/equipment_quick_confugurations/confirming}\r\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_confugurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_confugurations/confirming_end}</style>'
+    local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\r\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>'
 
     for slotConfig in Iter( playerSlotsArrayEquipment ) do
 
@@ -62,7 +62,7 @@ function equipment_quick_confugurations_save_entity:init()
                         confimMessage = confimMessage .. " "  .. tostring(subSlotNumber)
                     end
 
-                    local rarityStyle = '<style="' .. EquipmentQuickConfugurationsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
+                    local rarityStyle = '<style="' .. EquipmentQuickConfigurationsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
                     local slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
 
                     confimMessage = confimMessage .. ': ' .. slotStr
@@ -71,10 +71,10 @@ function equipment_quick_confugurations_save_entity:init()
 
                         slotDesc = slotsHashCurrent[slotConfig.Name].SubSlots[subSlotNumber]
 
-                        rarityStyle = '<style="' .. EquipmentQuickConfugurationsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
+                        rarityStyle = '<style="' .. EquipmentQuickConfigurationsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
                         slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
 
-                        confimMessage = confimMessage .. ' ${equipment_quick_confugurations/previous} ' .. slotStr
+                        confimMessage = confimMessage .. ' ${equipment_quick_configurations/previous} ' .. slotStr
                     end
                 end
             end
@@ -84,21 +84,21 @@ function equipment_quick_confugurations_save_entity:init()
     --LogService:Log("confimMessage " .. confimMessage)
 
     self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
-    GuiService:OpenPopup(self.entity, "gui/popup/equipment_quick_confugurations_popup_ingame_2buttons", confimMessage)
+    GuiService:OpenPopup(self.entity, "gui/popup/equipment_quick_configurations_popup_ingame_2buttons", confimMessage)
 end
 
-function equipment_quick_confugurations_save_entity:OnGuiPopupResultEventSaveResult( evt)
+function equipment_quick_configurations_save_entity:OnGuiPopupResultEventSaveResult( evt)
 
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
 
     if ( evt:GetResult() == "button_yes" ) then
 
-        EquipmentQuickConfugurationsUtils:SaveSettingKeyName( self.slotLocalizationName, self.configName, self.configContent )
+        EquipmentQuickConfigurationsUtils:SaveSettingKeyName( self.slotLocalizationName, self.configName, self.configContent )
 
-        local configNameLocal = "${equipment_quick_confugurations/configs/name/" .. self.configName .. '}'
-        local slotLocalizationNameFull = "${equipment_quick_confugurations/slots/" .. self.slotLocalizationName .. '}'
+        local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
+        local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
 
-        local fullAnnouncement = '${voice_over/announcement/equipment_quick_confugurations/saving} <style="header_24">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_confugurations/saving_to} <style="header_24">' .. configNameLocal .. '</style>${voice_over/announcement/equipment_quick_confugurations/saving_end}'
+        local fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/saving} <style="header_24">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/saving_to} <style="header_24">' .. configNameLocal .. '</style>${voice_over/announcement/equipment_quick_configurations/saving_end}'
 
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
@@ -106,12 +106,12 @@ function equipment_quick_confugurations_save_entity:OnGuiPopupResultEventSaveRes
     self:DestroySelf()
 end
 
-function equipment_quick_confugurations_save_entity:OnLoad()
+function equipment_quick_configurations_save_entity:OnLoad()
     self:DestroySelf()
 end
 
-function equipment_quick_confugurations_save_entity:DestroySelf()
+function equipment_quick_configurations_save_entity:DestroySelf()
     EntityService:RemoveEntity( self.entity )
 end
 
-return equipment_quick_confugurations_save_entity
+return equipment_quick_configurations_save_entity

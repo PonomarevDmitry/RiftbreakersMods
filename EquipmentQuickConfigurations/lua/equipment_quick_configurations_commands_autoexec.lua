@@ -1,8 +1,8 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
-local EquipmentQuickConfugurationsUtils = require("lua/utils/equipment_quick_confugurations_utils.lua")
+local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
 
-globalEquipmentQuickConfugurationsUtilsEntitiesCache = globalEquipmentQuickConfugurationsUtilsEntitiesCache or {}
+globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
 
 mod_quick_equipment_mode_save = 0
 
@@ -17,11 +17,11 @@ ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( ar
     if ( mod_quick_equipment_mode_save == 1 ) then
 
         SoundService:Play( "items/weapons/bullet/small_machinegun_equipped" )
-        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_confugurations_mode_save", 0 )
+        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_configurations_mode_save", 0 )
     else
 
         SoundService:Play( "items/weapons/energy/blaster_equipped" )
-        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_confugurations_mode_load", 0 )
+        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_configurations_mode_load", 0 )
     end
 end)
 
@@ -40,11 +40,11 @@ ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        EquipmentQuickConfugurationsUtils:ShowPopupToSaveConfig( slotsName, slotsName, configName )
+        EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( slotsName, slotsName, configName )
     else
-        local loadResult, slotsHash = EquipmentQuickConfugurationsUtils:ReadSavedEquipmentInfoAndQuipItems( slotsName, slotsName, configName, true )
+        local loadResult, slotsHash = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( slotsName, slotsName, configName, true )
 
-        EquipmentQuickConfugurationsUtils:PlayLoadAnnouncementAndSound(loadResult, slotsName, configName, slotsHash)
+        EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound(loadResult, slotsName, configName, slotsHash)
     end
 end)
 
@@ -60,12 +60,12 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        EquipmentQuickConfugurationsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
+        EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
     else
 
-        local loadResult, slotsHash = EquipmentQuickConfugurationsUtils:ReadSavedEquipmentInfoAndQuipItems( "left_hand,right_hand", "weapon", configName, true )
+        local loadResult, slotsHash = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( "left_hand,right_hand", "weapon", configName, true )
 
-        EquipmentQuickConfugurationsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsHash)
+        EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsHash)
     end
 end)
 
@@ -85,15 +85,15 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
     local itemType = ItemService:GetItemType(entity)
 
-    local isRightType = EquipmentQuickConfugurationsUtils:IsRightType(itemType)
+    local isRightType = EquipmentQuickConfigurationsUtils:IsRightType(itemType)
     if ( not isRightType ) then
         return
     end
 
-    local itemDatabaseKey = EquipmentQuickConfugurationsUtils:GetOrCreateItemKey( entity )
+    local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( entity )
     if ( itemDatabaseKey == "" or itemDatabaseKey == nil ) then
         return
     end
 
-    globalEquipmentQuickConfugurationsUtilsEntitiesCache[itemDatabaseKey] = entity
+    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = entity
 end)
