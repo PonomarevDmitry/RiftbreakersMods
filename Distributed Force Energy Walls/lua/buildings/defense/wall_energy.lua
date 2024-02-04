@@ -24,26 +24,26 @@ end
 function wall_energy:OnInit()
 	--Assign this Entity to a group for Map search purposes.
 	EntityService:SetGroup(self.entity, "energy_walls")
-	
+
 	--Declare these to store data for later
 	self.damageVal = 0 --Damage Reflection Amount
 	self.regen_rate = 0 --Shield Recharge Rate when powered
 	self.decay_rate = {} --Shield Drain rate when unpowered
 	self.regen_cooldown = 0 --Shield recharge delay after damage
-	
+
 	--Records which entities are currently affected by the shield. DO NOT TOUCH.
 	--Syntax is different for efficiency reasons, and to store relational data.
 	self.selected = {}
-	
+
 	--Import from bluprint database:
 	--Blueprint of entity representing the shield
 	self.shieldBp = self.data:GetStringOrDefault("shield_bp", "buildings/defense/wall_energy/shield")
-	
+
 	--Create the state machine to periodically search for objects that need added to or removed from the shield.
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState("working", {execute="OnWorkInProgress", exit="OnWorkExit", interval=period})
 	self.fsm:AddState("shutdown", {execute="OnShutdown", interval=0.1})
-	
+
 end
 
 --Runs when the building turns on, including initial power on.
@@ -58,10 +58,10 @@ function wall_energy:OnActivate()
 		--This makes the shield feel snappy when placing the building, despite the long interval between scans.
 		ItemService:AddHealthLink(self.entity, self.healthChild)
 	end
-	
+
 	self:EnableDamage()
 	self:ChargeShield()
-	
+
 	--Start up shield scan loop
 	self.fsm:ChangeState("working")
 end
@@ -69,14 +69,14 @@ end
 --Runs when the building turns off, loses power, or is removed.
 function wall_energy:OnDeactivate()
 	self.active = false
-	
+
 	--Shut down Shield
 	--Shut down Shield
 	local state = self.fsm:GetState("working")
 	if (state ~= nil) then
 		state:Exit()
 	end
-	
+
 	self:DisableDamage()
 	self:DrainShield(1)
 end
@@ -100,18 +100,18 @@ function wall_energy:OnWorkInProgress(state)
 	if (self.healthChild == INVALID_ID or HealthService:GetHealth(self.healthChild)== -1) then
 		self.healthChild = EntityService:SpawnAndAttachEntity(self.shieldBp, self.entity)
 	end
-	
+
 	--Search Map for targets
 	local objects = FindService:FindEntitiesByGroupInRadius(self.entity, "energy_walls", diameter)
-	
+
 	--Check which found targets haven't been shielded, add the shield, and record them.
 	for index, obj in ipairs(objects) do
 		if (self.selected[obj] == nil and BuildingService:IsBuildingFinished(obj) and obj ~= self.entity) then
 			ItemService:AddHealthLink(obj, self.healthChild)	--Add Shield
-			self.selected[obj] = true	--Add Record 
+			self.selected[obj] = true	--Add Record
 		end
 	end
-	
+
 	--Check for any recorded targets that no longer exist, and remove them.
 	for obj, val in pairs(self.selected) do
 		if (IndexOf(objects, obj) == nil) then
@@ -170,7 +170,7 @@ end
 
 --Disables Damage Reflection
 function wall_energy:DisableDamage()
-	
+
 	local DRcomponent = reflection_helper(EntityService:GetComponent(self.entity, "ReflectDamageComponent"))
 	DRcomponent.damage_value = 0
 end
@@ -218,7 +218,7 @@ function wall_energy:DrainShield(mode)
 
 	Rcomponent.regeneration = self.decay_rate[mode]
 	Rcomponent.regeneration_cooldown = 0
-	
+
 	--Subtract 1 HP to kickstart the drain, as otherwise it won't work if fully charged
 	local Hcomponent = reflection_helper(EntityService:GetComponent(self.healthChild, "HealthComponent"))
 	Hcomponent.health = Hcomponent.health - 1
