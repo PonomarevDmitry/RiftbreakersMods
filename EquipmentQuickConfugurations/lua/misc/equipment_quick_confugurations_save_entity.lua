@@ -2,7 +2,7 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
-local QuickEquipmentSlotsUtils = require("lua/utils/equipment_quick_confugurations_utils.lua")
+local EquipmentQuickConfugurationsUtils = require("lua/utils/equipment_quick_confugurations_utils.lua")
 
 local LOAD_RESULT_FAIL    = 1
 local LOAD_RESULT_EMPTY   = 2
@@ -21,11 +21,11 @@ function equipment_quick_confugurations_save_entity:init()
     self.slotLocalizationName = self.data:GetString("slotLocalizationName")
     self.configName = self.data:GetString("configName")
 
-    local saveResultEquipment, slotsHashToSave, configContent = QuickEquipmentSlotsUtils:GetSaveEquipmentInfo( self.slotNamePrefixArray, self.configName )
+    local saveResultEquipment, slotsHashToSave, configContent = EquipmentQuickConfugurationsUtils:GetSaveEquipmentInfo( self.slotNamePrefixArray, self.configName )
 
     self.configContent = configContent
 
-    local loadResultEquipment, slotsHashCurrent = QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
+    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfugurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
 
     local slotLocalizationNameFull = "${equipment_quick_confugurations/slots/" .. self.slotLocalizationName .. '}'
 
@@ -40,7 +40,7 @@ function equipment_quick_confugurations_save_entity:init()
     
     local configNameLocal = "${equipment_quick_confugurations/configs/name/" .. self.configName .. '}'
 
-    local playerSlotsArrayEquipment = QuickEquipmentSlotsUtils:GetPlayerSlotsEquipmentInfo()
+    local playerSlotsArrayEquipment = EquipmentQuickConfugurationsUtils:GetPlayerSlotsEquipmentInfo()
 
     local confimMessage = '${voice_over/announcement/equipment_quick_confugurations/confirming}\r\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_confugurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_confugurations/confirming_end}</style>'
 
@@ -62,7 +62,7 @@ function equipment_quick_confugurations_save_entity:init()
                         confimMessage = confimMessage .. " "  .. tostring(subSlotNumber)
                     end
 
-                    local rarityStyle = '<style="' .. QuickEquipmentSlotsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
+                    local rarityStyle = '<style="' .. EquipmentQuickConfugurationsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
                     local slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
 
                     confimMessage = confimMessage .. ': ' .. slotStr
@@ -71,7 +71,7 @@ function equipment_quick_confugurations_save_entity:init()
 
                         slotDesc = slotsHashCurrent[slotConfig.Name].SubSlots[subSlotNumber]
 
-                        rarityStyle = '<style="' .. QuickEquipmentSlotsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
+                        rarityStyle = '<style="' .. EquipmentQuickConfugurationsUtils:GetRarityStyle( slotDesc.rarity ) .. '">'
                         slotStr = '<img="' .. slotDesc.icon .. '"> ' .. rarityStyle .. '${' .. slotDesc.name .. '}' .. '</style>'
 
                         confimMessage = confimMessage .. ' ${equipment_quick_confugurations/previous} ' .. slotStr
@@ -93,7 +93,7 @@ function equipment_quick_confugurations_save_entity:OnGuiPopupResultEventSaveRes
 
     if ( evt:GetResult() == "button_yes" ) then
 
-        QuickEquipmentSlotsUtils:SaveSettingKeyName( self.slotLocalizationName, self.configName, self.configContent )
+        EquipmentQuickConfugurationsUtils:SaveSettingKeyName( self.slotLocalizationName, self.configName, self.configContent )
 
         local configNameLocal = "${equipment_quick_confugurations/configs/name/" .. self.configName .. '}'
         local slotLocalizationNameFull = "${equipment_quick_confugurations/slots/" .. self.slotLocalizationName .. '}'

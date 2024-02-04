@@ -1,28 +1,11 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
-local QuickEquipmentSlotsUtils = require("lua/utils/equipment_quick_confugurations_utils.lua")
+local EquipmentQuickConfugurationsUtils = require("lua/utils/equipment_quick_confugurations_utils.lua")
 
-globalQuickEquipmentSlotsUtilsEntitiesCache = globalQuickEquipmentSlotsUtilsEntitiesCache or {}
+globalEquipmentQuickConfugurationsUtilsEntitiesCache = globalEquipmentQuickConfugurationsUtilsEntitiesCache or {}
 
 mod_quick_equipment_mode_save = 0
 
-ConsoleService:ExecuteCommand('bind / "operate_quick_equipment dash_skill QuickConfig01"')
-ConsoleService:ExecuteCommand('bind * "operate_quick_equipment dash_skill QuickConfig02"')
-ConsoleService:ExecuteCommand('bind - "operate_quick_equipment dash_skill QuickConfig03"')
-
-ConsoleService:ExecuteCommand('bind num_7 "operate_quick_equipment upgrade QuickConfig01"')
-ConsoleService:ExecuteCommand('bind num_8 "operate_quick_equipment upgrade QuickConfig02"')
-ConsoleService:ExecuteCommand('bind num_9 "operate_quick_equipment upgrade QuickConfig03"')
-
-ConsoleService:ExecuteCommand('bind num_4 "operate_eq_weapon QuickConfig01"')
-ConsoleService:ExecuteCommand('bind num_5 "operate_eq_weapon QuickConfig02"')
-ConsoleService:ExecuteCommand('bind num_6 "operate_eq_weapon QuickConfig03"')
-
-ConsoleService:ExecuteCommand('bind num_1 "operate_quick_equipment usable QuickConfig01"')
-ConsoleService:ExecuteCommand('bind num_2 "operate_quick_equipment usable QuickConfig02"')
-ConsoleService:ExecuteCommand('bind num_3 "operate_quick_equipment usable QuickConfig03"')
-
-ConsoleService:ExecuteCommand('bind num_0 "change_quick_equipment_mode_save"')
 
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( args )
@@ -57,11 +40,11 @@ ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotsName, slotsName, configName )
+        EquipmentQuickConfugurationsUtils:ShowPopupToSaveConfig( slotsName, slotsName, configName )
     else
-        local loadResult, slotsHash = QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( slotsName, slotsName, configName, true )
+        local loadResult, slotsHash = EquipmentQuickConfugurationsUtils:ReadSavedEquipmentInfoAndQuipItems( slotsName, slotsName, configName, true )
 
-        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, slotsName, configName, slotsHash)
+        EquipmentQuickConfugurationsUtils:PlayLoadAnnouncementAndSound(loadResult, slotsName, configName, slotsHash)
     end
 end)
 
@@ -77,14 +60,15 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
+        EquipmentQuickConfugurationsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
     else
 
-        local loadResult, slotsHash = QuickEquipmentSlotsUtils:ReadSavedEquipmentInfoAndQuipItems( "left_hand,right_hand", "weapon", configName, true )
+        local loadResult, slotsHash = EquipmentQuickConfugurationsUtils:ReadSavedEquipmentInfoAndQuipItems( "left_hand,right_hand", "weapon", configName, true )
 
-        QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsHash)
+        EquipmentQuickConfugurationsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsHash)
     end
 end)
+
 
 
 RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
@@ -101,15 +85,15 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
     local itemType = ItemService:GetItemType(entity)
 
-    local isRightType = QuickEquipmentSlotsUtils:IsRightType(itemType)
+    local isRightType = EquipmentQuickConfugurationsUtils:IsRightType(itemType)
     if ( not isRightType ) then
         return
     end
 
-    local itemDatabaseKey = QuickEquipmentSlotsUtils:GetOrCreateItemKey( entity )
+    local itemDatabaseKey = EquipmentQuickConfugurationsUtils:GetOrCreateItemKey( entity )
     if ( itemDatabaseKey == "" or itemDatabaseKey == nil ) then
         return
     end
 
-    globalQuickEquipmentSlotsUtilsEntitiesCache[itemDatabaseKey] = entity
+    globalEquipmentQuickConfugurationsUtilsEntitiesCache[itemDatabaseKey] = entity
 end)
