@@ -13,7 +13,7 @@ local QuickEquipmentSlotsUtils = {}
 
 function QuickEquipmentSlotsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, slotLocalizationName, configName )
 
-    local entity = EntityService:SpawnEntity( "misc/quick_equipment_slots_save_entity", 0, 0, 0, "" )
+    local entity = EntityService:SpawnEntity( "misc/equipment_quick_confugurations_save_entity", 0, 0, 0, "" )
 
     local database = EntityService:GetDatabase( entity )
     if ( database == nil ) then
@@ -607,21 +607,21 @@ end
 
 function QuickEquipmentSlotsUtils:PlayLoadAnnouncementAndSound( loadResult, slotName, configName, slotsHash )
 
-    local configNameLocal = "${quick_equipment_slots_change/configs/name/" .. configName .. '}'
-    local slotLocalizationNameFull = "${quick_equipment_slots_change/slots/" .. slotName .. '}'
+    local configNameLocal = "${equipment_quick_confugurations/configs/name/" .. configName .. '}'
+    local slotLocalizationNameFull = "${equipment_quick_confugurations/slots/" .. slotName .. '}'
 
     local localizationUnited = slotLocalizationNameFull .. ' - ' .. configNameLocal
 
     local fullAnnouncement = ""
 
     if ( loadResult == LOAD_RESULT_SUCCESS ) then
-        fullAnnouncement = '<style="header_24">${voice_over/announcement/quick_equipment_slots_change/load/success/loaded} ' .. localizationUnited .. '${voice_over/announcement/quick_equipment_slots_change/load/success/loaded_end}</style>'
+        fullAnnouncement = '<style="header_24">${voice_over/announcement/equipment_quick_confugurations/load/success/loaded} ' .. localizationUnited .. '${voice_over/announcement/equipment_quick_confugurations/load/success/loaded_end}</style>'
     elseif ( loadResult == LOAD_RESULT_FAIL ) then
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/fail/fail} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/quick_equipment_slots_change/fail/fail_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/equipment_quick_confugurations/fail/fail} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/equipment_quick_confugurations/fail/fail_end}</style>'
     elseif ( loadResult == LOAD_RESULT_EMPTY ) then
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/load/empty} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/quick_equipment_slots_change/load/empty_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/equipment_quick_confugurations/load/empty} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/equipment_quick_confugurations/load/empty_end}</style>'
     else
-        fullAnnouncement = '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/quick_equipment_slots_change/invalid/invalid_end}</style>'
+        fullAnnouncement = '${voice_over/announcement/equipment_quick_confugurations/invalid/invalid} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/equipment_quick_confugurations/invalid/invalid_end}</style>'
     end
 
     local sound = ""

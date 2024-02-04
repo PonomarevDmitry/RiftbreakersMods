@@ -1,22 +1,8 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
-local QuickEquipmentSlotsUtils = require("lua/utils/quick_equipment_slots_utils.lua")
+local QuickEquipmentSlotsUtils = require("lua/utils/equipment_quick_confugurations_utils.lua")
 
 globalQuickEquipmentSlotsUtilsEntitiesCache = globalQuickEquipmentSlotsUtilsEntitiesCache or {}
-
--- save_eq_upgrade standart
--- save_eq_upgrade standart2
-
--- save_eq_usable standart
--- save_eq_left standart
--- save_eq_right standart
-
--- load_eq_upgrade standart
--- load_eq_upgrade standart2
-
--- load_eq_usable standart
--- load_eq_left standart
--- load_eq_right standart
 
 mod_quick_equipment_mode_save = 0
 
@@ -48,11 +34,11 @@ ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( ar
     if ( mod_quick_equipment_mode_save == 1 ) then
 
         SoundService:Play( "items/weapons/bullet/small_machinegun_equipped" )
-        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_save", 0 )
+        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_confugurations_mode_save", 0 )
     else
 
         SoundService:Play( "items/weapons/energy/blaster_equipped" )
-        SoundService:PlayAnnouncement( "voice_over/announcement/quick_equipment_mode_load", 0 )
+        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_confugurations_mode_load", 0 )
     end
 end)
 
