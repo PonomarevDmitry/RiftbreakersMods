@@ -152,6 +152,184 @@ function diagonal_wall_tool:SpawnWallTemplates()
     self.ghostWall = buildingEntity
 end
 
+function diagonal_wall_tool:GetGhostBlueprintByConnectType( connectType )
+
+    for i=1,self.buildingDesc.connect.count do
+
+        local connectRecord = self.buildingDesc.connect[i]
+
+        if ( connectRecord.key == connectType and connectRecord.value.count > 0 ) then
+
+            local connectBlueprintName = connectRecord.value[1]
+
+            local buildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( connectBlueprintName ) )
+
+            return connectBlueprintName, buildingDescRef.ghost_bp
+        end
+    end
+
+    return ""
+end
+
+function diagonal_wall_tool:GetGhostBlueprintByPosition(hashPositions, newPositionX, newPositionZ)
+
+    local connectTypeStraight = 2
+    local connectTypeCorner = 4
+    local connectTypeT = 8
+    local connectTypeX = 16
+
+    local deltaXZ = 2
+
+    local hasLeft = self:HashContains( hashPositions, newPositionX, newPositionZ - deltaXZ )
+    local hasRight = self:HashContains( hashPositions, newPositionX, newPositionZ + deltaXZ )
+    local hasTop = self:HashContains( hashPositions, newPositionX + deltaXZ, newPositionZ )
+    local hasBottom = self:HashContains( hashPositions, newPositionX - deltaXZ, newPositionZ )
+
+    local neiborsCount = 0
+
+    if ( hasLeft ) then
+        neiborsCount = neiborsCount + 1
+    end
+    if ( hasRight ) then
+        neiborsCount = neiborsCount + 1
+    end
+    if ( hasTop ) then
+        neiborsCount = neiborsCount + 1
+    end
+    if ( hasBottom ) then
+        neiborsCount = neiborsCount + 1
+    end
+
+    local blueprintName = ""
+    local ghostBlueprintName = ""
+    local orientation = {}
+    orientation.x = 0
+    orientation.z = 0
+
+    if ( neiborsCount == 4 ) then
+        blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeX)
+        orientation.y = 0
+        orientation.w = 1
+
+        return blueprintName, ghostBlueprintName, orientation
+    end
+
+    if ( neiborsCount == 3 ) then
+        blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeT)
+
+        if ( not hasBottom ) then
+            orientation.y = 0
+            orientation.w = 1
+        end
+
+        if ( not hasTop ) then
+            orientation.y = -1
+            orientation.w = 0
+        end
+
+        if ( not hasLeft ) then
+            orientation.y = -0.70710682868958
+            orientation.w = 0.70710676908493
+        end
+
+        if ( not hasRight ) then
+            orientation.y = -0.70710682868958
+            orientation.w = -0.70710676908493
+        end
+
+        return blueprintName, ghostBlueprintName, orientation
+    end
+
+    if ( neiborsCount == 2 ) then
+
+        if ( hasBottom and hasTop ) then
+
+            blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeStraight)
+
+            orientation.y = 0
+            orientation.w = 1
+        end
+
+        if ( hasLeft and hasRight ) then
+
+            blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeStraight)
+
+            orientation.y = -0.70710682868958
+            orientation.w = 0.70710676908493
+        end
+
+
+
+
+
+        if ( hasTop and hasLeft ) then
+
+            blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
+
+            orientation.y = -0.70710682868958
+            orientation.w = -0.70710676908493
+        end
+
+        if ( hasTop and hasRight ) then
+
+            blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
+
+            orientation.y = 0
+            orientation.w = 1
+        end
+
+        if ( hasBottom and hasLeft ) then
+
+            blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
+
+            orientation.y = -1
+            orientation.w = 0
+        end
+
+        if ( hasBottom and hasRight ) then
+
+            blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
+
+            orientation.y = 0.70710682868958
+            orientation.w = -0.70710676908493
+        end
+
+        return blueprintName, ghostBlueprintName, orientation
+    end
+
+    blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeStraight)
+
+    if ( neiborsCount == 1 ) then
+
+        if ( hasBottom) then
+            orientation.y = 0
+            orientation.w = 1
+        end
+
+        if ( hasTop) then
+            orientation.y = 1
+            orientation.w = 0
+        end
+
+        if ( hasLeft) then
+            orientation.y = -0.70710682868958
+            orientation.w = 0.70710676908493
+        end
+
+        if ( hasRight) then
+            orientation.y = -0.70710682868958
+            orientation.w = -0.70710676908493
+        end
+
+        return blueprintName, ghostBlueprintName, orientation
+    end
+
+    orientation.y = 0
+    orientation.w = 1
+
+    return blueprintName, ghostBlueprintName, orientation
+end
+
 function diagonal_wall_tool:OnWorkExecute()
 
     self.buildCost = {}
@@ -210,9 +388,11 @@ function diagonal_wall_tool:OnWorkExecute()
 
             local lineEnt = self:GetEntityFromGrid( oldGridEntities, newPosition.x, newPosition.z )
 
+            local blueprintName, ghostBlueprintName, orientation = self:GetGhostBlueprintByPosition(hashPositions, newPosition.x, newPosition.z)
+
             if ( lineEnt == nil ) then
 
-                lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
+                lineEnt = EntityService:SpawnEntity( ghostBlueprintName, newPosition, team )
 
                 if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
                     EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
@@ -224,7 +404,6 @@ function diagonal_wall_tool:OnWorkExecute()
                 EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
 
-                EntityService:SetOrientation(lineEnt, currentTransform.orientation )
                 EntityService:SetPosition( lineEnt, newPosition)
 
                 --if ( isLogNeeded ) then
@@ -235,7 +414,14 @@ function diagonal_wall_tool:OnWorkExecute()
             --    if ( isLogNeeded ) then
             --        LogService:Log("OnWorkExecute Exists position.x " .. tostring(newPosition.x) .. " position.z " .. tostring(newPosition.z) .. " lineEnt " .. tostring(lineEnt) )
             --    end
+            else
+
             end
+
+            local buildingComponent = reflection_helper(EntityService:GetComponent( lineEnt, "BuildingComponent" ))
+            buildingComponent.bp = blueprintName
+
+            EntityService:SetOrientation( lineEnt, orientation )
 
             Insert( newLinesEntities, lineEnt )
             self:InsertEntityToGrid( newGridEntities, lineEnt, newPosition.x, newPosition.z  )
@@ -274,7 +460,7 @@ function diagonal_wall_tool:OnWorkExecute()
             local transform = EntityService:GetWorldTransform( lineEnt )
 
             self:CheckEntityBuildable( lineEnt, transform, i )
-            BuildingService:CheckAndFixBuildingConnection( lineEnt )
+            --BuildingService:CheckAndFixBuildingConnection( lineEnt )
         end
 
         self.linesEntities = newLinesEntities
