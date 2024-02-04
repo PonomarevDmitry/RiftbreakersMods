@@ -66,10 +66,12 @@ end
 
 function TemplatesSerializeUtils:DeserializeField( data )
     local scope = TemplatesSerializeUtils:FindScope( "<", ">", data )
+    if ( scope.startPos == nil or scope.endPos == nil ) then
+        return nil
+    end
 
     local namePos = string.find( data, "@" )
-
-    if ( scope.startPos == nil or scope.endPos == nil or namePos == nil ) then
+    if ( namePos == nil ) then
         return nil
     end
 
@@ -93,9 +95,12 @@ function TemplatesSerializeUtils:SerializeTable( field )
 end
 
 function TemplatesSerializeUtils:DeserializeTable( data )
-    local scope = TemplatesSerializeUtils:FindScope( "[", "]", data )
-
     local object = {}
+
+    local scope = TemplatesSerializeUtils:FindScope( "[", "]", data )
+    if ( scope.startPos == nil or scope.endPos == nil ) then
+        return object
+    end
 
     local tableData = string.sub( data, scope.startPos + 1, scope.endPos - 1 )
     while tableData ~= nil do
@@ -107,7 +112,7 @@ function TemplatesSerializeUtils:DeserializeTable( data )
 
         tableData = string.sub( tableData, keyInfo.endPos + 1 )
 
-        Assert( keyInfo.name == "key", "Deserialization: expected `key` got `" .. keyInfo.name .. "`" )
+        Assert( keyInfo.name == "key", "TemplatesSerializeUtils:Deserialization: expected `key` got `" .. keyInfo.name .. "`" )
 
         local valueInfo = TemplatesSerializeUtils:DeserializeField( tableData )
         if ( valueInfo == nil ) then
@@ -116,7 +121,7 @@ function TemplatesSerializeUtils:DeserializeTable( data )
 
         tableData = string.sub( tableData, valueInfo.endPos + 1 )
 
-        Assert( valueInfo.name == "value", "Deserialization: expected `value` got `" .. valueInfo.name .. "`" )
+        Assert( valueInfo.name == "value", "TemplatesSerializeUtils:Deserialization: expected `value` got `" .. valueInfo.name .. "`" )
 
         if #tableData == 0 then
             tableData = nil
@@ -130,6 +135,10 @@ end
 
 function TemplatesSerializeUtils:DeserializeObject( data )
     local pos = string.find( data, "=" )
+
+    if ( pos == nil ) then
+        return nil
+    end
 
     local type = string.sub( data, 1, pos - 1 )
     local value = string.sub( data, pos + 1 )
