@@ -23,6 +23,19 @@ function place_ruin_after_sell_script:init()
     self.position = self.transform.position
     self.orientation = self.transform.orientation
 
+    if ( not EntityService:IsAlive( self.targetEntity ) ) then
+        self:DestroySelf()
+        return
+    end
+
+    local targetEntityBlueprintName = EntityService:GetBlueprintName(self.targetEntity)
+
+    local list = BuildingService:GetBuildCosts( targetEntityBlueprintName, self.playerId )
+    if ( #list == 0 ) then
+        self:DestroySelf()
+        return
+    end
+
     self:RegisterHandler( self.targetEntity, "BuildingSellEndEvent", "OnBuildingSellEndEvent" )
 
     local database = EntityService:GetDatabase( self.targetEntity )
@@ -30,7 +43,7 @@ function place_ruin_after_sell_script:init()
         return
     end
 
-    local targetEntityLowNameKeyPrefix = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.targetEntity) ) .. "_"
+    local targetEntityLowNameKeyPrefix = BuildingService:FindLowUpgrade( targetEntityBlueprintName ) .. "_"
 
     self.databaseStringValues = {}
     self.databaseFloatValues = {}

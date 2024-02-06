@@ -113,29 +113,30 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
-    local ruinsBlueprint = blueprintName .. "_ruins"
+    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    if ( #list > 0 ) then
 
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
-        return
+        local ruinsBlueprintName = blueprintName .. "_ruins"
+
+        if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
+
+            local team = EntityService:GetTeam( entity )
+
+            local transform = EntityService:GetWorldTransform( entity )
+
+            local position = transform.position
+            local orientation = transform.orientation
+
+
+            local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
+
+            local database = EntityService:GetDatabase( placeRuinScript )
+
+            database:SetInt( "player_id", self.playerId )
+            database:SetInt( "target_entity", entity )
+            database:SetString( "ruins_blueprint", ruinsBlueprintName )
+        end
     end
-
-    local team = EntityService:GetTeam( entity )
-
-    local transform = EntityService:GetWorldTransform( entity )
-
-    local position = transform.position
-    local orientation = transform.orientation
-
-
-    local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
-
-    local database = EntityService:GetDatabase( placeRuinScript )
-
-    database:SetInt( "player_id", self.playerId )
-    database:SetInt( "target_entity", entity )
-    database:SetString( "ruins_blueprint", ruinsBlueprint )
-
-
 
     QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
 end
