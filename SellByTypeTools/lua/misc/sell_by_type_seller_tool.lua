@@ -269,28 +269,33 @@ end
 
 function sell_by_type_seller_tool:OnActivateEntity( entity )
 
-    local team = EntityService:GetTeam( entity )
-
-    local transform = EntityService:GetWorldTransform( entity )
-
-    local position = transform.position
-    local orientation = transform.orientation
-
-    local blueprintName = EntityService:GetBlueprintName( entity )
-
     if ( self.placeRuins ) then
 
-        local ruinsBlueprintName = blueprintName .. "_ruins"
+        local blueprintName = EntityService:GetBlueprintName( entity )
 
-        if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+        if ( #list > 0 ) then
 
-            local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
+            local ruinsBlueprintName = blueprintName .. "_ruins"
 
-            local database = EntityService:GetDatabase( placeRuinScript )
+            if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
 
-            database:SetInt( "player_id", self.playerId )
-            database:SetInt( "target_entity", entity )
-            database:SetString( "ruins_blueprint", ruinsBlueprintName )
+                local team = EntityService:GetTeam( entity )
+
+                local transform = EntityService:GetWorldTransform( entity )
+
+                local position = transform.position
+                local orientation = transform.orientation
+
+
+                local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
+
+                local database = EntityService:GetDatabase( placeRuinScript )
+
+                database:SetInt( "player_id", self.playerId )
+                database:SetInt( "target_entity", entity )
+                database:SetString( "ruins_blueprint", ruinsBlueprintName )
+            end
         end
     end
 
