@@ -1,31 +1,23 @@
-import * from "materials/scripts/units_base.material"
+import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/buildings_base.material"
 
 material misc/area_center_point
 {
-	render_group	160
+	render_group	200
 	technique
 	{
 		pass
 		{
-			depth_write	on
-			depth_check	on
+			depth_write		off
+			depth_check		off
 			cull_hardware	none
 
-			glow	7.5
+			scene_blend		alpha_blend
 
-			check			on
+			check			off
 			comp_func		always_pass
 			pass_op			increment
-			two_sided		on
-
-			vertex_program_ref	deferred_gbuffer_vp
-			{
-			}
-
-			fragment_program_ref	deferred_damage_buildings_fp
-			{
-
-			}
+			two_sided		off
 
 			vertex_program_ref	deferred_gbuffer_vp
 			{
