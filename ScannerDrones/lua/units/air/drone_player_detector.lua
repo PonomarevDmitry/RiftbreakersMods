@@ -130,21 +130,35 @@ function drone_player_detector:OnWorkInProgress()
 			EntityService:SetGraphicsUniform( self.effectScanner, "cCenterPos", itemPos.x, itemPos.y, itemPos.z )
 			EntityService:SetGraphicsUniform( self.effectScanner, "cRadius", radius )
 
+			local noSound = (mod_scanner_drone_no_sound and mod_scanner_drone_no_sound == 1)
+
 			if type == "enemy" then
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
+
+				if ( not noSound ) then
+					PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
+				end
+				
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 1 )
 			else
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+
+				if ( not noSound ) then
+					PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+				end
+
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 0 )
 			end
 
-			if ( mode > 2 ) then
+			if ( not noSound ) then
+				if ( self.effect ~= INVALID_ID and self.effect ~= nil ) then
+					if ( mode > 2 ) then
 
-				factor = Clamp(factor, 0.0, 0.999)
+						factor = Clamp(factor, 0.0, 0.999)
 
-				SoundService:SetSynthParam( self.effect, "latency", 1.0 / ( 1.0 - factor ) / 25.0 )
-			else
-				SoundService:SetSynthParam( self.effect, "latency", 1.0 )
+						SoundService:SetSynthParam( self.effect, "latency", 1.0 / ( 1.0 - factor ) / 25.0 )
+					else
+						SoundService:SetSynthParam( self.effect, "latency", 1.0 )
+					end
+				end
 			end
 
 			if ( type ~= "enemy") then
@@ -170,14 +184,13 @@ function drone_player_detector:OnWorkInProgress()
 
 		EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
 
-		if ( self.effect ~= INVALID_ID ) then
-
+		if ( self.effect ~= INVALID_ID and self.effect ~= nil ) then
 			EntityService:RemoveEntity( self.effect )
-			self.effect = INVALID_ID
-
-			self.type = ""
-			self.lastFactor = -1;
 		end
+		self.effect = INVALID_ID
+
+		self.type = ""
+		self.lastFactor = -1
 	end
 end
 
@@ -361,7 +374,10 @@ function drone_player_detector:CheckAndSpawnEffect( ent, type, factor )
 	local oldMode = self:GetModeFromFactor( self.lastFactor )
 
 	if ( type ~= self.type or mode ~= oldMode or ( ent ~= self.oldEnt and self.oldEnt ~= INVALID_ID ) ) then
-		EntityService:RemoveEntity( self.effect )
+
+		if ( self.effect ~= INVALID_ID and self.effect ~= nil ) then
+			EntityService:RemoveEntity( self.effect )
+		end
 		self.effect = INVALID_ID
 		self.type = ""
 	end
@@ -371,11 +387,26 @@ function drone_player_detector:CheckAndSpawnEffect( ent, type, factor )
 	if( self.effect == nil or self.effect == INVALID_ID ) then
 		self.type = type
 
+		local effectName = "effects/mech/treasure_finder_beep_infinite"
+
 		if ( type == "enemy" ) then
-			self.effect = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite_red", self.entity, "att_detector", "" )
-			return 3
+			effectName = "effects/mech/treasure_finder_beep_infinite_red"
+		end
+
+		local noSound = (mod_scanner_drone_no_sound and mod_scanner_drone_no_sound == 1)
+
+		if ( noSound ) then
+			if ( self.effect ~= INVALID_ID and self.effect ~= nil ) then
+				EntityService:RemoveEntity( self.effect )
+			end
+			self.effect = INVALID_ID
 		else
-			self.effect = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite", self.entity, "att_detector", "" )
+
+			self.effect = EntityService:SpawnAndAttachEntity( effectName, self.entity, "att_detector", "" )
+		end
+
+		if ( type == "enemy" ) then
+			return 3
 		end
 	end
 
@@ -386,10 +417,14 @@ function drone_player_detector:OnRelease()
 
 	PlayerService:StopPadHapticFeedback( 0 )
 
-	EntityService:RemoveEntity( self.effect )
+	if ( self.effect ~= INVALID_ID and self.effect ~= nil ) then
+		EntityService:RemoveEntity( self.effect )
+	end
 	self.effect = INVALID_ID
 
-	EntityService:RemoveEntity( self.effectScanner )
+	if ( self.effectScanner ~= INVALID_ID and self.effectScanner ~= nil ) then
+		EntityService:RemoveEntity( self.effectScanner )
+	end
 	self.effectScanner = INVALID_ID
 
 	if ( base_drone.OnRelease ) then
