@@ -3,41 +3,47 @@ import * from "materials/scripts/buildings_base.material"
 
 material buildings/energy/energy_line
 {
-	render_group 160
+	render_group	108
 	technique
 	{
 		pass
 		{
-			depth_write on
-			depth_check on
-			cull_hardware none
+			depth_write		off
+			depth_check		off
 
-			glow 7.5
+			scene_blend	alpha_blend
 
-			check       	on
-			comp_func   	always_pass
-			pass_op   		increment
-			two_sided   	on
-
-			vertex_program_ref deferred_gbuffer_vp
+			vertex_program_ref	unlit_fresnel_vp
 			{
 			}
 
-			fragment_program_ref deferred_damage_buildings_fp
+			fragment_program_ref	unlit_fresnel_fp
 			{
 
-			}
-
-			texture_unit albedo
-			{
-				texture materials/textures/buildings/energy/invisible_energy_line.dds
-				filtering anisotropic
-				max_anisotropy 16
 			}
 		}
 	}
 }
 
 material buildings/energy/energy_line_dissolve : buildings/energy/energy_line
+{
+}
+
+
+
+material buildings/energy/energy_line_skinned : buildings/energy/energy_line
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref unlit_fresnel_skinned_vp
+			{
+			}
+		}
+	}
+}
+
+material buildings/energy/energy_line_skinned_dissolve : buildings/energy/energy_line_skinned
 {
 }
