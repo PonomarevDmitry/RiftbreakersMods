@@ -3,36 +3,23 @@ import * from "materials/scripts/buildings_base.material"
 
 material misc/area_center_point
 {
-	render_group	200
+	render_group	108
 	technique
 	{
 		pass
 		{
 			depth_write		off
 			depth_check		off
-			cull_hardware	none
 
-			scene_blend		alpha_blend
+			scene_blend	alpha_blend
 
-			check			off
-			comp_func		always_pass
-			pass_op			increment
-			two_sided		off
-
-			vertex_program_ref	deferred_gbuffer_vp
+			vertex_program_ref	unlit_fresnel_vp
 			{
 			}
 
-			fragment_program_ref	deferred_damage_buildings_fp
+			fragment_program_ref	unlit_fresnel_fp
 			{
 
-			}
-
-			texture_unit	albedo
-			{
-				texture	materials/textures/misc/area_center_point.dds
-				filtering	anisotropic
-				max_anisotropy	16
 			}
 		}
 	}
