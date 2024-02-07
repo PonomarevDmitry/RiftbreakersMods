@@ -100,9 +100,15 @@ end
 
 function loot_collector_drone:OnUpdate()
     local position = EntityService:GetPosition(self.loot_picker)
-    position.y = EnvironmentService:GetTerrainHeight(position)
 
-    EntityService:SetWorldPosition(self.loot_picker, position)
+    local terrainHeight = EnvironmentService:GetTerrainHeight(position)
+
+    if ( position.y ~= terrainHeight ) then
+
+        position.y = EnvironmentService:GetTerrainHeight(position)
+
+        EntityService:SetWorldPosition(self.loot_picker, position)
+    end
 
     local loot_target = self:GetDroneActionTarget()
     if EntityService:IsAlive(loot_target) and self.is_enabled then
