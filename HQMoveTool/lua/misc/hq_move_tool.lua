@@ -425,12 +425,8 @@ function hq_move_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
-    local invertRotationConfig = mod_invert_rotation or 0
-
-    invertRotationConfig = tonumber(invertRotationConfig)
-
     -- Inverting rotation
-    if ( invertRotationConfig == 1 ) then
+    if ( mod_invert_rotation ~= nil and mod_invert_rotation == 1 ) then
         degree = -degree
     end
 
