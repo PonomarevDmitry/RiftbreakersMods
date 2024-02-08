@@ -609,6 +609,10 @@ function selector:OnRotateSelectorRequest( evt )
 
         local degree = evt:GetDegree()
 
+        if ( mod_changeable_area_invert_rotation ~= nil and mod_changeable_area_invert_rotation == 1 ) then
+            degree = - degree
+        end
+
         if ( degree > 0 and #self.activatedEntities > 0 ) then
 
             local transform = EntityService:GetWorldTransform( self.entity )
