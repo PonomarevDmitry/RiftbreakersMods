@@ -368,6 +368,10 @@ function harvesting_buildings_drone_point_picker_tool:OnRotateSelectorRequest(ev
 
     local degree = evt:GetDegree()
 
+    if ( mod_changeable_area_invert_rotation ~= nil and mod_changeable_area_invert_rotation == 1 ) then
+        degree = - degree
+    end
+
     if ( degree > 0 ) then
 
         if ( #self.pickedBuildings == 0 ) then
