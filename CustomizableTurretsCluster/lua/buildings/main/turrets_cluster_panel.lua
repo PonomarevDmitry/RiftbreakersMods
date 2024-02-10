@@ -35,6 +35,78 @@ function turrets_cluster_panel:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+
+    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
+end
+
+function turrets_cluster_panel:OnOperateActionMenuEvent()
+
+    local player_id = 0
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
+
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
+    if ( turretsClusterItem == INVALID_ID ) then
+        turretsClusterItem = ItemService:AddItemToInventory( player, "items/consumables/turrets_cluster_standard_item" )
+    end
+
+    LogService:Log("OnOperateActionMenuEvent turretsClusterItem " .. tostring(turretsClusterItem) )
+
+    if ( turretsClusterItem == INVALID_ID ) then
+        return
+    end
+
+    local database = EntityService:GetDatabase( turretsClusterItem )
+    if ( database == nil ) then
+        return
+    end
+
+    LogService:Log("OnOperateActionMenuEvent turretsClusterItem " .. tostring(turretsClusterItem) )
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ~= nil ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            local keyName = "turrets_cluster_" .. slot.name
+
+            local itemBlueprintName = ""
+
+            if ( database:HasString(keyName) ) then
+                itemBlueprintName = database:GetStringOrDefault(keyName, "") or ""
+            end
+
+            LogService:Log("OnOperateActionMenuEvent itemBlueprintName " .. tostring(itemBlueprintName) )
+
+            if ( itemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", itemBlueprintName ) ) then
+
+                local item = ItemService:GetFirstItemForBlueprint( self.entity, itemBlueprintName )
+
+                if ( item == INVALID_ID ) then
+                    item = ItemService:AddItemToInventory( self.entity, itemBlueprintName )
+                end
+
+                if ( item ~= INVALID_ID ) then
+
+                    LogService:Log("OnOperateActionMenuEvent item " .. tostring(item) )
+
+                    QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, item )
+
+                    LogService:Log("OnOperateActionMenuEvent EquipmentChangeRequest item " .. tostring(item) )
+                else
+                    QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
+                end
+            else
+                QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
+
+                LogService:Log("OnOperateActionMenuEvent EquipmentChangeRequest INVALID_ID " )
+            end
+        end
+    end    
 end
 
 function turrets_cluster_panel:OnItemEquippedEvent( evt )

@@ -27,7 +27,6 @@ end
 function turrets_cluster:OnActivate()
 
     local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
-
     if ( pos.first == false ) then
         return
     end
@@ -39,13 +38,13 @@ function turrets_cluster:OnActivate()
 
     for i=1,3 do
 
-        local modItem = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
 
-        LogService:Log("OnActivate modItem " .. tostring(modItem))
+        LogService:Log("OnActivate modItemBlueprint " .. tostring(modItemBlueprint))
 
-        if ( modItem ~= nil and modItem ~= "" ) then
+        if ( modItemBlueprint ~= nil and modItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
 
-            local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem )
+            local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
 
             if ( blueprintDatabase and blueprintDatabase:HasString("blueprint") ) then
 
@@ -59,8 +58,6 @@ function turrets_cluster:OnActivate()
                 local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
                 ItemService:SetItemCreator( tower, self.entity_blueprint )
                 EntityService:DissolveEntity( tower, 1.0, timeout )
-
-                local sizeTower = EntityService:GetBoundsSize( tower )
 
                 position.z = position.z + 2
 
@@ -80,25 +77,22 @@ function turrets_cluster:CanActivate()
         return false
     end
 
+    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
+    if ( pos.first == false ) then
+        return false
+    end
+
     for i=1,3 do
 
-        local modItem = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
 
-        if ( modItem ~= nil and modItem ~= "" ) then
+        if ( modItemBlueprint ~= nil and modItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
 
-            local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem )
+            local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
 
             if ( blueprintDatabase and blueprintDatabase:HasString("blueprint") ) then
 
-                local turretBlueprint = blueprintDatabase:GetString("blueprint")
-                local timeout = blueprintDatabase:GetFloatOrDefault("timeout", 20.0)
-
-                local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, turretBlueprint, "", "")
-
-                if ( pos.first ) then
-
-                    return true
-                end
+                return true
             end
         end
     end
