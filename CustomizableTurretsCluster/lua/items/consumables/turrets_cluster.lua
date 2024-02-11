@@ -8,13 +8,12 @@ end
 
 function turrets_cluster:OnInit()
 
-    LogService:Log("OnInit ")
-
+    if ( item.OnInit ) then
+        item.OnInit(self)
+    end
 end
 
 function turrets_cluster:OnLoad()
-
-    LogService:Log("OnLoad ")
 
     if ( item.OnLoad ) then
         item.OnLoad(self)
@@ -42,28 +41,39 @@ function turrets_cluster:OnActivate()
 
         LogService:Log("OnActivate modItemBlueprint " .. tostring(modItemBlueprint))
 
-        if ( modItemBlueprint ~= nil and modItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
-
-            local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
-
-            if ( blueprintDatabase and blueprintDatabase:HasString("blueprint") ) then
-
-                LogService:Log("OnActivate position.x " .. tostring(position.x) .. " position.y " .. tostring(position.y) .. " position.z " .. tostring(position.z))
-
-                local turretBlueprint = blueprintDatabase:GetString("blueprint")
-                local timeout = blueprintDatabase:GetFloatOrDefault("timeout", 20.0)
-
-                LogService:Log("OnActivate turretBlueprint " .. tostring(turretBlueprint))
-
-                local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
-                ItemService:SetItemCreator( tower, self.entity_blueprint )
-                EntityService:DissolveEntity( tower, 1.0, timeout )
-
-                position.z = position.z + 2
-
-                LogService:Log("OnActivate tower " .. tostring(tower))
-            end
+        if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
+            goto continue
         end
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
+            goto continue
+        end
+
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
+        if ( blueprintDatabase == nil ) then
+            goto continue
+        end
+
+        if ( not blueprintDatabase:HasString("blueprint") ) then
+            goto continue
+        end
+
+        LogService:Log("OnActivate position.x " .. tostring(position.x) .. " position.y " .. tostring(position.y) .. " position.z " .. tostring(position.z))
+
+        local turretBlueprint = blueprintDatabase:GetString("blueprint")
+        local timeout = blueprintDatabase:GetFloatOrDefault("timeout", 20.0)
+
+        LogService:Log("OnActivate turretBlueprint " .. tostring(turretBlueprint))
+
+        local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
+        ItemService:SetItemCreator( tower, self.entity_blueprint )
+        EntityService:DissolveEntity( tower, 1.0, timeout )
+
+        position.z = position.z + 2
+
+        LogService:Log("OnActivate tower " .. tostring(tower))
+
+        ::continue::
     end
 end
 
