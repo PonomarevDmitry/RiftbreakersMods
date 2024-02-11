@@ -245,45 +245,46 @@
 --    if (evt ~= nil) then
 --
 --        local entity = evt:GetEntity()
---        local entityName = EntityService:GetBlueprintName( entity )
 --
 --        local research = evt:GetResearch()
 --
---        --local playerId = evt:GetPlayerId()
+--        local playerId = evt:GetPlayerId()
 --
 --        text = text .. "\n" .. "research " .. tostring(research)
 --
---        --text = text .. "\n" .. "playerId " .. tostring(playerId)
+--        text = text .. "\n" .. "playerId " .. tostring(playerId)
 --
---        text = text .. "\n" .. "entityName " .. tostring(entityName)
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
 --
---        text = text .. "\n" .. "entity " .. tostring(entity)
---
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
 --end)
 
---RegisterGlobalEventHandler("AddToResearchEvent", function(evt)
+--RegisterGlobalEventHandler("AddedToResearchEvent", function(evt)
 --
---    local text = "AddToResearchEvent " .. tostring(evt)
+--    local text = "AddedToResearchEvent " .. tostring(evt)
 --
 --    if (evt ~= nil) then
 --
 --        local entity = evt:GetEntity()
---        local entityName = EntityService:GetBlueprintName( entity )
 --
 --        local name = evt:GetName()
 --
---        --local teamId = evt:GetTeamId()
+--        local teamId = evt:GetTeamId()
 --
 --        text = text .. "\n" .. "name " .. tostring(name)
 --
---        --text = text .. "\n" .. "teamId.idx " .. tostring(teamId.idx)
+--        if ( teamId ~= nil ) then
+--            text = text .. "\n" .. "teamId " .. tostring(teamId)
+--        end
 --
---        text = text .. "\n" .. "entityName " .. tostring(entityName)
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
 --
---        text = text .. "\n" .. "entity " .. tostring(entity)
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
@@ -298,19 +299,19 @@
 --    if (evt ~= nil) then
 --
 --        local entity = evt:GetEntity()
---        local entityName = EntityService:GetBlueprintName( entity )
 --
 --        local research = evt:GetResearch()
 --
---        --local playerId = evt:GetPlayerId()
+--        local playerId = evt:GetPlayerId()
 --
 --        text = text .. "\n" .. "research " .. tostring(research)
 --
---        --text = text .. "\n" .. "playerId " .. tostring(playerId)
+--        text = text .. "\n" .. "playerId " .. tostring(playerId)
 --
---        text = text .. "\n" .. "entityName " .. tostring(entityName)
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
 --
---        text = text .. "\n" .. "entity " .. tostring(entity)
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
@@ -323,19 +324,42 @@
 --    if (evt ~= nil) then
 --
 --        local entity = evt:GetEntity()
---        local entityName = EntityService:GetBlueprintName( entity )
 --
 --        local name = evt:GetName()
 --
---        --local teamId = evt:GetTeamId()
+--        local teamId = evt:GetTeamId()
 --
 --        text = text .. "\n" .. "name " .. tostring(name)
 --
---        --text = text .. "\n" .. "teamId.idx " .. tostring(teamId.idx)
+--        if ( teamId ~= nil ) then
+--            text = text .. "\n" .. "teamId " .. tostring(teamId)
+--        end
 --
---        text = text .. "\n" .. "entityName " .. tostring(entityName)
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
 --
---        text = text .. "\n" .. "entity " .. tostring(entity)
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+
+--RegisterGlobalEventHandler("NewReseachAvailableEvent", function(evt)
+--
+--    local text = "NewReseachAvailableEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        local name = evt:GetName()
+--
+--        text = text .. "\n" .. "name " .. tostring(name)
+--
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
@@ -352,34 +376,36 @@
 --    if (evt ~= nil) then
 --
 --        local entity = evt:GetEntity()
---        local entityName = EntityService:GetBlueprintName( entity )
 --
 --        local name = evt:GetName()
 --
---        --local teamId = evt:GetTeamId()
+--        local teamId = evt:GetTeamId()
 --
 --        local emptyCosts = evt:GetEmptyCosts()
 --
 --        text = text .. "\n" .. "name " .. tostring(name)
 --
---        --text = text .. "\n" .. "teamId.idx " .. tostring(teamId.idx)
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        if ( teamId ~= nil ) then
+--            text = text .. "\n" .. "teamId " .. tostring(teamId)
+--        end
 --
 --        text = text .. "\n" .. "emptyCosts " .. tostring(emptyCosts)
---
---        text = text .. "\n" .. "entityName " .. tostring(entityName)
---
---        text = text .. "\n" .. "entity " .. tostring(entity)
 --
 --        --local awards = evt:GetAwards()
 --        --if ( awards ~= nil ) then
 --        --
---        --    for i=1,awards.count do
+--        --    for i=1,#awards do
 --        --    
 --        --        local award = awards[i]
 --        --
 --        --        text = text .. "\n" .. "award index " .. tostring(i) .. " blueprint " .. tostring(award.blueprint) .. " is_visible " .. tostring(award.is_visible)
 --        --    end
 --        --end
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
 --    end
 --
 --    LogService:Log(text)
