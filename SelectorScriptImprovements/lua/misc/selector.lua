@@ -253,9 +253,18 @@ function selector:FindEntitiesToSelect( selectorComponent)
     local min = VectorSub(position, self.boundsSize )
     local max = VectorAdd(position, self.boundsSize )
     local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
-    if ( #possibleSelectedEnts == 0 ) then
-        local min = VectorSub(position, VectorMulByNumber( self.boundsSize, 0.5) )
-        local max = VectorAdd(position, VectorMulByNumber( self.boundsSize, 0.5) )
+
+    local scaleSelector = 0
+    local stepScaleSelector = 0.5
+    local maxScaleSelector = 2
+
+    while (#possibleSelectedEnts == 0 and scaleSelector < maxScaleSelector) do
+
+        scaleSelector = scaleSelector + stepScaleSelector
+
+        min = VectorSub(position, VectorMulByNumber( self.boundsSize, scaleSelector) )
+        max = VectorAdd(position, VectorMulByNumber( self.boundsSize, scaleSelector) )
+
         possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, self.predicate );
     end
 
@@ -584,10 +593,6 @@ function selector:ResizeFloor( degree )
 
     -- Saving resizeScale for all floors
     self.resizeScale["Floors"] = savedValue
-
-    if ( self.OnUpdate ) then
-        self:OnUpdate()
-    end
 end
 
 function selector:RotateBuilding( degree )
