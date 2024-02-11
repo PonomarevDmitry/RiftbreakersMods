@@ -43,6 +43,9 @@ function turrets_cluster_panel:OnOperateActionMenuEvent()
 
     local player_id = 0
     local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if ( player == INVALID_ID or player == nil ) then
+        return
+    end
 
     local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
     if ( turretsClusterItem == INVALID_ID ) then
@@ -124,9 +127,11 @@ function turrets_cluster_panel:OnItemEquippedEvent( evt )
 
     local player_id = 0
     local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if ( player == INVALID_ID or player == nil ) then
+        return
+    end
 
     local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
-
     if ( turretsClusterItem == INVALID_ID ) then
         turretsClusterItem = ItemService:AddItemToInventory( player, "items/consumables/turrets_cluster_standard_item" )
     end
@@ -147,6 +152,9 @@ function turrets_cluster_panel:OnItemUnequippedEvent( evt )
 
     local player_id = 0
     local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if ( player == INVALID_ID or player == nil ) then
+        return
+    end
 
     local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
 
