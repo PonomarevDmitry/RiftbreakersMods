@@ -60,6 +60,13 @@ function activate_all_bioanomalies:OnActivate()
                     goto continue
                 end
 
+                local idComponentName = EntityService:GetName( entity )
+
+                -- Ignore Into Dark Anomaly to do not create a soft lock. 
+                if ( idComponentName == "dlc_2_anomaly" ) then
+                    goto continue
+                end
+
                 local interactiveComponent = EntityService:GetComponent( entity, "InteractiveComponent" )
                 if ( interactiveComponent == nil ) then
                     goto continue
@@ -77,7 +84,7 @@ function activate_all_bioanomalies:OnActivate()
                 end
 
                 local databaseEntity = EntityService:GetDatabase( entity )
-                if ( databaseEntity ) then
+                if ( databaseEntity ~= nil ) then
                     databaseEntity:SetFloat( "harvest_duration", 2.5 )
                 end
 
