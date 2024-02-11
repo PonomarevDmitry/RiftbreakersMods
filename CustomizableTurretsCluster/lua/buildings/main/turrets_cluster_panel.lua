@@ -39,6 +39,15 @@ function turrets_cluster_panel:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
 
+function turrets_cluster_panel:OnBuildingEnd()
+
+    if ( building.OnBuildingEnd ) then
+        building.OnBuildingEnd(self)
+    end
+
+    self:OnOperateActionMenuEvent()
+end
+
 function turrets_cluster_panel:OnOperateActionMenuEvent()
 
     local player_id = 0
