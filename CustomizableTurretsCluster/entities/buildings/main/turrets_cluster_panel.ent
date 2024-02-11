@@ -25,11 +25,23 @@ EntityBlueprint
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 5
+				building_time 1
 				building_cost
 				{
-					carbonium 	"100"
+					carbonium 	"10"
 				}
+			}
+		}
+	}
+
+	ResourceStorageDesc
+	{
+		Storages
+		{
+			Storage
+			{
+				resource	"energy"
+				max			"0"
 			}
 		}
 	}
@@ -40,104 +52,66 @@ EntityBlueprint
 
 		database
 		{
-			cone_effect			string:"build_cone_3x3"
-			cone_effect_sell	string:"sell_big"
+			cone_effect			string:"build_cone_1x1"
+			cone_effect_sell	string:"sell_small"
 		}
 
 	}
 
 	HealthDesc
 	{
-		max_health 					"1000"
-		health 						"1000"
+		max_health 					"100"
+		health 						"100"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
 		update_health_uniform 		"1"
 
+
 		DestructionLevels
 		{
 			DestructionLevel
 			{
-				health 								"80"
-				destroy_state_change_effect_group 	"80_transition"
-				destroy_comp_delay 					"0.5"
-				destroy_comp_event 					"80_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_50"
-				destroyed_state_effect_group 		"80_state"
-				destrucion_level_name 				"80"
-
-			}
-			DestructionLevel
-			{
-				health 								"60"
-				destroy_state_change_effect_group 	"60_transition"
-				destroy_comp_delay 					"0.5"
-				destroy_comp_event 					"60_destroy"
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
 				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
-				destroyed_state_effect_group 		"60_state"
-				destrucion_level_name 				"60"
+				destroyed_state_effect_group 		"66_state"
 			}
 			DestructionLevel
 			{
-				health 								"40"
-				destroy_state_change_effect_group 	"40_transition"
-				destroy_comp_delay 					"0.5"
-				destroy_comp_event 					"40_destroy"
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
 				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
-				destroyed_state_effect_group 		"40_state"
-				destrucion_level_name 				"40"
-			}
-			DestructionLevel
-			{
-				health 								"20"
-				destroy_state_change_effect_group 	"20_transition"
-				destroy_comp_delay 					"0.5"
-				destroy_comp_event 					"20_destroy"
-				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
-				destroyed_state_effect_group 		"20_state"
-				destrucion_level_name 				"20"
-			}
-			DestructionLevel
-			{
-				health 								"0"
-				destroy_state_change_effect_group 	"0_transition"
-				destroy_comp_delay 					"0.6"
-				destroy_comp_event 					"default"
-				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
-				//destroyed_state_effect_group 		"0_state"
+				destroyed_state_effect_group 		"33_state"
 			}
 		}
 	}
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/main/seismic_laboratory.mesh"
-		material "buildings/main/seismic_laboratory"
-
+		mesh "meshes/buildings/decorations/future_city_hologram_01.mesh"
 		SubMeshes
 		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/decorations/future_city"
+			}
 			SubMesh
 			{
 				id "1"
-				material "buildings/main/seismic_laboratory_screen"
+				material "buildings/decorations/future_city_posters"
 			}
 		}
+
 	}
 
 	TypeDesc
 	{
-		type "building|resource"
-	}
-
-	SkeletonDesc
-	{
-		name "meshes/buildings/main/seismic_laboratory"
-	}
-
-	AnimationGraphDesc
-	{
-	  animation_graph_name "building_working"
+		type "building|main"
 	}
 
 	PhysicsDesc
@@ -150,21 +124,23 @@ EntityBlueprint
 				group_id 			"building"
 				physics_material 	"default"
 				Shapes
-			{
-			PhysicsSphereShape
-			{
-				r "2.45"
-
-				position
 				{
-					x "0.0"
-					y "1.0"
-					z "0.0"
+					PhysicsBoxShape
+					{
+						x "2.2"
+						y "3.3"
+						z "2.2"
+
+						position
+						{
+							x "0"
+							y "1.65"
+							z "0.0"
+						}
+					}
 				}
 			}
 		}
-	}
-	}
 	}
 
 	NodeCullerDesc
@@ -180,9 +156,9 @@ EntityBlueprint
 		{
 			PhysicsBoxShape
 			{
-				x	4
-				y	4
-				z	4
+				x	2
+				y	2
+				z	2
 			}
 		}
 	}
@@ -192,18 +168,17 @@ EntityBlueprint
 		type	"quad"
 		color
 		{
-			x "0.5"
-			y "0.5"
+			x "1"
+			y "1"
 			z "1"
 			w "1"
 		}
 		size
 		{
-			x "3"
-			y "3"
+			x "1"
+			y "1"
 		}
 
-		additional_z_order	"5"
 		visibility			"always"
 	}
 
@@ -216,12 +191,6 @@ EntityBlueprint
 	{
 		type "2"
 		mode "1"
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"2000"
-		explosion_min_power 	"1000"
 	}
 
 	EquipmentComponent
@@ -269,96 +238,65 @@ EntityBlueprint
 		{
 			Pair
 			{
-				key "80_destroy"
+				key "66_destroy"
 				value
 				{
 					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"3000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
 					part_physics_material   "debris_heavy"
 					part_material 			"misc/building_parts_generic"
-					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"
 					part_lifetime "3"
 				}
 			}
 			Pair
 			{
-				key "60_destroy"
+				key "33_destroy"
 				value
 				{
 					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"3000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_medium"
 					part_physics_material   "debris_heavy"
 					part_material 			"misc/building_parts_generic"
-					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"
 					part_lifetime "3"
 				}
 			}
 			Pair
 			{
-				key "40_destroy"
 				value
 				{
 					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"3000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_building_smoke_big"
 					part_physics_material   "debris_heavy"
 					part_material 			"misc/building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_effect 			"effects/projectiles_and_trails/smoke_trail_small_random"
 					part_lifetime "3"
 				}
-			}
-			Pair
-			{
-				key "20_destroy"
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"3000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
-					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-					part_lifetime "3"
-				}
-			}
-			Pair
-			{
+
 				key "default"
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"3000"
-					//explosion_effect 		"effects/buildings_generic/explosion_building_small_01"
-					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					part_prefix 			"meshes/misc/building_large_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-					part_lifetime "3"
-				}
 			}
 			Pair
 			{
 				value
 				{
 					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"3000"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
 					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
 					part_physics_material   "debris_heavy"
 					part_material 			"misc/building_parts_generic"
 					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
 					part_lifetime "3"
 				}
 
@@ -371,7 +309,50 @@ EntityBlueprint
 	{
 		EffectBaseBlueprints
 		{
-			"buildings/effects_medium_base"
+			"buildings/effects_small_base"
+		}
+		EffectGroup
+		{
+			group	"working"
+			enabled	"1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/turrets_cluster_panel/mobile_turret"
+					offset "0 4 0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/main/turrets_cluster_panel_ghost"
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/future_city_hologram_01.mesh"
+		material	"selector/hologram_blue"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group	"working"
+			enabled	"1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/turrets_cluster_panel/mobile_turret_hologram"
+					offset "0 4 0"
+				}
+			}
 		}
 	}
 }
