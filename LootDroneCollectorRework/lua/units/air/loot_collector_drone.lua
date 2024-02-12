@@ -189,6 +189,9 @@ function loot_collector_drone:FindActionTarget()
     local item = FindFarthestEntity( owner, entities )
     local target = EntityService:GetParent( item )
     if target ~= INVALID_ID then
+        if item ~= INVALID_ID then
+            self:LockTarget( item, LOCK_TYPE_LOOT_DRONE )
+        end
         self:EnableEffect()
     end
 
