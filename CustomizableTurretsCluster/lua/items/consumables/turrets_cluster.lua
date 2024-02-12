@@ -30,10 +30,15 @@ function turrets_cluster:OnActivate()
         return
     end
 
-    local position = {}
-    position.x = pos.second.x
-    position.y = pos.second.y
-    position.z = pos.second.z
+    local originalPosition = {}
+    originalPosition.x = pos.second.x
+    originalPosition.y = pos.second.y
+    originalPosition.z = pos.second.z
+
+    local positions = self:FindPositionsToBuild(8)
+
+    local position = nil
+    local positionNumber = 1
 
     for i=1,3 do
 
@@ -55,6 +60,12 @@ function turrets_cluster:OnActivate()
         end
 
         if ( not blueprintDatabase:HasString("blueprint") ) then
+            goto continue
+        end
+
+        position,positionNumber = self:GetPositionToBuild(originalPosition, positionNumber, positions)
+
+        if ( position == nil ) then
             goto continue
         end
 
@@ -108,6 +119,122 @@ function turrets_cluster:CanActivate()
     end
 
     return false
+end
+
+function turrets_cluster:GetPositionToBuild(originalPosition, positionNumber, positions)
+
+    for i=positionNumber,#positions do
+
+        local vector = positions[i]
+
+        local newPosition = {}
+        newPosition.y = originalPosition.y
+        newPosition.x = originalPosition.x + vector.x
+        newPosition.z = originalPosition.z + vector.z
+
+        if ( not self:IsPositionOcupied(newPosition) ) then
+
+            return newPosition,(i+1)
+        end
+    end    
+
+    return nil,(#positions+1)
+end
+
+function turrets_cluster:IsPositionOcupied(newPosition)
+
+
+    return false
+end
+
+function turrets_cluster:FindPositionsToBuild(cellCount)
+
+    local result = {}
+
+    if ( cellCount <= 0 ) then
+        return result
+    end
+
+    local delta = 2
+
+    for indexX = 0,cellCount do
+        for indexZ = 0,cellCount do
+
+            local maxIndex = math.max(indexX, indexZ)
+            local totalIndex = indexX + indexZ
+
+            local newPosition = nil
+
+            newPosition = {}
+            newPosition.x = indexX * delta
+            newPosition.z = indexZ * delta
+
+            newPosition.maxIndex = maxIndex
+            newPosition.totalIndex = totalIndex
+
+            Insert( result, newPosition )
+
+            if ( indexZ ~= 0 ) then
+
+                newPosition = {}
+                newPosition.x = indexX * delta
+                newPosition.z = - indexZ * delta
+
+                newPosition.maxIndex = maxIndex
+                newPosition.totalIndex = totalIndex
+
+                Insert( result, newPosition )
+            end
+
+            if ( indexX ~= 0 ) then
+
+                newPosition = {}
+                newPosition.x = - indexX * delta
+                newPosition.z = indexZ * delta
+
+                newPosition.maxIndex = maxIndex
+                newPosition.totalIndex = totalIndex
+
+                Insert( result, newPosition )
+            end
+
+            if ( indexX ~= 0 and indexZ ~= 0 ) then
+
+                newPosition = {}
+                newPosition.x = - indexX * delta
+                newPosition.z = - indexZ * delta
+
+                newPosition.maxIndex = maxIndex
+                newPosition.totalIndex = totalIndex
+
+                Insert( result, newPosition )
+            end
+        end
+    end
+
+    local sorter = function( position1, position2 )
+
+        if (position1.maxIndex ~= position2.maxIndex) then
+
+            return position1.maxIndex < position2.maxIndex
+        end
+
+        if (position1.totalIndex ~= position2.totalIndex) then
+
+            return position1.totalIndex < position2.totalIndex
+        end
+
+        if (position1.x ~= position2.x) then
+
+            return position1.x > position2.x
+        end
+
+        return position1.z > position2.z
+    end
+
+    table.sort(result, sorter)
+
+    return result
 end
 
 return turrets_cluster
