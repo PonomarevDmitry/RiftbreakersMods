@@ -132,7 +132,7 @@ function turrets_cluster:GetPositionToBuild(originalPosition, positionNumber, po
         newPosition.x = originalPosition.x + vector.x
         newPosition.z = originalPosition.z + vector.z
 
-        if ( not self:IsPositionOcupied(newPosition) ) then
+        if ( not self:IsPositionOccupied(newPosition) ) then
 
             return newPosition,(i+1)
         end
@@ -141,10 +141,11 @@ function turrets_cluster:GetPositionToBuild(originalPosition, positionNumber, po
     return nil,(#positions+1)
 end
 
-function turrets_cluster:IsPositionOcupied(newPosition)
+function turrets_cluster:IsPositionOccupied(newPosition)
 
+    local result = BuildingService:IsSpaceOccupied( newPosition, "", "" )
 
-    return false
+    return result
 end
 
 function turrets_cluster:FindPositionsToBuild(cellCount)
