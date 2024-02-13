@@ -1,0 +1,188 @@
+require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
+require("lua/utils/numeric_utils.lua")
+
+local building = require("lua/buildings/building.lua")
+class 'grenades_pack_panel' ( building )
+
+function grenades_pack_panel:__init()
+    building.__init(self,self)
+end
+
+function grenades_pack_panel:OnInit()
+
+    if ( building.OnInit ) then
+        building.OnInit(self)
+    end
+
+    self:RegisterEventHandlers()
+
+    self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
+
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/grenades_pack_extreme_item")
+end
+
+function grenades_pack_panel:OnLoad()
+
+    if ( building.OnLoad ) then
+        building.OnLoad(self)
+    end
+
+    self:RegisterEventHandlers()
+
+    self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
+
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/grenades_pack_extreme_item")
+end
+
+function grenades_pack_panel:RegisterEventHandlers()
+
+    self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
+    self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+
+    self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
+end
+
+function grenades_pack_panel:OnBuildingEnd()
+
+    if ( building.OnBuildingEnd ) then
+        building.OnBuildingEnd(self)
+    end
+
+    self:OnOperateActionMenuEvent()
+end
+
+function grenades_pack_panel:OnOperateActionMenuEvent()
+
+    local player_id = 0
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if ( player == INVALID_ID or player == nil ) then
+        return
+    end
+
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, self.skillName )
+    if ( turretsClusterItem == INVALID_ID ) then
+        turretsClusterItem = ItemService:AddItemToInventory( player, self.skillName )
+    end
+
+    LogService:Log("OnOperateActionMenuEvent turretsClusterItem " .. tostring(turretsClusterItem) )
+
+    if ( turretsClusterItem == INVALID_ID ) then
+        return
+    end
+
+    local database = EntityService:GetDatabase( turretsClusterItem )
+    if ( database == nil ) then
+        return
+    end
+
+    LogService:Log("OnOperateActionMenuEvent turretsClusterItem " .. tostring(turretsClusterItem) )
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ~= nil ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            local keyName = "grenades_pack_" .. slot.name
+
+            local itemBlueprintName = ""
+
+            if ( database:HasString(keyName) ) then
+                itemBlueprintName = database:GetStringOrDefault(keyName, "") or ""
+            end
+
+            LogService:Log("OnOperateActionMenuEvent itemBlueprintName " .. tostring(itemBlueprintName) )
+
+            if ( itemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", itemBlueprintName ) ) then
+
+                local item = ItemService:GetFirstItemForBlueprint( self.entity, itemBlueprintName )
+
+                if ( item == INVALID_ID ) then
+                    item = ItemService:AddItemToInventory( self.entity, itemBlueprintName )
+                end
+
+                if ( item ~= INVALID_ID ) then
+
+                    LogService:Log("OnOperateActionMenuEvent item " .. tostring(item) )
+
+                    QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, item )
+
+                    LogService:Log("OnOperateActionMenuEvent EquipmentChangeRequest item " .. tostring(item) )
+                else
+                    QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
+                end
+            else
+                QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
+
+                LogService:Log("OnOperateActionMenuEvent EquipmentChangeRequest INVALID_ID " )
+            end
+        end
+    end    
+end
+
+function grenades_pack_panel:OnItemEquippedEvent( evt )
+
+    local slotName = evt:GetSlot()
+    local item = evt:GetItem()
+
+    local itemBlueprintName = ""
+
+    if ( item ~= nil and item ~= INVALID_ID ) then
+        itemBlueprintName = EntityService:GetBlueprintName(item)
+    end
+
+    LogService:Log("OnItemEquippedEvent itemBlueprintName " .. tostring(itemBlueprintName) .. " item " .. tostring(item))
+
+    local player_id = 0
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if ( player == INVALID_ID or player == nil ) then
+        return
+    end
+
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, self.skillName )
+    if ( turretsClusterItem == INVALID_ID ) then
+        turretsClusterItem = ItemService:AddItemToInventory( player, self.skillName )
+    end
+
+    LogService:Log("OnItemEquippedEvent turretsClusterItem " .. tostring(turretsClusterItem) )
+
+    if ( turretsClusterItem ~= INVALID_ID ) then
+
+        local database = EntityService:GetDatabase( turretsClusterItem )
+
+        database:SetString("grenades_pack_" .. slotName, itemBlueprintName)
+    end
+end
+
+function grenades_pack_panel:OnItemUnequippedEvent( evt )
+
+    local slotName = evt:GetSlot()
+
+    local player_id = 0
+    local player = PlayerService:GetPlayerControlledEnt(player_id)
+    if ( player == INVALID_ID or player == nil ) then
+        return
+    end
+
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, self.skillName )
+
+    if ( turretsClusterItem == INVALID_ID ) then
+        turretsClusterItem = ItemService:AddItemToInventory( player, self.skillName )
+    end
+
+    LogService:Log("OnItemEquippedEvent turretsClusterItem " .. tostring(turretsClusterItem) )
+
+    if ( turretsClusterItem ~= INVALID_ID ) then
+
+        local database = EntityService:GetDatabase( turretsClusterItem )
+
+        database:SetString("grenades_pack_" .. slotName, "")
+    end  
+end
+
+return grenades_pack_panel
