@@ -35,7 +35,7 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
         return
     end
 
-    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/skills/turrets_cluster_extreme_item" )
     if ( turretsClusterItem == INVALID_ID ) then
         return
     end

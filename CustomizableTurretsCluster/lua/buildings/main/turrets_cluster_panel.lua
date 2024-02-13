@@ -18,6 +18,8 @@ function turrets_cluster_panel:OnInit()
     self:RegisterEventHandlers()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/consumable_sentry_gun" )
+
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/turrets_cluster_extreme_item")
 end
 
 function turrets_cluster_panel:OnLoad()
@@ -29,6 +31,8 @@ function turrets_cluster_panel:OnLoad()
     self:RegisterEventHandlers()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/consumable_sentry_gun" )
+
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/turrets_cluster_extreme_item")
 end
 
 function turrets_cluster_panel:RegisterEventHandlers()
@@ -56,9 +60,9 @@ function turrets_cluster_panel:OnOperateActionMenuEvent()
         return
     end
 
-    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, self.skillName )
     if ( turretsClusterItem == INVALID_ID ) then
-        turretsClusterItem = ItemService:AddItemToInventory( player, "items/consumables/turrets_cluster_standard_item" )
+        turretsClusterItem = ItemService:AddItemToInventory( player, self.skillName )
     end
 
     LogService:Log("OnOperateActionMenuEvent turretsClusterItem " .. tostring(turretsClusterItem) )
@@ -140,9 +144,9 @@ function turrets_cluster_panel:OnItemEquippedEvent( evt )
         return
     end
 
-    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, self.skillName )
     if ( turretsClusterItem == INVALID_ID ) then
-        turretsClusterItem = ItemService:AddItemToInventory( player, "items/consumables/turrets_cluster_standard_item" )
+        turretsClusterItem = ItemService:AddItemToInventory( player, self.skillName )
     end
 
     LogService:Log("OnItemEquippedEvent turretsClusterItem " .. tostring(turretsClusterItem) )
@@ -165,10 +169,10 @@ function turrets_cluster_panel:OnItemUnequippedEvent( evt )
         return
     end
 
-    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, "items/consumables/turrets_cluster_standard_item" )
+    local turretsClusterItem = ItemService:GetFirstItemForBlueprint( player, self.skillName )
 
     if ( turretsClusterItem == INVALID_ID ) then
-        turretsClusterItem = ItemService:AddItemToInventory( player, "items/consumables/turrets_cluster_standard_item" )
+        turretsClusterItem = ItemService:AddItemToInventory( player, self.skillName )
     end
 
     LogService:Log("OnItemEquippedEvent turretsClusterItem " .. tostring(turretsClusterItem) )
