@@ -1,26 +1,12 @@
+require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
+
 local item = require("lua/items/item.lua")
 
 class 'turrets_cluster' ( item )
 
 function turrets_cluster:__init()
     item.__init(self,self)
-end
-
-function turrets_cluster:OnInit()
-
-    if ( item.OnInit ) then
-        item.OnInit(self)
-    end
-end
-
-function turrets_cluster:OnLoad()
-
-    if ( item.OnLoad ) then
-        item.OnLoad(self)
-    end
-end
-
-function turrets_cluster:OnEquipped()
 end
 
 function turrets_cluster:OnActivate()
@@ -59,7 +45,7 @@ function turrets_cluster:OnActivate()
             goto continue
         end
 
-        if ( not blueprintDatabase:HasString("blueprint") ) then
+        if ( not blueprintDatabase:HasString("blueprint_list") ) then
             goto continue
         end
 
@@ -69,20 +55,62 @@ function turrets_cluster:OnActivate()
             goto continue
         end
 
-        LogService:Log("OnActivate position.x " .. tostring(position.x) .. " position.y " .. tostring(position.y) .. " position.z " .. tostring(position.z))
+        local blueprintListString = blueprintDatabase:GetString("blueprint_list")
 
-        local turretBlueprint = blueprintDatabase:GetString("blueprint")
-        local timeout = blueprintDatabase:GetFloatOrDefault("timeout", 20.0)
+        local blueprintListArray = Split( blueprintListString, "|" )
 
-        LogService:Log("OnActivate turretBlueprint " .. tostring(turretBlueprint))
+        for itemBlueprintName in Iter( blueprintListArray ) do
 
-        local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
-        ItemService:SetItemCreator( tower, self.entity_blueprint )
-        EntityService:DissolveEntity( tower, 1.0, timeout )
+            local playerItem = ItemService:GetFirstItemForBlueprint( self.owner, itemBlueprintName )
+            if ( playerItem == INVALID_ID ) then
+                goto continue2
+            end
 
-        position.z = position.z + 2
+            local inventoryItemComponent = EntityService:GetComponent( playerItem, "InventoryItemComponent" )
+            if ( inventoryItemComponent == INVALID_ID ) then
+                goto continue2
+            end
 
-        LogService:Log("OnActivate tower " .. tostring(tower))
+            local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
+
+            if ( inventoryItemComponentRef.use_count <= 0 ) then
+                goto continue2
+            end
+
+            local itemBlueprintDatabase = EntityService:GetBlueprintDatabase( playerItem )
+
+            if ( itemBlueprintDatabase == nil ) then
+                goto continue2
+            end
+
+            if ( not itemBlueprintDatabase:HasString("blueprint") ) then
+                goto continue2
+            end
+
+            LogService:Log("OnActivate position.x " .. tostring(position.x) .. " position.y " .. tostring(position.y) .. " position.z " .. tostring(position.z))
+
+            local turretBlueprint = itemBlueprintDatabase:GetString("blueprint")
+            local timeout = itemBlueprintDatabase:GetFloatOrDefault("timeout", 20.0)
+
+            LogService:Log("OnActivate turretBlueprint " .. tostring(turretBlueprint))
+
+            local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
+            ItemService:SetItemCreator( tower, self.entity_blueprint )
+            EntityService:DissolveEntity( tower, 1.0, timeout )
+
+            LogService:Log("OnActivate tower " .. tostring(tower))
+
+            local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+            local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
+
+            if ( unlimitedMoney == false and unlimitedAmmo == false ) then
+                inventoryItemComponentRef.use_count = inventoryItemComponentRef.use_count - 1
+            end
+
+            goto continue
+
+            ::continue2::
+        end
 
         ::continue::
     end
@@ -107,15 +135,43 @@ function turrets_cluster:CanActivate()
 
         local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
 
-        if ( modItemBlueprint ~= nil and modItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
+        if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
+            goto continue
+        end
 
-            local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
+            goto continue
+        end
 
-            if ( blueprintDatabase and blueprintDatabase:HasString("blueprint") ) then
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
 
-                return true
+        if ( blueprintDatabase == nil ) then
+            goto continue
+        end
+
+        if ( not blueprintDatabase:HasString("blueprint_list") ) then
+            goto continue
+        end
+
+        local blueprintListString = blueprintDatabase:GetString("blueprint_list")
+
+        local blueprintListArray = Split( blueprintListString, "|" )
+
+        for itemBlueprintName in Iter( blueprintListArray ) do
+
+            local playerItem = ItemService:GetFirstItemForBlueprint( self.owner, itemBlueprintName )
+            if ( playerItem ~= INVALID_ID ) then
+
+                local inventoryItemComponentRef = reflection_helper(EntityService:GetComponent( playerItem, "InventoryItemComponent" ))
+
+                if ( inventoryItemComponentRef.use_count > 0 ) then
+
+                    return true
+                end
             end
         end
+
+        ::continue::
     end
 
     return false
@@ -136,7 +192,7 @@ function turrets_cluster:GetPositionToBuild(originalPosition, positionNumber, po
 
             return newPosition,(i+1)
         end
-    end    
+    end
 
     return nil,(#positions+1)
 end
