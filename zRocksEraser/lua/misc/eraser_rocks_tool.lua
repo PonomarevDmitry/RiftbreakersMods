@@ -92,6 +92,8 @@ end
 
 function eraser_rocks_tool:OnActivateEntity( entity )
 
+    local cellIndexes = FindService:GetEntityCellIndexes(entity)
+
     EntityService:DisableCollisions( entity )
 
     EntityService:ChangePhysicsGroupId( entity, "destructible" )
@@ -99,13 +101,31 @@ function eraser_rocks_tool:OnActivateEntity( entity )
     BuildingService:DisablePhysics( entity )
 
     EntityService:RemoveComponent( entity, "PhysicsComponent" )
+    EntityService:RemoveComponent( entity, "WorldBlockerLayerComponent" )
+    EntityService:RemoveComponent( entity, "BuildingBlockerLayerComponent" )
+
+    ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
+
+    EntityService:SetNavMeshScale( entity, 0.1, 0.1, 0.1 )
+
+    for cellId in Iter( cellIndexes ) do
+
+        EntityService:DisableCollisions( cellId )
+        BuildingService:DisablePhysics( cellId )
+        
+        EntityService:RemoveComponent( cellId, "PhysicsComponent" )
+        EntityService:RemoveComponent( cellId, "WorldBlockerLayerComponent" )
+        EntityService:RemoveComponent( cellId, "BuildingBlockerLayerComponent" )
+
+        ConsoleService:ExecuteCommand("dump_entity " .. tostring(cellId))
+    end
 
     --QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 
     local dissolveTime = RandFloat( 1.0, 2.0 )
     EntityService:DissolveEntity( entity, dissolveTime )
 
-    EntityService:RequestDestroyPattern( entity, "" )
+    EntityService:RequestDestroyPattern( entity, "default" )
 end
 
 return eraser_rocks_tool
