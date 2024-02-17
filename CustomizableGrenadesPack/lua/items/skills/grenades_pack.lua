@@ -9,7 +9,35 @@ function grenades_pack:__init()
     item.__init(self,self)
 end
 
+function grenades_pack:OnInit()
+
+    self:InitThrowStateMachine()
+end
+
+function grenades_pack:OnLoad()
+
+    if ( item.OnLoad ) then
+        item.OnLoad(self)
+    end
+
+    if ( self.machine == nil ) then
+        self:InitThrowStateMachine()
+    end    
+end
+
+function grenades_pack:InitThrowStateMachine()
+
+    self.machine = self:CreateStateMachine()
+    self.machine:AddState( "throw", { execute="OnThrowExecute", interval=0.1 } )
+end
+
 function grenades_pack:OnActivate()
+
+    if ( self.machine == nil ) then
+        self:InitThrowStateMachine()
+    end
+
+    self.grenadesToThrow = {}
 
     for i=1,3 do
 
@@ -66,10 +94,8 @@ function grenades_pack:OnActivate()
             end
 
             local grenadeBlueprint = itemBlueprintDatabase:GetString("bp")
-            local grenadeAtt = itemBlueprintDatabase:GetString("att")
-
-            local entity = WeaponService:ThrowGrenade( grenadeBlueprint , self.owner, grenadeAtt )
-            ItemService:SetItemCreator( entity, self.entity_blueprint )
+            
+            Insert( self.grenadesToThrow, grenadeBlueprint )
 
             local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
             local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
@@ -84,6 +110,21 @@ function grenades_pack:OnActivate()
         end
 
         ::continue::
+    end
+
+    if ( #self.grenadesToThrow > 0 ) then
+
+        local grenadeBlueprint = self.grenadesToThrow[1]
+
+        table.remove( self.grenadesToThrow, 1 )
+
+        local entity = WeaponService:ThrowGrenade( grenadeBlueprint , self.owner, "att_grenade" )
+        ItemService:SetItemCreator( entity, self.entity_blueprint )
+
+        if ( #self.grenadesToThrow > 0 ) then
+
+            self.machine:ChangeState("throw")
+        end
     end
 end
 
@@ -141,6 +182,24 @@ function grenades_pack:CanActivate()
     end
 
     return false
+end
+
+function grenades_pack:OnThrowExecute( state )
+
+    self.grenadesToThrow = self.grenadesToThrow or {}
+
+    if ( #self.grenadesToThrow == 0 ) then
+
+        state:Exit()
+        return
+    end
+
+    local grenadeBlueprint = self.grenadesToThrow[1]
+
+    table.remove( self.grenadesToThrow, 1 )
+
+    local entity = WeaponService:ThrowGrenade( grenadeBlueprint , self.owner, "att_grenade" )
+    ItemService:SetItemCreator( entity, self.entity_blueprint )
 end
 
 return grenades_pack
