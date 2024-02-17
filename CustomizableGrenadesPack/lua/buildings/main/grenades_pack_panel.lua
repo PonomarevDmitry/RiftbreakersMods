@@ -19,7 +19,7 @@ function grenades_pack_panel:OnInit()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
 
-    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/grenades_pack_extreme_item")
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/grenades_pack_1_item")
 end
 
 function grenades_pack_panel:OnLoad()
@@ -32,7 +32,7 @@ function grenades_pack_panel:OnLoad()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
 
-    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/grenades_pack_extreme_item")
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/grenades_pack_1_item")
 end
 
 function grenades_pack_panel:RegisterEventHandlers()
