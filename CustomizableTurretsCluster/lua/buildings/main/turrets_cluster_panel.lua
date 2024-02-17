@@ -19,7 +19,7 @@ function turrets_cluster_panel:OnInit()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/consumable_sentry_gun" )
 
-    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/turrets_cluster_extreme_item")
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/turrets_cluster_1_item")
 end
 
 function turrets_cluster_panel:OnLoad()
@@ -32,7 +32,7 @@ function turrets_cluster_panel:OnLoad()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/consumable_sentry_gun" )
 
-    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/turrets_cluster_extreme_item")
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/turrets_cluster_1_item")
 end
 
 function turrets_cluster_panel:RegisterEventHandlers()
