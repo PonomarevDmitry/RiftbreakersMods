@@ -230,26 +230,6 @@ end
 function selector:FindEntitiesToSelect( selectorComponent)
     local position = selectorComponent.position
 
-    self.predicate = self.predicate or {
-        signature="SelectableComponent",
-        filter = function(entity)
-            local pos = EntityService:GetPosition(entity )
-            local distance = Distance( position, pos )
-
-            if ( EntityService:GetGroup(entity ) == "##ruins##" ) then
-                local bounds = EntityService:GetBoundsSize( entity )
-                local size = Length(bounds)
-                return distance <= size
-            end
-
-            if( EntityService:GetComponent( entity, "BuildingComponent" ) ~= nil ) then
-                return false
-            end
-
-            return distance < self.boundsSize.x
-        end
-    };
-
     local min = VectorSub(position, self.boundsSize )
     local max = VectorAdd(position, self.boundsSize )
     local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
@@ -258,14 +238,38 @@ function selector:FindEntitiesToSelect( selectorComponent)
     local stepScaleSelector = 0.5
     local maxScaleSelector = 2
 
+    local distanceCoef = 1
+
     while (#possibleSelectedEnts == 0 and scaleSelector < maxScaleSelector) do
+
+        local predicate = {
+            signature="SelectableComponent",
+            filter = function(entity)
+                local pos = EntityService:GetPosition(entity )
+                local distance = Distance( position, pos )
+
+                if ( EntityService:GetGroup(entity ) == "##ruins##" ) then
+                    local bounds = EntityService:GetBoundsSize( entity )
+                    local size = Length(bounds)
+                    return distance <= size
+                end
+
+                if( EntityService:GetComponent( entity, "BuildingComponent" ) ~= nil ) then
+                    return false
+                end
+
+                return distance < distanceCoef * self.boundsSize.x
+            end
+        };
 
         scaleSelector = scaleSelector + stepScaleSelector
 
         min = VectorSub(position, VectorMulByNumber( self.boundsSize, scaleSelector) )
         max = VectorAdd(position, VectorMulByNumber( self.boundsSize, scaleSelector) )
 
-        possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, self.predicate );
+        possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, predicate );
+
+        distanceCoef = distanceCoef + stepScaleSelector
     end
 
     local sorter = function( t, lhs, rhs )
