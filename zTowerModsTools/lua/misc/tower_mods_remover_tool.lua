@@ -117,10 +117,12 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
     local modItem1 = ItemService:GetEquippedItem( entity, "MOD_1" )
 
     if ( modItem1 ~= nil and modItem1 ~= INVALID_ID ) then
-        blueprintMod = EntityService:GetBlueprintName(modItem1)
+        local blueprintMod = EntityService:GetBlueprintName(modItem1)
         LogService:Log( "OnActivateEntity modItem1 " .. tostring(blueprintMod) )
 
-        QueueEvent("UnequipItemRequest", entity, modItem1, "MOD_1" )
+        --QueueEvent("UnequipItemRequest", entity, modItem1, "MOD_1" )
+
+        QueueEvent( "EquipmentChangeRequest", entity, "MOD_1", 0, INVALID_ID )
 
         --QueueEvent("RemoveItemFromInventoryRequest", entity, modItem1 )
         --QueueEvent("AddItemToInventoryRequest", player, modItem1 )
@@ -131,10 +133,12 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
 
         if ( modItem2 ~= nil and modItem2 ~= INVALID_ID ) then
 
-            blueprintMod = EntityService:GetBlueprintName(modItem2)
+            local blueprintMod = EntityService:GetBlueprintName(modItem2)
             LogService:Log( "OnActivateEntity modItem2 " .. tostring(blueprintMod) )
 
-            QueueEvent("UnequipItemRequest", entity, modItem2, "MOD_2" )
+            QueueEvent( "EquipmentChangeRequest", entity, "MOD_2", 0, INVALID_ID )
+
+            --QueueEvent("UnequipItemRequest", entity, modItem2, "MOD_2" )
 
             --QueueEvent("RemoveItemFromInventoryRequest", entity, modItem2 )
             --QueueEvent("AddItemToInventoryRequest", player, modItem2 )
@@ -146,10 +150,12 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
 
         if ( modItem3 ~= nil and modItem3 ~= INVALID_ID ) then
 
-            blueprintMod = EntityService:GetBlueprintName(modItem3)
+            local blueprintMod = EntityService:GetBlueprintName(modItem3)
             LogService:Log( "OnActivateEntity modItem3 " .. tostring(blueprintMod) )
 
-            QueueEvent("UnequipItemRequest", entity, modItem3, "MOD_3" )
+            QueueEvent( "EquipmentChangeRequest", entity, "MOD_3", 0, INVALID_ID )
+
+            --QueueEvent("UnequipItemRequest", entity, modItem3, "MOD_3" )
 
             --QueueEvent("RemoveItemFromInventoryRequest", entity, modItem3 )
             --QueueEvent("AddItemToInventoryRequest", player, modItem3 )
