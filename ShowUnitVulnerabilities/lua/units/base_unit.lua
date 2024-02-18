@@ -68,19 +68,13 @@ function base_unit:_OnDamageEvent( evt )
 
 			if ( currentResistance < 1 ) then
 
-				LogService:Log("damageType " .. tostring(damageType) .. " " .. tostring(resistanceComponentRef))
-
-				local vulnerabilities = self:GetVulnerabilities(resistanceComponentRef)
-
-				LogService:Log("GetSaveEquipmentInfo " .. debug_serialize_utils:SerializeObject(vulnerabilities))
-
 				local menuBlueprintName = "misc/unit_vulnerabilities_menu"
 
 				local menuEntity = self:FindMenuEntity(menuBlueprintName)
 
 				if ( menuEntity == nil ) then
 
-					LogService:Log("menuEntity " .. tostring(menuEntity))
+					local vulnerabilities = self:GetVulnerabilities(resistanceComponentRef)
 
 					local team = EntityService:GetTeam( self.entity )
 					menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
@@ -88,9 +82,10 @@ function base_unit:_OnDamageEvent( evt )
 					local sizeSelf = EntityService:GetBoundsSize( self.entity )
 					EntityService:SetPosition( menuEntity, 0, sizeSelf.y, 0 )
 
-					LogService:Log("sizeSelf " .. debug_serialize_utils:SerializeObject(sizeSelf))
-
 					self:SetMenuValues(menuEntity, vulnerabilities)
+				else
+
+					EntityService:CreateOrSetLifetime( menuEntity, 20.0, "normal" )
 				end
 			end
 		end
@@ -110,29 +105,24 @@ function base_unit:SetMenuValues(menuEntity, vulnerabilities)
 
 	menuDB:SetInt("menu_visible", 1)
 
-	menuDB:SetInt("damage_visible_1", 0)
-	menuDB:SetInt("damage_visible_2", 0)
-	menuDB:SetInt("damage_visible_3", 0)
+	for damageNumber=1,6 do
 
-	menuDB:SetString("damage_type_1", "")
-	menuDB:SetString("damage_type_2", "")
-	menuDB:SetString("damage_type_3", "")
+		local slotNumber = tostring(damageNumber)
 
-	menuDB:SetString("damage_name_1", "")
-	menuDB:SetString("damage_name_2", "")
-	menuDB:SetString("damage_name_3", "")
+		menuDB:SetInt("damage_visible_" .. slotNumber, 0)
+		menuDB:SetString("damage_type_" .. slotNumber, "")
+		menuDB:SetString("damage_name_" .. slotNumber, "")
+	end
 
-	local count = math.min(#vulnerabilities, 3)
-
-	local numberDelta = 3 - count
+	local count = math.min(#vulnerabilities, 6)
 
 	for damageNumber=1,count do
 
 		local damage = vulnerabilities[damageNumber]
 
-		local name = tostring(damage.current_value * 100) .. "${gui/menu/inventory/units_percent}"
+		local name = string.format("%d", damage.current_value * 100) .. "${gui/menu/inventory/units_percent}"
 
-		local slotNumber = tostring(damageNumber + numberDelta)
+		local slotNumber = tostring(damageNumber)
 
 		menuDB:SetInt("damage_visible_" .. slotNumber, 1)
 		menuDB:SetString("damage_type_" .. slotNumber, damage.type)
@@ -164,7 +154,7 @@ function base_unit:GetVulnerabilities(resistanceComponentRef)
 	for i=1,resistances.count do
 		local item = resistances[i]
 
-		if ( item.value.current_value > 1 ) then
+		if ( item.value.current_value ~= 1 ) then
 			
 			local damage = {}
 			damage.type = item.key
@@ -178,7 +168,7 @@ function base_unit:GetVulnerabilities(resistanceComponentRef)
 
 		if (damage1.current_value ~= damage2.current_value) then
 
-			return damage1.current_value < damage2.current_value
+			return damage1.current_value > damage2.current_value
 		end
 
 		return damage1.type:upper() < damage2.type:upper()
@@ -205,6 +195,12 @@ function base_unit:GetResistanceToDamage(damageType, resistanceComponentRef)
 end
 
 function base_unit:_OnDestroyRequest( evt )
+
+	local menuEntity = self:FindMenuEntity("misc/unit_vulnerabilities_menu")
+	if ( menuEntity ~= nil ) then
+		EntityService:RemoveEntity( menuEntity )
+	end
+
 	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(),self.wreck_type, self.wreckMinSpeed )
 	self:ChangeSoundState("idle")
 
