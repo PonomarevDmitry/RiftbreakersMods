@@ -236,7 +236,7 @@ function selector:FindEntitiesToSelect( selectorComponent)
 
     local scaleSelector = 0
     local stepScaleSelector = 0.5
-    local maxScaleSelector = 2
+    local maxScaleSelector = 6
 
     local distanceCoef = 1
 
