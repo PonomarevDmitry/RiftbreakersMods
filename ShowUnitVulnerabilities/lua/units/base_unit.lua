@@ -72,21 +72,21 @@ function base_unit:_OnDamageEvent( evt )
 
 				local menuEntity = self:FindMenuEntity(menuBlueprintName)
 
-				if ( menuEntity == nil ) then
+				local vulnerabilities = self:GetVulnerabilities(resistanceComponentRef)
 
-					local vulnerabilities = self:GetVulnerabilities(resistanceComponentRef)
+				if ( menuEntity == nil ) then
 
 					local team = EntityService:GetTeam( self.entity )
 					menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
 
 					local sizeSelf = EntityService:GetBoundsSize( self.entity )
 					EntityService:SetPosition( menuEntity, 0, sizeSelf.y, 0 )
-
-					self:SetMenuValues(menuEntity, vulnerabilities)
 				else
 
 					EntityService:CreateOrSetLifetime( menuEntity, 20.0, "normal" )
 				end
+
+				self:SetMenuValues(menuEntity, vulnerabilities)
 			end
 		end
 	end
