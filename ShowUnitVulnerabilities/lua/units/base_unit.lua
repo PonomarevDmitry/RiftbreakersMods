@@ -198,7 +198,7 @@ function base_unit:_OnDestroyRequest( evt )
 
 	local menuEntity = self:FindMenuEntity("misc/unit_vulnerabilities_menu")
 	if ( menuEntity ~= nil ) then
-		EntityService:RemoveEntity( menuEntity )
+		EntityService:CreateOrSetLifetime( menuEntity, 3.0, "normal" )
 	end
 
 	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(),self.wreck_type, self.wreckMinSpeed )
