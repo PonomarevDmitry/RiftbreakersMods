@@ -64,7 +64,7 @@ function grenades_pack:OnActivate()
 
         local blueprintListString = blueprintDatabase:GetString("blueprint_list")
 
-        local blueprintListArray = Split( blueprintListString, "|" )
+        local blueprintListArray = Split( blueprintListString, "," )
 
         for itemBlueprintName in Iter( blueprintListArray ) do
 
@@ -162,7 +162,7 @@ function grenades_pack:CanActivate()
 
         local blueprintListString = blueprintDatabase:GetString("blueprint_list")
 
-        local blueprintListArray = Split( blueprintListString, "|" )
+        local blueprintListArray = Split( blueprintListString, "," )
 
         for itemBlueprintName in Iter( blueprintListArray ) do
 
