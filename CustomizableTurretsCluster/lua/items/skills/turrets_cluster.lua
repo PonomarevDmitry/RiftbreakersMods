@@ -57,7 +57,7 @@ function turrets_cluster:OnActivate()
 
         local blueprintListString = blueprintDatabase:GetString("blueprint_list")
 
-        local blueprintListArray = Split( blueprintListString, "|" )
+        local blueprintListArray = Split( blueprintListString, "," )
 
         for itemBlueprintName in Iter( blueprintListArray ) do
 
@@ -155,7 +155,7 @@ function turrets_cluster:CanActivate()
 
         local blueprintListString = blueprintDatabase:GetString("blueprint_list")
 
-        local blueprintListArray = Split( blueprintListString, "|" )
+        local blueprintListArray = Split( blueprintListString, "," )
 
         for itemBlueprintName in Iter( blueprintListArray ) do
 
