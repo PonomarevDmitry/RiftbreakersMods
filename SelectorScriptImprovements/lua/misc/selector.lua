@@ -236,9 +236,7 @@ function selector:FindEntitiesToSelect( selectorComponent)
 
     local scaleSelector = 0
     local stepScaleSelector = 0.5
-    local maxScaleSelector = 6
-
-    local distanceCoef = 1
+    local maxScaleSelector = 2
 
     while (#possibleSelectedEnts == 0 and scaleSelector < maxScaleSelector) do
 
@@ -248,8 +246,9 @@ function selector:FindEntitiesToSelect( selectorComponent)
                 local pos = EntityService:GetPosition(entity )
                 local distance = Distance( position, pos )
 
+                local bounds = EntityService:GetBoundsSize( entity )
+
                 if ( EntityService:GetGroup(entity ) == "##ruins##" ) then
-                    local bounds = EntityService:GetBoundsSize( entity )
                     local size = Length(bounds)
                     return distance <= size
                 end
@@ -258,7 +257,9 @@ function selector:FindEntitiesToSelect( selectorComponent)
                     return false
                 end
 
-                return distance < distanceCoef * self.boundsSize.x
+                local maxSize = math.max(bounds.x, bounds.z)
+
+                return distance <= maxSize
             end
         };
 
@@ -268,8 +269,6 @@ function selector:FindEntitiesToSelect( selectorComponent)
         max = VectorAdd(position, VectorMulByNumber( self.boundsSize, scaleSelector) )
 
         possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, predicate );
-
-        distanceCoef = distanceCoef + stepScaleSelector
     end
 
     local sorter = function( t, lhs, rhs )
