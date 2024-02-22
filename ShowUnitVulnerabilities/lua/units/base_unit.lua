@@ -68,25 +68,41 @@ function base_unit:_OnDamageEvent( evt )
 
 			if ( currentResistance < 1 ) then
 
+				globalMenuCache = globalMenuCache or {}
+
+				local blueprintName = EntityService:GetBlueprintName( self.entity )
+
 				local menuBlueprintName = "misc/unit_vulnerabilities_menu"
 
 				local menuEntity = self:FindMenuEntity(menuBlueprintName)
 
 				local vulnerabilities = self:GetVulnerabilities(resistanceComponentRef)
 
-				if ( menuEntity == nil ) then
+				if ( menuEntity ~= nil ) then
 
-					local team = EntityService:GetTeam( self.entity )
-					menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
+					EntityService:CreateOrSetLifetime( menuEntity, 10.0, "normal" )
 
-					local sizeSelf = EntityService:GetBoundsSize( self.entity )
-					EntityService:SetPosition( menuEntity, 0, sizeSelf.y, 0 )
+					self:SetMenuValues(menuEntity, vulnerabilities)
+
+					globalMenuCache[blueprintName] = menuEntity
+
 				else
 
-					EntityService:CreateOrSetLifetime( menuEntity, 20.0, "normal" )
-				end
+					menuEntity = self:GetGlobalMenuEntity(blueprintName)
 
-				self:SetMenuValues(menuEntity, vulnerabilities)
+					if ( menuEntity == nil ) then
+
+						local team = EntityService:GetTeam( self.entity )
+						menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
+
+						local sizeSelf = EntityService:GetBoundsSize( self.entity )
+						EntityService:SetPosition( menuEntity, 0, sizeSelf.y, 0 )
+
+						self:SetMenuValues(menuEntity, vulnerabilities)
+
+						globalMenuCache[blueprintName] = menuEntity
+					end
+				end
 			end
 		end
 	end
@@ -94,6 +110,25 @@ function base_unit:_OnDamageEvent( evt )
 	if self.OnDamageEvent then
 		self:OnDamageEvent(evt)
 	end
+end
+
+function base_unit:GetGlobalMenuEntity(blueprintName)
+
+	globalMenuCache = globalMenuCache or {}
+
+	local menuEntity = globalMenuCache[blueprintName]
+
+	if ( menuEntity ~= nil and EntityService:IsAlive( menuEntity ) ) then
+
+		local parent = EntityService:GetParent( menuEntity )
+
+		if ( parent ~= nil and parent ~= INVALID_ID and EntityService:IsAlive( parent ) and HealthService:IsAlive( parent ) ) then
+
+			return menuEntity
+		end
+	end
+
+	return nil
 end
 
 function base_unit:SetMenuValues(menuEntity, vulnerabilities)
