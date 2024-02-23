@@ -17,10 +17,6 @@ function sell_ruins_eraser_tool:SpawnCornerBlueprint()
     end
 end
 
-function sell_ruins_eraser_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
-end
-
 function sell_ruins_eraser_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned( entity )
 
