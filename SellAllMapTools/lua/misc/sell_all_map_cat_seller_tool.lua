@@ -34,6 +34,8 @@ function sell_all_map_cat_seller_tool:OnInit()
     self.categoryNotSelected = false
 
     self.modeSelect = 0
+    self.modeSelectRuins = 1
+
     self.modeSelectLast = 100
 
     if ( self.categoryTemplate ~= "" ) then
@@ -42,7 +44,7 @@ function sell_all_map_cat_seller_tool:OnInit()
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
-        self.defaultModesArray = { self.modeSelect }
+        self.defaultModesArray = { self.modeSelect, self.modeSelectRuins }
 
         self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
     end
@@ -93,7 +95,14 @@ function sell_all_map_cat_seller_tool:UpdateMarker()
 
     elseif ( self.selectedCategory ~= "" ) then
 
-        local messageText = self:GetBuildinsDescription()
+        local buildingsDescription = self:GetBuildinsDescription()
+
+        local messageText = buildingsDescription
+
+        if ( self.selectedMode == self.modeSelectRuins ) then
+
+            messageText = "${gui/hud/sell_all_map/place_ruins}: " .. buildingsDescription
+        end
 
         markerDB:SetString("message_text", messageText)
 
@@ -344,7 +353,7 @@ function sell_all_map_cat_seller_tool:FindEntitiesToSelect( selectorComponent )
 
     local result = {}
 
-    if ( self.selectedMode ~= self.modeSelect ) then
+    if ( self.selectedMode >= self.modeSelectLast ) then
         return result
     end
 
@@ -426,11 +435,41 @@ function sell_all_map_cat_seller_tool:OnActivateSelectorRequest()
         return
     end
 
+    local placeRuins = ( self.selectedMode == self.modeSelectRuins )
+
     for entity in Iter( self.selectedEntities ) do
 
-        QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
+        if ( placeRuins ) then
 
-        ::continue::
+            local blueprintName = EntityService:GetBlueprintName( entity )
+
+            local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+            if ( #list > 0 ) then
+
+                local ruinsBlueprintName = blueprintName .. "_ruins"
+
+                if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
+
+                    local team = EntityService:GetTeam( entity )
+
+                    local transform = EntityService:GetWorldTransform( entity )
+
+                    local position = transform.position
+                    local orientation = transform.orientation
+
+
+                    local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
+
+                    local database = EntityService:GetDatabase( placeRuinScript )
+
+                    database:SetInt( "player_id", self.playerId )
+                    database:SetInt( "target_entity", entity )
+                    database:SetString( "ruins_blueprint", ruinsBlueprintName )
+                end
+            end
+        end
+
+        QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
     end
 end
 
