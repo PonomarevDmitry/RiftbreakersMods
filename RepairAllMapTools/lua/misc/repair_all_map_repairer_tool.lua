@@ -2,6 +2,8 @@ local repair_all_map_base = require("lua/misc/repair_all_map_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
+local LastSelectedBlueprintsListUtils = require("lua/utils/repair_all_map_tools_last_selected_blueprints_utils.lua")
+
 class 'repair_all_map_repairer_tool' ( repair_all_map_base )
 
 function repair_all_map_repairer_tool:__init()
@@ -22,30 +24,87 @@ function repair_all_map_repairer_tool:OnInit()
 
     self:SetTypeSetting()
 
-    self.isGroup = false
-    self.currentChildIsGroup = nil
+    self.list_name = self.data:GetStringOrDefault("list_name", "") or ""
 
-    self:UpdateMarker()
+    self.modeBuilding = 0
+    self.modeBuildingGroup = 1
+    self.modeBuildingLastSelected = 100
+
+    self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup }
+
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
+
+    self.selectedMode = self.modeBuilding
+
+    self:SetBuildingIcon()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
-function repair_all_map_repairer_tool:UpdateMarker()
+function repair_all_map_repairer_tool:SetBuildingIcon()
 
     local messageText = ""
-    local groupString = ""
+    local buildingIconVisible = 0
+    local buildingIcon = ""
 
     local markerBlueprint = self.data:GetString("marker_name")
 
-    if ( self.isGroup ) then
-        messageText = "gui/hud/repair_all_map/building_group"
-        groupString = "_by_group"
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
 
-        markerBlueprint = self.data:GetString("marker_group")
+        local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
+
+        local buildingNumber = #self.lastSelectedBuildingsArray - indexBuilding
+
+        local buildingBlueprint = self.lastSelectedBuildingsArray[buildingNumber]
+
+        self.lastSelectedBuilding = buildingBlueprint
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            buildingIcon = menuIcon
+            buildingIconVisible = 1
+
+            messageText = "${gui/hud/repair_all_map/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+        end
+
+    elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        local isGroup = (self.selectedMode == self.modeBuildingGroup)
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( self.selectedBuildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            buildingIcon = menuIcon
+            buildingIconVisible = 1
+
+            messageText = "${" .. buildingDescRef.localization_id .. "}"
+
+            if ( isGroup ) then
+
+                messageText = "${gui/hud/repair_all_map/building_group}: " .. messageText
+
+                markerBlueprint = self.data:GetString("marker_group")
+            end
+        else
+
+            buildingIcon = "gui/menu/research/icons/missing_icon_big"
+            buildingIconVisible = 1
+
+            messageText = "gui/hud/repair_all_map/building_not_selected"
+        end
+    else
+
+        buildingIconVisible = 1
+
+        buildingIcon = "gui/menu/research/icons/missing_icon_big"
+        messageText = "gui/hud/repair_all_map/building_not_selected"
     end
 
-    if ( self.childEntity == nil or self.currentChildIsGroup ~= self.isGroup ) then
+    if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
 
         -- Destroy old marker
         if (self.childEntity ~= nil) then
@@ -54,35 +113,15 @@ function repair_all_map_repairer_tool:UpdateMarker()
             self.childEntity = nil
         end
 
-
         -- Create new marker
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
-
-        self.currentChildIsGroup = self.isGroup
     end
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", 1)
-
-    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
-
-        local menuIcon = self:GetMenuIcon( self.selectedBuildingBlueprint )
-
-        if ( menuIcon ~= "" ) then
-
-            markerDB:SetString("building_icon", menuIcon)
-            markerDB:SetString("message_text", messageText)
-        else
-
-            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            markerDB:SetString("message_text", "gui/hud/repair_all_map/building_not_selected")
-        end
-    else
-
-        markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-        markerDB:SetString("message_text", "gui/hud/repair_all_map/building_not_selected")
-    end
+    markerDB:SetInt("building_visible", buildingIconVisible)
+    markerDB:SetString("building_icon", buildingIcon)
+    markerDB:SetString("message_text", messageText)
 end
 
 function repair_all_map_repairer_tool:SetTypeSetting()
@@ -200,6 +239,10 @@ end
 function repair_all_map_repairer_tool:FindEntitiesToSelect( selectorComponent )
 
     local result = {}
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+        return {}
+    end
 
     local entitiesBuildings = self:FindRepairableBuildings()
 
@@ -354,7 +397,9 @@ function repair_all_map_repairer_tool:IsBlueprintApproved( blueprintName )
         return false
     end
 
-    if ( self.isGroup ) then
+    local isGroup = (self.selectedMode == self.modeBuildingGroup)
+
+    if ( isGroup ) then
 
         if ( self:IsBlueprintInLowNameList(blueprintName) ) then
             return true
@@ -387,16 +432,14 @@ function repair_all_map_repairer_tool:OnRotateSelectorRequest(evt)
         change = -1
     end
 
-    local currentGroupValue = self:CheckGroupValueExists(self.isGroup)
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
 
-    local groupValuesArray = self:GetGroupValuesArray()
-
-    local index = IndexOf( groupValuesArray, currentGroupValue )
+    local index = IndexOf( self.modeValuesArray, selectedMode )
     if ( index == nil ) then
         index = 1
     end
 
-    local maxIndex = #groupValuesArray
+    local maxIndex = #self.modeValuesArray
 
     local newIndex = index + change
     if ( newIndex > maxIndex ) then
@@ -405,42 +448,38 @@ function repair_all_map_repairer_tool:OnRotateSelectorRequest(evt)
         newIndex = 1
     end
 
-    local newValue = groupValuesArray[newIndex]
+    local newValue = self.modeValuesArray[newIndex]
 
-    self.isGroup = newValue
+    self.selectedMode = newValue
 
-    self:UpdateMarker()
-
-    self:OnWorkExecute()
+    self:SetBuildingIcon()
 end
 
-function repair_all_map_repairer_tool:CheckGroupValueExists( groupValue )
+function repair_all_map_repairer_tool:CheckModeValueExists( selectedMode )
 
-    local groupValuesArray = self:GetGroupValuesArray()
+    selectedMode = selectedMode or self.modeValuesArray[1]
 
-    groupValue = groupValue or groupValuesArray[1]
-
-    local index = IndexOf(groupValuesArray, groupValue )
+    local index = IndexOf(self.modeValuesArray, selectedMode )
 
     if ( index == nil ) then
 
-        return groupValuesArray[1]
+        return self.modeValuesArray[1]
     end
 
-    return groupValue
-end
-
-function repair_all_map_repairer_tool:GetGroupValuesArray()
-
-    if ( self.groupValuesArray == nil ) then
-
-        self.groupValuesArray = { false, true }
-    end
-
-    return self.groupValuesArray
+    return selectedMode
 end
 
 function repair_all_map_repairer_tool:OnActivateSelectorRequest()
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        if ( self:ChangeSelector(self.lastSelectedBuilding) ) then
+
+            return
+        end
+
+        return
+    end
 
     if ( #self.selectedEntities == 0 ) then
         return
@@ -490,6 +529,60 @@ function repair_all_map_repairer_tool:OnActivateSelectorRequest()
             end
         end
     end
+end
+
+function repair_all_map_repairer_tool:ChangeSelector(blueprintName)
+
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return false
+    end
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    selectorDB:SetString( self.template_name, blueprintName )
+
+    self.selectedBuildingBlueprint = blueprintName
+
+    self:InitLowUpgradeList()
+
+    self:SetTypeSetting()
+
+    self:AddBlueprintToLastList(blueprintName, self.selector)
+
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
+
+    self.selectedMode = self.modeBuilding
+
+    self:SetBuildingIcon()
+
+    return true
+end
+
+function repair_all_map_repairer_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSelected, selector)
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    local selectorDB = EntityService:GetDatabase( selector )
+
+    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
+
+    if ( self.selectedBuildingBlueprint ~= "" and self.selectedBuildingBlueprint ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(self.lastSelectedBuildingsArray, self.selectedBuildingBlueprint)
+    end
+
+    local modeValuesArray = Copy(defaultModesArray)
+
+    for index=0,#self.lastSelectedBuildingsArray-1 do
+
+        Insert(modeValuesArray, (modeBuildingLastSelected + index))
+    end
+
+    return modeValuesArray
+end
+
+function repair_all_map_repairer_tool:AddBlueprintToLastList(blueprintName, selector)
+
+    LastSelectedBlueprintsListUtils:AddBlueprintToList(self.list_name, selector, blueprintName)
 end
 
 function repair_all_map_repairer_tool:OnRelease()

@@ -113,7 +113,7 @@ end
 
 function repair_all_map_picker_tool:FindEntitiesToSelect( selectorComponent )
 
-    if ( self.selectedMode ~= self.modeBuilding ) then
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
         return {}
     end
 
