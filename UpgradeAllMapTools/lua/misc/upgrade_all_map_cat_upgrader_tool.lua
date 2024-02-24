@@ -368,7 +368,7 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
 
     local result = {}
 
-    if ( self.selectedMode ~= self.modeSelect ) then
+    if ( self.selectedMode >= self.modeSelectLast ) then
         return result
     end
 

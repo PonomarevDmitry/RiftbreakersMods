@@ -125,7 +125,7 @@ function upgrade_all_map_picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    if ( self.selectedMode ~= self.modeBuilding ) then
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
         return entities
     end
 
