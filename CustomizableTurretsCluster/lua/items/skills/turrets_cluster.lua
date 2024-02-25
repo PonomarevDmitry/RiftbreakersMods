@@ -87,18 +87,12 @@ function turrets_cluster:OnActivate()
                 goto continue2
             end
 
-            LogService:Log("OnActivate position.x " .. tostring(position.x) .. " position.y " .. tostring(position.y) .. " position.z " .. tostring(position.z))
-
             local turretBlueprint = itemBlueprintDatabase:GetString("blueprint")
             local timeout = itemBlueprintDatabase:GetFloatOrDefault("timeout", 20.0)
-
-            LogService:Log("OnActivate turretBlueprint " .. tostring(turretBlueprint))
 
             local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
             ItemService:SetItemCreator( tower, self.entity_blueprint )
             EntityService:DissolveEntity( tower, 1.0, timeout )
-
-            LogService:Log("OnActivate tower " .. tostring(tower))
 
             local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
             local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
@@ -212,86 +206,96 @@ function turrets_cluster:FindPositionsToBuild(cellCount)
         return result
     end
 
-    local delta = 2
+    for indexZ = 0,cellCount do
+        for indexX = 0,indexZ do
 
-    for indexX = 0,cellCount do
-        for indexZ = 0,cellCount do
+            self:AddToResult(result, indexX, indexZ)
 
-            local maxIndex = math.max(indexX, indexZ)
-            local totalIndex = indexX + indexZ
+            if ( indexX ~= indexZ ) then
 
-            local newPosition = nil
-
-            newPosition = {}
-            newPosition.x = indexX * delta
-            newPosition.z = indexZ * delta
-
-            newPosition.maxIndex = maxIndex
-            newPosition.totalIndex = totalIndex
-
-            Insert( result, newPosition )
-
-            if ( indexZ ~= 0 ) then
-
-                newPosition = {}
-                newPosition.x = indexX * delta
-                newPosition.z = - indexZ * delta
-
-                newPosition.maxIndex = maxIndex
-                newPosition.totalIndex = totalIndex
-
-                Insert( result, newPosition )
-            end
-
-            if ( indexX ~= 0 ) then
-
-                newPosition = {}
-                newPosition.x = - indexX * delta
-                newPosition.z = indexZ * delta
-
-                newPosition.maxIndex = maxIndex
-                newPosition.totalIndex = totalIndex
-
-                Insert( result, newPosition )
-            end
-
-            if ( indexX ~= 0 and indexZ ~= 0 ) then
-
-                newPosition = {}
-                newPosition.x = - indexX * delta
-                newPosition.z = - indexZ * delta
-
-                newPosition.maxIndex = maxIndex
-                newPosition.totalIndex = totalIndex
-
-                Insert( result, newPosition )
+                self:AddToResult(result, indexZ, indexX)
             end
         end
     end
 
-    local sorter = function( position1, position2 )
-
-        if (position1.maxIndex ~= position2.maxIndex) then
-
-            return position1.maxIndex < position2.maxIndex
-        end
-
-        if (position1.totalIndex ~= position2.totalIndex) then
-
-            return position1.totalIndex < position2.totalIndex
-        end
-
-        if (position1.x ~= position2.x) then
-
-            return position1.x > position2.x
-        end
-
-        return position1.z > position2.z
-    end
-
-    table.sort(result, sorter)
+    --local sorter = function( position1, position2 )
+    --
+    --    if (position1.maxIndex ~= position2.maxIndex) then
+    --
+    --        return position1.maxIndex < position2.maxIndex
+    --    end
+    --
+    --    if (position1.totalIndex ~= position2.totalIndex) then
+    --
+    --        return position1.totalIndex < position2.totalIndex
+    --    end
+    --
+    --    if (position1.x ~= position2.x) then
+    --
+    --        return position1.x > position2.x
+    --    end
+    --
+    --    return position1.z > position2.z
+    --end
+    --
+    --table.sort(result, sorter)
 
     return result
+end
+
+function turrets_cluster:AddToResult(result, indexX, indexZ)
+
+    local delta = 2
+
+    local maxIndex = math.max(indexX, indexZ)
+    local totalIndex = indexX + indexZ
+
+    local newPosition = nil
+
+    newPosition = {}
+    newPosition.x = indexX * delta
+    newPosition.z = indexZ * delta
+
+    newPosition.maxIndex = maxIndex
+    newPosition.totalIndex = totalIndex
+
+    Insert( result, newPosition )
+
+    if ( indexX ~= 0 and indexZ ~= 0 ) then
+
+        newPosition = {}
+        newPosition.x = - indexX * delta
+        newPosition.z = - indexZ * delta
+
+        newPosition.maxIndex = maxIndex
+        newPosition.totalIndex = totalIndex
+
+        Insert( result, newPosition )
+    end
+
+    if ( indexX ~= 0 ) then
+
+        newPosition = {}
+        newPosition.x = - indexX * delta
+        newPosition.z = indexZ * delta
+
+        newPosition.maxIndex = maxIndex
+        newPosition.totalIndex = totalIndex
+
+        Insert( result, newPosition )
+    end
+
+    if ( indexZ ~= 0 ) then
+
+        newPosition = {}
+        newPosition.x = indexX * delta
+        newPosition.z = - indexZ * delta
+
+        newPosition.maxIndex = maxIndex
+        newPosition.totalIndex = totalIndex
+
+        Insert( result, newPosition )
+    end
 end
 
 return turrets_cluster
