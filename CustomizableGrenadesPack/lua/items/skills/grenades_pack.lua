@@ -43,8 +43,6 @@ function grenades_pack:OnActivate()
 
         local modItemBlueprint = self.data:GetStringOrDefault("grenades_pack_MOD_" .. tostring(i), "") or ""
 
-        LogService:Log("OnActivate modItemBlueprint " .. tostring(modItemBlueprint))
-
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continue
         end
