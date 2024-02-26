@@ -30,8 +30,6 @@ function turrets_cluster:OnActivate()
 
         local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
 
-        LogService:Log("OnActivate modItemBlueprint " .. tostring(modItemBlueprint))
-
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continue
         end
