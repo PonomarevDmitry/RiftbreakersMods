@@ -4,6 +4,8 @@ local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 class 'base_unit' ( LuaEntityObject )
 
+globalMenuCache = globalMenuCache or {}
+
 function base_unit:__init()
 	LuaEntityObject.__init(self, self)
 end
@@ -57,59 +59,86 @@ function base_unit:_OnDamageEvent( evt )
 			end
 		end
 
-		local resistanceComponent = EntityService:GetComponent(self.entity, "ResistanceComponent")
-		if ( resistanceComponent ~= nil ) then
-
-			local resistanceComponentRef = reflection_helper(resistanceComponent)
-
-			local damageType = evt:GetDamageType()
-
-			local currentResistance = self:GetResistanceToDamage(damageType, resistanceComponentRef)
-
-			if ( currentResistance < 1 ) then
-
-				globalMenuCache = globalMenuCache or {}
-
-				local blueprintName = EntityService:GetBlueprintName( self.entity )
-
-				local menuBlueprintName = "misc/unit_vulnerabilities_menu"
-
-				local menuEntity = self:FindMenuEntity(menuBlueprintName)
-
-				local vulnerabilities = self:GetVulnerabilities(resistanceComponentRef)
-
-				if ( menuEntity ~= nil ) then
-
-					EntityService:CreateOrSetLifetime( menuEntity, 10.0, "normal" )
-
-					self:SetMenuValues(menuEntity, vulnerabilities)
-
-					globalMenuCache[blueprintName] = menuEntity
-
-				else
-
-					menuEntity = self:GetGlobalMenuEntity(blueprintName)
-
-					if ( menuEntity == nil ) then
-
-						local team = EntityService:GetTeam( self.entity )
-						menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
-
-						local sizeSelf = EntityService:GetBoundsSize( self.entity )
-						EntityService:SetPosition( menuEntity, 0, sizeSelf.y, 0 )
-
-						self:SetMenuValues(menuEntity, vulnerabilities)
-
-						globalMenuCache[blueprintName] = menuEntity
-					end
-				end
-			end
-		end
+		self:ShowVulnerabilitiesMenu(evt)
 	end
 
 	if self.OnDamageEvent then
 		self:OnDamageEvent(evt)
 	end
+end
+
+function base_unit:ShowVulnerabilitiesMenu(evt)
+
+	local owner = evt:GetOwner()
+	if ( owner == nil or owner == INVALID_ID ) then
+		return
+	end
+
+	local ownerBlueprintName = EntityService:GetBlueprintName( owner )
+	if ( ownerBlueprintName ~= "player/character" ) then
+		return
+	end
+
+	if ( EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil ) then
+		return
+	end
+
+	local resistanceComponent = EntityService:GetComponent(self.entity, "ResistanceComponent")
+	if ( resistanceComponent == nil ) then
+		return
+	end
+
+	local resistanceComponentRef = reflection_helper(resistanceComponent)
+
+	local damageType = evt:GetDamageType()
+
+	local currentResistance = self:GetResistanceToDamage(damageType, resistanceComponentRef)
+	if ( currentResistance > 1 ) then
+		return
+	end
+
+	globalMenuCache = globalMenuCache or {}
+
+	local blueprintName = EntityService:GetBlueprintName( self.entity )
+
+	local menuBlueprintName = "misc/unit_vulnerabilities_menu"
+
+	local menuEntity = self:FindMenuEntity(menuBlueprintName)
+
+	local vulnerabilities = self:GetVulnerabilities(resistanceComponentRef)
+
+	if ( menuEntity ~= nil ) then
+
+		EntityService:CreateOrSetLifetime( menuEntity, 5.0, "normal" )
+
+		self:SetMenuValues(menuEntity, vulnerabilities)
+
+		globalMenuCache[blueprintName] = menuEntity
+
+	else
+
+		menuEntity = self:GetGlobalMenuEntity(blueprintName)
+
+		if ( menuEntity == nil ) then
+
+			self:CreateVulnerabilitiesMenu(blueprintName, vulnerabilities, menuBlueprintName)
+		end
+	end
+end
+
+function base_unit:CreateVulnerabilitiesMenu(blueprintName, vulnerabilities, menuBlueprintName)
+
+	local team = EntityService:GetTeam( self.entity )
+	local menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
+
+	local sizeSelf = EntityService:GetBoundsSize( self.entity )
+	EntityService:SetPosition( menuEntity, 0, sizeSelf.y, 0 )
+
+	self:SetMenuValues(menuEntity, vulnerabilities)
+
+	globalMenuCache = globalMenuCache or {}
+
+	globalMenuCache[blueprintName] = menuEntity
 end
 
 function base_unit:GetGlobalMenuEntity(blueprintName)
@@ -124,7 +153,9 @@ function base_unit:GetGlobalMenuEntity(blueprintName)
 
 		if ( parent ~= nil and parent ~= INVALID_ID and EntityService:IsAlive( parent ) and HealthService:IsAlive( parent ) ) then
 
-			return menuEntity
+			if ( EntityService:GetComponent(parent, "IsVisibleComponent") ~= nil ) then
+				return menuEntity
+			end
 		end
 	end
 
@@ -233,7 +264,7 @@ function base_unit:_OnDestroyRequest( evt )
 
 	local menuEntity = self:FindMenuEntity("misc/unit_vulnerabilities_menu")
 	if ( menuEntity ~= nil ) then
-		EntityService:CreateOrSetLifetime( menuEntity, 3.0, "normal" )
+		EntityService:CreateOrSetLifetime( menuEntity, 1.0, "normal" )
 	end
 
 	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(),self.wreck_type, self.wreckMinSpeed )
