@@ -31,8 +31,6 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
 
     self.selectedCategory = ""
 
-    self.categoryNotSelected = false
-
     self.modeSelect = 0
     self.modeSelectLast = 100
 
