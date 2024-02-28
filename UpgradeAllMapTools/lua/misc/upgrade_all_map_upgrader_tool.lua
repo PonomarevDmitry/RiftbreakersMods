@@ -2,6 +2,8 @@ local upgrade_all_map_base = require("lua/misc/upgrade_all_map_base.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
+local LastSelectedBlueprintsListUtils = require("lua/utils/upgrade_all_map_tools_last_selected_blueprints_utils.lua")
+
 class 'upgrade_all_map_upgrader_tool' ( upgrade_all_map_base )
 
 function upgrade_all_map_upgrader_tool:__init()
@@ -19,13 +21,19 @@ function upgrade_all_map_upgrader_tool:OnInit()
     }
 
     self:InitLowUpgradeList()
-
     self:SetTypeSetting()
 
-    self.isGroup = false
-    self.currentChildIsGroup = nil
+    self.list_name = self.data:GetStringOrDefault("list_name", "") or ""
 
-    self.buildingNoSelected = false
+    self.modeBuilding = 0
+    self.modeBuildingGroup = 1
+    self.modeBuildingLastSelected = 100
+
+    self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup }
+
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
+
+    self.selectedMode = self.modeBuilding
 
     self:UpdateMarker()
 
@@ -36,18 +44,78 @@ end
 function upgrade_all_map_upgrader_tool:UpdateMarker()
 
     local messageText = ""
-    local groupString = ""
+    local buildingIconVisible = 0
+    local buildingIcon = ""
 
     local markerBlueprint = self.data:GetString("marker_name")
 
-    if ( self.isGroup ) then
-        messageText = "gui/hud/upgrade_all_map/building_group"
-        groupString = "_by_group"
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
 
-        markerBlueprint = self.data:GetString("marker_group")
+        local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
+
+        local buildingNumber = #self.lastSelectedBuildingsArray - indexBuilding
+
+        local buildingBlueprint = self.lastSelectedBuildingsArray[buildingNumber]
+
+        self.lastSelectedBuilding = buildingBlueprint
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            buildingIcon = menuIcon
+            buildingIconVisible = 1
+
+            messageText = "${gui/hud/upgrade_all_map/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+        end
+
+    elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        local isGroup = (self.selectedMode == self.modeBuildingGroup)
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( self.selectedBuildingBlueprint )
+
+        local buildingsIcons = self:GetBuildinsDescription()
+
+        if ( menuIcon ~= "" ) then
+
+            buildingIcon = menuIcon
+            buildingIconVisible = 1
+
+            if (string.len(buildingsIcons) > 0) then
+
+                if ( isGroup ) then
+                    messageText = "${gui/hud/upgrade_all_map/building_group}: " .. buildingsIcons
+                else
+                    messageText = buildingsIcons
+                end
+            else
+
+                if ( isGroup ) then
+                    messageText = "gui/hud/upgrade_all_map/building_group"
+                end
+            end
+
+            if ( isGroup ) then
+
+                markerBlueprint = self.data:GetString("marker_group")
+            end
+        else
+
+            buildingIcon = "gui/menu/research/icons/missing_icon_big"
+            buildingIconVisible = 1
+
+            messageText = "gui/hud/upgrade_all_map/building_not_selected"
+        end
+    else
+
+        buildingIconVisible = 1
+
+        buildingIcon = "gui/menu/research/icons/missing_icon_big"
+        messageText = "gui/hud/upgrade_all_map/building_not_selected"
     end
 
-    if ( self.childEntity == nil or self.currentChildIsGroup ~= self.isGroup ) then
+    if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
 
         -- Destroy old marker
         if (self.childEntity ~= nil) then
@@ -56,39 +124,90 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
             self.childEntity = nil
         end
 
-
         -- Create new marker
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
-
-        self.currentChildIsGroup = self.isGroup
     end
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", 1)
+    markerDB:SetInt("building_visible", buildingIconVisible)
+    markerDB:SetString("building_icon", buildingIcon)
+    markerDB:SetString("message_text", messageText)
+end
 
-    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+function upgrade_all_map_upgrader_tool:GetBuildinsDescription()
 
-        local menuIcon = self:GetMenuIcon( self.selectedBuildingBlueprint )
+    local listIconsNames, hashIconsCount = self:GetIconsData()
 
+    local buildingsIcons = ""
+
+    for menuIcon in Iter( listIconsNames ) do
+
+        local count = hashIconsCount[menuIcon]
+
+        if ( count > 0 ) then
+
+            if ( string.len(buildingsIcons) > 0 ) then
+
+                buildingsIcons = buildingsIcons .. ", "
+            end
+
+            buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+        end
+    end
+
+    return buildingsIcons
+end
+
+function upgrade_all_map_upgrader_tool:GetIconsData()
+
+    self.selectedEntities = self.selectedEntities or {}
+
+    local upgradeCostsEntities = {}
+
+    local listIconsNames = {}
+    local hashIconsCount = {}
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( upgradeCostsEntities[entity] ~= nil ) then
+            goto continue
+        end
+
+        upgradeCostsEntities[entity] = true
+
+        if ( not BuildingService:IsBuildingFinished( entity ) ) then
+            goto continue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+
+        if ( buildingDescRef.limit_name == "hq" ) then
+
+            goto continue
+        end
+
+        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
         if ( menuIcon ~= "" ) then
 
-            markerDB:SetString("building_icon", menuIcon)
-            markerDB:SetString("message_text", messageText)
-        else
+            if ( hashIconsCount[menuIcon] == nil ) then
 
-            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
+                Insert( listIconsNames, menuIcon )
 
-            self.buildingNoSelected = true
+                hashIconsCount[menuIcon] = 0
+            end
+
+            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
         end
-    else
 
-        markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-        markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
-
-        self.buildingNoSelected = true
+        ::continue::
     end
+
+    return listIconsNames,hashIconsCount
 end
 
 function upgrade_all_map_upgrader_tool:SetTypeSetting()
@@ -130,12 +249,11 @@ end
 
 function upgrade_all_map_upgrader_tool:OnUpdate()
 
+    self:UpdateMarker()
+
     self.upgradeCosts = {}
 
     local upgradeCostsEntities = {}
-
-    local listIconsNames = {}
-    local hashIconsCount = {}
 
     for entity in Iter( self.selectedEntities ) do
 
@@ -176,19 +294,6 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
             EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
         end
 
-        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
-        if ( menuIcon ~= "" ) then
-
-            if ( hashIconsCount[menuIcon] == nil ) then
-
-                Insert( listIconsNames, menuIcon )
-
-                hashIconsCount[menuIcon] = 0
-            end
-
-            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
-        end
-
         local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do
 
@@ -200,49 +305,6 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
         end
 
         ::continue::
-    end
-
-    local markerDB = EntityService:GetDatabase( self.childEntity )
-
-    if ( self.buildingNoSelected ) then
-
-        markerDB:SetString("message_text", "gui/hud/upgrade_all_map/building_not_selected")
-    else
-
-        local buildingsIcons = ""
-
-        for menuIcon in Iter( listIconsNames ) do
-
-            local count = hashIconsCount[menuIcon]
-
-            if ( count > 0 ) then
-
-                if ( string.len(buildingsIcons) > 0 ) then
-
-                    buildingsIcons = buildingsIcons .. ", "
-                end
-
-                buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
-            end
-        end
-
-        local markerText = ""
-
-        if (string.len(buildingsIcons) > 0) then
-
-            if ( self.isGroup ) then
-                markerText = "${gui/hud/upgrade_all_map/building_group}: " .. buildingsIcons
-            else
-                markerText = buildingsIcons
-            end
-        else
-
-            if ( self.isGroup ) then
-                markerText = "gui/hud/upgrade_all_map/building_group"
-            end
-        end
-
-        markerDB:SetString("message_text", markerText)
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
@@ -258,6 +320,10 @@ end
 function upgrade_all_map_upgrader_tool:FindEntitiesToSelect( selectorComponent )
 
     local result = {}
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+        return {}
+    end
 
     local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
@@ -313,7 +379,9 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
         return false
     end
 
-    if ( self.isGroup ) then
+    local isGroup = (self.selectedMode == self.modeBuildingGroup)
+
+    if ( isGroup ) then
 
         if ( self:IsBlueprintInLowNameList(blueprintName) ) then
             return true
@@ -346,16 +414,14 @@ function upgrade_all_map_upgrader_tool:OnRotateSelectorRequest(evt)
         change = -1
     end
 
-    local currentGroupValue = self:CheckGroupValueExists(self.isGroup)
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
 
-    local groupValuesArray = self:GetGroupValuesArray()
-
-    local index = IndexOf( groupValuesArray, currentGroupValue )
+    local index = IndexOf( self.modeValuesArray, selectedMode )
     if ( index == nil ) then
         index = 1
     end
 
-    local maxIndex = #groupValuesArray
+    local maxIndex = #self.modeValuesArray
 
     local newIndex = index + change
     if ( newIndex > maxIndex ) then
@@ -364,42 +430,38 @@ function upgrade_all_map_upgrader_tool:OnRotateSelectorRequest(evt)
         newIndex = 1
     end
 
-    local newValue = groupValuesArray[newIndex]
+    local newValue = self.modeValuesArray[newIndex]
 
-    self.isGroup = newValue
+    self.selectedMode = newValue
 
     self:UpdateMarker()
-
-    self:OnWorkExecute()
 end
 
-function upgrade_all_map_upgrader_tool:CheckGroupValueExists( groupValue )
+function upgrade_all_map_upgrader_tool:CheckModeValueExists( selectedMode )
 
-    local groupValuesArray = self:GetGroupValuesArray()
+    selectedMode = selectedMode or self.modeValuesArray[1]
 
-    groupValue = groupValue or groupValuesArray[1]
-
-    local index = IndexOf(groupValuesArray, groupValue )
+    local index = IndexOf(self.modeValuesArray, selectedMode )
 
     if ( index == nil ) then
 
-        return groupValuesArray[1]
+        return self.modeValuesArray[1]
     end
 
-    return groupValue
-end
-
-function upgrade_all_map_upgrader_tool:GetGroupValuesArray()
-
-    if ( self.groupValuesArray == nil ) then
-
-        self.groupValuesArray = { false, true }
-    end
-
-    return self.groupValuesArray
+    return selectedMode
 end
 
 function upgrade_all_map_upgrader_tool:OnActivateSelectorRequest()
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        if ( self:ChangeSelector(self.lastSelectedBuilding) ) then
+
+            return
+        end
+
+        return
+    end
 
     if ( #self.selectedEntities == 0 ) then
         return
@@ -425,6 +487,60 @@ function upgrade_all_map_upgrader_tool:OnActivateSelectorRequest()
 
         ::continue::
     end
+end
+
+function upgrade_all_map_upgrader_tool:ChangeSelector(blueprintName)
+
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return false
+    end
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    selectorDB:SetString( self.template_name, blueprintName )
+
+    self.selectedBuildingBlueprint = blueprintName
+
+    self:InitLowUpgradeList()
+
+    self:SetTypeSetting()
+
+    self:AddBlueprintToLastList(blueprintName, self.selector)
+
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
+
+    self.selectedMode = self.modeBuilding
+
+    self:UpdateMarker()
+
+    return true
+end
+
+function upgrade_all_map_upgrader_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSelected, selector)
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    local selectorDB = EntityService:GetDatabase( selector )
+
+    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
+
+    if ( self.selectedBuildingBlueprint ~= "" and self.selectedBuildingBlueprint ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(self.lastSelectedBuildingsArray, self.selectedBuildingBlueprint)
+    end
+
+    local modeValuesArray = Copy(defaultModesArray)
+
+    for index=0,#self.lastSelectedBuildingsArray-1 do
+
+        Insert(modeValuesArray, (modeBuildingLastSelected + index))
+    end
+
+    return modeValuesArray
+end
+
+function upgrade_all_map_upgrader_tool:AddBlueprintToLastList(blueprintName, selector)
+
+    LastSelectedBlueprintsListUtils:AddBlueprintToList(self.list_name, selector, blueprintName)
 end
 
 function upgrade_all_map_upgrader_tool:OnRelease()
