@@ -71,16 +71,16 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
 
     elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
-        local isGroup = (self.selectedMode == self.modeBuildingGroup)
-
         local menuIcon, buildingDescRef = self:GetMenuIcon( self.selectedBuildingBlueprint )
-
-        local buildingsIcons = self:GetBuildinsDescription()
 
         if ( menuIcon ~= "" ) then
 
             buildingIcon = menuIcon
             buildingIconVisible = 1
+
+            local isGroup = (self.selectedMode == self.modeBuildingGroup)
+
+            local buildingsIcons = self:GetBuildinsDescription()
 
             if (string.len(buildingsIcons) > 0) then
 
