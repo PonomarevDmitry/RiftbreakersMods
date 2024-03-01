@@ -82,41 +82,57 @@ function sell_all_map_seller_tool:UpdateMarker()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            local buildingsIcons = self:GetBuildinsDescription()
-
-            local isGroup = (self.selectedMode == self.modeBuildingGroup or self.selectedMode == self.modeBuildingGroupRuins)
-
-            if (string.len(buildingsIcons) > 0) then
-
-                if ( isGroup ) then
-                    messageText = "${gui/hud/sell_all_map/building_group}: " .. buildingsIcons
-                else
-                    messageText = buildingsIcons
-                end
-            else
-
-                if ( isGroup ) then
-                    messageText = "gui/hud/sell_all_map/building_group"
-                end
-            end
-
-            if ( isGroup ) then
-
-                markerBlueprint = self.data:GetString("marker_group")
-            end
+            messageText = self:GetBuildinsDescription()
         else
 
             buildingIcon = "gui/menu/research/icons/missing_icon_big"
             buildingIconVisible = 1
 
-            messageText = "gui/hud/sell_all_map/building_not_selected"
+            messageText = "${gui/hud/sell_all_map/building_not_selected}"
         end
     else
 
         buildingIconVisible = 1
 
         buildingIcon = "gui/menu/research/icons/missing_icon_big"
-        messageText = "gui/hud/sell_all_map/building_not_selected"
+        messageText = "${gui/hud/sell_all_map/building_not_selected}"
+    end
+
+    if ( self.selectedMode == self.modeBuildingRuins ) then
+
+        markerBlueprint = self.data:GetString("marker_place_ruins")
+
+        if (string.len(messageText) > 0) then
+
+            messageText = "${gui/hud/sell_all_map/place_ruins}: " .. messageText
+        else
+
+            messageText = "${gui/hud/sell_all_map/place_ruins}"
+        end
+
+    elseif ( self.selectedMode == self.modeBuildingGroup ) then
+
+        markerBlueprint = self.data:GetString("marker_group")
+
+        if (string.len(messageText) > 0) then
+
+            messageText = "${gui/hud/sell_all_map/building_group}: " .. messageText
+        else
+
+            messageText = "${gui/hud/sell_all_map/building_group}"
+        end
+
+    elseif ( self.selectedMode == self.modeBuildingGroupRuins ) then
+
+        markerBlueprint = self.data:GetString("marker_place_ruins_group")
+
+        if (string.len(messageText) > 0) then
+
+            messageText = "${gui/hud/sell_all_map/building_group_place_ruins}: " .. messageText
+        else
+
+            messageText = "${gui/hud/sell_all_map/building_group_place_ruins}"
+        end
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then

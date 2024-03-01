@@ -101,15 +101,15 @@ function LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(curre
                     Remove( currentListArray, varBuildingDescRef.bp )
                 end
 
-                local sellBlueprintName = varBuildingDescRef.sell
+                local upgradeBlueprintName = varBuildingDescRef.upgrade
                 varBuildingDescRef = nil
 
-                if ( sellBlueprintName ~= "" and sellBlueprintName ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", sellBlueprintName )  ) then
+                if ( upgradeBlueprintName ~= "" and upgradeBlueprintName ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", upgradeBlueprintName )  ) then
 
-                    local sellBuildingDesc = BuildingService:GetBuildingDesc( sellBlueprintName )
-                    if ( sellBuildingDesc ~= nil ) then
+                    local upgradeBuildingDesc = BuildingService:GetBuildingDesc( upgradeBlueprintName )
+                    if ( upgradeBuildingDesc ~= nil ) then
 
-                        varBuildingDescRef = reflection_helper(sellBuildingDesc)
+                        varBuildingDescRef = reflection_helper(upgradeBuildingDesc)
                     end
                 end
             end
