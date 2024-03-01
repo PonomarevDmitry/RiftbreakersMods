@@ -61,23 +61,17 @@ end
 
 function sell_all_map_cat_seller_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local messageText = ""
+    local buildingIconVisible = 0
+    local buildingIcon = ""
 
-    markerDB:SetInt("building_visible", 1)
+    local markerBlueprint = self.data:GetString("marker_name")
 
     if ( self.categoryTemplate == "" ) then
 
-        local messageText = self:GetBuildinsDescription()
+        messageText = self:GetBuildinsDescription()
 
-        markerDB:SetString("message_text", messageText)
-
-        markerDB:SetString("building_icon", "")
-        markerDB:SetInt("building_icon_visible", 0)
-
-        return
-    end
-
-    if ( self.selectedMode >= self.modeSelectLast ) then
+    elseif ( self.selectedMode >= self.modeSelectLast ) then
 
         local indexCategory = self.selectedMode - self.modeSelectLast
 
@@ -88,43 +82,67 @@ function sell_all_map_cat_seller_tool:UpdateMarker()
 
         local menuIcon = "gui/hud/building_icons/" .. self.lastSelectedCategory ..  "_structures_neutral"
 
-        local messageText = "${gui/hud/sell_all_map/last_building} " .. tostring(indexCategory + 1)
+        messageText = "${gui/hud/sell_all_map/last_building} " .. tostring(indexCategory + 1)
 
-        markerDB:SetString("building_icon", menuIcon)
-        markerDB:SetInt("building_icon_visible", 1)
-
-        markerDB:SetString("message_text", messageText)
+        buildingIcon = menuIcon
+        buildingIconVisible = 1
 
     elseif ( self.selectedCategory ~= "" ) then
 
-        local buildingsDescription = self:GetBuildinsDescription()
-
-        local messageText = buildingsDescription
-
-        if ( self.selectedMode == self.modeSelectRuins ) then
-
-            messageText = "${gui/hud/sell_all_map/place_ruins}: " .. buildingsDescription
-        end
-
-        markerDB:SetString("message_text", messageText)
+        messageText = self:GetBuildinsDescription()
 
         local menuIcon = "gui/hud/building_icons/" .. self.selectedCategory ..  "_structures_neutral"
 
         if ( ResourceManager:ResourceExists("Material", menuIcon) ) then
 
-            markerDB:SetString("building_icon", menuIcon)
+            buildingIcon = menuIcon
         else
 
-            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+            buildingIcon = "gui/menu/research/icons/missing_icon_big"
         end
-        markerDB:SetInt("building_icon_visible", 1)
+
+        buildingIconVisible = 1
     else
 
-        markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-        markerDB:SetInt("building_icon_visible", 1)
+        buildingIcon = "gui/menu/research/icons/missing_icon_big"
+        buildingIconVisible = 1
 
-        markerDB:SetString("message_text", "gui/hud/sell_all_map/building_category_not_selected")
+        messageText = "${gui/hud/sell_all_map/building_category_not_selected}"
     end
+
+    if ( self.selectedMode == self.modeSelectRuins ) then
+
+        markerBlueprint = self.data:GetString("marker_place_ruins")
+
+        if (string.len(messageText) > 0) then
+
+            messageText = "${gui/hud/sell_all_map/place_ruins}: " .. messageText
+        else
+
+            messageText = "${gui/hud/sell_all_map/place_ruins}"
+        end
+    end
+
+    if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
+
+        -- Destroy old marker
+        if (self.childEntity ~= nil) then
+
+            EntityService:RemoveEntity(self.childEntity)
+            self.childEntity = nil
+        end
+
+        -- Create new marker
+        self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+    end
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    markerDB:SetInt("building_visible", 1)
+
+    markerDB:SetInt("building_icon_visible", buildingIconVisible)
+    markerDB:SetString("building_icon", buildingIcon)
+    markerDB:SetString("message_text", messageText)
 end
 
 function sell_all_map_cat_seller_tool:GetBuildinsDescription()
