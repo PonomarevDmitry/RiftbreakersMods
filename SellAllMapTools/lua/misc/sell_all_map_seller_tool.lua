@@ -190,11 +190,6 @@ function sell_all_map_seller_tool:GetIconsData()
 
         local buildingDescRef = reflection_helper( buildingDesc )
 
-        if ( buildingDescRef.limit_name == "hq" ) then
-
-            goto continue
-        end
-
         local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
         if ( menuIcon ~= "" ) then
 
