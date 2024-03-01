@@ -37,14 +37,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    if ( buildingDescRef.limit_name == "hq" ) then
-        return
-    end
-
-    if ( buildingDescRef.level == 1 and (buildingDescRef.sell == "" or buildingDescRef.sell == nil) ) then
-        return
-    end
-
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
         return
@@ -52,6 +44,11 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local buildingComponent = blueprint:GetComponent("BuildingComponent")
     if ( buildingComponent == nil ) then
+        return
+    end
+
+    local buildingComponentRef = reflection_helper(buildingComponent)
+    if ( buildingComponentRef.m_isSellable == false ) then
         return
     end
 
