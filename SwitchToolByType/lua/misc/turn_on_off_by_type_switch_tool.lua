@@ -200,6 +200,16 @@ function turn_on_off_by_type_switch_tool:OnUpdate()
     end
 
     self.previousMarkedBuildings = availableBuildinsList
+
+    for entity in Iter( self.selectedEntities ) do
+
+        local skinned = EntityService:IsSkinned(entity)
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+        end
+    end
 end
 
 function turn_on_off_by_type_switch_tool:FindBuildingAvailable()
@@ -213,6 +223,10 @@ function turn_on_off_by_type_switch_tool:FindBuildingAvailable()
     for entity in Iter( buildings ) do
 
         if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
+            goto continue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
             goto continue
         end
 

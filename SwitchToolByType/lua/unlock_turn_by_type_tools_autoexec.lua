@@ -10,9 +10,9 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     BuildingService:UnlockBuilding("buildings/tools/turn_by_type_1_picker")
 
     BuildingService:UnlockBuilding("buildings/tools/turn_by_type_2_on")
-    BuildingService:UnlockBuilding("buildings/tools/turn_by_type_3_on_group")
+    BuildingService:UnlockBuilding("buildings/tools/turn_by_type_3_off")
 
-    BuildingService:UnlockBuilding("buildings/tools/turn_by_type_4_off")
+    BuildingService:UnlockBuilding("buildings/tools/turn_by_type_4_on_group")
     BuildingService:UnlockBuilding("buildings/tools/turn_by_type_5_off_group")
 end)
 
@@ -62,7 +62,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    local parameterName = "$turn_on_off_by_type_picker_tool.last_selected_buildings"
+    local parameterName = "$turn_by_type_picker_tool.last_selected_buildings"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
 end)
