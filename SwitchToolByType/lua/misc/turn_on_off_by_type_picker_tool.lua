@@ -71,7 +71,7 @@ function turn_on_off_by_type_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/turn_on_off_tools/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/turn_by_type_tools/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
         end
 
     elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
@@ -83,7 +83,7 @@ function turn_on_off_by_type_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/turn_on_off_tools/current_building} ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/turn_by_type_tools/current_building} ${" .. buildingDescRef.localization_id .. "}"
         end
     end
 

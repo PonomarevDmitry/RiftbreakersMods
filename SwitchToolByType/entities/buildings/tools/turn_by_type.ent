@@ -1,0 +1,338 @@
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_1_picker"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_1_picker"
+		bp					"buildings/tools/turn_by_type_1_picker"
+		ghost_bp			"buildings/tools/turn_by_type_1_picker_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/turn_by_type_picker_tool"
+		description			"gui/hud/building_description/turn_by_type_picker_tool"
+		menu_icon			"gui/hud/tools_icons/turn_by_type_picker_tool"
+
+		order				"41"
+		type				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_1_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_1_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/turn_on_off_by_type_picker_tool.lua"
+		database
+		{
+			action			string:"turn_on_off_by_type_picker_tool"
+			marker_name		string:"misc/marker_selector_turn_by_type_picker"
+
+			template_name	string:"$turn_on_off_by_type_picker_tool.selectedbuilding"
+
+			list_name		string:"$turn_on_off_by_type_picker_tool.last_selected_buildings"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_2_on"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_on"
+		bp					"buildings/tools/turn_by_type_2_on"
+		ghost_bp			"buildings/tools/turn_by_type_2_on_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/turn_by_type_on_tool"
+		description			"gui/hud/building_description/turn_by_type_on_tool"
+		menu_icon			"gui/hud/tools_icons/turn_by_type_on_tool"
+
+		order				"41"
+		type				"turn_by_type_1_picker"
+
+		building_group		"turn_by_type_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_2_on_ghost"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_on_2_ghost"
+		buildable			"0"
+		type				"turn_by_type_1_picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/turn_on_off_by_type_switch_tool.lua"
+		database
+		{
+			action			string:"turn_on"
+			marker_name		string:"misc/marker_selector_turn_by_type_on"
+
+			template_name	string:"$turn_on_off_by_type_picker_tool.selectedbuilding"
+
+			is_group		int:"0"
+			set_power		int:"1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_3_on_group"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_3_on_group"
+		bp					"buildings/tools/turn_by_type_3_on_group"
+		ghost_bp			"buildings/tools/turn_by_type_3_on_group_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/turn_by_type_on_group_tool"
+		description			"gui/hud/building_description/turn_by_type_on_group_tool"
+		menu_icon			"gui/hud/tools_icons/turn_by_type_on_group_tool"
+
+		order				"41"
+		type				"turn_by_type_1_picker"
+
+		building_group		"turn_by_type_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_3_on_group_ghost"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_3_on_group_ghost"
+		buildable			"0"
+		type				"turn_by_type_1_picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/turn_on_off_by_type_switch_tool.lua"
+		database
+		{
+			action			string:"turn_by_type_on_group"
+			marker_name		string:"misc/marker_selector_turn_by_type_on_group"
+
+			template_name	string:"$turn_on_off_by_type_picker_tool.selectedbuilding"
+
+			is_group		int:"1"
+			set_power		int:"1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_4_off"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_4_off"
+		bp					"buildings/tools/turn_by_type_4_off"
+		ghost_bp			"buildings/tools/turn_by_type_4_off_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/turn_by_type_off_tool"
+		description			"gui/hud/building_description/turn_by_type_off_tool"
+		menu_icon			"gui/hud/tools_icons/turn_by_type_off_tool"
+
+		order				"41"
+		type				"turn_by_type_1_picker"
+
+		building_group		"turn_by_type_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_4_off_ghost"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_4_off_ghost"
+		buildable			"0"
+		type				"turn_by_type_1_picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/turn_on_off_by_type_switch_tool.lua"
+		database
+		{
+			action			string:"turn_off"
+			marker_name		string:"misc/marker_selector_turn_by_type_off"
+
+			template_name	string:"$turn_on_off_by_type_picker_tool.selectedbuilding"
+
+			is_group		int:"0"
+			set_power		int:"0"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_5_off_group"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_5_off_group"
+		bp					"buildings/tools/turn_by_type_5_off_group"
+		ghost_bp			"buildings/tools/turn_by_type_5_off_group_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/turn_by_type_off_group_tool"
+		description			"gui/hud/building_description/turn_by_type_off_group_tool"
+		menu_icon			"gui/hud/tools_icons/turn_by_type_off_group_tool"
+
+		order				"41"
+		type				"turn_by_type_1_picker"
+
+		building_group		"turn_by_type_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/turn_by_type_5_off_group_ghost"
+
+	BuildingDesc
+	{
+		name				"turn_by_type_5_off_group_ghost"
+		buildable			"0"
+		type				"turn_by_type_1_picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/turn_on_off_by_type_switch_tool.lua"
+		database
+		{
+			action			string:"turn_off"
+			marker_name		string:"misc/marker_selector_turn_by_type_off_group"
+
+			template_name	string:"$turn_on_off_by_type_picker_tool.selectedbuilding"
+
+			is_group		int:"1"
+			set_power		int:"0"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}

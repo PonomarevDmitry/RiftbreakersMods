@@ -32,12 +32,12 @@ function turn_on_off_by_type_switch_tool:OnInit()
         else
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-            markerDB:SetString("message_text", "gui/hud/turn_on_off_tools/building_not_selected")
+            markerDB:SetString("message_text", "gui/hud/turn_by_type_tools/building_not_selected")
         end
     else
 
         markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-        markerDB:SetString("message_text", "gui/hud/turn_on_off_tools/building_not_selected")
+        markerDB:SetString("message_text", "gui/hud/turn_by_type_tools/building_not_selected")
     end
 
 
