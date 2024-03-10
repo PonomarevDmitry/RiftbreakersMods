@@ -1,0 +1,349 @@
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_1_picker"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_1_picker"
+		bp					"buildings/tools/switch_all_map_1_picker"
+		ghost_bp			"buildings/tools/switch_all_map_1_picker_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/switch_all_map_picker_tool"
+		description			"gui/hud/building_description/switch_all_map_picker_tool"
+		menu_icon			"gui/hud/tools_icons/switch_all_map_picker_tool"
+
+		order				"41.1"
+		type				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_1_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_1_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/switch_all_map_picker_tool.lua"
+		database
+		{
+			action			string:"switch_all_map_picker_tool"
+
+			template_name	string:"$switch_all_map_picker_tool.selectedbuilding"
+
+			list_name		string:"$switch_all_map_picker_tool.last_selected_buildings"
+
+			marker_name		string:"misc/marker_selector_switch_all_map_picker_tool"
+
+			next_tool		string:"buildings/tools/switch_all_map_1_switcher"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_1_switcher"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_1_switcher"
+		bp					"buildings/tools/switch_all_map_1_switcher"
+		ghost_bp			"buildings/tools/switch_all_map_1_switcher_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/switch_all_map_switcher_tool"
+		description			"gui/hud/building_description/switch_all_map_switcher_tool"
+		menu_icon			"gui/hud/tools_icons/switch_all_map_switcher_tool"
+
+		order				"41.1"
+		type				"sell"
+
+		building_group		"switch_all_map_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_1_switcher_ghost"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_1_switcher_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script							"lua/misc/switch_all_map_switcher_tool.lua"
+		database
+		{
+			action						string:"switch_all_map_switcher_tool"
+
+			template_name				string:"$switch_all_map_picker_tool.selectedbuilding"
+
+			list_name					string:"$switch_all_map_picker_tool.last_selected_buildings"
+
+			marker_name					string:"misc/marker_selector_switch_all_map_switcher_tool"
+
+			marker_group				string:"misc/marker_selector_switch_all_map_switcher_by_group_tool"
+
+			marker_place_ruins			string:"misc/marker_selector_switch_place_ruins_all_map_switcher_tool"
+
+			marker_place_ruins_group	string:"misc/marker_selector_switch_place_ruins_all_map_switcher_by_group_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_2_cat_picker"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_2_cat_picker"
+		bp					"buildings/tools/switch_all_map_2_cat_picker"
+		ghost_bp			"buildings/tools/switch_all_map_2_cat_picker_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/switch_all_map_cat_picker_tool"
+		description			"gui/hud/building_description/switch_all_map_cat_picker_tool"
+		menu_icon			"gui/hud/tools_icons/switch_all_map_cat_picker_tool"
+
+		order				"41.1"
+		type				"picker"
+
+		building_group		"switch_all_map_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_2_cat_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_2_cat_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/switch_all_map_cat_picker_tool.lua"
+		database
+		{
+			action			string:"switch_all_map_cat_picker_tool"
+
+			marker_name		string:"misc/marker_selector_switch_all_map_cat_picker_tool"
+
+			category_name	string:"$switch_all_map_cat_picker_tool.selectedcategory"
+
+			list_name		string:"$switch_all_map_cat_picker_tool.last_selected_categories"
+
+			next_tool		string:"buildings/tools/switch_all_map_2_cat_switcher"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_2_cat_switcher"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_2_cat_switcher"
+		bp					"buildings/tools/switch_all_map_2_cat_switcher"
+		ghost_bp			"buildings/tools/switch_all_map_2_cat_switcher_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/switch_all_map_cat_switcher_tool"
+		description			"gui/hud/building_description/switch_all_map_cat_switcher_tool"
+		menu_icon			"gui/hud/tools_icons/switch_all_map_cat_switcher_tool"
+
+		order				"41.1"
+		type				"sell"
+
+		building_group		"switch_all_map_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_2_cat_switcher_ghost"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_2_cat_switcher_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script					"lua/misc/switch_all_map_cat_switcher_tool.lua"
+		database
+		{
+			action				string:"switch_all_map_switcher_tool"
+
+			marker_on			string:"misc/marker_selector_switch_all_map_cat_turn_on_tool"
+
+			marker_off			string:"misc/marker_selector_switch_all_map_cat_turn_off_tool"
+
+			category_name		string:"$switch_all_map_cat_picker_tool.selectedcategory"
+
+			list_name			string:"$switch_all_map_cat_picker_tool.last_selected_categories"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_3"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_3"
+		bp					"buildings/tools/switch_all_map_3"
+		ghost_bp			"buildings/tools/switch_all_map_3_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/switch_all_map_tool"
+		description			"gui/hud/building_description/switch_all_map_tool"
+		menu_icon			"gui/hud/tools_icons/switch_all_map_tool"
+
+		order				"41.1"
+		type				"sell"
+
+		building_group		"switch_all_map_1_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/switch_all_map_3_ghost"
+
+	BuildingDesc
+	{
+		name				"switch_all_map_3_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script					"lua/misc/switch_all_map_cat_switcher_tool.lua"
+		database
+		{
+			action				string:"switch_all_map_tool"
+
+			marker_on			string:"misc/marker_selector_turn_on_all_map_tool"
+
+			marker_off			string:"misc/marker_selector_turn_off_all_map_tool"
+
+			category_name		string:""
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
