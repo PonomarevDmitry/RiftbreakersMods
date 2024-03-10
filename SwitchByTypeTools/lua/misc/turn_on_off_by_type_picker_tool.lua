@@ -172,13 +172,13 @@ function turn_on_off_by_type_picker_tool:OnActivateSelectorRequest()
         end
 
         local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
-        if (baseBuildingDesc ~= nil ) then
+        if ( baseBuildingDesc ~= nil ) then
             buildingDesc = baseBuildingDesc
         end
 
-        local buildingDescHelper = reflection_helper(buildingDesc)
+        local buildingDescRef = reflection_helper(buildingDesc)
 
-        blueprintName = buildingDescHelper.bp or ""
+        blueprintName = buildingDescRef.bp or ""
 
         if ( self:ChangeSelector(blueprintName) ) then
 
@@ -307,4 +307,3 @@ function turn_on_off_by_type_picker_tool:CheckModeValueExists( selectedMode )
 end
 
 return turn_on_off_by_type_picker_tool
- 
