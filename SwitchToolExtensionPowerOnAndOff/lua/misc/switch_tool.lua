@@ -14,18 +14,34 @@ function switch_tool:OnInit()
     self.popupShown = false
 end
 
+function switch_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_violet", self.entity )
+    end
+end
+
+function switch_tool:OnUpdate()
+
+    for entity in Iter( self.selectedEntities ) do
+
+        local skinned = EntityService:IsSkinned(entity)
+
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+        end
+
+        ::continue::
+    end
+end
+
 function switch_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
     else
         EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
-end
-
-function switch_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_violet", self.entity )
     end
 end
 
