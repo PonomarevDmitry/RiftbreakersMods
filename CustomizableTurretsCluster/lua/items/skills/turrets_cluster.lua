@@ -26,7 +26,7 @@ function turrets_cluster:OnActivate()
     local position = nil
     local positionNumber = 1
 
-    for i=1,3 do
+    for i=1,6 do
 
         local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
 
@@ -123,7 +123,7 @@ function turrets_cluster:CanActivate()
         return false
     end
 
-    for i=1,3 do
+    for i=1,6 do
 
         local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
 

@@ -74,6 +74,10 @@ function turrets_cluster_panel:OnOperateActionMenuEvent()
         return
     end
 
+    local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    local modDelta = databaseSelf:GetIntOrDefault("mod_delta", 0)
+
     local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
     if ( equipmentComponent ~= nil ) then
 
@@ -84,7 +88,7 @@ function turrets_cluster_panel:OnOperateActionMenuEvent()
 
             local slot = slots[i]
 
-            local keyName = "turrets_cluster_" .. slot.name
+            local keyName = "turrets_cluster_MOD_" .. tostring(i + modDelta)
 
             local itemBlueprintName = ""
 
@@ -112,7 +116,7 @@ function turrets_cluster_panel:OnOperateActionMenuEvent()
                 QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
             end
         end
-    end    
+    end
 end
 
 function turrets_cluster_panel:OnItemEquippedEvent( evt )
@@ -141,7 +145,18 @@ function turrets_cluster_panel:OnItemEquippedEvent( evt )
 
         local database = EntityService:GetDatabase( turretsClusterItem )
 
-        database:SetString("turrets_cluster_" .. slotName, itemBlueprintName)
+        if ( database ~= nil ) then
+
+            local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+            local modDelta = databaseSelf:GetIntOrDefault("mod_delta", 0)
+
+            local slotNumber = self:GetSlotNumber(slotName)
+
+            local keyName = "turrets_cluster_MOD_" .. tostring(slotNumber + modDelta)
+
+            database:SetString(keyName, itemBlueprintName)
+        end
     end
 end
 
@@ -165,8 +180,41 @@ function turrets_cluster_panel:OnItemUnequippedEvent( evt )
 
         local database = EntityService:GetDatabase( turretsClusterItem )
 
-        database:SetString("turrets_cluster_" .. slotName, "")
+        if ( database ~= nil ) then
+
+            local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+            local modDelta = databaseSelf:GetIntOrDefault("mod_delta", 0)
+
+            local slotNumber = self:GetSlotNumber(slotName)
+
+            local keyName = "turrets_cluster_MOD_" .. tostring(slotNumber + modDelta)
+
+            database:SetString(keyName, "")
+        end
     end  
+end
+
+function turrets_cluster_panel:GetSlotNumber( slotName )
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ~= nil ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            if ( slotName == slot.name ) then
+
+                return i
+            end
+        end
+    end
+
+    return 1  
 end
 
 return turrets_cluster_panel
