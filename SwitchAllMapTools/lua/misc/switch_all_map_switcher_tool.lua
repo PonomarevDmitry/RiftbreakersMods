@@ -27,23 +27,20 @@ function switch_all_map_switcher_tool:OnInit()
 
     self.list_name = self.data:GetStringOrDefault("list_name", "") or ""
 
-    self.modeBuilding = 0
-    self.modeBuildingRuins = 1
-    self.modeBuildingGroup = 2
-    self.modeBuildingGroupRuins = 3
+    self.modeTurnOn = 0
+    self.modeTurnOff = 1
+    self.modeTurnGroupOn = 2
+    self.modeTurnGroupOff = 3
 
     self.modeBuildingLastSelected = 100
 
-    self.defaultModesArray = { self.modeBuilding, self.modeBuildingRuins, self.modeBuildingGroup, self.modeBuildingGroupRuins }
+    self.defaultModesArray = { self.modeTurnOn, self.modeTurnOff, self.modeTurnGroupOn, self.modeTurnGroupOff }
 
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
 
-    self.selectedMode = self.modeBuilding
+    self.selectedMode = self.modeTurnOn
 
     self:UpdateMarker()
-
-    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
 function switch_all_map_switcher_tool:UpdateMarker()
@@ -52,7 +49,7 @@ function switch_all_map_switcher_tool:UpdateMarker()
     local buildingIconVisible = 0
     local buildingIcon = ""
 
-    local markerBlueprint = self.data:GetString("marker_name")
+    local markerBlueprint = self.data:GetString("marker_on")
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
 
@@ -82,8 +79,6 @@ function switch_all_map_switcher_tool:UpdateMarker()
 
             buildingIcon = menuIcon
             buildingIconVisible = 1
-
-            messageText = self:GetBuildinsDescription()
         else
 
             buildingIcon = "gui/menu/research/icons/missing_icon_big"
@@ -99,41 +94,29 @@ function switch_all_map_switcher_tool:UpdateMarker()
         messageText = "${gui/hud/switch_all_map/building_not_selected}"
     end
 
-    if ( self.selectedMode == self.modeBuildingRuins ) then
+    if ( self.selectedMode == self.modeTurnOn ) then
 
-        markerBlueprint = self.data:GetString("marker_place_ruins")
+        markerBlueprint = self.data:GetString("marker_on")
 
-        if (string.len(messageText) > 0) then
+        messageText = "${gui/hud/switch_all_map/power_on}"
 
-            messageText = "${gui/hud/switch_all_map/place_ruins}: " .. messageText
-        else
+    elseif ( self.selectedMode == self.modeTurnOff ) then
 
-            messageText = "${gui/hud/switch_all_map/place_ruins}"
-        end
+        markerBlueprint = self.data:GetString("marker_off")
 
-    elseif ( self.selectedMode == self.modeBuildingGroup ) then
+        messageText = "${gui/hud/switch_all_map/power_off}"
 
-        markerBlueprint = self.data:GetString("marker_group")
+    elseif ( self.selectedMode == self.modeTurnGroupOn ) then
 
-        if (string.len(messageText) > 0) then
+        markerBlueprint = self.data:GetString("marker_group_on")
 
-            messageText = "${gui/hud/switch_all_map/building_group}: " .. messageText
-        else
+        messageText = "${gui/hud/switch_all_map/building_group_power_on}"
 
-            messageText = "${gui/hud/switch_all_map/building_group}"
-        end
+    elseif ( self.selectedMode == self.modeTurnGroupOff ) then
 
-    elseif ( self.selectedMode == self.modeBuildingGroupRuins ) then
+        markerBlueprint = self.data:GetString("marker_group_off")
 
-        markerBlueprint = self.data:GetString("marker_place_ruins_group")
-
-        if (string.len(messageText) > 0) then
-
-            messageText = "${gui/hud/switch_all_map/building_group_place_ruins}: " .. messageText
-        else
-
-            messageText = "${gui/hud/switch_all_map/building_group_place_ruins}"
-        end
+        messageText = "${gui/hud/switch_all_map/building_group_power_off}"
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
@@ -155,77 +138,6 @@ function switch_all_map_switcher_tool:UpdateMarker()
     markerDB:SetString("building_icon", buildingIcon)
     markerDB:SetString("message_text", messageText)
 end
-
-function switch_all_map_switcher_tool:GetBuildinsDescription()
-
-    local listIconsNames, hashIconsCount = self:GetIconsData()
-
-    local buildingsIcons = ""
-
-    for menuIcon in Iter( listIconsNames ) do
-
-        local count = hashIconsCount[menuIcon]
-
-        if ( count > 0 ) then
-
-            if ( string.len(buildingsIcons) > 0 ) then
-
-                buildingsIcons = buildingsIcons .. ", "
-            end
-
-            buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
-        end
-    end
-
-    return buildingsIcons
-end
-
-function switch_all_map_switcher_tool:GetIconsData()
-
-    self.selectedEntities = self.selectedEntities or {}
-
-    local upgradeCostsEntities = {}
-
-    local listIconsNames = {}
-    local hashIconsCount = {}
-
-    for entity in Iter( self.selectedEntities ) do
-
-        if ( upgradeCostsEntities[entity] ~= nil ) then
-            goto continue
-        end
-
-        upgradeCostsEntities[entity] = true
-
-        if ( not BuildingService:IsBuildingFinished( entity ) ) then
-            goto continue
-        end
-
-        local blueprintName = EntityService:GetBlueprintName( entity )
-
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-
-        local buildingDescRef = reflection_helper( buildingDesc )
-
-        local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
-        if ( menuIcon ~= "" ) then
-
-            if ( hashIconsCount[menuIcon] == nil ) then
-
-                Insert( listIconsNames, menuIcon )
-
-                hashIconsCount[menuIcon] = 0
-            end
-
-            hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
-        end
-
-        ::continue::
-    end
-
-    return listIconsNames,hashIconsCount
-end
-
 
 function switch_all_map_switcher_tool:SetTypeSetting()
 
@@ -266,7 +178,18 @@ end
 
 function switch_all_map_switcher_tool:OnUpdate()
 
-    self:UpdateMarker()
+    for entity in Iter( self.selectedEntities ) do
+
+        local skinned = EntityService:IsSkinned(entity)
+
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+        end
+
+        ::continue::
+    end
 end
 
 function switch_all_map_switcher_tool:FindEntitiesToSelect( selectorComponent )
@@ -340,7 +263,7 @@ function switch_all_map_switcher_tool:IsEntityApproved( entity )
         return false
     end
 
-    local isGroup = (self.selectedMode == self.modeBuildingGroup or self.selectedMode == self.modeBuildingGroupRuins)
+    local isGroup = (self.selectedMode == self.modeTurnGroupOn or self.selectedMode == self.modeTurnGroupOff)
 
     if ( isGroup ) then
 
@@ -428,10 +351,12 @@ function switch_all_map_switcher_tool:OnActivateSelectorRequest()
         return
     end
 
+    local setPower = ( self.selectedMode == self.modeTurnOn or self.selectedMode == self.modeTurnGroupOn )
+
     for entity in Iter( self.selectedEntities ) do
 
-        if( BuildingService:IsPlayerWorking( entity ) ~= self.setPower ) then
-            QueueEvent( "ChangeBuildingStatusRequest", entity, self.setPower )
+        if( BuildingService:IsPlayerWorking( entity ) ~= setPower ) then
+            QueueEvent( "ChangeBuildingStatusRequest", entity, setPower )
         end
 
         ::continue::
@@ -458,7 +383,7 @@ function switch_all_map_switcher_tool:ChangeSelector(blueprintName)
 
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
 
-    self.selectedMode = self.modeBuilding
+    self.selectedMode = self.modeTurnOn
 
     self:UpdateMarker()
 
@@ -497,11 +422,6 @@ function switch_all_map_switcher_tool:OnRelease()
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
         self.childEntity = nil
-    end
-
-    if ( self.infoChild ~= nil) then
-        EntityService:RemoveEntity(self.infoChild)
-        self.infoChild = nil
     end
 
     if ( switch_all_map_base.OnRelease ) then
