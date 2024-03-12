@@ -56,7 +56,7 @@ end
 
 function switch_all_map_cat_picker_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_violet", self.entity )
     end
 end
 

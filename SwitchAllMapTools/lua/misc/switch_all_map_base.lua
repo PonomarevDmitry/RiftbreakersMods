@@ -8,6 +8,12 @@ function switch_all_map_base:__init()
     tool.__init(self,self)
 end
 
+function switch_all_map_base:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_violet", self.entity )
+    end
+end
+
 function switch_all_map_base:InitLowUpgradeList()
 
     self.template_name = self.data:GetString("template_name")
