@@ -32,6 +32,12 @@ function sell_all_map_base:InitLowUpgradeList()
     end
 end
 
+function sell_all_map_base:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_gold", self.entity )
+    end
+end
+
 function sell_all_map_base:GetFirstLevelBuilding(blueprintName)
 
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )

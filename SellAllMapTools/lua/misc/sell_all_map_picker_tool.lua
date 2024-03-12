@@ -93,12 +93,6 @@ function sell_all_map_picker_tool:SetBuildingIcon()
     markerDB:SetString("message_text", messageText)
 end
 
-function sell_all_map_picker_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool", self.entity )
-    end
-end
-
 function sell_all_map_picker_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)

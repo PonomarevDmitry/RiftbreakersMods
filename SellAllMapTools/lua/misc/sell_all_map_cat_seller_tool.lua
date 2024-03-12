@@ -59,6 +59,12 @@ function sell_all_map_cat_seller_tool:OnInit()
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 end
 
+function sell_all_map_cat_seller_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity( "misc/marker_selector_corner_tool_gold", self.entity )
+    end
+end
+
 function sell_all_map_cat_seller_tool:UpdateMarker()
 
     local messageText = ""
