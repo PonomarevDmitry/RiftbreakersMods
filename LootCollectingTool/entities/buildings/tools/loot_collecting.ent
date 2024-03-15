@@ -1,0 +1,59 @@
+EntityBlueprint
+{
+	name					"buildings/tools/loot_collecting"
+
+	BuildingDesc
+	{
+		name				"loot_collecting"
+		bp					"buildings/tools/loot_collecting"
+		ghost_bp			"buildings/tools/loot_collecting_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/loot_collecting"
+		description			"gui/hud/building_description/loot_collecting"
+		menu_icon			"gui/hud/tools_icons/loot_collecting_tool"
+
+		order				"61"
+		type				"loot_collecting"
+
+		building_group		"eraser_1x1"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/loot_collecting_ghost"
+
+	BuildingDesc
+	{
+		name				"loot_collecting_ghost"
+		buildable			"0"
+		type				"loot_collecting"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/loot_collecting_tool.lua"
+
+		database
+		{
+			action			string:"loot_collecting"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
