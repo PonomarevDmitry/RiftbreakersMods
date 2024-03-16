@@ -101,7 +101,7 @@ end
 
 function loot_collecting_tool:AddedToSelection( entity )        
 
-    local test_entity = EntityService:GetParent( entity )s
+    local test_entity = EntityService:GetParent( entity )
     if test_entity == INVALID_ID then
         test_entity = entity
     end
