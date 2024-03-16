@@ -624,6 +624,10 @@ function floor_rebuilder_tool:OnUpdate()
                     newPosition.z = positionZ
 
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/floor_rebuilder_ghost", newPosition, team )
+
+                    local meshLineEnt = BuildingService:GetMeshEntity(lineEnt)
+                    EntityService:SetMaterial( meshLineEnt, "selector/hologram_violet", "selected" )
+
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 
@@ -658,6 +662,10 @@ function floor_rebuilder_tool:OnUpdate()
                     newPosition.z = positionZ
 
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/floor_rebuilder_ghost", newPosition, team )
+
+                    local meshLineEnt = BuildingService:GetMeshEntity(lineEnt)
+                    EntityService:SetMaterial( meshLineEnt, "selector/hologram_violet", "selected" )
+
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 

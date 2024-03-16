@@ -1,0 +1,30 @@
+import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/buildings_base.material"
+
+material selector/floor_rebuilder_tool
+{
+	render_group	108
+	technique
+	{
+		pass
+		{
+			depth_write		off
+			depth_check		off
+
+			scene_blend	alpha_blend
+
+			vertex_program_ref	unlit_fresnel_vp
+			{
+			}
+
+			fragment_program_ref	unlit_fresnel_fp
+			{
+
+			}
+		}
+	}
+}
+
+material selector/floor_rebuilder_tool_dissolve : selector/floor_rebuilder_tool
+{
+}
