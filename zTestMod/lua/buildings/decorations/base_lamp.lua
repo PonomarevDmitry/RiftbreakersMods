@@ -13,7 +13,9 @@ function base_lamp:OnInit()
 	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
 	
-	self:SetWorking()
+	if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+		self:SetWorking()
+	end
 end
 
 function base_lamp:OnLoad()
@@ -23,7 +25,9 @@ function base_lamp:OnLoad()
 	self:RegisterHandler( event_sink , "DayStartedEvent", "OnDayStartedEvent")
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "OnSunsetStartedEvent")
 	
-	self:SetWorking()
+	if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+		self:SetWorking()
+	end
 end
 
 function base_lamp:OnBuildingEnd()
