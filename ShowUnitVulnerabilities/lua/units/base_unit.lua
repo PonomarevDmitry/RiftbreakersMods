@@ -171,7 +171,7 @@ function base_unit:SetMenuValues(menuEntity, vulnerabilities)
 
 	menuDB:SetInt("menu_visible", 1)
 
-	local maxMenuDamageLines = 6
+	local maxMenuDamageLines = 8
 
 	for damageNumber=1,maxMenuDamageLines do
 
