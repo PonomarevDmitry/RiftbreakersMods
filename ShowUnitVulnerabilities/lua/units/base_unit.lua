@@ -4,7 +4,7 @@ local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 class 'base_unit' ( LuaEntityObject )
 
-globalMenuCache = globalMenuCache or {}
+globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
 
 function base_unit:__init()
 	LuaEntityObject.__init(self, self)
@@ -97,7 +97,7 @@ function base_unit:ShowVulnerabilitiesMenu(evt)
 		return
 	end
 
-	globalMenuCache = globalMenuCache or {}
+	globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
 
 	local blueprintName = EntityService:GetBlueprintName( self.entity )
 
@@ -113,7 +113,7 @@ function base_unit:ShowVulnerabilitiesMenu(evt)
 
 		self:SetMenuValues(menuEntity, vulnerabilities)
 
-		globalMenuCache[blueprintName] = menuEntity
+		globalVulnerabilitiesMenuCache[blueprintName] = menuEntity
 
 	else
 
@@ -136,16 +136,16 @@ function base_unit:CreateVulnerabilitiesMenu(blueprintName, vulnerabilities, men
 
 	self:SetMenuValues(menuEntity, vulnerabilities)
 
-	globalMenuCache = globalMenuCache or {}
+	globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
 
-	globalMenuCache[blueprintName] = menuEntity
+	globalVulnerabilitiesMenuCache[blueprintName] = menuEntity
 end
 
 function base_unit:GetGlobalMenuEntity(blueprintName)
 
-	globalMenuCache = globalMenuCache or {}
+	globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
 
-	local menuEntity = globalMenuCache[blueprintName]
+	local menuEntity = globalVulnerabilitiesMenuCache[blueprintName]
 
 	if ( menuEntity ~= nil and EntityService:IsAlive( menuEntity ) ) then
 
@@ -171,7 +171,9 @@ function base_unit:SetMenuValues(menuEntity, vulnerabilities)
 
 	menuDB:SetInt("menu_visible", 1)
 
-	for damageNumber=1,6 do
+	local maxMenuDamageLines = 6
+
+	for damageNumber=1,maxMenuDamageLines do
 
 		local slotNumber = tostring(damageNumber)
 
@@ -180,7 +182,7 @@ function base_unit:SetMenuValues(menuEntity, vulnerabilities)
 		menuDB:SetString("damage_name_" .. slotNumber, "")
 	end
 
-	local count = math.min(#vulnerabilities, 6)
+	local count = math.min(#vulnerabilities, maxMenuDamageLines)
 
 	for damageNumber=1,count do
 
