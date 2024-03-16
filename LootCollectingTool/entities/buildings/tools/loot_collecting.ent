@@ -13,11 +13,8 @@ EntityBlueprint
 		description			"gui/hud/building_description/loot_collecting"
 		menu_icon			"gui/hud/tools_icons/loot_collecting_tool"
 
-		order				"61"
+		order				"9"
 		type				"loot_collecting"
-
-		building_group		"eraser_1x1"
-		buildable			"0"
 	}
 
 	MeshDesc
@@ -54,6 +51,70 @@ EntityBlueprint
 	{
 		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
 		material			"selector/loot_collecting_tool"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/loot_collecting_all_map"
+
+	BuildingDesc
+	{
+		name				"loot_collecting_all_map"
+		bp					"buildings/tools/loot_collecting_all_map"
+		ghost_bp			"buildings/tools/loot_collecting_all_map_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/loot_collecting_all_map"
+		description			"gui/hud/building_description/loot_collecting_all_map"
+		menu_icon			"gui/hud/tools_icons/loot_collecting_all_map_tool"
+
+		order				"9"
+		type				"sell"
+
+		building_group		"loot_collecting"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/loot_collecting_all_map_ghost"
+
+	BuildingDesc
+	{
+		name				"loot_collecting_all_map_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/loot_collecting_all_map_tool.lua"
+
+		database
+		{
+			action			string:"loot_collecting_all_map"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
 		flags				"2"
 	}
 }
