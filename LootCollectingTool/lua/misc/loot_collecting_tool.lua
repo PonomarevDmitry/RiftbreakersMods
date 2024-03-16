@@ -15,7 +15,7 @@ end
 
 function loot_collecting_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_gold", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
@@ -99,7 +99,14 @@ function loot_collecting_tool:ValidateTarget( entity, pawn )
     return ItemService:CanFitResourceGiver( pawn, test_entity )
 end
 
-function loot_collecting_tool:AddedToSelection( entity )
+function loot_collecting_tool:AddedToSelection( entity )        
+
+    local test_entity = EntityService:GetParent( entity )s
+    if test_entity == INVALID_ID then
+        test_entity = entity
+    end
+
+    EffectService:SpawnEffect(test_entity, "effects/loot_collecting_tool/select")
 end
 
 function loot_collecting_tool:RemovedFromSelection( entity )
@@ -115,7 +122,9 @@ function loot_collecting_tool:OnActivateEntity( entity )
         local test_entity = EntityService:GetParent( entity )
         if test_entity == INVALID_ID then
             test_entity = entity
-        end   
+        end
+        
+        EffectService:SpawnEffect(test_entity, "effects/loot_collecting_tool/select")
 
         EffectService:SpawnEffects(test_entity, "loot_collect")
 
