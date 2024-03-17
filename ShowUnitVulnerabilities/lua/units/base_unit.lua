@@ -151,7 +151,7 @@ function base_unit:GetGlobalMenuEntity(blueprintName)
 
 		local parent = EntityService:GetParent( menuEntity )
 
-		if ( parent ~= nil and parent ~= INVALID_ID and EntityService:IsAlive( parent ) and HealthService:IsAlive( parent ) ) then
+		if ( parent ~= nil and parent ~= INVALID_ID and EntityService:IsAlive( parent ) ) then
 
 			if ( EntityService:GetComponent(parent, "IsVisibleComponent") ~= nil ) then
 				return menuEntity
@@ -266,7 +266,7 @@ function base_unit:_OnDestroyRequest( evt )
 
 	local menuEntity = self:FindMenuEntity("misc/unit_vulnerabilities_menu")
 	if ( menuEntity ~= nil ) then
-		EntityService:CreateOrSetLifetime( menuEntity, 1.0, "normal" )
+		EntityService:CreateOrSetLifetime( menuEntity, 3, "normal" )
 	end
 
 	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(),self.wreck_type, self.wreckMinSpeed )
