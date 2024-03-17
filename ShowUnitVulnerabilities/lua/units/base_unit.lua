@@ -151,7 +151,7 @@ function base_unit:GetGlobalMenuEntity(blueprintName)
 
 		local parent = EntityService:GetParent( menuEntity )
 
-		if ( parent ~= nil and parent ~= INVALID_ID and EntityService:IsAlive( parent ) ) then
+		if ( parent ~= nil and parent ~= INVALID_ID ) then
 
 			if ( EntityService:GetComponent(parent, "IsVisibleComponent") ~= nil ) then
 				return menuEntity
