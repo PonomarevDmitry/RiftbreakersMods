@@ -1,6 +1,5 @@
 require("lua/units/units_utils.lua")
 require("lua/utils/reflection.lua")
-local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 class 'base_unit' ( LuaEntityObject )
 
@@ -47,11 +46,9 @@ end
 function base_unit:_OnDamageEvent( evt )
 	if not evt:GetDamageOverTime() then 
 		local currentTime = GetLogicTime()
-
-		local isResisted = IsEnumFlagSet( evt:GetEffect(), DAMAGE_EFFECT_RESISTED )
-		local isThresholded = IsEnumFlagSet( evt:GetEffect(), DAMAGE_EFFECT_THRESHOLDED )
-
 		if self.lastDamageGenericTime + 0.3 < currentTime then
+			local isResisted = IsEnumFlagSet( evt:GetEffect(), DAMAGE_EFFECT_RESISTED )
+			local isThresholded = IsEnumFlagSet( evt:GetEffect(), DAMAGE_EFFECT_THRESHOLDED )
 
 			if not isResisted and not isThresholded then
 				EffectService:AttachEffects( self.entity, "damage_generic" )
