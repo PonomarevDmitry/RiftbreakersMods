@@ -3,6 +3,7 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
 
 local building = require("lua/buildings/building.lua")
+
 class 'turrets_cluster_panel' ( building )
 
 function turrets_cluster_panel:__init()
@@ -192,7 +193,7 @@ function turrets_cluster_panel:OnItemUnequippedEvent( evt )
 
             database:SetString(keyName, "")
         end
-    end  
+    end
 end
 
 function turrets_cluster_panel:GetSlotNumber( slotName )
@@ -214,7 +215,7 @@ function turrets_cluster_panel:GetSlotNumber( slotName )
         end
     end
 
-    return 1  
+    return 1
 end
 
 return turrets_cluster_panel
