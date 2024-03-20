@@ -3,6 +3,7 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
 
 local building = require("lua/buildings/building.lua")
+
 class 'grenades_pack_panel' ( building )
 
 function grenades_pack_panel:__init()
@@ -74,6 +75,10 @@ function grenades_pack_panel:OnOperateActionMenuEvent()
         return
     end
 
+    local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    local modDelta = databaseSelf:GetIntOrDefault("mod_delta", 0)
+
     local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
     if ( equipmentComponent ~= nil ) then
 
@@ -84,7 +89,7 @@ function grenades_pack_panel:OnOperateActionMenuEvent()
 
             local slot = slots[i]
 
-            local keyName = "grenades_pack_" .. slot.name
+            local keyName = "grenades_pack_MOD_" .. tostring(i + modDelta)
 
             local itemBlueprintName = ""
 
@@ -112,7 +117,7 @@ function grenades_pack_panel:OnOperateActionMenuEvent()
                 QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
             end
         end
-    end    
+    end
 end
 
 function grenades_pack_panel:OnItemEquippedEvent( evt )
@@ -141,7 +146,18 @@ function grenades_pack_panel:OnItemEquippedEvent( evt )
 
         local database = EntityService:GetDatabase( turretsClusterItem )
 
-        database:SetString("grenades_pack_" .. slotName, itemBlueprintName)
+        if ( database ~= nil ) then
+
+            local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+            local modDelta = databaseSelf:GetIntOrDefault("mod_delta", 0)
+
+            local slotNumber = self:GetSlotNumber(slotName)
+
+            local keyName = "grenades_pack_MOD_" .. tostring(slotNumber + modDelta)
+
+            database:SetString(keyName, itemBlueprintName)
+        end
     end
 end
 
@@ -165,8 +181,41 @@ function grenades_pack_panel:OnItemUnequippedEvent( evt )
 
         local database = EntityService:GetDatabase( turretsClusterItem )
 
-        database:SetString("grenades_pack_" .. slotName, "")
-    end  
+        if ( database ~= nil ) then
+
+            local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+            local modDelta = databaseSelf:GetIntOrDefault("mod_delta", 0)
+
+            local slotNumber = self:GetSlotNumber(slotName)
+
+            local keyName = "grenades_pack_MOD_" .. tostring(slotNumber + modDelta)
+
+            database:SetString(keyName, "")
+        end
+    end
+end
+
+function grenades_pack_panel:GetSlotNumber( slotName )
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ~= nil ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            if ( slotName == slot.name ) then
+
+                return i
+            end
+        end
+    end
+
+    return 1
 end
 
 return grenades_pack_panel

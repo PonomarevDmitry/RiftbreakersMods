@@ -39,7 +39,7 @@ function grenades_pack:OnActivate()
 
     self.grenadesToThrow = {}
 
-    for i=1,3 do
+    for i=1,6 do
 
         local modItemBlueprint = self.data:GetStringOrDefault("grenades_pack_MOD_" .. tostring(i), "") or ""
 
@@ -136,7 +136,7 @@ function grenades_pack:CanActivate()
         return false
     end
 
-    for i=1,3 do
+    for i=1,6 do
 
         local modItemBlueprint = self.data:GetStringOrDefault("grenades_pack_MOD_" .. tostring(i), "") or ""
 
