@@ -1,0 +1,122 @@
+EntityBlueprint
+{
+	name					"buildings/tools/light_1_on"
+
+	BuildingDesc
+	{
+		name				"light_1_on"
+		bp					"buildings/tools/light_1_on"
+		ghost_bp			"buildings/tools/light_1_on_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/light_on_tool"
+		description			"gui/hud/building_description/light_on_tool"
+		menu_icon			"gui/hud/tools_icons/light_on_tool"
+
+		order				"80"
+		type				"light_1_on"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/light_1_on_ghost"
+
+	BuildingDesc
+	{
+		name				"light_1_on_ghost"
+		buildable			"0"
+		type				"light_1_on"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/light_on_off_tool.lua"
+		database
+		{
+			action			string:"light_on"
+			set_power		int:"1"
+			marker_name		string:"misc/marker_selector_light_on"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/light_2_off"
+
+	BuildingDesc
+	{
+		name				"light_2_off"
+		bp					"buildings/tools/light_2_off"
+		ghost_bp			"buildings/tools/light_2_off_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/light_off_tool"
+		description			"gui/hud/building_description/light_off_tool"
+		menu_icon			"gui/hud/tools_icons/light_off_tool"
+
+		order				"80"
+		type				"light_2_off"
+
+		building_group		"light_1_on"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/light_2_off_ghost"
+
+	BuildingDesc
+	{
+		name				"light_2_off_ghost"
+		buildable			"0"
+		type				"light_2_off"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/light_on_off_tool.lua"
+		database
+		{
+			action			string:"light_off"
+			set_power		int:"0"
+			marker_name		string:"misc/marker_selector_light_off"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
