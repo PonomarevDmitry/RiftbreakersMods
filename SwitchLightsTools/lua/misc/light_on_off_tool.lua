@@ -59,9 +59,29 @@ function light_on_ff_tool:FilterSelectedEntities( selectedEntities )
 
     for entity in Iter( selectedEntities ) do
 
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+
         if ( self:IsEntityApproved(entity, "lamp") ) then
 
             Insert(result, entity)
+
+        elseif ( lowName == "base_lamp" or lowName == "crystal_lamp" ) then
+
+            if( self.setPower ) then
+
+                if ( not EffectService:HasEffectByGroup(entity, "working") ) then
+
+                    Insert(result, entity)
+                end
+            else
+        
+                if ( EffectService:HasEffectByGroup(entity, "working") ) then
+
+                    Insert(result, entity)
+                end
+            end
         end
 
         ::continue::
@@ -129,21 +149,48 @@ end
 
 function light_on_ff_tool:OnActivateEntity( entity )
 
-    if( self.setPower ) then
+    local blueprintName = EntityService:GetBlueprintName( entity )
 
-        if ( not EffectService:HasEffectByGroup(entity, "lamp") ) then
+    local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
-            BuildingService:BlinkBuilding(entity)
+    if ( lowName == "base_lamp" or lowName == "crystal_lamp" ) then
 
-            EffectService:AttachEffects(entity, "lamp")
-        end
-    else
+        if( self.setPower ) then
+
+            if ( not EffectService:HasEffectByGroup(entity, "working") ) then
+
+                BuildingService:BlinkBuilding(entity)
+
+                EffectService:AttachEffects(entity, "working")
+            end
+        else
         
-        if ( EffectService:HasEffectByGroup(entity, "lamp") ) then
+            if ( EffectService:HasEffectByGroup(entity, "working") ) then
 
-            BuildingService:BlinkBuilding(entity)
+                BuildingService:BlinkBuilding(entity)
 
-            EffectService:DestroyEffectsByGroup(entity, "lamp")
+                EffectService:DestroyEffectsByGroup(entity, "working")
+            end
+        end
+
+    else
+
+        if( self.setPower ) then
+
+            if ( not EffectService:HasEffectByGroup(entity, "lamp") ) then
+
+                BuildingService:BlinkBuilding(entity)
+
+                EffectService:AttachEffects(entity, "lamp")
+            end
+        else
+        
+            if ( EffectService:HasEffectByGroup(entity, "lamp") ) then
+
+                BuildingService:BlinkBuilding(entity)
+
+                EffectService:DestroyEffectsByGroup(entity, "lamp")
+            end
         end
     end
 end
