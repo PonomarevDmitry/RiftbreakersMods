@@ -454,7 +454,7 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     campaignDatabase:SetString( self.template_name, templateString )
 
-    LogService:Log("templateString " .. templateString)
+    --LogService:Log("templateString " .. templateString)
 end
 
 function buildings_picker_tool:GetDatabaseInfo(entity)
@@ -517,7 +517,7 @@ function buildings_picker_tool:GetDatabaseInfo(entity)
 
         local result = TemplatesSerializeUtils:SerializeObject( result )
 
-        LogService:Log("result " .. result)
+        --LogService:Log("result " .. result)
 
         return result
     else
