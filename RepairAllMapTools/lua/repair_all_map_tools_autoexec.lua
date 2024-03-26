@@ -37,6 +37,17 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
+
+
+    local category = buildingDescRef.category or ""
+    if ( category ~= "" ) then
+        local parameterName = "$repair_all_map_cat_picker_tool.last_selected_categories"
+
+        LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector, category)
+    end
+
+    
+
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
         return
@@ -60,17 +71,4 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     local parameterName = "$repair_all_map_picker_tool.last_selected_buildings"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
-
-
-
-    local category = buildingDescRef.category or ""
-
-    if ( category == "" ) then
-        return
-    end
-
-    parameterName = "$repair_all_map_cat_picker_tool.last_selected_categories"
-
-    LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector, category)
-
 end)
