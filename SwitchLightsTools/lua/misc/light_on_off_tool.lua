@@ -2,7 +2,7 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
+local LightsUtils = require("lua/utils/lights_utils.lua")
 
 class 'light_on_ff_tool' ( tool )
 
@@ -76,7 +76,7 @@ function light_on_ff_tool:FilterSelectedEntities( selectedEntities )
                     Insert(result, entity)
                 end
             else
-        
+
                 if ( EffectService:HasEffectByGroup(entity, "working") ) then
 
                     Insert(result, entity)
@@ -94,11 +94,11 @@ function light_on_ff_tool:IsEntityApproved( entity, effectGroupName )
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
-    if ( not self:BlueprintHasEffectGroup( blueprintName, effectGroupName ) ) then
+    if ( not LightsUtils:BlueprintHasEffectGroup( blueprintName, effectGroupName ) ) then
 
         return false
     end
-                
+
     if( self.setPower ) then
 
         if ( not EffectService:HasEffectByGroup(entity, effectGroupName) ) then
@@ -106,42 +106,11 @@ function light_on_ff_tool:IsEntityApproved( entity, effectGroupName )
             return true
         end
     else
-        
+
         if ( EffectService:HasEffectByGroup(entity, effectGroupName) ) then
 
             return true
         end
-    end
-
-    return false
-end
-
-function light_on_ff_tool:BlueprintHasEffectGroup( blueprintName, effectGroupName )
-
-    local blueprint = ResourceManager:GetBlueprint( blueprintName )
-    if ( blueprint == nil ) then
-        return false
-    end
-
-    local effectDesc = blueprint:GetComponent("EffectDesc")
-    if ( effectDesc == nil ) then
-        return false
-    end
-
-    local effectDescRef = setmetatable( {}, TypeValueHelper.mt );
-    rawset(effectDescRef, "__ptr", effectDesc);
-
-    if ( effectDescRef.Effects ) then
-    
-        for i=1,effectDescRef.Effects.count do
-    
-            local effectInstance = effectDescRef.Effects[i]
-    
-            if ( effectInstance and effectInstance.group and effectInstance.group == effectGroupName ) then
-    
-                return true
-            end
-        end       
     end
 
     return false
@@ -164,7 +133,7 @@ function light_on_ff_tool:OnActivateEntity( entity )
                 EffectService:AttachEffects(entity, "working")
             end
         else
-        
+
             if ( EffectService:HasEffectByGroup(entity, "working") ) then
 
                 BuildingService:BlinkBuilding(entity)
@@ -184,7 +153,7 @@ function light_on_ff_tool:OnActivateEntity( entity )
                 EffectService:AttachEffects(entity, "lamp")
             end
         else
-        
+
             if ( EffectService:HasEffectByGroup(entity, "lamp") ) then
 
                 BuildingService:BlinkBuilding(entity)
