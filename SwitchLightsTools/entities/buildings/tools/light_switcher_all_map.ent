@@ -1,0 +1,59 @@
+EntityBlueprint
+{
+	name					"buildings/tools/light_switcher_all_map"
+
+	BuildingDesc
+	{
+		name				"light_switcher_all_map"
+		bp					"buildings/tools/light_switcher_all_map"
+		ghost_bp			"buildings/tools/light_switcher_all_map_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/light_switcher_all_map_tool"
+		description			"gui/hud/building_description/light_switcher_all_map_tool"
+		menu_icon			"gui/hud/tools_icons/light_switcher_all_map_tool"
+
+		order				"75.1"
+		type				"sell"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/light_switcher_all_map_ghost"
+
+	BuildingDesc
+	{
+		name				"light_switcher_all_map_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script					"lua/misc/light_switcher_all_map_tool.lua"
+		database
+		{
+			action				string:"light_switcher_all_map_tool"
+
+			marker_on			string:"misc/marker_selector_light_on_all_map_tool"
+
+			marker_off			string:"misc/marker_selector_light_off_all_map_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
