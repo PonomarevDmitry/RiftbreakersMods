@@ -22,12 +22,12 @@ function light_switcher_all_map_tool:OnInit()
         1,
     }
 
-    self.modeTurnOn = 0
-    self.modeTurnOff = 1
+    self.modeTurnOff = 0
+    self.modeTurnOn = 1
 
-    self.modeValuesArray = { self.modeTurnOn, self.modeTurnOff }
+    self.modeValuesArray = { self.modeTurnOff, self.modeTurnOn }
 
-    self.selectedMode = self.modeTurnOn
+    self.selectedMode = self.modeTurnOff
 
     self:UpdateMarker()
 end
@@ -50,13 +50,13 @@ function light_switcher_all_map_tool:UpdateMarker()
 
         markerBlueprint = self.data:GetString("marker_on")
 
-        messageText = "${gui/hud/switch_all_map/power_on}"
+        messageText = "${gui/hud/lights_switch_all_map/lights_on}"
 
     elseif ( self.selectedMode == self.modeTurnOff ) then
 
         markerBlueprint = self.data:GetString("marker_off")
 
-        messageText = "${gui/hud/switch_all_map/power_off}"
+        messageText = "${gui/hud/lights_switch_all_map/lights_off}"
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
