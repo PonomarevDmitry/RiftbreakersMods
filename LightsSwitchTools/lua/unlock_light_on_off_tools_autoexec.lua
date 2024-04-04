@@ -4,4 +4,5 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     BuildingService:UnlockBuilding("buildings/tools/light_2_off")
 
     BuildingService:UnlockBuilding("buildings/tools/light_switcher_all_map")
+    BuildingService:UnlockBuilding("buildings/tools/light_switcher_mech")
 end)
