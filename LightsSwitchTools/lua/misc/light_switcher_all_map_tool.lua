@@ -41,8 +41,6 @@ end
 function light_switcher_all_map_tool:UpdateMarker()
 
     local messageText = ""
-    local buildingIconVisible = 0
-    local buildingIcon = ""
 
     local markerBlueprint = self.data:GetString("marker_on")
 
@@ -75,9 +73,6 @@ function light_switcher_all_map_tool:UpdateMarker()
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     markerDB:SetInt("building_visible", 1)
-
-    markerDB:SetInt("building_icon_visible", buildingIconVisible)
-    markerDB:SetString("building_icon", buildingIcon)
     markerDB:SetString("message_text", messageText)
 end
 
