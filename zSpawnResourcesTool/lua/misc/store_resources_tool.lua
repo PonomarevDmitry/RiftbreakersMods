@@ -1,5 +1,6 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
+local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 class 'store_resources_tool' ( tool )
 
@@ -110,19 +111,22 @@ function store_resources_tool:OnActivateSelectorRequest()
         return
     end
 
-    local newEnt = ResourceService:FindEmptySpace(0, 0)
+    local team = EntityService:GetTeam( self.entity )
 
-    EntityService:CreateOrSetLifetime( newEnt, 30.0, "normal" )
+    local position = treasureSpotFind.second
 
-    EntityService:SetPosition(newEnt, treasureSpotFind.second.x, treasureSpotFind.second.y, treasureSpotFind.second.z)
+    LogService:Log("store_resources_tool:OnActivateSelectorRequest treasureSpotFind.second " .. debug_serialize_utils:SerializeObject(position))
 
-    ResourceService:SpawnResources( newEnt, "resources/volume_template_resource", self.veinName, self.currentValue - self.stepValue, self.currentValue )
 
-    EntityService:RemoveEntity(newEnt)
+    local entityScript = EntityService:SpawnEntity( "misc/store_resources/script", position, team )
 
-    if ( unlimitedMoney == false ) then
-        PlayerService:AddResourceAmount( self.resourceName, -self.currentValue )
-    end
+    local database = EntityService:GetDatabase( entityScript )
+
+    database:SetInt( "player_id", self.playerId )
+    database:SetString( "annoucement", self.annoucement )
+    database:SetString( "vein_name", self.veinName )
+    database:SetString( "resource_name", self.resourceName )
+    database:SetFloat( "current_value", self.currentValue )
 end
 
 function store_resources_tool:OnRotateSelectorRequest(evt)
