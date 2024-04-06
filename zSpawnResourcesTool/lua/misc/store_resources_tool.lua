@@ -8,7 +8,9 @@ function store_resources_tool:__init()
 end
 
 function store_resources_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_store_resources_tool", self.entity)
+
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
     self.currentValue = 500
     self.stepValue = 100
@@ -27,7 +29,9 @@ function store_resources_tool:OnInit()
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
 
-    self:OnUpdate()
+    self.annoucement = self.data:GetString("annoucement")
+
+    self:UpdateMarker()
 end
 
 function store_resources_tool:OnPreInit()
@@ -44,7 +48,7 @@ function store_resources_tool:SpawnCornerBlueprint()
     end
 end
 
-function store_resources_tool:OnUpdate()
+function store_resources_tool:UpdateMarker()
 
     self.buildCost = {}
 
@@ -55,7 +59,14 @@ function store_resources_tool:OnUpdate()
         EntityService:SetPosition( self.infoChild, -1, 0, 1)
     end
 
+    self:OnUpdate()
+end
+
+function store_resources_tool:OnUpdate()
+
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+
+    self.buildCost = self.buildCost or {}
 
     if ( onScreen ) then
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
@@ -67,105 +78,12 @@ end
 function store_resources_tool:FindEntitiesToSelect( selectorComponent )
 
     return {}
-
-    --local selectorPosition = selectorComponent.position
-    --
-    --local boundsSize = { x=1.0, y=100.0, z=1.0 }
-    --
-    --local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
-    --
-    --local min = VectorSub(selectorPosition, scaleVector)
-    --local max = VectorAdd(selectorPosition, scaleVector)
-    --
-    --local predicate = {
-    --
-    --    signature="ResourceVolumeComponent"
-    --}
-    --
-    --local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
-    --
-    --local resourceVolumeEntities = {}
-    --
-    --for entity in Iter( tempCollection ) do
-    --
-    --    if ( entity == nil ) then
-    --        goto continue
-    --    end
-    --
-    --    if ( IndexOf( resourceVolumeEntities, entity ) ~= nil ) then
-    --        goto continue
-    --    end
-    --
-    --    local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
-    --    if ( resourceVolumeComponent == nil ) then
-    --        goto continue
-    --    end
-    --
-    --    local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
-    --    if ( resourceVolumeComponentRef.type == nil or resourceVolumeComponentRef.type.resource == nil or resourceVolumeComponentRef.type.resource.id == nil ) then
-    --        goto continue
-    --    end
-    --
-    --    local resourceId = resourceVolumeComponentRef.type.resource.id or ""
-    --    if ( resourceId ~= self.veinName ) then
-    --        goto continue
-    --    end
-    --
-    --    Insert( resourceVolumeEntities, entity )
-    --
-    --    ::continue::
-    --end
-    --
-    --local sorter = function( lhs, rhs )
-    --    local position1 = EntityService:GetPosition( lhs )
-    --    local position2 = EntityService:GetPosition( rhs )
-    --    local distance1 = Distance( selectorPosition, position1 )
-    --    local distance2 = Distance( selectorPosition, position2 )
-    --    return distance1 < distance2
-    --end
-    --
-    --table.sort(resourceVolumeEntities, sorter)
-    --
-    --return resourceVolumeEntities
 end
 
 function store_resources_tool:AddedToSelection( entity )
-
-    --local childrenList = EntityService:GetChildren( entity, false )
-    --
-    --for childResource in Iter( childrenList ) do
-    --
-    --    if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
-    --        goto continue
-    --    end
-    --
-    --    if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
-    --        goto continue
-    --    end
-    --
-    --    QueueEvent( "SelectEntityRequest", childResource )
-    --
-    --    ::continue::
-    --end
 end
 
 function store_resources_tool:RemovedFromSelection( entity )
-
-    --local childrenList = EntityService:GetChildren( entity, false )
-    --for childResource in Iter( childrenList ) do
-    --
-    --    if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
-    --        goto continue
-    --    end
-    --
-    --    if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
-    --        goto continue
-    --    end
-    --
-    --    QueueEvent( "DeselectEntityRequest", childResource )
-    --
-    --    ::continue::
-    --end
 end
 
 function store_resources_tool:OnActivateSelectorRequest()
@@ -174,20 +92,37 @@ function store_resources_tool:OnActivateSelectorRequest()
         return
     end
 
-    local treasureSpotFind = FindService:FindEmptySpotInRadius( self.entity, 1.0, "", "" )
+    local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    if ( unlimitedMoney == false ) then
 
+        local resourceCount = PlayerService:GetResourceAmount( self.resourceName )
+        if ( resourceCount < self.currentValue ) then
+
+            local playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
+            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 1.0, self.annoucement, playerEntity, false )
+
+            return
+        end
+    end
+
+    local treasureSpotFind = FindService:FindEmptySpotInRadius( self.entity, 1.0, "", "" )
     if ( treasureSpotFind.first == false ) then
         return
     end
 
     local newEnt = ResourceService:FindEmptySpace(0, 0)
+
+    EntityService:CreateOrSetLifetime( newEnt, 30.0, "normal" )
+
     EntityService:SetPosition(newEnt, treasureSpotFind.second.x, treasureSpotFind.second.y, treasureSpotFind.second.z)
 
     ResourceService:SpawnResources( newEnt, "resources/volume_template_resource", self.veinName, self.currentValue - self.stepValue, self.currentValue )
 
     EntityService:RemoveEntity(newEnt)
 
-    PlayerService:AddResourceAmount( self.resourceName, -self.currentValue )
+    if ( unlimitedMoney == false ) then
+        PlayerService:AddResourceAmount( self.resourceName, -self.currentValue )
+    end
 end
 
 function store_resources_tool:OnRotateSelectorRequest(evt)
@@ -201,8 +136,8 @@ function store_resources_tool:OnRotateSelectorRequest(evt)
 
     local newValue = self.currentValue + change
 
-    if( newValue <= 0 ) then
-        newValue = 0
+    if( newValue <= self.stepValue ) then
+        newValue = self.stepValue
     end
 
     self.currentValue = newValue
@@ -212,7 +147,7 @@ function store_resources_tool:OnRotateSelectorRequest(evt)
         selectorDB:SetInt(self.configName, newValue)
     end
 
-    self:OnUpdate()
+    self:UpdateMarker()
 end
 
 function store_resources_tool:OnRelease()
