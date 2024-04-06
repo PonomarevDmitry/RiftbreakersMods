@@ -4,13 +4,13 @@ require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
-class 'store_resources_script' ( LuaEntityObject )
+class 'spawn_resource_deposits_script' ( LuaEntityObject )
 
-function store_resources_script:__init()
+function spawn_resource_deposits_script:__init()
     LuaEntityObject.__init(self, self)
 end
 
-function store_resources_script:init()
+function spawn_resource_deposits_script:init()
 
     EntityService:CreateOrSetLifetime( self.entity, 30.0, "normal" )
 
@@ -70,7 +70,7 @@ function store_resources_script:init()
     QueueEvent( "SetTimerRequest", self.entity, "CheckNewResourceVolume", 0.2 )
 end
 
-function store_resources_script:OnLoad()
+function spawn_resource_deposits_script:OnLoad()
 
     self.playerId = self.data:GetInt("player_id")
 
@@ -86,7 +86,7 @@ function store_resources_script:OnLoad()
     self.position = self.transform.position
 end
 
-function store_resources_script:OnTimerElapsedEvent(evt)
+function spawn_resource_deposits_script:OnTimerElapsedEvent(evt)
 
     if (evt:GetName() ~= "CheckNewResourceVolume") then
         return
@@ -137,7 +137,7 @@ function store_resources_script:OnTimerElapsedEvent(evt)
     end
 end
 
-function store_resources_script:Except(t1, t2)
+function spawn_resource_deposits_script:Except(t1, t2)
 
     local result = {}
 
@@ -152,7 +152,7 @@ function store_resources_script:Except(t1, t2)
     return result
 end
 
-function store_resources_script:GetResourceChilds(createdVolume)
+function spawn_resource_deposits_script:GetResourceChilds(createdVolume)
 
     local childrenList = EntityService:GetChildren( createdVolume, false )
 
@@ -176,7 +176,7 @@ function store_resources_script:GetResourceChilds(createdVolume)
     return result
 end
 
-function store_resources_script:FindResourceVolume()
+function spawn_resource_deposits_script:FindResourceVolume()
 
     local predicate = {
 
@@ -232,7 +232,7 @@ function store_resources_script:FindResourceVolume()
     return result
 end
 
-function store_resources_script:DestroySelf()
+function spawn_resource_deposits_script:DestroySelf()
 
     if ( self.entityEmptySpace ~= nil) then
         EntityService:RemoveEntity(self.entityEmptySpace)
@@ -242,4 +242,4 @@ function store_resources_script:DestroySelf()
     EntityService:RemoveEntity( self.entity )
 end
 
-return store_resources_script
+return spawn_resource_deposits_script

@@ -2,13 +2,13 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
-class 'store_resources_tool' ( tool )
+class 'spawn_resource_deposits_tool' ( tool )
 
-function store_resources_tool:__init()
+function spawn_resource_deposits_tool:__init()
     tool.__init(self,self)
 end
 
-function store_resources_tool:OnInit()
+function spawn_resource_deposits_tool:OnInit()
 
     local marker_name = self.data:GetString("marker_name")
     self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
@@ -19,8 +19,8 @@ function store_resources_tool:OnInit()
     self.veinName = self.data:GetString("vein")
     self.resourceName = self.data:GetString("resource")
 
-    --self.configName = "$store_resources_tool_config." .. self.veinName
-    self.configName = "$store_resources_tool_config"
+    --self.configName = "$spawn_resource_deposits_tool_config." .. self.veinName
+    self.configName = "$spawn_resource_deposits_tool_config"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
     if ( selectorDB ) then
@@ -35,21 +35,21 @@ function store_resources_tool:OnInit()
     self:UpdateMarker()
 end
 
-function store_resources_tool:OnPreInit()
+function spawn_resource_deposits_tool:OnPreInit()
     self.initialScale = { x=1, y=1, z=1 }
 end
 
-function store_resources_tool:GetScaleFromDatabase()
+function spawn_resource_deposits_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
-function store_resources_tool:SpawnCornerBlueprint()
+function spawn_resource_deposits_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_gold", self.entity )
     end
 end
 
-function store_resources_tool:UpdateMarker()
+function spawn_resource_deposits_tool:UpdateMarker()
 
     self.buildCost = {}
 
@@ -63,7 +63,7 @@ function store_resources_tool:UpdateMarker()
     self:OnUpdate()
 end
 
-function store_resources_tool:OnUpdate()
+function spawn_resource_deposits_tool:OnUpdate()
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
@@ -76,18 +76,18 @@ function store_resources_tool:OnUpdate()
     end
 end
 
-function store_resources_tool:FindEntitiesToSelect( selectorComponent )
+function spawn_resource_deposits_tool:FindEntitiesToSelect( selectorComponent )
 
     return {}
 end
 
-function store_resources_tool:AddedToSelection( entity )
+function spawn_resource_deposits_tool:AddedToSelection( entity )
 end
 
-function store_resources_tool:RemovedFromSelection( entity )
+function spawn_resource_deposits_tool:RemovedFromSelection( entity )
 end
 
-function store_resources_tool:OnActivateSelectorRequest()
+function spawn_resource_deposits_tool:OnActivateSelectorRequest()
 
     if ( self.currentValue <= 0 ) then
         return
@@ -118,7 +118,7 @@ function store_resources_tool:OnActivateSelectorRequest()
 
 
 
-    local entityScript = EntityService:SpawnEntity( "misc/store_resources/script", position, team )
+    local entityScript = EntityService:SpawnEntity( "misc/spawn_resource_deposits/script", position, team )
 
     local database = EntityService:GetDatabase( entityScript )
 
@@ -129,7 +129,7 @@ function store_resources_tool:OnActivateSelectorRequest()
     database:SetFloat( "current_value", self.currentValue )
 end
 
-function store_resources_tool:OnRotateSelectorRequest(evt)
+function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
@@ -154,7 +154,7 @@ function store_resources_tool:OnRotateSelectorRequest(evt)
     self:UpdateMarker()
 end
 
-function store_resources_tool:OnRelease()
+function spawn_resource_deposits_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
@@ -171,4 +171,4 @@ function store_resources_tool:OnRelease()
     end
 end
 
-return store_resources_tool
+return spawn_resource_deposits_tool
