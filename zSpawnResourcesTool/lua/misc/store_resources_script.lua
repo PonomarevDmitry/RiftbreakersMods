@@ -29,10 +29,6 @@ function store_resources_script:init()
 
     self.position = self.transform.position
 
-    LogService:Log("store_resources_script:init self.currentValue " .. tostring(self.currentValue))
-    LogService:Log("store_resources_script:init self.position " .. debug_serialize_utils:SerializeObject(self.position))
-
-
     self.existingVolumes = self:FindResourceVolume()
 
 
@@ -71,7 +67,7 @@ function store_resources_script:init()
 
     EntityService:CreateComponent( self.entity, "TimerComponent")
 
-    QueueEvent( "SetTimerRequest", self.entity, "CheckNewResourceVolume", 0.5 )
+    QueueEvent( "SetTimerRequest", self.entity, "CheckNewResourceVolume", 0.2 )
 end
 
 function store_resources_script:OnLoad()
@@ -96,7 +92,7 @@ function store_resources_script:OnTimerElapsedEvent(evt)
         return
     end
 
-    local newVolumes = self:Except(self:FindResourceVolume(), self.existingVolumes) 
+    local newVolumes = self:Except(self:FindResourceVolume(), self.existingVolumes)
 
     if ( #newVolumes == 0 ) then
         self:DestroySelf()
@@ -117,47 +113,25 @@ function store_resources_script:OnTimerElapsedEvent(evt)
 
     local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
 
-    LogService:Log("createdVolume " .. tostring(createdVolume) .. " resourceVolumeComponentRef " .. tostring(resourceVolumeComponentRef))
-
     local spawnedAmount = resourceVolumeComponentRef.spawned_amount
 
-    local difference = self.currentValue - spawnedAmount
-
-    LogService:Log("createdVolume " .. tostring(createdVolume) .. " self.currentValue " .. tostring(self.currentValue) .. " spawnedAmount " .. tostring(spawnedAmount) .. " difference " .. tostring(difference) )
+    local coeff = self.currentValue / spawnedAmount 
 
 
     local childrenList = self:GetResourceChilds(createdVolume)
-
-    LogService:Log("createdVolume " .. tostring(createdVolume) .. " #childrenList " .. tostring(#childrenList) )
-
     if ( #childrenList > 0 ) then
 
-        local delta = difference / #childrenList
-
-        LogService:Log("createdVolume " .. tostring(createdVolume) .. " #childrenList " .. tostring(#childrenList) .. " delta " .. tostring(delta) )
-
         for childResource in Iter( childrenList ) do
 
             local resource = EntityService:GetResourceAmount( childResource )
 
-            LogService:Log("childResource " .. tostring(childResource) .. " resource " .. tostring(resource.first) .. " amount " .. tostring(resource.second))
+            local amount = resource.second * coeff
 
-            local amount = resource.second + delta
-
-            if ( amount > 0 ) then
-
-                EntityService:ChangeResourceAmount(childResource, amount)
-            end
-        end
-
-        for childResource in Iter( childrenList ) do
-
-            local resource = EntityService:GetResourceAmount( childResource )
-
-            LogService:Log("changed childResource " .. tostring(childResource) .. " resource " .. tostring(resource.first) .. " amount " .. tostring(resource.second))
+            EntityService:ChangeResourceAmount(childResource, amount)
         end
     end
 
+    local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
     if ( unlimitedMoney == false ) then
         PlayerService:AddResourceAmount( self.resourceName, -self.currentValue )
     end
@@ -208,7 +182,7 @@ function store_resources_script:FindResourceVolume()
 
         signature="ResourceVolumeComponent",
 
-		filter = function( entity )
+        filter = function( entity )
 
             local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
             if ( resourceVolumeComponent ~= nil ) then
@@ -225,8 +199,8 @@ function store_resources_script:FindResourceVolume()
                 end
             end
 
-			return false
-		end
+            return false
+        end
     }
 
     local boundsSize = { x=10.0, y=100.0, z=10.0 }
