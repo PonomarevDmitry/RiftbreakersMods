@@ -115,7 +115,7 @@ function store_resources_tool:OnActivateSelectorRequest()
 
     local position = treasureSpotFind.second
 
-    LogService:Log("store_resources_tool:OnActivateSelectorRequest treasureSpotFind.second " .. debug_serialize_utils:SerializeObject(position))
+
 
 
     local entityScript = EntityService:SpawnEntity( "misc/store_resources/script", position, team )
