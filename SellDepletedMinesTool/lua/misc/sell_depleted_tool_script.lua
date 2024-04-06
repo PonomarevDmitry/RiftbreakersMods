@@ -23,6 +23,8 @@ function sell_depleted_tool_script:init()
 
     self.transform = EntityService:GetWorldTransform( self.targetEntity )
 
+    self.targetGridSize = BuildingService:GetBuildingGridSize(self.targetEntity)
+
     self.position = self.transform.position
     self.orientation = self.transform.orientation
 
@@ -71,7 +73,12 @@ function sell_depleted_tool_script:OnBuildingSellEndEvent()
         return
     end
 
+    local sizeX = (self.targetGridSize.x - 1) / 2
+    local sizeZ = (self.targetGridSize.z - 1) / 2
+
     local deltas = { -1, 1 }
+
+    local hashPositions = {}
 
     for deltaX in Iter( deltas ) do
         for deltaZ in Iter( deltas ) do
@@ -83,14 +90,33 @@ function sell_depleted_tool_script:OnBuildingSellEndEvent()
 
             newTransform.position = {}
             newTransform.position.y = self.transform.position.y
-            newTransform.position.x = self.transform.position.x + deltaX * 2
-            newTransform.position.z = self.transform.position.z + deltaZ * 2
+            newTransform.position.x = self.transform.position.x + deltaX * 2 * sizeX
+            newTransform.position.z = self.transform.position.z + deltaZ * 2 * sizeZ
 
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+            if ( self:AddToHash(hashPositions, newTransform.position.x, newTransform.position.z) ) then
+
+                QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+            end
         end
     end
 
     self:DestroySelf()
+end
+
+function sell_depleted_tool_script:AddToHash(hashPositions, newPositionX, newPositionZ)
+
+    hashPositions[newPositionX] = hashPositions[newPositionX] or {}
+
+    local hashXPosition = hashPositions[newPositionX]
+
+    if ( hashXPosition[newPositionZ] ~= nil ) then
+
+        return false
+    end
+
+    hashXPosition[newPositionZ] = true
+
+    return true
 end
 
 function sell_depleted_tool_script:DestroySelf()

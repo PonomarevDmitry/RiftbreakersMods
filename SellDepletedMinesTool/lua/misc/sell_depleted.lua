@@ -57,6 +57,8 @@ function sell_depleted:OnUpdate()
 
     self.sellCosts = {}
 
+    local countEnergyConnectors = 0
+
     for entity in Iter( self.selectedEntities ) do
 
         if ( EntityService:IsSkinned( entity ) ) then
@@ -75,9 +77,22 @@ function sell_depleted:OnUpdate()
 
             self.sellCosts[resourceCost.first ] = self.sellCosts[resourceCost.first] + resourceCost.second
         end
+
+        local gridSize = BuildingService:GetBuildingGridSize(entity)
+
+        local count = 1
+
+        if (gridSize.x > 1) then
+            count = count * 2
+        end
+        if (gridSize.z > 1) then
+            count = count * 2
+        end
+
+        countEnergyConnectors = countEnergyConnectors + count
     end
 
-    if ( self.replaceWithConnectors and #self.selectedEntities > 0 ) then
+    if ( self.replaceWithConnectors and countEnergyConnectors > 0 ) then
 
         local list = BuildingService:GetBuildCosts( "buildings/energy/energy_connector", self.playerId )
 
@@ -87,7 +102,7 @@ function sell_depleted:OnUpdate()
                self.sellCosts[resourceCost.first] = 0
             end
 
-            self.sellCosts[resourceCost.first ] = self.sellCosts[resourceCost.first] - 4 * resourceCost.second * #self.selectedEntities
+            self.sellCosts[resourceCost.first ] = self.sellCosts[resourceCost.first] - resourceCost.second * countEnergyConnectors
         end
     end
 
