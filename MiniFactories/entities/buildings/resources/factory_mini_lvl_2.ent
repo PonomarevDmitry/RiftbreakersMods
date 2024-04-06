@@ -1,23 +1,23 @@
 EntityBlueprint
 {
-	name  "buildings/resources/rare_element_mine_mini_lvl_2"
+	name  "buildings/resources/factory_mini_lvl_2"
 
-	base_blueprint "buildings/resources/rare_element_mine_mini"
+	base_blueprint buildings/resources/factory_mini		
 
 	BuildingDesc
 	{
-		name 				"rare_element_mine_mini_lvl_2"
-		bp   				"buildings/resources/rare_element_mine_mini_lvl_2"
+		buildable 			"0"		
+		name 				"factory_mini_lvl_2"
+		bp   				"buildings/resources/factory_mini_lvl_2"
 		category 			"resources"
-		localization_id		"gui/hud/building_name/rare_element_mine_mini"
-		description			"gui/hud/building_description/rare_element_mine_mini"
-		menu_icon			"gui/hud/building_icons/rare_element_mine_mini_lvl2"
-		order				"3"
-		upgrade				"buildings/resources/rare_element_mine_mini_lvl_3"		
+		localization_id		"gui/hud/building_name/factory_mini"
+		description			"gui/hud/building_description/factory_mini"
+		menu_icon			"gui/hud/building_icons/factory_mini_lvl2"
+		order				"1"
+		upgrade				"buildings/resources/factory_mini_lvl_3"			
 		require 			"headquarters"
-		buildable			"0"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
-					
+		
 		costs
 		{
 			BuildingCostInfo
@@ -28,18 +28,10 @@ EntityBlueprint
 				{
 					carbonium 	"1000"
 				}
-			}	
-			BuildingCostInfo
-			{
-				name "survival"
-				building_time 60
-				building_cost
-				{
-					carbonium 	"500"
-				}
-			}			
+			}		
 		}
-		resource_requirement "uranium_ore_vein|titanium_vein|palladium_vein|cobalt_vein" 
+			
+		resource_requirement "carbon_vein|iron_vein|uranium_ore_vein|titanium_vein|palladium_vein|cobalt_vein" 
 	}
 
 	ResourceConverterDesc
@@ -51,14 +43,24 @@ EntityBlueprint
 				resource 			"energy"
 				value			 	"100"
 			}
-			
+			GameplayResource
+			{
+				resource 			"carbon_vein"
+				value			 	"1"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"iron_vein"
+				value			 	"1"
+				family				"rare"
+			}
 			GameplayResource
 			{
 				resource 			"uranium_ore_vein"
 				value			 	"1"
 				family				"rare"
 			}
-			
 			GameplayResource
 			{
 				resource 			"titanium_vein"
@@ -76,11 +78,23 @@ EntityBlueprint
 				resource 			"cobalt_vein"
 				value			 	"1"
 				family				"rare"
-			}	
+			}
 		}
 		
 		out
 		{
+			GameplayResource
+			{
+				resource 			"carbonium"
+				value			 	"2"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"steel"
+				value				"2"
+				family				"rare"
+			}
 			GameplayResource
 			{
 				resource 			"uranium_ore"
@@ -106,15 +120,14 @@ EntityBlueprint
 				family				"rare"
 			}
 		}
-		
-		priority 4		
+		priority 4	
 		one_vein_mode "1"
 	}
 
 	HealthDesc
 	{
-		max_health 					"1500"
-		health 						"1500"
+		max_health 					"1300"
+		health 						"1300"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -128,6 +141,7 @@ EntityBlueprint
 				destroy_state_change_effect_group 	"80_transition"
 				destroy_comp_delay 					"0.5"
 				destroy_comp_event 					"80_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_50"
 				destroyed_state_effect_group 		"80_state"
 				destrucion_level_name 				"80"
 
@@ -138,6 +152,7 @@ EntityBlueprint
 				destroy_state_change_effect_group 	"60_transition"
 				destroy_comp_delay 					"0.5"
 				destroy_comp_event 					"60_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
 				destroyed_state_effect_group 		"60_state"
 				destrucion_level_name 				"60"
 			}
@@ -147,6 +162,7 @@ EntityBlueprint
 				destroy_state_change_effect_group 	"40_transition"
 				destroy_comp_delay 					"0.5"
 				destroy_comp_event 					"40_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
 				destroyed_state_effect_group 		"40_state"
 				destrucion_level_name 				"40"
 			}
@@ -156,6 +172,7 @@ EntityBlueprint
 				destroy_state_change_effect_group 	"20_transition"
 				destroy_comp_delay 					"0.5"
 				destroy_comp_event 					"20_destroy"
+				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
 				destroyed_state_effect_group 		"20_state"
 				destrucion_level_name 				"20"
 			}
@@ -165,47 +182,31 @@ EntityBlueprint
 				destroy_state_change_effect_group 	"0_transition"
 				destroy_comp_delay 					"0.6"
 				destroy_comp_event 					"default"
+				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
 				//destroyed_state_effect_group 		"0_state"
 			}			
 		}
 	}
-	
-	EffectDesc
-	{		
-		EffectBaseBlueprints
-		{
-			"buildings/effects_medium_base"
-		}
-////////////////////////MISC/////////////////////////			
-		EffectGroup
-		{
-			group "working"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/gas_chimney_small"								
-					bone "att_chimney_1"
-				}
-				Effect
-				{
-					blueprint "effects/buildings_resources/rare_element_mine_working"	
-					delay "0.5"					
-				}				
-			}
-		}					
-	}
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/resources/rare_element_mine.mesh"
-		material "buildings/resources/rare_element_mine"
-	}	
+		mesh "meshes/items/consumables/mini_miner_lvl_2.mesh"
+		material "items/consumables/mini_miner_lvl_2"
+	}
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/resources/rare_element_mine"
+		name "meshes/items/consumables/mini_miner_lvl_2"
+	}
+
+	TypeDesc
+	{
+		type "building|resource"
+	}
+
+	AnimationGraphDesc
+	{
+	
+		animation_graph_name "building_working"
 	}
 }

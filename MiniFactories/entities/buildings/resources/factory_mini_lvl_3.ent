@@ -1,20 +1,20 @@
 EntityBlueprint
 {
-	name  "buildings/resources/carbonium_factory_mini_lvl_2"
+	name  "buildings/resources/factory_mini_lvl_3"
 
-	base_blueprint buildings/resources/carbonium_factory_mini		
+	base_blueprint buildings/resources/factory_mini_lvl_2		
 
 	BuildingDesc
 	{
 		buildable 			"0"		
-		name 				"carbonium_factory_mini_lvl_2"
-		bp   				"buildings/resources/carbonium_factory_mini_lvl_2"
+		name 				"factory_mini_lvl_3"
+		bp   				"buildings/resources/factory_mini_lvl_3"
 		category 			"resources"
-		localization_id		"gui/hud/building_name/carbonium_factory_mini"
-		description			"gui/hud/building_description/carbonium_factory_mini"
-		menu_icon			"gui/hud/building_icons/carbonium_factory_mini_lvl2"
+		localization_id		"gui/hud/building_name/factory_mini"
+		description			"gui/hud/building_description/factory_mini"
+		menu_icon			"gui/hud/building_icons/factory_mini_lvl3"
 		order				"1"
-		upgrade				"buildings/resources/carbonium_factory_mini_lvl_3"			
+		//upgrade				"buildings/resources/factory_mini_lvl_4"			
 		require 			"headquarters"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		
@@ -23,15 +23,14 @@ EntityBlueprint
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 10
+				building_time 120
 				building_cost
 				{
-					carbonium 	"200"
+					carbonium 	"2000"
 				}
 			}		
 		}
-			
-		resource_requirement "carbon_vein" 
+		resource_requirement "carbon_vein|iron_vein|uranium_ore_vein|titanium_vein|palladium_vein|cobalt_vein" 
 	}
 
 	ResourceConverterDesc
@@ -41,13 +40,43 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"40"
+				value			 	"200"
 			}
-			
 			GameplayResource
 			{
 				resource 			"carbon_vein"
+				value			 	"1
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"iron_vein"
 				value			 	"1"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"uranium_ore_vein"
+				value			 	"1"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"titanium_vein"
+				value			 	"1"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"palladium_vein"
+				value			 	"1"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"cobalt_vein"
+				value			 	"1"
+				family				"rare"
 			}
 		}
 		
@@ -56,16 +85,48 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"carbonium"
-				value			 	"2"
+				value			 	"4"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"steel"
+				value				"4"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"uranium_ore"
+				value			 	"4"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"palladium"
+				value			 	"4"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"titanium"
+				value			 	"4"
+				family				"rare"
+			}
+			GameplayResource
+			{
+				resource 			"cobalt"
+				value			 	"4"
+				family				"rare"
 			}
 		}
 		priority 4	
+		one_vein_mode "1"
 	}
 
 	HealthDesc
 	{
-		max_health 					"1300"
-		health 						"1300"
+		max_health 					"1600"
+		health 						"1600"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -126,91 +187,21 @@ EntityBlueprint
 		}
 	}
 
+
 	MeshDesc
 	{
-		mesh "meshes/buildings/resources/carbonium_factory.mesh"
-		material "buildings/resources/carbonium_factory"
-	}
-
-	TypeDesc
-	{
-		type "building|resource"
+		mesh "meshes/items/consumables/mini_miner_lvl_4.mesh"
+		material "items/consumables/mini_miner_lvl_4"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/resources/carbonium_factory"
+		name "meshes/items/consumables/mini_miner_lvl_4"
 	}
-
+	
 	AnimationGraphDesc
 	{
 	
 		animation_graph_name "building_working"
-	}
-
-
-	EffectDesc
-	{		
-		EffectBaseBlueprints
-		{
-			"buildings/effects_medium_base"
-		}
-////////////////////////MISC/////////////////////////			
-		EffectGroup
-		{
-			group "grab_rocks"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/carbonium_factory_grab_rocks"								
-					bone "att_grab_rocks"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "hammer"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/carbonium_factory_hammer"								
-					bone "att_hammer"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "hatch"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/carbonium_factory_hatch"								
-					bone "att_hatch"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "working"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_resources/carbonium_factory_working"	
-					delay "0.5"					
-				}				
-			}
-		}			
 	}
 }
