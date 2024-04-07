@@ -49,6 +49,14 @@ end
 
 function rift_portal_tool:SpawnPortal(blueprintName)
 
+    local position = EntityService:GetPosition( self.entity )
+
+    if ( BuildingService:IsSpaceOccupied( position, "", "" ) ) then
+
+        SoundService:Play( "gui/cannot_use_item" )
+        return
+    end
+
     local entities = FindService:FindEntitiesByBlueprint( blueprintName )
 
     for i=1,#entities do
@@ -56,8 +64,6 @@ function rift_portal_tool:SpawnPortal(blueprintName)
     end
 
     local team = EntityService:GetTeam( self.entity )
-
-    local position = EntityService:GetPosition( self.entity )
 
     local newPortal = EntityService:SpawnEntity( blueprintName, position, team )
 end
