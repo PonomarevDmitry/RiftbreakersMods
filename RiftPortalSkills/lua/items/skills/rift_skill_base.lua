@@ -34,12 +34,12 @@ function rift_skill_base:JumpToEntity(entity)
 
     local portalPosition = EntityService:GetPosition( entity )
 
-    self:SpawnTemporaryPortalInNeeded()
+    self:SpawnTemporaryPortalIfNeeded()
 
     PlayerService:TeleportPlayer( self.owner, portalPosition , 0.2, 0.1, 0.2 )
 end
 
-function rift_skill_base:SpawnTemporaryPortalInNeeded()
+function rift_skill_base:SpawnTemporaryPortalIfNeeded()
 
     local buildingDesc = BuildingService:GetBuildingDesc( "buildings/defense/portal" )
 
