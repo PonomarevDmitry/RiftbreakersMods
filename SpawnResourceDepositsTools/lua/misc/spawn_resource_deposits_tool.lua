@@ -1,6 +1,5 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
-local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 class 'spawn_resource_deposits_tool' ( tool )
 

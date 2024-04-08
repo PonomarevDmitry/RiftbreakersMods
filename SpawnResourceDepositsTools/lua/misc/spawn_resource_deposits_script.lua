@@ -2,7 +2,6 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
-local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 class 'spawn_resource_deposits_script' ( LuaEntityObject )
 
