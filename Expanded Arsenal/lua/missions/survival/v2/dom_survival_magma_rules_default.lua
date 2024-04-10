@@ -33,8 +33,8 @@ return function()
 		{ action = "spawn_super_moon", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, logicFile="logic/weather/super_moon.logic", minTime = 60, maxTime = 120, weight = 0.25  },				
 		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 60, maxTime = 120 },
 		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 60, maxTime = 120 },				
-		{ action = "spawn_volcanic_rock_rain", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/volcanic_rock_rain.logic", minTime = 40, maxTime = 90 },
-		{ action = "spawn_volcanic_rock_rain", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/volcanic_rock_rain.logic", minTime = 40, maxTime = 90 },
+		{ action = "spawn_volcanic_rock_rain", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/volcanic_rock_rain.logic", minTime = 30, maxTime = 60 },
+		{ action = "spawn_volcanic_rock_rain", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/volcanic_rock_rain.logic", minTime = 30, maxTime = 60 },
 		{ action = "spawn_volcanic_ash_clouds", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/volcanic_ash_clouds.logic", minTime = 60, maxTime = 120 },
 		{ action = "spawn_volcanic_ash_clouds", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/volcanic_ash_clouds.logic", minTime = 60, maxTime = 120 },	
 		{ action = "spawn_resource_comet", type = "POSITIVE", gameStates = "IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/resource_comet.logic"  },
@@ -89,7 +89,8 @@ return function()
 	rules.objectivesLogic = 
 	{
 		{ name = "logic/objectives/kill_elite_magmoth.logic", minDifficultyLevel = 3 },
-		{ name = "logic/objectives/kill_gnerot_burning_fight.logic", minDifficultyLevel = 5 },
+		{ name = "logic/objectives/kill_elite_nerilian.logic", minDifficultyLevel = 4 },
+		--{ name = "logic/objectives/kill_gnerot_burning_fight.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/destroy_magma_creeper.logic", minDifficultyLevel = 4 },
 		{ name = "logic/objectives/destroy_nest_morirot_single.logic", minDifficultyLevel = 3, maxDifficultyLevel = 6 }, 
 		{ name = "logic/objectives/destroy_nest_morirot_multiple.logic", minDifficultyLevel = 6 } 

@@ -7,17 +7,22 @@ EntityBlueprint
 	{
 		name 				"tower_cluster_cruise_missile_lvl_2"
 		bp   				"buildings/defense/tower_cluster_cruise_missile_lvl_2"
-		category 			"defense_mod_3"
+		category 			"defense_mod_2"
 		localization_id		"gui/hud/building_name/tower_cluster_cruise_missile"
 		description			"gui/hud/building_description/tower_cluster_cruise_missile"
 		menu_icon			"gui/hud/building_icons/tower_cluster_cruise_missile_lvl2"
 		require 			"headquarters"
-		order				"1"
+		order				"3"
 		type				"tower"
 		buildable			"0"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cluster_cruise_missile_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"
+		limit				"10"
+		limit_name			"cluster_cm_limit"
+		map_limit			"LOCAL"	
 
 		costs
 		{
@@ -177,12 +182,66 @@ EntityBlueprint
 			submesh_idx "1"
 		}
 
-		ammo_blueprint 				"buildings/defense/tower_cluster_cruise_missile_projectile"
+		ammo_blueprint 				"buildings/defense/tower_cluster_cruise_missile_projectile_lvl_2"
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_explosive/tower_rocket_fire_medium"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0.1"
 		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_cluster_cruise_missile_projectile_lvl_2"
+
+	base_blueprint "buildings/defense/tower_cluster_cruise_missile_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/tower_cluster_cruise_missile_hit_lvl_2"
+		on_world_hit_effect 	"effects/weapons_explosive/tower_cluster_cruise_missile_hit_lvl_2"
+		on_resisted_hit_effect 	"effects/weapons_explosive/tower_cluster_cruise_missile_hit_lvl_2"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+}
+
+EntityBlueprint
+{
+	name  			"buildings/defense/tower_cluster_cruise_missile_grenade_lvl_2"
+	base_blueprint 	"buildings/defense/tower_cluster_cruise_missile_grenade_lvl_1"
+	
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_explosive/tower_cluster_cruise_missile_grenade_explosion"
+		on_world_hit_effect 		"effects/weapons_explosive/tower_cluster_cruise_missile_grenade_explosion"
+		on_resisted_hit_effect 		"effects/weapons_explosive/tower_cluster_cruise_missile_grenade_explosion"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"1"
+
+		artillery_min_angle 		"15"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius		"4"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"118"
+					type			"physical"
+				}
+			}
+		}
 	}
 }

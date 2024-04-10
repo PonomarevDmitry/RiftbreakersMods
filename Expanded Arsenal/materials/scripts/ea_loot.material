@@ -21,4 +21,26 @@ material loot/resources/shard_voidinite : loot/resources
 	}
 }
 
+material loot/resources/shard_crystal_dna : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_ferdonite_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_ferdonite_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_ferdonite_packed.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_blue.dds
+	
+	glow 4
+	reflection 20 40
+	
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor float4 0.7 0 0.55 0.5
+			}
+		}
+	}
+}
+
 //----------------------EXPANDED ARSENAL END----------------------\\

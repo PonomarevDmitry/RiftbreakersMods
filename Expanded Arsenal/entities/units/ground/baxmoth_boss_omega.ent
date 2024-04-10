@@ -9,8 +9,8 @@ EntityBlueprint
 		script "lua/units/ground/baxmoth.lua"
 		database
 		{
-			min_scale	float:"1.1"
-			max_scale	float:"1.1"
+			min_scale						float:"1.1"
+			max_scale						float:"1.2"
 		}		
 	}
 	
@@ -23,12 +23,13 @@ EntityBlueprint
 	{
 		physical		"1.0"
 		fire			"6.0"
-		acid			"3.0"
-		energy			"0.0"
+		acid			"1.5"
+		energy			"0.25"
 		cryo			"1.0"
 		area			"0.0"
-		gravity			"0.05"
+		gravity			"0.25"
 		radiation		"3.0"
+		sonic			"0.0"
 	}
 	
 	StunDataComponent
@@ -47,8 +48,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"3000"
-		health 						"3000"
+		max_health 					"3600"
+		health 						"3600"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -67,7 +68,7 @@ EntityBlueprint
 	
 	RegenerationComponent
 	{
-		regeneration 			"300"
+		regeneration 			"360"
 		regeneration_cooldown 	"5"
 	}
 	
@@ -81,7 +82,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh 		"meshes/units/ground/baxmoth.mesh"
-		material 	"units/ground/baxmoth_ultra"
+		material 	"units/ground/baxmoth_omega"
 		render_group 29 // no point light cast shadow
 	}
 	
@@ -128,10 +129,10 @@ EntityBlueprint
 	{
 		blueprint					"units/air/baxmoth_drone_omega"
 		spawn_effect				"effects/enemies_baxmoth/drone_death"
-		max_spawn					"15"
+		max_spawn					"30"
 		attachment_to_spawn_from	"spawn"
 		spawn_time					"0.1"
-		spawn_disabled				"1"
+		spawn_disabled				"0"
 	}
 	
 	DestroyDesc
@@ -354,7 +355,7 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/baxmoth_ultra/attack"
+		    name "units/ground/baxmoth_boss_omega/attack"
 
 			AttachmentDesc
 			{
@@ -388,11 +389,11 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
-							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
-							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
-							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_omega_melee_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_omega_melee_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_omega_melee_hit_shield"
 
 							DamagePattern
 							{

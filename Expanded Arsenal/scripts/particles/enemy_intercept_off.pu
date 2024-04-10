@@ -1,0 +1,135 @@
+system rift/enemy_intercept_off
+{
+	keep_local									true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.02
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+
+	technique smoke
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/explosion_and_smoke_red_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       25
+            angle                               15
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             100
+            }
+            all_particle_dimensions             1
+			direction                           0 1 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           10
+            box_height                          40
+            box_depth                           10
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.329412 0.329412 0.329412 0
+            time_colour                         0.134783  0.368627 0.368627 0.368627 0.6
+            time_colour                         0.756522  0.411765 0.411765 0.411765 0.498039
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                LinearForce Affector14
+        {
+            force_vector                        0 35 0
+            force_application                   average
+        }
+		
+		affector                                Scale Affector79
+        {
+            xyz_scale                           50
+        }
+    }
+	
+	technique piorun
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_2x2_red_02
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle 
+        {
+            emission_rate                       5
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             80
+                max                             120
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+            auto_direction                      true
+            radius                              1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         0.1  0.501961 0.501961 0.501961 1
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation                            3.2
+            rotation_speed                      0
+        }
+    }
+}

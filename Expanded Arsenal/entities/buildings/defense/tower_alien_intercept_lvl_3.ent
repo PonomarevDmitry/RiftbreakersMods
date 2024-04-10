@@ -1,0 +1,176 @@
+EntityBlueprint
+{
+	name				"buildings/defense/tower_alien_intercept_lvl_3"
+	
+	base_blueprint	 	"buildings/defense/tower_alien_intercept_lvl_2"
+
+	BuildingDesc
+	{
+		name 					"tower_alien_intercept_lvl_3"
+		bp   					"buildings/defense/tower_alien_intercept_lvl_3"
+		category 				"defense_mod_1"
+		localization_id			"gui/hud/building_name/tower_alien_intercept"
+		description				"gui/hud/building_description/tower_alien_intercept"
+		menu_icon				"gui/hud/building_icons/tower_alien_intercept_lvl3"
+		build_on_water			"1"
+		require 				"headquarters"
+		order					"3"
+		type					"tower"
+		buildable				"0"
+		overrides				"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		check_connect			"1"
+		radius_name				"intercept_tower"
+		min_radius				"14"
+		min_radius_effect   	"voice_over/announcement/tower_too_close"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name 			"default"
+				building_time 	10
+				building_cost
+				{
+					carbonium 	"600"
+					steel 		"600"
+					cobalt		"200"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{	
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"10"
+			}
+			
+			GameplayResource
+			{
+				resource 	"radioactive_gas"
+				value 		"5"
+				family		"input"
+			}
+
+			GameplayResource
+			{
+				resource 	"morphium"
+				value 		"5"
+				family		"input"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	PipeComponent
+	{
+		
+	}
+
+	InfluenceComponent
+	{
+		radius 			"3"
+		energy_radius 	"0"
+		emissive_radius "1"
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_interceptor.lua"
+
+		database
+		{
+			cone_effect						string:"build_cone_1x1"
+			cone_effect_sell				string:"sell_small"
+			time_machine					int:"0"
+			
+/////////// intercept effects data
+
+			interceptor_effect_projectile				string:"effects/enemies_generic/enemy_green_interceptor_lightning"
+			interceptor_hit_effect_projectile			string:"effects/enemies_generic/enemy_green_interceptor_lightning_hit"
+			
+			interceptor_effect_artillery				string:"effects/enemies_generic/enemy_yellow_interceptor_lightning"
+			interceptor_hit_effect_artillery			string:"effects/enemies_generic/enemy_yellow_interceptor_lightning_hit"
+			
+			interceptor_effect_grenade					string:"effects/enemies_generic/enemy_orange_interceptor_lightning"
+			interceptor_hit_effect_grenade				string:"effects/enemies_generic/enemy_orange_interceptor_lightning_hit"
+			
+/////////// intercept parameter data
+			
+			intercept_time					float:"5"
+			reload_time						float:"1"
+			
+			intercept_target_components		string:"Projectile,Artillery,Grenade"
+			intercept_ranges				string:"20,14,16"
+			intercept_rates					string:"14,6,10"
+		}
+
+	}
+
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual 					1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 			"100"
+		regeneration_cooldown 	"5"
+	}
+
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_alien_influence_lvl_3.mesh"
+		material "buildings/defense/tower_alien_intercept_lvl_3"	
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_alien_influence_lvl_3"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+}

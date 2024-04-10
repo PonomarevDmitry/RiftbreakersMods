@@ -1,0 +1,3678 @@
+//----------------------BASE BLUEPRINTS----------------------\\
+
+//----------------------BASE CRYSTAL DEPLOYERS START----------------------\\
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_deployer_base"
+	
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+	}
+	
+	ResistanceComponent
+	{
+		creeper_area			"1"
+		magma_hot_ground		"0"
+		magma_very_hot_ground	"0"
+		quicksand				"0"
+		//magma_terrain_friendly	"0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"10"
+		health 						"10"
+	}
+	
+	TypeDesc
+	{
+		type "ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"wreck"
+				physics_material 	"gibs_light"
+				dominance			"1"
+				sleep_threshold     "5"
+
+				Shapes
+				{
+					//PhysicsSphereShape
+					//{
+						//r "0.5"
+					//}
+					
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/egg_nurglax_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility			"always"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/crystal_deployer_blue"
+	
+	base_blueprints 
+	{
+		buildings/defense/crystal_deployer_base
+		lights/point/blue_super_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_blue"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/weapons_crystal/crystal_blocker_spawn_blue"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}					
+
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/weapons_crystal/crystal_blocker_spawn_blue"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_light"	
+				}
+
+				key "spawn"
+			}					
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/crystal_deployer_violet"
+	
+	base_blueprints 
+	{
+		buildings/defense/crystal_deployer_base
+		lights/point/violet_super_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_violet"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/weapons_crystal/crystal_blocker_spawn_violet"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}					
+
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/weapons_crystal/crystal_blocker_spawn_violet"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_light"	
+				}
+
+				key "spawn"
+			}					
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/crystal_deployers"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/crystal_deployer_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/crystal_deployer_violet"
+		}	
+	}
+}
+
+//----------------------BASE CRYSTAL DEPLOYERS END----------------------\\
+
+//----------------------BASE BLOCKERS STARTS----------------------\\
+
+EntityBlueprint
+{
+	name	"buildings/defense/crystal_blocker_base"
+	
+	TeamDesc
+	{
+		team "player"
+	}
+	
+	TypeDesc
+	{
+		type "building|defense|wall"
+	}
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building_small"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "4"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	2
+				y	2
+				z	2
+			}
+		}
+	}
+	
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "0.7"
+			y "0.7"
+			z "0.7"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"always"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_01_blue"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_01.mesh"
+		material "projectiles/crystal_blocker_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_02_blue"
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_02.mesh"
+		material "projectiles/crystal_blocker_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_03_blue"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_03.mesh"
+		material "projectiles/crystal_blocker_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_04_blue"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_04.mesh"
+		material "projectiles/crystal_blocker_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_05_blue"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_05.mesh"
+		material "projectiles/crystal_blocker_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_01_violet"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_01.mesh"
+		material "projectiles/crystal_blocker_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_02_violet"
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_02.mesh"
+		material "projectiles/crystal_blocker_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_03_violet"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_03.mesh"
+		material "projectiles/crystal_blocker_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_04_violet"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_04.mesh"
+		material "projectiles/crystal_blocker_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_blocker_05_violet"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gulgor_crystal_05.mesh"
+		material "projectiles/crystal_blocker_violet"
+	}
+}
+
+//----------------------BASE BLOCKERS END----------------------\\
+
+//----------------------TOWER CRYSTAL BLASTER LVL 1 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_blaster_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_blaster_blocker"
+		time_to_hatch			"0.1"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_01_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_blue
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"3"
+			min_scale			float:"0.5"
+			max_scale			float:"0.5"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"20"
+		health 						"20"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_01_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_violet
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"3"
+			min_scale			float:"0.5"
+			max_scale			float:"0.5"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"20"
+		health 						"20"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL BLASTER LVL 1 END----------------------\\
+
+//----------------------TOWER CRYSTAL BLASTER LVL 2 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_blaster_lvl_2_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_blaster_lvl_2_blocker"
+		time_to_hatch			"0.1"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_lvl_2_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_blue"
+	base_blueprint	"buildings/defense/tower_crystal_blaster_blocker_01_blue"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_2_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_2_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_violet"
+	base_blueprint	"buildings/defense/tower_crystal_blaster_blocker_01_violet"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_2_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_2_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL BLASTER LVL 2 END----------------------\\
+
+//----------------------TOWER CRYSTAL BLASTER LVL 3 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_blaster_lvl_3_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_blaster_lvl_3_blocker"
+		time_to_hatch			"0.1"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_lvl_3_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_blue"
+	base_blueprint	"buildings/defense/tower_crystal_blaster_blocker_01_blue"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_3_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_blaster_blocker_lvl_3_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_violet"
+	base_blueprint	"buildings/defense/tower_crystal_blaster_blocker_01_violet"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_3_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_blaster_blocker_lvl_3_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_blaster_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL BLASTER LVL 3 END----------------------\\
+
+//----------------------TOWER CRYSTAL EJECTOR BLOCKER START----------------------\\
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_01_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_blue
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"5"
+			min_scale			float:"0.5"
+			max_scale			float:"0.5"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"50"
+		health 						"50"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_ejector_blocker_explosion_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_ejector_blocker_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_01_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_violet
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"5"
+			min_scale			float:"0.5"
+			max_scale			float:"0.5"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"50"
+		health 						"50"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_ejector_blocker_explosion_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_ejector_blocker_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_ejector_blocker_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL EJECTOR BLOCKER END----------------------\\
+
+//----------------------TOWER CRYSTAL EJECTOR SENTRIES START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_ejector_turret_base"
+	base_blueprint	"items/consumables/crystal_turret_standard"
+
+	HealthDesc
+	{
+		max_health 					"150"
+		health 						"150"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual                   "1"
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_crystal_ejector_sentry"
+	
+	base_blueprint "buildings/defense/tower_crystal_ejector_turret_base"
+
+	BuildingDesc
+	{
+		name 				"tower_crystal_ejector_sentry"
+		bp   				"buildings/defense/tower_crystal_ejector_sentry"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/tower_crystal_ejector_sentry"
+		description			"gui/hud/building_description/tower_crystal_ejector_sentry"
+		menu_icon			"gui/hud/building_icons/tower_basic"
+		sellable 			"0"
+        buildable           "0"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.2"
+				recoil_offset   "1"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"items/consumables/crystal_turret_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.075"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/towers_pointers/crystal_laser_pointer"
+					bone "att_pointer"
+					random_delay "0.01"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodcrystalstub"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_blue_stub"								
+					bone "att_stub_1"
+					scale	"1.5 1.2 1.2"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_violet_stub"								
+					bone "att_stub_2"
+					scale	"0.7 1.2 1.2"
+				}
+			}
+		}
+	}
+
+}
+
+EntityBlueprint
+{
+    name "buildings/defense/tower_crystal_ejector_sentry_ruins"
+
+    LifeTimeDesc
+    {
+        time "0.01" 
+    }
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_crystal_ejector_grenadier"
+	
+	base_blueprint "buildings/defense/tower_crystal_ejector_turret_base"
+
+	BuildingDesc
+	{
+		name 				"tower_crystal_ejector_grenadier"
+		bp   				"buildings/defense/tower_crystal_ejector_grenadier"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/tower_crystal_ejector_grenadier"
+		description			"gui/hud/building_description/tower_crystal_ejector_grenadier"
+		menu_icon			"gui/hud/building_icons/tower_basic"
+		sellable 			"0"
+        buildable           "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/mobile_turret_lvl_3.mesh"
+		material 	"items/consumables/crystal_turret_superior"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/mobile_turret_lvl_3"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.2"
+				recoil_offset   "1"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_crystal_ejector_grenadier_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/towers_pointers/crystal_laser_pointer"
+					bone "att_pointer"
+					random_delay "0.01"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodcrystalstub"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_blue_stub"								
+					bone "att_stub_2"
+					scale	"0.7 0.7 0.7"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_blue_stub"								
+					bone "att_stub_3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodcrystalstub1"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_violet_stub"								
+					bone "att_stub_1"
+					scale	"1.5 1.2 1.2"
+				}
+			}
+		}
+	}
+
+}
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_ejector_grenadier_projectile"
+
+	base_blueprint 	"effects/weapons_crystal/crystal_projectile"
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_10_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	LifeTimeDesc
+	{
+		time 		3
+		//type 		"camera"
+	}
+	
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_hit"
+		on_world_hit_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_hit"
+		on_resisted_hit_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_hit"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+		
+		hit_effect_direction 		"up"
+		
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		cluster_count 				"3"
+		cluster_max_generation      "0"
+		cluster_explosion_radius	"1.1"
+		fly_time_limit 				"1.5"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_white"
+				update_bounds 		1
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.6"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.6"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "buildings/defense/tower_crystal_ejector_grenadier_ruins"
+
+    LifeTimeDesc
+    {
+        time "0.01" 
+    }
+}
+
+
+//----------------------TOWER CRYSTAL ARTILLERY LVL 1 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_artillery_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_artillery_blocker"
+		time_to_hatch			"0.2"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_01_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_blue
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"6"
+			min_scale			float:"0.7"
+			max_scale			float:"0.7"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"50"
+		health 						"50"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_01_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_violet
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"6"
+			min_scale			float:"0.7"
+			max_scale			float:"0.7"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"50"
+		health 						"50"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL ARTILLERY LVL 1 END----------------------\\
+
+//----------------------TOWER CRYSTAL ARTILLERY LVL 2 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_artillery_lvl_2_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_artillery_lvl_2_blocker"
+		time_to_hatch			"0.2"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_lvl_2_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_blue"
+	base_blueprint	"buildings/defense/tower_crystal_artillery_blocker_01_blue"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_2_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_2_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_violet"
+	base_blueprint	"buildings/defense/tower_crystal_artillery_blocker_01_violet"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_2_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_2_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL ARTILLERY LVL 2 END----------------------\\
+
+//----------------------TOWER CRYSTAL ARTILLERY LVL 3 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_artillery_lvl_3_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_artillery_lvl_3_blocker"
+		time_to_hatch			"0.1"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_lvl_3_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_blue"
+	base_blueprint	"buildings/defense/tower_crystal_artillery_blocker_01_blue"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_3_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_artillery_blocker_lvl_3_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_violet"
+	base_blueprint	"buildings/defense/tower_crystal_artillery_blocker_01_violet"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_3_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_artillery_blocker_lvl_3_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_artillery_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL ARTILLERY LVL 3 END----------------------\\
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE LVL 1 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_cruise_missile_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_cruise_missile_blocker"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_01_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_blue
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"4"
+			min_scale			float:"0.6"
+			max_scale			float:"0.6"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"25"
+		health 						"25"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_01_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/crystal_blocker_base
+		buildings/defense/crystal_blocker_01_violet
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_blocker_timer.lua"
+		
+		database
+		{
+			crystal_lifespan	float:"4"
+			min_scale			float:"0.6"
+			max_scale			float:"0.6"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"25"
+		health 						"25"		
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE LVL 1 END----------------------\\
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE LVL 2 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_cruise_missile_lvl_2_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_cruise_missile_lvl_2_blocker"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_lvl_2_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_blue"
+	base_blueprint	"buildings/defense/tower_crystal_cruise_missile_blocker_01_blue"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_2_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_violet"
+	base_blueprint	"buildings/defense/tower_crystal_cruise_missile_blocker_01_violet"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_2_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_2_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE LVL 2 END----------------------\\
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE LVL 3 START----------------------\\
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_cruise_missile_lvl_3_deployer"
+	base_blueprint 	"buildings/defense/crystal_deployers"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_crystal_cruise_missile_lvl_3_blocker"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_lvl_3_blocker"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_blue"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_02_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_03_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_04_blue"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_05_blue"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_blue"
+	base_blueprint	"buildings/defense/tower_crystal_cruise_missile_blocker_01_blue"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_3_blue"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_blue"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_02_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_02_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_03_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_03_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_04_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_04_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_05_blue"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_blue
+		buildings/defense/crystal_blocker_05_blue
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_violet"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_02_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_03_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_04_violet"
+		}
+		Blueprint
+		{
+			blueprint "buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_05_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_violet"
+	base_blueprint	"buildings/defense/tower_crystal_cruise_missile_blocker_01_violet"
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_3_violet"
+					explosion_effect_scale 	"1.5"
+					part_prefix 			"meshes/projectiles/crystal_gun_projectile.mesh"
+					part_material 			"projectiles/crystal_weapon_projectile_violet"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "debris_heavy"
+					part_lifetime "3"
+				}
+				
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_02_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_02_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_03_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_03_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_04_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_04_violet
+	}
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_05_violet"
+	
+	base_blueprints
+	{
+		buildings/defense/tower_crystal_cruise_missile_blocker_lvl_3_01_violet
+		buildings/defense/crystal_blocker_05_violet
+	}
+}
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE LVL 3 END----------------------\\
+
+//----------------------CRYSTAL ROCKET DRONE START----------------------\\
+
+EntityBlueprint
+{
+	name "buildings/defense/crystal_rocket_drone_turret"
+	
+	base_blueprint "buildings/defense/tower_crystal_ejector_turret_base"
+
+	BuildingDesc
+	{
+		name 				"crystal_rocket_drone_turret"
+		bp   				"buildings/defense/crystal_rocket_drone_turret"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/crystal_rocket_drone_turret"
+		description			"gui/hud/building_description/crystal_rocket_drone_turret"
+		menu_icon			"gui/hud/building_icons/tower_basic"
+		sellable 			"0"
+        buildable           "0"
+	}
+	
+	HealthDesc
+	{
+		max_health 					"100"
+		health 						"100"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual                   "1"
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/items/consumables/mobile_turret_lvl_4.mesh"
+		material "items/consumables/crystal_turret_extreme"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/mobile_turret_lvl_4"
+	}
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TowerDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_large|ground_unit"
+		target_ignore "invisible"
+		speed "150"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "15"
+			aiming_range "20"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		gravity_factor "8"
+		yaw "be_turret"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.2"
+				recoil_offset   "1"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/crystal_rocket_drone_turret_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		////////////////////////MISC/////////////////////////
+		
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodcrystalstub"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_blue_stub"								
+					bone "att_stub_1"
+					scale	"1 1.5 1.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodcrystalstub1"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_violet_stub"								
+					bone "att_stub_2"
+					scale	"1 1.5 1.5"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"buildings/defense/crystal_rocket_drone_turret_projectile"
+	
+	base_blueprint 	"effects/weapons_crystal/crystal_projectile"
+	
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_hit"
+		on_world_hit_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_hit"
+		on_resisted_hit_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_hit"
+		
+		hit_effect_direction 		"up"
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_white"
+				update_bounds 		1
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.6"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.6"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "buildings/defense/crystal_rocket_drone_turret_ruins"
+
+    LifeTimeDesc
+    {
+        time "0.01" 
+    }
+}
+
+//----------------------CRYSTAL ROCKET DRONE END----------------------\\

@@ -1,5 +1,60 @@
 EntityBlueprint
 {
+	name "effects/enemies_baxmoth/baxmoth_drone_omega_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_red_small
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"3"
+			EMP_duration	float:"3"
+		}
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/baxmoth_drone_omega_projectile_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+}
+
+EntityBlueprint
+{
 
 	name "effects/enemies_baxmoth/death_long_energy_green"
 	

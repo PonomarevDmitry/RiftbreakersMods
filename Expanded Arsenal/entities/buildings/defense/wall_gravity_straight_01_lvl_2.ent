@@ -15,12 +15,15 @@ EntityBlueprint
 		menu_icon				"gui/hud/building_icons/wall_gravity_lvl2"
 		build_on_water			"0"
 		require 				"headquarters"
-		order					"1"
+		order					"0"
 		upgrade					"buildings/defense/wall_gravity_straight_01_lvl_3"
 		building_mode			"line"
 		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		//check_connect			"1"
 		overrides				"wall"
 		building_group			"wall_kinetic"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"
 
 		costs
 		{
@@ -45,7 +48,7 @@ EntityBlueprint
 			I		"buildings/defense/wall_gravity_straight_01_lvl_2"
 		}
 	}
-
+	
 	ReflectDamageComponent
 	{
 		reflect_type 	"damage_ratio"  // health_ratio, damage_ratio, flat_damage
@@ -60,33 +63,16 @@ EntityBlueprint
 		glow_factor 	100
 	}
 	
-	ResourceConverterDesc // must be here for AI
+	RegenerationComponent
 	{
-		in
-		{			
-			GameplayResource
-			{
-				resource 	"ferdonite_plasma"
-				value 		"0.01"
-			}		
-		}
-
-		out
-		{
-		}
-
-		priority 6
-	}
-
-	PipeComponent
-	{
-		
+		regeneration 			"74.2"
+		regeneration_cooldown 	"2"
 	}
 	
 	HealthDesc
 	{
-		max_health 					"750"
-		health 						"750"
+		max_health 					"742"
+		health 						"742"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -114,12 +100,6 @@ EntityBlueprint
 		}
 	}
 	
-	RegenerationComponent
-	{
-		regeneration 			"75"
-		regeneration_cooldown 	"2"
-	}
-
 	MeshDesc
 	{
 		mesh "meshes/buildings/defense/wall_energy_straight_01_lvl_2.mesh"
@@ -140,99 +120,40 @@ EntityBlueprint
 
 		}
 	}
-	
-	EffectDesc
+
+	SkeletonDesc
 	{
-		EffectBaseBlueprints
-		{
-			"buildings/effects_small_base"
-		}
-		
-		EffectGroup
-		{						
-			group "damage_generic"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/wall_gravity_damage"
-					scale "0.7 0.7 0.7"
-				}
-			}
-		}		
-		EffectGroup
-		{						
-			group "hit_damage"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/wall_gravity_damage"	
-					scale "0.7 0.7 0.7"
-				}
-			}
-		}
+		name	"meshes/buildings/defense/wall_energy_straight_01_lvl_2"
+	}
+}
 
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "0"
-			delay "0"
+EntityBlueprint
+{
+	name  "buildings/defense/wall_gravity_straight_01_lvl_2_ruins"
 
-			Effects
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/wall_energy_straight_02_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
 			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_1_arrow"
-				}
+				id "0"
+				material "buildings/defense/wall_gravity_lvl_2_solid"
 			}
-		}
-		EffectGroup
-		{
-			group "att_in_2"
-			enabled "0"
-			delay "0"
 
-			Effects
+			SubMesh
 			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_2_arrow"
-				}
+				id "1"
+				material "buildings/defense/wall_energy_lvl_2_gravity"
 			}
-		}
-		EffectGroup
-		{
-			group "att_in_3"
-			enabled "0"
-			delay "0"
 
-			Effects
+			SubMesh
 			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_3_arrow"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "att_in_4"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_4_arrow"
-				}
+				id "2"
+				material "buildings/main/buildings_ruins"
 			}
 		}		
 	}

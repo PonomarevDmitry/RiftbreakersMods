@@ -274,7 +274,7 @@ EntityBlueprint
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0.1"
-		burst_column_angle 			"2"
+		burst_column_angle 			"0"
 	}
 
 	DestroyDesc
@@ -420,12 +420,25 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_small"
 		on_world_hit_effect 	"effects/weapons_explosive/explosion_small"
 		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_small"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+		
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.15"
+
+		cluster_scale
+		{
+			x "0.8"
+			y "0.5"
+			z "0.5"
+		}
 	}
 
 	LifeTimeDesc
 	{
-		time 		1.5
+		time 		1
 		//type 		"camera"
 	}
 
@@ -439,6 +452,38 @@ EntityBlueprint
 				{
 					blueprint "effects/weapons_explosive/rocket_projectile_medium"
 					bone "att_exhaust"
+				}
+			}
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/smoke_trail_01
+				update_bounds 		1
+				fade_out_time		0.25
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.5"
+					}
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 EntityBlueprint
 {
-	name 			"items/weapons/heavy_acid_shot"
+	name 			"items/weapons/heavy_acid_blaster_shot"
 
 	base_blueprint 	"effects/weapons_acid/acid_blaster_projectile"
 
@@ -10,7 +10,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_acid/acid_blaster_hit"
 		on_resisted_hit_effect 	"effects/weapons_acid/acid_blaster_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|hitbox|shield|building"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|hitbox|shield|building"
 		collision_2d 			"ground_unit|hitbox|destructible"
 	}
 
@@ -23,7 +23,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "items/weapons/heavy_acid_shotgun_shot"
+	name "items/weapons/heavy_acid_blaster_shotgun_shot"
 
 	base_blueprint "effects/weapons_acid/acid_shotgun_bullet"
 
@@ -34,7 +34,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_acid/heavy_acid_shotgun_hit_enemy"
 		on_world_hit_effect 	"effects/weapons_acid/heavy_acid_shotgun_hit_world"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|hitbox|shield|building"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|hitbox|shield|building"
 		collision_2d 			"ground_unit|hitbox|destructible"
 	}
 	
@@ -54,7 +54,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "items/weapons/heavy_acid_explosive_shot"
+	name  "items/weapons/heavy_acid_blaster_explosive_shot"
 
 	base_blueprints 
 	{
@@ -99,7 +99,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_acid/heavy_acid_explosive_shot_hit"
 		on_resisted_hit_effect 	"effects/weapons_acid/heavy_acid_explosive_shot_hit"
 
-		collision_3d 			"world_blocker|world|ground_unit|hitbox|building|destructible|shield|building"
+		collision_3d 			"world_blocker|world|ground_unit|hitbox|building|world_destructible|destructible|shield|building"
 		collision_2d 			"ground_unit|hitbox|destructible"
 	}
 
@@ -127,12 +127,12 @@ EntityBlueprint
 				{
 					Ribbon
 					{
-						offset "0 0 0.5"
+						offset "0 0 0.3"
 					}
 
 					Ribbon
 					{
-						offset "0 0 -0.5"
+						offset "0 0 -0.3"
 					}
 				}
 			}
@@ -176,7 +176,7 @@ EntityBlueprint
 			}
 		}
 
-		ammo_blueprint 				"items/weapons/heavy_acid_shot"
+		ammo_blueprint 				"items/weapons/heavy_acid_blaster_shot"
 
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_acid/tower_acid_blaster_fire"
@@ -204,7 +204,7 @@ EntityBlueprint
                 charge_time_end             "1"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_shotgun_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_shotgun_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -215,7 +215,6 @@ EntityBlueprint
             {
 				name 						"charge_level_2"
 
-				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
                 charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
@@ -225,7 +224,7 @@ EntityBlueprint
                 charge_time_end             "2"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_explosive_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_explosive_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -336,6 +335,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"acid"
 		}
 	}
 
@@ -375,7 +376,7 @@ EntityBlueprint
                 charge_time_end             "1"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_shotgun_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_shotgun_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -386,7 +387,6 @@ EntityBlueprint
             {
 				name 						"charge_level_2"
 
-				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
                 charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
@@ -396,7 +396,7 @@ EntityBlueprint
                 charge_time_end             "2"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_explosive_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_explosive_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -432,6 +432,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"acid"
 		}
 	}
 
@@ -471,7 +473,7 @@ EntityBlueprint
                 charge_time_end             "1"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_shotgun_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_shotgun_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -482,7 +484,6 @@ EntityBlueprint
             {
 				name 						"charge_level_2"
 
-				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
                 charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
@@ -492,7 +493,7 @@ EntityBlueprint
                 charge_time_end             "2"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_explosive_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_explosive_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -528,6 +529,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"acid"
 		}
 	}
 
@@ -567,7 +570,7 @@ EntityBlueprint
                 charge_time_end             "1"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_shotgun_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_shotgun_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -578,7 +581,6 @@ EntityBlueprint
             {
 				name 						"charge_level_2"
 
-				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
                 charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
@@ -588,7 +590,7 @@ EntityBlueprint
                 charge_time_end             "2"
                 charge_muzzle_idx           "0"
 
-                ammo_blueprint 				"items/weapons/heavy_acid_explosive_shot"
+                ammo_blueprint 				"items/weapons/heavy_acid_blaster_explosive_shot"
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
@@ -624,6 +626,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"acid"
 		}
 	}
 

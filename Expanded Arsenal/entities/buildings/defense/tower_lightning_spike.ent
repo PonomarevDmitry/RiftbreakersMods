@@ -6,16 +6,18 @@ EntityBlueprint
 	{
 		name 				"tower_lightning_spike"
 		bp   				"buildings/defense/tower_lightning_spike"
-		category 			"defense_mod_2"
+		category 			"defense_mod_3"
 		localization_id		"gui/hud/building_name/tower_lightning_spike"
 		description			"gui/hud/building_description/tower_lightning_spike"
 		menu_icon			"gui/hud/building_icons/tower_lightning_spike"
 		require 			"headquarters"
-		order				"3"
+		order				"4"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_lightning_spike_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
 
 		costs
 		{
@@ -209,7 +211,7 @@ EntityBlueprint
 	{
 		target "ground_unit_artillery|ground_unit"
 		target_ignore "invisible|air_unit"
-		speed 			"20000"
+		speed 			"300"
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "10"
@@ -222,8 +224,9 @@ EntityBlueprint
 		aiming_idle_angle "20"
 		pitch "att_muzzle_2"
 		yaw "att_muzzle_2"
-		check_target_visibility "1"
+		check_target_visibility "0"
 		fog_of_war_filtering "1"
+		gravity_factor "80"
 	}
 
 	BurstWeaponComponent
@@ -357,26 +360,25 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_lightning_spike_projectile"
 	
-	VegetationBendingComponentDesc
+	LuaDesc
 	{
-		bending_power	"2500.0"
-		bending_radius	"5.0"
+		script "lua/buildings/defense/tower_lightning_spike_projectile.lua"
+
+		database
+		{
+
+		}
 	}
 	
-	ProjectileAmmoComponent
+	FlakAmmoComponent
 	{			
-		on_enemy_hit_effect 	"effects/weapons_energy/lightning_strike"
-		on_world_hit_effect 	""
-		on_resisted_hit_effect 	"effects/weapons_energy/railgun_hit"
-		collision_3d 			"ground_unit|shield"
-		collision_2d 			"ground_unit|shield"
-		hit_effect_direction 	"up"
-	}
-	
-	LifeTimeDesc
-	{
-		time 		2
-		//type 		"camera"
+		explosion_effect 	"effects/weapons_energy/lightning_strike"
+		
+		DamagePattern
+		{
+			area_damage_speed 		"30"
+			area_damage_radius		"5"
+		}
 	}	
 }
 

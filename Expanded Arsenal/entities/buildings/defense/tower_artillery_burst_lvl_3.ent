@@ -1,0 +1,179 @@
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_artillery_burst_lvl_3"
+	base_blueprint	"buildings/defense/tower_artillery_burst_lvl_2"
+
+	BuildingDesc
+	{
+		name 				"tower_artillery_burst_lvl_3"
+		bp   				"buildings/defense/tower_artillery_burst_lvl_3"
+		category 			"defense_mod_2"
+		localization_id		"gui/hud/building_name/tower_artillery_burst"
+		description			"gui/hud/building_description/tower_artillery_burst"
+		menu_icon			"gui/hud/building_icons/tower_artillery_burst_lvl3"
+		require 			"headquarters"
+		order				"2"
+		buildable			"0"
+		type				"tower"
+		overrides			"tower,wall"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"400"
+					steel 		"200"
+					uranium		"100"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_artillery_lvl_3.mesh"
+		material "buildings/defense/tower_artillery_burst_lvl_3"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_artillery_lvl_3"
+	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 			"buildings/defense/tower_artillery_burst_projectile_lvl_3"
+		muzzle_flash_effect 	"effects/weapons_explosive/tower_artillery_burst_fire"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_artillery_burst_projectile_lvl_3"
+	
+	base_blueprint "buildings/defense/tower_artillery_burst_projectile"
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapon_hit/artillery_explosion"
+		on_world_hit_effect 	"effects/weapon_hit/artillery_explosion"
+		on_resisted_hit_effect 	"effects/weapon_hit/artillery_explosion"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/melee_slash_red
+				update_bounds 		1
+				fade_out_time		0.30
+				uv_scroll			"0 -0.01"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0.1 0.1"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 -0.1 -0.1"
+					}
+				}
+			}
+		}
+	}
+}

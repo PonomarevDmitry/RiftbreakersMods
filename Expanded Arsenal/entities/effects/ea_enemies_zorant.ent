@@ -15,13 +15,13 @@ EntityBlueprint
 		database
 		{
 			EMP_radius		float:"3"
-			EMP_duration	float:"2"
+			EMP_duration	float:"3"
 		}
 	}
 
 	TeamDesc
 	{
-		team "zorant"
+		team "enemy"
 	}
 
 	ShockWaveDesc
@@ -63,6 +63,89 @@ EntityBlueprint
 	{
 
 	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_zorant/zorant_omicron_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_orange_small
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/tower_control.lua"
+		
+		database
+		{
+			hacking_radius		float:"3"
+			hacking_duration	float:"3"
+		}
+	}
+
+	TeamDesc
+	{
+		team "zorant"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"10"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/zorant_omicron_projectile_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/flurian_omicron_projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_physical_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/enemy_molten_crater"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_zorant/zorant_omicron_muzzle"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_orange_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_single_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name 		"enemies/zorant/muzzle"
+	}	
 }
 
 EntityBlueprint

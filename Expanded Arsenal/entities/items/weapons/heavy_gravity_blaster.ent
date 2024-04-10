@@ -10,7 +10,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_gravity/gravity_blaster_hit"
 		on_resisted_hit_effect 	"effects/weapons_gravity/gravity_blaster_hit"
 
-		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|world_destructible|destructible|shield"
 		collision_2d 			"ground_unit|hitbox|destructible"
 	}
 
@@ -58,7 +58,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_gravity/gravity_blaster_hit"
 		on_resisted_hit_effect 	"effects/weapons_gravity/gravity_blaster_hit"	
 
-		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|world_destructible|destructible|shield"
 		collision_2d 			"ground_unit|hitbox|destructible"
 		collision_block 		"world"
 	}
@@ -86,27 +86,12 @@ EntityBlueprint
 		bending_radius	"3.0"
 	}
 
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/weapons_gravity/heavy_gravity_blaster_explosive_trail"
-					bone "att_exhaust"
-				}
-			}
-		}
-	}
-
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"items/warheads/singularity_warhead_gun"
-		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_fizzle"
-		on_resisted_hit_effect 	"items/warheads/singularity_warhead_gun"
-		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|shield"
+		on_enemy_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard"
+		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard"
+		on_resisted_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard"
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|building|world_destructible|destructible|shield"
 		collision_block 		"world"
 		hit_effect_direction 	"up"
 	}
@@ -220,7 +205,7 @@ EntityBlueprint
                 charging_effect          	"effects/weapons_gravity/gravity_weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_gravity/gravity_weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_gravity/gravity_weapon_charged_lvl1"
-                charge_muzzle_flash_effect  "effects/weapons_magma/heavy_gravity_blaster_explosive_fire"
+                charge_muzzle_flash_effect  "effects/weapons_gravity/heavy_gravity_blaster_explosive_fire"
 
                 charge_time_start           "1"
                 charge_time_end             "2"
@@ -338,6 +323,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"caverns"
 		}
 	}
 
@@ -357,10 +344,10 @@ EntityBlueprint
 	
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"items/warheads/singularity_warhead_gun"
-		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_fizzle"
-		on_resisted_hit_effect 	"items/warheads/singularity_warhead_advanced_gun"
-		collision_3d 			"world|world_blocker|building|destructible|ground_unit|air_unit|hitbox|shield"
+		on_enemy_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced"
+		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced"
+		on_resisted_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced"
+		collision_3d 			"world|world_blocker|building|world_destructible|destructible|ground_unit|air_unit|hitbox|shield"
 		collision_block 		"world"
 		hit_effect_direction 	"up"
 	}
@@ -439,7 +426,7 @@ EntityBlueprint
                 charging_effect          	"effects/weapons_gravity/gravity_weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_gravity/gravity_weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_gravity/gravity_weapon_charged_lvl1"
-                charge_muzzle_flash_effect  "effects/weapons_magma/heavy_gravity_blaster_explosive_fire"
+                charge_muzzle_flash_effect  "effects/weapons_gravity/heavy_gravity_blaster_explosive_fire"
 
                 charge_time_start           "1"
                 charge_time_end             "2"
@@ -481,6 +468,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"caverns"
 		}
 	}
 
@@ -500,10 +489,10 @@ EntityBlueprint
 	
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"items/warheads/singularity_warhead_gun"
-		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_fizzle"
-		on_resisted_hit_effect 	"items/warheads/singularity_warhead_superior_gun"
-		collision_3d 			"world|world_blocker|building|destructible|ground_unit|air_unit|hitbox|shield"
+		on_enemy_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior"
+		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior"
+		on_resisted_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior"
+		collision_3d 			"world|world_blocker|building|world_destructible|destructible|ground_unit|air_unit|hitbox|shield"
 		collision_block 		"world"
 		hit_effect_direction 	"up"
 	}
@@ -582,7 +571,7 @@ EntityBlueprint
                 charging_effect          	"effects/weapons_gravity/gravity_weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_gravity/gravity_weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_gravity/gravity_weapon_charged_lvl1"
-                charge_muzzle_flash_effect  "effects/weapons_magma/heavy_gravity_blaster_explosive_fire"
+                charge_muzzle_flash_effect  "effects/weapons_gravity/heavy_gravity_blaster_explosive_fire"
 
                 charge_time_start           "1"
                 charge_time_end             "2"
@@ -624,6 +613,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"caverns"
 		}
 	}
 
@@ -643,10 +634,10 @@ EntityBlueprint
 	
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"items/warheads/singularity_warhead_gun"
-		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_fizzle"
-		on_resisted_hit_effect 	"items/warheads/singularity_warhead_extreme_gun"
-		collision_3d 			"world|world_blocker|building|destructible|ground_unit|air_unit|hitbox|shield"
+		on_enemy_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme"
+		on_world_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme"
+		on_resisted_hit_effect 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme"
+		collision_3d 			"world|world_blocker|building|world_destructible|destructible|ground_unit|air_unit|hitbox|shield"
 		collision_block 		"world"
 		hit_effect_direction 	"up"
 	}
@@ -725,7 +716,7 @@ EntityBlueprint
                 charging_effect          	"effects/weapons_gravity/gravity_weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_gravity/gravity_weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_gravity/gravity_weapon_charged_lvl1"
-                charge_muzzle_flash_effect  "effects/weapons_magma/heavy_gravity_blaster_explosive_fire"
+                charge_muzzle_flash_effect  "effects/weapons_gravity/heavy_gravity_blaster_explosive_fire"
 
                 charge_time_start           "1"
                 charge_time_end             "2"
@@ -767,6 +758,8 @@ EntityBlueprint
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
+			disabled_conditions						string:"biome"
+			disabled_values							string:"caverns"
 		}
 	}
 

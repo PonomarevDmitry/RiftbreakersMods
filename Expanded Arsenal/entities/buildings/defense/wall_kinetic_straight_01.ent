@@ -13,10 +13,11 @@ EntityBlueprint
 		menu_icon				"gui/hud/building_icons/wall_kinetic"
 		build_on_water			"0"
 		require 				"headquarters"
-		order					"1"
+		order					"0"
 		upgrade					"buildings/defense/wall_kinetic_straight_01_lvl_2"
 		building_mode			"line"
 		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		//check_connect			"1"
 		overrides				"wall"
 
 		costs
@@ -45,30 +46,15 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/wall.lua"
+		script "lua/buildings/defense/advanced_energy_walls.lua"
 
 		database
 		{
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
-			remove_lua_after_build int:"1"
 		}
-	}
 
-	ReflectDamageComponent
-	{
-		reflect_type 	"flat_damage"  // health_ratio, damage_ratio, flat_damage
-		melee_only	 	"1"			   // reflect only melee damage
-		damage_value 	"40"
-		damage_type 	"physical"	   // optional, if not provided damage type will be set to "reflect"
 	}
-
-	ReflectHighlightComponent
-	{
-		submesh_idx 	1
-		glow_factor 	50
-	}
-	
 	
 	ResourceConverterDesc // must be here for AI
 	{
@@ -77,7 +63,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"hazenite_flue"
-				value 		"0.01"
+				value 		"0.1"
 			}		
 		}
 
@@ -90,13 +76,33 @@ EntityBlueprint
 
 	PipeComponent
 	{
-		
+	
+	}
+
+	ReflectDamageComponent
+	{
+		reflect_type 	"flat_damage"  // health_ratio, damage_ratio, flat_damage
+		melee_only	 	"1"			   // reflect only melee damage
+		damage_value 	"30"
+		damage_type 	"physical"	   // optional, if not provided damage type will be set to "reflect"
+	}
+
+	ReflectHighlightComponent
+	{
+		submesh_idx 	1
+		glow_factor 	50
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 			"37.45"
+		regeneration_cooldown 	"1.5"
 	}
 	
 	HealthDesc
 	{
-		max_health 					"400"
-		health 						"400"
+		max_health 					"374.5"
+		health 						"374.5"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual 1
@@ -124,12 +130,6 @@ EntityBlueprint
 		}
 	}
 	
-	RegenerationComponent
-	{
-		regeneration 			"40"
-		regeneration_cooldown 	"2"
-	}
-
 	MeshDesc
 	{
 		mesh "meshes/buildings/defense/wall_energy_straight_01.mesh"
@@ -150,9 +150,9 @@ EntityBlueprint
 		}
 	}
 
-	TypeDesc
+	SkeletonDesc
 	{
-		type "building"
+		name	"meshes/buildings/defense/wall_energy_straight_01"
 	}
 
 	TypeDesc
@@ -315,7 +315,7 @@ EntityBlueprint
 		{
 			"buildings/effects_small_base"
 		}
-		
+
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -342,7 +342,7 @@ EntityBlueprint
 				}
 			}
 		}
-
+		
 		EffectGroup
 		{
 			group "att_in_1"
@@ -355,6 +355,7 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_1_arrow"
+					scale	"0.65 0.65 0.65"
 				}
 			}
 		}
@@ -370,6 +371,7 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_2_arrow"
+					scale	"0.65 0.65 0.65"
 				}
 			}
 		}
@@ -385,6 +387,7 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_3_arrow"
+					scale	"0.65 0.65 0.65"
 				}
 			}
 		}
@@ -400,7 +403,40 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_4_arrow"
+					scale	"0.65 0.65 0.65"
 				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/wall_kinetic_straight_01_ruins"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/wall_energy_straight_01_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "buildings/defense/wall_energy_lvl_1_solid"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/defense/wall_energy_lvl_1_kinetic"
+			}
+
+			SubMesh
+			{
+				id "2"
+				material "buildings/main/buildings_ruins"
 			}
 		}		
 	}

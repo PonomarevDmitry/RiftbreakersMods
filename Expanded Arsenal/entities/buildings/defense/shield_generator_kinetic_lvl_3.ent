@@ -37,17 +37,19 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/shield_generator_kinetic.lua"
+		script "lua/buildings/defense/reflection_shield_generator.lua"
 		
 		database
 		{
 			cone_effect				string:"build_cone_3x3"
 			cone_effect_sell		string:"sell_big"
-			radius					float:"16"
+			range					float:"18"
+			interval				float:"1"
 			shield_bp				string:"buildings/defense/shield_generator_kinetic/shield_kinetic_lvl_3"
 			display_radius_group	string:"shield_generator"
 			display_radius_blueprint string:"effects/decals/range_circle_shield"
 		}
+				
 	}
 
 	ResourceConverterDesc
@@ -57,12 +59,12 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"80"
+				value			 	"100"
 			}
 			GameplayResource
 			{
 				resource 	"hazenite_flue"
-				value 		"25"
+				value 		"10"
 				attachment	"att_in_1"
 			}			
 			
@@ -104,8 +106,8 @@ EntityBlueprint
 	{		
 		EffectBaseBlueprints
 		{
-			"buildings/effects_small_base"
-		}	
+			"buildings/defense/shield_generator_kinetic"
+		}		
 
 		EffectGroup
 		{
@@ -119,21 +121,6 @@ EntityBlueprint
 					bone "att_level"
 				}
 			}
-		}	
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "0"				
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"								
-					bone "att_in_arrow"
-				}
-			}
 		}		
 	}	
 
@@ -145,19 +132,51 @@ EntityBlueprint
 
 	IdDesc
 	{
-		name "_shield2_"
+		name "_shield_"
 	}
 
 	HealthDesc
 	{
-		max_health 					"6400"
-		health 						"0"
+		max_health 					"5600"
+		health 						"1"
 	}
 
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	LuaDesc
+	{
+		database
+		{
+			//How much faster the shield decays when unpowered than it regenerates when powered.
+			//Must be positive, or the shield will regenerate when unpowered.
+			//"0" means "no decay", "1" means "equal rate"
+			decay_multiplier 	float:"2.5"
+		}
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	ReflectDamageComponent
+	{
+		melee_only		"1"
+		reflect_type	"flat_damage"	// health_ratio, damage_ratio, flat_damage
+		damage_value	"200"
+		damage_type		"physical"	// optional, if not provided damage type will be set to "reflect"
+
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	ReflectHighlightComponent
+	{
+		submesh_idx 	2
+		glow_factor 	100
+		flash_time		0.2		//Optional.
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
 	RegenerationComponent
 	{
-		regeneration 				"640"
-		regeneration_cooldown 		"5"
+		//I recommend a regen rate of 5% max HP per second, with a long cooldown of 7-10 seconds.
+		regeneration 				"160"	//50
+		regeneration_cooldown 		"8"
 	}
 
 	EffectDesc
@@ -180,6 +199,7 @@ EntityBlueprint
 	ShieldComponent
 	{
 		owner	"custom"
+		highlight_material	"highlight/shield_kinetic"
 	}
 }
 

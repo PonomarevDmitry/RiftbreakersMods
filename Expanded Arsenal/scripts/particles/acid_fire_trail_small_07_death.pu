@@ -1,0 +1,144 @@
+system rift/acid_fire_trail_small_07_death
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.04
+    scale                                       0.04 0.04 0.04
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 100
+    technique fire_alpha7
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/green_rep_explosion7
+        renderer                                Billboard
+        {
+            texture_coords_rows                 7
+            texture_coords_columns              12
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            time_to_live                        1.5
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             6
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             14
+                max                             20
+            }
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            83
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.1 0.1 0.1 0
+            time_colour                         0.104348  0.1 0.1 0.1 0.894118
+            time_colour                         0.708696  0.1 0.1 0.1 0.694118
+            time_colour                         1    0.1 0.1 0.1 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+            rotation_speed                      0.5
+        }
+        affector                                LinearForce Affector122
+        {
+            force_vector                        0 50 0
+            force_application                   average
+        }
+    }
+	
+	technique blood_trail
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fluid_glowing_green_anim_8x4
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       30
+            angle                               40
+            velocity                            dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            duration                            1.3
+            all_particle_dimensions             dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            end_texture_coords_range            15
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -2000 0
+        }
+        affector                                PlaneCollider Affector15
+        {
+            position                            0 1 0
+            bouncyness                          0
+            normal                              0 1 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                TextureRotator Affector127
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      0
+        }
+        observer                                OnCollision 
+        {
+            observe_interval                    0.01
+            handler                             DoPlacementParticle 
+            {
+                force_emitter                   SplatEmitter
+                inherit_texture_coord           true
+                inherit_colour                  true
+                inherit_width                   true
+                inherit_height                  true
+                inherit_depth                   true
+            }
+            handler                             DoExpire 
+            {
+            }
+        }
+    }
+}
+

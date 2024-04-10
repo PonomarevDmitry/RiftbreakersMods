@@ -11,7 +11,7 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_shotgun"
 		menu_icon			"gui/hud/building_icons/tower_shotgun"
 		require 			"headquarters"
-		order				"4"
+		order				"5"
 		type				"tower"
 		overrides			"wall,tower"
 		upgrade				"buildings/defense/tower_shotgun_lvl_2"
@@ -182,7 +182,7 @@ EntityBlueprint
 
 	FogOfWarRevealerComponentDesc
 	{
-		radius "40"
+		radius "16"
 	}
 
 	HealthBarDesc
@@ -212,7 +212,7 @@ EntityBlueprint
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "2"
+			range_min "4"
 			range_max "25"
 			aiming_range "30"
 		}
@@ -251,8 +251,8 @@ EntityBlueprint
 		muzzle_flash_effect 				"effects/weapons_bullet/tower_shotgun_fire"
 
 		burst_column_spacing 		"0"
-		burst_rate 					"0.2"
-		burst_column_angle 			"70"
+		burst_rate 					"0"
+		burst_column_angle 			"60"
 	}
 
 	DestroyDesc
@@ -351,6 +351,38 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "eamod"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_1"
+					scale	"0.5 0.2 0.2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamod1"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/ammo_storage"								
+					bone "att_fake_storage_1"
+					scale	"0.14 0.11 0.14"
+				}
+			}
+		}
 	}
 }
 
@@ -367,7 +399,8 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_shotguns/shotgun_hit_enemy_flesh_medium"
 		on_world_hit_effect 	"effects/weapons_shotguns/shotgun_hit_world_rocks_medium"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		collision_2d 			"ground_unit|destructible"
 	}
 }

@@ -18,6 +18,8 @@ EntityBlueprint
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_magma_mortar_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"jungle,desert,acid,metallic,swamp,legacy_maps"	
 
 		costs
 		{
@@ -139,15 +141,15 @@ EntityBlueprint
 	name 			"buildings/defense/tower_magma_mortar_projectile_lvl_2"
 	base_blueprint 	"buildings/defense/tower_magma_mortar_projectile"
 
-	LuaDesc
+	ArtilleryAmmoComponent
 	{
-		script "lua/units/drones/drone_cargo_deployer.lua"
-		
-		database
-		{
-			egg_spawn_on_destroy			string:	"buildings/defense/magma_mortar_mine_deployer_lvl_2"
-			egg_spawn_count					int:"2"	
-		}	
+		on_enemy_hit_effect 	"effects/weapons_magma/tower_magma_mortar_lvl_2_hit"
+		on_world_hit_effect 	"effects/weapons_magma/tower_magma_mortar_lvl_2_hit"
+		on_resisted_hit_effect 	"effects/weapons_magma/tower_magma_mortar_lvl_2_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
+
+		friendly_fire			"pass"
+		diameter				"1.0"
 	}
 }
 

@@ -1,6 +1,238 @@
-import * from "entities/effects/weapons_energy.ent"
+//--------------------MECH WEAPONS START--------------------\\
 
-//----------------------EXPANDED ARSENAL MOD START----------------------\\
+//lipc gun
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/lipc_projectile_hit"
+
+	base_blueprint	"effects/enemies_lesigian/lightning_explosion"
+
+	TeamDesc
+	{
+		team "player"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/lipc_charged_projectile_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_red_big
+		effects/default
+		effects/enemies_lesigian/lightning_explosion
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/lipc_charged_projectile_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/lipc_charged_lvl1"
+
+	base_blueprints
+	{
+		lights/point/muzzle_red_big
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/lipc_charged_lvl1"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/generic/weapon_charged_up"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/lipc_charging_maximum"
+
+	base_blueprints
+	{
+		lights/point/fire_red_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/lipc_charging_maximum"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/generic/weapon_charging_maximum"
+	}
+
+}
+
+//antimatter_gun
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/antimatter_gun_explosive_shot_blast"
+
+	base_blueprint	"effects/weapons_explosive/tower_heavy_artillery_burst_blast"
+
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/antimatter_gun_explosive_shot_blast_advanced"
+
+	base_blueprint	"effects/weapons_energy/antimatter_gun_explosive_shot_blast"
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/antimatter_gun_explosive_shot_blast_superior"
+
+	base_blueprint	"effects/weapons_energy/antimatter_gun_explosive_shot_blast"
+}
+
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/antimatter_gun_explosive_shot_blast_extreme"
+
+	base_blueprint	"effects/weapons_energy/antimatter_gun_explosive_shot_blast"
+}
+
+//--------------------MECH WEAPONS END--------------------\\
+
+//--------------------MECH EQUIPMENTS START--------------------\\
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/drone_player_offensive_unit_control_standard_weapon_hit"
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_small
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/drones/unit_control.lua"
+		
+		database
+		{
+			control_radius		float:"3.5"
+			control_duration	float:"5"
+		}
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_violet_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0	
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/drone_player_offensive_unit_control_advanced_weapon_hit"
+
+	base_blueprint "effects/weapons_energy/drone_player_offensive_unit_control_standard_weapon_hit"
+	
+	LuaDesc
+	{
+		script "lua/units/drones/unit_control.lua"
+		
+		database
+		{
+			control_radius		float:"4"
+			control_duration	float:"5"
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_violet_medium"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/drone_player_offensive_unit_control_superior_weapon_hit"
+
+	base_blueprint "effects/weapons_energy/drone_player_offensive_unit_control_standard_weapon_hit"
+	
+	LuaDesc
+	{
+		script "lua/units/drones/unit_control.lua"
+		
+		database
+		{
+			control_radius		float:"4.5"
+			control_duration	float:"5"
+		}
+	}
+		
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_violet_medium_alt"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_energy/drone_player_offensive_unit_control_extreme_weapon_hit"
+
+	base_blueprint "effects/weapons_energy/drone_player_offensive_unit_control_standard_weapon_hit"
+	
+	LuaDesc
+	{
+		script "lua/units/drones/unit_control.lua"
+		
+		database
+		{
+			control_radius		float:"5"
+			control_duration	float:"5"
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_violet_big"
+	}
+}
+
+//--------------------MECH EQUIPMENTS END--------------------\\
 
 //--------------------ADVANCED ENERGY TOWERS START--------------------\\
 
@@ -64,7 +296,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/energy/railgun_fire"
+		name "towers/energy/tower_plasma_shotgun_fire"
 	}
 }
 
@@ -203,44 +435,88 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/weapons_energy/mhd_muzzle
+	name	"effects/weapons_energy/tower_mhd_charge"
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_mhd_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_mhd_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_mhd_weapon_primed"
 	
 	base_blueprints
 	{
-		lights/point/orange_small
+		lights/point/muzzle_orange_super_small
 		effects/no_lifetime
 	}
 
 	ParticleDesc
 	{
-		name    "rift/mhd_muzzle"
+		name    "rift/tower_mhd_weapon_primed"
+	}
+}
+
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_mhd_muzzle"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_orange_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_mhd_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_mhd_fire"
 	}
 }
 
 EntityBlueprint
 {
-	name effects/weapons_energy/mhd_enemy_hit
+	name	"effects/weapons_energy/tower_mhd_reload"
 
 	base_blueprints
 	{
-		lights/point/orange_small
+		lights/point/muzzle_orange_small
 		effects/no_lifetime
 	}
 
 	ParticleDesc
 	{
-		name    "rift/mhd_hit"
+		name   "rift/tower_mhd_reload"
 	}
-
+	
 	SoundDesc
 	{
-		name "towers/energy/mhd_enemy_hit"
+		name	"towers/energy/tower_mhd_reload"
 	}
 }
 
+
 EntityBlueprint
 {
-	name 			"effects/weapons_energy/mhd_world_hit"
+	name	"effects/weapons_energy/tower_mhd_enemy_hit"
 
 	base_blueprints
 	{
@@ -250,12 +526,33 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/mhd_hit"
+		name    "rift/tower_mhd_enemy_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/energy/tower_mhd_enemy_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_mhd_world_hit"
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_mhd_world_hit"
 	}
 	
 	SoundDesc
 	{
-		name "towers/energy/mhd_world_hit"
+		name  "towers/energy/tower_mhd_world_hit"
 	}
 	
 	GridMarkerComponent
@@ -274,23 +571,6 @@ EntityBlueprint
 			y		1.5
 			z		1.5
 		}
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_energy/mhd_loop
-
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
-
-	SoundDesc
-	{
-		name 		"towers/energy/mhd_loop"
-		start_name 	"towers/energy/mhd_start"
-		end_name	"towers/energy/mhd_stop"
 	}
 }
 
@@ -355,341 +635,108 @@ EntityBlueprint
 
 //--------------------RIFT TOWERS END--------------------\\
 
-//--------------------ADVANCED ENERGY TOWERS-II START--------------------\\
-
-// tower_plasma_laser
+//--------------------ANTIMATTER TOWERS START--------------------\\
 
 EntityBlueprint
-{
-	name effects/weapons_energy/plasma_laser_muzzle
+{ 
+	name "effects/weapons_energy/antimatter_ball_blue_base"
 	
-	base_blueprints
+	base_blueprint	"lights/point/fire_blue_medium"
+	
+	MeshDesc
 	{
-		lights/point/blue_small
-		effects/no_lifetime
+        mesh        "meshes/items/skills/antimatter_ball.mesh"
+        material    "items/consumables/gravity_hole"
+    }
+
+	SkeletonDesc
+	{
+		name 		"meshes/items/skills/antimatter_ball"
 	}
+
+	AnimationDesc
+	{
+        animations
+        {
+            Anim
+            {
+                animName "sphere_rotation"
+                animTime "0.0"
+                animFactor "5"
+            }
+        }
+    }
 
 	ParticleDesc
 	{
-		name    "rift/plasma_laser_muzzle"
+		name    "rift/antimatter_ball_blue"
 	}
 }
 
 EntityBlueprint
 {
-	name 			"effects/weapons_energy/plasma_laser_enemy_hit"
+	name	"effects/weapons_energy/tower_antimatter_projectile_explosion"
 
 	base_blueprints
 	{
-		lights/point/blue_super_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/plasma_laser_hit"
-	}
-	
-	SoundDesc
-	{
-		name "towers/energy/plasma_laser_enemy_hit"
-	}
-}
-
-EntityBlueprint
-{
-	name 			"effects/weapons_energy/plasma_laser_world_hit"
-
-	base_blueprints
-	{
-		lights/point/blue_super_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/plasma_laser_hit"
-	}
-	
-	SoundDesc
-	{
-		name "towers/energy/plasma_laser_world_hit"
-	}
-	
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"energy_terrain_friendly"	
-		extend  		"2"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/energy_residue"
-		scale
-		{
-			x		2.0
-			y		2.0
-			z		2.0
-			
-		}
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_energy/plasma_laser_loop
-
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
-
-	SoundDesc
-	{
-		name 		"towers/energy/plasma_laser_loop"
-		start_name 	"towers/energy/plasma_laser_start"
-		end_name	"towers/energy/plasma_laser_stop"
-	}
-}
-
-// tower_plasma_laser_heavy
-
-EntityBlueprint
-{
-	name effects/weapons_energy/heavy_plasma_laser_enemy_hit
-
-	base_blueprints
-	{
-		lights/point/blue_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/plasma_laser_hit"
-	}
-
-	SoundDesc
-	{
-		name "towers/energy/heavy_plasma_laser_enemy_hit"
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_energy/heavy_plasma_laser_world_hit
-
-	base_blueprints
-	{
-		lights/point/blue_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/plasma_laser_hit"
-	}
-
-	SoundDesc
-	{
-		name "towers/energy/heavy_plasma_laser_world_hit"
-	}
-	
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"energy_terrain_friendly"	
-		extend  		"2"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/energy_residue"
-		scale
-		{
-			x		2.0
-			y		2.0
-			z		2.0
-			
-		}
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_energy/heavy_plasma_laser_loop
-
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
-
-	SoundDesc
-	{
-		name 		"towers/energy/heavy_plasma_laser_loop"
-		start_name 	"towers/energy/heavy_plasma_laser_start"
-		end_name	"towers/energy/heavy_plasma_laser_stop"
-	}
-}
-
-// tower_plasma_railgun
-
-EntityBlueprint
-{
-	name 			"effects/weapons_energy/tower_plasma_railgun_fire"
-
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_blue_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_plasma_gun_muzzle"
-	}
-	
-	SoundDesc
-	{
-		name "towers/energy/plasma_railgun_fire"
-	}
-}
-
-// tower_prism
-
-EntityBlueprint
-{
-	name "effects/weapons_energy/prism_projectile"
-	
-	base_blueprints 
-	{
-		lights/point/blue_small
-		effects/no_lifetime
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/prism_shot"
-	}
-
-	children
-	{
-		EntityBlueprint
-		{
-			ParticleDesc
-			{
-				name    "rift/mech_sniper_rifle_bullet_trail"
-			}				
-		}
-	}	
-}
-
-EntityBlueprint
-{
-	name "effects/weapons_energy/tower_prism_fire"
-
-	base_blueprints
-	{
-		lights/point/muzzle_blue_medium
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_plasma_gun_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/energy/railgun_fire_charged"
-	}
-}
-
-//--------------------ADVANCED ENERGY TOWERS-II END--------------------\\
-
-//--------------------------TURRET HOWITZERS START--------------------------\\
-
-// tower_turret_howitzer_energy
-
-EntityBlueprint
-{
-	name 			"effects/weapons_energy/tower_turret_howitzer_energy_fire"
-
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_blue_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/tower_energy_muzzle_flash"
-	}
-	
-	SoundDesc
-	{
-		name "towers/energy/tower_turret_howitzer_energy_fire"
-	}
-}
-
-EntityBlueprint
-{
-	name 			"effects/weapons_energy/tower_turret_howitzer_energy_blast"
-	
-	base_blueprints
-	{
-		lights/point/explosion_blue_big
+		effects/weapons_elemental/hit
+		lights/point/blue_explosion_fire
 		effects/default
 	}
 
 	ShockWaveDesc
 	{
-		power 	"6000"
-		speed 	"35"
-		radius 	"20"
+		power 	"1500"
+		speed 	"32"
+		radius 	"16"
 	}
 
 	ParticleDesc
 	{
-		name    "rift/howitzer_energy_energy_shockwave"
+		name    "rift/tower_antimatter_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+	
+	TeamDesc
+	{
+		team	player
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"8.0"
+			area_damage_speed 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"500"
+					type			"energy"
+				}
+			}
+		}
 	}
 
 	SoundDesc
 	{
-		name "items/weapons/energy/energy_explosion_medium"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"energy_terrain_friendly"	
-		extend  		"2"
+		name "items/weapons/energy/heavy_plasma_hit"
 	}
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/energy_residue"
+		blueprint "effects/decals/explosion_hole_big_blue_01_timeout"
 		scale
 		{
 			x		4.0
@@ -700,18 +747,89 @@ EntityBlueprint
 	}	
 }
 
-//--------------------------TURRET HOWITZERS END--------------------------\\
+EntityBlueprint
+{
+	name			"effects/weapons_energy/tower_antimatter_projectile_lvl2_explosion"
+	base_blueprint	"effects/weapons_energy/tower_antimatter_projectile_explosion"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"8.0"
+			area_damage_speed 	"30"
 
-//--------------------ADVANCED EXPLOSIVE TOWERS-II START--------------------\\
+			Damages
+			{
+				Damage
+				{
+					value 			"1000"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
 
 EntityBlueprint
 {
-	name 			"effects/weapons_energy/tower_cruise_plasma_missile_fire"
+	name			"effects/weapons_energy/tower_antimatter_projectile_lvl3_explosion"
+	base_blueprint	"effects/weapons_energy/tower_antimatter_projectile_explosion"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"8.0"
+			area_damage_speed 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"2000"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+//--------------------ANTIMATTER TOWERS END--------------------\\
+
+//--------------------ADVANCED ENERGY TOWERS-II START--------------------\\
+
+//tower_antimatter_grenadier
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_antimatter_grenadier_charge"
 
 	base_blueprints
 	{
 		lights/point/muzzle_blue_small
-		effects/default
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_antimatter_grenadier_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_antimatter_grenadier_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_antimatter_grenadier_fire"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
 	}
 
 	ParticleDesc
@@ -721,7 +839,398 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "towers/energy/tower_cruise_plasma_shoot"
+		name	"towers/energy/tower_antimatter_grenadier_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_antimatter_grenadier_weapon_primed"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+        mesh        "meshes/projectiles/grenade_shell.mesh"
+        material    "projectiles/tower_antimatter_grenadier_projectile"
+    }
+
+	SkeletonDesc
+	{
+		name 		"meshes/projectiles/grenade_shell"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_antimatter_grenadier_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_antimatter_grenadier_reload"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_reload_smoke_energy"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_antimatter_grenadier_reload"
+	}
+}
+
+//tower_plasma_railgun
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_plasma_railgun_charge"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_plasma_railgun_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_plasma_railgun_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_plasma_railgun_fire"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_plasma_gun_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/tower_plasma_railgun_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_plasma_railgun_weapon_primed"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_plasma_railgun_weapon_primed"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_plasma_railgun_reload"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_plasma_railgun_reload"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_plasma_railgun_reload"
+	}
+}
+
+// tower_plasma_laser_heavy
+
+EntityBlueprint
+{
+	name effects/weapons_energy/tower_plasma_laser_heavy_enemy_hit
+
+	base_blueprints
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/energy/tower_plasma_laser_heavy_enemy_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/tower_plasma_laser_heavy_world_hit
+
+	base_blueprints
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/energy/tower_plasma_laser_heavy_world_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"energy_terrain_friendly"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/energy_residue"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	effects/weapons_energy/tower_plasma_laser_heavy_charge
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_plasma_laser_heavy_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_plasma_laser_heavy_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_plasma_laser_heavy_weapon_primed"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_muzzle"
+	}
+}
+
+
+EntityBlueprint
+{
+	name			"effects/weapons_energy/tower_plasma_laser_heavy_muzzle"
+	base_blueprint 	"effects/weapons_energy/tower_plasma_laser_heavy_weapon_primed"
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_plasma_laser_heavy_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_plasma_laser_heavy_reload"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_reload_smoke_energy"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_plasma_laser_heavy_reload"
+	}
+}
+
+//tower_cruise_plasma_missile
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_cruise_plasma_missile_charge"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_cruise_plasma_missile_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_cruise_plasma_missile_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_cruise_plasma_missile_charge_no_sound"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_cruise_plasma_missile_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_cruise_plasma_missile_fire"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_plasma_gun_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name "towers/energy/tower_cruise_plasma_missile_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_cruise_plasma_missile_weapon_primed"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_cruise_plasma_missile_weapon_primed"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_cruise_plasma_missile_reload"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_cruise_plasma_missile_reload"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/energy/tower_cruise_plasma_missile_reload"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_cruise_plasma_missile_reload_no_sound"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_cruise_plasma_missile_reload"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_energy/tower_cruise_plasma_missile_reload_smoke"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_reload_smoke_energy"
 	}
 }
 
@@ -758,6 +1267,4 @@ EntityBlueprint
 	}
 }
 
-//--------------------ADVANCED EXPLOSIVE TOWERS-II END--------------------\\
-
-//----------------------EXPANDED ARSENAL MOD END----------------------\\
+//--------------------ADVANCED ENERGY TOWERS-II END--------------------\\

@@ -12,11 +12,16 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_radio_cruise_missile"
 		menu_icon			"gui/hud/building_icons/tower_radio_cruise_missile_lvl3"
 		require 			"headquarters"
-		order				"10"
+		order				"8"
 		type				"tower"
 		buildable			"0"
 		overrides			"tower,wall"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,acid,metallic,swamp,legacy_maps"
+		limit				"10"
+		limit_name			"radio_cm_limit"
+		map_limit			"LOCAL"			
 
 		costs
 		{
@@ -30,7 +35,6 @@ EntityBlueprint
 					steel 				"600"
 					uranium				"200"
 					tanzanite			"200"
-					ammo_tower_guided	"400"
 				}
 			}
 
@@ -44,7 +48,6 @@ EntityBlueprint
 					steel 				"600"
 					uranium				"200"
 					tanzanite			"100"
-					ammo_tower_guided	"200"
 				}
 			}	
 		}			
@@ -57,7 +60,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"2"
+				value 		"1"
 			}
 		}
 

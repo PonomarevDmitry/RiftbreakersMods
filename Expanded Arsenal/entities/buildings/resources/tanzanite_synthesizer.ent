@@ -25,9 +25,9 @@ EntityBlueprint
 				building_time 180
 				building_cost
 				{
-					carbonium	"200"
-					steel 		"250"
-					tanzanite	"10"
+					carbonium	"300"
+					steel 		"200"
+					tanzanite	"100"
 				}
 			}
 
@@ -37,9 +37,9 @@ EntityBlueprint
 				building_time 30
 				building_cost
 				{
-					carbonium	"100"
-					steel 		"125"
-					tanzanite	"5"
+					carbonium	"150"
+					steel 		"100"
+					tanzanite	"50"
 				}
 			}			
 		}
@@ -52,7 +52,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"50"
+				value			 	"100"
 			}
 			
 			GameplayResource
@@ -73,6 +73,15 @@ EntityBlueprint
 				resource 			"radioactive_gas"
 				value			 	"25"
 				attachment			"att_in_3"
+				family				"fluid"
+			}
+			
+			GameplayResource
+			{
+				resource 			"morphium"
+				value				"50"
+				attachment			"att_in_5"
+				family				"fluid"
 			}
 		}
 		
@@ -81,7 +90,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"tanzanite"
-				value			 	"2"
+				value			 	"1"
 			}
 			
 			GameplayResource
@@ -444,6 +453,22 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "att_in_5"
+			enabled "0"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_in_5_arrow"
+				}
+			}
+		}
 
 		EffectGroup
 		{
@@ -457,6 +482,39 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow"								
 					bone "att_out_5_arrow"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamod"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_pipe_1"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_pipe_3"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_pipe_5"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_pipe_11"
 				}
 			}
 		}

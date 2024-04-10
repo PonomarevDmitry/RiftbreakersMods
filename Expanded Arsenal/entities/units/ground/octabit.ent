@@ -106,7 +106,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters
@@ -163,6 +163,7 @@ EntityBlueprint
 		area			"1.0"
 		gravity			"1.0"
 		radiation		"3.0"
+		sonic			"0.0"
 	}
 	
 	NavMeshMovementComponent
@@ -255,15 +256,6 @@ EntityBlueprint
 	{
 		bending_power	"5000"
 		bending_radius	"5"
-	}
-
-	FlammableComponentDesc
-	{
-		fire_spread_interval 			"4.0"
-		fire_spread_radius 				"0.1"
-		fire_probability 				"0.1"
-		burning_time 					"6"
-		burned_recovery_time 			"0"		
 	}
 
 	EmissiveDayAndNightAffector
@@ -390,7 +382,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_black"	
+					blueprint "effects/enemies_generic/damage_generic_black_metal"	
 					bone "att_death"
 				}
 			}
@@ -403,7 +395,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_black"	
+					blueprint "effects/enemies_generic/damage_generic_black_metal"	
 				}
 			}
 		}	
@@ -518,6 +510,21 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/time_damage_radiation"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
 					bone "att_death"
 					scale "1 1 1"
 				}

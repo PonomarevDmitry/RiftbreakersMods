@@ -62,18 +62,27 @@ EntityBlueprint
 {
 	name "units/drones/bullet_burst_drone_weapon"
 
-	base_blueprint "effects/weapons_bullet/burst_rifle_bullet"
+	base_blueprint "effects/weapons_bullet/small_machinegun_projectile"
 
 	ProjectileAmmoComponent
 	{
-		distribution 			"dissipation"
-		dissipation_count 		"5"
-
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"	
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.1"
+
+		cluster_scale
+		{
+			x "0.8"
+			y "0.5"
+			z "0.5"
+		}
 	}
 
 	LifeTimeDesc
@@ -126,6 +135,27 @@ EntityBlueprint
 	WeaponItemDesc
 	{
 	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
 
 	BurstWeaponComponent
 	{
@@ -154,7 +184,7 @@ EntityBlueprint
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0.2"
-		burst_column_angle 			"25"
+		burst_column_angle 			"35"
 	}
 }
 
@@ -172,8 +202,13 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_shotguns/shotgun_hit_world_rocks_medium"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+	}
+	
+	LifeTimeDesc
+	{
+		time	0.4
 	}
 }
 
@@ -316,7 +351,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
 		on_resisted_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
@@ -342,12 +377,14 @@ EntityBlueprint
 				{
 					Ribbon
 					{
-						offset "0.4 0.2 0.2"
+						parent_attachment "att_exhaust"
+						offset "0 0.15 0.15"
 					}
 
 					Ribbon
 					{
-						offset "-0.4 -0.2 -0.2"
+						parent_attachment "att_exhaust"
+						offset "0 -0.15 -0.15"
 					}
 				}
 			}

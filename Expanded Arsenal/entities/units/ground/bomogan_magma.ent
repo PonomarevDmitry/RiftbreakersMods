@@ -66,7 +66,7 @@ EntityBlueprint
 	{
 		on_enemy_hit_effect 	"effects/enemies_generic/enemy_magma_artillery_explosion"
 		on_world_hit_effect 	"effects/enemies_generic/enemy_magma_artillery_explosion"			
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small"
 		hit_effect_direction 	"up"		
 		delay_update_time		"0.3"
 		diameter				"1.0"
@@ -190,6 +190,7 @@ EntityBlueprint
 		area			"2.0"
 		gravity			"1.0"
 		radiation		"0.25"
+		sonic			"0.0"
 	}
 
 	NavMeshMovementComponent
@@ -214,6 +215,11 @@ EntityBlueprint
 	
 	EffectDesc
 	{	
+		EffectBaseBlueprints
+		{
+			"units/ground/bomogan_base"
+		}
+		
 		EffectGroup
 		{						
 			group "death"
@@ -347,7 +353,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{

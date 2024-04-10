@@ -12,11 +12,13 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_sniper"
 		menu_icon			"gui/hud/building_icons/tower_sniper_lvl3"
 		require 			"headquarters"
-		order				"8"
+		order				"9"
 		type				"tower"
 		buildable			"0"
 		overrides			"tower,wall"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"	
 
 		costs
 		{
@@ -26,7 +28,7 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 	"400"
+					carbonium 	"800"
 					steel 		"400"
 					titanium	"200"
 				}
@@ -101,4 +103,126 @@ EntityBlueprint
 	TowerDesc
 	{
 	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 			"buildings/defense/tower_sniper_projectile_lvl3"
+		muzzle_flash_effect 	"effects/weapons_bullet/tower_sniper_fire"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/defense/tower_sniper"
+		}
+		
+		EffectGroup
+		{
+			group "eamod"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_1"
+					scale	"0.7 0.25 0.25"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_2"
+					scale	"0.7 0.25 0.25"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodradar"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/radar"								
+					bone "att_fake_radar"
+					scale	"0.25 0.25 0.25"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_sniper_projectile_lvl3"
+	base_blueprint "buildings/defense/tower_sniper_projectile"
+
+	ProjectileAmmoComponent
+	{
+		
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_medium"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
+		on_resisted_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/rifle_trail_red
+				update_bounds 		1
+				fade_out_time		0.5
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0.35 0.35"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 -0.35 -0.35"
+					}
+				}
+			}
+		}
+	}	
 }

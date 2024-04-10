@@ -1,0 +1,412 @@
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_offensive_unit_control_standard"
+    base_blueprint  "units/drones/tower_attack_drone_base"
+	
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement						string:"follow"
+			owner_movement_speed_near       	float:"0.75"
+			owner_movement_speed_far          	float:"1.5"
+			owner_movement_trigger_distance 	float:"10.0"
+
+			target_movement			string:"follow"
+			target_manual_rotation	int:"1"
+			target_search_mode  	string:"always"
+		}
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/air/attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.9"
+			max_scale				float:"0.9"
+		}
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_attack.mesh"
+		material "units/drones/unit_control_drone_attack"
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"1000"
+		unit_soft_radius				"2.0"
+	  	dominance_group				    "10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}	
+	
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"5"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"5"
+		}
+		
+		max_speed
+		{
+			base 	"20"
+		}
+	}	
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_unit_control_standard_weapon"
+		muzzle_flash_effect 		"effects/weapons_energy/heavy_plasma_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_0"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+			}
+			
+			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/drones/drone_player_offensive_unit_control_standard_weapon"
+	
+	base_blueprints 
+	{
+		lights/point/violet_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material    "projectiles/laser_violet"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"100.0"
+		bending_radius	"2.0"
+	}
+	
+	LifeTimeDesc
+	{
+		time	4
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_standard_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_standard_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_standard_weapon_hit"
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/laser_sword_slash_violet
+				update_bounds 		1
+				fade_out_time		0.15
+				uv_scroll			"0 -0.01"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.4"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.4"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_offensive_unit_control_advanced"
+    base_blueprint  "units/drones/drone_player_offensive_unit_control_standard"
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_unit_control_advanced_weapon"
+		muzzle_flash_effect 		"effects/weapons_energy/heavy_plasma_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/drones/drone_player_offensive_unit_control_advanced_weapon"
+	
+	base_blueprint "units/drones/drone_player_offensive_unit_control_standard_weapon"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_advanced_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_advanced_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_advanced_weapon_hit"
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_offensive_unit_control_superior"
+    base_blueprint  "units/drones/drone_player_offensive_unit_control_standard"
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_unit_control_superior_weapon"
+		muzzle_flash_effect 		"effects/weapons_energy/heavy_plasma_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/drones/drone_player_offensive_unit_control_superior_weapon"
+	
+	base_blueprint "units/drones/drone_player_offensive_unit_control_standard_weapon"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_superior_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_superior_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_superior_weapon_hit"
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
+	}
+}
+
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_offensive_unit_control_extreme"
+    base_blueprint  "units/drones/drone_player_offensive_unit_control_standard"
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_unit_control_extreme_weapon"
+		muzzle_flash_effect 		"effects/weapons_energy/heavy_plasma_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/drones/drone_player_offensive_unit_control_extreme_weapon"
+	
+	base_blueprint "units/drones/drone_player_offensive_unit_control_standard_weapon"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_extreme_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_extreme_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_energy/drone_player_offensive_unit_control_extreme_weapon_hit"
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
+	}
+}

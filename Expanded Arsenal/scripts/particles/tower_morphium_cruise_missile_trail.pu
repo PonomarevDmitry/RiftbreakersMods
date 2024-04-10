@@ -1,0 +1,96 @@
+system rift/tower_morphium_cruise_missile_trail
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.5
+    scale                                       0.5 0.5 0.5
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 100
+    
+	technique muzzle
+    {
+		keep_local								true
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_muzzleflash_atlas_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point Emitter1
+        {
+            emission_rate                       300
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            1
+            all_particle_dimensions             dyn_random
+            {
+                min                             0.2
+                max                             0.8
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+			position							-0.2 0 0
+        }
+
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0.3 0.3 0.3 0
+            time_colour                         0.5  0.3 0.3 0.3 1
+            time_colour                         1    0.3 0.3 0.3 0
+        }
+    }
+	
+	technique ring
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_square_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        dyn_random
+			{
+                min                             0.2
+                max                             1.2
+            }
+			
+			emission_rate                       1000
+            velocity                            0.0001
+            all_particle_dimensions             0.2
+            colour                              0.262745 0.937255 0.870588 10
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           4
+        }
+        affector                                Colour Affector22
+        {
+            time_colour                         0    0.501961 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+		
+		affector                                LinearForce Affector78
+        {
+            force_vector                        -20 0 0
+        }
+    }
+}

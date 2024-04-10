@@ -12,11 +12,16 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_magma_cruise_missile"
 		menu_icon			"gui/hud/building_icons/tower_magma_cruise_missile_lvl3"
 		require 			"headquarters"
-		order				"5"
+		order				"4"
 		type				"tower"
 		buildable			"0"
 		overrides			"tower,wall"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"jungle,desert,acid,metallic,swamp,legacy_maps"
+		limit				"10"
+		limit_name			"magma_cm_limit"
+		map_limit			"LOCAL"			
 
 		costs
 		{
@@ -30,7 +35,6 @@ EntityBlueprint
 					steel 				"600"
 					titanium			"200"
 					ferdonite			"200"
-					ammo_tower_guided	"400"
 				}
 			}
 
@@ -44,7 +48,6 @@ EntityBlueprint
 					steel 				"600"
 					titanium			"200"
 					ferdonite			"100"
-					ammo_tower_guided	"200"
 				}
 			}	
 		}			
@@ -57,7 +60,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"2"
+				value 		"1"
 			}
 		}
 
@@ -194,7 +197,7 @@ EntityBlueprint
 			submesh_idx "1"
 		}
 
-		ammo_blueprint 				"buildings/defense/tower_magma_cruise_missile_projectile"
+		ammo_blueprint 				"buildings/defense/tower_magma_cruise_missile_projectile_lvl_3"
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_magma/tower_magma_cruise_missile_muzzle_flash"
 
@@ -204,3 +207,68 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name "buildings/defense/tower_magma_cruise_missile_projectile_lvl_3"
+
+	base_blueprint "buildings/defense/tower_magma_cruise_missile_projectile"
+
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_magma/tower_magma_cruise_missile_hit_lvl_3"
+		on_world_hit_effect 	"effects/weapons_magma/tower_magma_cruise_missile_hit_lvl_3"
+		on_resisted_hit_effect 	"effects/weapons_magma/tower_magma_cruise_missile_hit_lvl_3"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+}
+
+EntityBlueprint
+{
+	name  			"buildings/defense/tower_magma_cruise_missile_grenade_lvl_3"
+	base_blueprint	"buildings/defense/tower_magma_cruise_missile_grenade_lvl_1"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_magma/magma_weapon_explosion_small"
+		on_world_hit_effect 		"effects/weapons_magma/magma_weapon_explosion_small"
+		on_resisted_hit_effect 		"effects/weapons_magma/magma_weapon_explosion_small"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"1"
+
+		artillery_min_angle 		"15"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius		"4"
+			area_damage_duration    "3"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"224"
+					type			"fire"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"6"
+					duration		"1"
+					type			"fire"
+				}
+			}
+		}
+	}
+}

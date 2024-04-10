@@ -70,7 +70,8 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_acid/acid_blaster_hit"
 		on_resisted_hit_effect 	"effects/weapons_acid/acid_blaster_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
 	}
 
 	LifeTimeDesc
@@ -196,12 +197,13 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_small"
 		on_world_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_small"
 		on_resisted_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_small"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
 	}
 	
 	LifeTimeDesc
 	{
-		time 2
+		time 1.5
 	}
 }
 
@@ -268,7 +270,7 @@ EntityBlueprint
 	
 	TurretDesc
 	{
-		target "ground_unit_artillery|ground_unit_large|ground_unit"
+		target "ground_unit"
 		target_ignore "invisible|air_unit"
 		speed "720"
 		aim_volume "SphericalAimVolume"
@@ -307,11 +309,11 @@ EntityBlueprint
 		
 		ammo_blueprint 				"units/drones/acid_grenadier_drone_weapon"
 		muzzles_per_fire			"1"
-		muzzle_flash_effect 		"effects/weapons_acid/acid_grenadier_drone_muzzle_flash"
+		muzzle_flash_effect 		"effects/weapons_acid/tower_acid_grenadier_fire"
 
-		burst_column_spacing 		"0.1"
+		burst_column_spacing 		"0"
 		burst_rate 					"0.1"
-		burst_column_angle 			"20"
+		burst_column_angle 			"0"
 	}
 	
 }
@@ -320,107 +322,21 @@ EntityBlueprint
 {
 	name  "units/drones/acid_grenadier_drone_weapon"
 
-	base_blueprints 
-	{
-		lights/point/green_very_small
-		effects/no_lifetime
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/projectiles/grenade_shell.mesh"
-		material 	"projectiles/acid_grenade"
-	}
-
-	PhysicsDesc
-	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"dynamic"
-				group_id 			"grenade"
-				physics_material 	"grenade_light"
-				Shapes
-				{
-					PhysicsMeshShape
-					{
-						mesh "meshes/items/weapons/grenade_50_c1.nxs"
-					}
-				}
-			}
-		}
-	}
-
-	GrenadeAmmoComponent
-	{
-		on_enemy_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_small"
-		on_world_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_small"
-		on_resisted_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_small"
-		friendly_fire			"pass"
-
-		on_world_explosion_delay	 "1"
-		on_enemy_explosion_delay	 "0"
-
-		explosion_delay_effect 		"effects/weapons_acid/acid_grenade_armed"
-		collision_3d 				"world|world_blocker|destructible|ground_unit|air_unit|shield"
-
-		diameter					"1"
-
-		artillery_min_angle 		"25"
-		artillery_max_angle 		"45"
-	}
+	base_blueprint	"buildings/defense/tower_acid_grenadier_projectile"
 	
-	LifeTimeDesc
+	LuaDesc
 	{
-		time	4
-	}
-	
-	children
-	{
-		EntityBlueprint
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
 		{
-			RibbonComponent
-			{		
-				material 			ribbon/acid_green
-				update_bounds 		1
-				fade_out_time		0.75
-				uv_scroll			"0 -2.5"
-				tiling_distance     "0"
-				tesselation_step 	"0.25"
-				keep_local			"0"
-
-				Ribbons
-				{
-					Ribbon
-					{
-						offset "0 0.4 0"
-					}
-
-					Ribbon
-					{
-						offset "0 -0.4 0"
-					}
-				}
-			}
+			active_time			float:"3.75"
+			arming_time			float:"0.75"
 		}
+
+	}
+
+	WeaponItemDesc
+	{
 	}
 }

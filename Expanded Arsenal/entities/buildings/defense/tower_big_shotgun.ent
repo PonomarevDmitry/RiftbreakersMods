@@ -11,7 +11,7 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_big_shotgun"
 		menu_icon			"gui/hud/building_icons/tower_big_shotgun"
 		require 			"headquarters"
-		order				"5"
+		order				"6"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_big_shotgun_lvl_2"
@@ -210,7 +210,7 @@ EntityBlueprint
 		find_type	"farthest"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "3"
+			range_min "4"
 			range_max "34"
 			aiming_range "40"
 		}
@@ -247,9 +247,9 @@ EntityBlueprint
 		ammo_blueprint 			"buildings/defense/tower_big_shotgun_projectile"
 		muzzle_flash_effect 	"effects/weapons_bullet/tower_big_shotgun_fire"
 
-		burst_column_spacing 	"0.1"
+		burst_column_spacing 	"0"
 		burst_rate 				"0.25"
-		burst_column_angle 		"15"
+		burst_column_angle 		"30"
 	}
 
 	DestroyDesc
@@ -406,7 +406,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_medium"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
-		collision_3d 			"world_blocker|world|ground_unit|air_unit|destructible|shield"
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|world_destructible|destructible|shield|hitbox"
 		collision_2d 			"ground_unit|air_unit|destructible"
 	}
 	
@@ -428,22 +428,14 @@ EntityBlueprint
 				{
 					Ribbon
 					{
-						offset "-1.5 0.0 0.3"
+						parent_attachment "att_exhaust"
+						offset "0 0.3 0.3"
 					}
 
 					Ribbon
 					{
-						offset "-1.5 0.0 -0.3"
-					}
-					
-					Ribbon
-					{
-						offset "-1.5 0.3 0.0"
-					}
-					
-					Ribbon
-					{
-						offset "-1.5 -0.3 0.0"
+						parent_attachment "att_exhaust"
+						offset "0 -0.3 -0.3"
 					}
 				}
 			}

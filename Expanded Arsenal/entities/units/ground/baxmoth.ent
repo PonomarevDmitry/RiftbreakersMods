@@ -37,6 +37,7 @@ EntityBlueprint
 		area			"1.5"
 		gravity			"1.5"
 		radiation		"3.0"
+		sonic			"0.0"
 	}
 
 	StunDataComponent
@@ -389,6 +390,21 @@ EntityBlueprint
 		
 		EffectGroup
 		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
 			group 	"time_damage_physical"
 			enabled "0"
 			Effects
@@ -414,8 +430,41 @@ EntityBlueprint
 					scale "0.9 0.9 0.9"
 				}
 			}
-		}			
+		}
+
+		EffectGroup
+		{
+			group "intercept_on"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_on"		
+					bone "att_intercept_effect"					
+					scale	"0.8 0.8 0.8"
+				}				
+			}
+		}
+
+		EffectGroup
+		{
+			group "intercept_off"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_off"	
+					bone "att_intercept_effect"					
+					scale	"0.8 0.8 0.8"
+				}				
+			}
+		}
 	}
+	
 	FxComponent
 	{
 		threshold_vec
@@ -437,11 +486,11 @@ EntityBlueprint
 		script "lua/units/ground/baxmoth.lua"
 		database
 		{
-			min_scale	float:"0.90"
-			max_scale	float:"0.90"
+			min_scale						float:"0.9"
+			max_scale						float:"0.9"
 		}		
 	}
-
+	
 	DatabaseComponent
 	{
 		version int:"1"	
@@ -503,7 +552,7 @@ EntityBlueprint
 		spawn_time					"0.1"
 		spawn_disabled				"1"
 	}
-
+	
 	children
 	{
 		EntityBlueprint
@@ -542,7 +591,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
@@ -575,9 +624,6 @@ EntityBlueprint
 			}
 		}
 	}
-
-
-	
 }
 
 EntityBlueprint
@@ -592,7 +638,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters

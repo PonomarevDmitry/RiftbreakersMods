@@ -1,0 +1,171 @@
+EntityBlueprint
+{
+	name "buildings/defense/tower_gravity_warper_lvl_2"
+
+	base_blueprint 			"buildings/defense/tower_gravity_warper"
+
+	BuildingDesc
+	{
+		name 				"tower_gravity_warper_lvl_2"
+		bp   				"buildings/defense/tower_gravity_warper_lvl_2"
+		ghost_bp			"buildings/defense/tower_gravity_warper_lvl_2_ghost"
+		category 			"defense_mod_4"
+		localization_id		"gui/hud/building_name/tower_gravity_warper"
+		description			"gui/hud/building_description/tower_gravity_warper"
+		menu_icon			"gui/hud/building_icons/tower_gravity_warper_lvl2"
+		require 			"headquarters"
+		order				"11"
+		type				"tower"
+		overrides			"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		upgrade				"buildings/defense/tower_gravity_warper_lvl_3"
+		buildable			"0"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		check_connect		"1"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"
+		limit				"10"
+		limit_name			"gravity_cm_limit"
+		map_limit			"LOCAL"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 			"600"
+					steel 				"300"
+					uranium				"100"
+					ferdonite			"100"
+				}
+			}
+
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 			"600"
+					steel 				"300"
+					uranium				"100"
+					ferdonite			"50"
+				}
+			}		
+		}		
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"2"
+			}
+			
+			GameplayResource
+			{
+				resource 	"plasma_charged"
+				value 		"10"
+				attachment	"att_in_1_alt"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_gravity_warper.lua"
+
+		database
+		{
+			charge_time			float:"1.60" 
+			attack_time			float:"2"
+			reload_time			float:"4.4"
+			projectile_effect	string:"buildings/defense/tower_gravity_warper_projectile_model"
+			
+			animation_type		int:"2"
+			min_scale			float:"0.6"
+			max_scale			float:"0.6"
+			
+			cone_effect			string:"build_cone_1x1"
+			cone_effect_sell	string:"sell_small"
+			time_machine		int:"0"
+		}
+
+	}
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_portal_lvl_2.mesh"
+		material "buildings/defense/tower_gravity_warper_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_portal_lvl_2"
+	}	
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+    name  "buildings/defense/tower_gravity_warper_lvl_2_ghost"
+
+    LuaDesc
+    {
+        script "lua/misc/mod_ghost_building.lua"
+		
+		database
+		{
+			scale				float:"0.6"
+		}
+    }
+}

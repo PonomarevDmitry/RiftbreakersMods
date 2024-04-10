@@ -1,7 +1,4 @@
 import * from "materials/scripts/pbr.material"
-import * from "materials/scripts/unlit.material"
-
-//----------------------------EXPANDED ARSENAL MOD START----------------------------\\
 
 //----------------------ALIEN_WEAPONS START----------------------\\
 
@@ -83,42 +80,45 @@ material projectiles/kinetic_grenade : pbr/default
 	glow 10
 }
 
+// morphium_grenade
+
+material projectiles/morphium_grenade : pbr/default
+{
+	set_texture_alias albedo		materials/textures/projectiles/morphium_grenade_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/grenade_shell_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/grenade_shell_packed.dds
+	set_texture_alias emissive		materials/textures/projectiles/morphium_grenade_emissive.dds
+
+	glow 10
+}
 //----------------------ALIEN_WEAPONS END----------------------\\
 
 //----------------------MECH_WEAPONS START----------------------\\
 
-// heavy_cryo_blaster
+// morphium_projector_item
 
-material projectiles/laser_white
+material projectiles/tower_alien_influence_spikes_advanced : pbr/default
 {
-    
-    render_group 61
-    
-    technique
-    {
-        pass
-        {
-            depth_write off
-            scene_blend alpha_blend
-            
-            glow 200
-            emissive 10 10 10 1
+	set_texture_alias albedo		materials/textures/projectiles/tower_alien_influence_spikes_advanced_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/tower_alien_influence_spikes_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/tower_alien_influence_spikes_packed.dds
+	
+}
 
-            vertex_program_ref unlit_fresnel_vp 
-			{
-			}
+material projectiles/tower_alien_influence_spikes_superior : pbr/default
+{
+	set_texture_alias albedo		materials/textures/projectiles/tower_alien_influence_spikes_superior_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/tower_alien_influence_spikes_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/tower_alien_influence_spikes_packed.dds
+	
+}
 
-			fragment_program_ref unlit_fresnel_fp
-			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 1
-				param_named cFresnelPower float 2
-				
-				param_named cBlendColor1 float4 30 30 30 1
-				param_named cBlendColor2 float4 30 30 30 1
-			}
-        }
-    }
+material projectiles/tower_alien_influence_spikes_extreme : pbr/default
+{
+	set_texture_alias albedo		materials/textures/projectiles/tower_alien_influence_spikes_extreme_albedo.dds
+	set_texture_alias normal		materials/textures/projectiles/tower_alien_influence_spikes_normal.dds
+	set_texture_alias packed		materials/textures/projectiles/tower_alien_influence_spikes_packed.dds
+	
 }
 
 // heavy_radio_blaster
@@ -150,40 +150,6 @@ material projectiles/laser_yellow
 				
 				param_named cBlendColor1 float4 5 3 0 1
 				param_named cBlendColor2 float4 100 80 0 1
-			}
-        }
-    }
-}
-
-// heavy_gravity_blaster
-
-material projectiles/laser_violet
-{
-    
-    render_group 61
-    
-    technique
-    {
-        pass
-        {
-            depth_write off
-            scene_blend alpha_blend
-            
-            glow 200
-            emissive 6.5 0 10 1
-
-            vertex_program_ref unlit_fresnel_vp 
-			{
-			}
-
-			fragment_program_ref unlit_fresnel_fp
-			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 1
-				param_named cFresnelPower float 2
-				
-				param_named cBlendColor1 float4 0.65 0 1 1
-				param_named cBlendColor2 float4 6.5 0 10 1
 			}
         }
     }
@@ -301,6 +267,37 @@ material projectiles/radio_cruise_missile : pbr/default
 
 //----------------------GRAVITY_ACCELERATORS START----------------------\\
 
+material projectiles/tower_gravity_warper_projectile
+{
+    render_group 61
+    
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            
+            glow 0.1
+            emissive 0 0 1 0.1
+
+            vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 4
+				
+				param_named cBlendColor1 float4 0 0 1 0.1
+				param_named cBlendColor2 float4 0.1 0.1 0.2 0.05
+			}
+        }
+    }
+}
+
 material projectiles/gravity_artillery_shell : pbr/default
 {
 	set_texture_alias albedo		materials/textures/projectiles/gravity_artillery_shell_albedo.dds
@@ -312,16 +309,99 @@ material projectiles/gravity_artillery_shell : pbr/default
 
 }
 
-material projectiles/gravity_cruise_missile : pbr/default
-{
-	set_texture_alias albedo		materials/textures/projectiles/gravity_cruise_missile_albedo.dds
-	set_texture_alias normal		materials/textures/projectiles/rocket_nuclear_normal.dds
-	set_texture_alias packed		materials/textures/projectiles/rocket_nuclear_packed.dds
-	set_texture_alias emissive		materials/textures/projectiles/gravity_cruise_missile_emissive.dds
-
-	glow 10
-}
-
 //----------------------GRAVITY_ACCELERATORS END----------------------\\
 
-//----------------------------EXPANDED ARSENAL MOD END----------------------------\\
+//----------------------CRYSTAL WEAPONS START----------------------\\
+
+// crystal_weapon_projectile_blue
+
+material projectiles/crystal_weapon_projectile_blue : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/projectiles/crystal_weapon_projectile_blue_albedo.dds
+	set_texture_alias normal			materials/textures/projectiles/crystal_weapon_projectile_normal.dds
+	set_texture_alias packed			materials/textures/projectiles/crystal_weapon_projectile_packed.dds
+	set_texture_alias emissive			materials/textures/projectiles/crystal_weapon_projectile_violet_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_blue.dds
+
+	glow 25
+	reflection 2 40
+}
+
+// crystal_weapon_projectile_violet
+
+material projectiles/crystal_weapon_projectile_violet : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/projectiles/crystal_weapon_projectile_violet_albedo.dds
+	set_texture_alias normal			materials/textures/projectiles/crystal_weapon_projectile_normal.dds
+	set_texture_alias packed			materials/textures/projectiles/crystal_weapon_projectile_packed.dds
+	set_texture_alias emissive			materials/textures/projectiles/crystal_weapon_projectile_blue_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_violet.dds
+
+	glow 25
+	reflection 2 40
+}
+
+// crystal_blocker_blue
+
+material projectiles/crystal_blocker_blue : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/projectiles/crystal_blocker_blue_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gulgor_crystal_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gulgor_crystal_packed.dds
+	set_texture_alias emissive			materials/textures/projectiles/crystal_blocker_violet_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_blue.dds
+
+	glow 15
+	reflection 2 40
+}
+
+// crystal_blocker_violet
+
+material projectiles/crystal_blocker_violet : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/projectiles/crystal_blocker_violet_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gulgor_crystal_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gulgor_crystal_packed.dds
+	set_texture_alias emissive			materials/textures/projectiles/crystal_blocker_blue_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_violet.dds
+
+	glow 15
+	reflection 2 40
+}
+
+//----------------------CRYSTAL WEAPONS END----------------------\\
+
+material projectiles/tower_antimatter_grenadier_projectile
+{
+    render_group 61
+    
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            
+            glow 0.1
+            emissive 0 1 2 0.1
+
+            vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 4
+				
+				param_named cBlendColor1 float4 0 3 6 0.1
+				param_named cBlendColor2 float4 0.1 0.2 0.3 0.05
+			}
+        }
+    }
+}

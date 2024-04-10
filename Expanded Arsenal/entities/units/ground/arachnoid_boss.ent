@@ -67,6 +67,7 @@ EntityBlueprint
 		area			"1.0"
 		gravity			"3.0"
 		radiation		"4.0"
+		sonic			"0.0"
 	}
 
 	StunDataComponent
@@ -494,6 +495,21 @@ EntityBlueprint
 		
 		EffectGroup
 		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
 			group "footstep_fl"
 			enabled "0"
 			Effects
@@ -570,7 +586,38 @@ EntityBlueprint
 					offset "0 4 0"
 				}
 			}
-		}			
+		}
+		EffectGroup
+		{
+			group "intercept_on"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_on"		
+					bone "att_intercept_effect"					
+					scale	"0.6 0.6 0.6"
+				}				
+			}
+		}
+
+		EffectGroup
+		{
+			group "intercept_off"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_off"	
+					bone "att_intercept_effect"					
+					scale	"0.6 0.6 0.6"
+				}				
+			}
+		}
 	}
 
 	FxComponent
@@ -601,7 +648,7 @@ EntityBlueprint
 			{
 				tag 		"melee"
 				owner 		"parent"
-				collision 	"building|building_small|ground_unit"
+				collision 	"world_destructible|building|building_small|ground_unit"
 
 				Filters
 				{
@@ -688,7 +735,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -765,7 +812,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{

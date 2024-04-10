@@ -11,11 +11,13 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_sniper"
 		menu_icon			"gui/hud/building_icons/tower_sniper"
 		require 			"headquarters"
-		order				"8"
+		order				"9"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_sniper_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"	
 
 		costs
 		{
@@ -25,7 +27,7 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 	"100"
+					carbonium 	"200"
 					steel 		"100"
 					titanium	"50"
 					ai			"1"
@@ -179,7 +181,7 @@ EntityBlueprint
 
 	FogOfWarRevealerComponentDesc
 	{
-		radius "40"
+		radius "16"
 	}
 
 	HealthBarDesc
@@ -364,6 +366,45 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "eamod"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_1"
+					scale	"0.7 0.25 0.25"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_2"
+					scale	"0.7 0.25 0.25"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodradar"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/radar"								
+					bone "att_fake_radar"
+					scale	"0.25 0.25 0.25"
+				}
+			}
+		}
 	}
 }
 
@@ -412,7 +453,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_medium"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
 		on_resisted_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
@@ -439,12 +480,14 @@ EntityBlueprint
 				{
 					Ribbon
 					{
-						offset "0.8 0.3 0.3"
+						parent_attachment "att_exhaust"
+						offset "0 0.15 0.15"
 					}
 
 					Ribbon
 					{
-						offset "-0.8 -0.3 -0.3"
+						parent_attachment "att_exhaust"
+						offset "0 -0.15 -0.15"
 					}
 				}
 			}

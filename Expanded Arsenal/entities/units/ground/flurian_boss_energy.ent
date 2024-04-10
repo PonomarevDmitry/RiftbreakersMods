@@ -3,7 +3,7 @@ EntityBlueprint
 	name "units/ground/flurian_boss_energy"
 
 	base_blueprint "units/ground/flurian_base"
-
+	
 	LuaDesc
 	{
 		script "lua/units/ground/flurian.lua"
@@ -62,8 +62,9 @@ EntityBlueprint
 		energy			"0.0"
 		cryo			"0.5"
 		area			"0.5"
-		gravity			"4.0"
+		gravity			"2.0"
 		radiation		"0.25"
+		sonic			"0.0"
 	}	
 	
 	StunDataComponent
@@ -294,7 +295,7 @@ EntityBlueprint
 					scale "2.5 2.5 2.5"
 				}
 			}
-		}		
+		}
 	}			
 
 	children
@@ -352,7 +353,7 @@ EntityBlueprint
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -427,7 +428,7 @@ EntityBlueprint
 
 		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
 
-		collision_3d 				"ground_unit|world|world_blocker|hitbox|building|destructible|shield"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|building|ground_unit|hitbox|shield"
 
 		diameter					"2"
 		friendly_fire				"pass"

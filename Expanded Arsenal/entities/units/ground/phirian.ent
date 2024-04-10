@@ -11,7 +11,8 @@ EntityBlueprint
 		cryo			"0.5"
 		area			"1.0"
 		gravity			"1.5"
-		radiation		"1.0"
+		radiation		"2.0"
+		sonic			"1.5"
 	}
 
 	StunDataComponent
@@ -166,122 +167,6 @@ EntityBlueprint
 				key "default"
 			}
 		}		
-	}
-	
-	EffectDesc
-	{
-		EffectGroup
-		{
-			group 	"time_damage_gravity"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_gravity"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-
-		EffectGroup
-		{
-			group 	"time_damage_radiation"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_radiation"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-	}
-
-	FxComponent
-	{
-		threshold_vec
-		{
-			float 						"5"
-		}
-	}	
-}
-
-EntityBlueprint
-{
-	name "units/ground/phirian"
-
-	base_blueprint "units/ground/phirian_base"
-
-	StateMachineDesc
-	{
-		template_name "phirian"
-		params
-		{
-			aggressive_speed					float:"10"
-			aggressive_acceleration				float:"20"
-			not_aggressive_speed				float:"4"
-			not_aggressive_acceleration			float:"4"
-			rotate_speed						float:"350"
-			priority_target						string:"headquarters|player|energy|tower"
-			priority_target_distance			float:"40"
-			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
-			melee_attack_name					string:"attack_1|attack_2|attack_3"
-			min_idle_time						float:"4.0"
-			max_idle_time						float:"8.0"
-			dash_min_distance					float:"10.0"
-			dash_max_distance					float:"25.0"
-			dash_cooldown						float:"3.0"
-			dash_ignore_type					string:"ground_unit_small"
-			dash_space_behind_target			float:"15"
-			dash_speed							float:"150"
-			dash_damage							float:"40"
-			dash_damage_size					float:"4.5"
-		}		
-	}
-
-	LuaDesc
-	{
-		script "lua/units/ground/phirian.lua"
-		database
-		{
-			min_scale	float:"0.95"
-			max_scale	float:"1.05"
-		}			
-	}
-
-	DatabaseComponent
-	{
-		version int:"1"	
-	}
-
-	HealthDesc
-	{
-		max_health 					"1200"
-		health 						"1200"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
-		is_manual					"1"
-		update_health_uniform 		"1"
-
-		DestructionLevels
-		{
-			DestructionLevel
-			{
-				health 								"0"
-				destroy_comp_delay 					"0"
-				//destroyed_state_effect_group 		"0_state"
-			}
-		}		
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/units/ground/phirian.mesh"
-		material 	"units/ground/phirian"
 	}
 	
 	EffectDesc
@@ -478,7 +363,53 @@ EntityBlueprint
 					scale "1.5 1.5 1.5"
 				}
 			}
-		}	
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_gravity"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_gravity"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_radiation"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_radiation"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		
 		EffectGroup
 		{
 			group 	"stunned"
@@ -495,6 +426,89 @@ EntityBlueprint
 		}		
 	}
 
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/phirian"
+
+	base_blueprint "units/ground/phirian_base"
+
+	StateMachineDesc
+	{
+		template_name "phirian"
+		params
+		{
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			dash_min_distance					float:"10.0"
+			dash_max_distance					float:"25.0"
+			dash_cooldown						float:"3.0"
+			dash_ignore_type					string:"ground_unit_small"
+			dash_space_behind_target			float:"15"
+			dash_speed							float:"150"
+			dash_damage							float:"40"
+			dash_damage_size					float:"4.5"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/phirian.lua"
+		database
+		{
+			min_scale	float:"0.95"
+			max_scale	float:"1.05"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"1200"
+		health 						"1200"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/phirian.mesh"
+		material 	"units/ground/phirian"
+	}
+	
 	children
 	{
 		EntityBlueprint
@@ -567,7 +581,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_phirian/sword_hit_world"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|vegetation|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|vegetation|shield"
 
 							DamagePattern
 							{
@@ -610,7 +624,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters

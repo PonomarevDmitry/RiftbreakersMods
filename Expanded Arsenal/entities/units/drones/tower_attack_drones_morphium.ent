@@ -1,0 +1,518 @@
+EntityBlueprint
+{
+	name  			"units/drones/morphium_drone_attack"
+	base_blueprint 	"units/drones/tower_attack_drone_base_morphium"
+	
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"2"
+			target_manual_rotation	int:"1"
+			owner_movement			string:"land"
+
+			target_movement			string:"follow"
+			target_search_mode  	string:"always"
+			target_manual_rotation	int:"1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_artillery|ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"16"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"buildings/defense/tower_alien_influence/spawner"
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_drone_attack_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_0"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/morphium_grenadier_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_morphium"
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/morphium_grenadier_drone_weapon"
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_grenade_projector_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/morphium_grenadier_drone_weapon"
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"5"
+		}
+
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_heavy"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_50_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/hand_grenade.mesh"
+		material 	"items/consumables/morphium_grenade"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/projectiles/artillery_shell"
+	}
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "8"
+			aiming_range "8"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_exhaust"
+		gravity_factor "8"
+		yaw "att_exhaust"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{	
+				attachment "att_exhaust"
+			}
+		}
+		
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"buildings/defense/tower_alien_influence/spawner"
+		
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_alien/tower_morphium_deployer_hit"
+					part_prefix 			"meshes/projectiles/hand_grenade.mesh"
+					part_material 			"items/consumables/morphium_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_energy"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "quicksand"
+			}
+			
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_alien/tower_morphium_deployer_hit"
+					part_prefix 			"meshes/projectiles/hand_grenade.mesh"
+					part_material 			"items/consumables/morphium_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_energy"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}
+	
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		""
+		on_world_hit_effect 		"effects/weapons_alien/tower_morphium_deployer_hit"
+		on_resisted_hit_effect 		""
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	 "1"
+		on_enemy_explosion_delay	 "1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible"
+		friendly_fire				"pass"
+
+		diameter					"1"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_white"
+				update_bounds 		1
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.6"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.6"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/morphium_mortar_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_morphium"
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"30"
+			aiming_range	"35"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/morphium_mortar_drone_weapon"
+		muzzle_flash_effect 		"effects/weapons_alien/tower_morphium_artillery_muzzle"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"	
+					bone "att_drone_trail_0"
+					scale	"0.9 0.9 0.9"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name			"units/drones/morphium_mortar_drone_weapon"
+	base_blueprint 	"buildings/defense/tower_morphium_artillery_projectile"
+	
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_alien/morphium_mortar_drone_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_alien/morphium_mortar_drone_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_alien/morphium_mortar_drone_weapon_hit"
+		collision_3d 			"world|world_destructible|ground_unit|shield"
+	}
+}

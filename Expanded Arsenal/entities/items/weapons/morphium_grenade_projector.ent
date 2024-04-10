@@ -1,0 +1,535 @@
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_projectile"
+
+	base_blueprint "effects/weapons_explosive/grenade_projectile"
+
+	MeshDesc
+	{
+		mesh 						"meshes/projectiles/hand_grenade.mesh"
+		material 					"items/consumables/morphium_grenade"
+	}
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_50_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_alien/tower_morphium_artillery_projectile_trail"
+				}
+			}
+		}
+	}
+	
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_hit"
+		on_world_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_hit"
+		on_resisted_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_hit"
+
+		on_world_explosion_delay	 "0"
+		on_enemy_explosion_delay	 "0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"1"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_advanced_projectile"
+
+	base_blueprint "items/weapons/morphium_grenade_projector_projectile"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_advanced_hit"
+		on_world_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_advanced_hit"
+		on_resisted_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_advanced_hit"
+
+		on_world_explosion_delay	 "0"
+		on_enemy_explosion_delay	 "0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"1"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_superior_projectile"
+
+	base_blueprint "items/weapons/morphium_grenade_projector_projectile"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_superior_hit"
+		on_world_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_superior_hit"
+		on_resisted_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_superior_hit"
+
+		on_world_explosion_delay	 "0"
+		on_enemy_explosion_delay	 "0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"1"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_extreme_projectile"
+
+	base_blueprint "items/weapons/morphium_grenade_projector_projectile"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_extreme_hit"
+		on_world_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_extreme_hit"
+		on_resisted_hit_effect 		"effects/weapons_alien/morphium_grenade_projector_extreme_hit"
+
+		on_world_explosion_delay	 "0"
+		on_enemy_explosion_delay	 "0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"1"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
+		material 	"items/weapons/morphium_grenade_projector"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/grenade_launcher"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone  "att_morphium"
+				recoil_time   "0.45"
+				recoil_offset   "1.0"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_grenade_projector_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_grenade_projector_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodmorphium"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/morphium_spike"								
+					bone "att_morphium"
+					scale	"0.2 0.2 0.2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_advanced"
+
+	base_blueprint "items/weapons/morphium_grenade_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
+		material 	"items/weapons/morphium_grenade_projector_advanced"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone  "att_morphium"
+				recoil_time   "0.45"
+				recoil_offset   "1.0"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_grenade_projector_advanced_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_grenade_projector_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_grenade_projector"
+		item_bp			"items/weapons/morphium_grenade_projector_advanced"
+		icon			"gui/hud/items_icons/weapons/morphium_grenade_projector_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_grenade_projector_advanced"
+		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/grenade_weapon.lua"
+
+		database
+		{
+			bp						string:"items/consumables/grenade"
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance			float:"25"			
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_extreme"
+
+	base_blueprint "items/weapons/morphium_grenade_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
+		material 	"items/weapons/morphium_grenade_projector_extreme"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone  "att_morphium"
+				recoil_time   "0.45"
+				recoil_offset   "1.0"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_grenade_projector_extreme_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_grenade_projector_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_grenade_projector"
+		item_bp			"items/weapons/morphium_grenade_projector_extreme"
+		icon			"gui/hud/items_icons/weapons/morphium_grenade_projector_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_grenade_projector_extreme"
+		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/grenade_weapon.lua"
+
+		database
+		{
+			bp						string:"items/consumables/grenade"
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance			float:"25"	
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_grenade_projector"
+		item_bp			"items/weapons/morphium_grenade_projector"
+		icon			"gui/hud/items_icons/weapons/morphium_grenade_projector"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_grenade_projector"
+		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/grenade_weapon.lua"
+
+		database
+		{
+			bp						string:"items/consumables/grenade"
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance			float:"25"	
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_superior"
+
+	base_blueprint "items/weapons/morphium_grenade_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
+		material 	"items/weapons/morphium_grenade_projector_superior"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "5"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone  "att_morphium"
+				recoil_time   "0.45"
+				recoil_offset   "1.0"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_grenade_projector_superior_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_grenade_projector_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_grenade_projector_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_grenade_projector"
+		item_bp			"items/weapons/morphium_grenade_projector_superior"
+		icon			"gui/hud/items_icons/weapons/morphium_grenade_projector_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_grenade_projector_superior"
+		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/grenade_weapon.lua"
+
+		database
+		{
+			bp						string:"items/consumables/grenade"
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"
+			max_distance			float:"25"	
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

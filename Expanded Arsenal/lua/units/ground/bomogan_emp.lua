@@ -1,7 +1,6 @@
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 
-local base_unit = require("lua/units/base_unit.lua")
 class 'bomogan_emp' ( LuaEntityObject )
 
 function bomogan_emp:__init()
@@ -29,7 +28,6 @@ function bomogan_emp:emp()
 					if isWorking == true
 					then
 						BuildingService:DisableBuilding( modAffectedBuildings[i] )	
-						EntityService:SpawnEntity( "effects/messages_and_markers/building_disabled", modAffectedBuildings[i], "" )
 						EffectService:AttachEffects(modAffectedBuildings[i], "building_disable")
 						Insert( self.selected, modAffectedBuildings[i] )
 					end

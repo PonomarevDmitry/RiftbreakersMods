@@ -92,6 +92,7 @@ return function()
 	rules.objectivesLogic = 
 	{
 		{ name = "logic/objectives/kill_elite_magmoth.logic", minDifficultyLevel = 3 },
+		{ name = "logic/objectives/kill_elite_nerilian.logic", minDifficultyLevel = 4 },
 		-- { name = "logic/objectives/kill_gnerot_burning_fight.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/destroy_magma_creeper.logic", minDifficultyLevel = 4 },
 		{ name = "logic/objectives/destroy_nest_morirot_single.logic", minDifficultyLevel = 3, maxDifficultyLevel = 6 }, 

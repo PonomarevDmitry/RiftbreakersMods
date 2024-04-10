@@ -11,11 +11,13 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_plasma_railgun"
 		menu_icon			"gui/hud/building_icons/tower_plasma_railgun"
 		require 			"headquarters"
-		order				"6"
+		order				"7"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_plasma_railgun_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
 
 		costs
 		{
@@ -62,10 +64,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower.lua"
+		script "lua/buildings/defense/tower_charge.lua"
 
 		database
 		{
+			charge_time			float:"3" 
+			attack_time			float:"2"
+			reload_time			float:"3"
+			
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
 			time_machine		int:"0"
@@ -190,7 +196,7 @@ EntityBlueprint
 
 	FogOfWarRevealerComponentDesc
 	{
-		radius "40"
+		radius "10"
 	}
 
 	HealthBarDesc
@@ -221,7 +227,7 @@ EntityBlueprint
 		find_type "farthest"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "5"
+			range_min "10"
 			range_max "60"
 			aiming_range "70"
 		}
@@ -379,16 +385,59 @@ EntityBlueprint
 		
 		EffectGroup
 		{
-			group "shooting"
+			group "charge"
 			enabled "0"
-
+		
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/tower_pointers/turquoise_laser_pointer"
-					bone "att_pointer"
-					random_delay "0.01"
+					blueprint	"effects/weapons_energy/tower_plasma_railgun_charge"
+					bone 		"att_muzzle"
+				}
+				
+				Effect
+				{
+					blueprint 		"effects/tower_pointers/turquoise_laser_pointer"
+					bone 			"att_pointer"
+					random_delay	"0.01"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_energy/tower_plasma_railgun_weapon_primed"
+					bone 		"att_muzzle"
+				}
+				
+				Effect
+				{
+					blueprint 		"effects/tower_pointers/turquoise_laser_pointer"
+					bone 			"att_pointer"
+					random_delay	"0.01"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_plasma_railgun_reload"
+					bone "att_muzzle"
 				}
 			}
 		}
@@ -398,7 +447,7 @@ EntityBlueprint
 EntityBlueprint
 {
 	name  "buildings/defense/tower_plasma_railgun_projectile"
-
+	
 	base_blueprints
 	{
 		lights/point/muzzle_blue_very_small
@@ -407,72 +456,45 @@ EntityBlueprint
 	
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/rocket_heavy_artillery.mesh"
-		material 	"projectiles/rocket_heavy_artillery"
+		mesh 		"meshes/projectiles/tower_railgun_projectile.mesh"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/projectiles/rocket_small"
+		name "meshes/projectiles/tower_railgun_projectile"
 	}
 
-	MinimapItemDesc
+	AnimationDesc
 	{
-		type	"quad"
-		color
+		animations
 		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
+			Anim
+			{
+				animName "idle"
+				animTime "0.0"
+			}
 		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility			"always"
 	}
-	
-	ProjectileAmmoComponent
+
+	LifeTimeDesc
 	{
+		time "1.0"
+	}
+
+	InstantAmmoComponent
+	{
+		range 					"60"
+		max_hits 				"60"
+
+		width 					"3"
+		height 					"3"
 
 		on_enemy_hit_effect 	"effects/weapons_energy/railgun_hit"
 		on_world_hit_effect 	"effects/weapons_energy/railgun_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world_destructible|destructible|ground_unit|shield"
 		collision_block 		"world"
-	}
-	
-	children
-	{
-		EntityBlueprint
-		{
-			RibbonComponent
-			{		
-				material 			ribbon/heavy_plasma_blue
-				update_bounds 		1
-				fade_out_time		0.35
-				uv_scroll			"0 -2.5"
-				tiling_distance     "0"
-				tesselation_step 	"0.25"
-				keep_local			"0"
-
-				Ribbons
-				{
-					Ribbon
-					{
-						offset "0 0 0.4"
-					}
-
-					Ribbon
-					{
-						offset "0 0 -0.4"
-					}
-				}
-			}
-		}
 	}
 }
 

@@ -171,7 +171,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
@@ -186,7 +186,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
@@ -375,7 +375,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters
@@ -539,8 +539,9 @@ EntityBlueprint
 		energy			"1.0"
 		cryo			"2.0"
 		area			"2.0"
-		gravity			"3.0"
+		gravity			"2.0"
 		radiation		"0.0"
+		sonic			"2.0"
 	}
 
 	StunDataComponent
@@ -634,15 +635,6 @@ EntityBlueprint
 	{
 		bending_power	"5000"
 		bending_radius	"4"
-	}
-
-	FlammableComponentDesc
-	{
-		fire_spread_interval 			"4.0"
-		fire_spread_radius 				"0.1"
-		fire_probability 				"0.1"
-		burning_time 					"6"
-		burned_recovery_time 			"0"		
 	}
 
 	TerrainAffectedComponent
@@ -778,7 +770,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_dust"	
+					blueprint "effects/enemies_generic/damage_generic_dust_rocky"	
 					bone "att_death"
 				}
 			}
@@ -791,7 +783,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_dust"	
+					blueprint "effects/enemies_generic/damage_generic_dust_rocky"	
 				}
 			}
 		}		
@@ -900,6 +892,21 @@ EntityBlueprint
 		
 		EffectGroup
 		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
 			group "footstep_left"
 			enabled "0"
 			Effects
@@ -998,7 +1005,39 @@ EntityBlueprint
 					scale "1 1 1"
 				}
 			}
-		}		
+		}
+
+		EffectGroup
+		{
+			group "intercept_on"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_on"		
+					bone "att_intercept_effect"					
+					scale	"1.2 1.2 1.2"
+				}				
+			}
+		}
+
+		EffectGroup
+		{
+			group "intercept_off"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_off"	
+					bone "att_intercept_effect"					
+					scale	"1.2 1.2 1.2"
+				}				
+			}
+		}
 	}
 }
 

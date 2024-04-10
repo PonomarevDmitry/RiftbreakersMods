@@ -110,16 +110,23 @@ system rift/cluster_cruise_missile
                 max                             0.2
             }
             velocity                            1
-            particle_width                      3
-            particle_height                     10
-            position                            -5 0 0
+			particle_width                      dyn_random
+            {
+                min                             1
+                max                             3
+            }
+            particle_height                      dyn_random
+            {
+                min                             4
+                max                             6
+            }
             direction                           -1 0 0
             colour                              0 0 0 1
         }
         affector                                Scale 
         {
             x_scale                             -10
-            y_scale                             50
+            y_scale                             25
         }
         affector                                Colour 
         {
@@ -136,6 +143,67 @@ system rift/cluster_cruise_missile
             rotation_speed                      0
         }
     }
+	
+	technique trail1
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_yellow_01
+        renderer                                Billboard
+        {
+            render_queue_group                  66
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       50
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
+            velocity                            1
+			particle_width                      dyn_random
+            {
+                min                             1
+                max                             3
+            }
+            particle_height                      dyn_random
+            {
+                min                             4
+                max                             6
+            }
+            direction                           -1 0 0
+            colour                              0 0 0 1
+        }
+        affector                                Scale 
+        {
+            x_scale                             -10
+            y_scale                             20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 0.501961 0.501961 1
+            time_colour                         1    1 0.501961 0.501961 0
+        }
+        affector                                TextureRotator Affector39
+        {
+            rotation                            dyn_random
+            {
+                min                             3
+                max                             3.2
+            }
+            rotation_speed                      2
+        }
+    }
+	
     technique flare
     {
         keep_local                              true
@@ -170,36 +238,6 @@ system rift/cluster_cruise_missile
             time_colour                         0.754348  1 1 1 1
             time_colour                         1    0 0 0 1
             colour_operation                    multiply
-        }
-    }
-    technique ribbon
-    {
-        position                                -5 0 0
-        visual_particle_quota                   1
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles_noatlas/ribbon_enemy_missile_medium
-        renderer                                RibbonTrail
-        {
-            render_queue_group                  65
-            max_elements                        20
-            ribbontrail_length                  350
-            ribbontrail_width                   15
-            random_initial_colour               false
-            initial_colour                      1 1 1 0.588235
-            colour_change                       0 0 0 1
-        }
-        emitter                                 Point 
-        {
-            emission_rate                       10000
-            angle                               0
-            time_to_live                        20
-            velocity                            0.0001
-            position                            20 0 0
-            direction                           1 0 0
-            force_emission                      true
         }
     }
 }

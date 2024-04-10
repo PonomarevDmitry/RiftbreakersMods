@@ -43,12 +43,12 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"20"
+				value			 	"25"
 			}
 			GameplayResource
 			{
 				resource 	"rhodonite_condensate"
-				value 		"25"
+				value 		"10"
 				attachment	"att_in_1"
 			}			
 			
@@ -58,18 +58,18 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/shield_generator_ion.lua"
+		script "lua/buildings/defense/reflection_shield_generator.lua"
 		
 		database
 		{
 			cone_effect				string:"build_cone_3x3"
 			cone_effect_sell		string:"sell_big"
-			radius					float:"25"
+			range					float:"24"
+			interval				float:"1"
 			shield_bp				string:"buildings/defense/shield_generator_ion/shield_ion"
 			display_radius_group	string:"shield_generator"
 			display_radius_blueprint string:"effects/decals/range_circle_shield"
 		}
-				
 	}
 
 	HealthDesc
@@ -334,19 +334,51 @@ EntityBlueprint
 
 	IdDesc
 	{
-		name "_shield3_"
+		name "_shield_"
 	}
 
 	HealthDesc
 	{
 		max_health 					"900"
-		health 						"0"
+		health 						"1"
 	}
 
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	LuaDesc
+	{
+		database
+		{
+			//How much faster the shield decays when unpowered than it regenerates when powered.
+			//Must be positive, or the shield will regenerate when unpowered.
+			//"0" means "no decay", "1" means "equal rate"
+			decay_multiplier 	float:"2.0"
+		}
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	ReflectDamageComponent
+	{
+		melee_only		"1"
+		reflect_type	"damage_ratio"	// health_ratio, damage_ratio, flat_damage
+		damage_value	"1.0"
+		damage_type		"energy"	// optional, if not provided damage type will be set to "reflect"
+
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	ReflectHighlightComponent
+	{
+		submesh_idx 	2
+		glow_factor 	100
+		flash_time		0.2		//Optional.
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
 	RegenerationComponent
 	{
-		regeneration 				"90"
-		regeneration_cooldown 		"2.5"
+		//I recommend a regen rate of 5% max HP per second, with a long cooldown of 7-10 seconds.
+		regeneration 				"40"	//50
+		regeneration_cooldown 		"6"
 	}
 
 	EffectDesc
@@ -369,5 +401,6 @@ EntityBlueprint
 	ShieldComponent
 	{
 		owner	"custom"
+		highlight_material	"highlight/shield_ion"
 	}
 }

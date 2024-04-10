@@ -53,6 +53,7 @@ return function()
 	rules.objectivesLogic = 
 	{
 		{ name = "logic/objectives/kill_elite.logic", minDifficultyLevel = 3, maxDifficultyLevel = 6 },
+		{ name = "logic/objectives/kill_elite_nerilian.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/kill_elite_arachnoid.logic", minDifficultyLevel = 6 },
 		{ name = "logic/objectives/destroy_nest_granan_single.logic", minDifficultyLevel = 3, maxDifficultyLevel = 5 },
 		{ name = "logic/objectives/destroy_nest_granan_multiple.logic", minDifficultyLevel = 5 },

@@ -145,10 +145,11 @@ EntityBlueprint
 		fire			"1.0"
 		acid			"1.0"
 		energy			"0.0"
-		cryo			"1.0"
-		area			"1.0"
-		gravity			"4.0"
+		cryo			"2.0"
+		area			"2.0"
+		gravity			"1.5"
 		radiation		"0.0"
+		sonic			"1.5"
 	}
 	
 	StunDataComponent
@@ -441,36 +442,6 @@ EntityBlueprint
 				}
 			}
 		}
-
-		EffectGroup
-		{
-			group 	"time_damage_gravity"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_gravity"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_radiation"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_radiation"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}
 	}
 
 	children
@@ -483,7 +454,7 @@ EntityBlueprint
 			{
 				damage_amount	10
 				always_kill		1
-				collision 		"vegetation|destructible"
+				collision 		"vegetation|destructible|world_destructible"
 
 				Shapes
 				{

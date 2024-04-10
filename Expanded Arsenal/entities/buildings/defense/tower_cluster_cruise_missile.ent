@@ -6,16 +6,21 @@ EntityBlueprint
 	{
 		name 				"tower_cluster_cruise_missile"
 		bp   				"buildings/defense/tower_cluster_cruise_missile"
-		category 			"defense_mod_3"
+		category 			"defense_mod_2"
 		localization_id		"gui/hud/building_name/tower_cluster_cruise_missile"
 		description			"gui/hud/building_description/tower_cluster_cruise_missile"
 		menu_icon			"gui/hud/building_icons/tower_cluster_cruise_missile"
 		require 			"headquarters"
-		order				"1"
+		order				"3"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cluster_cruise_missile_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"
+		limit				"10"
+		limit_name			"cluster_cm_limit"
+		map_limit			"LOCAL"			
 
 		costs
 		{
@@ -196,7 +201,7 @@ EntityBlueprint
 
 	FogOfWarRevealerComponentDesc
 	{
-		radius "40"
+		radius "16"
 	}
 
 	HealthBarDesc
@@ -396,8 +401,6 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_cluster_cruise_missile_projectile"
 
-	base_blueprint "effects/weapons_explosive/rocket_projectile_big"
-
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/rocket_nuclear.mesh"
@@ -422,6 +425,59 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "eamodenergywall"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/energy_wall_doodads"								
+					bone "att_wing_center"
+					scale	"0.9 0.1 0.1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamodmissilehead3"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/cluster_grenade"								
+					bone "att_warhead_mid_1"
+					scale "0.6 0.6 0.6"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/cluster_grenade"								
+					bone "att_warhead_mid_2"
+					scale "0.6 0.6 0.6"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/cluster_grenade"								
+					bone "att_warhead_mid_3"
+					scale "0.6 0.6 0.6"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/cluster_grenade"								
+					bone "att_warhead_mid_4"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}
 	}
 
 	VegetationBendingComponentDesc
@@ -432,10 +488,10 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
-		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
-		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_medium"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		on_enemy_hit_effect 	"effects/weapons_explosive/tower_cluster_cruise_missile_hit"
+		on_world_hit_effect 	"effects/weapons_explosive/tower_cluster_cruise_missile_hit"
+		on_resisted_hit_effect 	"effects/weapons_explosive/tower_cluster_cruise_missile_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
@@ -443,5 +499,149 @@ EntityBlueprint
 		time 		4.5
 		//type 		"camera"
 	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/ribbon_cluster_cruise_missile_trail
+				update_bounds 		1
+				fade_out_time		0.4
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 0.25"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.25"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/tower_cluster_cruise_missile_grenade_lvl_1"
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/hand_grenade.mesh"
+		material 	"items/consumables/hand_grenade"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_10_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_explosive/tower_cluster_cruise_missile_grenade_explosion"
+		on_world_hit_effect 		"effects/weapons_explosive/tower_cluster_cruise_missile_grenade_explosion"
+		on_resisted_hit_effect 		"effects/weapons_explosive/tower_cluster_cruise_missile_grenade_explosion"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"1"
+
+		artillery_min_angle 		"15"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius		"4"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"59"
+					type			"physical"
+				}
+			}
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/grenade_trail_yellow
+				update_bounds 		1
+				fade_out_time		0.45
+				uv_scroll			"0 -1.5"
+				tiling_distance     "3"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+					}
+				}
+			}
+		}
+	}	
 }
 

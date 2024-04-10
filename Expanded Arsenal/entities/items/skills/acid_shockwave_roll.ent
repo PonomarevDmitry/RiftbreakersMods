@@ -1,0 +1,639 @@
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_movement_standard"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"30"
+		max_time    	"0.4"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "300"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "300"
+				}
+                
+				Vector2
+				{
+					x "0.9"
+					y "-1000"
+				}
+			}
+		}
+
+		//start_effect 				"dash_start_long"
+		//continuous_effect 		"dash_trail_long"
+		param_name					"is_rolling"
+		block_aiming_dir			"1"
+		disable_unit_collision		"1"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_damage_standard"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				125
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"acid"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/acid_shockwave_roll_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"125"
+					type			"acid"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_standard_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/acid_shockwave_roll"
+		cooldown	"5"
+		item_bp		"items/skills/acid_shockwave_roll_movement_standard"
+		icon		"gui/hud/items_icons/skills/acid_shockwave_roll"
+        bigger_icon "gui/menu/items_icons/skills/acid_shockwave_roll"		
+		description 	"gui/menu/inventory/skill_description/acid_shockwave_roll_standard"	
+		rarity		"STANDARD"
+		replace_lower_quality	"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/acid_shockwave_roll.lua"
+
+		database
+		{
+			roll_speed	 		float:"2.5"
+			bp					string:"items/skills/acid_shockwave_roll_damage_standard"
+			stat_bp				string:"items/skills/acid_shockwave_roll_damage_standard"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"acid"
+		}		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_movement_advanced"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"32"
+		max_time    	"0.4"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "320"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "320"
+				}
+                
+				Vector2
+				{
+					x "0.9"
+					y "-1000"
+				}
+			}
+		}
+
+		//start_effect 				"dash_start_long"
+		//continuous_effect 		"dash_trail_long"
+		param_name					"is_rolling"
+		block_aiming_dir			"1"
+		disable_unit_collision		"1"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_damage_advanced"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				175
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"acid"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/acid_shockwave_roll_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"175"
+					type			"acid"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/acid_shockwave_roll"
+		cooldown	"5"
+		item_bp		"items/skills/acid_shockwave_roll_movement_advanced"
+		icon		"gui/hud/items_icons/skills/acid_shockwave_roll"
+        bigger_icon "gui/menu/items_icons/skills/acid_shockwave_roll"		
+		description 	"gui/menu/inventory/skill_description/acid_shockwave_roll_advanced"	
+		rarity		"ADVANCED"
+		replace_lower_quality	"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/acid_shockwave_roll.lua"
+
+		database
+		{
+			roll_speed	 		float:"2.7"
+			bp					string:"items/skills/acid_shockwave_roll_damage_advanced"
+			stat_bp				string:"items/skills/acid_shockwave_roll_damage_advanced"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"acid"
+		}		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_movement_superior"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"34"
+		max_time    	"0.4"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "340"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "340"
+				}
+                
+				Vector2
+				{
+					x "0.9"
+					y "-1000"
+				}
+			}
+		}
+
+		//start_effect 				"dash_start_long"
+		//continuous_effect 		"dash_trail_long"
+		param_name					"is_rolling"
+		block_aiming_dir			"1"
+		disable_unit_collision		"1"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_damage_superior"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				225
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"acid"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/acid_shockwave_roll_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"225"
+					type			"acid"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/acid_shockwave_roll"
+		cooldown	"5"
+		item_bp		"items/skills/acid_shockwave_roll_movement_superior"
+		icon		"gui/hud/items_icons/skills/acid_shockwave_roll"
+        bigger_icon "gui/menu/items_icons/skills/acid_shockwave_roll"		
+		description 	"gui/menu/inventory/skill_description/acid_shockwave_roll_superior"	
+		rarity		"SUPERIOR"
+		replace_lower_quality	"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/acid_shockwave_roll.lua"
+
+		database
+		{
+			roll_speed	 		float:"2.9"
+			bp					string:"items/skills/acid_shockwave_roll_damage_superior"
+			stat_bp				string:"items/skills/acid_shockwave_roll_damage_superior"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"acid"
+		}		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_movement_extreme"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"36"
+		max_time    	"0.4"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "360"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "360"
+				}
+                
+				Vector2
+				{
+					x "0.9"
+					y "-1000"
+				}
+			}
+		}
+
+		//start_effect 				"dash_start_long"
+		//continuous_effect 		"dash_trail_long"
+		param_name					"is_rolling"
+		block_aiming_dir			"1"
+		disable_unit_collision		"1"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_damage_extreme"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				275
+				damage_type			"acid"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"acid"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/acid_shockwave_roll_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"275"
+					type			"acid"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{ 
+	name "items/skills/acid_shockwave_roll_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/acid_shockwave_roll"
+		cooldown	"5"
+		item_bp		"items/skills/acid_shockwave_roll_movement_extreme"
+		icon		"gui/hud/items_icons/skills/acid_shockwave_roll"
+        bigger_icon "gui/menu/items_icons/skills/acid_shockwave_roll"		
+		description 	"gui/menu/inventory/skill_description/acid_shockwave_roll_extreme"	
+		rarity		"EXTREME"
+		replace_lower_quality	"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/acid_shockwave_roll.lua"
+
+		database
+		{
+			roll_speed	 		float:"3.1"
+			bp					string:"items/skills/acid_shockwave_roll_damage_extreme"
+			stat_bp				string:"items/skills/acid_shockwave_roll_damage_extreme"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"acid"
+		}		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}

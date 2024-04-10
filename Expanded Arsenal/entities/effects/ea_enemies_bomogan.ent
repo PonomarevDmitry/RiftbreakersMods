@@ -10,7 +10,7 @@ EntityBlueprint
 
 	TeamDesc
 	{
-		team "bomogan"
+		team "enemy"
 	}
 
 	BombAmmoComponent
@@ -73,6 +73,20 @@ EntityBlueprint
 	{
 
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
 
 	
 }
@@ -89,7 +103,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    	"rift/magmoth_projectile"
+		name    	"rift/bomogan_magma_muzzle"
 	}
 
 	SoundDesc
@@ -176,6 +190,20 @@ EntityBlueprint
 	TeamInheritanceComponent
 	{
 
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
 	}
 }
 
@@ -272,7 +300,7 @@ EntityBlueprint
 
 	TeamDesc
 	{
-		team "bomogan"
+		team "enemy"
 	}
 
 	ShockWaveDesc
@@ -341,5 +369,89 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "enemies/bomogan/artillery_launch"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/bomogan_omicron_artillery_launch"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_orange_very_small
+		 effects/default
+	}
+
+	SoundDesc
+	{
+		name "enemies/bomogan/artillery_launch"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "effects/enemies_bomogan/bomogan_omicron_artillery_explosion"
+
+	base_blueprints
+	{
+		 lights/point/explosion_orange_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/tower_control.lua"
+		
+		database
+		{
+			hacking_radius		float:"6"
+			hacking_duration	float:"6"
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"25"
+		radius 	"25"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/bomogan_omicron_artillery_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/flurian_omicron_projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_physical_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/enemy_molten_crater"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		}
 	}
 }

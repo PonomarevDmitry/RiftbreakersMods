@@ -1,3 +1,560 @@
+//----------------------MECH WEAPONS START----------------------\\
+
+// portal_railgun
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/portal_railgun_targeting"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_bomb"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/portal_railgun_targeting"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		1.0
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_explosive/portal_railgun_targeting_charged"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_bomb_charged"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/portal_railgun_targeting_charged"
+	}
+
+	LifeTimeDesc
+	{
+		time 		1.0
+	}	
+
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_explosive/portal_railgun_advanced_targeting"
+	base_blueprint	"effects/weapons_explosive/portal_railgun_targeting"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_advanced_bomb"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_explosive/portal_railgun_advanced_targeting_charged"
+	base_blueprint	"effects/weapons_explosive/portal_railgun_targeting_charged"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_advanced_bomb_charged"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_explosive/portal_railgun_superior_targeting"
+	base_blueprint	"effects/weapons_explosive/portal_railgun_targeting"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_superior_bomb"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_explosive/portal_railgun_superior_targeting_charged"
+	base_blueprint	"effects/weapons_explosive/portal_railgun_targeting_charged"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_superior_bomb_charged"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_explosive/portal_railgun_extreme_targeting"
+	base_blueprint	"effects/weapons_explosive/portal_railgun_targeting"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_extreme_bomb"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_explosive/portal_railgun_extreme_targeting_charged"
+	base_blueprint	"effects/weapons_explosive/portal_railgun_targeting_charged"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"items/weapons/portal_railgun_extreme_bomb_charged"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1"
+			max_dynamic_force	float:"2"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_explosive/portal_railgun_bomb_explosion"
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_big
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"15000"
+		speed 	"30"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/portal_railgun_bomb_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_explosive/portal_railgun_bomb_explosion_charged"
+
+	base_blueprint	"effects/weapons_explosive/portal_railgun_bomb_explosion"
+
+	ParticleDesc
+	{
+		name     "rift/portal_railgun_bomb_explosion_charged"
+	}
+}
+
+// turret_launcher
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/turret_launcher_hit"
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/consumables/sentry_gun"
+        }
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rocket_explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_small"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/turret_launcher_advanced_hit"
+
+	base_blueprint	"effects/weapons_explosive/turret_launcher_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/consumables/sentry_gun_advanced"
+        }
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/turret_launcher_superior_hit"
+
+	base_blueprint	"effects/weapons_explosive/turret_launcher_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/consumables/sentry_gun_superior"
+        }
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/turret_launcher_extreme_hit"
+
+	base_blueprint	"effects/weapons_explosive/turret_launcher_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/consumables/sentry_gun_extreme"
+        }
+	}
+}
+
+//----------------------MECH WEAPONS END----------------------\\
+
+//----------------------DRONE WEAPONS START----------------------\\
+
+EntityBlueprint
+{
+
+	name	"effects/weapons_explosive/explosive_rocket_drone_weapon_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/explosive_drone_weapon_fire"
+	}
+}
+
+//----------------------DRONE WEAPONS END----------------------\\
+
+//----------------------DEFENSE STRUCTURES START----------------------\\
+
+// tower_artillery_burst
+
+EntityBlueprint
+{
+
+	name effects/weapons_explosive/tower_artillery_burst_fire
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_missile_launch"
+	}
+	
+	SoundDesc
+	{
+		name "towers/explosive/tower_artillery_burst_fire"
+	}
+
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/tower_artillery_burst_charging
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_big
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_charging_orange"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/generic/weapon_charging"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_explosive/tower_artillery_burst_weapon_primed"
+	
+	ParticleDesc
+	{
+		name     "rift/smoke_trail"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/tower_artillery_burst_reload
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_reload_smoke"
+	}
+	
+	SoundDesc
+	{
+		name "towers/explosive/tower_artillery_burst_reload"
+	}
+}
+
+//tower_heavy_artillery_burst
+
+EntityBlueprint
+{
+	name	effects/weapons_explosive/tower_heavy_artillery_burst_charge
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_plasma_laser_heavy_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/explosive/tower_heavy_artillery_burst_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_explosive/tower_heavy_artillery_burst_weapon_primed"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasma_laser_muzzle"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_explosive/tower_heavy_artillery_burst_reload"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_reload_smoke_energy"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/explosive/tower_heavy_artillery_burst_reload"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_explosive/tower_heavy_artillery_burst_blast"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/atomic_explosion_blue
+		effects/default
+	}
+	
+	TeamDesc
+	{
+		team "player"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"40"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/atomic_explosion_blue"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_atomic"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_big_blue_01_timeout"
+		scale
+		{
+			x		1.5
+			y		1.5
+			z		1.5
+			
+		}
+	}	
+}
+
+// tower_cruise_missile
+
 EntityBlueprint
 {
 
@@ -38,6 +595,8 @@ EntityBlueprint
 	}
 }
 
+// tower_cluster_cruise_missile
+
 EntityBlueprint
 {
 
@@ -77,6 +636,139 @@ EntityBlueprint
 		name "items/weapons/explosive/rocket_projectile_big"
 	}
 }
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/tower_cluster_cruise_missile_hit"
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_cluster_cruise_missile_grenade_lvl_1"
+			spawn_amount			int:"4"
+			min_dynamic_force		float:"750"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_cluster_cruise_missile_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/tower_cluster_cruise_missile_hit_lvl_2"
+
+	base_blueprints
+	{
+		effects/weapons_explosive/tower_cluster_cruise_missile_hit
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_cluster_cruise_missile_grenade_lvl_2"
+			spawn_amount			int:"4"
+			min_dynamic_force		float:"750"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_explosive/tower_cluster_cruise_missile_hit_lvl_3"
+
+	base_blueprints
+	{
+		effects/weapons_explosive/tower_cluster_cruise_missile_hit
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_cluster_cruise_missile_grenade_lvl_3"
+			spawn_amount			int:"4"
+			min_dynamic_force		float:"750"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_explosive/tower_cluster_cruise_missile_grenade_explosion"
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_small
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_cluster_cruise_missile_grenade_explosion"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_small"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		1
+			y		1
+			z		1
+		}
+	}
+}
+
+// tower_orbital_bombardment
 
 EntityBlueprint
 {
@@ -239,3 +931,5 @@ EntityBlueprint
 		}
 	}	
 }
+
+//----------------------DEFENSE STRUCTURES END----------------------\\

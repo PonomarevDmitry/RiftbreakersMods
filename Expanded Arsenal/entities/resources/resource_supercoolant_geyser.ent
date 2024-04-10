@@ -29,17 +29,11 @@ EntityBlueprint
 		}
 	}
 
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type	"supercoolant_geyser_terrain"
-		extend  		"2"
-	}
-
 	MinimapItemDesc
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/supercoolant_vent"
+		unknown_until_visible 	"1"
 
 		visibility 			"discovered|radar"
 	}
@@ -81,7 +75,50 @@ EntityBlueprint
 					blueprint "effects/world/supercoolant_vent"
 				}				
 			}
+		}
+
+		EffectGroup
+		{						
+			group "vent_terrain_marker"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "resources/resource_supercoolant_geyser_terrain_marker"								
+				}			
+			}
 		}	
 	}		
 }
 
+EntityBlueprint
+{
+    name "resources/resource_supercoolant_geyser_terrain_marker"	
+
+    LocalAabbDesc
+    {
+        min
+        {
+            x "-3"
+            y "-3"
+            z "-3"
+        }
+
+        max
+        {
+            x "3"
+            y "3"
+            z "3"
+        }
+    }
+    
+    GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type	"supercoolant_geyser_terrain"
+		extend  		"2"
+	}
+}

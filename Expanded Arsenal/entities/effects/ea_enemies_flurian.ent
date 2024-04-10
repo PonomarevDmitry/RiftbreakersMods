@@ -1,3 +1,142 @@
+// flurian_omicron
+
+EntityBlueprint
+{
+	name "effects/enemies_flurian/flurian_omicron_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_orange_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/tower_control.lua"
+		
+		database
+		{
+			hacking_radius		float:"4"
+			hacking_duration	float:"4"
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/flurian_omicron_projectile_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/flurian_omicron_projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_physical_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/enemy_molten_crater"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_flurian/flurian_boss_flurian_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_orange_big
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/tower_control.lua"
+		
+		database
+		{
+			hacking_radius		float:"6"
+			hacking_duration	float:"4"
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/flurian_boss_omicron_projectile_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/flurian_omicron_projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_physical_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/enemy_molten_crater"
+		scale
+		{
+			x		5
+			y		5
+			z		5
+		}
+	}
+}
+
+// flurian_omega
+
 EntityBlueprint
 {
 	name "effects/enemies_flurian/flurian_omega_projectile_hit"
@@ -21,7 +160,7 @@ EntityBlueprint
 
 	TeamDesc
 	{
-		team "flurian"
+		team "enemy"
 	}
 
 	ShockWaveDesc
@@ -98,7 +237,7 @@ EntityBlueprint
 
 	TeamDesc
 	{
-		team "flurian"
+		team "enemy"
 	}
 
 	ShockWaveDesc
@@ -494,6 +633,20 @@ EntityBlueprint
 			z		4
 		}
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
 }
 
 EntityBlueprint
@@ -605,6 +758,20 @@ EntityBlueprint
 	{
 		name "enemies/flurian/projectile_hit"
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"3.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
 }
 
 // flurian boss omicron
@@ -649,7 +816,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_flurian/flurian_boss_omicron_muzzle"
+	name "effects/enemies_flurian/flurian_omicron_muzzle"
 	
 	base_blueprints
 	{

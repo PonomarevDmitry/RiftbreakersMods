@@ -26,6 +26,27 @@ EntityBlueprint
 	{
 	}
 	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
 	BurstWeaponComponent
 	{
 		WeaponMuzzles
@@ -53,7 +74,7 @@ EntityBlueprint
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0.2"
-		burst_column_angle 			"25"
+		burst_column_angle 			"35"
 	}
 }
 
@@ -71,8 +92,13 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_radio/radio_shotgun_hit_world_rocks_medium"
 		on_resisted_hit_effect 	"effects/weapons_radio/radio_shotgun_hit_world_rocks_medium"		
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
-		collision_2d 			"ground_unit|air_unit|destructible"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+	
+	LifeTimeDesc
+	{
+		time	0.4
 	}
 }
 
@@ -163,7 +189,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_radio/radio_blaster_hit"
 		on_resisted_hit_effect 	"effects/weapons_radio/radio_blaster_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
@@ -328,7 +354,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_radio/radio_drone_missile_hit"
 		on_world_hit_effect 	"effects/weapons_radio/radio_drone_missile_hit"
 		on_resisted_hit_effect 	"effects/weapons_radio/radio_drone_missile_hit"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		hit_effect_direction 	"up"
 		
 		DamagePattern

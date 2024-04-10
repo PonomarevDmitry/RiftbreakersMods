@@ -12,11 +12,13 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_cryo_laser"
 		menu_icon			"gui/hud/building_icons/tower_cryo_laser_lvl3"
 		require 			"headquarters"
-		order				"9"
+		order				"11"
 		buildable			"0"
 		type				"tower"
 		overrides			"tower,wall"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
 
 		costs
 		{
@@ -122,11 +124,83 @@ EntityBlueprint
 
 		ammo_blueprint 				"buildings/defense/tower_cryo_laser_beam_3"
 
-		fire_effect					"effects/weapons_cryo/cryo_laser_muzzle"
+		fire_effect					"effects/weapons_cryo/tower_cryo_laser_muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
 		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "charge"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_cryo/tower_cryo_laser_charge"
+					bone "att_muzzle"
+					scale	"1.3 1.3 1.3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_cryo/tower_cryo_laser_weapon_primed"
+					bone "att_muzzle"
+					scale	"1.3 1.3 1.3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_cryo/tower_cryo_laser_reload"
+					bone "att_muzzle"
+					scale	"1.3 1.3 1.3"
+				}
+			}
+		}
 	}
 }
 
@@ -150,11 +224,11 @@ EntityBlueprint
 	{
 		range 					"40"
 
-		on_enemy_hit_effect 	"effects/weapons_cryo/cryo_laser_enemy_hit"
-		on_world_hit_effect 	"effects/weapons_cryo/cryo_laser_world_hit"
-		on_resisted_hit_effect 	"effects/weapons_cryo/cryo_laser_world_hit"
+		on_enemy_hit_effect 	"effects/weapons_cryo/tower_cryo_laser_enemy_hit"
+		on_world_hit_effect 	"effects/weapons_cryo/tower_cryo_laser_world_hit"
+		on_resisted_hit_effect 	"effects/weapons_cryo/tower_cryo_laser_world_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		collision_block 		"world"
 
         damage_factor_max       "2.0"

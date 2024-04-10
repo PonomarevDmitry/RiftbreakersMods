@@ -11,11 +11,13 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_plasma_mortar"
 		menu_icon			"gui/hud/building_icons/tower_plasma_mortar"
 		require 			"headquarters"
-		order				"10"
+		order				"11"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_plasma_mortar_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"	
 
 		costs
 		{
@@ -26,9 +28,9 @@ EntityBlueprint
 				building_cost
 				{
 					carbonium 	"100"
-					steel 		"50"
+					steel 		"100"
 					ai			"1"
-					palladium	"25"
+					palladium	"50"
 				}
 			}		
 		}			
@@ -441,7 +443,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_energy/plasma_mortar_hit"
 		on_world_hit_effect 	"effects/weapons_energy/plasma_mortar_hit"
 		on_resisted_hit_effect 	"effects/weapons_energy/plasma_mortar_hit"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		hit_effect_direction 	"up"
 	}
 

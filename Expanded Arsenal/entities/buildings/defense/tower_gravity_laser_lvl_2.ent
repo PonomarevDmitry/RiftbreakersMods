@@ -12,12 +12,14 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_gravity_laser"
 		menu_icon			"gui/hud/building_icons/tower_gravity_laser_lvl2"
 		require 			"headquarters"
-		order				"12"
+		order				"10"
 		buildable			"0"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_gravity_laser_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"
 
 		costs
 		{
@@ -124,7 +126,7 @@ EntityBlueprint
 
 		ammo_blueprint				"buildings/defense/tower_gravity_laser_beam_lvl2"
 
-		fire_effect 				"effects/weapons_gravity/gravity_laser_muzzle"
+		fire_effect 				"effects/weapons_gravity/tower_gravity_laser_muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
@@ -147,11 +149,11 @@ EntityBlueprint
 		range 					"50"
 		ring_bp 				"buildings/defense/tower_gravity_laser_ring_2"
 
-		on_enemy_hit_effect 	"effects/weapons_gravity/gravity_laser_enemy_hit"
-		on_world_hit_effect 	"effects/weapons_gravity/gravity_laser_world_hit"
-		on_resisted_hit_effect 	"effects/weapons_generic/gravity_laser_world_hit"
+		on_enemy_hit_effect 	"effects/weapons_gravity/tower_gravity_laser_enemy_hit"
+		on_world_hit_effect 	"effects/weapons_gravity/tower_gravity_laser_world_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/tower_gravity_laser_world_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		collision_block 		"world"
 
         damage_factor_max       "9.0"

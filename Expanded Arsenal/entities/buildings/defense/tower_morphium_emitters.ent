@@ -1,0 +1,707 @@
+//----------------------BASE BLUEPRINTS START----------------------\\
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_morphium_base_deployer"
+	
+	base_blueprints 
+	{
+		lights/point/muzzle_blue_very_small
+		effects/no_lifetime
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		
+		database
+		{
+			min_scale	float:"0.7"
+			max_scale	float:"0.7"
+		}
+	}
+	
+	ResistanceComponent
+	{
+		creeper_area			"1"
+		magma_hot_ground		"0"
+		magma_very_hot_ground	"0"
+		quicksand				"0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"10"
+		health 						"10"
+	}
+
+	MeshDesc
+	{
+		mesh 			"meshes/projectiles/grenade_shell.mesh"
+		material 		"projectiles/morphium_grenade"
+	}
+	
+	TypeDesc
+	{
+		type "ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"wreck"
+				physics_material 	"gibs_light"
+				dominance			"1"
+				sleep_threshold     "5"
+
+				Shapes
+				{
+					//PhysicsSphereShape
+					//{
+						//r "0.5"
+					//}
+					
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/egg_nurglax_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/weapons_alien/tower_morphium_deployer_hit"
+					part_prefix 			"meshes/projectiles/grenade_shell.mesh"
+					part_material 			"projectiles/morphium_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/weapons_alien/tower_morphium_deployer_hit"
+					part_prefix 			"meshes/projectiles/grenade_shell.mesh"
+					part_material 			"projectiles/morphium_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_energy"
+					part_physics_material   "gibs_light"	
+				}
+
+				key "spawn"
+			}					
+		}
+	}
+}
+
+//----------------------BASE BLUEPRINTS END----------------------\\
+
+//----------------------MECH WEAPONS START----------------------\\
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_deployer"
+	
+	base_blueprint "buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"items/weapons/morphium_grenade_projector_emitter"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_advanced_deployer"
+	
+	base_blueprint "buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"items/weapons/morphium_grenade_projector_advanced_emitter"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_superior_deployer"
+	
+	base_blueprint "buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"items/weapons/morphium_grenade_projector_superior_emitter"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_extreme_deployer"
+	
+	base_blueprint "buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"items/weapons/morphium_grenade_projector_extreme_emitter"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+//morphium_grenade_projector_emitters
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_emitter"
+	
+	InfluenceComponent
+	{
+		radius 			"4"
+		energy_radius 	"0"
+		emissive_radius "1.8"
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"6"
+			arming_time			float:"0.1"
+		}
+
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility			"always"
+	}
+	
+	MeshDesc
+	{
+		mesh        "meshes/projectiles/rocket_small.mesh"
+		material    "misc/highlight_transparent"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/projectiles/rocket_small"
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"floor"
+				physics_material 	"default"
+				Shapes
+				{
+   					PhysicsBoxShape
+   					{
+    						x	1.9
+    						y	0.1
+    						z	1.9
+   					}			
+				}
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		type 2
+		
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    			x	1.9
+    			y	1.9
+    			z	1.9
+   			}			
+		}
+	}
+	
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_exhaust"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_alien_influence/spawner"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"10"
+			aiming_range	"10"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_exhaust"
+		yaw "att_exhaust"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"100"
+					explosion_min_power 	"100"
+					explosion_effect 		"effects/buildings_defense/tower_morphium_emitter_dissolve"
+					part_prefix 			"meshes/projectiles/grenade_shell.mesh"
+					part_material 			"projectiles/morphium_grenade"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "quicksand"
+			}
+			
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"100"
+					explosion_min_power 	"100"
+					explosion_effect 		"effects/buildings_defense/tower_morphium_emitter_dissolve"
+					part_prefix 			"meshes/projectiles/grenade_shell.mesh"
+					part_material 			"projectiles/morphium_grenade"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_advanced_emitter"
+	
+	base_blueprint	"items/weapons/morphium_grenade_projector_emitter"
+	
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_exhaust"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_projector_weapon_advanced"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_superior_emitter"
+	
+	base_blueprint	"items/weapons/morphium_grenade_projector_emitter"
+	
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_exhaust"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_projector_weapon_superior"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/morphium_grenade_projector_extreme_emitter"
+	
+	base_blueprint	"items/weapons/morphium_grenade_projector_emitter"
+	
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_exhaust"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_projector_weapon_extreme"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+//----------------------MECH WEAPONS END----------------------\\
+
+//----------------------TOWER MORPHIUM ARTILLERY START----------------------\\
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_morphium_artillery_deployer_lvl_1"
+	
+	base_blueprint "buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_morphium_artillery_emitter"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_morphium_artillery_deployer_lvl_2"
+	base_blueprint 	"buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_morphium_artillery_emitter_lvl_2"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_morphium_artillery_deployer_lvl_3"
+	base_blueprint 	"buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_morphium_artillery_emitter_lvl_3"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}
+}
+
+//tower_morphium_artillery_emitters blueprints
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_morphium_artillery_emitter"
+	base_blueprint	"items/weapons/morphium_grenade_projector_emitter"
+	
+	InfluenceComponent
+	{
+		radius 			"5"
+		energy_radius 	"0"
+		emissive_radius "2"
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"5"
+			arming_time			float:"0.2"
+		}
+
+	}
+	
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_morphium_artillery_emitter_lvl_2"
+	base_blueprint	"buildings/defense/tower_morphium_artillery_emitter"
+	
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_morphium_artillery_emitter_lvl_3"
+	base_blueprint	"buildings/defense/tower_morphium_artillery_emitter"
+	
+	WeaponItemDesc
+	{
+	}
+}
+
+//----------------------TOWER MORPHIUM ARTILLERY END----------------------\\
+
+//----------------------TOWER MORPHIUM CRUISE MISSILE START----------------------\\
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_morphium_cruise_missile_deployer"
+	
+	base_blueprint "buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"buildings/defense/tower_morphium_cruise_missile_emitter"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+//tower_morphium_cruise_missile_emitters
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_morphium_cruise_missile_emitter"
+	
+	base_blueprint	"items/weapons/morphium_grenade_projector_emitter"
+	
+	InfluenceComponent
+	{
+		radius 			"4"
+		energy_radius 	"0"
+		emissive_radius "1.5"
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"5"
+			arming_time			float:"0.2"
+		}
+
+	}
+	
+	WeaponItemDesc
+	{
+	}
+}
+
+//----------------------TOWER MORPHIUM CRUISE MISSILE END----------------------\\
+
+//drones
+
+EntityBlueprint
+{
+	name "units/drones/morphium_mortar_drone_weapon_deployer"
+	
+	base_blueprint "buildings/defense/tower_morphium_base_deployer"
+
+	EggDesc
+	{
+		blueprint				"units/drones/morphium_mortar_drone_weapon_emitter"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name 			"units/drones/morphium_mortar_drone_weapon_emitter"
+	base_blueprint	"items/weapons/morphium_grenade_projector_emitter"
+	
+	InfluenceComponent
+	{
+		radius 			"4"
+		energy_radius 	"0"
+		emissive_radius "1.8"
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"5"
+			arming_time			float:"0.2"
+		}
+
+	}
+	
+	WeaponItemDesc
+	{
+	}
+}

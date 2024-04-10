@@ -80,7 +80,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 							
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_world_hit_effect 	"effects/enemies_generic/world_hit"
@@ -107,7 +107,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_world_hit_effect 	"effects/enemies_generic/world_hit"
@@ -176,7 +176,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters
@@ -271,6 +271,7 @@ EntityBlueprint
 		area			"1.0"
 		gravity			"2.0"
 		radiation		"1.5"
+		sonic			"1.5"
 	}
 
 	StunDataComponent
@@ -694,6 +695,21 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/time_damage_radiation"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
 					bone "att_death"
 					scale "1.5 1.5 1.5"
 				}

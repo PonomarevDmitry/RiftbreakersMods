@@ -1,0 +1,1208 @@
+//editor "scroll(5440.22,594.19)|zoom(0.80)"
+FlowGraphTemplate
+{
+	version "51"
+	editor "5682"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(6490,2049)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "PortalOpeningFinishedEvent"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress.xml)|pos(5545,1998)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "100"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_progress.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/rift_station_charging"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_charging"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_progress_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_update_by_entity_database.xml)|pos(6302,2256)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						value "100"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_charging"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "_rift_station_"
+					}
+
+					StringData
+					{
+						key "field_name"
+						value "progress"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_generic_progress_update_by_entity_database.lua"
+			self_id "generic_increase"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(5560,1011)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "FinishSurvival"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "logic_event_send_0"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(5542,1426)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_3"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/headquarters/mech_rift_station_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/headquarters/ashley_rift_station_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/headquarters/mech_rift_station_start_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/headquarters/ashley_rift_station_start_02"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_if_progress_status.xml)|pos(6297,2452)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "progress"
+						value "25"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_charging"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_if_progress_status.lua"
+			self_id "objective_if_progress_status_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6297,2638)"
+			key "true"
+			self_id "objective_if_progress_status_0###true"
+			value "objective_if_progress_status_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(6698,2572)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/story/headquarters/mech_rift_station_start_03"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(6702,2830)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/story/headquarters/mech_rift_station_start_04"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_11"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_if_progress_status.xml)|pos(6302,2712)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "progress"
+						value "50"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_charging"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_if_progress_status.lua"
+			self_id "objective_if_progress_status_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6302,2898)"
+			key "true"
+			self_id "objective_if_progress_status_1###true"
+			value "objective_if_progress_status_1###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(6705,3130)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/story/headquarters/mech_rift_station_start_05"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_12"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_if_progress_status.xml)|pos(6302,3012)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "progress"
+						value "75"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_charging"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_if_progress_status.lua"
+			self_id "objective_if_progress_status_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6302,3198)"
+			key "true"
+			self_id "objective_if_progress_status_2###true"
+			value "objective_if_progress_status_2###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(4638,833)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(7742,2070)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(5554,2322)"
+			graph "logic/objectives/build_rift_station_fail.logic"
+			self_id "event_graph_1"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(4976,4489)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "PortalResetStartEvent"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(5139,3724)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "PortalResetEndEvent"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(5377,4489)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_charging"
+					}
+
+					StringData
+					{
+						key "success"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress.xml)|pos(6325,3733)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "100"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_progress.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/rift_station_charging"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_charging"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_progress_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(5722,4245)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.01"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(5261,4862)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.01"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_update_by_entity_database.xml)|pos(6646,4470)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						value "100"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_resetting"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "_rift_station_"
+					}
+
+					StringData
+					{
+						key "field_name"
+						value "resetting"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_generic_progress_update_by_entity_database.lua"
+			self_id "objective_generic_progress_update_by_entity_database_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress.xml)|pos(6016,4442)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "100"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_progress.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/rift_station_cooldown"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_resetting"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_progress_2"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(5650,3694)"
+			graph "logic/objectives/build_rift_station_reenable.logic"
+			self_id "event_graph_2"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(7506,2062)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_9"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(5557,790)"
+			graph "logic/objectives/build_rift_station_waves.logic"
+			self_id "event_graph_3"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(7298,2072)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(7029,1945)"
+			self_id "logic_or_1"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(6334,3510)"
+			graph "logic/objectives/build_rift_station_waves.logic"
+			self_id "event_graph_4"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "event_graph_1|event_graph_3|interface_dialogue_show_group_3|logic_event_send_0|logic_wait_on_event_1|logic_wait_on_event_2|objective_generic_progress_0"
+		event_graph_2 "event_graph_4|objective_generic_progress_1"
+		event_graph_3 "logic_or_1"
+		event_graph_4 "logic_or_1"
+		logic_and_1 "logic_wait_9"
+		logic_or_1 "logic_and_1"
+		logic_wait_1 "logic_wait_on_event_2"
+		logic_wait_2 "logic_wait_on_event_1"
+		logic_wait_9 "event_end_0"
+		logic_wait_on_event_0 "logic_and_1"
+		logic_wait_on_event_1 "objective_finish_0"
+		logic_wait_on_event_2 "event_graph_2"
+		objective_finish_0 "logic_wait_2|objective_generic_progress_2"
+		objective_generic_progress_0 "generic_increase|logic_wait_on_event_0|objective_if_progress_status_0|objective_if_progress_status_1|objective_if_progress_status_2"
+		objective_generic_progress_1 "logic_wait_1"
+		objective_generic_progress_2 "objective_generic_progress_update_by_entity_database_0"
+		objective_if_progress_status_0 "objective_if_progress_status_0###true"
+		objective_if_progress_status_0###true "interface_dialogue_show_10"
+		objective_if_progress_status_1 "objective_if_progress_status_1###true"
+		objective_if_progress_status_1###true "interface_dialogue_show_11"
+		objective_if_progress_status_2 "objective_if_progress_status_2###true"
+		objective_if_progress_status_2###true "interface_dialogue_show_12"
+	}
+
+	GraphComments
+}
+

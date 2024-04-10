@@ -1,0 +1,237 @@
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_crystal_cruise_missile_lvl_3"
+	base_blueprint 	"buildings/defense/tower_crystal_cruise_missile_lvl_2"
+
+	BuildingDesc
+	{
+		name 				"tower_crystal_cruise_missile_lvl_3"
+		bp   				"buildings/defense/tower_crystal_cruise_missile_lvl_3"
+		category 			"defense_mod_2"
+		localization_id		"gui/hud/building_name/tower_crystal_cruise_missile"
+		description			"gui/hud/building_description/tower_crystal_cruise_missile"
+		menu_icon			"gui/hud/building_icons/tower_crystal_cruise_missile_lvl3"
+		require 			"headquarters"
+		order				"16"
+		type				"tower"
+		buildable			"0"
+		overrides			"tower,wall"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,swamp,legacy_maps"
+		limit				"10"
+		limit_name			"crystal_cm_limit"
+		map_limit			"LOCAL"	
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 			"1200"
+					steel 				"600"
+					crystal_dna			"200"
+				}
+			}		
+		}				
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+	
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_3.mesh"
+		material "buildings/defense/tower_crystal_cruise_missile_lvl_3"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_rocket_launcher_lvl_3"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone  "be_recoil_01"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+				recoil_bone  "be_recoil_02"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+				recoil_bone  "be_recoil_03"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+				recoil_bone  "be_recoil_04"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+				recoil_bone  "be_recoil_05"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_6"
+				recoil_bone  "be_recoil_06"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_7"
+				recoil_bone  "be_recoil_07"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_8"
+				recoil_bone  "be_recoil_08"
+				recoil_time   "0.7"
+				recoil_offset   "0.3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_crystal_cruise_missile_projectile_lvl_3"
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_crystal/tower_crystal_cruise_missile_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_crystal_cruise_missile_projectile_lvl_3" 
+	base_blueprint	"buildings/defense/tower_crystal_cruise_missile_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3"
+		on_world_hit_effect 	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3"
+		on_resisted_hit_effect 	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_white"
+				update_bounds 		1
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.6"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.6"
+					}
+				}
+			}
+		}
+	}
+}

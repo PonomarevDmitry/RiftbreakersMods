@@ -1,12 +1,101 @@
-import * from "entities/effects/weapons_bullet.ent"
-
-//----------------------EXPANDED ARSENAL MOD START----------------------\\
-
-//--------------------LOW CALIBER TOWERS START--------------------\\
+//--------------------MECH WEAPONS START--------------------\\
 
 EntityBlueprint
 {
-	name			"effects/weapons_bullet/tower_burst_basic_muzzle"
+	name	effects/weapons_bullet/gauss_rifle_fire
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_single_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.2"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/gauss_rifle_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	effects/weapons_bullet/gauss_rifle_fire_charged_sniper
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_single_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.8"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/sniper_rifle_fire_charged"
+	}
+}
+
+EntityBlueprint
+{
+	name	effects/weapons_bullet/gauss_rifle_fire_charged_rocket
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name     "rift/mech_missile_launch"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.2"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/rocket_projectile_big"
+	}
+}
+
+//--------------------MECH WEAPONS END--------------------\\
+
+//--------------------HIGH CALIBER TOWERS START--------------------\\
+
+// tower_burst_basic
+
+EntityBlueprint
+{
+	name	effects/weapons_bullet/tower_burst_basic_muzzle
 	
 	base_blueprints
 	{
@@ -22,19 +111,15 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "items/weapons/bullet/small_machinegun_fire_single"
+		name "towers/bullet/tower_burst_basic_fire"
 	}
 }
-
-//--------------------LOW CALIBER TOWERS END--------------------\\
-
-//--------------------HIGH CALIBER TOWERS START--------------------\\
 
 // tower_shotgun
 
 EntityBlueprint
 {
-	name 			effects/weapons_bullet/tower_shotgun_fire
+	name	effects/weapons_bullet/tower_shotgun_fire
 	
 	base_blueprints
 	{
@@ -56,7 +141,7 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "items/weapons/shotguns/shotgun_fire"
+		name "towers/bullet/tower_shotgun_fire"
 	}
 }
 
@@ -64,7 +149,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name 			effects/weapons_bullet/tower_big_shotgun_fire
+	name	effects/weapons_bullet/tower_big_shotgun_fire
 	
 	base_blueprints
 	{
@@ -94,7 +179,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name 			"effects/weapons_bullet/tower_sniper_fire"
+	name	effects/weapons_bullet/tower_sniper_fire
 
 	base_blueprints
 	{
@@ -118,7 +203,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name 			"effects/weapons_bullet/tower_volley_fire"
+	name	effects/weapons_bullet/tower_volley_fire
 	
 	base_blueprints
 	{
@@ -138,17 +223,54 @@ EntityBlueprint
 	}
 }
 
-// tower_burstminigun
+// tower_minigun_burst
 
 EntityBlueprint
 {
-	name			effects/weapons_bullet/tower_burstminigun_fire
+	name	effects/weapons_bullet/tower_minigun_burst_charge
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_charging_orange"
+	}
+	
+	SoundDesc
+	{
+		name "towers/bullet/tower_minigun_burst_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_bullet/tower_minigun_burst_weapon_primed"
+	
+	ParticleDesc
+	{
+		name     "rift/smoke_trail"
+	}
+}
+
+EntityBlueprint
+{
+	name	effects/weapons_bullet/tower_minigun_burst_fire
 	
 	base_blueprints
 	{
-		effects/weapons_elemental/muzzle
 		lights/point/muzzle_orange_small
 		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"100"
+		radius 	"3"
 	}
 
 	ParticleDesc
@@ -158,117 +280,40 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "towers/bullet/tower_burstminigun_fire"
+		name "towers/bullet/tower_minigun_burst_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	effects/weapons_bullet/tower_minigun_burst_reload
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/generic_reload_smoke"
+	}
+	
+	SoundDesc
+	{
+		name "towers/bullet/tower_minigun_burst_reload"
 	}
 }
 
 //--------------------HIGH CALIBER TOWERS END--------------------\\
 
-//--------------------------TURRET HOWITZERS START--------------------------\\
-
-// tower_turret_howitzer_bullet
-
-EntityBlueprint
-{
-	name 			"effects/weapons_bullet/tower_turret_howitzer_bullet_fire"
-
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_orange_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_missile_launch"
-	}
-	
-	SoundDesc
-	{
-		name "towers/bullet/tower_turret_howitzer_bullet_fire"
-	}
-}
-
-EntityBlueprint
-{
-	name 			"effects/weapons_bullet/tower_turret_howitzer_bullet_blast"
-	
-	base_blueprints
-	{
-		lights/point/explosion_orange_big
-		effects/default
-	}
-
-	ShockWaveDesc
-	{
-		power 	"6000"
-		speed 	"35"
-		radius 	"20"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/howitzer_bullet_physical_shockwave"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/explosive/explosion_big"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"physical_terrain_friendly"	
-		extend  		"2"
-	}
-	
-	DecalDesc
-	{	
-		blueprint "effects/decals/molten_crater"
-		scale
-		{
-			x		4.0
-			y		4.0
-			z		4.0
-		}
-	}	
-}
-
-// tower_turret_howitzer_bullet, bullet_turret_burst_gun
-
-EntityBlueprint
-{
-	name			effects/weapons_bullet/bullet_turret_burst_gun_fire
-	
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_orange_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_single_muzzle"
-	}
-	
-	SoundDesc
-	{
-		name "items/weapons/bullet/minigun_fire_single"
-	}
-}
-
-//--------------------------TURRET HOWITZERS END--------------------------\\
-
 //--------------------DRONE UNITS START--------------------\\
 
-// tower_bullet_drone_attack, bullet_burst_drone
+// tower_drone_attack_bullet
 
 EntityBlueprint
 {
-	name			effects/weapons_bullet/bullet_burst_drone_fire
+	name	effects/weapons_bullet/bullet_burst_drone_fire
 	
 	base_blueprints
 	{
@@ -284,15 +329,13 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "items/weapons/bullet/small_machinegun_fire_single"
+		name "towers/bullet/tower_burst_basic_fire"
 	}
 }
 
-// tower_bullet_drone_attack, bullet_sniper_drone
-
 EntityBlueprint
 {
-	name effects/weapons_bullet/bullet_sniper_drone_fire
+	name	effects/weapons_bullet/bullet_sniper_drone_fire
 	
 	base_blueprints
 	{
@@ -312,11 +355,9 @@ EntityBlueprint
 	}
 }
 
-// tower_bullet_drone_attack, bullet_shotgun_drone
-
 EntityBlueprint
 {
-	name effects/weapons_bullet/bullet_shotgun_drone_fire
+	name	effects/weapons_bullet/bullet_shotgun_drone_fire
 
 	base_blueprints
 	{
@@ -338,102 +379,8 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "items/weapons/shotguns/shotgun_fire"
+		name "towers/bullet/tower_shotgun_fire"
 	}
 }
 
 //--------------------DRONE UNITS END--------------------\\
-
-//--------------------MECH BULLET WEAPONS START--------------------\\
-
-EntityBlueprint
-{
-	name effects/weapons_bullet/gauss_rifle_fire
-
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_orange_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_single_muzzle"
-	}
-
-	CameraFeedbackShakeDesc
-	{
-		duration 		"0.066"
-		power   		"0.2"
-		group			"weapon_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/bullet/gauss_rifle_fire"
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_bullet/gauss_rifle_fire_charged_sniper
-
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_orange_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_single_muzzle"
-	}
-
-	CameraFeedbackShakeDesc
-	{
-		duration 		"0.066"
-		power   		"0.8"
-		group			"weapon_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/bullet/sniper_rifle_fire_charged"
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_bullet/gauss_rifle_fire_charged_rocket
-
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_orange_medium
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name     "rift/mech_missile_launch"
-	}
-
-	CameraFeedbackShakeDesc
-	{
-		duration 		"0.066"
-		power   		"0.2"
-		group			"weapon_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/explosive/rocket_projectile_big"
-	}
-}
-
-//--------------------MECH BULLET WEAPONS END--------------------\\
-
-
-//----------------------EXPANDED ARSENAL MOD END----------------------\\

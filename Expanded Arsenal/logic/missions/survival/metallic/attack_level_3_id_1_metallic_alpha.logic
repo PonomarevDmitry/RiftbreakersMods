@@ -1,13 +1,13 @@
-//editor "offset(-235.66,-216.22)|zoom(1.00)"
+//editor "scroll(653.34,1220.03)|zoom(0.80)"
 FlowGraphTemplate
 {
-	version "6"
-	editor "5110"
+	version "8"
+	editor "5682"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(171,528)"
+			//editor "layout(event_start.xml)|pos(170,528)"
 			database
 			{
 				Integers
@@ -28,9 +28,25 @@ FlowGraphTemplate
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(557,255)"
+			//editor "layout(wave_ground.xml)|pos(551,38)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -51,7 +67,12 @@ FlowGraphTemplate
 						value "30"
 					}
 
-					//editor "expanded(1)"
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -68,12 +89,18 @@ FlowGraphTemplate
 						value
 					}
 
-					//editor "expanded(1)"
-				}
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
 
-				Floats
-				{
-					//editor "expanded(1)"
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
 				}
 
 			}
@@ -96,44 +123,44 @@ FlowGraphTemplate
 					delay_group "0"
 					units_in_one_spawn "3"
 				}
-				
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/wingmite_alpha"
+					count "4"
+					delay "3.00"
+					delay_group "6.00"
+					units_in_one_spawn "20"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/wingmite_alpha"
+					count "4"
+					delay "3.00"
+					delay_group "6.00"
+					units_in_one_spawn "20"
+				}
+
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/bradron_kinetic"
 					count "1"
 					delay "3.00"
-					delay_group "0"
+					delay_group "6.00"
 					units_in_one_spawn "3"
 				}
 
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/wingmite_alpha"
-					count "4"
-					delay "3.00"
-					delay_group "6.00"
-					units_in_one_spawn "20"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/wingmite_alpha"
-					count "4"
-					delay "3.00"
-					delay_group "6.00"
-					units_in_one_spawn "20"
-				}
-				
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/stonkr"
 					count "4"
 					delay "3.00"
-					delay_group "6.00"
+					delay_group "0"
 					units_in_one_spawn "10"
 				}
 
@@ -153,14 +180,14 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1563,1150)"
+			//editor "layout(event_end.xml)|pos(1562,1150)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(605,1147)"
+			//editor "layout(logic_wait.xml)|pos(518,1342)"
 			database
 			{
 				Floats
@@ -181,9 +208,25 @@ FlowGraphTemplate
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(1055,905)"
+			//editor "layout(wave_ground.xml)|pos(1054,905)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -204,7 +247,12 @@ FlowGraphTemplate
 						value "30"
 					}
 
-					//editor "expanded(1)"
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -221,12 +269,18 @@ FlowGraphTemplate
 						value
 					}
 
-					//editor "expanded(1)"
-				}
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
 
-				Floats
-				{
-					//editor "expanded(1)"
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
 				}
 
 			}
@@ -249,16 +303,6 @@ FlowGraphTemplate
 					delay_group "0.00"
 					units_in_one_spawn "3"
 				}
-				
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/bradron_kinetic"
-					count "1"
-					delay "3.00"
-					delay_group "0.00"
-					units_in_one_spawn "3"
-				}
 
 				Enemy
 				{
@@ -269,7 +313,27 @@ FlowGraphTemplate
 					delay_group "5.00"
 					units_in_one_spawn "40"
 				}
-				
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/bradron_kinetic"
+					count "1"
+					delay "3.00"
+					delay_group "5.00"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/stonkr"
+					count "1"
+					delay "3.00"
+					delay_group "0"
+					units_in_one_spawn "10"
+				}
+
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"

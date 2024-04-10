@@ -1,0 +1,207 @@
+system rift/morphium_sump_emission
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.012
+    scale                                       0.012 0.012 0.012
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 20
+
+	technique debris
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_dark_blue
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box debris
+        {
+            emission_rate                       50
+            angle                               45
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.5
+            }
+            velocity                            dyn_random
+            {
+                min                             400
+                max                             800
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             3
+                max                             8
+            }
+            position                            0 50 0
+        }
+        affector                                LinearForce Affector50
+        {
+            force_vector                        0 -5000 0
+        }
+        affector                                TextureRotator Affector192
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      0
+        }
+        affector                                Colour Affector358
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.904348  1 1 1 1
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+        affector                                PlaneCollider Affector75
+        {
+            position                            0 40 0
+            friction                            1
+            bouncyness                          0.5
+            normal                              0 1 0
+        }
+    }
+	
+	technique sphere_refract
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_02
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       30
+            angle                               360
+			time_to_live						1
+            velocity                            0
+            all_particle_dimensions             300
+            colour                              0.262745 0.937255 0.870588 1
+			position							0 50 0
+        }
+
+        affector                                TextureRotator Affector331
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -10
+                max                             10
+            }
+        }
+    }
+	
+    technique lightning_big
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       5
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             200
+            }
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0 0.501961 1 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      0
+        }
+    }
+    technique lightning_small
+    {
+        keep_local                              true
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             80
+                max                             120
+            }
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.504348  0 0.501961 1 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      0
+        }
+    }
+}

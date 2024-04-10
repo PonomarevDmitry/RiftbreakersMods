@@ -66,13 +66,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical 	"0.0"
-		acid		"0.0"
-		cryo		"4.0"
 		fire 		"0.0"
+		acid		"0.5"
+		cryo		"4.0"
 		energy		"1.0"
 		area		"2.0"
 		gravity		"3.0"
 		radiation	"0.0"
+		sonic		"2.0"
 	}
 
 	StunDataComponent
@@ -321,7 +322,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint blueprint "effects/enemies_necrodon/resurrected"
+					blueprint	"effects/enemies_necrodon/resurrected"
 				}
 			}
 		}
@@ -364,7 +365,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_dust"	
+					blueprint "effects/enemies_generic/damage_generic_fire_rocky"	
 					bone "att_death"
 				}
 			}
@@ -377,7 +378,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_dust"	
+					blueprint "effects/enemies_generic/damage_generic_fire_rocky"	
 				}
 			}
 		}
@@ -406,6 +407,21 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/time_damage_radiation"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
 					bone "att_death"
 					scale "2.5 2.5 2.5"
 				}
@@ -663,10 +679,10 @@ EntityBlueprint
 	{
 		spread_radius 			"3.5"			// radius to spread fire
 		spread_chance_override 	"1.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-
+		spread_target_mask 		"prop"
 		spread_timer
 		{
-			end "200000" 						// how often entity will try to spread fire in microseconds ( 2s )
+			limit "200000" 						// how often entity will try to spread fire in microseconds ( 2s )
 		}
 
 		burning_effect_group    ""			// effect group to be enabled on entity
@@ -726,7 +742,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
@@ -741,7 +757,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"

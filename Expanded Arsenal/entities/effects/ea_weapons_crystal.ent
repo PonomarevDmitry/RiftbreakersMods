@@ -1,0 +1,2912 @@
+//----------------------BASE CRYSTAL PROJECTILES START----------------------\\
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/crystal_projectile"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_projectile_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_projectile_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/crystal_projectile_blue"
+
+	base_blueprints 
+	{
+		lights/point/blue_super_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility			"always"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_blue"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/crystal_gun_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/crystal_projectile_violet"
+
+	base_blueprints 
+	{
+		lights/point/violet_super_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility			"always"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_violet"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/crystal_gun_projectile_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_blocker_spawn_blue"
+	
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/destructible_crystal_small_blue"
+	}
+
+	SoundDesc
+	{
+		name "destructibles/destructible_crystal"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_blocker_spawn_violet"
+	
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/destructible_crystal_small_violet"
+	}
+
+	SoundDesc
+	{
+		name "destructibles/destructible_crystal"
+	}
+}
+
+//----------------------BASE CRYSTAL PROJECTILES END----------------------\\
+
+//----------------------HEAVY CRYSTAL EJECTOR WEAPON START----------------------\\
+
+//heavy_crystal_ejector_deploy_shot_hit
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier"
+        }
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier"
+        }
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}
+}
+
+//heavy_crystal_ejector_deploy_shot_advanced_hit 
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_advanced_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_advanced_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_advanced_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_advanced_hit_blue"
+
+	base_blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_blue"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier_advanced"
+        }
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_advanced_hit_violet"
+
+	base_blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_violet"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier_advanced"
+        }
+	}
+}
+
+//heavy_crystal_ejector_deploy_shot_superior_hit 
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_superior_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_superior_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_superior_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_superior_hit_blue"
+
+	base_blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_blue"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier_superior"
+        }
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_superior_hit_violet"
+
+	base_blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_violet"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier_superior"
+        }
+	}
+}
+
+//heavy_crystal_ejector_deploy_shot_extreme_hit 
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_extreme_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_extreme_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_extreme_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_extreme_hit_blue"
+
+	base_blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_blue"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier_extreme"
+        }
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_extreme_hit_violet"
+
+	base_blueprint	"effects/weapons_crystal/heavy_crystal_ejector_deploy_shot_hit_violet"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+        database
+        {
+            spawn_count		int:"1"
+			timeout			float:"6"
+			spawn_bp		string:"items/weapons/heavy_crystal_ejector_grenadier_extreme"
+        }
+	}
+}
+
+//stubs
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/crystal_projectile_blue_stub"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+	
+	IdDesc
+	{
+		name "##eamodcrystalstub##"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/crystal_projectile_violet_stub"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+	
+	IdDesc
+	{
+		name "##eamodcrystalstub1##"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/heavy_crystal_projectile_explosive"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_projectile_explosive_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_projectile_explosive_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/heavy_crystal_projectile_explosive_blue"
+
+	base_blueprint "effects/weapons_crystal/crystal_projectile_blue"
+	
+	SkeletonDesc
+	{
+		name "meshes/projectiles/artillery_shell"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "eamodcrystalstub1"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_violet_stub"								
+					bone "att_stub_1"
+					scale	"0.4 0.4 0.4"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_violet_stub"								
+					bone "att_stub_2"
+					scale	"0.4 0.4 0.4"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_violet_stub"								
+					bone "att_stub_3"
+					scale	"0.4 0.4 0.4"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 	"effects/weapons_crystal/heavy_crystal_projectile_explosive_violet"
+
+	base_blueprint "effects/weapons_crystal/crystal_projectile_violet"
+	
+	SkeletonDesc
+	{
+		name "meshes/projectiles/artillery_shell"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "eamodcrystalstub"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_blue_stub"								
+					bone "att_stub_1"
+					scale	"0.4 0.4 0.4"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_blue_stub"								
+					bone "att_stub_2"
+					scale	"0.4 0.4 0.4"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_crystal/crystal_projectile_blue_stub"								
+					bone "att_stub_3"
+					scale	"0.4 0.4 0.4"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_explosive_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_explosive_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_explosive_fire_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_explosive_fire_blue"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_muzzle_blue"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.4"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_cruise_missile_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_explosive_fire_violet"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_violet_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_muzzle_violet"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.4"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_cruise_missile_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit_base"
+	
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"30"
+		radius 	"8"
+	}
+
+	SoundDesc
+	{
+		name "buildings_defense/crystal_wall_explosion"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_big
+		effects/default
+		effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/heavy_crystal_ejector_explosive_shot_hit_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_big
+		effects/default
+		effects/weapons_crystal/heavy_crystal_ejector_explosive_shot_hit_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/heavy_crystal_ejector_explosive_shot_hit_violet"
+	}	
+}
+
+//----------------------HEAVY CRYSTAL EJECTOR WEAPON END----------------------\\
+
+//----------------------CRYSTAL TURRET CONSUMABLE START----------------------\\
+
+//crystal_turret_projectile_hit
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_turret_projectile_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_turret_projectile_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_turret_projectile_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_turret_projectile_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_blue"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/crystal_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_turret_projectile_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/crystal_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_turret_death"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_turret_death_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_turret_death_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_turret_death_blue"
+
+	base_blueprints
+	{
+		lights/point/explosion_blue_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_blocker_explosion_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_turret_death_violet"
+
+	base_blueprints
+	{
+		lights/point/explosion_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_blocker_explosion_violet"
+	}
+}
+
+//----------------------CRYSTAL TURRET CONSUMABLE END----------------------\\
+
+//----------------------TOWER CRYSTAL BLASTER START----------------------\\
+
+//tower_crystal_blaster_fire
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_fire_violet"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_fire_blue"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_muzzle_blue"
+	}
+
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_blaster_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_fire_violet"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_blaster_fire_blue
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_muzzle_violet"
+	}
+}
+
+//tower_crystal_blaster_hit
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_blaster_hit_base"
+	
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"20"
+		radius 	"3"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/crystal_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_blaster_deployer"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"100"
+			max_dynamic_force	float:"500"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_blaster_deployer"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"100"
+			max_dynamic_force	float:"500"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}	
+}
+
+//tower_crystal_blaster_hit_lvl_2
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_hit_lvl_2"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_hit_lvl_2_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_hit_lvl_2_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_blaster_hit_lvl_2_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_blaster_hit_blue
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_blaster_lvl_2_deployer"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"100"
+			max_dynamic_force	float:"500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_blaster_hit_lvl_2_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_blaster_hit_violet
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_blaster_lvl_2_deployer"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"100"
+			max_dynamic_force	float:"500"
+		}
+
+	}
+}
+
+//tower_crystal_blaster_hit_lvl_3
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_hit_lvl_3"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_hit_lvl_3_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_blaster_hit_lvl_3_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_blaster_hit_lvl_3_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_blaster_hit_blue
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_blaster_lvl_3_deployer"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"100"
+			max_dynamic_force	float:"500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_blaster_hit_lvl_3_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_blaster_hit_violet
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_blaster_lvl_3_deployer"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"100"
+			max_dynamic_force	float:"500"
+		}
+
+	}
+}
+
+// tower_crystal_blaster_blocker_explosion
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"1.1"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"20"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}	
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/crystal_gun_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_blue"
+	}
+	
+	TeamDesc
+	{
+		team	"player"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}
+}
+
+// tower_crystal_blaster_blocker_explosion_lvl_2
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_2_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"1.1"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"42"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_2_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_2_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}
+}
+
+// tower_crystal_blaster_blocker_explosion_lvl_3
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_3_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"1.1"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"86"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_3_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_lvl_3_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}
+}
+
+//----------------------TOWER CRYSTAL BLASTER END----------------------\\
+
+//----------------------TOWER CRYSTAL EJECTOR START----------------------\\
+
+//tower_crystal_ejector_fire
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_fire_violet"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_fire_blue"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_muzzle_blue"
+	}
+
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_ejector_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_fire_violet"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_ejector_fire_blue
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_muzzle_violet"
+	}
+}
+
+//tower_crystal_ejector_hit
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_ejector_blocker"
+			spawn_count		int:"1"
+			timeout			float:"5"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_hit_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/no_lifetime
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_ejector_blocker"
+			spawn_count		int:"1"
+			timeout			float:"5"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_hit_violet"
+	}	
+}
+
+// tower_crystal_ejector_hit_lvl_2
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_hit_lvl_2"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_hit_lvl_2_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_hit_lvl_2_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_ejector_hit_lvl_2_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_ejector_hit_blue
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_ejector_blocker,buildings/defense/tower_crystal_ejector_sentry"
+			spawn_count		int:"2"
+			timeout			float:"10"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_ejector_hit_lvl_2_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_ejector_hit_violet
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_ejector_blocker,buildings/defense/tower_crystal_ejector_sentry"
+			spawn_count		int:"2"
+			timeout			float:"10"
+		}
+
+	}
+}
+
+// tower_crystal_ejector_hit_lvl_3
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_hit_lvl_3"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_hit_lvl_3_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_hit_lvl_3_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_ejector_hit_lvl_3_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_ejector_hit_blue
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_ejector_blocker,buildings/defense/tower_crystal_ejector_sentry,buildings/defense/tower_crystal_ejector_grenadier"
+			spawn_count		int:"3"
+			timeout			float:"10"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_ejector_hit_lvl_3_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_ejector_hit_violet
+		effects/weapons_crystal/tower_crystal_blaster_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_ejector_blocker,buildings/defense/tower_crystal_ejector_sentry,buildings/defense/tower_crystal_ejector_grenadier"
+			spawn_count		int:"3"
+			timeout			float:"10"
+		}
+
+	}
+}
+
+// tower_crystal_ejector_blocker_explosion
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_blocker_explosion_blue"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"25"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_hit_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_blocker_explosion_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_ejector_blocker_explosion_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_hit_violet"
+	}
+}
+
+
+//----------------------TOWER CRYSTAL EJECTOR END----------------------\\
+
+//----------------------TOWER CRYSTAL ARTILLERY START----------------------\\
+
+// tower_crystal_artillery_fire
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_fire_violet"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_fire_blue"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_muzzle_blue"
+	}
+
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_artillery_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_fire_violet"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_violet_medium
+		effects/default
+		effects/weapons_crystal/tower_crystal_artillery_fire_blue
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_muzzle_violet"
+	}
+}
+
+// tower_crystal_artillery_hit
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_artillery_hit_base"
+	
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"30"
+		radius 	"5"
+	}
+
+	SoundDesc
+	{
+		name "buildings_defense/crystal_wall_explosion"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_artillery_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"750"
+			max_dynamic_force	float:"1500"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_hit_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_artillery_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"750"
+			max_dynamic_force	float:"1500"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_hit_violet"
+	}	
+}
+
+// tower_crystal_artillery_hit_lvl_2
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_hit_lvl_2"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_hit_lvl_2_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_hit_lvl_2_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_artillery_hit_lvl_2_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_artillery_hit_blue
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_artillery_lvl_2_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"750"
+			max_dynamic_force	float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_artillery_hit_lvl_2_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_artillery_hit_violet
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_artillery_lvl_2_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"750"
+			max_dynamic_force	float:"1500"
+		}
+
+	}
+}
+
+// tower_crystal_artillery_hit_lvl_3
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_hit_lvl_3"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_hit_lvl_3_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_artillery_hit_lvl_3_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_artillery_hit_lvl_3_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_artillery_hit_blue
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_artillery_lvl_3_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"750"
+			max_dynamic_force	float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_artillery_hit_lvl_3_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_artillery_hit_violet
+		effects/weapons_crystal/tower_crystal_artillery_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_artillery_lvl_3_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"750"
+			max_dynamic_force	float:"1500"
+		}
+
+	}
+}
+
+// tower_crystal_artillery_blocker_explosion
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"5"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"20.5"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_blocker_explosion_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_artillery_blocker_explosion_violet"
+	}	
+}
+
+// tower_crystal_artillery_blocker_explosion_lvl_2
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_2_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"5"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"48"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_2_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_2_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}
+}
+
+// tower_crystal_artillery_blocker_explosion_lvl_3
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_3_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"5"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"98"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_3_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_artillery_blocker_explosion_lvl_3_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_blaster_hit_violet"
+	}
+}
+
+//----------------------TOWER CRYSTAL ARTILLERY END----------------------\\
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE START----------------------\\
+
+//tower_crystal_cruise_missile_fire
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_fire_violet"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_fire_blue"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_muzzle_blue"
+	}
+
+	SoundDesc
+	{
+		name  "towers/crystal/tower_crystal_cruise_missile_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_fire_violet"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_violet_medium
+		effects/default
+		effects/weapons_crystal/tower_crystal_cruise_missile_fire_blue
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_muzzle_violet"
+	}
+}
+
+//tower_crystal_cruise_missile_head
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_head"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_head_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_head_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_head_blue"
+	
+	base_blueprints 
+	{
+		lights/point/blue_super_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_blue"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_head_violet"
+	
+	base_blueprints 
+	{
+		lights/point/violet_super_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material 	"projectiles/crystal_weapon_projectile_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_exhaust"
+	
+	ParticleDesc
+	{
+		name    "rift/crystal_gun_projectile"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/explosive/rocket_projectile_big"
+	}
+}
+
+
+//tower_crystal_cruise_missile_hit
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_cruise_missile_hit_base"
+	
+	ShockWaveDesc
+	{
+		power 	"1500"
+		speed 	"30"
+		radius 	"5"
+	}
+
+	SoundDesc
+	{
+		name "buildings_defense/crystal_wall_explosion"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_cruise_missile_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"600"
+			max_dynamic_force	float:"1200"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_hit_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_cruise_missile_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"600"
+			max_dynamic_force	float:"1200"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_hit_violet"
+	}	
+}
+
+//tower_crystal_cruise_missile_hit_lvl_2
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_2"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_2_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_2_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_2_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_blue
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_cruise_missile_lvl_2_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"600"
+			max_dynamic_force	float:"1200"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_2_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_violet
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_cruise_missile_lvl_2_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"600"
+			max_dynamic_force	float:"1200"
+		}
+
+	}
+}
+
+//tower_crystal_cruise_missile_hit_lvl_3
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3_blue"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_blue
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_cruise_missile_lvl_3_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"600"
+			max_dynamic_force	float:"1200"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/tower_crystal_cruise_missile_hit_lvl_3_violet"
+
+	base_blueprints
+	{
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_violet
+		effects/weapons_crystal/tower_crystal_cruise_missile_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/tower_crystal_cruise_missile_lvl_3_deployer"
+			spawn_amount	int:"3"
+			min_dynamic_force	float:"600"
+			max_dynamic_force	float:"1200"
+		}
+
+	}
+}
+
+// tower_crystal_cruise_missile_blocker_explosion
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_blaster_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"57"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_blocker_explosion_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_blocker_explosion_violet"
+	}	
+}
+
+// tower_crystal_cruise_missile_blocker_explosion_lvl_2
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_2_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"116"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_2_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_2_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_blocker_explosion_violet"
+	}
+}
+
+// tower_crystal_cruise_missile_blocker_explosion_lvl_3
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_3_blue"
+	base_blueprint	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_blue"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"3"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"234"
+					type			"sonic"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"2"
+					duration		"3"
+					type			"sonic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_3_violet"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_cruise_missile_blocker_explosion_lvl_3_blue
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_blocker_explosion_violet"
+	}
+}
+
+//----------------------TOWER CRYSTAL CRUISE MISSILE EXPLOSIONS END----------------------\\
+
+//----------------------TOWER CRYSTAL EFFECTS MISC START----------------------\\
+
+//tower_crystal_ejector_sentry_fire
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_sentry_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_sentry_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_sentry_fire_violet"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_sentry_fire_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_sentry_muzzle_blue"
+	}
+
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_ejector_sentry_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_sentry_fire_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/tower_crystal_ejector_sentry_fire_blue
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_ejector_sentry_muzzle_violet"
+	}
+}
+
+//tower_crystal_ejector_grenadier_fire
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire_violet"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire_blue"
+
+	base_blueprint "effects/weapons_crystal/tower_crystal_ejector_sentry_fire_blue"
+
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_ejector_grenadier_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire_violet"
+
+	base_blueprint "effects/weapons_crystal/tower_crystal_ejector_sentry_fire_violet"
+	
+	SoundDesc
+	{
+		name "towers/crystal/tower_crystal_ejector_grenadier_fire"
+	}
+}
+
+//----------------------TOWER CRYSTAL EFFECTS MISC END----------------------\\
+
+//----------------------CRYSTAL ROCKET DRONE START----------------------\\
+
+//crystal_rocket_drone_fire
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_rocket_drone_fire"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_rocket_drone_fire_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_rocket_drone_fire_violet"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_rocket_drone_fire_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/crystal_rocket_drone_muzzle_blue"
+	}
+
+	SoundDesc
+	{
+		name  "towers/crystal/crystal_rocket_drone_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_rocket_drone_fire_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+		effects/weapons_crystal/crystal_rocket_drone_fire_blue
+	}
+
+	ParticleDesc
+	{
+		name    "rift/crystal_rocket_drone_muzzle_violet"
+	}
+}
+
+//crystal_rocket_drone_hit
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_rocket_drone_hit"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_rocket_drone_hit_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/weapons_crystal/crystal_rocket_drone_hit_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_crystal/crystal_rocket_drone_hit_base"
+	
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"30"
+		radius 	"3"
+	}
+
+	SoundDesc
+	{
+		name "buildings_defense/crystal_wall_explosion"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_rocket_drone_hit_blue"
+
+	base_blueprints
+	{
+		lights/point/muzzle_blue_small
+		effects/no_lifetime
+		effects/weapons_crystal/crystal_rocket_drone_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/crystal_rocket_drone_turret"
+			spawn_count		int:"1"
+			timeout			float:"10"
+		}
+
+	}
+
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_hit_blue"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_crystal/crystal_rocket_drone_hit_violet"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/no_lifetime
+		effects/weapons_crystal/crystal_rocket_drone_hit_base
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_static_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/crystal_rocket_drone_turret"
+			spawn_count		int:"1"
+			timeout			float:"10"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_crystal_cruise_missile_hit_violet"
+	}	
+}
+
+//----------------------CRYSTAL ROCKET DRONE END----------------------\\

@@ -12,7 +12,7 @@ EntityBlueprint
 			min_scale	float:"3.0"
 			max_scale	float:"3.0"
 			
-			items 		string:"items/weapons_enemy/alien_fire_weapon_item"
+			items 		string:"items/weapons_enemy/alien_energy_weapon_item"
 		}
 	}
 
@@ -38,6 +38,20 @@ EntityBlueprint
 			}
 		}			
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2.5"			// radius to spread fire
+		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_target_mask 		"prop"
+		spread_timer
+		{
+			limit "500000" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"10000000000"	// how long it will burn in seconds
+	}
 
 	ResistanceComponent
 	{
@@ -45,10 +59,11 @@ EntityBlueprint
 		fire			"0.0"
 		acid			"0.0"
 		energy			"1.0"
-		cryo			"1.0"
+		cryo			"3.0"
 		area			"1.0"
 		gravity			"3.0"
 		radiation		"0.5"
+		sonic			"0.0"
 	}
 
 	StunDataComponent
@@ -291,7 +306,7 @@ EntityBlueprint
 			{
 				tag 		"melee"
 				owner 		"parent"
-				collision 	"building|building_small|ground_unit"
+				collision 	"world_destructible|building|building_small|ground_unit"
 
 				Filters
 				{
@@ -378,7 +393,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -455,7 +470,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{

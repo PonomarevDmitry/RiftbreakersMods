@@ -19,6 +19,7 @@ EntityBlueprint
 		buildable			"0"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		check_connect		"1"
 		
 		
 		costs
@@ -29,9 +30,9 @@ EntityBlueprint
 				building_time 180
 				building_cost
 				{
-					carbonium	"400"
-					steel 		"500"
-					hazenite	"50"
+					carbonium	"600"
+					steel 		"400"
+					hazenite	"200"
 				}
 			}
 
@@ -41,9 +42,9 @@ EntityBlueprint
 				building_time 30
 				building_cost
 				{
-					carbonium	"200"
-					steel 		"250"
-					hazenite	"10"
+					carbonium	"300"
+					steel 		"200"
+					hazenite	"100"
 				}
 			}				
 		}
@@ -57,7 +58,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"100"
+				value			 	"150"
 			}
 			
 			GameplayResource
@@ -71,6 +72,15 @@ EntityBlueprint
 				resource 			"mud"
 				value			 	"25"
 				attachment			"att_in_1"
+				family				"fluid"
+			}
+			
+			GameplayResource
+			{
+				resource 			"morphium"
+				value				"50"
+				attachment			"att_in_11"
+				family				"fluid"
 			}
 		}
 		
@@ -79,7 +89,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"hazenite"
-				value			 	"3"
+				value			 	"1.5"
 			}
 			
 			GameplayResource
@@ -174,55 +184,7 @@ EntityBlueprint
 	{		
 		EffectBaseBlueprints
 		{
-			"buildings/effects_medium_base"
-		}	
-////////////////////////MISC/////////////////////////					
-		EffectGroup
-		{
-			group 	"working"
-			enabled "0"	
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/hazenite_synthesizer_emission"								
-					bone "att_chimney"
-					delay 	"1"
-				}			
-			}
-		}
-////////////////////////Resources/////////////////////////		
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "0"				
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"								
-					bone "att_in_1_arrow"
-				}
-			}
-		}
-
-		EffectGroup
-		{
-			group "att_out_1"
-			enabled "0"				
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"								
-					bone "att_out_1_arrow"
-				}
-			}
+			"buildings/resources/hazenite_synthesizer"
 		}
 		
 		EffectGroup

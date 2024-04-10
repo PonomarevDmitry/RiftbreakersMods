@@ -7,19 +7,21 @@ EntityBlueprint
 	{
 		name 				"tower_orbital_bombardment_station_lvl_3"
 		bp   				"buildings/defense/tower_orbital_bombardment_station_lvl_3"
-		category 			"defense_mod_2"
+		category 			"defense_mod_4"
 		type				"tower"
 		localization_id		"gui/hud/building_name/tower_orbital_bombardment_station"
 		description			"gui/hud/building_description/tower_orbital_bombardment_station"
 		menu_icon			"gui/hud/building_icons/tower_orbital_bombardment_station_lvl3"
 		require 			"headquarters"
-		order				"13"
+		order				"14"
 		buildable			"0"
 		overrides			"tower,wall"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
-		radius_name				"tower_orbital_bombardment_station"
-		min_radius				"20"
+		radius_name				"tower_orbitals"
+		min_radius				"15"
 		min_radius_effect   	"voice_over/announcement/tower_too_close"
+		condition			"BIOME"	
+		condition_value		"jungle,desert,acid,metallic,swamp,legacy_maps"	
 
 		costs
 		{
@@ -65,14 +67,13 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/mod_tower_orbital_bombardment.lua"
+		script "lua/buildings/defense/tower_orbital_bombardment.lua"
 
 		database
 		{
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
 			time_machine		int:"0"
-			radius				float:"60"
 			range				float:"60"
 			reload				int:"10"
 			bombardment			string:"items/weapons/tower_orbital_bombardment_lvl_3"

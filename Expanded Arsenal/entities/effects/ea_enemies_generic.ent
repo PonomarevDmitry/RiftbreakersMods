@@ -1,3 +1,31 @@
+
+//---------------------------TIMER SCRIPTS START--------------------------\\
+
+EntityBlueprint
+{
+	name  "effects/enemies_generic/unit_control_timer"
+
+    LuaDesc
+	{
+		script "lua/units/drones/unit_control_timer.lua"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/enemies_generic/tower_control_timer"
+
+    LuaDesc
+	{
+		script "lua/units/ground/tower_control_timer.lua"
+		
+		database
+		{
+			hacked_effect	string:"effects/messages_and_markers/tower_hacked"
+		}
+	}
+}
+
 EntityBlueprint
 {
 	name  "effects/enemies_generic/bomotimer"
@@ -8,9 +36,249 @@ EntityBlueprint
 	}
 }
 
+//---------------------------TIMER SCRIPTS END--------------------------\\
+
+//---------------------------ALIEN INTERCEPTORS START--------------------------\\
+
 EntityBlueprint
 {
-	name "effects/enemies_generic/time_damage_gravity"
+	name	"effects/enemies_generic/enemy_intercept_on"
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+		 lights/point/blue_super_small
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/enemy_intercept_on"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_intercept_off"
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+		 lights/point/red_super_small
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/enemy_intercept_off"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_red_interceptor_lightning"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_red_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/bradron_tesla_weapon_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"1"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_red_interceptor_lightning_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_red_interceptor_lightning_hit"
+	base_blueprints
+	{
+		lights/point/muzzle_red_very_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/bradron_tesla_weapon_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_green_interceptor_lightning"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_green_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/enemy_green_lightning_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"1"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_green_interceptor_lightning_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_green_interceptor_lightning_hit"
+	base_blueprints
+	{
+		lights/point/muzzle_green_very_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_green_lightning_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_orange_interceptor_lightning"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_orange_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/enemy_orange_lightning_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"1"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_orange_interceptor_lightning_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_orange_interceptor_lightning_hit"
+	base_blueprints
+	{
+		lights/point/muzzle_orange_very_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_orange_lightning_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_yellow_interceptor_lightning"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/enemy_yellow_lightning_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"1"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_yellow_interceptor_lightning_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_yellow_interceptor_lightning_hit"
+	base_blueprints
+	{
+		lights/point/muzzle_yellow_very_small
+		effects/buildings_and_machines/drone_defensive_lightning_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_yellow_lightning_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+//---------------------------ALIEN INTERCEPTORS END--------------------------\\
+
+//---------------------------ADDITIONAL DAMAGE EFFECTS START--------------------------\\
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/time_damage_gravity"
 
 
 	base_blueprints
@@ -32,7 +300,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/time_damage_radiation"
+	name	"effects/enemies_generic/time_damage_radiation"
 	
 	base_blueprints
 	{
@@ -53,7 +321,71 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/energy_red_muzzle"
+	name "effects/enemies_generic/time_damage_sonic"
+	
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint	"effects/enemies_generic/time_damage_sonic_blue"
+		}
+		
+		Blueprint
+		{
+			blueprint	"effects/enemies_generic/time_damage_sonic_violet"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_generic/time_damage_sonic_blue"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+		lights/point/fire_blue_very_small
+	}
+
+	ParticleDesc
+	{
+		name    "rift/time_damage_sonic_blue"
+	}
+	
+	MovementModificatorComponent
+	{
+		max_speed 0.6
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_generic/time_damage_sonic_violet"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+		lights/point/fire_violet_very_small
+	}
+
+	ParticleDesc
+	{
+		name    "rift/time_damage_sonic_violet"
+	}
+	
+	MovementModificatorComponent
+	{
+		max_speed 1.1
+	}
+}
+
+//---------------------------ADDITIONAL DAMAGE EFFECTS END--------------------------\\
+
+//---------------------------ALIEN GENERIC EFFECTS START--------------------------\\
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/energy_red_muzzle"
 
 	base_blueprints
 	{
@@ -73,7 +405,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/energy_green_muzzle"
+	name	"effects/enemies_generic/energy_green_muzzle"
 
 	base_blueprints
 	{
@@ -94,7 +426,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/boss_shadow_caster_red"
+	name	"effects/enemies_generic/boss_shadow_caster_red"
 
 	base_blueprints
 	{
@@ -105,7 +437,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/boss_trail_energy_red"
+	name	"effects/enemies_generic/boss_trail_energy_red"
 
 	base_blueprints
 	{
@@ -123,7 +455,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/enemies_generic/blood_trail_energy_red
+	name	"effects/enemies_generic/blood_trail_energy_red"
 	
 	base_blueprint effects/default
 
@@ -135,7 +467,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/boss_trail_energy_green"
+	name	"effects/enemies_generic/boss_trail_energy_green"
 
 	base_blueprints
 	{
@@ -153,7 +485,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/enemies_generic/blood_trail_energy_green
+	name	"effects/enemies_generic/blood_trail_energy_green"
 	
 	base_blueprint effects/default
 
@@ -165,7 +497,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/boss_shadow_caster_violet"
+	name	"effects/enemies_generic/boss_shadow_caster_violet"
 
 	base_blueprints
 	{
@@ -174,10 +506,25 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name	"effects/enemies_generic/orange_laser_pointer"
+
+	base_blueprint effects/no_lifetime
+
+	ParticleDesc
+	{
+		name    "rift/orange_laser_pointer"
+	}
+}
+
+//---------------------------ALIEN GENERIC EFFECTS END--------------------------\\
+
+//---------------------------ALIEN WEAPONS IMPACTS START--------------------------\\
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/enemy_magma_weapon_explosion_small"
+	name	"effects/enemies_generic/enemy_magma_weapon_explosion_small"
 
 	base_blueprints
 	{
@@ -212,11 +559,25 @@ EntityBlueprint
 			z		2.0
 		}
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
 }
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/enemy_magma_weapon_explosion_medium"
+	name	"effects/enemies_generic/enemy_magma_weapon_explosion_medium"
 
 	base_blueprints
 	{
@@ -251,11 +612,25 @@ EntityBlueprint
 			z		4.0
 		}
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
 }
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/enemy_magma_artillery_explosion"
+	name	"effects/enemies_generic/enemy_magma_artillery_explosion"
 
 	base_blueprints
 	{
@@ -290,11 +665,25 @@ EntityBlueprint
 			z		4.0
 		}
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}	
 }
 
 EntityBlueprint
 {
-	name "effects/enemies_generic/enemy_cryo_weapon_explosion_small"
+	name	"effects/enemies_generic/enemy_cryo_weapon_explosion_small"
 
 	base_blueprints
 	{
@@ -331,14 +720,176 @@ EntityBlueprint
 	}
 }
 
+// omega emp effects
+
 EntityBlueprint
 {
-	name "effects/enemies_generic/orange_laser_pointer"
+	name	"effects/enemies_generic/enemy_omega_melee_hit_medium"
 
-	base_blueprint effects/no_lifetime
+
+	base_blueprints
+	{
+		 lights/point/muzzle_violet_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"3"
+			EMP_duration	float:"2"
+		}
+	}
+	
+	TeamDesc
+	{
+		team "enemy"
+	}
+
 
 	ParticleDesc
 	{
-		name    "rift/orange_laser_pointer"
+		name    "rift/enemy_omega_melee_hit_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_hit_medium"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
 	}
 }
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_omega_melee_hit_big"
+
+
+	base_blueprints
+	{
+		 lights/point/muzzle_violet_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"4"
+			EMP_duration	float:"3"
+		}
+	}
+	
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+
+	ParticleDesc
+	{
+		name    "rift/enemy_omega_melee_hit_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_hit_big"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/enemies_generic/enemy_omega_melee_hit_shield"
+
+
+	base_blueprints
+	{
+		effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"3"
+			EMP_duration	float:"3"
+		}
+	}
+	
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+
+	ParticleDesc
+	{
+		name "rift/mech_shield_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/shield_hit"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+}
+
+//---------------------------ALIEN WEAPONS IMPACTS END--------------------------\\

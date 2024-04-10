@@ -41,7 +41,8 @@ EntityBlueprint
 		cryo			"1.0"
 		area			"1.0"
 		gravity			"0.05"
-		radiation		"0.0"
+		radiation		"0.25"
+		sonic			"0.0"
 	}
 
 	StunDataComponent
@@ -451,6 +452,22 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}
+		
 		EffectGroup
 		{
 			group 	"stunned"
@@ -464,7 +481,7 @@ EntityBlueprint
 					scale "0.7 0.7 0.7"
 				}
 			}
-		}			
+		}
 	}
 	FxComponent
 	{
@@ -489,7 +506,7 @@ EntityBlueprint
 		{
 			min_scale	float:"0.95"
 			max_scale	float:"1.05"
-		}			
+		}		
 	}
 
 	DatabaseComponent
@@ -638,7 +655,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -705,7 +722,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/enemies_genric/energy_hit_medium"
 		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
 		friendly_fire			"pass"
 	}
@@ -736,7 +753,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/enemies_lesigian/lightning_explosion"
 		on_world_hit_effect 	"effects/enemies_lesigian/lightning_explosion"			
 		
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
 		DamagePattern
 		{
@@ -795,7 +812,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters

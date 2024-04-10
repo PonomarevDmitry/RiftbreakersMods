@@ -4,6 +4,25 @@ EntityBlueprint
 
 	base_blueprint 	"units/ground/flurian_base"
 
+	StateMachineDesc
+	{
+		template_name "flurian"
+		params
+		{
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"tower|headquarters|player|energy"
+			priority_target_distance			float:"70"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			range_attack_cooldown				float:"3.0"
+		}		
+	}
 	
 	LuaDesc
 	{
@@ -70,7 +89,8 @@ EntityBlueprint
 		cryo			"0.5"
 		area			"3.0"
 		gravity			"3.0"
-		radiation		"0.05"
+		radiation		"0.25"
+		sonic			"0.0"
 	}	
 	
 	StunDataComponent
@@ -102,14 +122,14 @@ EntityBlueprint
 	TurretDesc
 	{
 		name   "range"
-		target "ground_unit|building"
+		target "tower|ground_unit|building"
 		target_ignore "wall|invisible"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "5"
-			range_max "70"
-			aiming_range "80"
+			range_min 		"15"
+			range_max 		"70"
+			aiming_range 	"80"
 		}
 
 		aiming_cooldown "1"
@@ -138,7 +158,7 @@ EntityBlueprint
 
 		ammo_blueprint 				"units/ground/flurian/flurian_boss_omicron_projectile"
 
-		muzzle_flash_effect 		"effects/enemies_flurian/flurian_boss_omicron_muzzle"
+		muzzle_flash_effect 		"effects/enemies_flurian/flurian_omicron_muzzle"
 
 		muzzles_per_fire 			"1"
 		//burst_column_spacing 		"2"
@@ -372,7 +392,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_physical"	
+					blueprint "effects/enemies_generic/damage_generic_dust"	
 					bone "att_death"
 				}
 			}
@@ -385,7 +405,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_physical"	
+					blueprint "effects/enemies_generic/damage_generic_dust"	
 				}
 			}
 		}
@@ -460,7 +480,7 @@ EntityBlueprint
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -499,6 +519,24 @@ EntityBlueprint
 	{
 		lights/point/muzzle_orange_medium
 		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
 	}
 
 	LuaDesc
@@ -546,11 +584,11 @@ EntityBlueprint
 
 	ArtilleryAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_big"
-		on_world_hit_effect 	"effects/weapons_explosive/explosion_big"
-		on_resisted_hit_effect	"effects/weapons_generic/projectile_hit_resisted"
-		on_shield_hit_effect	"effects/weapons_explosive/explosion_big"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		on_enemy_hit_effect 	"effects/enemies_flurian/flurian_boss_flurian_projectile_hit"
+		on_world_hit_effect 	"effects/enemies_flurian/flurian_boss_flurian_projectile_hit"
+		on_resisted_hit_effect	"effects/enemies_flurian/flurian_boss_flurian_projectile_hit"
+		on_shield_hit_effect	"effects/enemies_flurian/flurian_boss_flurian_projectile_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|hitbox|shield"
 		//hit_effect_direction	"up"  //inverse, normal, up
 		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
 		
@@ -572,7 +610,7 @@ EntityBlueprint
 					explosion_max_power 	"5000"
 					explosion_min_power 	"2500"
 					explosion_effect_scale 	"0.5"
-					explosion_effect 		"effects/weapons_explosive/explosion_small"
+					explosion_effect 		"effects/enemies_flurian/flurian_boss_flurian_projectile_hit"
 					part_prefix 			"meshes/items/consumables/grenade_gravity.mesh"
 					part_material 			"projectiles/kinetic_grenade"
 					part_effect 			"effects/enemies_generic/blood_trail_dust"

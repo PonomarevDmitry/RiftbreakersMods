@@ -1,0 +1,170 @@
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_offensive_cryo_standard"
+    base_blueprint  "units/drones/cryo_laser_drone"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement						string:"follow"
+			owner_movement_speed_near       	 float:"0.75"
+			owner_movement_speed_far          	 float:"1.5"
+			owner_movement_trigger_distance 	float:"10.0"
+
+			target_movement			string:"follow"
+			target_manual_rotation	int:"1"
+			target_search_mode  	string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.9"
+			max_scale				float:"0.9"
+		}
+	}
+	
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"5"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"5"
+		}
+		
+		max_speed
+		{
+			base 	"25"
+		}
+	}	
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"1"
+			aiming_range	"1.5"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/cryo_laser_drone_weapon"
+		muzzle_flash_effect 		"effects/weapons_cryo/drone_cryo_laser_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail_defensive"
+					bone "att_drone_trail_0"
+					scale "0.9 0.9 0.9"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_cryo/drone_cryo_laser_loop"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_cryo_advanced"
+	base_blueprint		"units/drones/drone_player_offensive_cryo_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_cryo_superior"
+	base_blueprint		"units/drones/drone_player_offensive_cryo_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_cryo_extreme"
+	base_blueprint		"units/drones/drone_player_offensive_cryo_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}

@@ -3,6 +3,26 @@ EntityBlueprint
 	name "units/ground/flurian_omicron"
 
 	base_blueprint "units/ground/flurian_base"
+	
+	StateMachineDesc
+	{
+		template_name "flurian"
+		params
+		{
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"tower|headquarters|player|energy"
+			priority_target_distance			float:"38"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			range_attack_cooldown				float:"3.0"
+		}		
+	}
 
 	LuaDesc
 	{
@@ -27,8 +47,9 @@ EntityBlueprint
 		energy			"0.5"
 		cryo			"0.5"
 		area			"3.0"
-		gravity			"2.0"
-		radiation		"0.05"
+		gravity			"3.0"
+		radiation		"0.25"
+		sonic			"0.0"
 	}
 
 	HealthDesc
@@ -79,7 +100,7 @@ EntityBlueprint
 
 		ammo_blueprint 				"units/ground/flurian/grenade_projectile_omicron"
 
-		muzzle_flash_effect 		"effects/enemies_flurian/muzzle"
+		muzzle_flash_effect 		"effects/enemies_flurian/flurian_omicron_muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0.075"
@@ -94,9 +115,9 @@ EntityBlueprint
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "7"
-			range_max "38"
-			aiming_range "45"
+			range_min		"10"
+			range_max 		"38"
+			aiming_range 	"45"
 		}
 
 		aiming_cooldown "1"
@@ -119,7 +140,7 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/flurian_ultra/attack"
+		    name "units/ground/flurian_omicron/attack"
 
 			AttachmentDesc
 			{
@@ -170,7 +191,7 @@ EntityBlueprint
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -210,6 +231,24 @@ EntityBlueprint
 		lights/point/muzzle_orange_small
 		effects/no_lifetime
 	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
 
 	LuaDesc
 	{
@@ -218,7 +257,7 @@ EntityBlueprint
 		database
 		{
 			egg_spawn_on_destroy			string:"units/ground/egg_flurian_omicron_deployer"
-			egg_spawn_count					int:"3"	
+			egg_spawn_count					int:"1"	
 		}	
 	}
 	
@@ -256,11 +295,11 @@ EntityBlueprint
 
 	ArtilleryAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
-		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
-		on_resisted_hit_effect	"effects/weapons_explosive/explosion_medium"
-		on_shield_hit_effect	"effects/weapons_explosive/explosion_medium"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		on_enemy_hit_effect 	"effects/enemies_flurian/flurian_omicron_projectile_hit"
+		on_world_hit_effect 	"effects/enemies_flurian/flurian_omicron_projectile_hit"
+		on_resisted_hit_effect	"effects/enemies_flurian/flurian_omicron_projectile_hit"
+		on_shield_hit_effect	"effects/enemies_flurian/flurian_omicron_projectile_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|hitbox|shield"
 		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
 		
 		friendly_fire			"pass"
@@ -281,7 +320,7 @@ EntityBlueprint
 					explosion_max_power 	"5000"
 					explosion_min_power 	"2500"
 					explosion_effect_scale 	"0.5"
-					explosion_effect 		"effects/weapons_explosive/explosion_small"
+					explosion_effect 		"effects/enemies_flurian/flurian_omicron_projectile_hit"
 					part_prefix 			"meshes/items/consumables/grenade_gravity.mesh"
 					part_material 			"projectiles/kinetic_grenade"
 					part_effect 			"effects/enemies_generic/blood_trail_dust"

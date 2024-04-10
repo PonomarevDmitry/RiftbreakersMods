@@ -43,6 +43,26 @@ material buildings/resources/ammo_mech_advanced_weapons_factory_dissolve : pbr/h
 	glow 5
 }
 
+// ammo_morphium_canister_factory textures
+
+material buildings/resources/ammo_morphium_canister_factory : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/ammo_morphium_canister_factory_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/supercoolant_refinery_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/supercoolant_refinery_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/ammo_tower_cryo_cells_factory_emissive.dds
+	glow 5
+}
+
+material buildings/resources/ammo_morphium_canister_factory_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/ammo_morphium_canister_factory_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/supercoolant_refinery_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/supercoolant_refinery_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/ammo_tower_cryo_cells_factory_emissive.dds
+	glow 5
+}
+
 //----------------------PLAYER AMMUNITION FACTORIES END----------------------\\
 
 //----------------------TOWER AMMUNITION FACTORIES START----------------------\\
@@ -67,23 +87,23 @@ material buildings/resources/ammo_tower_plasma_cells_factory_dissolve : pbr/heig
 	glow 5
 }
 
-// ammo_tower_guided_factory textures
+// ammo_tower_advanced_explosive_factory textures
 
-material buildings/resources/ammo_tower_guided_factory : buildings/destructible
+material buildings/resources/ammo_tower_advanced_explosive_factory : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/resources/ammo_tower_guided_factory_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/resources/ammo_tower_advanced_explosive_factory_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/resources/supercoolant_refinery_normal.dds
 	set_texture_alias packed			materials/textures/buildings/resources/supercoolant_refinery_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/resources/ammo_tower_guided_factory_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/ammo_tower_advanced_explosive_factory_emissive.dds
 	glow 5
 }
 
-material buildings/resources/ammo_tower_guided_factory_dissolve : pbr/height_dissolve
+material buildings/resources/ammo_tower_advanced_explosive_factory_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/resources/ammo_tower_guided_factory_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/resources/ammo_tower_advanced_explosive_factory_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/resources/supercoolant_refinery_normal.dds
 	set_texture_alias packed			materials/textures/buildings/resources/supercoolant_refinery_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/resources/ammo_tower_guided_factory_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/ammo_tower_advanced_explosive_factory_emissive.dds
 	glow 5
 }
 
@@ -187,6 +207,80 @@ material buildings/resources/ammo_tower_gravity_factory_dissolve : pbr/height_di
 	glow 5
 }
 
+// crystal_dna_laboratory textures
+
+material buildings/resources/crystal_dna_laboratory : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/crystal_dna_laboratory_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/crystal_dna_laboratory_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/crystal_dna_laboratory_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/crystal_dna_laboratory_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/resources/crystal_dna_laboratory_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/crystal_dna_laboratory_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/crystal_dna_laboratory_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/crystal_dna_laboratory_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/crystal_dna_laboratory_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/resources/crystal_dna_laboratory_screen : pbr/default
+{
+	set_texture_alias albedo			materials/textures/buildings/main/rift_station_base_screen_albedo.dds
+	set_texture_alias packed			materials/textures/buildings/main/rift_station_base_screen_packed.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+
+	glow 2
+	reflection 0.2 6
+
+	technique
+	{
+		pass
+		{
+		    texture_unit emissive
+		    {
+		        anim_texture    materials/textures/buildings/resources/crystal_dna_laboratory_screen_emissive.dds 9 5
+				filtering anisotropic
+				max_anisotropy 16
+		    }
+		}
+    }
+}
+
+material buildings/resources/crystal_dna_laboratory_screen_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/main/rift_station_base_screen_albedo.dds
+	set_texture_alias packed			materials/textures/buildings/main/rift_station_base_screen_packed.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+
+	glow 2
+	reflection 0.2 6
+
+	technique
+	{
+		pass
+		{
+		    texture_unit emissive
+		    {
+		        anim_texture    materials/textures/buildings/main/rift_station_base_screen_emissive.dds 6 2
+				filtering anisotropic
+				max_anisotropy 16
+		    }
+		}
+    }
+}
+
 //----------------------EXPANDED ARSENAL TOWER AMMUNITION FACTORIES END----------------------\\
 
 //----------------------EXPANDED ARSENAL RESOURCE BUILDINGS START----------------------\\
@@ -233,6 +327,25 @@ material buildings/resources/magma_lifter_dissolve : pbr/height_dissolve
 	glow 5
 }
 
+material buildings/resources/morphium_extractor	: buildings/destructible
+{
+	set_texture_alias albedo				materials/textures/buildings/resources/morphium_extractor_albedo.dds
+	set_texture_alias normal				materials/textures/buildings/energy/carbonium_powerplant_normal.dds
+	set_texture_alias packed				materials/textures/buildings/energy/carbonium_powerplant_packed.dds
+	set_texture_alias emissive				materials/textures/buildings/energy/carbonium_powerplant_emissive.dds
+	
+	glow 5
+}
+
+material buildings/resources/morphium_extractor_dissolve  : pbr/height_dissolve
+{
+	set_texture_alias albedo				materials/textures/buildings/resources/morphium_extractor_albedo.dds
+	set_texture_alias normal				materials/textures/buildings/energy/carbonium_powerplant_normal.dds
+	set_texture_alias packed				materials/textures/buildings/energy/carbonium_powerplant_packed.dds
+	set_texture_alias emissive				materials/textures/buildings/energy/carbonium_powerplant_emissive.dds
+	
+	glow 5
+}
 
 material buildings/resources/supercoolant_siphon : buildings/destructible
 {

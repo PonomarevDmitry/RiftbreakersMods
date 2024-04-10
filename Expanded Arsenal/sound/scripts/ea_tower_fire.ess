@@ -1,5 +1,47 @@
 //--------------------------HIGH CALIBER TOWERS START--------------------------\\
 
+sound towers/bullet/tower_burst_basic_fire
+{
+    random_file
+    {
+        audio_file      sound/samples/items/weapons/bullet/small_machinegun_fire_single.wav
+    }
+    gain                0.4
+    looping             0
+    streaming			0
+    
+	group				"player"
+    rolloffFactor		10
+    referenceDistance	50
+	
+	description			"sound of single fire from a small machinegun (begin)"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/bullet/tower_shotgun_fire
+{
+    random_file
+    {
+        audio_file          sound/samples/items/weapons/shotguns/shotgun_fire_01.wav
+        audio_file          sound/samples/items/weapons/shotguns/shotgun_fire_02.wav
+        audio_file          sound/samples/items/weapons/shotguns/shotgun_fire_03.wav
+    }
+	
+    gain                0.2
+    looping             0
+    streaming			0
+	instance_limit		4
+    
+	group				"player"
+    rolloffFactor		10
+    referenceDistance	50
+	
+	description			"single shot from a shotgun"
+	notes				""
+	status				"placeholder"
+}
+
 sound towers/bullet/tower_big_shotgun_fire
 {
 	random_file
@@ -23,12 +65,53 @@ sound towers/bullet/tower_big_shotgun_fire
 	status				"placeholder"
 }
 
-sound towers/bullet/tower_burstminigun_fire
+sound towers/bullet/tower_minigun_burst_charge
+{
+	audio_file          sound/samples/expanded_arsenal/towers/bullet/tower_minigun_burst_charge.wav
+	
+    gain                0.8
+    looping             0
+    streaming			0
+	
+	freq_ratio_spread	0.1
+	//freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"burst minigun spin"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/bullet/tower_minigun_burst_reload
+{
+	audio_file          sound/samples/expanded_arsenal/towers/bullet/tower_minigun_burst_reload.wav
+	
+    gain                0.8
+    looping             0
+    streaming			0
+	
+	freq_ratio_spread	0.1
+	//freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"burst minigun spin"
+	notes				""
+	status				"placeholder"
+}
+
+
+sound towers/bullet/tower_minigun_burst_fire
 {
 	random_file
     {
-		audio_file          sound/samples/expanded_arsenal/towers/bullet/burstminigun_fire_01.wav
-		audio_file          sound/samples/expanded_arsenal/towers/bullet/burstminigun_fire_02.wav
+		audio_file          sound/samples/expanded_arsenal/towers/bullet/tower_minigun_burst_fire_01.wav
+		audio_file          sound/samples/expanded_arsenal/towers/bullet/tower_minigun_burst_fire_02.wav
 	}
 	
     gain                0.33
@@ -69,7 +152,65 @@ sound towers/bullet/tower_sniper_fire
 
 //--------------------------HIGH CALIBER TOWERS END--------------------------\\
 
+//--------------------------ADVANCED EXPLOSIVE TOWERS START--------------------------\\
+
+sound towers/explosive/tower_artillery_burst_fire
+{
+	audio_file          sound/samples/expanded_arsenal/towers/explosive/tower_artillery_burst_fire.wav
+    gain                0.8
+    looping             0
+    streaming			0
+	
+	freq_ratio_spread	0.1
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower artillery burst sound"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/explosive/tower_artillery_burst_reload
+{
+	audio_file          sound/samples/expanded_arsenal/towers/explosive/tower_artillery_burst_reload.wav
+    gain                0.8
+    looping             0
+    streaming			0
+	
+	freq_ratio_spread	0.1
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower artillery charge sound"
+	notes				""
+	status				"placeholder"
+}
+
+//--------------------------ADVANCED EXPLOSIVE TOWERS END--------------------------\\
+
 //--------------------------ADVANCED ENERGY TOWERS START--------------------------\\
+
+sound towers/energy/tower_plasma_shotgun_fire
+{
+    audio_file      sound/samples/items/weapons/energy/railgun_fire.wav
+    gain                0.35
+    looping             0
+    streaming			0
+	
+	freq_ratio_spread	0.1
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"powerfull energy shot from a railgun used for plasma shotgun"
+	notes				""
+	status				"placeholder"
+}
 
 sound towers/energy/tower_plasma_mauler_fire
 {
@@ -89,12 +230,12 @@ sound towers/energy/tower_plasma_mauler_fire
 	status				"placeholder"
 }
 
-sound towers/energy/mhd_start
+sound towers/energy/tower_mhd_charge
 {
-    audio_file          sound/samples/expanded_arsenal/towers/energy/mhd_start.wav
-    gain                0.3
-    looping             0
-    streaming			0
+    audio_file          sound/samples/expanded_arsenal/towers/energy/mhd_charge.wav
+    gain                0.7
+	streaming			0
+	looping             0
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
@@ -103,17 +244,17 @@ sound towers/energy/mhd_start
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"tower mhd start"
+	description			"tower mhd charging"
 	notes				""
 	status				"placeholder"
 }
 
-sound towers/energy/mhd_loop
+sound towers/energy/tower_mhd_fire
 {
     audio_file          sound/samples/expanded_arsenal/towers/energy/mhd_loop.wav
     gain                0.8
-    looping             1
-    streaming			0
+	streaming			0
+	looping             1
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
@@ -127,12 +268,12 @@ sound towers/energy/mhd_loop
 	status				"placeholder"
 }
 
-sound towers/energy/mhd_stop
+sound towers/energy/tower_mhd_reload
 {
-    audio_file          sound/samples/expanded_arsenal/towers/energy/mhd_stop.wav
-    gain                0.25
-    looping             0
-    streaming			0
+    audio_file          sound/samples/expanded_arsenal/towers/energy/mhd_reload.wav
+    gain                0.7
+	streaming			0
+	looping             0
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
@@ -141,12 +282,12 @@ sound towers/energy/mhd_stop
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"tower mhd stop"
+	description			"tower mhd reloading"
 	notes				""
 	status				"placeholder"
 }
 
-sound towers/energy/mhd_enemy_hit
+sound towers/energy/tower_mhd_enemy_hit
 {
 	audio_file          sound/samples/expanded_arsenal/towers/energy/mhd_enemy_hit.wav
     gain                0.3
@@ -165,7 +306,7 @@ sound towers/energy/mhd_enemy_hit
 	status				"placeholder"
 }
 
-sound towers/energy/mhd_world_hit
+sound towers/energy/tower_mhd_world_hit
 { 
 	audio_file          sound/samples/expanded_arsenal/towers/energy/mhd_world_hit.wav
     gain                0.3
@@ -186,35 +327,322 @@ sound towers/energy/mhd_world_hit
 
 //--------------------------ADVANCED ENERGY TOWERS END--------------------------\\
 
+//--------------------------CRYSTAL TOWERS START--------------------------\\
+
+sound towers/crystal/tower_crystal_blaster_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/crystal/tower_crystal_blaster_fire_01.wav
+    gain                0.8
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_crystal_blaster firing"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/crystal/tower_crystal_ejector_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/crystal/tower_crystal_ejector_fire_01.wav
+    gain                0.85
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_crystal_ejector firing"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/crystal/tower_crystal_artillery_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/crystal/tower_crystal_artillery_fire_01.wav
+    gain                0.65
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_crystal_artillery firing"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/crystal/tower_crystal_cruise_missile_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/crystal/tower_crystal_cruise_missile_fire_01.wav
+    gain                0.5
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_crystal_cruise_missile firing"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/crystal/tower_crystal_ejector_sentry_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/crystal/tower_crystal_ejector_sentry_fire_01.wav
+    gain                0.55
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_crystal_ejector_sentry firing"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/crystal/tower_crystal_ejector_grenadier_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/crystal/tower_crystal_ejector_grenadier_fire_01.wav
+    gain                0.75
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_crystal_ejector_grenadier firing"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/crystal/crystal_rocket_drone_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/crystal/crystal_rocket_drone_fire_01.wav
+    gain                0.75
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"crystal_rocket_drone firing"
+	notes				""
+	status				"placeholder"
+}
+
+//--------------------------CRYSTAL TOWERS END--------------------------\\
+
+//--------------------------ANTIMATTER TOWERS START--------------------------\\
+
+sound effects/weapons_energy/antimatter_ball_blue_idle_sound
+{
+    audio_file          sound/samples/expanded_arsenal/towers/energy/drones_heavy_05.wav
+    gain                1.4
+	streaming			0
+	looping             1
+	
+	freq_ratio_spread	0.1
+	freq_ratio			0.8
+	instance_limit		3
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower tower_burst_heavy_artillery charging"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/explosive/tower_heavy_artillery_burst_charge
+{
+    audio_file          sound/samples/expanded_arsenal/towers/explosive/tower_heavy_artillery_burst_charge.wav
+    gain                0.9
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.1
+	//freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_heavy_artillery_burst charging"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/explosive/tower_heavy_artillery_burst_reload
+{
+    audio_file          sound/samples/expanded_arsenal/towers/explosive/tower_heavy_artillery_burst_reload.wav
+    gain                0.9
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.1
+	//freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower_heavy_artillery burst_reloading"
+	notes				""
+	status				"placeholder"
+}
+
+
+//--------------------------ANTIMATTER TOWERS END--------------------------\\
+
 //--------------------------ADVANCED ENERGY TOWERS-II START--------------------------\\
 
-sound towers/energy/plasma_laser_start
+sound towers/energy/tower_antimatter_grenadier_charge
 {
-    audio_file          sound/samples/expanded_arsenal/towers/energy/plasma_laser_start.wav
-    gain                1.3
-    looping             0
-    streaming			0
-	//instance_limit		1
+    audio_file          sound/samples/expanded_arsenal/towers/energy/antimatter_grenadier_charge.wav
+    gain                0.8
+	streaming			0
+	looping             0
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
 
 	group				"player"
-    rolloffFactor		10
+    rolloffFactor		3.5
     referenceDistance	50
 	
-	description			"tower plasma laser start"
+	description			"tower antimatter_grenadier charging"
 	notes				""
 	status				"placeholder"
 }
 
-sound towers/energy/plasma_laser_loop
+sound towers/energy/tower_antimatter_grenadier_fire
 {
-    audio_file          sound/samples/expanded_arsenal/towers/energy/plasma_laser_loop.wav
+    audio_file          sound/samples/expanded_arsenal/towers/energy/antimatter_grenadier_fire.wav
+    gain                0.8
+	streaming			0
+	//looping             1
+	
+	freq_ratio_spread	0.1
+	//freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower antimatter_grenadier fire"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/energy/tower_antimatter_grenadier_reload
+{
+    audio_file          sound/samples/expanded_arsenal/towers/energy/antimatter_grenadier_reload.wav
+    gain                0.8
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower antimatter_grenadier reloading"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/energy/tower_plasma_railgun_charge
+{
+    audio_file          sound/samples/expanded_arsenal/towers/energy/plasma_railgun_charge.wav
+    gain                1.2
+	streaming			0
+	looping             0
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower plasma_railgun charging"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/energy/tower_plasma_railgun_fire
+{
+	audio_file			sound/samples/weapon_fire/canoptrix_bullet__not_used.wav
+	gain				0.6
+	streaming			0
+	looping				0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+	
+	group				"player"
+	rolloffFactor		10
+	referenceDistance	50
+
+	description			"plasma railgun fire"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/energy/tower_plasma_railgun_reload
+{
+    audio_file          sound/samples/expanded_arsenal/towers/energy/plasma_railgun_reload.wav
+    gain                1.2
+	streaming			0
+	looping             0
+	
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower plasma_railgun reloading"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/energy/tower_plasma_laser_heavy_charge
+{
+    audio_file          sound/samples/expanded_arsenal/towers/energy/heavy_plasma_laser_charge.wav
     gain                0.5
-    looping             1
-    streaming			0
-	//instance_limit		1
+	streaming			0
+	looping             0
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
@@ -223,118 +651,12 @@ sound towers/energy/plasma_laser_loop
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"tower plasma laser loop"
+	description			"tower heavy_plasma_laser charging"
 	notes				""
 	status				"placeholder"
 }
 
-sound towers/energy/plasma_laser_stop
-{
-	audio_file          sound/samples/expanded_arsenal/towers/energy/plasma_laser_stop.wav
-    gain                1.1
-    looping             0
-    streaming			0
-	//instance_limit		1
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"tower plasma laser stop"
-	notes				""
-	status				"placeholder"
-}
-
-sound towers/energy/plasma_laser_enemy_hit
-{
-	random_file
-    {
-        audio_file          sound/samples/expanded_arsenal/towers/energy/alien_laser_enemy_hit.wav
-		audio_file          sound/samples/expanded_arsenal/towers/energy/alien_laser_enemy_hit_02.wav
-    }
-    gain                0.3
-    looping             1
-    streaming			0
-	//instance_limit		1
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"tower plasma laser hit enemy"
-	notes				""
-	status				"placeholder"
-}
-
-sound towers/energy/plasma_laser_world_hit
-{
-	random_file
-    {
-        audio_file          sound/samples/expanded_arsenal/towers/energy/alien_laser_world_hit.wav
-		audio_file          sound/samples/expanded_arsenal/towers/energy/alien_laser_world_hit_02.wav
-    }
-    gain                0.3
-    looping             1
-    streaming			0
-	//instance_limit		1
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"tower plasma laser hit world"
-	notes				""
-	status				"placeholder"
-}
-
-sound towers/energy/heavy_plasma_laser_start
-{
-	audio_file         	sound/samples/expanded_arsenal/towers/energy/heavy_plasma_laser_start.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"tower heavy_plasma_laser start"
-	notes				""
-	status				"placeholder"
-}
-
-sound towers/energy/heavy_plasma_laser_stop
-{
-    audio_file          sound/samples/expanded_arsenal/towers/energy/heavy_plasma_laser_stop.wav
-    gain                0.6
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"tower heavy_plasma_laser stop"
-	notes				""
-	status				"placeholder"
-}
-
-sound towers/energy/heavy_plasma_laser_loop
+sound towers/energy/tower_plasma_laser_heavy_fire
 {
     audio_file          sound/samples/expanded_arsenal/towers/energy/heavy_plasma_laser_loop.wav
     gain                0.5
@@ -353,7 +675,26 @@ sound towers/energy/heavy_plasma_laser_loop
 	status				"placeholder"
 }
 
-sound towers/energy/heavy_plasma_laser_enemy_hit
+sound towers/energy/tower_plasma_laser_heavy_reload
+{
+    audio_file          sound/samples/expanded_arsenal/towers/energy/heavy_plasma_laser_reload.wav
+    gain                0.5
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		10
+    referenceDistance	50
+	
+	description			"tower heavy_plasma_laser reloading"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/energy/tower_plasma_laser_heavy_enemy_hit
 {
 	audio_file			sound/samples/expanded_arsenal/towers/energy/heavy_plasma_laser_enemy_hit.wav
 	gain				0.5
@@ -372,7 +713,7 @@ sound towers/energy/heavy_plasma_laser_enemy_hit
 	status				"beta"
 }
 
-sound towers/energy/heavy_plasma_laser_world_hit
+sound towers/energy/tower_plasma_laser_heavy_world_hit
 {
 	audio_file			sound/samples/expanded_arsenal/towers/energy/heavy_plasma_laser_world_hit.wav
 	gain				0.5
@@ -391,30 +732,24 @@ sound towers/energy/heavy_plasma_laser_world_hit
 	status				"beta"
 }
 
-sound towers/energy/plasma_railgun_fire
+sound towers/energy/tower_cruise_plasma_missile_charge
 {
-	audio_file			sound/samples/weapon_fire/canoptrix_bullet__not_used.wav
-	gain				0.5
+    audio_file          sound/samples/expanded_arsenal/towers/energy/cruise_plasma_missile_charge.wav
+    gain                0.8
 	streaming			0
-	looping				0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-	
-	group				"player"
-	rolloffFactor		10
-	referenceDistance	50
+	looping             0
 
-	description			"plasma railgun fire"
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	//instance_limit		2
+	
+	description			"tower_cruise_plasma_missile charging"
 	notes				""
 	status				"placeholder"
 }
 
-//--------------------------ADVANCED ENERGY TOWERS-II END--------------------------\\
-
-//--------------------------ADVANCED EXPLOSIVE TOWERS-II START--------------------------\\
-
-sound towers/energy/tower_cruise_plasma_shoot
+sound towers/energy/tower_cruise_plasma_missile_fire
 {
 	random_file
     {
@@ -438,49 +773,104 @@ sound towers/energy/tower_cruise_plasma_shoot
 	status				"placeholder"
 }
 
-//--------------------------ADVANCED EXPLOSIVE TOWERS-II END--------------------------\\
-
-//--------------------------TURRET HOWITZERS START--------------------------\\
-
-sound towers/bullet/tower_turret_howitzer_bullet_fire
+sound towers/energy/tower_cruise_plasma_missile_reload
 {
-    audio_file          sound/samples/expanded_arsenal/towers/bullet/slam_impact_05.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
+    audio_file          sound/samples/expanded_arsenal/towers/energy/cruise_plasma_missile_reload.wav
+    gain                0.8
+	streaming			0
+	looping             0
 
 	group				"player"
-    rolloffFactor		10
+    rolloffFactor		3.5
     referenceDistance	50
+	//instance_limit		2
 	
-	description			"turret howitzer bullet fire sound"
+	description			"tower_cruise_plasma_missile reloading"
 	notes				""
 	status				"placeholder"
 }
 
-sound towers/energy/tower_turret_howitzer_energy_fire
-{
-    audio_file          sound/samples/expanded_arsenal/towers/energy/slam_tech_02.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
+//--------------------------ADVANCED ENERGY TOWERS-II END--------------------------\\
 
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
+//--------------------------TOWER_ORBITAL_LASER_STATION START--------------------------\\
+
+sound items/weapons/energy/tower_orbital_laser_start
+{
+	audio_file			sound/samples/items/weapons/energy/orbital_laser_start.wav
+	gain				0.65
+	streaming			1
+	looping				0
 	
-	description			"turret howitzer energy fire sound"
+	freq_ratio_spread	0.2
+	freq_ratio			0.9
+	
+	group				"player"
+	rolloffFactor		10
+	referenceDistance	50
+
+	description			"starting sound of a big laser beam from space"
 	notes				""
-	status				"placeholder"
+	status				"beta"
 }
 
-//--------------------------TURRET HOWITZERS END--------------------------\\
+sound items/weapons/energy/tower_orbital_laser_loop
+{
+	audio_file			sound/samples/items/weapons/energy/orbital_laser_loop.wav
+	gain				0.65
+	streaming			1
+	looping				1
+	
+	freq_ratio_spread	0.2
+	freq_ratio			0.9
+	
+	group				"player"
+	rolloffFactor		10
+	referenceDistance	50
+
+	description			"looped sound of a big laser beam from space"
+	notes				""
+	status				"beta"
+}
+
+sound items/weapons/energy/tower_orbital_laser_stop
+{
+	audio_file			sound/samples/items/weapons/energy/orbital_laser_stop.wav
+	gain				0.65
+	streaming			1
+	looping				0
+	
+	freq_ratio_spread	0.2
+	freq_ratio			0.9
+	
+	group				"player"
+	rolloffFactor		10
+	referenceDistance	50
+
+	description			"stopping sound of a big laser beam from space"
+	notes				""
+	status				"beta"
+}
+
+sound items/weapons/energy/tower_orbital_laser_hit
+{
+	audio_file			sound/samples/items/weapons/energy/orbital_laser_hit.wav
+	gain				0.65
+	streaming			0
+	looping				1
+	
+	freq_ratio_spread	0.2
+	freq_ratio			0.9
+	
+	group				"player"
+	rolloffFactor		10
+	referenceDistance	50
+
+	description			"looped sound of a big laser beam from space hitting something"
+	notes				""
+	status				"beta"
+}
+
+//--------------------------TOWER_ORBITAL_LASER_STATION END--------------------------\\
 
 //--------------------------ACID TOWERS START--------------------------\\
 
@@ -550,10 +940,48 @@ sound towers/cryo/tower_cryo_blaster_fire
 	status				"placeholder"
 }
 
+sound towers/cryo/tower_cryo_laser_charge
+{
+    audio_file          sound/samples/expanded_arsenal/towers/cryo/cryo_laser_charge.wav
+    gain                0.8
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		3.5
+    referenceDistance	50
+	
+	description			"tower cryo_laser charging"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/cryo/tower_cryo_laser_reload
+{
+    audio_file          sound/samples/expanded_arsenal/towers/cryo/cryo_laser_reload.wav
+    gain                0.8
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+
+	group				"player"
+    rolloffFactor		10
+    referenceDistance	50
+	
+	description			"tower cryo_laser reloading"
+	notes				""
+	status				"placeholder"
+}
+
 sound towers/cryo/cryo_laser_start
 {
 	audio_file          sound/samples/expanded_arsenal/towers/cryo/cryo_laser_start.wav
-    gain                2
+    gain                0.8
     looping             0
     streaming			0
 	
@@ -561,7 +989,7 @@ sound towers/cryo/cryo_laser_start
 	freq_ratio			0.8
 
 	group				"player"
-    rolloffFactor		10
+    rolloffFactor		3.5
     referenceDistance	50
 	
 	description			"tower cryo_laser start"
@@ -580,7 +1008,7 @@ sound towers/cryo/cryo_laser_stop
 	freq_ratio			0.8
 
 	group				"player"
-    rolloffFactor		10
+    rolloffFactor		3.5
     referenceDistance	50
 	
 	description			"tower cryo_laser stop"
@@ -599,7 +1027,7 @@ sound towers/cryo/cryo_laser_loop
 	freq_ratio			0.8
 
 	group				"player"
-    rolloffFactor		10
+    rolloffFactor		3.5
     referenceDistance	50
 	
 	description			"tower cryo_laser loop"
@@ -789,7 +1217,7 @@ sound towers/radio/tower_radio_grenadier_fire
 sound towers/radio/tower_radio_shotgun_fire
 {
 	audio_file          sound/samples/expanded_arsenal/towers/radio/radio_shotgun_fire.wav
-    gain                0.5
+    gain                0.4
     looping             0
     streaming			0
 	
@@ -829,12 +1257,73 @@ sound towers/gravity/tower_gravity_blaster_fire
 	status				"placeholder"
 }
 
-sound towers/gravity/gravity_laser_start
+sound towers/gravity/tower_gravity_blaster_charge
 {
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_laser_start.wav
+    audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_blaster_charge.wav
+    gain                1.2
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+	//instance_limit		6
+	
+	group				"player"
+    rolloffFactor		10
+    referenceDistance	50
+	
+	description			"tower gravity_blaster charging"
+	notes				""
+	status				"placeholder"
+}
+
+
+sound towers/gravity/tower_gravity_blaster_reload
+{
+    audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_blaster_reload.wav
+    gain                1.2
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+	//instance_limit		6
+
+	group				"player"
+    rolloffFactor		10
+    referenceDistance	50
+	
+	description			"tower gravity_blaster reloading"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/gravity/tower_gravity_laser_charge
+{
+    audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_laser_charge.wav
     gain                0.7
-    looping             0
-    streaming			0
+	streaming			0
+	looping             0
+	
+	freq_ratio_spread	0.3
+	freq_ratio			0.8
+	//instance_limit		6
+
+	group				"player"
+    rolloffFactor		10
+    referenceDistance	50
+	
+	description			"tower gravity_laser charging"
+	notes				""
+	status				"placeholder"
+}
+
+sound towers/gravity/tower_gravity_laser_fire
+{
+    audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_laser_loop.wav
+    gain                0.3
+	streaming			0
+	looping             1
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
@@ -843,45 +1332,27 @@ sound towers/gravity/gravity_laser_start
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"tower gravity laser fire"
+	description			"tower gravity_laser loop"
 	notes				""
 	status				"placeholder"
 }
 
-sound towers/gravity/gravity_laser_stop
+sound towers/gravity/tower_gravity_laser_reload
 {
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_laser_stop.wav
+    audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_laser_reload.wav
     gain                0.8
-    looping             0
-    streaming			0
+	streaming			0
+	looping             0
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
+	//instance_limit		6
 
 	group				"player"
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"tower gravity laser stop"
-	notes				""
-	status				"placeholder"
-}
-
-sound towers/gravity/gravity_laser_loop
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_laser_loop.wav
-    gain                0.25
-    looping             1
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"tower gravity laser loop"
+	description			"tower gravity_laser reloading"
 	notes				""
 	status				"placeholder"
 }
@@ -924,93 +1395,53 @@ sound towers/gravity/gravity_laser_hit_world
 	status				"placeholder"
 }
 
-//singularity_warhead sounds
+//tower_gravity_warper_hit sounds
 
-sound towers/gravity/tower_gravity_accelerator_fire
+sound towers/gravity/tower_gravity_warper_charge
 {
-    audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_accelerator_fire.wav
+    audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_warper_charge.wav
     gain                0.7
-    looping             0
-    streaming			0
-	//instance_limit		1
+	streaming			0
+	looping             0
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
-
+	//instance_limit		6
+	
 	group				"player"
-    rolloffFactor		10
+    rolloffFactor		3.5
     referenceDistance	50
 	
-	description			"tower gravity accelerator shoot"
+	description			"tower gravity_warper charging"
 	notes				""
 	status				"placeholder"
 }
 
-sound items/warheads/singularity_warhead_open
 
+sound towers/gravity/tower_gravity_warper_reload
 {
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_open.wav
+    audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_warper_reload.wav
     gain                0.7
-    looping             0
-    streaming			0
+	streaming			0
+	looping             0
 	
 	freq_ratio_spread	0.3
 	freq_ratio			0.8
+	//instance_limit		6
 
 	group				"player"
-    rolloffFactor		10
+    rolloffFactor		3.5
     referenceDistance	50
 	
-	description			"singularity warhead open sound"
+	description			"tower gravity_warper reloading"
 	notes				""
 	status				"placeholder"
 }
 
-
-sound items/warheads/singularity_warhead_expand
-
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_expand.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"singularity warhead expand sound"
-	notes				""
-	status				"placeholder"
-}
-
-sound items/warheads/singularity_warhead_idle
+sound towers/gravity/tower_gravity_warper_hit_open
 
 {
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_idle.wav
-    gain                0.6
-    looping             1
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"singularity warhead idle sound"
-	notes				""
-	status				"placeholder"
-}
-
-sound items/warheads/singularity_warhead_close
-
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_close.wav
+	audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_warper_hit_open.wav
     gain                0.7
     looping             0
     streaming			0
@@ -1022,37 +1453,16 @@ sound items/warheads/singularity_warhead_close
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"singularity warhead close sound"
+	description			"tower_gravity_warper hit open sound"
 	notes				""
 	status				"placeholder"
 }
 
-//singularity_warhead_heavy sounds
 
-sound towers/gravity/tower_gravity_accelerator_heavy_fire
-{
-    audio_file          sound/samples/expanded_arsenal/towers/gravity/gravity_accelerator_heavy_fire.wav
-    gain                0.6
-    looping             0
-    streaming			0
-	//instance_limit		1
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"tower heavy gravity accelerator shoot"
-	notes				""
-	status				"placeholder"
-}
-
-sound items/warheads/singularity_warhead_heavy_open
+sound towers/gravity/tower_gravity_warper_hit_expand
 
 {
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_heavy_open.wav
+	audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_warper_hit_expand.wav
     gain                0.7
     looping             0
     streaming			0
@@ -1064,36 +1474,15 @@ sound items/warheads/singularity_warhead_heavy_open
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"heavy singularity warhead open sound"
+	description			"tower_gravity_warper hit expand sound"
 	notes				""
 	status				"placeholder"
 }
 
-
-sound items/warheads/singularity_warhead_heavy_expand
-
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_heavy_expand.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"heavy singularity warhead expand sound"
-	notes				""
-	status				"placeholder"
-}
-
-sound items/warheads/singularity_warhead_heavy_idle
+sound towers/gravity/tower_gravity_warper_hit_idle
 
 {
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_heavy_idle.wav
+	audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_warper_hit_idle.wav
     gain                0.5
     looping             1
     streaming			0
@@ -1105,15 +1494,15 @@ sound items/warheads/singularity_warhead_heavy_idle
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"heavy singularity warhead idle sound"
+	description			"tower_gravity_warper hit idle sound"
 	notes				""
 	status				"placeholder"
 }
 
-sound items/warheads/singularity_warhead_heavy_close
+sound towers/gravity/tower_gravity_warper_hit_close
 
 {
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_heavy_close.wav
+	audio_file          sound/samples/expanded_arsenal/towers/gravity/tower_gravity_warper_hit_close.wav
     gain                0.7
     looping             0
     streaming			0
@@ -1125,90 +1514,7 @@ sound items/warheads/singularity_warhead_heavy_close
     rolloffFactor		10
     referenceDistance	50
 	
-	description			"heavy singularity warhead close sound"
-	notes				""
-	status				"placeholder"
-}
-
-//singularity_warhead_missile sounds
-
-sound items/warheads/singularity_warhead_missile_open
-
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_missile_open.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"singularity warhead missile open sound"
-	notes				""
-	status				"placeholder"
-}
-
-
-sound items/warheads/singularity_warhead_missile_expand
-
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_missile_expand.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"singularity warhead missile expand sound"
-	notes				""
-	status				"placeholder"
-}
-
-sound items/warheads/singularity_warhead_missile_idle
-
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_missile_idle.wav
-    gain                0.5
-    looping             1
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"singularity warhead missile idle sound"
-	notes				""
-	status				"placeholder"
-}
-
-sound items/warheads/singularity_warhead_missile_close
-
-{
-	audio_file          sound/samples/expanded_arsenal/towers/gravity/singularity_warhead_missile_close.wav
-    gain                0.7
-    looping             0
-    streaming			0
-	
-	freq_ratio_spread	0.3
-	freq_ratio			0.8
-
-	group				"player"
-    rolloffFactor		10
-    referenceDistance	50
-	
-	description			"singularity warhead missile close sound"
+	description			"tower_gravity_warper hit close sound"
 	notes				""
 	status				"placeholder"
 }

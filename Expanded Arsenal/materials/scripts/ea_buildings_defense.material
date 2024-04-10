@@ -16,8 +16,10 @@ material buildings/defense/wall_energy_base_kinetic
 		{
 			depth_write off
 			scene_blend alpha_blend
+			
+			glow 1
 
-			vertex_program_ref unlit_emissive_fresnel_fog_world_vp
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
             {
             }
 
@@ -48,6 +50,14 @@ material buildings/defense/wall_energy_base_kinetic
 				filtering 		bilinear
 				tex_address_mode wrap
             }
+			
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
         }
     }
 }
@@ -163,8 +173,10 @@ material buildings/defense/wall_energy_base_radio
 		{
 			depth_write off
 			scene_blend alpha_blend
+			
+			glow 1
 
-			vertex_program_ref unlit_emissive_fresnel_fog_world_vp
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
             {
             }
 
@@ -195,6 +207,14 @@ material buildings/defense/wall_energy_base_radio
 				filtering 		bilinear
 				tex_address_mode wrap
             }
+			
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
         }
     }
 }
@@ -310,8 +330,10 @@ material buildings/defense/wall_energy_base_ion
 		{
 			depth_write off
 			scene_blend alpha_blend
+			
+			glow 1
 
-			vertex_program_ref unlit_emissive_fresnel_fog_world_vp
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
             {
             }
 
@@ -342,6 +364,14 @@ material buildings/defense/wall_energy_base_ion
 				filtering 		bilinear
 				tex_address_mode wrap
             }
+			
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
         }
     }
 }
@@ -457,8 +487,10 @@ material buildings/defense/wall_energy_base_gravity
 		{
 			depth_write off
 			scene_blend alpha_blend
+			
+			glow 1
 
-			vertex_program_ref unlit_emissive_fresnel_fog_world_vp
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
             {
             }
 
@@ -489,6 +521,14 @@ material buildings/defense/wall_energy_base_gravity
 				filtering 		bilinear
 				tex_address_mode wrap
             }
+			
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds 3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
         }
     }
 }
@@ -593,6 +633,346 @@ material buildings/defense/wall_gravity_lvl_3_solid_dissolve : pbr/height_dissol
 
 //----------------------ADVANCED ENERGY WALLS END----------------------\\
 
+//----------------------ADVANCED ENERGY GATES START----------------------\\
+
+// wall_gate_kinetic
+
+material buildings/defense/wall_gate_energy_kinetic_solid : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_kinetic_solid_emissive.dds
+
+	glow 4
+}
+
+material buildings/defense/wall_gate_energy_kinetic_solid_dissolve : pbr/height_dissolve
+{
+
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_kinetic_solid_emissive.dds
+
+	glow 4
+}
+
+material buildings/defense/wall_gate_energy_kinetic : buildings/defense/wall_energy_base_kinetic
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_kinetic_albedo.dds
+    set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+}
+
+material buildings/defense/wall_gate_energy_kinetic_dissolve : buildings/defense/wall_gate_energy_kinetic
+{
+
+}
+
+
+material buildings/defense/wall_gate_energy_kinetic_lvl_2 : buildings/defense/wall_energy_base_kinetic
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_kinetic_albedo.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 12 11 0 1
+				param_named cFresnelColor 	float4 6 5 0 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_kinetic_lvl_2_dissolve : buildings/defense/wall_gate_energy_kinetic_lvl_2
+{
+}
+
+material buildings/defense/wall_gate_energy_kinetic_lvl_3 : buildings/defense/wall_energy_base_kinetic
+{
+	set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_kinetic_albedo.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 12 11 0 1
+				param_named cFresnelColor 	float4 6 5 0 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_kinetic_lvl_3_dissolve : buildings/defense/wall_gate_energy_kinetic_lvl_3
+{
+}
+
+// wall_gate_radio
+
+material buildings/defense/wall_gate_energy_radio_solid : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_radio_solid_emissive.dds
+
+	glow 2.5
+}
+
+material buildings/defense/wall_gate_energy_radio_solid_dissolve : pbr/height_dissolve
+{
+
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_radio_solid_emissive.dds
+
+	glow 2.5
+}
+
+material buildings/defense/wall_gate_energy_radio : buildings/defense/wall_energy_base_radio
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_radio_albedo.dds
+    set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+}
+
+material buildings/defense/wall_gate_energy_radio_dissolve : buildings/defense/wall_gate_energy_radio
+{
+
+}
+
+
+material buildings/defense/wall_gate_energy_radio_lvl_2 : buildings/defense/wall_energy_base_radio
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_radio_albedo.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 8 15 0 1
+				param_named cFresnelColor 	float4 4 6 0 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_radio_lvl_2_dissolve : buildings/defense/wall_gate_energy_radio_lvl_2
+{
+}
+
+material buildings/defense/wall_gate_energy_radio_lvl_3 : buildings/defense/wall_energy_base_radio
+{
+	set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_radio_albedo.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 8 15 0 1
+				param_named cFresnelColor 	float4 4 6 0 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_radio_lvl_3_dissolve : buildings/defense/wall_gate_energy_radio_lvl_3
+{
+}
+
+// wall_gate_ion
+
+material buildings/defense/wall_gate_energy_ion_solid : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_ion_solid_emissive.dds
+
+	glow 3
+}
+
+material buildings/defense/wall_gate_energy_ion_solid_dissolve : pbr/height_dissolve
+{
+
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_ion_solid_emissive.dds
+
+	glow 3
+}
+
+material buildings/defense/wall_gate_energy_ion : buildings/defense/wall_energy_base_ion
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_ion_albedo.dds
+    set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+}
+
+material buildings/defense/wall_gate_energy_ion_dissolve : buildings/defense/wall_gate_energy_ion
+{
+
+}
+
+
+material buildings/defense/wall_gate_energy_ion_lvl_2 : buildings/defense/wall_energy_base_ion
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_ion_albedo.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 0 0 5 1
+				param_named cFresnelColor 	float4 0 0 4 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_ion_lvl_2_dissolve : buildings/defense/wall_gate_energy_ion_lvl_2
+{
+}
+
+material buildings/defense/wall_gate_energy_ion_lvl_3 : buildings/defense/wall_energy_base_ion
+{
+	set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_ion_albedo.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 0 0 5 1
+				param_named cFresnelColor 	float4 0 0 4 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_ion_lvl_3_dissolve : buildings/defense/wall_gate_energy_ion_lvl_3
+{
+}
+
+// wall_gate_gravity
+
+material buildings/defense/wall_gate_energy_gravity_solid : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_gravity_solid_emissive.dds
+
+	glow 3
+}
+
+material buildings/defense/wall_gate_energy_gravity_solid_dissolve : pbr/height_dissolve
+{
+
+	set_texture_alias albedo			materials/textures/buildings/defense/wall_gate_energy_solid_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/wall_gate_energy_solid_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/wall_gate_energy_solid_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_gravity_solid_emissive.dds
+
+	glow 3
+}
+
+material buildings/defense/wall_gate_energy_gravity : buildings/defense/wall_energy_base_gravity
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_gravity_albedo.dds
+    set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+}
+
+material buildings/defense/wall_gate_energy_gravity_dissolve : buildings/defense/wall_gate_energy_gravity
+{
+
+}
+
+
+material buildings/defense/wall_gate_energy_gravity_lvl_2 : buildings/defense/wall_energy_base_gravity
+{
+    set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_gravity_albedo.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 9 0 8 1
+				param_named cFresnelColor 	float4 4 0 3 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_gravity_lvl_2_dissolve : buildings/defense/wall_gate_energy_gravity_lvl_2
+{
+}
+
+material buildings/defense/wall_gate_energy_gravity_lvl_3 : buildings/defense/wall_energy_base_gravity
+{
+	set_texture_alias diffuse			materials/textures/buildings/defense/wall_gate_energy_gravity_albedo.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/wall_gate_energy_energy_emissive.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 9 0 8 1
+				param_named cFresnelColor 	float4 4 0 3 1
+				param_named cFresnelBias    float 0.05
+				param_named cFresnelScale   float 1
+				param_named cFresnelPower   float 2
+			}
+		}
+	}
+}
+
+material buildings/defense/wall_gate_energy_gravity_lvl_3_dissolve : buildings/defense/wall_gate_energy_gravity_lvl_3
+{
+}
+
+//----------------------ADVANCED ENERGY GATES END----------------------\\
+
 //----------------------ADVANCED SHIELD GENERATORS START----------------------\\
 
 // shield_generator_kinetic
@@ -684,6 +1064,75 @@ material buildings/defense/shield_generator_gravity_dissolve : pbr/height_dissol
 }
 
 //----------------------ADVANCED SHIELD GENERATORS END----------------------\\
+
+//----------------------TOWER ALIEN INTERCEPT START----------------------\\
+
+material buildings/defense/tower_alien_intercept_lvl_1 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_alien_influence_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_alien_influence_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_alien_influence_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_alien_intercept_lvl_1_emissive.dds
+
+	glow 8
+}
+
+material buildings/defense/tower_alien_intercept_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_alien_influence_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_alien_influence_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_alien_influence_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_alien_intercept_lvl_1_emissive.dds
+
+	glow 8
+}
+
+material buildings/defense/tower_alien_intercept_lvl_2 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_alien_influence_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_alien_influence_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_alien_influence_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_alien_intercept_lvl_2_emissive.dds
+
+	glow 8
+
+}
+
+
+material buildings/defense/tower_alien_intercept_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_alien_influence_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_alien_influence_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_alien_influence_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_alien_intercept_lvl_2_emissive.dds
+
+	glow 8
+
+}
+
+material buildings/defense/tower_alien_intercept_lvl_3 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_alien_influence_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_alien_influence_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_alien_influence_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_alien_intercept_lvl_3_emissive.dds
+
+	glow 8
+
+}
+
+material buildings/defense/tower_alien_intercept_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_alien_influence_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_alien_influence_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_alien_influence_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_alien_intercept_lvl_3_emissive.dds
+
+	glow 8
+
+}
+
+//----------------------TOWER ALIEN INTERCEPT END----------------------\\
 
 //----------------------LOW CALIBER TOWERS START----------------------\\
 
@@ -891,54 +1340,54 @@ material buildings/defense/tower_volley_lvl_3_dissolve : pbr/height_dissolve
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_volley_lvl_3_emissive.dds
 }
 
-// tower_burstminigun
+// tower_minigun_burst
 
-material buildings/defense/tower_burstminigun_lvl_1 : buildings/destructible
+material buildings/defense/tower_minigun_burst_lvl_1 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_burstminigun_lvl_1_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_minigun_burst_lvl_1_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_minigun_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_minigun_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_burstminigun_lvl_1_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_minigun_burst_lvl_1_emissive.dds
 }
 
-material buildings/defense/tower_burstminigun_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_minigun_burst_lvl_1_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_burstminigun_lvl_1_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_minigun_burst_lvl_1_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_minigun_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_minigun_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_burstminigun_lvl_1_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_minigun_burst_lvl_1_emissive.dds
 }
 
-material buildings/defense/tower_burstminigun_lvl_2 : buildings/destructible
+material buildings/defense/tower_minigun_burst_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_burstminigun_lvl_2_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_minigun_burst_lvl_2_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_minigun_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_minigun_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_burstminigun_lvl_2_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_minigun_burst_lvl_2_emissive.dds
 }
 
-material buildings/defense/tower_burstminigun_lvl_2_dissolve : pbr/height_dissolve
+material buildings/defense/tower_minigun_burst_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_burstminigun_lvl_2_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_minigun_burst_lvl_2_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_minigun_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_minigun_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_burstminigun_lvl_2_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_minigun_burst_lvl_2_emissive.dds
 }
 
-material buildings/defense/tower_burstminigun_lvl_3 : buildings/destructible
+material buildings/defense/tower_minigun_burst_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_burstminigun_lvl_3_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_minigun_burst_lvl_3_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_minigun_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_minigun_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_burstminigun_lvl_3_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_minigun_burst_lvl_3_emissive.dds
 }
 
-material buildings/defense/tower_burstminigun_lvl_3_dissolve : pbr/height_dissolve
+material buildings/defense/tower_minigun_burst_lvl_3_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_burstminigun_lvl_3_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_minigun_burst_lvl_3_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_minigun_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_minigun_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_burstminigun_lvl_3_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_minigun_burst_lvl_3_emissive.dds
 }
 
 // tower_sniper
@@ -1099,50 +1548,50 @@ material buildings/defense/tower_plasma_mortar_lvl_3_dissolve : pbr/height_disso
 
 material buildings/defense/tower_plasma_mauler_lvl_1 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mortar_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mauler_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_plasma_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_plasma_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_lvl_1_emissive.dds
 }
 
 material buildings/defense/tower_plasma_mauler_lvl_1_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mortar_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mauler_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_plasma_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_plasma_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_lvl_1_emissive.dds
 }
 
 material buildings/defense/tower_plasma_mauler_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mortar_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mauler_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_plasma_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_plasma_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_lvl_2_emissive.dds
 }
 
 material buildings/defense/tower_plasma_mauler_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mortar_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mauler_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_plasma_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_plasma_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_lvl_2_emissive.dds
 }
 
 material buildings/defense/tower_plasma_mauler_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mortar_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mauler_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_plasma_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_plasma_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_lvl_3_emissive.dds
 }
 
 material buildings/defense/tower_plasma_mauler_lvl_3_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mortar_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_mauler_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_plasma_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_plasma_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_lvl_3_emissive.dds
 }
 
 
@@ -1154,8 +1603,6 @@ material buildings/defense/tower_mhd_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_mhd_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_mhd_lvl_1_dissolve : pbr/height_dissolve
@@ -1172,8 +1619,6 @@ material buildings/defense/tower_mhd_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_mhd_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_mhd_lvl_2_dissolve : pbr/height_dissolve
@@ -1190,8 +1635,6 @@ material buildings/defense/tower_mhd_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_mhd_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_mhd_lvl_3_dissolve : pbr/height_dissolve
@@ -1214,8 +1657,6 @@ material buildings/defense/tower_cluster_rockets_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cluster_rockets_lvl_1_dissolve : pbr/height_dissolve
@@ -1232,8 +1673,6 @@ material buildings/defense/tower_cluster_rockets_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cluster_rockets_lvl_2_dissolve : pbr/height_dissolve
@@ -1250,8 +1689,6 @@ material buildings/defense/tower_cluster_rockets_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cluster_rockets_lvl_3_dissolve : pbr/height_dissolve
@@ -1262,120 +1699,120 @@ material buildings/defense/tower_cluster_rockets_lvl_3_dissolve : pbr/height_dis
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_3_emissive.dds
 }
 
-// tower_cruise_rocket
+// tower_artillery_burst
 
-material buildings/defense/tower_cruise_rocket_lvl_1 : buildings/destructible
+material buildings/defense/tower_artillery_burst_lvl_1 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_rocket_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_1_emissive.dds
-	
-	glow 5
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_artillery_burst_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_burst_lvl_1_emissive.dds
 }
 
-material buildings/defense/tower_cruise_rocket_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_artillery_burst_lvl_1_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_rocket_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_artillery_burst_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_burst_lvl_1_emissive.dds
 }
 
-material buildings/defense/tower_cruise_rocket_lvl_2 : buildings/destructible
+material buildings/defense/tower_artillery_burst_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_rocket_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_2_emissive.dds
-	
-	glow 5
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_artillery_burst_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_burst_lvl_2_emissive.dds
 }
 
-material buildings/defense/tower_cruise_rocket_lvl_2_dissolve : pbr/height_dissolve
+material buildings/defense/tower_artillery_burst_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_rocket_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_2_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_artillery_burst_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_burst_lvl_2_emissive.dds
 }
 
-material buildings/defense/tower_cruise_rocket_lvl_3 : buildings/destructible
+material buildings/defense/tower_artillery_burst_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_rocket_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_3_emissive.dds
-	
-	glow 5
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_artillery_burst_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_burst_lvl_3_emissive.dds
 }
 
-material buildings/defense/tower_cruise_rocket_lvl_3_dissolve : pbr/height_dissolve
+material buildings/defense/tower_artillery_burst_lvl_3_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_rocket_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive_lvl_3_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_artillery_burst_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_burst_lvl_3_emissive.dds
 }
 
 //----------------------ADVANCED EXPLOSIVE TOWERS END----------------------\\
 
 //------------------------ADVANCED ENERGY TOWERS_II START------------------------\\
 
-// tower_plasma_laser
+// tower_antimatter_grenadier
 
-material buildings/defense/tower_plasma_laser_lvl_1 : buildings/destructible
+material buildings/defense/tower_antimatter_grenadier_lvl_1 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_laser_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_lvl_1_emissive.dds
-	
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_1_emissive.dds
+
+	glow 4
+}
+
+material buildings/defense/tower_antimatter_grenadier_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_1_emissive.dds
+
 	glow 5
 }
 
-material buildings/defense/tower_plasma_laser_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_antimatter_grenadier_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_laser_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_2_emissive.dds
+
+	glow 4
 }
 
-material buildings/defense/tower_plasma_laser_lvl_2 : buildings/destructible
+material buildings/defense/tower_antimatter_grenadier_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_laser_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_lvl_2_emissive.dds
-	
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_2_emissive.dds
+
 	glow 5
 }
 
-material buildings/defense/tower_plasma_laser_lvl_2_dissolve : pbr/height_dissolve
+material buildings/defense/tower_antimatter_grenadier_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_laser_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_lvl_2_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_3_emissive.dds
+
+	glow 4
 }
 
-material buildings/defense/tower_plasma_laser_lvl_3 : buildings/destructible
+material buildings/defense/tower_antimatter_grenadier_lvl_3_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_laser_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_lvl_3_emissive.dds
-	
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_antimatter_grenadier_lvl_3_emissive.dds
+
 	glow 5
-}
-
-material buildings/defense/tower_plasma_laser_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_laser_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_lvl_3_emissive.dds
 }
 
 // tower_plasma_laser_heavy
@@ -1386,8 +1823,6 @@ material buildings/defense/tower_plasma_laser_heavy_lvl_1 : buildings/destructib
 	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_heavy_lvl_1_emissive.dds
-
-	glow 4
 }
 
 material buildings/defense/tower_plasma_laser_heavy_lvl_1_dissolve : pbr/height_dissolve
@@ -1404,8 +1839,6 @@ material buildings/defense/tower_plasma_laser_heavy_lvl_2 : buildings/destructib
 	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_heavy_lvl_2_emissive.dds
-
-	glow 5
 }
 
 material buildings/defense/tower_plasma_laser_heavy_lvl_2_dissolve : pbr/height_dissolve
@@ -1422,8 +1855,6 @@ material buildings/defense/tower_plasma_laser_heavy_lvl_3 : buildings/destructib
 	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_heavy_lvl_3_emissive.dds
-
-	glow 6
 }
 
 material buildings/defense/tower_plasma_laser_heavy_lvl_3_dissolve : pbr/height_dissolve
@@ -1434,14 +1865,62 @@ material buildings/defense/tower_plasma_laser_heavy_lvl_3_dissolve : pbr/height_
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_laser_heavy_lvl_3_emissive.dds
 }
 
+// tower_cruise_plasma_missile
+
+material buildings/defense/tower_cruise_plasma_missile_lvl_1 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_cruise_plasma_missile_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_cruise_plasma_missile_lvl_2 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_cruise_plasma_missile_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_cruise_plasma_missile_lvl_3 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_3_emissive.dds
+}
+
+material buildings/defense/tower_cruise_plasma_missile_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_3_emissive.dds
+}
+
 material buildings/defense/tower_plasma_railgun_lvl_1 : buildings/destructible
 {
 	set_texture_alias albedo			materials/textures/buildings/defense/tower_plasma_railgun_lvl_1_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_railgun_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_railgun_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_railgun_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_plasma_railgun_lvl_1_dissolve : pbr/height_dissolve
@@ -1458,8 +1937,6 @@ material buildings/defense/tower_plasma_railgun_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_railgun_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_railgun_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_railgun_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_plasma_railgun_lvl_2_dissolve : pbr/height_dissolve
@@ -1476,8 +1953,6 @@ material buildings/defense/tower_plasma_railgun_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_railgun_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_railgun_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_railgun_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_plasma_railgun_lvl_3_dissolve : pbr/height_dissolve
@@ -1486,62 +1961,6 @@ material buildings/defense/tower_plasma_railgun_lvl_3_dissolve : pbr/height_diss
 	set_texture_alias normal			materials/textures/buildings/defense/tower_railgun_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_railgun_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_plasma_railgun_lvl_3_emissive.dds
-}
-
-// tower_prism
-
-material buildings/defense/tower_prism_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_prism_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_prism_lvl_1_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_prism_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_prism_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_prism_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_prism_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_prism_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_prism_lvl_2_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_prism_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_prism_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_prism_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_prism_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_prism_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_prism_lvl_3_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_prism_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_prism_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_prism_lvl_3_emissive.dds
 }
 
 //------------------------ADVANCED ENERGY TOWERS_II END------------------------\\
@@ -1622,182 +2041,393 @@ material buildings/defense/tower_orbital_bombardment_station_dissolve : pbr/heig
 	set_texture_alias normal			materials/textures/buildings/main/research_station_normal.dds
 	set_texture_alias packed			materials/textures/buildings/main/research_station_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_orbital_bombardment_station_emissive.dds
+}
+
+
+// tower_orbital_laser_station
+
+material buildings/defense/tower_orbital_laser_station : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_orbital_laser_station_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/main/research_station_normal.dds
+	set_texture_alias packed			materials/textures/buildings/main/research_station_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_orbital_laser_station_emissive.dds
 
 	glow 3
+}
+
+material buildings/defense/tower_orbital_laser_station_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_orbital_laser_station_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/main/research_station_normal.dds
+	set_texture_alias packed			materials/textures/buildings/main/research_station_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_orbital_laser_station_emissive.dds
 }
 
 //----------------------RIFT TOWERS END----------------------\\
 
 //----------------------ADVANCED DRONE TOWERS START----------------------\\
 
-// tower_bullet_drone_attack
+// tower_drone_attack_advanced
 
-material buildings/defense/tower_bullet_drone_attack_lvl_1 : buildings/destructible
+material buildings/defense/tower_drone_attack_advanced_lvl_1 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_1_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_1_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_1_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_1_emissive.dds 18 3
 
 	glow 6
 }
 
-material buildings/defense/tower_bullet_drone_attack_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_drone_attack_advanced_lvl_1_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_1_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_1_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_1_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_1_emissive.dds 18 3
 }
 
-material buildings/defense/tower_bullet_drone_attack_lvl_2 : buildings/destructible
+material buildings/defense/tower_drone_attack_advanced_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_2_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_2_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_2_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_2_emissive.dds 18 3
 
 	glow 6
 }
 
-material buildings/defense/tower_bullet_drone_attack_lvl_2_dissolve : pbr/height_dissolve
+material buildings/defense/tower_drone_attack_advanced_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_2_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_2_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_2_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_2_emissive.dds 18 3
 }
 
-material buildings/defense/tower_bullet_drone_attack_lvl_3 : buildings/destructible
+material buildings/defense/tower_drone_attack_advanced_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_3_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_3_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_3_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_3_emissive.dds 18 3
 
 	glow 7
 }
 
-material buildings/defense/tower_bullet_drone_attack_lvl_3_dissolve : pbr/height_dissolve
+material buildings/defense/tower_drone_attack_advanced_lvl_3_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_3_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_3_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_bullet_drone_attack_lvl_3_emissive.dds
-}
-
-// tower_energy_drone_attack
-
-material buildings/defense/tower_energy_drone_attack_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_energy_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_lvl_1_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_energy_drone_attack_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_energy_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_energy_drone_attack_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_energy_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_lvl_2_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_energy_drone_attack_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_energy_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_energy_drone_attack_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_energy_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_lvl_3_emissive.dds
-
-	glow 7
-}
-
-material buildings/defense/tower_energy_drone_attack_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_energy_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_lvl_3_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_drone_attack_advanced_lvl_3_emissive.dds 18 5
 }
 
 //----------------------ADVANCED DRONE TOWERS END----------------------\\
 
-//----------------------TURRET HOWITZERS START----------------------\\
+//----------------------CRYSTAL TOWERS START----------------------\\
 
+//tower_crystal_blaster
 
-// tower_turret_howitzer_energy
-
-material buildings/defense/tower_turret_howitzer_energy_lvl_1 : buildings/destructible
+material buildings/defense/tower_crystal_blaster_lvl_1 : pbr/reflections_alpha_test
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_turret_howitzer_energy_lvl_1_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_blaster_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_blaster_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_crystal_blaster_lvl_2 : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_blaster_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_blaster_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_crystal_blaster_lvl_3 : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_blaster_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_blaster_lvl_3_emissive.dds
+}
+
+// tower_crystal_artillery
+
+material buildings/defense/tower_crystal_artillery_lvl_1 : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_artillery_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_artillery_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_crystal_artillery_lvl_2 : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_artillery_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_artillery_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_crystal_artillery_lvl_3 : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_artillery_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_artillery_lvl_3_emissive.dds
+}
+
+// tower_crystal_cruise_missile
+
+material buildings/defense/tower_crystal_cruise_missile_lvl_1 : pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_crystal_cruise_missile_lvl_2 :  pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_crystal_cruise_missile_lvl_3 :  pbr/reflections_alpha_test
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_emissive.dds
+	set_texture_alias reflection     	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+    glow 5
+	reflection 0.2 6
+}
+
+material buildings/defense/tower_crystal_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_crystal_cruise_missile_lvl_3_emissive.dds
+}
+
+//----------------------CRYSTAL TOWERS END----------------------\\
+
+//----------------------MORPHIUM TOWERS START----------------------\\
+
+// tower_morphium_artillery
+
+material buildings/defense/tower_morphium_artillery_lvl_1 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_artillery_lvl_1_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_lvl_1_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_1_emissive.dds
 }
 
-material buildings/defense/tower_turret_howitzer_energy_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_morphium_artillery_lvl_1_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_turret_howitzer_energy_lvl_1_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_artillery_lvl_1_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_lvl_1_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_1_emissive.dds
 }
 
-material buildings/defense/tower_turret_howitzer_energy_lvl_2 : buildings/destructible
+material buildings/defense/tower_morphium_artillery_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_turret_howitzer_energy_lvl_2_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_artillery_lvl_2_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_lvl_2_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_2_emissive.dds
 }
 
-material buildings/defense/tower_turret_howitzer_energy_lvl_2_dissolve : pbr/height_dissolve
+material buildings/defense/tower_morphium_artillery_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_turret_howitzer_energy_lvl_2_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_artillery_lvl_2_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_lvl_2_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_2_emissive.dds
 }
 
-material buildings/defense/tower_turret_howitzer_energy_lvl_3 : buildings/destructible
+material buildings/defense/tower_morphium_artillery_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_turret_howitzer_energy_lvl_3_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_artillery_lvl_3_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_lvl_3_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_3_emissive.dds
 }
 
-material buildings/defense/tower_turret_howitzer_energy_lvl_3_dissolve : pbr/height_dissolve
+material buildings/defense/tower_morphium_artillery_lvl_3_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_turret_howitzer_energy_lvl_3_albedo.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_artillery_lvl_3_albedo.dds
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_artillery_lvl_3_emissive.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_3_emissive.dds
 }
 
-//----------------------TURRET HOWITZERS END----------------------\\
+// tower_morphium_cruise_missile
+
+material buildings/defense/tower_morphium_cruise_missile_lvl_1 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_cruise_missile_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_morphium_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_cruise_missile_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_morphium_cruise_missile_lvl_2 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_cruise_missile_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_morphium_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_cruise_missile_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_morphium_cruise_missile_lvl_3 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_cruise_missile_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_3_emissive.dds
+}
+
+material buildings/defense/tower_morphium_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_morphium_cruise_missile_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_3_emissive.dds
+}
+
+//----------------------MORPHIUM TOWERS END----------------------\\
 
 //----------------------ADVANCED EXPLOSIVE TOWERS-II START----------------------\\
 
@@ -1809,8 +2439,6 @@ material buildings/defense/tower_cruise_missile_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
@@ -1827,8 +2455,6 @@ material buildings/defense/tower_cruise_missile_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
@@ -1845,8 +2471,6 @@ material buildings/defense/tower_cruise_missile_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
@@ -1865,8 +2489,6 @@ material buildings/defense/tower_cluster_cruise_missile_lvl_1 : buildings/destru
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cluster_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
@@ -1883,8 +2505,6 @@ material buildings/defense/tower_cluster_cruise_missile_lvl_2 : buildings/destru
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cluster_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
@@ -1901,8 +2521,6 @@ material buildings/defense/tower_cluster_cruise_missile_lvl_3 : buildings/destru
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cluster_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
@@ -1913,63 +2531,66 @@ material buildings/defense/tower_cluster_cruise_missile_lvl_3_dissolve : pbr/hei
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_3_emissive.dds
 }
 
-// tower_cruise_plasma_missile
-
-material buildings/defense/tower_cruise_plasma_missile_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_1_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_cruise_plasma_missile_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_cruise_plasma_missile_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_2_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_cruise_plasma_missile_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_cruise_plasma_missile_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_3_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_cruise_plasma_missile_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cruise_plasma_missile_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_advanced_explosive2_lvl_3_emissive.dds
-}
-
 //----------------------ADVANCED EXPLOSIVE TOWERS-II END----------------------\\
+
+
+//----------------------ANTIMATTER TOWERS START----------------------\\
+
+material buildings/defense/tower_antimatter_lvl_1 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_portal_lvl_1_emissive.dds
+
+	glow 3
+}
+
+material buildings/defense/tower_antimatter_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_portal_lvl_1_emissive.dds
+}
+
+material buildings/defense/tower_antimatter_lvl_2 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_portal_lvl_2_emissive.dds
+
+	glow 4
+}
+
+material buildings/defense/tower_antimatter_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_portal_lvl_2_emissive.dds
+}
+
+material buildings/defense/tower_antimatter_lvl_3 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_portal_lvl_3_emissive.dds
+
+	glow 4
+}
+
+material buildings/defense/tower_antimatter_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_antimatter_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_portal_lvl_3_emissive.dds
+}
+
+//----------------------ANTIMATTER TOWERS END----------------------\\
 
 //----------------------ACID TOWERS START----------------------\\
 
@@ -2029,60 +2650,66 @@ material buildings/defense/tower_acid_blaster_lvl_3_dissolve : pbr/height_dissol
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_blaster_lvl_3_emissive.dds
 }
 
-// tower_acid_mine_layer
+// tower_acid_grenadier
 
-material buildings/defense/tower_acid_mine_layer_lvl_1 : buildings/destructible
+material buildings/defense/tower_acid_grenadier_lvl_1 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_mine_layer_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_mine_layer_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_1_emissive.dds
-	
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_grenadier_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_grenadier_lvl_1_emissive.dds
+
+	glow 4
+}
+
+material buildings/defense/tower_acid_grenadier_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_grenadier_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_grenadier_lvl_1_emissive.dds
+
 	glow 5
 }
 
-material buildings/defense/tower_acid_mine_layer_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_acid_grenadier_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_mine_layer_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_mine_layer_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_grenadier_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_grenadier_lvl_2_emissive.dds
+
+	glow 4
 }
 
-material buildings/defense/tower_acid_mine_layer_lvl_2 : buildings/destructible
+material buildings/defense/tower_acid_grenadier_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_mine_layer_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_mine_layer_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_2_emissive.dds
-	
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_grenadier_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_grenadier_lvl_2_emissive.dds
+
 	glow 5
 }
 
-material buildings/defense/tower_acid_mine_layer_lvl_2_dissolve : pbr/height_dissolve
+material buildings/defense/tower_acid_grenadier_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_mine_layer_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_mine_layer_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_2_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_grenadier_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_grenadier_lvl_3_emissive.dds
+
+	glow 4
 }
 
-material buildings/defense/tower_acid_mine_layer_lvl_3 : buildings/destructible
+material buildings/defense/tower_acid_grenadier_lvl_3_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_mine_layer_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_mine_layer_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_3_emissive.dds
-	
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_grenadier_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_acid_spitter_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_grenadier_lvl_3_emissive.dds
+
 	glow 5
-}
-
-material buildings/defense/tower_acid_mine_layer_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_mine_layer_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_mine_layer_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_mine_layer_lvl_3_emissive.dds
 }
 
 // tower_acid_artillery
@@ -2093,8 +2720,6 @@ material buildings/defense/tower_acid_artillery_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_artillery_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_acid_artillery_lvl_1_dissolve : pbr/height_dissolve
@@ -2111,8 +2736,6 @@ material buildings/defense/tower_acid_artillery_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_artillery_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_acid_artillery_lvl_2_dissolve : pbr/height_dissolve
@@ -2129,8 +2752,6 @@ material buildings/defense/tower_acid_artillery_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_artillery_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_acid_artillery_lvl_3_dissolve : pbr/height_dissolve
@@ -2141,62 +2762,6 @@ material buildings/defense/tower_acid_artillery_lvl_3_dissolve : pbr/height_diss
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_artillery_lvl_3_emissive.dds
 }
 
-// tower_acid_drone_attack
-
-material buildings/defense/tower_acid_drone_attack_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_1_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_acid_drone_attack_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_acid_drone_attack_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_2_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_acid_drone_attack_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_acid_drone_attack_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_3_emissive.dds
-
-	glow 7
-}
-
-material buildings/defense/tower_acid_drone_attack_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_drone_attack_lvl_3_emissive.dds
-}
-
 // tower_acid_cruise_missile
 
 material buildings/defense/tower_acid_cruise_missile_lvl_1 : buildings/destructible
@@ -2205,8 +2770,6 @@ material buildings/defense/tower_acid_cruise_missile_lvl_1 : buildings/destructi
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_cruise_missile_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_acid_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
@@ -2223,8 +2786,6 @@ material buildings/defense/tower_acid_cruise_missile_lvl_2 : buildings/destructi
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_cruise_missile_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_acid_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
@@ -2241,8 +2802,6 @@ material buildings/defense/tower_acid_cruise_missile_lvl_3 : buildings/destructi
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_acid_cruise_missile_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_acid_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
@@ -2321,8 +2880,6 @@ material buildings/defense/tower_cryo_laser_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_laser_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_laser_lvl_1_dissolve : pbr/height_dissolve
@@ -2339,8 +2896,6 @@ material buildings/defense/tower_cryo_laser_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_laser_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_laser_lvl_2_dissolve : pbr/height_dissolve
@@ -2357,8 +2912,6 @@ material buildings/defense/tower_cryo_laser_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_laser_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_laser_lvl_3_dissolve : pbr/height_dissolve
@@ -2377,8 +2930,6 @@ material buildings/defense/tower_cryo_artillery_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_artillery_lvl_1_dissolve : pbr/height_dissolve
@@ -2395,8 +2946,6 @@ material buildings/defense/tower_cryo_artillery_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_artillery_lvl_2_dissolve : pbr/height_dissolve
@@ -2413,8 +2962,6 @@ material buildings/defense/tower_cryo_artillery_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_artillery_lvl_3_dissolve : pbr/height_dissolve
@@ -2425,62 +2972,6 @@ material buildings/defense/tower_cryo_artillery_lvl_3_dissolve : pbr/height_diss
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_artillery_lvl_3_emissive.dds
 }
 
-// tower_cryo_drone_attack
-
-material buildings/defense/tower_cryo_drone_attack_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_1_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_cryo_drone_attack_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_cryo_drone_attack_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_2_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_cryo_drone_attack_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_cryo_drone_attack_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_3_emissive.dds
-
-	glow 7
-}
-
-material buildings/defense/tower_cryo_drone_attack_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_drone_attack_lvl_3_emissive.dds
-}
-
 // tower_cryo_cruise_missile
 
 material buildings/defense/tower_cryo_cruise_missile_lvl_1 : buildings/destructible
@@ -2489,8 +2980,6 @@ material buildings/defense/tower_cryo_cruise_missile_lvl_1 : buildings/destructi
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
@@ -2507,8 +2996,6 @@ material buildings/defense/tower_cryo_cruise_missile_lvl_2 : buildings/destructi
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
@@ -2525,8 +3012,6 @@ material buildings/defense/tower_cryo_cruise_missile_lvl_3 : buildings/destructi
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_cryo_cruise_missile_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_cryo_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
@@ -2605,8 +3090,6 @@ material buildings/defense/tower_magma_artillery_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_artillery_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_magma_artillery_lvl_1_dissolve : pbr/height_dissolve
@@ -2623,8 +3106,6 @@ material buildings/defense/tower_magma_artillery_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_artillery_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_magma_artillery_lvl_2_dissolve : pbr/height_dissolve
@@ -2641,8 +3122,6 @@ material buildings/defense/tower_magma_artillery_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_artillery_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_magma_artillery_lvl_3_dissolve : pbr/height_dissolve
@@ -2653,62 +3132,6 @@ material buildings/defense/tower_magma_artillery_lvl_3_dissolve : pbr/height_dis
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_artillery_lvl_3_emissive.dds
 }
 
-// tower_magma_drone_attack
-
-material buildings/defense/tower_magma_drone_attack_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_1_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_magma_drone_attack_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_magma_drone_attack_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_2_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_magma_drone_attack_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_magma_drone_attack_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_3_emissive.dds
-
-	glow 7
-}
-
-material buildings/defense/tower_magma_drone_attack_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_drone_attack_lvl_3_emissive.dds
-}
-
 // tower_magma_cruise_missile
 
 material buildings/defense/tower_magma_cruise_missile_lvl_1 : buildings/destructible
@@ -2717,8 +3140,6 @@ material buildings/defense/tower_magma_cruise_missile_lvl_1 : buildings/destruct
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_cruise_missile_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_magma_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
@@ -2735,8 +3156,6 @@ material buildings/defense/tower_magma_cruise_missile_lvl_2 : buildings/destruct
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_cruise_missile_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_magma_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
@@ -2753,8 +3172,6 @@ material buildings/defense/tower_magma_cruise_missile_lvl_3 : buildings/destruct
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_magma_cruise_missile_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_magma_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
@@ -2889,8 +3306,6 @@ material buildings/defense/tower_radio_grenadier_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_grenadier_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_radio_grenadier_lvl_1_dissolve : pbr/height_dissolve
@@ -2907,8 +3322,6 @@ material buildings/defense/tower_radio_grenadier_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_grenadier_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_radio_grenadier_lvl_2_dissolve : pbr/height_dissolve
@@ -2925,8 +3338,6 @@ material buildings/defense/tower_radio_grenadier_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_grenadier_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_radio_grenadier_lvl_3_dissolve : pbr/height_dissolve
@@ -2937,62 +3348,6 @@ material buildings/defense/tower_radio_grenadier_lvl_3_dissolve : pbr/height_dis
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_grenadier_lvl_3_emissive.dds
 }
 
-// tower_radio_drone_attack
-
-material buildings/defense/tower_radio_drone_attack_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_1_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_radio_drone_attack_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_radio_drone_attack_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_2_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_radio_drone_attack_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_radio_drone_attack_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_3_emissive.dds
-
-	glow 7
-}
-
-material buildings/defense/tower_radio_drone_attack_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_drone_attack_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_drone_attack_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_drone_attack_lvl_3_emissive.dds
-}
-
 // tower_radio_cruise_missile
 
 material buildings/defense/tower_radio_cruise_missile_lvl_1 : buildings/destructible
@@ -3001,8 +3356,6 @@ material buildings/defense/tower_radio_cruise_missile_lvl_1 : buildings/destruct
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_cruise_missile_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_radio_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
@@ -3019,8 +3372,6 @@ material buildings/defense/tower_radio_cruise_missile_lvl_2 : buildings/destruct
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_cruise_missile_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_radio_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
@@ -3037,8 +3388,6 @@ material buildings/defense/tower_radio_cruise_missile_lvl_3 : buildings/destruct
 	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_radio_cruise_missile_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_radio_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
@@ -3118,8 +3467,6 @@ material buildings/defense/tower_gravity_laser_lvl_1 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_1_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_1_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_laser_lvl_1_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_gravity_laser_lvl_1_dissolve : pbr/height_dissolve
@@ -3136,8 +3483,6 @@ material buildings/defense/tower_gravity_laser_lvl_2 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_2_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_2_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_laser_lvl_2_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_gravity_laser_lvl_2_dissolve : pbr/height_dissolve
@@ -3154,8 +3499,6 @@ material buildings/defense/tower_gravity_laser_lvl_3 : buildings/destructible
 	set_texture_alias normal			materials/textures/buildings/defense/tower_laser_lvl_3_normal.dds
 	set_texture_alias packed			materials/textures/buildings/defense/tower_laser_lvl_3_packed.dds
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_laser_lvl_3_emissive.dds
-	
-	glow 5
 }
 
 material buildings/defense/tower_gravity_laser_lvl_3_dissolve : pbr/height_dissolve
@@ -3166,172 +3509,66 @@ material buildings/defense/tower_gravity_laser_lvl_3_dissolve : pbr/height_disso
 	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_laser_lvl_3_emissive.dds
 }
 
-// tower_gravity_accelerator
+// tower_gravity_warper
 
-material buildings/defense/tower_gravity_accelerator_lvl_1 : buildings/destructible
+material buildings/defense/tower_gravity_warper_lvl_1 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_1_emissive.dds
-	
-	glow 5
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_warper_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_warper_lvl_1_emissive.dds
+
+	glow 3
 }
 
-material buildings/defense/tower_gravity_accelerator_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_gravity_warper_lvl_1_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_warper_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_warper_lvl_1_emissive.dds
+
+	glow 3
 }
 
-material buildings/defense/tower_gravity_accelerator_lvl_2 : buildings/destructible
+material buildings/defense/tower_gravity_warper_lvl_2 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_2_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_gravity_accelerator_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_gravity_accelerator_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_3_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_gravity_accelerator_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_artillery_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_lvl_3_emissive.dds
-}
-
-// tower_gravity_accelerator_heavy
-
-material buildings/defense/tower_gravity_accelerator_heavy_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_warper_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_warper_lvl_2_emissive.dds
 
 	glow 4
 }
 
-material buildings/defense/tower_gravity_accelerator_heavy_lvl_1_dissolve : pbr/height_dissolve
+material buildings/defense/tower_gravity_warper_lvl_2_dissolve : pbr/height_dissolve
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_1_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_warper_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_warper_lvl_2_emissive.dds
+
+	glow 4
 }
 
-material buildings/defense/tower_gravity_accelerator_heavy_lvl_2 : buildings/destructible
+material buildings/defense/tower_gravity_warper_lvl_3 : buildings/destructible
 {
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_2_emissive.dds
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_warper_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_warper_lvl_3_emissive.dds
+
+	glow 4
+}
+
+material buildings/defense/tower_gravity_warper_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_warper_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/tower_portal_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/tower_portal_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_warper_lvl_3_emissive.dds
 
 	glow 5
 }
 
-material buildings/defense/tower_gravity_accelerator_heavy_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_gravity_accelerator_heavy_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_3_emissive.dds
-
-	glow 6
-}
-
-material buildings/defense/tower_gravity_accelerator_heavy_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_heavy_artillery_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_heavy_artillery_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_accelerator_heavy_lvl_3_emissive.dds
-}
-
-// tower_gravity_cruise_missile
-
-material buildings/defense/tower_gravity_cruise_missile_lvl_1 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_1_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_gravity_cruise_missile_lvl_1_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_1_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_1_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_1_emissive.dds
-}
-
-material buildings/defense/tower_gravity_cruise_missile_lvl_2 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_2_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_gravity_cruise_missile_lvl_2_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_2_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_2_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_2_emissive.dds
-}
-
-material buildings/defense/tower_gravity_cruise_missile_lvl_3 : buildings/destructible
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_3_emissive.dds
-	
-	glow 5
-}
-
-material buildings/defense/tower_gravity_cruise_missile_lvl_3_dissolve : pbr/height_dissolve
-{
-	set_texture_alias albedo			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_3_albedo.dds
-	set_texture_alias normal			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_normal.dds
-	set_texture_alias packed			materials/textures/buildings/defense/tower_rocket_launcher_lvl_3_packed.dds
-	set_texture_alias emissive			materials/textures/buildings/defense/tower_gravity_cruise_missile_lvl_3_emissive.dds
-}
-
-//----------------------gravityITY ACCELERATORS END----------------------\\
+//----------------------GRAVITY ACCELERATORS END----------------------\\

@@ -192,6 +192,35 @@ TerrainType
 
 TerrainType
 {
+	name "enemy_physical_terrain"
+	priority 30
+	
+	type_overrides
+	{
+		type "mech"
+		{	
+			damage
+			{
+				interval 	"0.3"
+				value		"2"
+				type 		"physical"
+			}
+		}
+		
+		type "building"
+		{
+			damage
+			{
+				interval 	"0.3"
+				value		"2"
+				type 		"physical"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
 	name "physical_terrain_friendly"
 	priority 30
 	
@@ -554,6 +583,44 @@ TerrainType
 		}			
 	}
 }
+
+TerrainType
+{
+	name "morphium_sump_terrain"
+	priority 30
+	speed "0.5"			
+
+	damage
+	{
+		interval 	"0.3"
+		value		"5"
+		type 		"physical"
+	}
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"				
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+		}	
+		
+		type "building"
+		{
+			damage
+			{
+				value		"0"
+			}
+		}			
+	}
+}
+
 
 TerrainType
 {

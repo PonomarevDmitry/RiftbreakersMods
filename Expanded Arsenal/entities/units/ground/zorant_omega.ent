@@ -44,8 +44,9 @@ EntityBlueprint
 		energy			"0.0"
 		cryo			"1.0"
 		area			"0.0"
-		gravity			"0.05"
+		gravity			"0.25"
 		radiation		"0.5"
+		sonic			"0.0"
 	}
 
 	HealthDesc
@@ -107,13 +108,13 @@ EntityBlueprint
 	TurretDesc
 	{
 		name   "range"
-		target "player|ground_unit|building"
+		target "tower|player|ground_unit|building"
 		target_ignore "wall|invisible"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "12"
-			range_max "27"
+			range_max "30"
 		}
 
 		aiming_cooldown "1"
@@ -144,7 +145,7 @@ EntityBlueprint
 					explosion_min_power 	"5000"
 					explosion_effect 		"effects/enemies_zorant/death"	
 					part_prefix 			"meshes/units/ground/kafferroceros"
-					part_material 			"units/ground/zorant_ultra"
+					part_material 			"units/ground/zorant_omega"
 					part_effect 			"effects/enemies_generic/blood_trail_energy_red"
 					part_physics_material   "gibs_heavy"					
 				}
@@ -157,7 +158,7 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/zorant_ultra/attack"
+		    name "units/ground/zorant_omega/attack"
 
 			AttachmentDesc
 			{
@@ -193,12 +194,12 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire			"pass"
-							hit_effect_direction	"up"  //inverse, normal, up
-							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
-							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
-							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+							//hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_omega_melee_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_omega_melee_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_omega_melee_hit_shield"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -207,7 +208,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"50"
-										type 	"physical"
+										type 	"energy"
 									}
 								}
 							}
@@ -270,7 +271,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/enemies_zorant/zorant_omega_projectile_hit"
 		on_world_hit_effect 	"effects/enemies_zorant/zorant_omega_projectile_hit"
 		on_shield_hit_effect	"effects/enemies_zorant/zorant_omega_projectile_hit"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
 		friendly_fire			"pass"
 	}
@@ -282,7 +283,7 @@ EntityBlueprint
 	
 	LifeTimeDesc
 	{
-		time 		4
+		time 		6
 	}
 }
 

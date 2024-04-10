@@ -125,7 +125,7 @@ EntityBlueprint
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_small"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -168,7 +168,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters
@@ -224,6 +224,7 @@ EntityBlueprint
 		area			"1.0"
 		gravity			"1.0"
 		radiation		"0.0"
+		sonic			"0.5"
 	}
 
 	StunDataComponent
@@ -550,6 +551,22 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		
 		EffectGroup
 		{
 			group 	"stunned"

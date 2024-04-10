@@ -1,0 +1,579 @@
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment"
+
+	SkeletonDesc
+	{
+		name "meshes/items/skills/orbital_bombardment"
+	}	
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_14"
+			}				
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_6"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_7"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_8"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_9"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_10"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_11"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_12"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_13"
+			}		
+		}
+
+		ammo_blueprint 				"items/consumables/turret_bombardment_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/items/orbital_bombardment_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	LifeTimeDesc
+	{
+		time 		3
+	}
+}
+
+EntityBlueprint
+{
+	name 			"items/consumables/turret_bombardment_projectile"
+	base_blueprint	"items/skills/orbital_bombardment_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/turret_bombardment_standard"
+		on_world_hit_effect 	"effects/items/turret_bombardment_standard"
+		on_resisted_hit_effect 	"effects/items/turret_bombardment_standard"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|hitbox|shield"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment_standard_item"
+
+	InventoryItemDesc
+	{
+		type 				"consumable"
+		name 				"gui/menu/inventory/consumable_name/turret_bombardment"
+		use_count			"1"
+		cooldown			"20"
+		storage_limit 		"3"
+		cooldown_category	"bombardment"
+		icon				"gui/hud/items_icons/consumables/turret_bombardment_standard"
+		bigger_icon 		"gui/menu/items_icons/consumables/turret_bombardment_standard"	
+		description 		"gui/menu/inventory/consumable_description/turret_bombardment"
+		rarity				"STANDARD"	
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/orbital_bombardment.lua"
+		
+		database
+		{
+			bp					string:"items/consumables/turret_bombardment"
+			delay 				float:"0.5"
+			crosshair_bp		string:"effects/enemies_gnerot/spike_warning"
+			att					string:"be_body_upper"
+			stat_bp				string:"items/consumables/turret_bombardment"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"caverns"			
+		}
+	}
+	
+	CostDesc
+}
+
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment_advanced"
+
+	SkeletonDesc
+	{
+		name "meshes/items/skills/orbital_bombardment"
+	}	
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_14"
+			}				
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_6"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_7"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_8"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_9"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_10"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_11"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_12"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_13"
+			}		
+		}
+
+		ammo_blueprint 				"items/consumables/turret_bombardment_advanced_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/items/orbital_bombardment_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	LifeTimeDesc
+	{
+		time 		3
+	}
+}
+
+EntityBlueprint
+{
+	name 			"items/consumables/turret_bombardment_advanced_projectile"
+	base_blueprint	"items/skills/orbital_bombardment_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/turret_bombardment_advanced"
+		on_world_hit_effect 	"effects/items/turret_bombardment_advanced"
+		on_resisted_hit_effect 	"effects/items/turret_bombardment_advanced"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|hitbox|shield"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 				"consumable"
+		name 				"gui/menu/inventory/consumable_name/turret_bombardment"
+		use_count			"1"
+		cooldown			"20"
+		storage_limit 		"3"
+		cooldown_category	"bombardment"
+		icon				"gui/hud/items_icons/consumables/turret_bombardment_advanced"
+		bigger_icon 		"gui/menu/items_icons/consumables/turret_bombardment_advanced"	
+		description 		"gui/menu/inventory/consumable_description/turret_bombardment"
+		rarity				"ADVANCED"	
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/orbital_bombardment.lua"
+		
+		database
+		{
+			bp					string:"items/consumables/turret_bombardment_advanced"
+			delay 				float:"0.5"
+			crosshair_bp		string:"effects/enemies_gnerot/spike_warning"
+			att					string:"be_body_upper"
+			stat_bp				string:"items/consumables/turret_bombardment_advanced"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"caverns"			
+		}
+	}
+	
+	CostDesc
+}
+
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment_superior"
+
+	SkeletonDesc
+	{
+		name "meshes/items/skills/orbital_bombardment"
+	}	
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_14"
+			}				
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_6"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_7"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_8"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_9"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_10"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_11"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_12"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_13"
+			}		
+		}
+
+		ammo_blueprint 				"items/consumables/turret_bombardment_superior_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/items/orbital_bombardment_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	LifeTimeDesc
+	{
+		time 		3
+	}
+}
+
+EntityBlueprint
+{
+	name 			"items/consumables/turret_bombardment_superior_projectile"
+	base_blueprint	"items/skills/orbital_bombardment_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/turret_bombardment_superior"
+		on_world_hit_effect 	"effects/items/turret_bombardment_superior"
+		on_resisted_hit_effect 	"effects/items/turret_bombardment_superior"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|hitbox|shield"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment_superior_item"
+
+	InventoryItemDesc
+	{
+		type 				"consumable"
+		name 				"gui/menu/inventory/consumable_name/turret_bombardment"
+		use_count			"1"
+		cooldown			"20"
+		storage_limit 		"3"
+		cooldown_category	"bombardment"
+		icon				"gui/hud/items_icons/consumables/turret_bombardment_superior"
+		bigger_icon 		"gui/menu/items_icons/consumables/turret_bombardment_superior"	
+		description 		"gui/menu/inventory/consumable_description/turret_bombardment"
+		rarity				"SUPERIOR"	
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/orbital_bombardment.lua"
+		
+		database
+		{
+			bp					string:"items/consumables/turret_bombardment_superior"
+			delay 				float:"0.5"
+			crosshair_bp		string:"effects/enemies_gnerot/spike_warning"
+			att					string:"be_body_upper"
+			stat_bp				string:"items/consumables/turret_bombardment_superior"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"caverns"			
+		}
+	}
+	
+	CostDesc
+}
+
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment_extreme"
+
+	SkeletonDesc
+	{
+		name "meshes/items/skills/orbital_bombardment"
+	}	
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_14"
+			}				
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_6"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_7"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_8"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_9"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_10"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_11"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_12"
+			}		
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_13"
+			}		
+		}
+
+		ammo_blueprint 				"items/consumables/turret_bombardment_extreme_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/items/orbital_bombardment_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	LifeTimeDesc
+	{
+		time 		3
+	}
+}
+
+EntityBlueprint
+{
+	name 			"items/consumables/turret_bombardment_extreme_projectile"
+	base_blueprint	"items/skills/orbital_bombardment_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/turret_bombardment_extreme"
+		on_world_hit_effect 	"effects/items/turret_bombardment_extreme"
+		on_resisted_hit_effect 	"effects/items/turret_bombardment_extreme"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|hitbox|shield"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/consumables/turret_bombardment_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 				"consumable"
+		name 				"gui/menu/inventory/consumable_name/turret_bombardment"
+		use_count			"1"
+		cooldown			"20"
+		storage_limit 		"3"
+		cooldown_category	"bombardment"
+		icon				"gui/hud/items_icons/consumables/turret_bombardment_extreme"
+		bigger_icon 		"gui/menu/items_icons/consumables/turret_bombardment_extreme"	
+		description 		"gui/menu/inventory/consumable_description/turret_bombardment"
+		rarity				"EXTREME"	
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/orbital_bombardment.lua"
+		
+		database
+		{
+			bp					string:"items/consumables/turret_bombardment_extreme"
+			delay 				float:"0.5"
+			crosshair_bp		string:"effects/enemies_gnerot/spike_warning"
+			att					string:"be_body_upper"
+			stat_bp				string:"items/consumables/turret_bombardment_extreme"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"caverns"			
+		}
+	}
+	
+	CostDesc
+}

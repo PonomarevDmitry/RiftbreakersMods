@@ -12,19 +12,21 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_plasma_laser_heavy"
 		menu_icon			"gui/hud/building_icons/tower_plasma_laser_heavy_lvl2"
 		require 			"headquarters"
-		order				"5"
+		order				"9"
 		type				"tower"
 		overrides			"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
 		upgrade				"buildings/defense/tower_plasma_laser_heavy_lvl_3"
 		buildable			"0"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
 
 		costs
 		{
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 2.5
+				building_time 20
 				building_cost
 				{
 					carbonium 	"600"
@@ -140,14 +142,14 @@ EntityBlueprint
 	}
 	TurretDesc
 	{
-		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit"
-		target_ignore "invisible|air_unit|ground_unit_small"
+		target "ground_unit_artillery|ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
 		speed "30"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "10"
-			range_max "120"
-			aiming_range "130"
+			range_min "16"
+			range_max "110"
+			aiming_range "120"
 		}
 
 		aiming_cooldown "1"
@@ -177,11 +179,98 @@ EntityBlueprint
 		}
 
 		ammo_blueprint 			"buildings/defense/tower_plasma_laser_heavy_beam_2"
-		fire_effect 			"effects/weapons_energy/plasma_laser_muzzle"
+		fire_effect 			"effects/weapons_energy/tower_plasma_laser_heavy_muzzle"
 
 		burst_column_spacing 	"0"
 		burst_rate 				"0"
 		burst_column_angle 		"0"
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_medium_base"
+		}
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_arrow"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "charge"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_plasma_laser_heavy_charge"
+					bone "att_muzzle"
+					scale	"1.2 1.2 1.2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_plasma_laser_heavy_weapon_primed"
+					bone "att_muzzle"
+					scale	"1.2 1.2 1.2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_plasma_laser_heavy_reload"
+					bone "att_muzzle"
+					scale	"1.2 1.2 1.2"
+				}
+			}
+		}
 	}
 }
 
@@ -205,11 +294,11 @@ EntityBlueprint
 	{
 		range 					"50"
 
-		on_enemy_hit_effect 	"effects/weapons_energy/heavy_plasma_laser_enemy_hit"
-		on_world_hit_effect 	"effects/weapons_energy/heavy_plasma_laser_world_hit"
-		on_resisted_hit_effect 	"effects/weapons_energy/heavy_plasma_laser_world_hit"
+		on_enemy_hit_effect 	"effects/weapons_energy/tower_plasma_laser_heavy_enemy_hit"
+		on_world_hit_effect 	"effects/weapons_energy/tower_plasma_laser_heavy_world_hit"
+		on_resisted_hit_effect 	"effects/weapons_energy/tower_plasma_laser_heavy_world_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		collision_block 		"world"
 
         damage_factor_max       "10.0"
@@ -217,5 +306,14 @@ EntityBlueprint
         damage_factor_decrease  "9.5"
         damage_max_beam_scale 	"2.5"
 		damage_max_beam_glow 	"9.0"
+	}
+	
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"1.0"
+		beam_min_width 			"0.05"
+		beam_max_width 			"0.1"
+		beam_count 				"6"
 	}
 }

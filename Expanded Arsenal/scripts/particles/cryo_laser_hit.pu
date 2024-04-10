@@ -8,6 +8,56 @@ system rift/cryo_laser_hit
     fade_out                                    true
     cache_count                                 5
     
+	technique sphere_shockwave
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp2_shockwave_a_add
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        1
+            velocity                            0
+            all_particle_dimensions             10
+            colour                              1 1 1 0.2
+			duration							1
+			keep_local							true
+        }
+		
+		affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+        }
+		
+        affector                                Scale flash2
+        {
+            xyz_scale                           500
+        }
+        affector                                Colour Affector22
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+	
 	technique sparks
     {
         visual_particle_quota                   300
@@ -15,7 +65,7 @@ system rift/cryo_laser_hit
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/spark_rectangle_cryo_01
+        material                                particles/spark_rectangle_blue_01
         renderer                                Billboard
         {
             render_queue_group                  63
@@ -32,8 +82,8 @@ system rift/cryo_laser_hit
             angle                               50
             time_to_live                        dyn_random
             {
-                min                             0.5
-                max                             0.7
+                min                             0.2
+                max                             0.5
             }
             velocity                            dyn_random
             {
@@ -66,6 +116,7 @@ system rift/cryo_laser_hit
             }
         }
     }
+	
     technique sparksball
     {
         visual_particle_quota                   300
@@ -96,15 +147,15 @@ system rift/cryo_laser_hit
             }
             all_particle_dimensions             dyn_random
             {
-                min                             15
-                max                             30
+                min                             5
+                max                             20
             }
-            direction                           -1 0 0
-            radius                              25
+            radius                              10
+			keep_local							true
         }
         affector                                Colour Affector197
         {
-            time_colour                         0    1 1 1 1
+            time_colour                         0    0.2 0.2 0.2 1
             time_colour                         1    0 0 0 0
         }
         affector                                Scale Affector63
@@ -112,272 +163,53 @@ system rift/cryo_laser_hit
             xyz_scale                           -100
         }
     }
-    
-    technique ball
-    {
-        visual_particle_quota                   40
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/mp_flare_ring
-        renderer                                Billboard
-        {
-            render_queue_group                  60
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Point 
-        {
-            emission_rate                       dyn_curved_linear
-            {
-                control_point                   0 4
-                control_point                   3 20
-            }
-            angle                               360
-            time_to_live                        dyn_random
-            {
-                min                             0.4
-                max                             0.8
-            }
-            velocity                            dyn_random
-            {
-                min                             1
-                max                             2
-            }
-            all_particle_dimensions             dyn_random
-            {
-                min                             100
-                max                             150
-            }
-            keep_local                          true
-            colour                              0.301961 0 0 1
-        }
-        affector                                Colour 
-        {
-            time_colour                         0	1 1 0.501961 0
-            time_colour                         0.504348	1 1 0.501961 0
-            time_colour                         1	1 1 0.501961 0
-        }
-        affector                                TextureRotator Affector331
-        {
-            use_own_rotation                    true
-            rotation                            dyn_random
-            {
-                min                             -1
-                max                             1
-            }
-            rotation_speed                      dyn_random
-            {
-                min                             -2
-                max                             2
-            }
-        }
-    }
-
-    technique 
-    {
-        keep_local                              true
-        visual_particle_quota                   10
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/glow_add_02
-        renderer                                Billboard
-        {
-            render_queue_group                  63
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Point 
-        {
-            emission_rate                       dyn_curved_linear
-            {
-                control_point                   0 20
-                control_point                   3 100
-            }
-            angle                               360
-            time_to_live                        dyn_random
-            {
-                min                             0.2
-                max                             0.3
-            }
-            velocity                            1
-            all_particle_dimensions             dyn_random
-            {
-                min                             200
-                max                             300
-            }
-            keep_local                          true
-            colour                              0.301961 0 0 1
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0 0 0 0
-            time_colour                         0.508696  1 1 0.501961 1
-            time_colour                         1    0 0 0 0
-        }
-        affector                                TextureRotator Affector331
-        {
-            use_own_rotation                    true
-            rotation                            dyn_random
-            {
-                min                             -1
-                max                             1
-            }
-            rotation_speed                      dyn_random
-            {
-                min                             -2
-                max                             2
-            }
-        }
-    }
 	
-	technique sparks_start
+	technique sparks_gravity
     {
-        visual_particle_quota                   100
+        visual_particle_quota                   50
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/spark_rectangle_blue_01
-        renderer                                Billboard
-        {
-            render_queue_group                  65
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Box sparks
-        {
-            emission_rate                       100
-            angle                               60
-            time_to_live                        dyn_random
-            {
-                min                             0.1
-                max                             0.2
-            }
-            velocity                            dyn_random
-            {
-                min                             1500
-                max                             3000
-            }
-            all_particle_dimensions             dyn_random
-            {
-                min                             5
-                max                             7
-            }
-            direction                           1 0 0
-            box_width                           20
-            box_height                          20
-            box_depth                           20
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    1 1 1 1
-            time_colour                         1    1 1 1 0
-        }
-        affector                                Scale Affector14
-        {
-            xyz_scale                           -1
-        }
-    }
-	
-	technique sparks
-    {
-        visual_particle_quota                   100
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/spark_rectangle_blue_01
-        renderer                                Billboard
-        {
-            render_queue_group                  65
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Box sparks
-        {
-            emission_rate                       100
-            angle                               10
-            time_to_live                        dyn_random
-            {
-                min                             0.5
-                max                             0.6
-            }
-            velocity                            dyn_random
-            {
-                min                             1500
-                max                             3000
-            }
-            all_particle_dimensions             dyn_random
-            {
-                min                             5
-                max                             7
-            }
-            position                            100 0 0
-            direction                           1 0 0
-            box_width                           200
-            box_height                          200
-            box_depth                           500
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    1 1 1 1
-            time_colour                         1    1 1 1 0
-        }
-        affector                                Scale Affector14
-        {
-            xyz_scale                           -1
-        }
-    }
-	
-    technique sparksgravity
-    {
-        visual_particle_quota                   300
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/spark_rectangle_blue_01
+        material                                particles/spark_rectangle_cryo_01
         renderer                                Billboard
         {
             billboard_type                      oriented_self
-            billboard_rotation_type             vertex
         }
         emitter                                 SphereSurface DebrisEmitter
         {
-            emission_rate                       200
-            angle                               85
+            emission_rate                       2500
+            angle                               45
             time_to_live                        dyn_random
             {
-                min                             1
-                max                             1.5
+                min                             0
+                max                             2
             }
             velocity                            dyn_random
             {
                 min                             100
                 max                             200
             }
-            particle_width                      dyn_random
-            {
-                min                             4
-                max                             6
-            }
+            particle_width                      7
             particle_height                     dyn_random
             {
-                min                             10
-                max                             20
+                min                             7
+                max                             30
             }
-            start_colour_range                  1 1 1 1
-            radius                              100
+            start_colour_range                  0.458824 0 0.87451 0.784314
+            radius                              70
+			keep_local							true
         }
         affector                                Colour 
         {
-            time_colour                         0    1 1 1 1
+            time_colour                         0    0.501961 0.501961 0.501961 0.309804
+            time_colour                         0.506522  0.501961 0.501961 0.501961 1
             time_colour                         1    0 0 0 0
         }
         affector                                Gravity Affector70
         {
             mass_affector                       10000
-            gravity                             20
+            gravity                             5
         }
     }
 }

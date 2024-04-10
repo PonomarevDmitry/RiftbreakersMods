@@ -200,8 +200,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-			mesh 		"meshes/units/ground/alien_tower_plasma_basic.mesh"
-			material 	"units/ground/alien_tower_mortar_kinetic"
+		mesh 		"meshes/units/ground/alien_tower_plasma_basic.mesh"
+		material 	"units/ground/alien_tower_mortar_kinetic"
 	}
 	
 	InfluenceComponent
@@ -214,13 +214,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"0.0"
-		fire			"1.0"
+		fire			"0.5"
 		acid			"3.0"
 		energy			"0.5"
 		cryo			"1.0"
 		area			"3.0"
 		gravity			"3.0"
-		radiation		"0.05"
+		radiation		"0.25"
+		sonic			"0.0"
 	}
 
 	WeaponItemDesc
@@ -284,7 +285,7 @@ EntityBlueprint
 
 	SelectableDesc
 	{
-		content "monster_name/alien_tower_artillery"
+		content "monster_name/alien_tower_mortar_kinetic"
 		can_activate 0
 	}
 
@@ -431,10 +432,10 @@ EntityBlueprint
 	
 	ArtilleryAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
-		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
-		on_resisted_hit_effect	"effects/weapons_generic/projectile_hit_resisted"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		on_enemy_hit_effect 	"effects/enemies_alien_tower/alien_tower_mortar_kinetic_projectile_hit"
+		on_world_hit_effect 	"effects/enemies_alien_tower/alien_tower_mortar_kinetic_projectile_hit"
+		on_resisted_hit_effect	"effects/enemies_alien_tower/alien_tower_mortar_kinetic_projectile_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
 		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
 		
@@ -456,7 +457,7 @@ EntityBlueprint
 					explosion_max_power 	"5000"
 					explosion_min_power 	"2500"
 					explosion_effect_scale 	"0.5"
-					explosion_effect 		"effects/weapons_explosive/explosion_small"
+					explosion_effect 		"effects/enemies_alien_tower/alien_tower_mortar_kinetic_projectile_hit"
 					part_prefix 			"meshes/items/consumables/grenade_gravity.mesh"
 					part_material 			"projectiles/kinetic_grenade"
 					part_effect 			"effects/enemies_generic/blood_trail_dust"

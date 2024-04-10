@@ -1,6 +1,6 @@
 EntityBlueprint
 {
-	name  "buildings/resources/survival_magma_lifter"
+	name  			"buildings/resources/survival_magma_lifter"
 
 	BuildingDesc
 	{
@@ -56,7 +56,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"magma"
-				value				"100"
+				value				"200"
 				attachment			"att_out_1"
 			}
 		}
@@ -78,13 +78,13 @@ EntityBlueprint
 	
 	LuaDesc
 	{
-		script "lua/buildings/building.lua"
+		script "lua/buildings/resources/ea_vent_extractor.lua"
 		
 		database
 		{
 			cone_effect			string:"build_cone_3x3"
 			cone_effect_sell	string:"sell_big"
-			building_time		float:"10"
+			vent_type			string:"magma_vent"
 		}		
 	}
 
@@ -432,6 +432,21 @@ EntityBlueprint
 					blueprint "effects/buildings_and_machines/level_1"
 					bone "att_level"
 					scale "0.75 0.75 0.75"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamod"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_pipe_2"
 				}
 			}
 		}

@@ -1,0 +1,152 @@
+EntityBlueprint
+{
+	name "effects/enemies_gnerot/underground_rock_damage_omega"
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"6"
+			EMP_duration	float:"3"
+		}
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/underground_rock_omega_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_gnerot/attack_ground_hit_omega
+
+
+	base_blueprints
+	{
+		effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"4.5"
+			EMP_duration	float:"3"
+		}
+	}
+
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"4.5"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"160"
+					type			"energy"
+				}
+			}
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/gnerot_omega_attack_ground_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/gnerot/attack_ground_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		
+		}
+	}	
+}

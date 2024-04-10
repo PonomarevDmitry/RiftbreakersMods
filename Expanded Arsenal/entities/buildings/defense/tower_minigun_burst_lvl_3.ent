@@ -1,0 +1,255 @@
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_minigun_burst_lvl_3"
+	base_blueprint 	"buildings/defense/tower_minigun_burst_lvl_2"
+	
+	BuildingDesc
+	{
+		name 				"tower_minigun_burst_lvl_3"
+		bp   				"buildings/defense/tower_minigun_burst_lvl_3"
+		category 			"defense_mod_1"
+		localization_id		"gui/hud/building_name/tower_minigun_burst"
+		description			"gui/hud/building_description/tower_minigun_burst"
+		menu_icon			"gui/hud/building_icons/tower_minigun_burst_lvl3"
+		require 			"headquarters"
+		order				"8"
+		buildable			"0"
+		type				"tower"
+		overrides			"tower,wall"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"600"
+					steel 		"300"
+					titanium	"200"
+				}
+			}
+		}		
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_minigun_lvl_3.mesh"
+		material "buildings/defense/tower_minigun_burst_lvl_3"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_minigun_lvl_3"
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle_2"
+				recoil_bone  	"att_fake_barrel_1"
+				recoil_time   	"0.05"
+				recoil_offset   "0.8"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle_2"
+				recoil_bone  	"att_fake_barrel_2"
+				recoil_time   	"0.05"
+				recoil_offset   "0.8"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle_2"
+				recoil_bone  	"att_fake_barrel_3"
+				recoil_time   	"0.05"
+				recoil_offset   "0.8"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle_2"
+				recoil_bone  	"att_fake_barrel_4"
+				recoil_time   	"0.05"
+				recoil_offset   "0.8"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle_2"
+				recoil_bone  	"att_fake_barrel_5"
+				recoil_time   	"0.05"
+				recoil_offset   "0.8"
+			}
+			
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle_2"
+				recoil_bone  	"att_fake_barrel_6"
+				recoil_time   	"0.05"
+				recoil_offset   "0.8"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_minigun_burst_projectile"
+		muzzle_flash_effect 		"effects/weapons_bullet/tower_minigun_burst_fire"
+		
+		burst_column_spacing 		"0"
+		burst_rate 					"0.08"
+		burst_column_angle 			"0"
+	}
+
+	TowerDesc
+	{
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/defense/tower_minigun_burst"
+		}	
+		
+		EffectGroup
+		{
+			group "eamod"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_1"
+					scale	"1.3 0.24 0.24"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_2"
+					scale	"1.3 0.24 0.24"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_3"
+					scale	"1.3 0.24 0.24"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_4"
+					scale	"1.3 0.24 0.24"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_5"
+					scale	"1.3 0.24 0.24"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/pipe"								
+					bone "att_fake_barrel_6"
+					scale	"1.3 0.24 0.24"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "eamod3"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/ammo_storage_lvl3"								
+					bone "att_fake_storage_1"
+					scale	"0.14 0.1 0.14"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/ammo_storage_lvl3"								
+					bone "att_fake_storage_2"
+					scale	"0.14 0.1 0.14"
+				}
+			}
+		}
+	}
+}
+

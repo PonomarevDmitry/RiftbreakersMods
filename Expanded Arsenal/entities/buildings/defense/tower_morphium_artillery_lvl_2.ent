@@ -1,0 +1,164 @@
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_morphium_artillery_lvl_2"
+	base_blueprint 	"buildings/defense/tower_morphium_artillery"
+
+	BuildingDesc
+	{
+		name 					"tower_morphium_artillery_lvl_2"
+		bp   					"buildings/defense/tower_morphium_artillery_lvl_2"
+		category 				"defense_mod_3"
+		localization_id			"gui/hud/building_name/tower_morphium_artillery"
+		description				"gui/hud/building_description/tower_morphium_artillery"
+		menu_icon				"gui/hud/building_icons/tower_morphium_artillery_lvl2"
+		build_on_water			"1"
+		require 				"headquarters"
+		order					"1"
+		type					"tower"
+		buildable				"0"
+		overrides				"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		upgrade					"buildings/defense/tower_morphium_artillery_lvl_3"
+		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		check_connect			"1"
+		radius_name				"morphium_tower"
+		min_radius				"9"
+		min_radius_effect   	"voice_over/announcement/tower_too_close"
+		condition				"BIOME"	
+		condition_value			"magma,jungle,desert,acid,metallic,swamp,legacy_maps"		
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 10
+				building_cost
+				{
+					carbonium 	"400"
+					steel 		"500"
+					cobalt		"50"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"morphium"
+				value 		"25"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+	
+	PipeComponent
+	{
+		
+	}
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 			"75"
+		regeneration_cooldown 	"5"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_artillery_lvl_2.mesh"
+		material "buildings/defense/tower_morphium_artillery_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_artillery_lvl_2"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 			"buildings/defense/tower_morphium_artillery_projectile_lvl2"
+		muzzle_flash_effect 	"effects/weapons_alien/tower_morphium_artillery_muzzle"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+
+}
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_morphium_artillery_projectile_lvl2"
+	base_blueprint	"buildings/defense/tower_morphium_artillery_projectile"
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_alien/tower_morphium_artillery_lvl_2_hit"
+		on_world_hit_effect 	"effects/weapons_alien/tower_morphium_artillery_lvl_2_hit"
+		on_resisted_hit_effect 	"effects/weapons_alien/tower_morphium_artillery_lvl_2_hit"
+		collision_3d 			"world|world_destructible|ground_unit|shield"
+	}	
+}

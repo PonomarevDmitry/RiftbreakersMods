@@ -3,13 +3,14 @@ EntityBlueprint
 	name "units/air/baxmoth_drone_omega"
 	base_blueprint "units/air/baxmoth_drone_base"
 
+
 	LuaDesc
 	{
 		script "lua/units/air/baxmoth_drone.lua"	
 		database
 		{
-			min_scale	float:"1.3"
-			max_scale	float:"1.3"
+			min_scale	float:"1.25"
+			max_scale	float:"1.25"
 		}	
 	}
 
@@ -36,11 +37,11 @@ EntityBlueprint
 		physical		"1.0"
 		fire			"2.0"
 		acid			"3.0"
-		energy			"0.0"
+		energy			"0.25"
 		cryo			"3.0"
 		area			"0.0"
-		gravity			"0.05"
-		radiation		"0.5"
+		gravity			"0.25"
+		radiation		"3.0"
 	}
 	
 
@@ -68,7 +69,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh 		"meshes/units/air/baxmoth_drone.mesh"
-		material 	"units/air/baxmoth_drone_ultra"
+		material 	"units/air/baxmoth_drone_omega"
 	}
 	
 	DestroyDesc
@@ -91,37 +92,6 @@ EntityBlueprint
 				key "default"
 			}
 		}		
-	}
-
-	EffectDesc
-	{		
-		EffectGroup
-		{			
-			group "move_random"
-			enabled "1"		
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_baxmoth/drone_run"								
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"boss_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_energy_red"
-					bone "att_death"
-					scale "0.5 0.5 0.5"
-				}
-			}
-		}
 	}
 }
 
@@ -242,10 +212,10 @@ EntityBlueprint
 	{
 		diameter				"0.2"
 
-		on_enemy_hit_effect 	"effects/enemies_flurian/projectile_hit"
-		on_world_hit_effect 	"effects/enemies_flurian/projectile_hit"
-		on_shield_hit_effect	"effects/enemies_flurian/projectile_hit"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		on_enemy_hit_effect 	"effects/enemies_baxmoth/baxmoth_drone_omega_projectile_hit"
+		on_world_hit_effect 	"effects/enemies_baxmoth/baxmoth_drone_omega_projectile_hit"
+		on_shield_hit_effect	"effects/enemies_baxmoth/baxmoth_drone_omega_projectile_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
 		friendly_fire			"pass"
 	}

@@ -96,6 +96,7 @@ return function()
 	rules.objectivesLogic = 
 	{	
 		{ name = "logic/objectives/kill_elite_stregaros.logic", minDifficultyLevel = 3 },
+		{ name = "logic/objectives/kill_elite_nerilian.logic", minDifficultyLevel = 4 },
 		{ name = "logic/objectives/destroy_nest_mushbit_single.logic", minDifficultyLevel = 3, maxDifficultyLevel = 6 },
 		{ name = "logic/objectives/destroy_nest_mushbit_multiple.logic", minDifficultyLevel = 6 } 
 	}

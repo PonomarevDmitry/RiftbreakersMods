@@ -153,7 +153,7 @@ EntityBlueprint
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -202,8 +202,9 @@ EntityBlueprint
 		energy			"0.0"
 		cryo			"1.0"
 		area			"1.0"
-		gravity			"1.5"
+		gravity			"0.5"
 		radiation		"0.0"
+		sonic			"2.0"
 	}
 
 	StunDataComponent
@@ -264,7 +265,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters
@@ -324,6 +325,7 @@ EntityBlueprint
 		area			"1.0"
 		gravity			"1.5"
 		radiation		"0.0"
+		sonic			"2.0"
 	}
 
 	StunDataComponent
@@ -632,6 +634,21 @@ EntityBlueprint
 		
 		EffectGroup
 		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "1.8 1.8 1.8"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
 			group 	"stunned"
 			enabled "0"
 			Effects
@@ -643,7 +660,38 @@ EntityBlueprint
 					scale "0.9 0.9 0.9"
 				}
 			}
-		}		
+		}
+		EffectGroup
+		{
+			group "intercept_on"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_on"		
+					bone "att_intercept_effect"					
+					scale	"1.2 1.2 1.2"
+				}				
+			}
+		}
+
+		EffectGroup
+		{
+			group "intercept_off"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_off"	
+					bone "att_intercept_effect"					
+					scale	"1.2 1.2 1.2"
+				}				
+			}
+		}
 	}
 
 	FxComponent

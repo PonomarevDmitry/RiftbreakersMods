@@ -1,13 +1,13 @@
-//editor "offset(0.00,0.00)|zoom(1.00)"
+//editor "scroll(220.95,323.46)|zoom(0.80)"
 FlowGraphTemplate
 {
-	version "4"
-	editor "5110"
+	version "6"
+	editor "5517"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(154,611)"
+			//editor "layout(event_start.xml)|pos(154,610)"
 			database
 			{
 				Integers
@@ -28,14 +28,14 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1082,605)"
+			//editor "layout(event_end.xml)|pos(1290,608)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(491,289)"
+			//editor "layout(wave_ground.xml)|pos(471,235)"
 			database
 			{
 				Integers
@@ -113,12 +113,12 @@ FlowGraphTemplate
 					delay_group "4.00"
 					units_in_one_spawn "10"
 				}
-				
+
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/stonkr"
-					count "4"
+					count "2"
 					delay "2.00"
 					delay_group "0"
 					units_in_one_spawn "10"
@@ -128,23 +128,44 @@ FlowGraphTemplate
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/stonkr"
-					count "4"
+					count "2"
 					delay "2.00"
 					delay_group "4.00"
 					units_in_one_spawn "10"
 				}
 
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(950,586)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
 
 			}
 
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
 		}
 
 	}
 
 	GraphConnections
 	{
+		audio_adaptive_music_system_1 "event_end_0"
 		default "wave_ground_0"
-		wave_ground_0 "event_end_0"
+		wave_ground_0 "audio_adaptive_music_system_1"
 	}
 
 	GraphComments

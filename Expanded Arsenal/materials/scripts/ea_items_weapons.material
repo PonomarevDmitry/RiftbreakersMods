@@ -16,7 +16,7 @@ material items/weapons/bradron_tesla_weapon_beam
             glow 1
             emissive 30 0 0 1
 
-            vertex_program_ref unlit_emissive_vp
+            vertex_program_ref forward_object_texture_vp
             {
             }
 
@@ -48,7 +48,204 @@ material items/weapons/bradron_tesla_weapon_beam
     }
 }
 
-//--------------------------------------EXPANDED ARSENAL MOD START--------------------------------------\\
+material items/weapons/enemy_green_lightning_beam
+{
+    
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            cull_hardware none
+
+            glow 1
+            emissive 0 30 5 1
+
+            vertex_program_ref forward_object_texture_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_white.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+        }
+    }
+}
+
+material items/weapons/enemy_orange_lightning_beam
+{
+    
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            cull_hardware none
+
+            glow 1
+            emissive 5 2 0 1
+
+            vertex_program_ref forward_object_texture_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_white.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+        }
+    }
+}
+
+material items/weapons/enemy_yellow_lightning_beam
+{
+    
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            cull_hardware none
+
+            glow 1
+            emissive 2 5 0 1
+
+            vertex_program_ref forward_object_texture_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_white.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+        }
+    }
+}
+
+// antimatter_gun
+
+material items/weapons/antimatter_gun : pbr/default
+{
+	render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/antimatter_gun_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/spitter_acid_basic_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/spitter_acid_basic_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/antimatter_gun_emissive.dds
+
+	glow 3
+}
+
+material items/weapons/antimatter_gun_advanced : pbr/default
+{
+	render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/antimatter_gun_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/spitter_acid_advanced_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/spitter_acid_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/antimatter_gun_advanced_emissive.dds
+
+	glow 3.5
+}
+
+material items/weapons/antimatter_gun_superior : pbr/default
+{
+	render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/antimatter_gun_superior_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/spitter_acid_superior_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/spitter_acid_superior_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/antimatter_gun_superior_emissive.dds
+
+	glow 4
+}
+
+material items/weapons/antimatter_gun_extreme : pbr/default
+{
+	render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/antimatter_gun_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/spitter_acid_extreme_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/spitter_acid_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/antimatter_gun_extreme_emissive.dds
+
+	glow 4.5
+}
+
 
 // heavy_acid_blaster
 
@@ -102,6 +299,72 @@ material items/weapons/heavy_acid_blaster_extreme : pbr/default
 	set_texture_alias emissive			materials/textures/items/weapons/heavy_acid_blaster_extreme_emissive.dds
 
 	glow 4
+}
+
+// heavy_crystal_ejector
+
+material items/weapons/heavy_crystal_ejector : pbr/reflections_alpha_test
+{
+	render_group 29
+	dissolve 10 0 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/heavy_crystal_ejector_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/heavy_crystal_ejector_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/heavy_crystal_ejector_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/heavy_plasma_gun_emissive.dds
+	set_texture_alias reflection    	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+	glow 5
+	reflection 0.2 6
+}
+
+material items/weapons/heavy_crystal_ejector_advanced : pbr/reflections_alpha_test
+{
+	render_group 29
+	dissolve 10 0 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/heavy_crystal_ejector_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/heavy_crystal_ejector_advanced_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/heavy_crystal_ejector_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/heavy_crystal_ejector_advanced_emissive.dds
+	set_texture_alias reflection    	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+	glow 5
+	reflection 0.2 6
+}
+
+material items/weapons/heavy_crystal_ejector_superior : pbr/reflections_alpha_test
+{
+	render_group 29
+	dissolve 10 0 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/heavy_crystal_ejector_superior_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/heavy_crystal_ejector_superior_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/heavy_crystal_ejector_superior_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/heavy_crystal_ejector_superior_emissive.dds
+	set_texture_alias reflection    	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+	glow 5
+	reflection 0.2 6
+}
+
+material items/weapons/heavy_crystal_ejector_extreme : pbr/reflections_alpha_test
+{
+	render_group 29
+	dissolve 10 0 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/heavy_crystal_ejector_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/heavy_crystal_ejector_extreme_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/heavy_crystal_ejector_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/heavy_crystal_ejector_extreme_emissive.dds
+	set_texture_alias reflection    	materials/textures/skybox/skybox_reflection_detailed_blue.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+	glow 5
+	reflection 0.2 6
 }
 
 // heavy_cryo_blaster
@@ -382,54 +645,250 @@ material items/weapons/gauss_rifle_extreme : pbr/default
 	glow 12
 }
 
-// LIPC_gun
+// lipc_gun
 
-material items/weapons/LIPC_gun : pbr/default
+material items/weapons/lipc_gun : pbr/default
 {
 	dissolve 0 10 20 1
 
-	set_texture_alias albedo			materials/textures/items/weapons/LIPC_gun_albedo.dds
+	set_texture_alias albedo			materials/textures/items/weapons/lipc_gun_albedo.dds
 	set_texture_alias normal			materials/textures/items/weapons/floating_mines_normal.dds
 	set_texture_alias packed			materials/textures/items/weapons/floating_mines_packed.dds
-	set_texture_alias emissive			materials/textures/items/weapons/LIPC_gun_emissive.dds
+	set_texture_alias emissive			materials/textures/items/weapons/lipc_gun_emissive.dds
 
 	glow 8
 }
 
-material items/weapons/LIPC_gun_advanced : pbr/default
+material items/weapons/lipc_gun_advanced : pbr/default
 {
 	dissolve 0 10 20 1
 
-	set_texture_alias albedo			materials/textures/items/weapons/LIPC_gun_advanced_albedo.dds
+	set_texture_alias albedo			materials/textures/items/weapons/lipc_gun_advanced_albedo.dds
 	set_texture_alias normal			materials/textures/items/weapons/floating_mines_advanced_normal.dds
 	set_texture_alias packed			materials/textures/items/weapons/floating_mines_advanced_packed.dds
-	set_texture_alias emissive			materials/textures/items/weapons/LIPC_gun_advanced_emissive.dds
+	set_texture_alias emissive			materials/textures/items/weapons/lipc_gun_advanced_emissive.dds
 
 	glow 8
 }
 
-material items/weapons/LIPC_gun_superior : pbr/default
+material items/weapons/lipc_gun_superior : pbr/default
 {
 	dissolve 0 10 20 1
 
-	set_texture_alias albedo			materials/textures/items/weapons/LIPC_gun_superior_albedo.dds
+	set_texture_alias albedo			materials/textures/items/weapons/lipc_gun_superior_albedo.dds
 	set_texture_alias normal			materials/textures/items/weapons/floating_mines_superior_normal.dds
 	set_texture_alias packed			materials/textures/items/weapons/floating_mines_superior_packed.dds
-	set_texture_alias emissive			materials/textures/items/weapons/LIPC_gun_superior_emissive.dds
+	set_texture_alias emissive			materials/textures/items/weapons/lipc_gun_superior_emissive.dds
 
 	glow 8
 }
 
-material items/weapons/LIPC_gun_extreme : pbr/default
+material items/weapons/lipc_gun_extreme : pbr/default
 {
 	dissolve 0 10 20 1
 
-	set_texture_alias albedo			materials/textures/items/weapons/LIPC_gun_extreme_albedo.dds
+	set_texture_alias albedo			materials/textures/items/weapons/lipc_gun_extreme_albedo.dds
 	set_texture_alias normal			materials/textures/items/weapons/floating_mines_extreme_normal.dds
 	set_texture_alias packed			materials/textures/items/weapons/floating_mines_extreme_packed.dds
-	set_texture_alias emissive			materials/textures/items/weapons/LIPC_gun_extreme_emissive.dds
+	set_texture_alias emissive			materials/textures/items/weapons/lipc_gun_extreme_emissive.dds
 
 	glow 8
 }
 
-//--------------------------------------EXPANDED ARSENAL MOD END--------------------------------------\\
+// morphium_projector
+
+material items/weapons/morphium_projector : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_projector_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/floating_mines_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/floating_mines_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/floating_mines_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/morphium_projector_advanced : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_projector_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/floating_mines_advanced_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/floating_mines_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/floating_mines_advanced_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/morphium_projector_superior : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_projector_superior_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/floating_mines_superior_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/floating_mines_superior_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/floating_mines_superior_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/morphium_projector_extreme : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_projector_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/floating_mines_extreme_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/floating_mines_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/floating_mines_extreme_emissive.dds
+
+	glow 8
+}
+
+//morphium_grenade_projector
+
+material items/weapons/morphium_grenade_projector : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_grenade_projector_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/morphium_grenade_projector_advanced : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_grenade_projector_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_advanced_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_advanced_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/morphium_grenade_projector_superior : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_grenade_projector_superior_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_superior_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_superior_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_superior_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/morphium_grenade_projector_extreme : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/morphium_grenade_projector_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_extreme_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_extreme_emissive.dds
+
+	glow 10
+}
+
+//turret_launcher
+
+material items/weapons/turret_launcher : pbr/default
+{
+	dissolve 20 10 0 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/turret_launcher_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/turret_launcher_advanced : pbr/default
+{
+	dissolve 20 10 0 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/turret_launcher_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_advanced_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_advanced_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/turret_launcher_superior : pbr/default
+{
+	dissolve 20 10 0 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/turret_launcher_superior_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_superior_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_superior_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_superior_emissive.dds
+
+	glow 8
+}
+
+material items/weapons/turret_launcher_extreme : pbr/default
+{
+	dissolve 20 10 0 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/turret_launcher_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/grenade_launcher_extreme_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/grenade_launcher_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/grenade_launcher_extreme_emissive.dds
+
+	glow 10
+}
+
+material items/weapons/portal_railgun : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/portal_railgun_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/railgun_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/railgun_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/portal_railgun_emissive.dds
+
+	glow 6
+}
+
+material items/weapons/portal_railgun_advanced : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/portal_railgun_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/railgun_advanced_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/railgun_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/portal_railgun_advanced_emissive.dds
+
+	glow 6
+}
+
+material items/weapons/portal_railgun_superior : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/portal_railgun_superior_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/railgun_superior_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/railgun_superior_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/portal_railgun_superior_emissive.dds
+
+	glow 7
+}
+
+material items/weapons/portal_railgun_extreme : pbr/default
+{
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/portal_railgun_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/railgun_extreme_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/railgun_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/portal_railgun_extreme_emissive.dds
+
+	glow 8
+}

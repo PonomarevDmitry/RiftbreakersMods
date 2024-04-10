@@ -1,0 +1,215 @@
+EntityBlueprint
+{
+	name  			"buildings/resources/crystal_dna_laboratory_lvl_2"
+	base_blueprint	"buildings/resources/crystal_dna_laboratory"
+
+	BuildingDesc
+	{
+		name 				"crystal_dna_laboratory_lvl_2"
+		bp   				"buildings/resources/crystal_dna_laboratory_lvl_2"
+		category 			"resource_mod_1"
+		type				"pipe"
+		localization_id		"gui/hud/building_name/crystal_dna_laboratory"
+		description			"gui/hud/building_description/crystal_dna_laboratory"
+		menu_icon			"gui/hud/building_icons/crystal_dna_laboratory_lvl2"
+		upgrade				"buildings/resources/crystal_dna_laboratory_lvl_3"
+		require 			"headquarters"
+		buildable			"0"
+		order				"11"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 10
+				building_cost
+				{
+					carbonium 	"100"
+					steel 		"300"			
+					voidinite_ore	"50"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 			"energy"
+				value				"60"
+			}
+			
+			GameplayResource
+			{
+				resource 			"morphium"
+				value				"25"
+				attachment			"att_in_1"
+				family				"fluid"
+			}
+			
+			GameplayResource
+			{
+				resource 			"radioactive_gas"
+				value				"50"
+				attachment			"att_in_1"
+				family				"fluid"
+			}
+			
+			GameplayResource
+			{
+				resource 			"voidinite_ore"
+				value				"1.5"
+			}
+		}
+
+		out
+		{
+			GameplayResource
+			{
+				resource 			"crystal_dna"
+				value				"0.6"
+				family				"manufacturing"
+			}
+			
+			GameplayResource
+			{
+				resource	"player_consumables_manufacturing_crystal"
+				value		"1.2"
+				family		"manufacturing"
+			}
+		}
+		
+		priority 5
+	}
+
+	HealthDesc
+	{
+		max_health 					"1500"
+		health 						"1500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"80"
+				destroy_state_change_effect_group 	"80_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"80_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_50"
+				destroyed_state_effect_group 		"80_state"
+				destrucion_level_name 				"80"
+
+			}
+			DestructionLevel
+			{
+				health 								"60"
+				destroy_state_change_effect_group 	"60_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"60_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"60_state"
+				destrucion_level_name 				"60"
+			}
+			DestructionLevel
+			{
+				health 								"40"
+				destroy_state_change_effect_group 	"40_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"40_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"40_state"
+				destrucion_level_name 				"40"
+			}
+			DestructionLevel
+			{
+				health 								"20"
+				destroy_state_change_effect_group 	"20_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"20_destroy"
+				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
+				destroyed_state_effect_group 		"20_state"
+				destrucion_level_name 				"20"
+			}
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_state_change_effect_group 	"0_transition"
+				destroy_comp_delay 					"0.6"
+				destroy_comp_event 					"default"
+				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/resources/crystal_dna_laboratory"
+		}
+
+		EffectGroup
+		{
+			group "level"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/level_2"
+					bone "att_level"
+					scale	"0.5 0.7 0.5"
+				}
+			}
+		}
+		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/resources/crystal_dna_laboratory_lvl_2_ruins"
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/crystal_wall_ruins.lua"
+
+		database
+		{
+			regeneration_time		float:"60"
+			regeneration_chance		float:"100"
+		}
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/buildings/main/seismic_laboratory_ruins.mesh"
+		
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "buildings/resources/crystal_dna_laboratory"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/main/buildings_ruins"
+			}
+		}
+	}
+}

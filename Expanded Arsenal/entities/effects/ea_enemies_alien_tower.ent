@@ -10,16 +10,6 @@ EntityBlueprint
 		effects/default
 	}
 	
-	CameraShakeDesc
-	{
-		duration 		"0.2"
-		power   		"0.75"
-		falloff_radius 	"25"
-		radius   		"40"
-		frequency 		"20"
-		group			"explosion_medium"
-	}	
-
 	ParticleDesc
 	{
 		name     "rift/omega_gun_muzzle"
@@ -29,6 +19,83 @@ EntityBlueprint
 	{
 		name "enemies/alien_tower/plasma_muzzle"
 	}		
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_alien_tower/alien_tower_plasma_energy_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_red_small
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"3"
+			EMP_duration	float:"3"
+		}
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"10"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/alien_tower_plasma_energy_projectile_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.30"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
 }
 
 EntityBlueprint
@@ -60,6 +127,83 @@ EntityBlueprint
 	{
 		name "enemies/alien_tower/artillery_muzzle"
 	}		
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_alien_tower/alien_tower_artillery_energy_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_red_big
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_emp.lua"
+		
+		database
+		{
+			EMP_radius		float:"5"
+			EMP_duration	float:"4"
+		}
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/alien_tower_artillery_energy_projectile_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_emp_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/bomogan_omega_emp_residue"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		}
+	}
+
+	TeamInheritanceComponent
+	{
+
+	}
 }
 
 EntityBlueprint
@@ -227,6 +371,62 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name "effects/enemies_alien_tower/alien_tower_artillery_kinetic_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_orange_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/tower_control.lua"
+		
+		database
+		{
+			hacking_radius		float:"3"
+			hacking_duration	float:"3"
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/alien_tower_artillery_kinetic_projectile_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/flurian_omicron_projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_physical_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/enemy_molten_crater"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+}
 
 EntityBlueprint
 {
@@ -246,6 +446,73 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "enemies/alien_tower/alien_tower_mortar_kinetic_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_alien_tower/alien_tower_mortar_kinetic_projectile_hit"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_orange_medium
+		 effects/default
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/ground/tower_control.lua"
+		
+		database
+		{
+			hacking_radius		float:"4"
+			hacking_duration	float:"4"
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"20"
+		radius 	"20"
+	}
+	
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/alien_tower_mortar_kinetic_projectile_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/flurian/flurian_omicron_projectile_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"enemy_physical_terrain"	
+		extend  		"2"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/enemy_molten_crater"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
 	}
 }
 

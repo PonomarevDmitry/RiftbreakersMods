@@ -133,13 +133,14 @@ EntityBlueprint
 	{
 		//min_damage_threshold 	"5"
 		physical		"1.0"
-		fire			"2"
+		fire			"2.0"
 		acid			"0.0"
 		energy			"1.0"
 		cryo			"1.0"
 		area			"1.0"
 		gravity			"0.25"
 		radiation		"3.0"
+		sonic			"0.0"
 	}
 
 	MeshDesc
@@ -345,6 +346,20 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					scale "0 1 0"
+				}
+			}
+		}
 	}
 
 	
@@ -502,19 +517,6 @@ EntityBlueprint
 		is_manual				"1"
 		max_health 				"250"
 		health 					"250"
-	}
-
-	ResistanceComponent
-	{
-		//min_damage_threshold 	"5"
-		physical		"1.0"
-		fire			"2"
-		acid			"0.0"
-		energy			"1.0"
-		cryo			"1.0"
-		area			"1.0"
-		gravity			"3.0"
-		radiation		"3.0"
 	}
 
 	MeshDesc
@@ -737,6 +739,21 @@ EntityBlueprint
 		
 		EffectGroup
 		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "0 1 0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
 			group 	"spawn"
 			enabled "0"
 			Effects
@@ -949,13 +966,14 @@ EntityBlueprint
 	{
 		//min_damage_threshold 	"5"
 		physical		"1.0"
-		fire			"2"
+		fire			"2.0"
 		acid			"0.0"
 		energy			"1.0"
 		cryo			"1.0"
 		area			"1.0"
-		gravity			"3.0"
+		gravity			"1.0"
 		radiation		"3.0"
+		sonic			"0.0"
 	}
 
 	MeshDesc
@@ -1176,6 +1194,21 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/time_damage_radiation"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
 					bone "att_death"
 					scale "2.5 2.5 2.5"
 				}

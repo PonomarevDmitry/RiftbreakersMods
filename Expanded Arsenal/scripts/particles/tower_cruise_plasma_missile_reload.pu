@@ -1,0 +1,91 @@
+system rift/tower_cruise_plasma_missile_reload
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.01 0.01 0.01
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 50
+   
+	technique flare
+    {
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       10
+            angle                               0
+            time_to_live                        1.25
+            velocity                            0.0001
+            all_particle_dimensions             160
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0.501961 0.501961 0.501961 0.498039
+            time_colour                         1    0 0 0 0
+        }
+    }
+	
+	technique piorun
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_2x2_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle 
+        {
+            emission_rate                       8
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             25
+                max                             100
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+            auto_direction                      true
+            radius                              1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         0.1  0.501961 0.501961 0.501961 1
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation                            3.2
+            rotation_speed                      0
+        }
+    }
+}

@@ -62,7 +62,12 @@ material resources/resource_radioactive_gas_pipe : resources/resource_liquid
 
 material resources/resource_radioactive_gas_fresnel
 {
+
 	render_group 109
+
+	fresnel 0 0.5 0 0
+	fresnel_color 0 3 0 0.1
+
 	technique
 	{
 		pass
@@ -74,20 +79,23 @@ material resources/resource_radioactive_gas_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 0 3 0 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -149,7 +157,12 @@ material resources/resource_hazenite_flue_pipe : resources/resource_liquid
 
 material resources/resource_hazenite_flue_fresnel
 {
+
 	render_group 109
+
+	fresnel 0.5 0.45 0 0
+	fresnel_color 3 2.5 0 0.1
+
 	technique
 	{
 		pass
@@ -161,20 +174,23 @@ material resources/resource_hazenite_flue_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 3 6 0 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -236,7 +252,12 @@ material resources/resource_tanzanite_vapor_pipe : resources/resource_liquid
 
 material resources/resource_tanzanite_vapor_fresnel
 {
+
 	render_group 109
+
+	fresnel 0.2 0 0.2 0
+	fresnel_color 2 0 2 0.1
+
 	technique
 	{
 		pass
@@ -248,20 +269,23 @@ material resources/resource_tanzanite_vapor_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 2 0 2 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -323,7 +347,12 @@ material resources/resource_rhodonite_condensate_pipe : resources/resource_liqui
 
 material resources/resource_rhodonite_condensate_fresnel
 {
+
 	render_group 109
+
+	fresnel 0.5 0 0 0
+	fresnel_color 2 0 0 0.1
+
 	technique
 	{
 		pass
@@ -335,20 +364,23 @@ material resources/resource_rhodonite_condensate_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 2 0 0 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -410,7 +442,12 @@ material resources/resource_ferdonite_plasma_pipe : resources/resource_liquid
 
 material resources/resource_ferdonite_plasma_fresnel
 {
+
 	render_group 109
+
+	fresnel 0 0.1 0.5 0
+	fresnel_color 0 0.2 2 0.1
+
 	technique
 	{
 		pass
@@ -422,20 +459,23 @@ material resources/resource_ferdonite_plasma_fresnel
             two_sided   on
 
             scene_blend alpha_blend
-            depth_bias -4 0
+            depth_bias -4 -1
 
-            vertex_program_ref unlit_fresnel_vp 
+            vertex_program_ref forward_object_fresnel_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_fresnel_fp
+			fragment_program_ref forward_object_fresnel_fog_fp
 			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 0.5
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0 0 0 0
-				param_named cBlendColor2 float4 0 0 2 0.1
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -549,6 +589,15 @@ material resources/resource_voidinite_ore_very_large : resources/resource_vein
 		}
 	}
 	
+}
+
+// morphium_sump
+
+material resources/resource_morphium_sump : pbr/vegetation
+{
+	set_texture_alias albedo			materials/textures/resources/resource_morphium_sump_albedo.dds
+	set_texture_alias normal			materials/textures/resources/resource_geothermal_vent_normal.dds
+	set_texture_alias packed			materials/textures/resources/resource_geothermal_vent_packed.dds
 }
 
 //----------------------SOLID RESOURCES END----------------------\\

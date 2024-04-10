@@ -1,0 +1,464 @@
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_offensive_magma_standard"
+    base_blueprint  "units/drones/tower_attack_drone_base_magma"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"3"
+
+			owner_movement						string:"follow"
+			owner_movement_speed_near       	 float:"0.75"
+			owner_movement_speed_far          	 float:"1.5"
+			owner_movement_trigger_distance 	float:"10.0"
+
+			target_movement			string:"follow"
+			target_manual_rotation	int:"1"
+			target_search_mode  	string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.9"
+			max_scale				float:"0.9"
+		}
+	}
+	
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"5"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"5"
+		}
+		
+		max_speed
+		{
+			base 	"25"
+		}
+	}	
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"1"
+			aiming_range	"2"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_magma_mine_standard"
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/magma_drone_trail"	
+					bone "att_drone_trail_0"
+					scale	"0.9 0.9 0.9"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_magma_advanced"
+	base_blueprint		"units/drones/drone_player_offensive_magma_standard"
+	
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_magma_mine_advanced"
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_magma_superior"
+	base_blueprint		"units/drones/drone_player_offensive_magma_standard"
+	
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+		}
+
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_magma_mine_superior"
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_magma_extreme"
+	base_blueprint		"units/drones/drone_player_offensive_magma_standard"
+	
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+		}
+
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_magma_mine_extreme"
+		muzzle_flash_effect 		"effects/weapons_explosive/floating_mine_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_standard"
+	
+	base_blueprint "items/consumables/proximity_mine_base"
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+	
+		database
+		{
+			bp					string:"units/drones/drone_player_offensive_magma_mine_standard_explosion"
+			delay				float:"0.25"
+			delay_before_armed	float:"0.25"
+		}			
+	}	
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material 	"items/consumables/grenade_gravity_red"
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/floating_mine"
+	}
+	
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"ground_unit"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				team		"hostility"
+				check_parent "0"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "5"
+			}
+		}
+	}	
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"1000.0"
+		bending_radius	"3.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_magma/magma_weapon_explosion_small"
+		on_world_hit_effect 	"effects/weapons_magma/magma_weapon_explosion_small"
+		on_resisted_hit_effect 	"effects/weapons_magma/magma_weapon_explosion_small"	
+
+		collision_3d 			"world_blocker|world|ground_unit|air_unit|hitbox|world_destructible|destructible|shield"
+		collision_2d 			"ground_unit|hitbox|destructible"
+		friendly_fire			"pass"
+	}
+
+	LifeTimeDesc
+	{
+		time 		10
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_standard_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/weapons_magma/magma_mine_explosion"
+	
+		DamagePattern
+		{
+			area_damage_radius	"3"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"50"
+					type			"fire"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_advanced"
+	
+	base_blueprint "units/drones/drone_player_offensive_magma_mine_standard"
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+	
+		database
+		{
+			bp					string:"units/drones/drone_player_offensive_magma_mine_advanced_explosion"
+			delay				float:"0.25"
+			delay_before_armed	float:"0.25"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_advanced_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/weapons_magma/magma_mine_explosion"
+	
+		DamagePattern
+		{
+			area_damage_radius	"3"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"73.3"
+					type			"fire"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_superior"
+	
+	base_blueprint "units/drones/drone_player_offensive_magma_mine_standard"
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+	
+		database
+		{
+			bp					string:"units/drones/drone_player_offensive_magma_mine_superior_explosion"
+			delay				float:"0.25"
+			delay_before_armed	float:"0.25"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_superior_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/weapons_magma/magma_mine_explosion"
+	
+		DamagePattern
+		{
+			area_damage_radius	"3"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"fire"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_extreme"
+	
+	base_blueprint "units/drones/drone_player_offensive_magma_mine_standard"
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+	
+		database
+		{
+			bp					string:"units/drones/drone_player_offensive_magma_mine_extreme_explosion"
+			delay				float:"0.25"
+			delay_before_armed	float:"0.25"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_magma_mine_extreme_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/weapons_magma/magma_mine_explosion"
+	
+		DamagePattern
+		{
+			area_damage_radius	"3"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"130"
+					type			"fire"
+				}
+			}
+		}
+	}
+}

@@ -3,6 +3,24 @@ EntityBlueprint
 	name "units/ground/arachnoid_magma"
 	base_blueprint	"units/ground/arachnoid_sentinel_base"
 
+	StateMachineDesc
+	{
+		template_name "arachnoid_sentinel"
+		params
+		{
+			aggressive_speed				float:"7"
+			aggressive_acceleration			float:"15"
+			not_aggressive_speed			float:"2"
+			not_aggressive_acceleration		float:"4"
+			angle_turn_speed				float:"200"
+			priority_target					string:"headquarters|player|tower|energy"
+			priority_target_distance		float:"40"
+			ignore_move_to_type				string:"wall|invisible|not_move_to_target"
+			melee_attack_name				string:"attack_1"
+			trigger_blueprint				string:"units/ground/arachnoid_sentinel/trigger"
+		}		
+	}
+	
 	LuaDesc
 	{
 		script "lua/units/ground/arachnoid_sentinel_base.lua"
@@ -57,6 +75,7 @@ EntityBlueprint
 		area			"0.0"
 		gravity			"2.0"
 		radiation		"0.25"
+		sonic			"0.0"
 	}
 
 	SelectableDesc
@@ -88,8 +107,8 @@ EntityBlueprint
 	TurretDesc
 	{
 		name   "range"
-		target "ground_unit|building"
-		target_ignore "wall|invisible"
+		target "wall|ground_unit|building"
+		target_ignore "invisible"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
@@ -241,7 +260,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/world_hit"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{

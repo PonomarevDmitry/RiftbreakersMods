@@ -1,14 +1,13 @@
-//editor "offset(-305.733,-250.667)|zoom(1.000)"
+//editor "scroll(197.92,180.48)|zoom(0.60)"
 FlowGraphTemplate
 {
-	version "1"
-	editor "3103"
+	version "2"
+	editor "5517"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(171,528)"
-			script "lua/graph/mission_state/event_start.lua"
+			//editor "layout(event_start.xml)|pos(170,528)"
 			database
 			{
 				Integers
@@ -23,19 +22,20 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1079,496)"
+			//editor "layout(event_end.xml)|pos(1325,550)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(497,215)"
+			//editor "layout(wave_ground.xml)|pos(497,214)"
 			database
 			{
 				Integers
@@ -58,6 +58,7 @@ FlowGraphTemplate
 						value "30"
 					}
 
+					//editor "expanded(1)"
 				}
 
 				Strings
@@ -65,76 +66,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "spawn_direction"
+						value
 					}
 
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					//editor "expanded(1)"
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_0"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/morirot"
+					count "2"
+					delay "3.00"
+					delay_group "0"
+					units_in_one_spawn "20"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/morirot"
+					count "2"
+					delay "3.00"
+					delay_group "8.00"
+					units_in_one_spawn "20"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_magma"
+					count "1"
+					delay "3.00"
+					delay_group "0"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_magma"
+					count "1"
+					delay "3.00"
+					delay_group "8.00"
+					units_in_one_spawn "5"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(979,535)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_0"
-			group_name "universal"
-			delay "0"
-			percentage_units_to_end_wave "90"
-			Enemies
-			{
-				//editor "expanded(1)"
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/morirot"
-					delay_group "0"
-					delay "3.00"
-					count "2"
-					units_in_one_spawn "20"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/morirot"
-					delay_group "8.00"
-					delay "3.00"
-					count "2"
-					units_in_one_spawn "20"
-				}
-				
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_magma"
-					delay_group "0"
-					delay "3.00"
-					count "1"
-					units_in_one_spawn "5"
-				}
-				
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_magma"
-					delay_group "8.00"
-					delay "3.00"
-					count "1"
-					units_in_one_spawn "5"
-				}
-
-
-			}
-
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
 		}
 
 	}
 
 	GraphConnections
 	{
-		wave_ground_0 "event_end_0"
+		audio_adaptive_music_system_1 "event_end_0"
 		default "wave_ground_0"
+		wave_ground_0 "audio_adaptive_music_system_1"
 	}
 
+	GraphComments
 }
 

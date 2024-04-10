@@ -11,11 +11,13 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_gravity_blaster"
 		menu_icon			"gui/hud/building_icons/tower_gravity_blaster"
 		require 			"headquarters"
-		order				"11"
+		order				"9"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_gravity_blaster_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"
 
 		costs
 		{
@@ -55,10 +57,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower.lua"
+		script "lua/buildings/defense/tower_charge.lua"
 
 		database
 		{
+			charge_time			float:"1.5"
+			attack_time			float:"2"
+			reload_time			float:"1"
+			
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
 			time_machine		int:"0"
@@ -250,7 +256,7 @@ EntityBlueprint
 
 		muzzle_flash_effect 		"effects/weapons_gravity/tower_gravity_blaster_fire"
 
-		burst_column_spacing 		"0.5"
+		burst_column_spacing 		"0"
 		burst_rate 					"0.08"
 		burst_column_angle 			"0"
 	}
@@ -268,11 +274,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_effect 		"effects/buildings_generic/gravity_explosion_medium_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
+					part_material 			"misc/gravity_building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_blue"
 					part_lifetime "3"
 				}
 			}
@@ -284,11 +290,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_effect 		"effects/buildings_generic/gravity_explosion_medium_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
+					part_material 			"misc/gravity_building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_blue"
 					part_lifetime "3"
 				}
 			}
@@ -299,10 +305,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					explosion_effect 		"effects/buildings_generic/gravity_explosion_medium_death_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_material 			"misc/gravity_building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_blue"
 					part_prefix 			"meshes/misc/building_large_parts_generic"
 					part_lifetime "3"
 				}
@@ -318,8 +324,8 @@ EntityBlueprint
 					explosion_min_power 	"2000"
 					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_material 			"misc/gravity_building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_blue"
 					part_prefix 			"meshes/misc/building_large_parts_generic"
 					part_lifetime "3"
 				}
@@ -367,14 +373,105 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "charge"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_gravity/tower_gravity_blaster_charge"
+					bone "att_effect"
+					scale	"1.2 1.2 1.2"
+				}
+				
+				Effect
+				{
+					blueprint "effects/towers_pointers/purple_laser_pointer"
+					bone "att_pointer"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_gravity/tower_gravity_laser_weapon_primed"
+					bone "att_effect"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_gravity/tower_gravity_blaster_reload"
+					bone "att_effect"
+				}
+			}
+		}
 	}
 }
 
 EntityBlueprint
 {
-	name 			"buildings/defense/tower_gravity_blaster_projectile"
+	name	"buildings/defense/tower_gravity_blaster_projectile"
 
-	base_blueprint 	"effects/weapons_gravity/gravity_blaster_projectile"
+	base_blueprints 
+	{
+		lights/point/violet_super_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/bioscanner_ring.mesh"
+		material 	"weapons_beam/gravity_laser_ring"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_blaster_projectile_trail"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"1000.0"
+		bending_radius	"3.0"
+	}
 
 	ProjectileAmmoComponent
 	{
@@ -382,12 +479,26 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_gravity/gravity_blaster_hit"
 		on_resisted_hit_effect 	"effects/weapons_gravity/gravity_blaster_hit"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+		
+		
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.2"
+
+		cluster_scale
+		{
+			x "0.5"
+			y "0.5"
+			z "0.5"
+		}
 	}
 
 	LifeTimeDesc
 	{
-		time 		2
+		time 		0.7
 		//type 		"camera"
 	}
 }

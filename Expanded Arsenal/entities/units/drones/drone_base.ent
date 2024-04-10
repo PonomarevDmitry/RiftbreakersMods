@@ -154,26 +154,37 @@ EntityBlueprint
 		//earthquake		"0.0"
 	//}
 	
-	PhysicsDesc
- 	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"kinematic"
-				group_id 			"ground_unit"
-				physics_material 	"default"
-
-				Shapes
-				{
-   					PhysicsSphereShape
-   					{
-    					r "1.0"
-   					}			
-				}
-			}
-		}
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_attack.mesh"
+		material "units/drones/drone_attack"
 	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/drones/drone_attack"
+	}
+	
+	//PhysicsDesc
+ 	//{
+		//objects
+		//{
+			//PhysicsObjectDesc
+			//{
+				//type 				"kinematic"
+				//group_id 			"ground_unit"
+				//physics_material 	"default"
+
+				//Shapes
+				//{
+   					//PhysicsSphereShape
+   					//{
+    					r "1.0"
+   					//}			
+				//}
+			//}
+		//}
+	//}
 	
 	EffectDesc
 	{
@@ -296,11 +307,6 @@ EntityBlueprint
 		mesh "meshes/units/drones/drone_attack.mesh"
 		material "units/drones/energy_drone_attack"
 	}
-
-	SkeletonDesc
-	{
-		name "meshes/units/drones/drone_attack"
-	}
 	
 	EffectDesc
 	{
@@ -403,11 +409,6 @@ EntityBlueprint
 		material "units/drones/bullet_drone_attack"
 	}
 
-	SkeletonDesc
-	{
-		name "meshes/units/drones/drone_attack"
-	}
-	
 	EffectDesc
 	{
 		EffectGroup
@@ -454,6 +455,64 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name  			"units/drones/tower_attack_drone_base_explosive"
+	base_blueprint 	"units/drones/tower_attack_drone_base"
+
+	HealthDesc
+	{
+		max_health 					"15"
+		health 						"15"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+	
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_explosive/explosion_small"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}			
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_attack.mesh"
+		material "units/drones/explosive_drone_attack"
+	}
+}
+
+EntityBlueprint
+{
 	name  			"units/drones/tower_attack_drone_base_acid"
 	base_blueprint 	"units/drones/tower_attack_drone_base"
 	
@@ -487,11 +546,6 @@ EntityBlueprint
 		material "units/drones/acid_drone_attack"
 	}
 
-	SkeletonDesc
-	{
-		name "meshes/units/drones/drone_attack"
-	}
-	
 	EffectDesc
 	{
 		EffectGroup
@@ -569,11 +623,6 @@ EntityBlueprint
 	{
 		mesh "meshes/units/drones/drone_attack.mesh"
 		material "units/drones/magma_drone_attack"
-	}
-
-	SkeletonDesc
-	{
-		name "meshes/units/drones/drone_attack"
 	}
 	
 	EffectDesc
@@ -655,11 +704,6 @@ EntityBlueprint
 		mesh "meshes/units/drones/drone_attack.mesh"
 		material "units/drones/cryo_drone_attack"
 	}
-
-	SkeletonDesc
-	{
-		name "meshes/units/drones/drone_attack"
-	}
 	
 	EffectDesc
 	{
@@ -707,6 +751,107 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name  			"units/drones/tower_attack_drone_base_morphium"
+	base_blueprint 	"units/drones/tower_attack_drone_base"
+
+	HealthDesc
+	{
+		max_health 					"15"
+		health 						"15"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"	
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+	
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_energy/explosion_building_energy_small"	
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					part_lifetime "3"
+				}
+
+				key "default"
+			}			
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_attack.mesh"
+		material "units/drones/morphium_drone_attack"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_dust"	
+					scale	"0.4 0.4 0.4"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_dust"
+					scale	"0.4 0.4 0.4"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_dust"
+					scale	"0.4 0.4 0.4"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
 	name  			"units/drones/tower_attack_drone_base_radio"
 	base_blueprint 	"units/drones/tower_attack_drone_base"
 	
@@ -741,11 +886,6 @@ EntityBlueprint
 		material "units/drones/radio_drone_attack"
 	}
 
-	SkeletonDesc
-	{
-		name "meshes/units/drones/drone_attack"
-	}
-	
 	EffectDesc
 	{
 		EffectGroup

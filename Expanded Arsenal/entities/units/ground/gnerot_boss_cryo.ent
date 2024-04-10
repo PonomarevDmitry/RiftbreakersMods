@@ -146,9 +146,10 @@ EntityBlueprint
 		acid			"1.0"
 		energy			"1.0"
 		cryo			"0.0"
-		area			"1.0"
-		gravity			"4.0"
-		radiation		"0.05"
+		area			"2.0"
+		gravity			"3.0"
+		radiation		"0.0"
+		sonic			"3.0"
 	}
 	
 	StunDataComponent
@@ -441,36 +442,6 @@ EntityBlueprint
 				}
 			}
 		}
-
-		EffectGroup
-		{
-			group 	"time_damage_gravity"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_gravity"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_radiation"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_radiation"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}
 	}
 
 	children
@@ -483,7 +454,7 @@ EntityBlueprint
 			{
 				damage_amount	10
 				always_kill		1
-				collision 		"vegetation|destructible"
+				collision 		"vegetation|destructible|world_destructible"
 
 				Shapes
 				{
@@ -555,7 +526,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
@@ -570,7 +541,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"

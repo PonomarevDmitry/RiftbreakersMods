@@ -19,6 +19,7 @@ EntityBlueprint
 		area			"1.0"
 		gravity			"2.0"
 		radiation		"3.0"
+		sonic			"0.0"
 	}
 	
 	HealthBarDesc
@@ -524,7 +525,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_energy"
+					blueprint "effects/enemies_generic/damage_generic_energy_metal"
 					bone "att_death"
 				}
 			}
@@ -537,7 +538,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_energy"
+					blueprint "effects/enemies_generic/damage_generic_energy_metal"
 					bone "att_death"
 				}
 			}
@@ -624,6 +625,21 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/time_damage_gravity"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
 					bone "att_death"
 					scale "1.5 1.5 1.5"
 				}
@@ -1020,7 +1036,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/enemies_alien_tower/artillery_explosion"
 		on_resisted_hit_effect	"effects/enemies_alien_tower/artillery_explosion"
 		on_shield_hit_effect	"effects/enemies_alien_tower/artillery_explosion"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 		hit_effect_direction	"up"  //inverse, normal, up
 		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
 	}

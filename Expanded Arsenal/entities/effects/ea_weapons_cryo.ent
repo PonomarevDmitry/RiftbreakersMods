@@ -98,40 +98,88 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/weapons_cryo/cryo_laser_muzzle
-	
+	name	"effects/weapons_cryo/tower_cryo_laser_charge"
+
 	base_blueprints
 	{
-		lights/point/white_small
+		lights/point/muzzle_white_small
 		effects/no_lifetime
 	}
 
 	ParticleDesc
 	{
-		name    "rift/cryo_laser_muzzle"
+		name   "rift/tower_cryo_laser_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/cryo/tower_cryo_laser_charge"
 	}
 }
 
 EntityBlueprint
 {
-	name effects/weapons_cryo/cryo_laser_loop
-
+	name	"effects/weapons_cryo/tower_cryo_laser_weapon_primed"
+	
 	base_blueprints
 	{
+		lights/point/muzzle_white_super_small
 		effects/no_lifetime
 	}
 
+	ParticleDesc
+	{
+		name    "rift/tower_cryo_laser_weapon_primed"
+	}
+}
+
+
+EntityBlueprint
+{
+	name	"effects/weapons_cryo/tower_cryo_laser_muzzle"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_white_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_cryo_laser_muzzle"
+	}
+	
 	SoundDesc
 	{
-		name 		"towers/cryo/cryo_laser_loop"
-		start_name 	"towers/cryo/cryo_laser_start"
-		end_name	"towers/cryo/cryo_laser_stop"
+		name	"towers/cryo/cryo_laser_loop"
 	}
 }
 
 EntityBlueprint
 {
-	name effects/weapons_cryo/cryo_laser_enemy_hit
+	name	"effects/weapons_cryo/tower_cryo_laser_reload"
+
+	base_blueprints
+	{
+		lights/point/muzzle_white_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_cryo_laser_reload"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/cryo/tower_cryo_laser_reload"
+	}
+}
+
+
+EntityBlueprint
+{
+	name	"effects/weapons_cryo/tower_cryo_laser_enemy_hit"
 
 	base_blueprints
 	{
@@ -141,7 +189,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cryo_laser_hit"
+		name    "rift/tower_cryo_laser_enemy_hit"
 	}
 
 	SoundDesc
@@ -152,17 +200,17 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name 			"effects/weapons_cryo/cryo_laser_world_hit"
+	name	"effects/weapons_cryo/tower_cryo_laser_world_hit"
 
 	base_blueprints
 	{
-		lights/point/white_super_small
+		lights/point/muzzle_white_small
 		effects/no_lifetime
 	}
 
 	ParticleDesc
 	{
-		name    "rift/cryo_laser_hit"
+		name    "rift/tower_cryo_laser_world_hit"
 	}
 	
 	SoundDesc
@@ -182,12 +230,103 @@ EntityBlueprint
 		blueprint "effects/decals/cryo_crater_01"
 		scale
 		{
-			x		2.0
-			y		2.0
-			z		2.0
+			x		1.5
+			y		1.5
+			z		1.5
 		}
 	}
 }
+
+EntityBlueprint
+{
+	name	"effects/weapons_cryo/drone_cryo_laser_enemy_hit"
+
+	base_blueprints
+	{
+		lights/point/white_super_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_cryo_laser_enemy_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/cryo/cryo_laser_enemy_hit"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"cryo_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/cryo_crater_01"
+		scale
+		{
+			x		1.5
+			y		1.5
+			z		1.5
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_cryo/drone_cryo_laser_world_hit"
+
+	base_blueprints
+	{
+		lights/point/muzzle_white_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_cryo_laser_world_hit"
+	}
+}
+
+// tower_drone_attack_cryo
+
+EntityBlueprint
+{
+	name effects/weapons_cryo/drone_cryo_laser_muzzle
+	
+	base_blueprints
+	{
+		lights/point/white_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_cryo_laser_muzzle"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_cryo/drone_cryo_laser_loop
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name 		"towers/cryo/cryo_laser_loop"
+		start_name 	"towers/cryo/cryo_laser_start"
+		end_name	"towers/cryo/cryo_laser_stop"
+	}
+}
+
 
 // tower_cryo_artillery
 

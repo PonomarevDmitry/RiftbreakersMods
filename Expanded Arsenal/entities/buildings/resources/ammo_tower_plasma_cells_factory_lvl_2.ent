@@ -14,7 +14,7 @@ EntityBlueprint
 		menu_icon			"gui/hud/building_icons/ammo_tower_plasma_cells_factory_lvl2"
 		require 			"headquarters"
 		upgrade				"buildings/resources/ammo_tower_plasma_cells_factory_lvl_3"			
-		order				"2"
+		order				"9"
 		buildable			"0"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
@@ -61,7 +61,7 @@ EntityBlueprint
 			{
 				resource 			"rhodonite_condensate"
 				value			 	"25"
-				attachment			"att_in_1"
+				attachment			"att_out_1"
 			}				
 		}
 		
@@ -71,7 +71,22 @@ EntityBlueprint
 			{
 				resource	"ammo_manufacturing_plasma_cells"
 				value		"2"
-			}	
+				family		"manufacturing"
+			}
+
+			GameplayResource
+			{
+				resource	"player_ammo_manufacturing_plasma_cells"
+				value		"1.2"
+				family		"manufacturing"
+			}
+
+			GameplayResource
+			{
+				resource	"player_consumables_manufacturing_plasma"
+				value		"1.2"
+				family		"manufacturing"
+			}
 		}
 		priority 5		
 	}
@@ -139,24 +154,8 @@ EntityBlueprint
 	{		
 		EffectBaseBlueprints
 		{
-			"buildings/effects_medium_base"
-		}	
-		
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "1"				
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"								
-					bone "att_in_arrow"
-				}
-			}
-		}				
+			"buildings/resources/ammo_tower_plasma_cells_factory"
+		}					
 
 		EffectGroup
 		{

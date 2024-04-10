@@ -7,17 +7,22 @@ EntityBlueprint
 	{
 		name 				"tower_cruise_plasma_missile_lvl_2"
 		bp   				"buildings/defense/tower_cruise_plasma_missile_lvl_2"
-		category 			"defense_mod_3"
+		category 			"defense_mod_2"
 		localization_id		"gui/hud/building_name/tower_cruise_plasma_missile"
 		description			"gui/hud/building_description/tower_cruise_plasma_missile"
 		menu_icon			"gui/hud/building_icons/tower_cruise_plasma_missile_lvl2"
 		require 			"headquarters"
-		order				"2"
+		order				"8"
 		type				"tower"
 		overrides			"tower,wall"
 		buildable			"0"
 		upgrade				"buildings/defense/tower_cruise_plasma_missile_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
+		limit				"10"
+		limit_name			"plasma_cm_limit"
+		map_limit			"LOCAL"	
 
 		costs
 		{
@@ -31,7 +36,6 @@ EntityBlueprint
 					steel 				"300"
 					palladium			"200"
 					rhodonite			"100"
-					ammo_tower_guided	"200"
 				}
 			}
 
@@ -45,7 +49,6 @@ EntityBlueprint
 					steel 				"300"
 					palladium			"200"
 					rhodonite			"50"
-					ammo_tower_guided	"100"
 				}
 			}
 		}			
@@ -60,6 +63,13 @@ EntityBlueprint
 				resource 	"energy"
 				value 		"1"
 			}
+			
+			GameplayResource
+			{
+				resource 	"supercoolant"
+				value 		"2.5"
+				attachment	"att_in_1"
+			}
 		}
 
 		out
@@ -67,6 +77,23 @@ EntityBlueprint
 		}
 
 		priority 6
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_charge.lua"
+
+		database
+		{
+			charge_time			float:"1.5" 
+			attack_time			float:"3.5"
+			reload_time			float:"2"
+			
+			cone_effect			string:"build_cone_1x1"
+			cone_effect_sell	string:"sell_small"
+			time_machine		int:"0"
+		}
+
 	}
 
 	HealthDesc
@@ -186,6 +213,78 @@ EntityBlueprint
 		burst_column_spacing 		"0"
 		burst_rate 					"0.1"
 		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/defense/tower_cruise_plasma_missile"
+		}	
+		
+		EffectGroup
+		{
+			group "charge"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_energy/tower_cruise_plasma_missile_charge"
+					bone 		"be_barrel"
+					offset		"0.4 0 0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_energy/tower_cruise_plasma_missile_weapon_primed"
+					bone 		"be_barrel"
+					offset		"0.4 0 0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_cruise_plasma_missile_reload"
+					bone "be_barrel"
+					offset	"0.4 0 0"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_cruise_plasma_missile_reload_smoke"
+					bone "att_muzzle_1"
+					scale	"0.4 0.4 0.4"
+					offset	"0.9 0 0"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_cruise_plasma_missile_reload_smoke"
+					bone "att_muzzle_2"
+					scale	"0.4 0.4 0.4"
+					offset	"0.9 0 0"
+				}
+			}
+		}
 	}
 }
 

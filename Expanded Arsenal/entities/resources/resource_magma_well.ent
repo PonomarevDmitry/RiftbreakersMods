@@ -29,17 +29,11 @@ EntityBlueprint
 		}
 	}
 
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type	"magma_well_terrain"
-		extend  		"2"
-	}
-
 	MinimapItemDesc
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/magma_vent"
+		unknown_until_visible 	"1"
 
 		visibility 			"discovered|radar"
 	}
@@ -82,6 +76,48 @@ EntityBlueprint
 				}				
 			}
 		}	
+		EffectGroup
+		{						
+			group "vent_terrain_marker"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "resources/resource_magma_well_terrain_marker"								
+				}			
+			}
+		}	
 	}		
 }
 
+EntityBlueprint
+{
+    name "resources/resource_magma_well_terrain_marker"
+
+    LocalAabbDesc
+    {
+        min
+        {
+            x "-3"
+            y "-3"
+            z "-3"
+        }
+
+        max
+        {
+            x "3"
+            y "3"
+            z "3"
+        }
+    }
+    
+    GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type	"magma_well_terrain"
+		extend  		"2"
+	}
+}

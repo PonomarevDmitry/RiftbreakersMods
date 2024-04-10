@@ -31,6 +31,7 @@ EntityBlueprint
 		area			"1.5"
 		gravity			"2.0"
 		radiation		"0.5"
+		sonic			"2.0"
 	}	
 
 	StunDataComponent
@@ -354,6 +355,21 @@ EntityBlueprint
 		
 		EffectGroup
 		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_violet"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+
+		EffectGroup
+		{
 			group 	"time_damage_gravity"
 			enabled "0"
 			Effects
@@ -384,18 +400,19 @@ EntityBlueprint
 		
 		EffectGroup
 		{
-			group 	"time_damage_physical"
+			group 	"time_damage_sonic"
 			enabled "0"
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_physical_violet"
+					blueprint "effects/enemies_generic/time_damage_sonic"
 					bone "att_death"
 					scale "1.2 1.2 1.2"
 				}
 			}
-		}	
+		}
+		
 		EffectGroup
 		{
 			group 	"stunned"
@@ -409,7 +426,39 @@ EntityBlueprint
 					scale "0.6 0.6 0.6"
 				}
 			}
-		}			
+		}
+		
+		EffectGroup
+		{
+			group "intercept_on"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_on"		
+					bone "att_intercept_effect"					
+					scale	"0.8 0.8 0.8"
+				}				
+			}
+		}
+
+		EffectGroup
+		{
+			group "intercept_off"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_off"	
+					bone "att_intercept_effect"					
+					scale	"0.8 0.8 0.8"
+				}				
+			}
+		}
 	}
 	FxComponent
 	{
@@ -522,7 +571,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -565,7 +614,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters

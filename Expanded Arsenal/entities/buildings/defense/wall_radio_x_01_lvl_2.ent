@@ -8,7 +8,7 @@ EntityBlueprint
 		buildable 				"0"
 		name 					"wall_radio_x_01_lvl_2"
 		bp   					"buildings/defense/wall_radio_x_01_lvl_2"
-		category 				"defense"
+		category 				"defense_mod_1"
 		type					"wall"
 		localization_id			"gui/hud/building_name/wall_radio"
 		description				"gui/hud/building_description/wall_radio"
@@ -18,7 +18,10 @@ EntityBlueprint
 		upgrade					"buildings/defense/wall_radio_x_01_lvl_3"
 		building_mode			"line"
 		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		//check_connect			"1"
 		overrides				"wall"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,acid,metallic,legacy_maps"
 
 		costs
 		{
@@ -46,9 +49,9 @@ EntityBlueprint
 	
 	ReflectDamageComponent
 	{
-		reflect_type 	"health_ratio"  // health_ratio, damage_ratio, flat_damage
+		reflect_type 	"damage_ratio"  // health_ratio, damage_ratio, damage_ratio
 		melee_only	 	"1"			   // reflect only melee damage
-		damage_value 	"0.1"
+		damage_value 	"0.157"
 		damage_type 	"radiation"	   // optional, if not provided damage type will be set to "reflect"
 	}
 
@@ -58,33 +61,16 @@ EntityBlueprint
 		glow_factor 	100
 	}
 	
-	ResourceConverterDesc // must be here for AI
+	RegenerationComponent
 	{
-		in
-		{			
-			GameplayResource
-			{
-				resource 	"tanzanite_vapor"
-				value 		"0.01"
-			}		
-		}
-
-		out
-		{
-		}
-
-		priority 6
-	}
-
-	PipeComponent
-	{
-
+		regeneration 			"56"
+		regeneration_cooldown 	"0.1"
 	}
 	
 	HealthDesc
 	{
-		max_health 					"600"
-		health 						"600"
+		max_health 					"560"
+		health 						"560"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -111,12 +97,6 @@ EntityBlueprint
 			}
 		}
 	}
-	
-	RegenerationComponent
-	{
-		regeneration 			"60"
-		regeneration_cooldown 	"0"
-	}
 
 	MeshDesc
 	{
@@ -138,98 +118,39 @@ EntityBlueprint
 		}
 	}
 	
-	EffectDesc
+	SkeletonDesc
 	{
-		EffectBaseBlueprints
-		{
-			"buildings/effects_small_base"
-		}
-		
-		EffectGroup
-		{						
-			group "damage_generic"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/wall_radio_damage"
-					scale "0.7 0.7 0.7"
-				}
-			}
-		}		
-		EffectGroup
-		{						
-			group "hit_damage"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/wall_radio_damage"	
-					scale "0.7 0.7 0.7"
-				}
-			}
-		}
+		name	"meshes/buildings/defense/wall_energy_x_01_lvl_2"
+	}
+}
 
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "0"
-			delay "0"
+EntityBlueprint
+{
+	name  "buildings/defense/wall_radio_x_01_lvl_2_ruins"
 
-			Effects
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/wall_energy_x_02_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
 			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_1_arrow"
-				}
+				id "0"
+				material "buildings/defense/wall_radio_lvl_2_solid"
 			}
-		}
-		EffectGroup
-		{
-			group "att_in_2"
-			enabled "0"
-			delay "0"
 
-			Effects
+			SubMesh
 			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_2_arrow"
-				}
+				id "1"
+				material "buildings/defense/wall_energy_lvl_2_radio"
 			}
-		}
-		EffectGroup
-		{
-			group "att_in_3"
-			enabled "0"
-			delay "0"
 
-			Effects
+			SubMesh
 			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_3_arrow"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "att_in_4"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
-					bone "att_in_4_arrow"
-				}
+				id "2"
+				material "buildings/main/buildings_ruins"
 			}
 		}		
 	}

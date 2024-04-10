@@ -70,7 +70,7 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
@@ -81,7 +81,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  			"units/drones/energy_tesla_drone"
+	name  			"units/drones/energy_railgun_drone"
 	base_blueprint 	"units/drones/tower_attack_drone_base_energy"
 
 	EffectDesc
@@ -126,14 +126,14 @@ EntityBlueprint
 	
 	TurretDesc
 	{
-		target "ground_unit_small|ground_unit|air_unit"
-		target_ignore "invisible"
+		target "ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
 		speed "720"
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "0"
-			range_max "15"
-			aiming_range "20"
+			range_max "20"
+			aiming_range "25"
 		}
 
 		aiming_cooldown "1"
@@ -145,7 +145,7 @@ EntityBlueprint
 		fog_of_war_filtering "1"
 	}
 
-	BeamWeaponComponent
+	BurstWeaponComponent
 	{
 		WeaponMuzzles
 		{
@@ -163,7 +163,8 @@ EntityBlueprint
 		}
 		
 		muzzles_per_fire 			"1"
-		ammo_blueprint 				"units/drones/energy_tesla_drone_weapon"
+		ammo_blueprint 				"units/drones/energy_railgun_drone_weapon"
+		muzzle_flash_effect 		"effects/weapons_energy/tower_railgun_fire"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
@@ -173,38 +174,29 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "units/drones/energy_tesla_drone_weapon"
+	name  "units/drones/energy_railgun_drone_weapon"
+	base_blueprint	"buildings/defense/tower_railgun_projectile"
 
-	LightningBeamComponent
+	InstantAmmoComponent
 	{
-		range 					"15"
+		range 					"20"
+		max_hits 				"20"
 
-		on_enemy_hit_effect 	"effects/weapons_energy/lightning_gun_hit"
+		width 					"1"
+		height 					"1"
 
-		type_mask				"ground_unit|air_unit"
-		aiming_angle			"60"
+		on_enemy_hit_effect 	"effects/weapons_energy/railgun_hit"
+		on_world_hit_effect 	"effects/weapons_energy/railgun_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		idle_attachments
-		{	
-			IdString "att_lightning_1"
-			IdString "att_lightning_2"
-			IdString "att_lightning_3"
-		}
-	}
-
-	LightningComponent
-	{
-		material 				"items/weapons/lightning_gun_beam"
-		tesselation_step 		"0.75"
-		beam_min_width 			"0.01"
-		beam_max_width 			"0.10"
-		beam_count 				"1"
+		collision_3d 			"world_destructible|destructible|ground_unit|shield"
+		collision_block 		"world"
 	}
 }
 
 EntityBlueprint
 {
-	name  			"units/drones/energy_laser_drone"
+	name  			"units/drones/energy_grenadier_drone"
 	base_blueprint 	"units/drones/tower_attack_drone_base_energy"
 	
 	EffectDesc
@@ -265,7 +257,7 @@ EntityBlueprint
 	
 	TurretDesc
 	{
-		target "ground_unit_artillery|ground_unit_large|ground_unit"
+		target "ground_unit"
 		target_ignore "invisible|air_unit"
 		speed "720"
 		aim_volume "SphericalAimVolume"
@@ -285,7 +277,7 @@ EntityBlueprint
 	}
 
 	
-	BeamWeaponComponent
+	BurstWeaponComponent
 	{
 		WeaponMuzzles
 		{
@@ -302,9 +294,9 @@ EntityBlueprint
 			submesh_idx "1"
 		}
 		
-		ammo_blueprint 				"units/drones/energy_laser_drone_weapon"
+		ammo_blueprint 				"units/drones/energy_grenadier_drone_weapon"
 		muzzles_per_fire			"1"
-		muzzle_flash_effect 		"effects/weapons_energy/laser_muzzle"
+		muzzle_flash_effect 		"effects/weapons_energy/tower_antimatter_grenadier_fire"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
@@ -314,38 +306,22 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "units/drones/energy_laser_drone_weapon"
+	name			 	"units/drones/energy_grenadier_drone_weapon"
+	base_blueprint		"buildings/defense/tower_antimatter_grenadier_projectile"
 
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"3.75"
+			arming_time			float:"0.75"
+		}
+
+	}
 	
-	MeshDesc
+	WeaponItemDesc
 	{
-		mesh 		"meshes/projectiles/laser_beam_small.mesh"
-		material 	"items/skills/rift_portal_energy_2"
-	}
-
-	LaserBeamComponent
-	{
-		range 					"20"
-
-		on_enemy_hit_effect 	"effects/weapons_energy/laser_small_hit"
-		on_world_hit_effect 	"effects/weapons_energy/laser_small_hit"
-		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
-
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
-		collision_block 		"world"
-
-        damage_factor_max       "9.0"
-        damage_factor_increase  "5.0"
-        damage_factor_decrease  "6.0"
-        damage_max_beam_scale 	"1.5"
-		damage_max_beam_glow 	"2.0"
-	}
-
-
-	SoundDesc
-	{
-		name 		"items/weapons/fluid/flamer_loop"
-		start_name 	"items/weapons/fluid/flamer_start"
-		end_name 	"items/weapons/fluid/flamer_stop"
 	}
 }

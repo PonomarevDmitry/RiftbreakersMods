@@ -13,7 +13,7 @@ EntityBlueprint
 		description			"gui/hud/building_description/ammo_tower_cryo_cells_factory"
 		menu_icon			"gui/hud/building_icons/ammo_tower_cryo_cells_factory_lvl3"
 		require 			"headquarters"		
-		order				"5"
+		order				"7"
 		buildable			"0"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
@@ -60,7 +60,7 @@ EntityBlueprint
 			{
 				resource 			"supercoolant"
 				value			 	"25"
-				attachment			"att_in_1"
+				attachment			"att_out_1"
 			}		
 		}
 		
@@ -70,7 +70,22 @@ EntityBlueprint
 			{
 				resource	"ammo_manufacturing_cryo_cells"
 				value		"2.5"
-			}	
+				family		"manufacturing"
+			}
+
+			GameplayResource
+			{
+				resource	"player_ammo_manufacturing_cryo_cells"
+				value		"1.4"
+				family		"manufacturing"
+			}
+
+			GameplayResource
+			{
+				resource	"player_consumables_manufacturing_cryo"
+				value		"1.4"
+				family		"manufacturing"
+			}
 		}
 		priority 5			
 	}
@@ -138,24 +153,8 @@ EntityBlueprint
 	{		
 		EffectBaseBlueprints
 		{
-			"buildings/effects_medium_base"
-		}	
-
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "1"				
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"								
-					bone "att_in_arrow"
-				}
-			}
-		}				
+			"buildings/resources/ammo_tower_cryo_cells_factory"
+		}
 
 		EffectGroup
 		{

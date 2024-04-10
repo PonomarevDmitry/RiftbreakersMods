@@ -1,0 +1,635 @@
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_movement_standard"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"52"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "520"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "520"
+				}
+                
+				Vector2
+				{
+					x "0.5"
+					y "-520"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_damage_standard"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				125
+				damage_type			"fire"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"fire"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/magma_shockwave_dash_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"5"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"125"
+					type			"fire"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"fire"
+				}
+			}
+		}
+	}
+	
+	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_standard_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/magma_shockwave_dash"
+		cooldown	"5"
+		item_bp		"items/skills/magma_shockwave_dash_movement_standard"
+		icon		"gui/hud/items_icons/skills/magma_shockwave_dash"
+        bigger_icon "gui/menu/items_icons/skills/magma_shockwave_dash"		
+		description 	"gui/menu/inventory/skill_description/magma_shockwave_dash_standard"		
+		rarity		"STANDARD"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/magma_shockwave_dash.lua"
+		
+		database
+		{
+			bp					string:"items/skills/magma_shockwave_dash_damage_standard"
+			stat_bp				string:"items/skills/magma_shockwave_dash_damage_standard"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"magma"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_movement_advanced"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"54"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "540"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "540"
+				}
+                
+				Vector2
+				{
+					x "0.5"
+					y "-540"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_damage_advanced"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				175
+				damage_type			"fire"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"fire"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/magma_shockwave_dash_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"5"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"175"
+					type			"fire"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"fire"
+				}
+			}
+		}
+	}
+	
+	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/magma_shockwave_dash"
+		cooldown	"5"
+		item_bp		"items/skills/magma_shockwave_dash_movement_advanced"
+		icon		"gui/hud/items_icons/skills/magma_shockwave_dash"
+        bigger_icon "gui/menu/items_icons/skills/magma_shockwave_dash"		
+		description 	"gui/menu/inventory/skill_description/magma_shockwave_dash_advanced"		
+		rarity		"ADVANCED"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/magma_shockwave_dash.lua"
+		
+		database
+		{
+			bp					string:"items/skills/magma_shockwave_dash_damage_advanced"
+			stat_bp				string:"items/skills/magma_shockwave_dash_damage_advanced"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"magma"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_movement_superior"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"56"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "560"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "560"
+				}
+                
+				Vector2
+				{
+					x "0.5"
+					y "-560"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_damage_superior"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				225
+				damage_type			"fire"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"fire"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/magma_shockwave_dash_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"5"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"225"
+					type			"fire"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"fire"
+				}
+			}
+		}
+	}
+	
+	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/magma_shockwave_dash"
+		cooldown	"5"
+		item_bp		"items/skills/magma_shockwave_dash_movement_superior"
+		icon		"gui/hud/items_icons/skills/magma_shockwave_dash"
+        bigger_icon "gui/menu/items_icons/skills/magma_shockwave_dash"		
+		description 	"gui/menu/inventory/skill_description/magma_shockwave_dash_superior"		
+		rarity		"SUPERIOR"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/magma_shockwave_dash.lua"
+		
+		database
+		{
+			bp					string:"items/skills/magma_shockwave_dash_damage_superior"
+			stat_bp				string:"items/skills/magma_shockwave_dash_damage_superior"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"magma"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_movement_extreme"
+
+	SpecialMovementDataComponent
+	{
+		max_speed   	"58"
+		max_time    	"0.25"
+		acceleration_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0"
+					y "580"
+				}
+                
+				Vector2
+				{	
+					x "0.3"
+					y "580"
+				}
+                
+				Vector2
+				{
+					x "0.5"
+					y "-580"
+				}
+			}
+		}
+
+		start_effect 				"dash_start_long"
+		continuous_effect 			"dash_trail_long"
+		
+		param_name					"is_dashing"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+    
+			//Effects
+			//{
+			//	Effect
+			//	{
+			//		blueprint "effects/items/equipped_default"
+			//	}
+			//}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_damage_extreme"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				275
+				damage_type			"fire"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				10
+				type	 			DAMAGE_SPLASH
+			}
+			
+			WeaponStatData
+			{
+				value 				25
+				damage_type			"fire"
+				type	 			DAMAGE_OVER_TIME
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/magma_shockwave_dash_discharge"
+
+		DamagePattern
+		{
+			area_damage_speed	"5"
+			area_damage_radius	"10"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"275"
+					type			"fire"
+				}
+			}
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"25"
+					duration		"3"
+					type			"fire"
+				}
+			}
+		}
+	}
+	
+	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/magma_shockwave_dash_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"movement_skill"
+		subtype		"movement"
+		name 		"gui/menu/inventory/skill_name/magma_shockwave_dash"
+		cooldown	"5"
+		item_bp		"items/skills/magma_shockwave_dash_movement_extreme"
+		icon		"gui/hud/items_icons/skills/magma_shockwave_dash"
+        bigger_icon "gui/menu/items_icons/skills/magma_shockwave_dash"		
+		description 	"gui/menu/inventory/skill_description/magma_shockwave_dash_extreme"		
+		rarity		"EXTREME"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/magma_shockwave_dash.lua"
+		
+		database
+		{
+			bp					string:"items/skills/magma_shockwave_dash_damage_extreme"
+			stat_bp				string:"items/skills/magma_shockwave_dash_damage_extreme"
+			att					string:"be_body_upper"
+			check_empty_spot 	int:"0"
+			disabled_conditions	string:"biome"
+			disabled_values		string:"magma"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}
+}

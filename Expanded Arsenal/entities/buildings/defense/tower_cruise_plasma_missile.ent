@@ -6,16 +6,21 @@ EntityBlueprint
 	{
 		name 				"tower_cruise_plasma_missile"
 		bp   				"buildings/defense/tower_cruise_plasma_missile"
-		category 			"defense_mod_3"
+		category 			"defense_mod_2"
 		localization_id		"gui/hud/building_name/tower_cruise_plasma_missile"
 		description			"gui/hud/building_description/tower_cruise_plasma_missile"
 		menu_icon			"gui/hud/building_icons/tower_cruise_plasma_missile"
 		require 			"headquarters"
-		order				"2"
+		order				"8"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cruise_plasma_missile_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
+		limit				"10"
+		limit_name			"plasma_cm_limit"
+		map_limit			"LOCAL"	
 
 		costs
 		{
@@ -30,7 +35,6 @@ EntityBlueprint
 					ai					"1"
 					palladium			"100"
 					rhodonite			"50"
-					ammo_tower_guided	"100"
 				}
 			}
 
@@ -45,7 +49,6 @@ EntityBlueprint
 					ai					"1"
 					palladium			"100"
 					rhodonite			"10"
-					ammo_tower_guided	"50"
 				}
 			}
 		}			
@@ -60,6 +63,13 @@ EntityBlueprint
 				resource 	"energy"
 				value 		"1"
 			}
+			
+			GameplayResource
+			{
+				resource 	"supercoolant"
+				value 		"2.5"
+				attachment	"att_in_1"
+			}
 		}
 
 		out
@@ -71,10 +81,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower.lua"
+		script "lua/buildings/defense/tower_charge.lua"
 
 		database
 		{
+			charge_time			float:"1.5" 
+			attack_time			float:"3"
+			reload_time			float:"2"
+			
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
 			time_machine		int:"0"
@@ -198,7 +212,7 @@ EntityBlueprint
 
 	FogOfWarRevealerComponentDesc
 	{
-		radius "40"
+		radius "16"
 	}
 
 	HealthBarDesc
@@ -391,6 +405,86 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_arrow"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "charge"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_energy/tower_cruise_plasma_missile_charge"
+					bone 		"be_barrel"
+					offset		"0.5 0 0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_energy/tower_cruise_plasma_missile_weapon_primed"
+					bone 		"be_barrel"
+					offset		"0.5 0 0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_cruise_plasma_missile_reload"
+					bone "be_barrel"
+					offset	"0.5 0 0"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_cruise_plasma_missile_reload_smoke"
+					bone "att_muzzle_1"
+					scale	"0.4 0.4 0.4"
+					offset	"0.65 0 0"
+				}
+				
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_cruise_plasma_missile_reload_smoke"
+					bone "att_muzzle_2"
+					scale	"0.4 0.4 0.4"
+					offset	"0.65 0 0"
+				}
+			}
+		}
 	}
 }
 
@@ -445,7 +539,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_energy/plasma_explosion_medium"
 		on_world_hit_effect 	"effects/weapons_energy/plasma_explosion_medium"
 		on_resisted_hit_effect 	"effects/weapons_energy/plasma_explosion_medium"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
@@ -462,7 +556,7 @@ EntityBlueprint
 			{		
 				material 			ribbon/heavy_plasma_blue
 				update_bounds 		1
-				fade_out_time		0.75
+				fade_out_time		0.4
 				uv_scroll			"0 -2.5"
 				tiling_distance     "0"
 				tesselation_step 	"0.25"
@@ -472,12 +566,14 @@ EntityBlueprint
 				{
 					Ribbon
 					{
-						offset "0 0 0.3"
+						parent_attachment "att_exhaust"
+						offset "0 0 0.25"
 					}
 
 					Ribbon
 					{
-						offset "0 0 -0.3"
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.25"
 					}
 				}
 			}

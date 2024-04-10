@@ -12,12 +12,14 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_cryo_artillery"
 		menu_icon			"gui/hud/building_icons/tower_cryo_artillery_lvl2"
 		require 			"headquarters"
-		order				"10"
+		order				"12"
 		buildable			"0"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cryo_artillery_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,legacy_maps"	
 
 		costs
 		{
@@ -101,4 +103,78 @@ EntityBlueprint
 	TowerDesc
 	{
 	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 			"buildings/defense/tower_cryo_artillery_projectile_lvl_2"
+		muzzle_flash_effect 	"effects/weapons_cryo/tower_cryo_artillery_muzzle_flash"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0.1"
+		burst_column_angle 		"0"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"buildings/defense/tower_cryo_artillery_projectile_lvl_2"
+	base_blueprint	"buildings/defense/tower_cryo_artillery_projectile"
+	
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_cryo/cryo_artillery_hit"
+		on_world_hit_effect 	"effects/weapons_cryo/cryo_artillery_hit"
+		on_resisted_hit_effect 	"effects/weapons_cryo/cryo_artillery_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/ribbon_cryo_artillery_smoke
+				update_bounds 		1
+				fade_out_time		0.25
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0.2 0.2"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 -0.2 -0.2"
+					}
+				}
+			}
+		}
+	}	
 }

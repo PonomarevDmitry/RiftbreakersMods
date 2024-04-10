@@ -1,0 +1,934 @@
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_cluster_shot"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/projectile
+		lights/point/blue_very_small
+		effects/no_lifetime
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material 	"projectiles/laser_blue"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ProjectileAmmoComponent
+	{
+		//distribution 			"dissipation"
+		//dissipation_count 	"5"
+		cluster_count			"3"
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.4"
+		cluster_max_generation	"2"
+
+		cluster_scale
+		{
+			x "0.8"
+			y "0.5"
+			z "0.5"
+		}
+
+		on_enemy_hit_effect 	effects/weapons_energy/energy_weapon_hit
+		on_world_hit_effect 	effects/weapons_energy/energy_weapon_hit
+		on_resisted_hit_effect 	effects/weapons_energy/energy_weapon_hit
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_2d 			"ground_unit|destructible|world_destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		2.0
+		//type 		"camera"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/melee_slash_blue
+				update_bounds 		1
+				fade_out_time		0.15
+				uv_scroll			"0 -0.01"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.2 0"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.2 0"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name			"items/weapons/antimatter_gun_explosive_shot"
+	base_blueprint	"effects/weapons_energy/antimatter_ball_blue_base"
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"3.5"
+			arming_time			float:"0.1"
+			object_scale		float:"0.5"
+		}
+
+	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{	
+				attachment "att_muzzle"
+			}
+		}
+		
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint	"items/weapons/antimatter_gun_explosive_shot_lightning"
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	""
+		on_world_hit_effect 	"effects/weapons_energy/antimatter_gun_explosive_shot_blast"
+		on_resisted_hit_effect 	""
+		hit_effect_direction	"up"
+		
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+		
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_speed		"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"2000"
+					type			"energy"
+				}
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_energy/antimatter_gun_explosive_shot_blast"
+					part_prefix 			"meshes/items/consumables/grenade_gravity"
+					part_material 			"projectiles/laser_blue"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}	
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/melee_slash_blue
+				update_bounds 		1
+				fade_out_time		0.30
+				uv_scroll			"0 -0.01"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.4 0"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.4 0"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/antimatter_gun_explosive_shot_lightning"
+	
+	LightningBeamComponent
+	{
+		range 					"10"
+		on_enemy_hit_effect 	"effects/weapons_energy/lightning_gun_hit"
+		type_mask				"ground_unit|air_unit"
+		aiming_angle			"360"
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.05"
+		beam_count 				"3"
+	}
+}
+
+EntityBlueprint
+{
+	name			"items/weapons/antimatter_gun_explosive_shot_advanced"
+	base_blueprint	"items/weapons/antimatter_gun_explosive_shot"
+	
+	WeaponItemDesc
+	{
+	}
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	""
+		on_world_hit_effect 	"effects/weapons_energy/antimatter_gun_explosive_shot_blast_advanced"
+		on_resisted_hit_effect 	""
+		hit_effect_direction	"up"
+		
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+		
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_speed		"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"2500"
+					type			"energy"
+				}
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_energy/antimatter_gun_explosive_shot_blast_advanced"
+					part_prefix 			"meshes/items/consumables/grenade_gravity"
+					part_material 			"projectiles/laser_blue"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name			"items/weapons/antimatter_gun_explosive_shot_superior"
+	base_blueprint	"items/weapons/antimatter_gun_explosive_shot"
+	
+	WeaponItemDesc
+	{
+	}
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	""
+		on_world_hit_effect 	"effects/weapons_energy/antimatter_gun_explosive_shot_blast_superior"
+		on_resisted_hit_effect 	""
+		hit_effect_direction	"up"
+		
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+		
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_speed		"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"3000"
+					type			"energy"
+				}
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_energy/antimatter_gun_explosive_shot_blast_superior"
+					part_prefix 			"meshes/items/consumables/grenade_gravity"
+					part_material 			"projectiles/laser_blue"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name			"items/weapons/antimatter_gun_explosive_shot_extreme"
+	base_blueprint	"items/weapons/antimatter_gun_explosive_shot"
+	
+	WeaponItemDesc
+	{
+	}
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	""
+		on_world_hit_effect 	"effects/weapons_energy/antimatter_gun_explosive_shot_blast_extreme"
+		on_resisted_hit_effect 	""
+		hit_effect_direction	"up"
+		
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+		
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_speed		"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"3500"
+					type			"energy"
+				}
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_energy/antimatter_gun_explosive_shot_blast_extreme"
+					part_prefix 			"meshes/items/consumables/grenade_gravity"
+					part_material 			"projectiles/laser_blue"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/spitter.mesh"
+		material 	"items/weapons/antimatter_gun"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/spitter"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.90"
+	}
+
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "1.2"
+		}
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/blaster_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_energy/blaster_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.08"
+		//burst_column_angle 			"5"
+	}
+	
+	ChargeWeaponComponent
+	{
+		ChargeLevels
+		{
+			ChargeLevel
+			{
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				//charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/railgun_fire_charged"
+
+				charge_time_start           "0.3"
+				charge_time_end             "1"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_cluster_shot"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+			
+			ChargeLevel
+			{
+				name 						"charge_level_2"
+
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/blaster_charged_fire"
+
+				charge_time_start           "1"
+				charge_time_end             "2"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_explosive_shot"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/heavy_plasma_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/towers_pointers/turquoise_laser_pointer"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/antimatter_gun"
+		item_bp			"items/weapons/antimatter_gun"
+		icon			"gui/hud/items_icons/weapons/antimatter_gun"
+		bigger_icon 	"gui/menu/items_icons/weapons/antimatter_gun"
+		description 	"gui/menu/inventory/weapon_charge_description/antimatter_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_advanced"
+	base_blueprint	"items/weapons/antimatter_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/spitter.mesh"
+		material 	"items/weapons/antimatter_gun_advanced"
+	}
+	
+	ChargeWeaponComponent
+	{
+		ChargeLevels
+		{
+			ChargeLevel
+			{
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				//charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/railgun_fire_charged"
+
+				charge_time_start           "0.3"
+				charge_time_end             "1"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_cluster_shot"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+			
+			ChargeLevel
+			{
+				name 						"charge_level_2"
+
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/blaster_charged_fire"
+
+				charge_time_start           "1"
+				charge_time_end             "2"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_explosive_shot_advanced"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/antimatter_gun"
+		item_bp			"items/weapons/antimatter_gun_advanced"
+		icon			"gui/hud/items_icons/weapons/antimatter_gun_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/antimatter_gun_advanced"
+		description 	"gui/menu/inventory/weapon_charge_description/antimatter_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_superior"
+	base_blueprint	"items/weapons/antimatter_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/spitter.mesh"
+		material 	"items/weapons/antimatter_gun_superior"
+	}
+	
+	ChargeWeaponComponent
+	{
+		ChargeLevels
+		{
+			ChargeLevel
+			{
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				//charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/railgun_fire_charged"
+
+				charge_time_start           "0.3"
+				charge_time_end             "1"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_cluster_shot"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+			
+			ChargeLevel
+			{
+				name 						"charge_level_2"
+
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/blaster_charged_fire"
+
+				charge_time_start           "1"
+				charge_time_end             "2"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_explosive_shot_superior"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/antimatter_gun"
+		item_bp			"items/weapons/antimatter_gun_superior"
+		icon			"gui/hud/items_icons/weapons/antimatter_gun_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/antimatter_gun_superior"
+		description 	"gui/menu/inventory/weapon_charge_description/antimatter_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_extreme"
+	base_blueprint	"items/weapons/antimatter_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/spitter.mesh"
+		material 	"items/weapons/antimatter_gun_extreme"
+	}
+	
+	ChargeWeaponComponent
+	{
+		ChargeLevels
+		{
+			ChargeLevel
+			{
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				//charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/railgun_fire_charged"
+
+				charge_time_start           "0.3"
+				charge_time_end             "1"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_cluster_shot"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+			
+			ChargeLevel
+			{
+				name 						"charge_level_2"
+
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_energy/blaster_charged_fire"
+
+				charge_time_start           "1"
+				charge_time_end             "2"
+				charge_muzzle_idx           "0"
+				
+				ammo_blueprint 				"items/weapons/antimatter_gun_explosive_shot_extreme"
+
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/antimatter_gun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/antimatter_gun"
+		item_bp			"items/weapons/antimatter_gun_extreme"
+		icon			"gui/hud/items_icons/weapons/antimatter_gun_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/antimatter_gun_extreme"
+		description 	"gui/menu/inventory/weapon_charge_description/antimatter_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	CostDesc
+}

@@ -1,430 +1,4 @@
-// tower_gravity_blaster
-
-EntityBlueprint
-{
-	name "effects/weapons_gravity/gravity_blaster_projectile"
-
-	base_blueprints 
-	{
-		lights/point/violet_super_small
-		effects/no_lifetime
-	}
-	
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_gun_projectile"
-	}
-}
-
-
-EntityBlueprint
-{
-	name "effects/weapons_gravity/tower_gravity_blaster_fire"
-
-	base_blueprints
-	{
-		lights/point/muzzle_violet_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_gun_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "towers/gravity/tower_gravity_blaster_fire"
-	}
-}
-
-EntityBlueprint
-{
-	name "effects/weapons_gravity/gravity_blaster_hit"
-
-	base_blueprints
-	{
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_blaster_hit"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/energy/energy_weapon_hit"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"gravity_terrain_friendly"	
-		extend  		"2"
-	}
-	
-	DecalDesc
-	{	
-		blueprint "effects/decals/gravity_crater"
-		scale
-		{
-			x		2.0
-			y		2.0
-			z		2.0
-		}
-	}
-}
-
-// tower_gravity_accelerator
-
-EntityBlueprint
-{
-	name effects/weapons_gravity/tower_gravity_accelerator_muzzle
-
-	base_blueprints
-	{
-		lights/point/muzzle_violet_medium
-		effects/default
-	}
-	
-	ParticleDesc
-	{
-		name    "rift/gravity_gun_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "towers/gravity/tower_gravity_accelerator_fire"
-	}		
-}
-
-EntityBlueprint
-{
-	name "effects/weapons_gravity/tower_gravity_accelerator_projectile_trail"
-
-	base_blueprints 
-	{
-		lights/point/violet_small
-		effects/no_lifetime
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_projectile_trail_triangle_purple"
-	}
-}
-
-// tower_gravity_accelerator_heavy
-
-EntityBlueprint
-{
-	name effects/weapons_gravity/tower_gravity_accelerator_heavy_muzzle
-
-	base_blueprints
-	{
-		lights/point/muzzle_violet_big
-		effects/default
-	}
-	
-	CameraShakeDesc
-	{
-		duration 		"0.2"
-		power   		"0.75"
-		falloff_radius 	"25"
-		radius   		"40"
-		frequency 		"20"
-		group			"explosion_medium"
-	}	
-
-	ParticleDesc
-	{
-		name    "rift/gravity_gun_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "towers/gravity/tower_gravity_accelerator_heavy_fire"
-	}		
-}
-
-EntityBlueprint
-{
-	name "effects/weapons_gravity/tower_gravity_accelerator_heavy_projectile_trail"
-
-	base_blueprints 
-	{
-		lights/point/red_small
-		effects/no_lifetime
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_projectile_trail_octagon_red"
-	}
-}
-
-// warhead_fizzle
-
-EntityBlueprint
-{
-	name "effects/weapons_gravity/singularity_warhead_fizzle"
-
-	base_blueprints
-	{
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/singularity_warhead_fizzle"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/energy/energy_explosion_big"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"gravity_terrain_friendly"	// 5 gravity damage for 5 sec
-		extend  		"2"
-	}
-	
-	DecalDesc
-	{	
-		blueprint "effects/decals/gravity_crater"
-		scale
-		{
-			x		5.0
-			y		5.0
-			z		5.0
-		}
-	}
-}
-
-// tower_gravity_cruise_missile
-
-EntityBlueprint
-{
-
-	name effects/weapons_gravity/tower_gravity_cruise_missile_muzzle_flash
-
-	base_blueprints
-	{
-		lights/point/muzzle_violet_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_muzzle_flash"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/explosive/rocket_projectile_big"
-	}
-}
-
-EntityBlueprint
-{
-
-	name "effects/weapons_gravity/gravity_cruise_missile_trail"
-	
-	base_blueprints 
-	{
-		lights/point/violet_small
-		effects/no_lifetime
-	}
-	
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_cruise_missile"
-	}
-}
-
-// tower_gravity_laser
-
-EntityBlueprint
-{
-	name effects/weapons_gravity/gravity_laser_muzzle
-	
-	base_blueprints
-	{
-		lights/point/muzzle_violet_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_laser_muzzle"
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_gravity/gravity_laser_enemy_hit
-
-	base_blueprints
-	{
-		lights/point/violet_super_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_laser_hit"
-	}
-
-	SoundDesc
-	{
-		name "towers/gravity/gravity_laser_hit_enemy"
-	}
-}
-
-EntityBlueprint
-{
-	name 			"effects/weapons_gravity/gravity_laser_world_hit"
-
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/gravity_laser_hit"
-	}
-	
-	SoundDesc
-	{
-		name  "towers/gravity/gravity_laser_hit_world"
-	}
-	
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"gravity_terrain_friendly"	
-		extend  		"2"
-	}
-	
-	DecalDesc
-	{	
-		blueprint "effects/decals/gravity_crater"
-		scale
-		{
-			x		1.5
-			y		1.5
-			z		1.5
-		}
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_gravity/gravity_laser_loop
-
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
-
-	SoundDesc
-	{
-		name 		"towers/gravity/gravity_laser_loop"
-		start_name 	"towers/gravity/gravity_laser_start"
-		end_name	"towers/gravity/gravity_laser_stop"
-	}
-}
-
-EntityBlueprint
-{
-	name effects/weapons_gravity/gravity_laser_stop
-
-	base_blueprints
-	{
-		effects/no_lifetime
-	}
-	
-	SoundDesc
-	{
-		name 		"towers/gravity/gravity_laser_stop"
-	}
-}
+//--------------------MECH WEAPONS START--------------------\\
 
 // heavy_gravity_blaster
 
@@ -570,7 +144,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/weapons_magma/heavy_gravity_blaster_explosive_fire"
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_fire"
 
 	base_blueprints
 	{
@@ -593,41 +167,163 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "towers/gravity/tower_gravity_accelerator_heavy_fire"
+		name "items/weapons/heavy_gravity_blaster_explosive_fire"
 	}		
+}
+
+// heavy_gravity_blaster_explosive_shot
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_gravity_warper_hit.lua"
+
+		database
+		{
+////////////Damage parameters
+
+			slowdown	  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_slowdown"
+			
+////////////Graphics parameters
+		
+			radius		  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_radius"
+			closed_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_closed"
+			refract_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_refract"
+
+////////////Sound parameters
+			
+			init_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_init_sound"
+			open_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_open_sound"
+			idle_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_idle_sound"
+			close_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_close_sound"
+		}
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0"
+			y "0.5"
+			z "1.0"
+			w "500.0"
+		}
+
+		light_range "40"
+	}
+
+	AffectorDesc
+	{
+	 	AffectorLambdaDesc
+	 	{
+		 	affector_lambda LightFadeInOutAffector
+			{
+				fade_in_start 	"0"
+				fade_in_end   	"2"
+				fade_out_start	"12"
+				fade_out_end    "12.5"
+			}
+	 	}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "misc/heavy_gravity_blaster_explosive_shot_hit_standard_inner"
+			
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/heavy_gravity_blaster_explosive_shot_hit_standard_outer"
+
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+    }
 }
 
 EntityBlueprint
 {
-	name "effects/weapons_gravity/heavy_gravity_blaster_fizzle"
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_refract"
+
+	ParticleDesc
+	{
+		name    "rift/grenade_gravity_core_opened"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.3"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	PointWindDesc
+	{
+		power_frequency		"1.0"
+		power_max   		"1000"
+		power_min   		"800"
+		radius      		"25"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_closed"
+
+	ParticleDesc
+	{
+		name "rift/grenade_gravity_core_closed"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_slowdown"
 	
 	base_blueprints
 	{
-		lights/point/explosion_violet_small
 		effects/default
-	}
-	
-	ShockWaveDesc
-	{
-		power 	"5000"
-		speed 	"50"
-		radius 	"50"
 	}
 
 	ParticleDesc
 	{
-		name    "rift/singularity_warhead_fizzle"
+		name    "rift/singularity_slowdown_red"
 	}
-
-	SoundDesc
-	{
-		name "items/weapons/energy/energy_explosion_big"
-	}
-
+	
 	GridMarkerComponent
 	{
 		mode			"bounds"
-		terrain_type  	"gravity_terrain_friendly"	// 5 gravity damage for 5 sec
+		terrain_type  	"singularity_terrain_friendly"	//speed 0.6
 		extend  		"2"
 	}
 	
@@ -636,46 +332,519 @@ EntityBlueprint
 		blueprint "effects/decals/gravity_crater"
 		scale
 		{
-			x		5.0
-			y		5.0
-			z		5.0
+			x		8.0
+			y		8.0
+			z		8.0
 		}
 	}
 }
 
 EntityBlueprint
 {
-	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_trail"
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_radius"
 
-	base_blueprints 
+	DisplayRadiusDesc
 	{
-		lights/point/blue_small
-		effects/no_lifetime
+		max_radius 				"8.0"
+		max_radius_blueprint 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_radius_decal"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_radius_decal"
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"items/consumables/gravity_hole_radius"
+	}
+}
+
+// advanced version
+
+EntityBlueprint
+{
+	name			"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced"
+	base_blueprint 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_gravity_warper_hit.lua"
+
+		database
+		{
+////////////Damage parameters
+
+			slowdown	  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_slowdown"
+			
+////////////Graphics parameters
+		
+			radius		  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_radius"
+			closed_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_closed"
+			refract_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_refract"
+
+////////////Sound parameters
+			
+			init_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_init_sound"
+			open_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_open_sound"
+			idle_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_idle_sound"
+			close_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_close_sound"
+		}
 	}
 
-	MinimapItemDesc
+	children
 	{
-		type	"quad"
-		color 
+		EntityBlueprint
 		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
+		    name "misc/heavy_gravity_blaster_explosive_shot_hit_standard_inner"
+			
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
 		}
-		size
+
+		EntityBlueprint
 		{
-			x "2"
-			y "2"
+		    name "misc/heavy_gravity_blaster_explosive_shot_hit_advanced_outer"
+
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
 		}
-		visibility		"discovered"
+    }
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_slowdown"
+	
+	base_blueprints
+	{
+		effects/default
 	}
 
 	ParticleDesc
 	{
-		name    "rift/gravity_projectile_trail_square_violet_slow"
+		name    "rift/singularity_slowdown_red"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"singularity_terrain_friendly"	//speed 0.6
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		8.5
+			y		8.5
+			z		8.5
+		}
 	}
 }
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_open_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_advanced_open_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_init_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_advanced_expand_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_idle_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_advanced_idle_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_close_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_advanced_close_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_radius"
+
+	DisplayRadiusDesc
+	{
+		max_radius 				"8.5"
+		max_radius_blueprint 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_radius_decal"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_radius_decal"
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"misc/heavy_gravity_blaster_explosive_shot_hit_advanced_radius_decal"
+	}
+}
+
+// superior version
+
+EntityBlueprint
+{
+	name			"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior"
+	base_blueprint 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_gravity_warper_hit.lua"
+
+		database
+		{
+////////////Damage parameters
+
+			slowdown	  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_slowdown"
+			
+////////////Graphics parameters
+		
+			radius		  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_radius"
+			closed_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_closed"
+			refract_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_refract"
+
+////////////Sound parameters
+			
+			init_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_init_sound"
+			open_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_open_sound"
+			idle_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_idle_sound"
+			close_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_advanced_close_sound"
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "misc/tower_gravity_warper_hit_inner"
+			
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/tower_gravity_warper_hit_outer"
+
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+    }
+}
+
+EntityBlueprint
+{
+	name  			"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_refract"
+	base_blueprint	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_refract"
+	
+	ParticleDesc
+	{
+		name    "rift/heavy_gravity_blaster_explosive_shot_hit_superior_opened"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_closed"
+
+	ParticleDesc
+	{
+		name "rift/heavy_gravity_blaster_explosive_shot_hit_superior_closed"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_slowdown"
+	
+	ParticleDesc
+	{
+		name    "rift/lesigian_gather_energy"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"singularity_terrain_lvl_2_friendly"	//speed 0.45
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		9.0
+			y		9.0
+			z		9.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_superior_radius"
+
+	DisplayRadiusDesc
+	{
+		max_radius 				"9"
+		max_radius_blueprint 	"effects/weapons_gravity/tower_gravity_warper_hit_radius_decal"
+	}
+}
+
+// extreme version
+
+EntityBlueprint
+{
+	name			"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme"
+	base_blueprint 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_gravity_warper_hit.lua"
+
+		database
+		{
+////////////Damage parameters
+
+			slowdown	  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_slowdown"
+			
+////////////Graphics parameters
+		
+			radius		  		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_radius"
+			closed_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_closed"
+			refract_effect		string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_refract"
+
+////////////Sound parameters
+			
+			init_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_init_sound"
+			open_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_open_sound"
+			idle_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_idle_sound"
+			close_sound			string:"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_close_sound"
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "misc/heavy_gravity_blaster_explosive_shot_hit_extreme_inner"
+			
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/heavy_gravity_blaster_explosive_shot_hit_extreme_outer"
+
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+    }
+}
+
+EntityBlueprint
+{
+	name  			"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_refract"
+	base_blueprint	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_standard_refract"
+	
+	ParticleDesc
+	{
+		name    "rift/heavy_gravity_blaster_explosive_shot_hit_extreme_opened"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_closed"
+
+	ParticleDesc
+	{
+		name "rift/heavy_gravity_blaster_explosive_shot_hit_extreme_closed"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_open_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_extreme_open_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_init_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_extreme_expand_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_idle_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_extreme_idle_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_close_sound"
+
+	SoundDesc
+	{
+		name "items/weapons/heavy_gravity_blaster_explosive_shot_hit_extreme_close_sound"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_slowdown"
+	
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/singularity_slowdown_violet"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"singularity_terrain_lvl_3_friendly"	//speed 0.3
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		9.5
+			y		9.5
+			z		9.5
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_radius"
+
+	DisplayRadiusDesc
+	{
+		max_radius 				"9.5"
+		max_radius_blueprint 	"effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_radius_decal"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/heavy_gravity_blaster_explosive_shot_hit_extreme_radius_decal"
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"misc/heavy_gravity_blaster_explosive_shot_hit_extreme_radius"
+	}
+}
+
+//--------------------MECH WEAPONS END--------------------\\
+
+//--------------------MECH CONSUMABLES START--------------------\\
 
 // gravity_turret_hit
 
@@ -716,3 +885,571 @@ EntityBlueprint
 		}
 	}
 }
+
+//--------------------MECH CONSUMABLES END--------------------\\
+
+//--------------------GRAVITY TOWERS START--------------------\\
+
+// tower_gravity_blaster
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_blaster_charge"
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/gravity_weapon_charging_lvl1"
+	}
+	
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_blaster_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_blaster_reload"
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_gravity_laser_reload_emission"
+	}
+	
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_blaster_reload"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/gravity_blaster_projectile"
+	
+	base_blueprints 
+	{
+		lights/point/violet_super_small
+		effects/no_lifetime
+	}
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/gravity_gun_projectile"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/tower_gravity_blaster_fire"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/gravity_gun_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_blaster_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/gravity_blaster_hit"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_medium
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/gravity_blaster_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_weapon_hit"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"gravity_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+}
+
+// tower_gravity_laser
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_laser_charge"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_gravity_laser_charge"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/gravity/tower_gravity_laser_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_laser_weapon_primed"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_laser_primed"
+	}
+}
+
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_laser_muzzle"
+	
+	base_blueprints
+	{
+		lights/point/muzzle_violet_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_laser_muzzle"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/gravity/tower_gravity_laser_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_laser_reload"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_gravity_laser_reload_emission"
+	}
+	
+	SoundDesc
+	{
+		name	"towers/gravity/tower_gravity_laser_reload"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/weapons_gravity/tower_gravity_laser_enemy_hit
+
+	base_blueprints
+	{
+		lights/point/violet_super_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_laser_hit"
+	}
+
+	SoundDesc
+	{
+		name "towers/gravity/gravity_laser_hit_enemy"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_gravity/tower_gravity_laser_world_hit"
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_laser_hit"
+	}
+	
+	SoundDesc
+	{
+		name  "towers/gravity/gravity_laser_hit_world"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"gravity_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		1.5
+			y		1.5
+			z		1.5
+		}
+	}
+}
+
+// tower_gravity_warper
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_warper_charge"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_gravity_warper_charge"
+	}
+	
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_warper_charge"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_warper_weapon_primed"
+	
+	ParticleDesc
+	{
+		name     "rift/tower_gravity_warper_weapon_primed"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_warper_reload"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name   "rift/tower_gravity_warper_reload"
+	}
+	
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_warper_reload"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_gravity/tower_gravity_warper_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_gravity_warper_hit.lua"
+
+		database
+		{
+////////////Damage parameters
+
+			slowdown	  		string:"effects/weapons_gravity/tower_gravity_warper_hit_slowdown"
+			
+////////////Graphics parameters
+		
+			radius		  		string:"effects/weapons_gravity/tower_gravity_warper_hit_radius"
+			closed_effect		string:"effects/weapons_gravity/tower_gravity_warper_hit_closed"
+			refract_effect		string:"effects/weapons_gravity/tower_gravity_warper_hit_refract"
+
+////////////Sound parameters
+			
+			init_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_init_sound"
+			open_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_open_sound"
+			idle_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_idle_sound"
+			close_sound			string:"effects/weapons_gravity/tower_gravity_warper_hit_close_sound"
+		}
+	}
+
+	LightDesc
+	{
+		type "0"
+		light_color
+		{
+			x "0"
+			y "0.5"
+			z "1.0"
+			w "500.0"
+		}
+
+		light_range "40"
+	}
+
+	AffectorDesc
+	{
+	 	AffectorLambdaDesc
+	 	{
+		 	affector_lambda LightFadeInOutAffector
+			{
+				fade_in_start 	"0"
+				fade_in_end   	"2"
+				fade_out_start	"12"
+				fade_out_end    "12.5"
+			}
+	 	}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "misc/tower_gravity_warper_hit_inner"
+			
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+
+		EntityBlueprint
+		{
+		    name "misc/tower_gravity_warper_hit_outer"
+
+			AnimationDesc
+			{
+		        animations
+		        {
+		            Anim
+		            {
+		                animName "sphere_rotation"
+		                animTime "0.0"
+		            }
+		        }
+		    }
+		}
+    }
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/tower_gravity_warper_hit_refract"
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_warper_hit_opened"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.3"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	PointWindDesc
+	{
+		power_frequency		"1.0"
+		power_max   		"1000"
+		power_min   		"800"
+		radius      		"25"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/tower_gravity_warper_hit_closed"
+
+	ParticleDesc
+	{
+		name "rift/tower_gravity_warper_hit_closed" 
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/tower_gravity_warper_hit_open_sound"
+
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_warper_hit_open"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/tower_gravity_warper_hit_init_sound"
+
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_warper_hit_expand"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/tower_gravity_warper_hit_idle_sound"
+
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_warper_hit_idle"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/weapons_gravity/tower_gravity_warper_hit_close_sound"
+
+	SoundDesc
+	{
+		name "towers/gravity/tower_gravity_warper_hit_close"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/tower_gravity_warper_hit_slowdown"
+	
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/lesigian_gather_energy"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"singularity_terrain_friendly"	//speed 0.6
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/gravity_crater"
+		scale
+		{
+			x		5.0
+			y		5.0
+			z		5.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/tower_gravity_warper_hit_radius"
+
+	DisplayRadiusDesc
+	{
+		max_radius 				"5.0"
+		max_radius_blueprint 	"effects/weapons_gravity/tower_gravity_warper_hit_radius_decal"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_gravity/tower_gravity_warper_hit_radius_decal"
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"misc/tower_gravity_warper_hit_radius"
+	}
+}
+
+//--------------------GRAVITY TOWERS END--------------------\\

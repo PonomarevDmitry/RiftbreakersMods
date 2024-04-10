@@ -11,7 +11,7 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_mhd"
 		menu_icon			"gui/hud/building_icons/tower_mhd"
 		require 			"headquarters"
-		order				"12"
+		order				"13"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_mhd_lvl_2"
@@ -54,10 +54,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower.lua"
+		script "lua/buildings/defense/tower_charge.lua"
 
 		database
 		{
+			charge_time			float:"2"
+			attack_time			float:"4"
+			reload_time			float:"2.5"
+			
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
 			time_machine		int:"0"
@@ -206,7 +210,7 @@ EntityBlueprint
 
 	TurretDesc
 	{
-		target "ground_unit_large|ground_unit_medium|ground_unit"
+		target "ground_unit_large|ground_unit"
 		target_ignore "invisible|air_unit"
 		speed "150"
 		aim_volume "SphericalAimVolume"
@@ -244,7 +248,7 @@ EntityBlueprint
 
 		ammo_blueprint 				"buildings/defense/tower_mhd_beam"
 
-		muzzle_flash_effect 		"effects/weapons_energy/mhd_muzzle"
+		muzzle_flash_effect 		"effects/weapons_energy/tower_mhd_muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
@@ -350,14 +354,45 @@ EntityBlueprint
 		
 		EffectGroup
 		{
-			group "shooting"
+			group "charge"
 			enabled "0"
-
+		
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/weapons_energy/mhd_loop"
+					blueprint "effects/weapons_energy/tower_mhd_charge"
+					bone "att_muzzle"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_mhd_weapon_primed"
+					bone "att_muzzle"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_mhd_reload"
+					bone "att_muzzle"
 				}
 			}
 		}
@@ -384,11 +419,11 @@ EntityBlueprint
 	{
 		range 					"50"
 
-		on_enemy_hit_effect 	"effects/weapons_energy/mhd_enemy_hit"
-		on_world_hit_effect 	"effects/weapons_energy/mhd_world_hit"
+		on_enemy_hit_effect 	"effects/weapons_energy/tower_mhd_enemy_hit"
+		on_world_hit_effect 	"effects/weapons_energy/tower_mhd_world_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		collision_block 		"world"
 
         damage_factor_max       "9.0"

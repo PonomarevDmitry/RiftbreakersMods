@@ -1,0 +1,127 @@
+EntityBlueprint
+{
+	name "resources/resource_morphium_sump"
+
+	InfluenceComponent
+	{
+		radius 			"4"
+		energy_radius 	"0"
+		emissive_radius "2.5"
+	}
+	
+	TypeDesc
+	{
+		type "resource"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"resource"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 2
+						y 1
+						z 2
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/morphium_sump"
+		unknown_until_visible 	"1"
+
+		visibility 			"discovered|radar"
+	}
+	
+	SelectableDesc
+	{
+		content "resource_name/morphium_vent"
+		can_activate "0"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/morphium_vent"
+		scale
+		{
+			x		3.0
+			y		3.0
+			z		3.0
+		
+		}
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "steam"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/morphium_sump"
+				}			
+			}
+		}
+
+		EffectGroup
+		{						
+			group "vent_terrain_marker"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "resources/resource_morphium_sump_terrain_marker"								
+				}			
+			}
+		}	
+	}		
+}
+
+EntityBlueprint
+{
+    name "resources/resource_morphium_sump_terrain_marker"	
+
+    LocalAabbDesc
+    {
+        min
+        {
+            x "-3"
+            y "-3"
+            z "-3"
+        }
+
+        max
+        {
+            x "3"
+            y "3"
+            z "3"
+        }
+    }
+    
+    GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type	"morphium_sump_terrain"
+		extend  		"2"
+	}
+}

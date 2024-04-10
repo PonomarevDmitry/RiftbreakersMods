@@ -12,11 +12,14 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_plasma_railgun"
 		menu_icon			"gui/hud/building_icons/tower_plasma_railgun_lvl2"
 		require 			"headquarters"
-		order				"6"
+		order				"7"
 		buildable			"0"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_plasma_railgun_lvl_3"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
 
 		costs
 		{
@@ -59,7 +62,23 @@ EntityBlueprint
 
 		priority 6
 	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_charge.lua"
 
+		database
+		{
+			charge_time			float:"3" 
+			attack_time			float:"3"
+			reload_time			float:"3"
+			
+			cone_effect			string:"build_cone_1x1"
+			cone_effect_sell	string:"sell_small"
+			time_machine		int:"0"
+		}
+
+	}
 
 	HealthDesc
 	{
@@ -111,25 +130,73 @@ EntityBlueprint
 	{
 	}
 	
-		TurretDesc
-	{
-		target "ground_unit_artillery|ground_unit_large|ground_unit|air_unit"
-		target_ignore "invisible"
-		speed "150"
-		find_type "farthest"
-		aim_volume "SphericalAimVolume"
+	EffectDesc
+	{		
+		EffectBaseBlueprints
 		{
-			range_min "5"
-			range_max "65"
-			aiming_range "75"
+			"buildings/defense/tower_plasma_railgun"
+		}	
+		
+		EffectGroup
+		{
+			group "charge"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_energy/tower_plasma_railgun_charge"
+					bone 		"att_muzzle"
+					scale		"1.2 1.2 1.2"
+				}
+				
+				Effect
+				{
+					blueprint 		"effects/tower_pointers/turquoise_laser_pointer"
+					bone 			"att_pointer"
+					random_delay	"0.01"
+				}
+			}
 		}
-
-		aiming_cooldown "1"
-		aiming_target_time "2"
-		aiming_idle_angle "20"
-		pitch "be_barrel"
-		yaw "be_turret"
-		check_target_visibility "1"
-		fog_of_war_filtering "1"
+		
+		EffectGroup
+		{
+			group "weapon_primed"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_energy/tower_plasma_railgun_weapon_primed"
+					bone 		"att_muzzle"
+					scale		"1.2 1.2 1.2"
+				}
+				
+				Effect
+				{
+					blueprint 		"effects/tower_pointers/turquoise_laser_pointer"
+					bone 			"att_pointer"
+					random_delay	"0.01"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "reload"
+			enabled "0"
+		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/tower_plasma_railgun_reload"
+					bone "att_muzzle"
+					scale		"1.2 1.2 1.2"
+				}
+			}
+		}
 	}
 }

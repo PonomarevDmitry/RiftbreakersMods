@@ -96,6 +96,7 @@ EntityBlueprint
 		area			"0.0"
 		gravity			"0.0"
 		radiation		"0.5"
+		sonic			"0.25"
 	}
 	
 	TypeDesc
@@ -375,6 +376,20 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					scale "0 1 0"
+				}
+			}
+		}
 	
 		EffectGroup
 		{
@@ -484,18 +499,6 @@ EntityBlueprint
 		is_manual				"1"
 		max_health 				"250"
 		health 					"250"
-	}
-	
-	ResistanceComponent
-	{
-		physical		"0.5"
-		fire			"0.0"
-		acid			"2.0"
-		energy			"1.0"
-		cryo			"1.0"
-		area			"0.0"
-		gravity			"0.0"
-		radiation		"0.5"
 	}
 	
 	TypeDesc
@@ -636,6 +639,10 @@ EntityBlueprint
 
 	EffectDesc
     {
+		EffectBaseBlueprints
+		{
+			"units/ground/crystal_root_origin_base"
+		}
 	
         EffectGroup
         {   
@@ -647,166 +654,6 @@ EntityBlueprint
 					blueprint "effects/enemies_crystal_root/crystal_root_ambient_medium"
                     offset "0 1 0"
 					scale	"0.65 0.65 0.65"
-                }
-            }
-        }
-		
-		EffectGroup
-		{
-			group 	"resurrect"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_necrodon/resurrected"
-				}
-			}
-		}
-		
-		EffectGroup
-		{						
-			group "damage_generic"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"
-				}
-			}
-		}		
-		EffectGroup
-		{						
-			group "hit_damage"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"	
-				}
-			}
-		}			
-		
-		EffectGroup
-		{
-			group 	"time_damage_fire"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_fire"
-					offset "0 1 0"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"time_damage_acid"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_acid"
-					offset "0 1 0"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"time_damage_cryo"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_cryo"
-					offset "0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_energy"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_energy"
-					offset "0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_physical"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_physical_fire"
-					offset "0 1 0"
-				}
-			}
-		}
-
-		EffectGroup
-		{
-			group 	"time_damage_gravity"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_gravity"
-					scale "0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_radiation"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_radiation"
-					scale "0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"spawn"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_crystal_root/spawn"
-					offset "0 1 0"
-				}
-			}
-		}	
-        EffectGroup
-        {           
-            enabled "0"
-			group 	"scanning"			
-            Effects
-            {
-                Effect
-                {
-                    blueprint "effects/mech/scanner"
                 }
             }
         }			
@@ -902,6 +749,7 @@ EntityBlueprint
 		area			"0.0"
 		gravity			"0.0"
 		radiation		"0.5"
+		sonic			"0.25"
 	}
 	
 	TypeDesc
@@ -1035,6 +883,10 @@ EntityBlueprint
 
 	EffectDesc
     {
+		EffectBaseBlueprints
+		{
+			"units/ground/crystal_root_origin_base"
+		}
 	
         EffectGroup
         {   
@@ -1050,140 +902,6 @@ EntityBlueprint
                 }
             }
         }
-		EffectGroup
-		{						
-			group "damage_generic"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"	
-				}
-			}
-		}		
-		EffectGroup
-		{						
-			group "hit_damage"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"	
-				}
-			}
-		}			
-		
-		EffectGroup
-		{
-			group 	"time_damage_fire"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_fire"
-					offset	"0 1 0"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"time_damage_acid"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_acid"
-					offset	"0 1 0"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"time_damage_cryo"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_cryo"
-					offset	"0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_energy"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_energy"
-					offset	"0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_physical"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_physical_fire"
-					offset	"0 1 0"
-				}
-			}
-		}
-
-		EffectGroup
-		{
-			group 	"time_damage_gravity"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_gravity"
-					scale "0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_radiation"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_radiation"
-					scale "0 1 0"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"spawn"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_crystal_root/spawn"
-					offset "0 1 0"
-				}
-			}
-		}			
     }
 }
 

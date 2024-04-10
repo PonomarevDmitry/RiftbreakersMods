@@ -11,7 +11,7 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_plasma_mauler"
 		menu_icon			"gui/hud/building_icons/tower_plasma_mauler"
 		require 			"headquarters"
-		order				"11"
+		order				"12"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_plasma_mauler_lvl_2"
@@ -26,7 +26,7 @@ EntityBlueprint
 				building_cost
 				{
 					carbonium 	"150"
-					steel 		"100"
+					steel 		"75"
 					ai			"1"
 					palladium	"50"
 				}
@@ -98,7 +98,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_1.mesh"
+		mesh "meshes/buildings/defense/tower_plasma_lvl_1.mesh"
 		material "buildings/defense/tower_plasma_mauler_lvl_1"
 	}
 
@@ -109,7 +109,7 @@ EntityBlueprint
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/defense/tower_rocket_launcher_lvl_1"
+		name "meshes/buildings/defense/tower_plasma_lvl_1"
 	}
 
 	PhysicsDesc
@@ -206,12 +206,12 @@ EntityBlueprint
 
 	TurretDesc
 	{
-		target "ground_unit_large|ground_unit_medium|ground_unit|air_unit"
+		target "ground_unit|air_unit"
 		target_ignore "invisible"
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "4"
+			range_min "0"
 			range_max "34"
 			aiming_range "40"
 		}
@@ -231,50 +231,26 @@ EntityBlueprint
 		{
 			WeaponMuzzle
 			{
-				attachment "att_muzzle_1"
-				recoil_bone  "be_recoil_01"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_2"
-				recoil_bone  "be_recoil_02"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_3"
-				recoil_bone  "be_recoil_03"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_4"
-				recoil_bone  "be_recoil_04"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.2"
+				recoil_offset   "0.4"
 			}
 		}
 
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "10"
+			emissive_factor "6"
 			submesh_idx "1"
 		}
 
 		ammo_blueprint 				"buildings/defense/tower_plasma_mauler_projectile"
-		muzzles_per_fire 			"1"
+
 		muzzle_flash_effect 		"effects/weapons_energy/tower_plasma_mauler_fire"
 
-		burst_column_spacing 		"0"
-		burst_rate 					"0.075"
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.08"
 		burst_column_angle 			"0"
 	}
 
@@ -369,7 +345,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/buildings_and_machines/tower_white_searchlight"
-					bone "att_muzzle_1"
+					bone "att_muzzle"
 					random_delay "3"
 				}
 			}
@@ -395,22 +371,96 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name 			"buildings/defense/tower_plasma_mauler_projectile"
+	name "buildings/defense/tower_plasma_mauler_projectile"
 
-	base_blueprint	"effects/weapons_energy/mech_plasma_gun_projectile"
+	base_blueprints
+	{
+		effects/weapons_elemental/projectile
+		lights/point/blue_very_small
+		effects/no_lifetime
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material 	"projectiles/laser_blue"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_energy/plasma_shotgun_hit_enemy"
-		on_world_hit_effect 	"effects/weapons_energy/plasma_shotgun_hit_world"
-		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		on_enemy_hit_effect 	effects/weapons_energy/energy_weapon_hit
+		on_world_hit_effect 	effects/weapons_energy/energy_weapon_hit
+		on_resisted_hit_effect 	effects/weapons_energy/energy_weapon_hit
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+		
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.5"
+
+		cluster_scale
+		{
+			x "0.8"
+			y "0.5"
+			z "0.5"
+		}
 	}
-	
+
 	LifeTimeDesc
 	{
-		time 		0.5
+		time 		1.5
 		//type 		"camera"
 	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/melee_slash_blue
+				update_bounds 		1
+				fade_out_time		0.15
+				uv_scroll			"0 -0.01"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.2 0.2"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.2 -0.2"
+					}
+				}
+			}
+		}
+	}	
 }
+
 

@@ -1,0 +1,405 @@
+EntityBlueprint
+{
+	name  			"units/drones/explosive_rocket_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_explosive"
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/explosive_drone_trail"
+					bone "att_drone_trail_0"
+					scale	"0.9 0.9 0.9"
+				}
+			}
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "35"
+			submesh_idx "1"
+		}
+		
+		ammo_blueprint 				"units/drones/explosive_rocket_drone_weapon"
+		muzzles_per_fire			"1"
+		muzzle_flash_effect 		"effects/weapons_explosive/explosive_rocket_drone_weapon_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.3"
+		burst_column_angle 			"2"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/explosive_rocket_drone_weapon"
+
+	base_blueprint "mech/swarm_missiles_projectile"
+	
+	VegetationBendingComponentDesc
+	{
+		bending_power	"500.0"
+		bending_radius	"3.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_small"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_small"
+		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_small"	
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/smoke_trail_01
+				update_bounds 		1
+				fade_out_time		0.15
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 0.2"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.2"
+					}
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.5
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/explosive_missile_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_explosive"
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/explosive_drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/explosive_drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "35"
+			submesh_idx "1"
+		}
+		
+		ammo_blueprint 				"units/drones/explosive_missile_drone_weapon"
+		muzzles_per_fire			"1"
+		muzzle_flash_effect 		"effects/weapons_explosive/explosive_rocket_drone_weapon_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.3"
+		burst_column_angle 			"2"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/explosive_missile_drone_weapon"
+
+	base_blueprint "mech/swarm_missiles_projectile"
+	
+	VegetationBendingComponentDesc
+	{
+		bending_power	"500.0"
+		bending_radius	"3.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_medium"	
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/smoke_trail_01
+				update_bounds 		1
+				fade_out_time		0.3
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 0.25"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.25"
+					}
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/explosive_grenadier_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base_explosive"
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/explosive_drone_trail"	
+					bone "att_drone_trail_0"
+					scale	"0.9 0.9 0.9"
+				}
+
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/explosive_drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/explosive_drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+			}
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_artillery|ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "35"
+			submesh_idx "1"
+		}
+		
+		ammo_blueprint 				"units/drones/explosive_grenadier_drone_weapon"
+		muzzles_per_fire			"1"
+		muzzle_flash_effect 		"effects/weapons_explosive/grenade_launcher_fire_medium"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.3"
+		burst_column_angle 			"2"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/explosive_grenadier_drone_weapon"
+
+	base_blueprint "items/weapons/grenade_launcher_projectile"
+	
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_explosive/explosion_small"
+		on_world_hit_effect 		"effects/weapons_explosive/explosion_small"
+		on_resisted_hit_effect 		"effects/weapons_explosive/explosion_small"
+
+		on_world_explosion_delay	 "1"
+		on_enemy_explosion_delay	 "1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+		
+		cluster_count 				"3"
+		cluster_max_generation      "0"
+		cluster_explosion_radius	"1.1"
+		fly_time_limit 				"3"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/grenade_trail_red
+				update_bounds 		1
+				fade_out_time		0.75
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.4 0"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.4 0"
+					}
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		5
+	}
+}

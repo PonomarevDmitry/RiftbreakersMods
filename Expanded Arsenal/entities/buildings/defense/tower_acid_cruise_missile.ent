@@ -11,11 +11,16 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_acid_cruise_missile"
 		menu_icon			"gui/hud/building_icons/tower_acid_cruise_missile"
 		require 			"headquarters"
-		order				"7"
+		order				"9"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_acid_cruise_missile_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"
+		condition_value		"magma,jungle,desert,metallic,swamp,legacy_maps"
+		limit				"10"
+		limit_name			"acid_cm_limit"
+		map_limit			"LOCAL"
 
 		costs
 		{
@@ -30,7 +35,6 @@ EntityBlueprint
 					ai					"1"
 					palladium			"50"
 					rhodonite			"50"
-					ammo_tower_guided	"100"
 				}
 			}
 
@@ -45,7 +49,6 @@ EntityBlueprint
 					ai					"1"
 					palladium			"50"
 					rhodonite			"10"
-					ammo_tower_guided	"50"
 				}
 			}
 		}			
@@ -58,7 +61,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"2"
+				value 		"1"
 			}
 		}
 
@@ -198,7 +201,7 @@ EntityBlueprint
 
 	FogOfWarRevealerComponentDesc
 	{
-		radius "40"
+		radius "16"
 	}
 
 	HealthBarDesc
@@ -309,11 +312,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_effect 		"effects/buildings_generic/acid_explosion_medium_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
+					part_material 			"misc/acid_building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_effect 			"effects/projectiles_and_trails/acid_fire_trail_small_random"
 					part_lifetime "3"
 				}
 			}
@@ -325,11 +328,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_effect 		"effects/buildings_generic/acid_explosion_medium_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
+					part_material 			"misc/acid_building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_effect 			"effects/projectiles_and_trails/acid_fire_trail_small_random"
 					part_lifetime "3"
 				}
 			}
@@ -340,10 +343,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					explosion_effect 		"effects/buildings_generic/acid_explosion_big_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_material 			"misc/acid_building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/acid_fire_trail_small_death_random"
 					part_prefix 			"meshes/misc/building_large_parts_generic"
 					part_lifetime "3"
 				}
@@ -359,8 +362,8 @@ EntityBlueprint
 					explosion_min_power 	"2000"
 					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_material 			"misc/acid_building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/acid_fire_trail_small_random"
 					part_prefix 			"meshes/misc/building_large_parts_generic"
 					part_lifetime "3"
 				}
@@ -397,9 +400,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "buildings/defense/tower_acid_cruise_missile_projectile"
-
-	base_blueprint "effects/weapons_explosive/rocket_projectile_big"
+	name 			"buildings/defense/tower_acid_cruise_missile_projectile"
 
 	MeshDesc
 	{
@@ -425,6 +426,23 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "eamodmissilehead1"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/acid_grenade"								
+					bone "att_head"
+					scale "0.8 0.8 0.8"
+					offset	"0.1 0 0"
+				}
+			}
+		}
 	}
 
 	VegetationBendingComponentDesc
@@ -435,16 +453,233 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_medium"
-		on_world_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_medium"
-		on_resisted_hit_effect 	"effects/weapons_acid/acid_weapon_explosion_medium"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		on_enemy_hit_effect 	"effects/weapons_acid/tower_acid_cruise_missile_hit"
+		on_world_hit_effect 	"effects/weapons_acid/tower_acid_cruise_missile_hit"
+		on_resisted_hit_effect 	"effects/weapons_acid/tower_acid_cruise_missile_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
 	{
 		time 		3.5
 		//type 		"camera"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/ribbon_acid_cruise_missile_trail
+				update_bounds 		1
+				fade_out_time		0.4
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 0.25"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.25"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"buildings/defense/tower_acid_cruise_missile_emitter"
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_heavy"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_50_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/grenade_shell.mesh"
+		material 	"projectiles/acid_grenade"
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/projectiles/grenade_shell"
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"4.5"
+			arming_time			float:"0.5"
+		}
+
+	}
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "5"
+			aiming_range "5"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_exhaust"
+		gravity_factor "8"
+		yaw "att_exhaust"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{	
+				attachment "att_exhaust"
+			}
+		}
+		
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint	"buildings/defense/tower_acid_grenadier_emitter_beam"
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_acid/acid_weapon_explosion_small"
+					part_prefix 			"meshes/projectiles/grenade_shell"
+					part_material 			"projectiles/acid_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "quicksand"
+			}
+			
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_acid/acid_weapon_explosion_small"
+					part_prefix 			"meshes/projectiles/grenade_shell"
+					part_material 			"projectiles/acid_grenade"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/acid_green
+				update_bounds 		1
+				fade_out_time		0.75
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.4 0"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.4 0"
+					}
+				}
+			}
+		}
 	}
 }
 

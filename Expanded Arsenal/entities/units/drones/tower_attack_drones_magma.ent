@@ -70,7 +70,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_magma/magma_blaster_hit"
 		on_world_hit_effect 	"effects/weapons_magma/magma_blaster_hit"
 		on_resisted_hit_effect 	"effects/weapons_magma/magma_blaster_hit"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 	
 	LifeTimeDesc
@@ -191,7 +191,7 @@ EntityBlueprint
         particle_velocity_scale 	"0.0125"
         particle_reference_range	"10"
 
-		collision_3d 				"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	ParticleDesc
@@ -326,17 +326,6 @@ EntityBlueprint
 		lights/point/muzzle_red_very_small
 		effects/no_lifetime
 	}
-
-	LuaDesc
-	{
-		script "lua/units/drones/drone_cargo_deployer.lua"
-		
-		database
-		{
-			egg_spawn_on_destroy			string:	"units/drones/magma_drone_mine_deployer"
-			egg_spawn_count					int:"1"	
-		}	
-	}
 	
 	MeshDesc
 	{
@@ -390,43 +379,87 @@ EntityBlueprint
 	
 	ArtilleryAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_magma/magma_weapon_explosion_small"
-		on_world_hit_effect 	"effects/weapons_magma/magma_weapon_explosion_small"
-		on_resisted_hit_effect 	"effects/weapons_magma/magma_weapon_explosion_small"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		on_enemy_hit_effect 	"effects/weapons_magma/magma_mortar_drone_weapon_hit"
+		on_world_hit_effect 	"effects/weapons_magma/magma_mortar_drone_weapon_hit"
+		on_resisted_hit_effect 	"effects/weapons_magma/magma_mortar_drone_weapon_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 
 		friendly_fire			"pass"
-		delay_update_time		"0.3"
-		manual_remove			"1"
-		diameter				"1.0"
+		diameter				"0.25"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/magma_drone_mine_deployer"
+	
+	base_blueprint	"buildings/defense/magma_mortar_mine_deployer_base"
+
+	EggDesc
+	{
+		blueprint				"units/drones/magma_drone_mine"
+		time_to_hatch			"0.5"
+		unit_state_spawn		"1"
+		freeze_hatch			"1"
+	}	
+}
+
+
+EntityBlueprint
+{
+	name  "units/drones/magma_drone_mine"
+	
+	base_blueprint "items/consumables/proximity_mine_base"
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+	
+		database
+		{
+			bp					string:"items/projectiles/magma_drone_mine_explosion"
+			delay				float:"1.0"
+			delay_before_armed	float:"0.5"
+		}			
+	}	
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
+		material 	"items/consumables/grenade_gravity_red"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/mine"
 	}
 	
-	DestroyDesc
-	{
-		DestroyPatterns
-		{
-			Pair
-			{
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"5000"
-					explosion_min_power 	"2500"
-					explosion_effect_scale 	"0.5"
-					explosion_effect 		"effects/weapons_explosive/explosion_small"
-					part_prefix 			"meshes/items/consumables/grenade_gravity.mesh"
-					part_material 			"items/consumables/grenade_gravity_red"
-					part_effect 			"effects/enemies_generic/blood_trail_fire"
-					part_physics_material   "gibs_light"		
-				}
-
-				key "default"
-			}					
-		}
-	}
-
 	LifeTimeDesc
 	{
-		time 		4
+		time	6
+	}
+}
+
+EntityBlueprint
+{
+	name "items/projectiles/magma_drone_mine_explosion"
+	
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/weapons_magma/magma_weapon_explosion_small"
+	
+		DamagePattern
+		{
+			area_damage_radius	"3"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"29"
+					type			"fire"
+				}
+			}
+		}
 	}
 }

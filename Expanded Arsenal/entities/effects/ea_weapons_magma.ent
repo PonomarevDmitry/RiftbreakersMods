@@ -1,3 +1,345 @@
+//----------------------MECH WEAPONS START----------------------\\
+
+// heavy_magma_blaster
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/heavy_magma_blaster_explosive_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/heavy_magma_gun_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.2"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/heavy_plasma_fire"
+	}		
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/heavy_magma_explosive_shot_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_red_small
+		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"50"
+		radius 	"50"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_big"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"magma_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/magma_crater_01"
+		scale
+		{
+			x		6.0
+			y		6.0
+			z		6.0
+		}
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/energy/heavy_plasma_hit"
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
+}
+
+//----------------------MECH WEAPONS END----------------------\\
+
+//----------------------DRONE WEAPONS START----------------------\\
+
+// magma_mortar_drone
+
+EntityBlueprint
+{
+
+	name effects/weapons_magma/magma_mortar_drone_muzzle_flash
+
+	base_blueprints
+	{
+		lights/point/muzzle_red_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_muzzle_flash"
+	}
+
+	SoundDesc
+	{
+		name "towers/magma/magma_drone_mortar_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/magma_mortar_drone_weapon_hit"
+
+	base_blueprints
+	{
+		lights/point/muzzle_red_small
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp			string:"units/drones/magma_drone_mine_deployer"
+			spawn_amount		int:"1"
+			min_dynamic_force	float:"1000"
+			max_dynamic_force	float:"2000"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_mortar_drone_weapon_destruct"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_small"
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"1.5"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/magma_mine_explosion"
+	
+	base_blueprints
+	{
+		lights/point/explosion_red_small
+		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"10"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_weapon_explosion_medium"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"magma_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/magma_crater_01"
+		scale
+		{
+			x		5.0
+			y		5.0
+			z		5.0
+		}
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/magma_weapon_explosion_small"
+
+	base_blueprints
+	{
+		lights/point/muzzle_red_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_weapon_explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_small"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"magma_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/magma_crater_01"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"3.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/magma_mortar_drone_weapon_destruct"
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_mortar_drone_weapon_destruct"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_charged_hit"
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"3.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.05"	// how long it will burn in seconds
+	}	
+}	
+
+//----------------------DRONE WEAPONS END----------------------\\
+
+//----------------------ENEMY DRONE WEAPONS START----------------------\\
+
+// baxmoth_omega_fire_drone_weapon
+
+EntityBlueprint
+{
+	name effects/weapons_magma/magma_grenade_armed
+
+	base_blueprints
+	{
+		lights/point/fire_red_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_grenade_armed"
+	}
+}
+
+//----------------------ENEMY DRONE WEAPONS END----------------------\\
+
+//----------------------DEFENSE STRUCTURES START----------------------\\
 
 // tower_magma_blaster
 
@@ -32,7 +374,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/magma_gun_projectile"
-	}
+	}	
 }
 
 EntityBlueprint
@@ -92,6 +434,20 @@ EntityBlueprint
 			z		2.0
 		}
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
 }
 
 // tower_magma_mortar
@@ -115,6 +471,114 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "towers/magma/tower_magma_mortar_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/tower_magma_mortar_hit"
+
+	base_blueprints
+	{
+		lights/point/muzzle_red_small
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/magma_mortar_mine_deployer_lvl_1"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"1000"
+			max_dynamic_force	float:"2000"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_weapon_explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"magma_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/magma_crater_01"
+		scale
+		{
+			x		5.0
+			y		5.0
+			z		5.0
+		}
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"3.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/tower_magma_mortar_lvl_2_hit"
+
+	base_blueprint "effects/weapons_magma/tower_magma_mortar_hit"
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/magma_mortar_mine_deployer_lvl_2"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"1000"
+			max_dynamic_force	float:"2000"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_magma/tower_magma_mortar_lvl_3_hit"
+
+	base_blueprint "effects/weapons_magma/tower_magma_mortar_hit"
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp		string:"buildings/defense/magma_mortar_mine_deployer_lvl_3"
+			spawn_amount	int:"1"
+			min_dynamic_force	float:"1000"
+			max_dynamic_force	float:"2000"
+		}
+
 	}
 }
 
@@ -214,6 +678,20 @@ EntityBlueprint
 			z		5.0
 		}
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
 }
 
 // tower_magma_cruise_missile
@@ -273,6 +751,11 @@ EntityBlueprint
 	{
 		name    "rift/magma_cruise_missile"
 	}
+	
+	SoundDesc
+	{
+		name "items/weapons/explosive/rocket_projectile_big"
+	}
 }
 
 EntityBlueprint
@@ -312,41 +795,43 @@ EntityBlueprint
 			z		5.0
 		}
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"3.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
 }
-
-// tower_magma_drone_attack
-
-// magma_mortar_drone
 
 EntityBlueprint
 {
-
-	name effects/weapons_magma/magma_mortar_drone_muzzle_flash
+	name "effects/weapons_magma/tower_magma_cruise_missile_hit"
 
 	base_blueprints
 	{
 		lights/point/muzzle_red_small
-		effects/default
 	}
-
-	ParticleDesc
+	
+	LuaDesc
 	{
-		name    "rift/magma_muzzle_flash"
-	}
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
 
-	SoundDesc
-	{
-		name "towers/magma/magma_drone_mortar_fire"
-	}
-}
-EntityBlueprint
-{
-	name "effects/weapons_magma/magma_weapon_explosion_small"
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_magma_cruise_missile_grenade_lvl_1"
+			spawn_amount			int:"3"
+			min_dynamic_force		float:"750"
+			max_dynamic_force		float:"1500"
+		}
 
-	base_blueprints
-	{
-		lights/point/muzzle_red_small
-		effects/default
 	}
 
 	ParticleDesc
@@ -354,167 +839,82 @@ EntityBlueprint
 		name    "rift/magma_weapon_explosion_medium"
 	}
 
-	SoundDesc
-	{
-		name "items/weapons/explosive/explosion_small"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"magma_terrain_friendly"	
-		extend  		"2"
-	}
-	
-	DecalDesc
-	{	
-		blueprint "effects/decals/magma_crater_01"
-		scale
-		{
-			x		3.0
-			y		3.0
-			z		3.0
-		}
-	}
-}
-
-// baxmoth_omega_fire_drone_weapon
-
-EntityBlueprint
-{
-	name effects/weapons_magma/magma_grenade_armed
-
-	base_blueprints
-	{
-		lights/point/fire_red_very_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/magma_grenade_armed"
-	}
-}
-
-// heavy_magma_blaster
-
-EntityBlueprint
-{
-	name "effects/weapons_magma/heavy_magma_blaster_explosive_fire"
-
-	base_blueprints
-	{
-		effects/weapons_elemental/muzzle
-		lights/point/muzzle_orange_small
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/heavy_magma_gun_muzzle"
-	}
-
-	CameraFeedbackShakeDesc
-	{
-		duration 		"0.066"
-		power   		"0.2"
-		group			"weapon_muzzle"
-	}
-
-	SoundDesc
-	{
-		name "items/weapons/energy/heavy_plasma_fire"
-	}		
-}
-
-EntityBlueprint
-{
-	name "effects/weapons_magma/heavy_magma_explosive_shot_hit"
-	
-	base_blueprints
-	{
-		lights/point/explosion_red_small
-		effects/default
-	}
-	
-	ShockWaveDesc
-	{
-		power 	"5000"
-		speed 	"50"
-		radius 	"50"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/fire_explosion_big"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"magma_terrain_friendly"	
-		extend  		"2"
-	}
-	
-	DecalDesc
-	{	
-		blueprint "effects/decals/magma_crater_01"
-		scale
-		{
-			x		6.0
-			y		6.0
-			z		6.0
-		}
-	}
-	
-	SoundDesc
-	{
-		name "items/weapons/energy/heavy_plasma_hit"
-	}
-}
-
-EntityBlueprint
-{
-	name "effects/weapons_magma/magma_mine_explosion"
-	
-	base_blueprints
-	{
-		lights/point/explosion_red_small
-		effects/default
-	}
-	
-	ShockWaveDesc
-	{
-		power 	"1000"
-		speed 	"10"
-		radius 	"10"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/magma_weapon_explosion_medium"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"magma_terrain_friendly"	
-		extend  		"2"
-	}
-	
-	DecalDesc
-	{	
-		blueprint "effects/decals/magma_crater_01"
-		scale
-		{
-			x		5.0
-			y		5.0
-			z		5.0
-		}
-	}
-	
 	SoundDesc
 	{
 		name "items/weapons/explosive/explosion_medium"
 	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"magma_terrain_friendly"	
+		extend  		"2"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/magma_crater_01"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"3.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}
 }
+
+EntityBlueprint
+{
+	name 			"effects/weapons_magma/tower_magma_cruise_missile_hit_lvl_2"
+	base_blueprint 	"effects/weapons_magma/tower_magma_cruise_missile_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_magma_cruise_missile_grenade_lvl_2"
+			spawn_amount			int:"3"
+			min_dynamic_force		float:"750"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/weapons_magma/tower_magma_cruise_missile_hit_lvl_3"
+	base_blueprint 	"effects/weapons_magma/tower_magma_cruise_missile_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_magma_cruise_missile_grenade_lvl_3"
+			spawn_amount			int:"3"
+			min_dynamic_force		float:"750"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+	
+//----------------------DEFENSE STRUCTURES END----------------------\\

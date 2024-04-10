@@ -1,0 +1,238 @@
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_offensive_explosive_standard"
+    base_blueprint  "units/drones/tower_attack_drone_base"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement						string:"follow"
+			owner_movement_speed_near       	 float:"0.75"
+			owner_movement_speed_far          	 float:"1.5"
+			owner_movement_trigger_distance 	float:"10.0"
+
+			target_movement			string:"follow"
+			target_manual_rotation	int:"1"
+			target_search_mode  	string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.9"
+			max_scale				float:"0.9"
+		}
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"1000"
+		unit_soft_radius				"2.0"
+	  	dominance_group				    "10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}	
+	
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"5"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"5"
+		}
+		
+		max_speed
+		{
+			base 	"25"
+		}
+	}	
+	
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit_artillery|ground_unit_large|ground_unit"
+		target_ignore "invisible|air_unit"
+		speed "720"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/drone_player_offensive_explosive_grenade_projectile"
+		muzzle_flash_effect 		"effects/weapons_explosive/grenade_launcher_fire_medium"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/magma_drone_trail"	
+					bone "att_drone_trail_0"
+					scale	"0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail_defensive"
+					bone "att_drone_trail_0"
+					scale "0.9 0.9 0.9"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_explosive_advanced"
+	base_blueprint		"units/drones/drone_player_offensive_explosive_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_explosive_superior"
+	base_blueprint		"units/drones/drone_player_offensive_explosive_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_explosive_extreme"
+	base_blueprint		"units/drones/drone_player_offensive_explosive_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/drones/drone_player_offensive_explosive_grenade_projectile"
+
+	base_blueprint "items/weapons/grenade_launcher_projectile"
+	
+	LifeTimeDesc
+	{
+		time	4
+	}
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 		"effects/weapons_explosive/explosion_medium"
+		on_resisted_hit_effect 		"effects/weapons_explosive/explosion_medium"
+
+		on_world_explosion_delay	 "1"
+		on_enemy_explosion_delay	 "0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"ground_unit|world|world_blocker|building|destructible"
+		friendly_fire				"pass"
+
+		diameter					"1"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/grenade_trail_red
+				update_bounds 		1
+				fade_out_time		0.35
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.4 0"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.4 0"
+					}
+				}
+			}
+		}
+	}
+}

@@ -11,11 +11,16 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_cruise_missile"
 		menu_icon			"gui/hud/building_icons/tower_cruise_missile"
 		require 			"headquarters"
-		order				"12"
+		order				"4"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cruise_missile_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
+		limit				"10"
+		limit_name			"cm_limit"
+		map_limit			"LOCAL"	
 
 		costs
 		{
@@ -196,7 +201,7 @@ EntityBlueprint
 
 	FogOfWarRevealerComponentDesc
 	{
-		radius "40"
+		radius "16"
 	}
 
 	HealthBarDesc
@@ -422,6 +427,22 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "eamodwall"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/wall_doodads"								
+					bone "att_wing_center"
+					scale	"0.9 0.1 0.1"
+				}
+			}
+		}
 	}
 
 	VegetationBendingComponentDesc
@@ -435,7 +456,7 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_big"
 		on_world_hit_effect 	"effects/weapons_explosive/explosion_big"
 		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_big"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 
 		DamagePattern
 		{
@@ -457,7 +478,7 @@ EntityBlueprint
 			{
 				material 			ribbon/smoke_trail_01
 				update_bounds 		1
-				fade_out_time		0.75
+				fade_out_time		0.4
 				uv_scroll			"0 -2.5"
 				tiling_distance     "0"
 				tesselation_step 	"0.25"
@@ -468,13 +489,13 @@ EntityBlueprint
 					Ribbon
 					{
 						parent_attachment "att_exhaust"
-						offset "0 0 0.4"
+						offset "0 0 0.25"
 					}
 
 					Ribbon
 					{
 						parent_attachment "att_exhaust"
-						offset "0 0 -0.4"
+						offset "0 0 -0.25"
 					}
 				}
 			}

@@ -1,0 +1,709 @@
+//----------------------MECH WEAPONS START----------------------\\
+
+// morphium_grenade_projector
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_grenade_projector_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/morphium_grenade_projector_muzzle"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/alien/morphium_grenade_projector_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_grenade_projector_hit"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_blue_small
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"items/weapons/morphium_grenade_projector_deployer"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+
+	ParticleDesc
+	{
+		name    "rift/morphium_grenade_deployer_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		1
+			y		1
+			z		1
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_grenade_projector_advanced_hit"
+
+	base_blueprint	"effects/weapons_alien/morphium_grenade_projector_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"items/weapons/morphium_grenade_projector_advanced_deployer"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_grenade_projector_superior_hit"
+
+	base_blueprint	"effects/weapons_alien/morphium_grenade_projector_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"items/weapons/morphium_grenade_projector_superior_deployer"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_grenade_projector_extreme_hit"
+
+	base_blueprint	"effects/weapons_alien/morphium_grenade_projector_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"items/weapons/morphium_grenade_projector_extreme_deployer"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+//----------------------MECH WEAPONS END----------------------\\
+
+//----------------------MORPHIUM DRONES START----------------------\\
+
+// morphium_drones
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_drone_attack_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_blue_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"10"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_fire"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/alien/morphium_drone_attack_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_drone_attack_advanced_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_blue_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"10"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/morphium_drone_attack_advanced_fire"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/alien/morphium_drone_attack_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_drone_attack_superior_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_violet_small
+		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"10"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/morphium_drone_attack_superior_fire"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/alien/morphium_drone_attack_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/morphium_drone_attack_extreme_fire"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_red_small
+		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"10"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/morphium_drone_attack_extreme_fire"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/alien/morphium_drone_attack_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_spikes_advanced"
+
+	base_blueprints
+	{
+		effects/weapons_alien/tower_morphium_spikes
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_spikes_advanced"
+	}	
+}
+
+EntityBlueprint
+{
+
+	name	"effects/weapons_alien/tower_morphium_spikes_superior"
+
+	base_blueprints
+	{
+		effects/weapons_alien/tower_morphium_spikes
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_purple_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_spikes_superior"
+	}	
+}
+
+EntityBlueprint
+{
+
+	name	"effects/weapons_alien/tower_morphium_spikes_extreme"
+
+	base_blueprints
+	{
+		effects/weapons_alien/tower_morphium_spikes
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_red_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_spikes_extreme"
+	}	
+}
+
+//----------------------MORPHIUM DRONES END----------------------\\
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_deployer_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_medium
+		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"15"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_cruise_missile_blast"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+}
+
+//----------------------TOWER MORPHIUM ARTILLERY START----------------------\\
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/tower_morphium_artillery_muzzle"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2500"
+		speed 	"30"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_artillery_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.7"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "towers/alien/tower_morphium_artillery_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/tower_morphium_artillery_projectile_trail"
+
+	base_blueprints 
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_artillery_projectile_trail"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_artillery_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_big
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_morphium_artillery_deployer_lvl_1"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1000"
+		}
+
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"6000"
+		speed 	"35"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_artillery_blast"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_artillery_lvl_2_hit"
+	
+	base_blueprint	"effects/weapons_alien/tower_morphium_artillery_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_morphium_artillery_deployer_lvl_2"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1000"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_artillery_lvl_3_hit"
+	
+	base_blueprint	"effects/weapons_alien/tower_morphium_artillery_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_morphium_artillery_deployer_lvl_3"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1000"
+		}
+
+	}
+}
+
+//----------------------TOWER MORPHIUM ARTILLERY END----------------------\\
+
+//----------------------TOWER MORPHIUM CRUISE MISSILE START----------------------\\
+
+EntityBlueprint
+{
+	name "effects/weapons_alien/tower_morphium_cruise_missile_muzzle"
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/muzzle_blue_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1500"
+		speed 	"30"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_artillery_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.35"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/alien/tower_morphium_fire"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_cruise_missile_head"
+	
+	base_blueprints 
+	{
+		lights/point/blue_super_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh        "meshes/items/consumables/grenade_gravity.mesh"
+		material    "items/consumables/grenade_gravity"
+	}
+}
+
+EntityBlueprint
+{
+
+	name "effects/weapons_alien/tower_morphium_cruise_missile_trail"
+	
+	base_blueprints 
+	{
+		lights/point/blue_small
+		effects/no_lifetime
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_cruise_missile_trail"
+	}
+}
+
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_cruise_missile_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_big
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_morphium_cruise_missile_deployer"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"100"
+			max_dynamic_force		float:"500"
+		}
+
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"1500"
+		speed 	"35"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_cruise_missile_blast"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_cruise_missile_hit_lvl_2"
+	
+	base_blueprint	"effects/weapons_alien/tower_morphium_cruise_missile_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_morphium_cruise_missile_deployer"
+			spawn_amount			int:"2"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/tower_morphium_cruise_missile_hit_lvl_3"
+	
+	base_blueprint	"effects/weapons_alien/tower_morphium_cruise_missile_hit"
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"buildings/defense/tower_morphium_cruise_missile_deployer"
+			spawn_amount			int:"3"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1500"
+		}
+
+	}
+}
+
+// drones
+
+EntityBlueprint
+{
+	name	"effects/weapons_alien/morphium_mortar_drone_weapon_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_blue_small
+	}
+	
+	LuaDesc
+	{
+		script "lua/buildings/defense/player_egg_dynamic_spawn.lua"
+
+		database
+		{
+			spawn_bp				string:"units/drones/morphium_mortar_drone_weapon_deployer"
+			spawn_amount			int:"1"
+			min_dynamic_force		float:"500"
+			max_dynamic_force		float:"1000"
+		}
+
+	}
+	
+
+	ParticleDesc
+	{
+		name    "rift/tower_morphium_artillery_blast"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}
+}

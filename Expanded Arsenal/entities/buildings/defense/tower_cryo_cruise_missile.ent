@@ -11,11 +11,16 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_cryo_cruise_missile"
 		menu_icon			"gui/hud/building_icons/tower_cryo_cruise_missile"
 		require 			"headquarters"
-		order				"12"
+		order				"13"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cryo_cruise_missile_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"	
+		limit				"10"
+		limit_name			"cryo_cm_limit"
+		map_limit			"LOCAL"	
 
 		costs
 		{
@@ -30,7 +35,6 @@ EntityBlueprint
 					ai					"1"
 					cobalt				"50"
 					ferdonite			"50"
-					ammo_tower_guided	"100"
 				}
 			}
 
@@ -45,7 +49,6 @@ EntityBlueprint
 					ai					"1"
 					cobalt				"50"
 					ferdonite			"10"
-					ammo_tower_guided	"50"
 				}
 			}
 		}			
@@ -309,11 +312,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_effect 		"effects/buildings_generic/cryo_explosion_medium_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
+					part_material 			"misc/cryo_building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_effect 			"effects/projectiles_and_trails/cryo_fire_trail_small_random"
 					part_lifetime "3"
 				}
 			}
@@ -325,11 +328,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					explosion_effect 		"effects/buildings_generic/cryo_explosion_medium_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
+					part_material 			"misc/cryo_building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_effect 			"effects/projectiles_and_trails/cryo_fire_trail_small_random"
 					part_lifetime "3"
 				}
 			}
@@ -340,10 +343,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"2000"
-					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					explosion_effect 		"effects/buildings_generic/cryo_explosion_medium_death_random"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_material 			"misc/cryo_building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/cryo_fire_trail_small_random"
 					part_prefix 			"meshes/misc/building_large_parts_generic"
 					part_lifetime "3"
 				}
@@ -359,8 +362,8 @@ EntityBlueprint
 					explosion_min_power 	"2000"
 					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
 					part_physics_material   "debris_heavy"
-					part_material 			"misc/building_parts_generic"
-					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_material 			"misc/cryo_building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/cryo_fire_trail_small_random"
 					part_prefix 			"meshes/misc/building_large_parts_generic"
 					part_lifetime "3"
 				}
@@ -399,8 +402,6 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_cryo_cruise_missile_projectile"
 
-	base_blueprint "effects/weapons_explosive/rocket_projectile_big"
-
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/rocket_nuclear.mesh"
@@ -425,6 +426,29 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "eamodwall"
+			enabled "1"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/wall_doodads"								
+					bone "att_angled_wing_3"
+					scale	"0.5 0.1 0.1"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/wall_doodads"								
+					bone "att_angled_wing_4"
+					scale	"0.5 0.1 0.1"
+				}
+			}
+		}
 	}
 
 	VegetationBendingComponentDesc
@@ -438,13 +462,45 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_cryo/cryo_weapon_explosion_medium"
 		on_world_hit_effect 	"effects/weapons_cryo/cryo_weapon_explosion_medium"
 		on_resisted_hit_effect 	"effects/weapons_cryo/cryo_weapon_explosion_medium"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 
 	LifeTimeDesc
 	{
 		time 		3.5
 		//type 		"camera"
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/ribbon_cryo_cruise_missile_trail
+				update_bounds 		1
+				fade_out_time		0.4
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 0.25"
+					}
+
+					Ribbon
+					{
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.25"
+					}
+				}
+			}
+		}
 	}
 }
 

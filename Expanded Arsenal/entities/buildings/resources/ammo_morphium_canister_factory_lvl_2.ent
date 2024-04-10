@@ -1,0 +1,167 @@
+EntityBlueprint
+{
+	name  			"buildings/resources/ammo_morphium_canister_factory_lvl_2"
+	base_blueprint  "buildings/resources/ammo_morphium_canister_factory"
+
+	BuildingDesc
+	{
+		name 				"ammo_morphium_canister_factory_lvl_2"
+		bp   				"buildings/resources/ammo_morphium_canister_factory_lvl_2"
+		category 			"resource_mod_1"
+		type				"pipe"
+		localization_id		"gui/hud/building_name/ammo_morphium_canister_factory"
+		description			"gui/hud/building_description/ammo_morphium_canister_factory"
+		menu_icon			"gui/hud/building_icons/ammo_morphium_canister_factory_lvl2"
+		require 			"headquarters"
+		upgrade				"buildings/resources/ammo_morphium_canister_factory_lvl_3"			
+		order				"3"
+		buildable			"0"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 10
+				building_cost
+				{
+					carbonium 	"100"
+					steel 		"300"			
+					cobalt		"50"
+				}
+			}		
+		}	
+	}
+
+	ResourceConverterDesc
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 			"energy"
+				value			 	"60"
+			}
+			
+			GameplayResource
+			{
+				resource 			"carbonium"
+				value			 	"1.5"
+			}
+			
+			GameplayResource
+			{
+				resource 			"steel"
+				value			 	"1.5"
+			}
+			
+			GameplayResource
+			{
+				resource 			"morphium"
+				value			 	"25"
+				attachment			"att_out_1"
+			}			
+		}
+		
+		out
+		{
+			GameplayResource
+			{
+				resource	"player_ammo_manufacturing_morphium_canister"
+				value		"1.2"
+				family		"manufacturing"
+			}
+
+			GameplayResource
+			{
+				resource	"player_consumables_manufacturing_morphium"
+				value		"1.2"
+				family		"manufacturing"
+			}
+		}
+		priority 5		
+	}
+
+	HealthDesc
+	{
+		max_health 					"1300"
+		health 						"1300"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+		
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"80"
+				destroy_state_change_effect_group 	"80_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"80_destroy"
+				destroyed_state_effect_group 		"80_state"
+				destrucion_level_name 				"80"
+
+			}
+			DestructionLevel
+			{
+				health 								"60"
+				destroy_state_change_effect_group 	"60_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"60_destroy"
+				destroyed_state_effect_group 		"60_state"
+				destrucion_level_name 				"60"
+			}
+			DestructionLevel
+			{
+				health 								"40"
+				destroy_state_change_effect_group 	"40_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"40_destroy"
+				destroyed_state_effect_group 		"40_state"
+				destrucion_level_name 				"40"
+			}
+			DestructionLevel
+			{
+				health 								"20"
+				destroy_state_change_effect_group 	"20_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"20_destroy"
+				destroyed_state_effect_group 		"20_state"
+				destrucion_level_name 				"20"
+			}
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_state_change_effect_group 	"0_transition"
+				destroy_comp_delay 					"0.6"
+				destroy_comp_event 					"default"
+				//destroyed_state_effect_group 		"0_state"
+			}			
+		}
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/resources/ammo_morphium_canister_factory"
+		}						
+
+		EffectGroup
+		{
+			group "level"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/level_2"
+					bone "att_level"
+				}
+			}
+		}
+	}
+}

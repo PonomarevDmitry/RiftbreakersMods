@@ -1,0 +1,186 @@
+system rift/unit_controlled_icon
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.06
+    scale                                       0.035 0.035 0.035
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    false
+    cache_count                                 5
+    
+	technique	icon
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_ring_violet_01
+		
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 1 0
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       300
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            1
+            all_particle_dimensions             80
+            position                            0 250 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.2 0.2 0.2 1
+            time_colour                         0.506522  0.4 0.4 0.4 1
+            time_colour                         1    0.2 0.2 0.2 1
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -5
+                max                             5
+            }
+            rotation_speed                      5
+        }
+    }
+	
+	technique top_flare
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_glow_01
+        renderer                                Billboard
+        {
+            render_queue_group                  66
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       100
+            time_to_live                        0.1
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             90
+            }
+            colour                              0.47451 0 0.27451 1
+			position                            0 250 0
+        }
+        affector                                Colour Affector15
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.247826  1 1 1 1
+            time_colour                         0.754348  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+	}
+	
+    technique base_glow
+    {
+        visual_particle_quota                   2
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_self
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            position                            0 1 0
+            colour                              0.47451 0 0.27451 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0.294118 0.294118 0.294118 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+    }
+	
+	technique rings_alpha_3
+    {
+        visual_particle_quota                   2
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_ring_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            1
+            all_particle_dimensions             200
+            position                            0 1 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.506522  0.4 0.4 0.4 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      1
+        }
+    }
+}

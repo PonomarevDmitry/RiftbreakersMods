@@ -8,14 +8,17 @@ EntityBlueprint
 		name 					"wall_radio_t"
 		bp   					"buildings/defense/wall_radio_t_01"
 		localization_id			"gui/hud/building_name/wall_radio"
-		category 				"defense"
+		category 				"defense_mod_1"
 		type					"wall"
 		build_on_water			"0"
 		require 				"headquarters"
 		upgrade					"buildings/defense/wall_radio_t_01_lvl_2"
 		building_mode			"line"
 		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		//check_connect			"1"
 		overrides				"wall"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,acid,metallic,legacy_maps"
 
 		costs
 		{
@@ -43,28 +46,14 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/wall.lua"
+		script "lua/buildings/defense/advanced_energy_walls.lua"
 
 		database
 		{
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
-			remove_lua_after_build int:"1"
 		}
-	}
 
-	ReflectDamageComponent
-	{
-		reflect_type 	"health_ratio"  // health_ratio, damage_ratio, flat_damage
-		melee_only	 	"1"			   // reflect only melee damage
-		damage_value 	"0.1"
-		damage_type 	"radiation"	   // optional, if not provided damage type will be set to "reflect"
-	}
-
-	ReflectHighlightComponent
-	{
-		submesh_idx 	1
-		glow_factor 	50
 	}
 	
 	ResourceConverterDesc // must be here for AI
@@ -74,7 +63,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"tanzanite_vapor"
-				value 		"0.01"
+				value 		"0.1"
 			}		
 		}
 
@@ -87,13 +76,33 @@ EntityBlueprint
 
 	PipeComponent
 	{
+	
+	}
 
+	ReflectDamageComponent
+	{
+		reflect_type 	"health_ratio"  // health_ratio, damage_ratio, flat_damage
+		melee_only	 	"1"			   // reflect only melee damage
+		damage_value 	"1.57"
+		damage_type 	"radiation"	   // optional, if not provided damage type will be set to "reflect"
+	}
+
+	ReflectHighlightComponent
+	{
+		submesh_idx 	1
+		glow_factor 	50
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 			"28"
+		regeneration_cooldown 	"0.1"
 	}
 	
 	HealthDesc
 	{
-		max_health 					"300"
-		health 						"300"
+		max_health 					"280"
+		health 						"280"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -121,12 +130,6 @@ EntityBlueprint
 		}
 	}
 	
-	RegenerationComponent
-	{
-		regeneration 			"30"
-		regeneration_cooldown 	"0"
-	}
-
 	MeshDesc
 	{
 		mesh "meshes/buildings/defense/wall_energy_t_01.mesh"
@@ -145,6 +148,11 @@ EntityBlueprint
 				material "buildings/defense/wall_energy_lvl_1_radio"
 			}
 		}
+	}
+	
+	SkeletonDesc
+	{
+		name	"meshes/buildings/defense/wall_energy_t_01"
 	}
 
 	TypeDesc
@@ -307,7 +315,7 @@ EntityBlueprint
 		{
 			"buildings/effects_small_base"
 		}
-		
+
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -334,7 +342,7 @@ EntityBlueprint
 				}
 			}
 		}
-
+		
 		EffectGroup
 		{
 			group "att_in_1"
@@ -347,6 +355,7 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_1_arrow"
+					scale	"0.65 0.65 0.65"
 				}
 			}
 		}
@@ -362,6 +371,7 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_2_arrow"
+					scale	"0.65 0.65 0.65"
 				}
 			}
 		}
@@ -377,6 +387,7 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_3_arrow"
+					scale	"0.65 0.65 0.65"
 				}
 			}
 		}
@@ -392,7 +403,40 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/building_arrow_twosided"	
 					bone "att_in_4_arrow"
+					scale	"0.65 0.65 0.65"
 				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/wall_radio_t_01_ruins"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/wall_energy_t_01_ruins.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "buildings/defense/wall_energy_lvl_1_solid"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/defense/wall_energy_lvl_1_radio"
+			}
+
+			SubMesh
+			{
+				id "2"
+				material "buildings/main/buildings_ruins"
 			}
 		}		
 	}

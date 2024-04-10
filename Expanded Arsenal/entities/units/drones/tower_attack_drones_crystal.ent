@@ -1,0 +1,354 @@
+EntityBlueprint
+{
+	name  			"units/drones/crystal_blaster_drone"
+	base_blueprint 	"units/drones/tower_attack_drone_base"
+	
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_player_loot_collector.mesh"
+		material "units/drones/crystal_drone_attack"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/drones/drone_player_loot_collector"
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"items/consumables/crystal_turret_projectile"
+		muzzle_flash_effect 		"effects/weapons_crystal/tower_crystal_ejector_sentry_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"0.075"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_0"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "0.01"
+					scale	"0.5 0.5 2.0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/towers_pointers/crystal_laser_pointer"
+					bone "att_muzzle"
+					random_delay "0.01"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/crystal_grenadier_drone"
+	base_blueprint 	"units/drones/crystal_blaster_drone"
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"20"
+			aiming_range	"25"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"buildings/defense/tower_crystal_ejector_grenadier_projectile"
+		muzzle_flash_effect 		"effects/weapons_crystal/tower_crystal_ejector_grenadier_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_3"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "0.01"
+					scale	"0.5 0.5 2.0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "0.01"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/crystal_rocket_drone"
+	base_blueprint 	"units/drones/crystal_blaster_drone"
+
+	WeaponItemDesc
+	{
+	}
+	
+	TurretDesc
+	{
+		target "ground_unit"
+		target_ignore "invisible"
+		speed "1000"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"26"
+			aiming_range	"33"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/crystal_rocket_drone_projectile"
+		muzzle_flash_effect 		"effects/weapons_crystal/crystal_rocket_drone_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_1"
+					scale "0.45 0.45 0.45"
+				}
+
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_2"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/unit_control_drone_trail"
+					bone "att_drone_trail_3"
+					scale "0.45 0.45 0.45"
+				}
+				
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "0.01"
+					scale	"0.5 0.5 2.0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "0.01"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/drones/crystal_rocket_drone_projectile"
+	base_blueprint "buildings/defense/tower_crystal_cruise_missile_projectile"
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_crystal/crystal_rocket_drone_hit"
+		on_world_hit_effect 	"effects/weapons_crystal/crystal_rocket_drone_hit"
+		on_resisted_hit_effect 	"effects/weapons_crystal/crystal_rocket_drone_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+	}
+
+	LifeTimeDesc
+	{
+		time 		2.5
+		//type 		"camera"
+	}
+}

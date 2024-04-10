@@ -11,7 +11,7 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_volley"
 		menu_icon			"gui/hud/building_icons/tower_volley"
 		require 			"headquarters"
-		order				"6"
+		order				"7"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_volley_lvl_2"
@@ -273,9 +273,9 @@ EntityBlueprint
 		muzzles_per_fire 			"2"
 		muzzle_flash_effect 		"effects/weapons_bullet/tower_volley_fire"
 
-		burst_column_spacing 		"0.1"
+		burst_column_spacing 		"0"
 		burst_rate 					"0.08"
-		burst_column_angle 			"0.5"
+		burst_column_angle 			"0"
 	}
 
 	DestroyDesc
@@ -444,7 +444,21 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_medium"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
 		on_resisted_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_medium"
-		collision_3d 			"world|world_blocker|destructible|ground_unit|air_unit|shield"
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+		
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.12"
+
+		cluster_scale
+		{
+			x "0.8"
+			y "0.5"
+			z "0.5"
+		}
 	}
 
 	LifeTimeDesc
@@ -471,12 +485,14 @@ EntityBlueprint
 				{
 					Ribbon
 					{
-						offset "0.8 0.3 0.3"
+						parent_attachment "att_exhaust"
+						offset "0 0 0.3"
 					}
 
 					Ribbon
 					{
-						offset "-0.8 -0.3 -0.3"
+						parent_attachment "att_exhaust"
+						offset "0 0 -0.3"
 					}
 				}
 			}

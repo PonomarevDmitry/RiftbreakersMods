@@ -1,0 +1,116 @@
+system rift/radio_fire_trail_small_02
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.04
+    scale                                       0.04 0.04 0.04
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 100
+    
+	technique sparksball
+    {
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_yellow_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface add_flame_blue
+        {
+            emission_rate                       300
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.7
+            }
+            velocity                            dyn_random
+            {
+                min                             75
+                max                             120
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            radius                              5
+			position							0 5 0
+        }
+        affector                                Colour Affector197
+        {
+            time_colour                         0    0.2 0.2 0.2 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale Affector63
+        {
+            xyz_scale                           -2
+        }
+		
+		affector                                LinearForce Affector122
+        {
+            force_vector                        0 40 0
+            force_application                   average
+        }
+    }
+	
+	technique sparksball
+    {
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface add_flame_blue
+        {
+            emission_rate                       300
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.7
+            }
+            velocity                            dyn_random
+            {
+                min                             75
+                max                             120
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            radius                              5
+			position							0 5 0
+        }
+        affector                                Colour Affector197
+        {
+            time_colour                         0    0.2 0.2 0.2 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale Affector63
+        {
+            xyz_scale                           -2
+        }
+		
+		affector                                LinearForce Affector122
+        {
+            force_vector                        0 40 0
+            force_application                   average
+        }
+    }
+}

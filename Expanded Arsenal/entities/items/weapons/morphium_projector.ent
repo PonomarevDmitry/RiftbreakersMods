@@ -1,0 +1,394 @@
+EntityBlueprint
+{
+	name	"items/weapons/morphium_projector_weapon_advanced"
+
+	SpikeAmmoComponent
+	{			
+		type_mask					"ground_unit"
+		spike_effect 				"buildings/defense/tower_alien_influence/spikes_advanced"
+		spike_damage_delay			"0.3"
+		spike_count 				"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/morphium_projector_weapon_superior"
+
+	SpikeAmmoComponent
+	{			
+		type_mask					"ground_unit"
+		spike_effect 				"buildings/defense/tower_alien_influence/spikes_superior"
+		spike_damage_delay			"0.3"
+		spike_count 				"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/morphium_projector_weapon_extreme"
+
+	SpikeAmmoComponent
+	{			
+		type_mask					"ground_unit"
+		spike_effect 				"buildings/defense/tower_alien_influence/spikes_extreme"
+		spike_damage_delay			"0.3"
+		spike_count 				"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/morphium_projector"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/floating_mines"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.0"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_alien_influence/spawner"
+
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_drone_attack_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_projector_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_projector"
+		item_bp			"items/weapons/morphium_projector"
+		icon			"gui/hud/items_icons/weapons/morphium_projector"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_projector"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  			"items/weapons/morphium_projector_advanced"
+	base_blueprint 	"items/weapons/morphium_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/morphium_projector_advanced"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_projector_weapon_advanced"
+
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_drone_attack_advanced_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_projector_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_projector"
+		item_bp			"items/weapons/morphium_projector_advanced"
+		icon			"gui/hud/items_icons/weapons/morphium_projector_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_projector_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  			"items/weapons/morphium_projector_superior"
+	base_blueprint 	"items/weapons/morphium_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/morphium_projector_superior"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_projector_weapon_superior"
+
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_drone_attack_superior_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_projector_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_projector"
+		item_bp			"items/weapons/morphium_projector_superior"
+		icon			"gui/hud/items_icons/weapons/morphium_projector_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_projector_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  			"items/weapons/morphium_projector_extreme"
+	base_blueprint 	"items/weapons/morphium_projector"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/floating_mines.mesh"
+		material 	"items/weapons/morphium_projector_extreme"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "4"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/morphium_projector_weapon_extreme"
+
+		muzzle_flash_effect 		"effects/weapons_alien/morphium_drone_attack_extreme_fire"
+
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/morphium_projector_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"weapon_advanced"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/morphium_projector"
+		item_bp			"items/weapons/morphium_projector_extreme"
+		icon			"gui/hud/items_icons/weapons/morphium_projector_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/morphium_projector_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

@@ -6,11 +6,76 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/units/ground/baxmoth.lua"
+		script "lua/units/ground/baxmoth_intercept.lua"
 		database
 		{
-			min_scale	float:"1.1"
-			max_scale	float:"1.1"
+			min_scale						float:"1.1"
+			max_scale						float:"1.2"
+
+/////////// intercept effects data
+
+			interceptor_effect_projectile				string:"effects/buildings_and_machines/drone_defensive_lightning"
+			interceptor_hit_effect_projectile			string:"effects/buildings_and_machines/drone_defensive_lightning_hit"
+			
+			interceptor_effect_artillery				string:"effects/enemies_generic/enemy_red_interceptor_lightning"
+			interceptor_hit_effect_artillery			string:"effects/enemies_generic/enemy_red_interceptor_lightning_hit"
+			
+			interceptor_effect_grenade					string:"effects/enemies_generic/enemy_green_interceptor_lightning"
+			interceptor_hit_effect_grenade				string:"effects/enemies_generic/enemy_green_interceptor_lightning_hit"
+
+/////////// Easy difficulty intercept parameters - arrange in format of Projectile, Artillery and Grenade array.
+
+			intercept_time_easy						float:"4"	// active intercept time countdown after first intercept
+			reload_time_easy						float:"7"	// reload time
+			
+			intercept_target_components_easy		string:"ProjectileAmmoComponent"
+			intercept_rates_easy					string:"60" //uses total amount of projectiles/s to be intercepted
+			intercept_ranges_easy					string:"18"
+
+/////////// Normal difficulty intercept parameters - arrange in format of Projectile, Artillery and Grenade array.
+
+			intercept_time_normal					float:"5"
+			reload_time_normal						float:"6"
+
+			intercept_target_components_normal		string:"ProjectileAmmoComponent,ArtilleryAmmoComponent"
+			intercept_rates_normal					string:"60,20"
+			intercept_ranges_normal					string:"20,14"
+			
+/////////// Hard difficulty intercept parameters - arrange in format of Projectile, Artillery and Grenade array.
+
+			intercept_time_hard						float:"6"
+			reload_time_hard						float:"5"
+
+			intercept_target_components_hard		string:"ProjectileAmmoComponent,ArtilleryAmmoComponent,GrenadeAmmoComponent"
+			intercept_rates_hard					string:"60,20,24"
+			intercept_ranges_hard					string:"20,14,18"
+
+/////////// Brutal difficulty intercept parameters - arrange in format of Projectile, Artillery and Grenade array.
+
+			intercept_time_brutal					float:"7"
+			reload_time_brutal						float:"4"
+
+			intercept_target_components_brutal		string:"ProjectileAmmoComponent,ArtilleryAmmoComponent,GrenadeAmmoComponent"
+			intercept_rates_brutal					string:"60,20,24"
+			intercept_ranges_brutal					string:"20,14,18"
+
+/////////// Custom difficulty intercept parameters - arrange in format of Projectile, Artillery and Grenade array.
+
+			intercept_time_custom					float:"7"
+			reload_time_custom						float:"4"
+
+			intercept_target_components_custom		string:"ProjectileAmmoComponent,ArtilleryAmmoComponent,GrenadeAmmoComponent"
+			intercept_rates_custom					string:"60,20,24"
+			intercept_ranges_custom					string:"20,14,18"
+			
+/////////// Sandbox difficulty intercept parameters - arrange in format of Projectile, Artillery and Grenade array.
+
+			intercept_time_sandbox					float:"7"
+			reload_time_sandbox						float:"7"
+
+			intercept_target_components_sandbox		string:"ProjectileAmmoComponent,ArtilleryAmmoComponent,GrenadeAmmoComponent"
+			intercept_rates_sandbox					string:"60,20,24"
+			intercept_ranges_sandbox				string:"20,14,18"
 		}		
 	}
 	
@@ -26,7 +91,10 @@ EntityBlueprint
 		acid			"0.0"
 		energy			"1.0"
 		cryo			"3.0"
-		area			"1.5"	
+		area			"1.5"
+		gravity			"1.5"
+		radiation		"0.5"
+		sonic			"0.0"
 	}
 	
 	StunDataComponent
@@ -45,8 +113,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"3000"
-		health 						"3000"
+		max_health 					"3600"
+		health 						"3600"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -148,7 +216,21 @@ EntityBlueprint
 				key "default"
 			}
 		}		
-	}	
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"2.5"			// radius to spread fire
+		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_target_mask 		"prop"
+		spread_timer
+		{
+			limit "500000" 						// how often e                    ntity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"10000000000"	// how long it will burn in seconds
+	}
 	
 	EffectDesc
 	{		
@@ -386,7 +468,7 @@ EntityBlueprint
 						ammo_definition
 						{
 							friendly_fire	"pass"
-							collision_3d 	"building|building_small|ground_unit|hitbox"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"

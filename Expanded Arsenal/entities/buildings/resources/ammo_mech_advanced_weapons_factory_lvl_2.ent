@@ -14,7 +14,7 @@ EntityBlueprint
 		menu_icon			"gui/hud/building_icons/ammo_mech_advanced_weapons_factory_lvl2"
 		require 			"headquarters"
 		upgrade				"buildings/resources/ammo_mech_advanced_weapons_factory_lvl_3"			
-		order				"1"
+		order				"2"
 		buildable			"0"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
@@ -61,7 +61,7 @@ EntityBlueprint
 			{
 				resource 			"hazenite_flue"
 				value			 	"25"
-				attachment			"att_in_1"
+				attachment			"att_out_1"
 			}			
 		}
 		
@@ -69,15 +69,15 @@ EntityBlueprint
 		{
 			GameplayResource
 			{
-				resource	"ammo_manufacturing_advanced_weapons"
-				value		"2"
+				resource	"player_ammo_manufacturing_medium_caliber"
+				value		"1.2"
 				family		"manufacturing"
 			}
 
 			GameplayResource
 			{
-				resource	"advanced_consumables_manufacturing"
-				value		"1.25"
+				resource	"player_ammo_manufacturing_rift_charge"
+				value		"1.2"
 				family		"manufacturing"
 			}
 		}
@@ -147,24 +147,8 @@ EntityBlueprint
 	{		
 		EffectBaseBlueprints
 		{
-			"buildings/effects_medium_base"
-		}	
-	
-		EffectGroup
-		{
-			group "att_in_1"
-			enabled "1"				
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"								
-					bone "att_in_arrow"
-				}
-			}
-		}					
+			"buildings/resources/ammo_mech_advanced_weapons_factory"
+		}						
 
 		EffectGroup
 		{

@@ -1,0 +1,113 @@
+EntityBlueprint
+{
+	name  "units/ground/stregaros_crystal"
+	
+	base_blueprint "units/ground/stregaros_alpha"
+	
+	LuaDesc
+	{
+		script "lua/units/ground/stregaros_crystal.lua"
+		database
+		{
+			min_scale	float:"0.82"
+			max_scale	float:"0.87"
+		}			
+	}
+	
+	ResistanceComponent
+	{
+		physical		"0.33"
+		fire			"0.0"
+		acid			"3.0"
+		energy			"1.0"
+		cryo			"0.0"
+		area			"1.33"
+		gravity			"0.05"
+		radiation		"0.0"
+		sonic			"3.0"
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/stregaros_crystal.mesh"
+		material 	"units/ground/stregaros_crystal"		
+	}
+	
+	SelectableDesc
+	{
+		content "monster_name/stregaros_crystal"
+		can_activate 0
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_generic/death_crystal_blue_and_black_big"	
+					explosion_effect_scale 	"1.2"
+					part_prefix 			"meshes/units/ground/stregaros"
+					part_material 			"units/ground/stregaros_crystal"
+					part_effect 			"effects/enemies_generic/blood_trail_black_small"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}	
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/stregaros_base"
+		}	
+////////////////////////MISC/////////////////////////	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/death_crystal_blue_and_black_big"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_crystal_blue"	
+				}
+			}
+		}	
+	}		
+}
+

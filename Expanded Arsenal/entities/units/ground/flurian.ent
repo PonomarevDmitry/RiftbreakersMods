@@ -30,8 +30,9 @@ EntityBlueprint
 		energy			"1.0"
 		cryo			"0.5"
 		area			"0.5"
-		gravity			"2.0"
+		gravity			"1.5"
 		radiation		"3.0"
+		sonic			"0.0"
 	}
 
 	StunDataComponent
@@ -401,6 +402,21 @@ EntityBlueprint
 		
 		EffectGroup
 		{
+			group 	"time_damage_sonic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_sonic"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
 			group 	"stunned"
 			enabled "0"
 			Effects
@@ -412,7 +428,39 @@ EntityBlueprint
 					scale "0.8 0.8 0.8"
 				}
 			}
-		}			
+		}
+		
+		EffectGroup
+		{
+			group "intercept_on"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_on"		
+					bone "att_intercept_effect"					
+					scale	"0.8 0.8 0.8"
+				}				
+			}
+		}
+
+		EffectGroup
+		{
+			group "intercept_off"
+			enabled "0"				
+			
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_intercept_off"	
+					bone "att_intercept_effect"					
+					scale	"0.8 0.8 0.8"
+				}				
+			}
+		}
 	}
 	FxComponent
 	{
@@ -557,7 +605,7 @@ EntityBlueprint
 							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
-							collision_3d 			"building|building_small|ground_unit|hitbox|shield"
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
 
 							DamagePattern
 							{
@@ -600,7 +648,7 @@ EntityBlueprint
 	TriggerDesc
 	{
 		owner 		"parent"
-		collision 	"building|building_small|ground_unit|shield"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
 		tag 		"melee"
 
 		Filters
@@ -669,7 +717,7 @@ EntityBlueprint
 
 		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
 
-		collision_3d 				"ground_unit|world|world_blocker|hitbox|building|destructible|shield"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|building|ground_unit|hitbox|shield"
 
 		diameter					"1"
 

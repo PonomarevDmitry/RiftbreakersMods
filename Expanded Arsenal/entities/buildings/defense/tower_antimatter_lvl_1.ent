@@ -1,0 +1,613 @@
+EntityBlueprint
+{
+	name "buildings/defense/tower_antimatter"
+
+	BuildingDesc
+	{
+		name 				"tower_antimatter"
+		bp   				"buildings/defense/tower_antimatter"
+		category 			"defense_mod_3"
+		localization_id		"gui/hud/building_name/tower_antimatter"
+		description			"gui/hud/building_description/tower_antimatter"
+		menu_icon			"gui/hud/building_icons/tower_antimatter"
+		require 			"headquarters"
+		order				"5"
+		type				"tower"
+		overrides			"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		upgrade				"buildings/defense/tower_antimatter_lvl_2"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		check_connect		"1"
+		condition			"BIOME"	
+		condition_value		"magma,jungle,desert,acid,metallic,swamp,legacy_maps"		
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"500"
+					steel 		"250"
+					ai			"1"
+					palladium	"200"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"25"
+			}
+			GameplayResource
+			{
+				resource 	"plasma"
+				value 		"10"
+				attachment	"att_in_1"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_antimatter.lua"
+
+		database
+		{
+			cone_effect					string:"build_cone_1x1"
+			cone_effect_sell			string:"sell_small"
+			time_machine				int:"0"
+			antimatter_ball_mesh		string:"effects/weapons_energy/antimatter_ball_blue_base"
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"80"
+				destroy_state_change_effect_group 	"80_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"80_destroy"
+				destroyed_state_effect_group 		"80_state"
+				destrucion_level_name 				"80"
+
+			}
+			DestructionLevel
+			{
+				health 								"60"
+				destroy_state_change_effect_group 	"60_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"60_destroy"
+				destroyed_state_effect_group 		"60_state"
+				destrucion_level_name 				"60"
+			}
+			DestructionLevel
+			{
+				health 								"40"
+				destroy_state_change_effect_group 	"40_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"40_destroy"
+				destroyed_state_effect_group 		"40_state"
+				destrucion_level_name 				"40"
+			}
+			DestructionLevel
+			{
+				health 								"20"
+				destroy_state_change_effect_group 	"20_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"20_destroy"
+				destroyed_state_effect_group 		"20_state"
+				destrucion_level_name 				"20"
+			}
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_state_change_effect_group 	"0_transition"
+				destroy_comp_delay 					"0.6"
+				destroy_comp_event 					"default"
+				//destroyed_state_effect_group 		"0_state"
+			}			
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_portal_lvl_1.mesh"
+		material "buildings/defense/tower_antimatter_lvl_1"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_portal_lvl_1"
+	}
+	
+	TypeDesc
+	{
+		type "building|defense|tower"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "1.45"
+						half_height "2"
+
+						position
+						{
+							x "0.0"
+							y "1.45"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	4
+				y	4
+				z	4
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0.5"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility			"always"
+	}
+
+	FogOfWarRevealerComponentDesc
+	{
+		radius "40"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"2000"
+		explosion_min_power 	"1000"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+
+	TurretDesc
+	{
+		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit"
+		target_ignore "invisible|air_unit"
+		find_type	"farthest"
+		speed "300"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "5"
+			range_max "60"
+			aiming_range "70"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		check_target_visibility "1"
+		gravity_factor "80"
+		yaw "att_muzzle"
+		fog_of_war_filtering "1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 			"buildings/defense/tower_antimatter_projectile"
+		muzzle_flash_effect 	"effects/weapons_energy/heavy_artillery_muzzle"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "80_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"					
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "60_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"					
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "40_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"					
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					part_lifetime "3"
+				}	
+			}			
+			Pair
+			{
+				key "20_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"					
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					part_lifetime "3"
+				}
+			}		
+			Pair
+			{
+				key "default"			
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					//explosion_effect 		"effects/buildings_generic/explosion_building_small_01"	
+					part_physics_material   "debris_heavy"					
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					part_lifetime "3"
+				}
+			}	
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"	
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_lifetime "3"	
+				}
+
+				key "quicksand"
+			}				
+		}
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_medium_base"
+		}
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_omni_light"
+					bone "att_omni_light"
+					random_delay "3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_arrow"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_antimatter_projectile"
+
+	base_blueprint	"effects/weapons_energy/antimatter_ball_blue_base"
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility			"always"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/projectile_damage_emitter.lua"
+
+		database
+		{
+			active_time			float:"6"
+			object_scale		float:"0.5"
+		}
+
+	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{	
+				attachment "att_muzzle"
+			}
+		}
+		
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint	"buildings/defense/tower_antimatter_projectile_lightning"
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	""
+		on_world_hit_effect 	"effects/weapons_energy/tower_antimatter_projectile_explosion"
+		on_resisted_hit_effect 	""
+		hit_effect_direction	"up"
+		
+		friendly_fire			"pass"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+		
+		DamagePattern
+		{
+			area_damage_radius		"8"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"500"
+					type			"energy"
+				}
+			}
+		}
+	}
+	
+	SoundDesc
+	{
+		name	"effects/weapons_energy/antimatter_ball_blue_idle_sound"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/weapons_energy/tower_antimatter_projectile_explosion"
+					part_prefix 			"meshes/items/consumables/grenade_gravity"
+					part_material 			"projectiles/laser_blue"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_short_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}
+	}	
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/melee_slash_blue
+				update_bounds 		1
+				fade_out_time		0.50
+				uv_scroll			"0 -0.01"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.4 0.4"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.4 -0.4"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name	"buildings/defense/tower_antimatter_projectile_lightning"
+	
+	LightningBeamComponent
+	{
+		range 					"10"
+		on_enemy_hit_effect 	"effects/weapons_energy/lightning_gun_hit"
+		type_mask				"ground_unit|air_unit"
+		aiming_angle			"360"
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.05"
+		beam_count 				"3"
+	}
+}
