@@ -10,7 +10,7 @@ end
 function eraser_resources_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser_resources_tool", self.entity)
 
-    self.validVolumeResources = { "geothermal_vent", "acid_vent", "magma_vent", "supercoolant_vent" }
+    self.validVolumeResources = { "geothermal_vent", "acid_vent", "magma_vent", "supercoolant_vent", "morphium_vent" }
 end
 
 function eraser_resources_tool:SpawnCornerBlueprint()
