@@ -86,6 +86,8 @@ function picker_tool:FillSelectedBlueprints()
         ["magma_lifter"] = "buildings/resources/magma_lifter",
         ["supercoolant_siphon"] = "buildings/resources/supercoolant_siphon",
 
+        ["morphium_extractor"] = "buildings/resources/morphium_extractor",
+
         ["survival_acid_refinery"] = "buildings/resources/survival_acid_refinery",
         ["survival_magma_lifter"] = "buildings/resources/survival_magma_lifter",
         ["survival_supercoolant_siphon"] = "buildings/resources/survival_supercoolant_siphon",
@@ -97,6 +99,8 @@ function picker_tool:AddExpanedArsenalCampaignEntities( list )
     Insert( list, "acid_refinery" )
     Insert( list, "magma_lifter" )
     Insert( list, "supercoolant_siphon" )
+
+    Insert( list, "morphium_extractor" )
 end
 
 function picker_tool:AddExpanedArsenalSurvivalEntities( list )
