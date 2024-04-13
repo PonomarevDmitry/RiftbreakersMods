@@ -340,7 +340,7 @@ function detector:spawnReplacement()
 	EntityService:RemoveEntity( newEnt )
 end
 
-function detector:IsResourceValidForBiome( resourceName, isCampaignBiome, biomeName )
+function detector:IsResourceValidForBiome( resourceName, veinName, isCampaignBiome, biomeName, veinsList )
 
 	if ( not PlayerService:IsResourceUnlocked( resourceName ) ) then
 		return false
@@ -351,25 +351,32 @@ function detector:IsResourceValidForBiome( resourceName, isCampaignBiome, biomeN
 		return true
 	end
 
+	if ( veinName ~= "" and IndexOf( veinsList, veinName ) ~= nil ) then
+
+		return true
+	end
+
 	if ( biomeName == "jungle" ) then
 
-		return resourceName == "carbonium" or resourceName == "steel" or resourceName == "cobalt" or resourceName == "hazenite"
+		return resourceName == "hazenite"
 	elseif ( biomeName == "acid" ) then
 
-		return resourceName == "carbonium" or resourceName == "steel" or resourceName == "palladium" or resourceName == "rhodonite"
+		return resourceName == "rhodonite"
 	elseif ( biomeName == "desert" ) then
 
-		return resourceName == "carbonium" or resourceName == "steel" or resourceName == "uranium" or resourceName == "tanzanite"
+		return resourceName == "tanzanite"
 	elseif ( biomeName == "magma" ) then
 
-		return resourceName == "carbonium" or resourceName == "steel" or resourceName == "titanium" or resourceName == "ferdonite"
+		return resourceName == "ferdonite"
 	elseif ( biomeName == "metallic" ) then
 
-		return resourceName == "carbonium" or resourceName == "steel" or resourceName == "cobalt" or resourceName == "hazenite"
+		return resourceName == "hazenite"
 	else
 
 		return true
 	end
+
+	return false
 end
 
 function detector:GetTreasureList()
@@ -377,16 +384,66 @@ function detector:GetTreasureList()
 	local isCampaignBiome = MissionService:IsCampaignBiome()
 	local biomeName = MissionService:GetCurrentBiomeName()
 
+	local missionDefName = CampaignService:GetCurrentMissionDefName()
+
+	local veinsList = {}
+
+	local missionDef = ResourceManager:GetResource("MissionDef", missionDefName)
+	if ( missionDef ~= nil )then
+		
+		local missionDefRef = reflection_helper( missionDef )
+
+		if ( missionDefRef.random_resources ~= nil ) then
+
+			local random_resources = missionDefRef.random_resources
+
+			for i=1,random_resources.count do
+
+				local resourceVolume = random_resources[i]
+
+				if ( resourceVolume ~= nil and resourceVolume.resource ~= nil and resourceVolume.resource ~= "" ) then
+
+					if ( IndexOf( veinsList, resourceVolume.resource ) == nil ) then
+
+						Insert( veinsList, resourceVolume.resource )
+					end
+				end
+			end
+		end
+
+		if ( missionDefRef.starting_resources ~= nil ) then
+
+			local starting_resources = missionDefRef.starting_resources
+
+			for i=1,starting_resources.count do
+
+				local resourceVolume = starting_resources[i]
+
+				if ( resourceVolume ~= nil and resourceVolume.resource ~= nil and resourceVolume.resource ~= "" ) then
+
+					if ( IndexOf( veinsList, resourceVolume.resource ) == nil ) then
+
+						Insert( veinsList, resourceVolume.resource )
+					end
+				end
+			end
+		end
+	end
+
+	local currentListString = table.concat( veinsList, ", " )
+
+	--LogService:Log("biomeName " .. biomeName .. " missionDefName " .. missionDefName .. " currentListString " .. currentListString )
+
 	local treasureList = {}
 
-	if ( self:IsResourceValidForBiome( "carbonium", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "carbonium", "carbon_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
 		Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish_ore")
 		Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish")
 		Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish")
 	end
 
-	if ( self:IsResourceValidForBiome( "steel", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "steel", "iron_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
 		Insert(treasureList, "items/loot/treasures/treasure_steel_replenish_ore")
 		Insert(treasureList, "items/loot/treasures/treasure_steel_replenish")
@@ -397,7 +454,7 @@ function detector:GetTreasureList()
 
 
 
-	if ( self:IsResourceValidForBiome( "cobalt", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "cobalt", "cobalt_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_cobalt" )
 
@@ -409,7 +466,7 @@ function detector:GetTreasureList()
 		end
 	end
 
-	if ( self:IsResourceValidForBiome( "titanium", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "titanium", "titanium_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_titanium" )
 
@@ -421,7 +478,7 @@ function detector:GetTreasureList()
 		end
 	end
 
-	if ( self:IsResourceValidForBiome( "palladium", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "palladium", "palladium_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_palladium" )
 
@@ -433,7 +490,7 @@ function detector:GetTreasureList()
 		end
 	end
 
-	if ( self:IsResourceValidForBiome( "uranium", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "uranium", "uranium_ore_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_uranium" )
 
@@ -449,7 +506,7 @@ function detector:GetTreasureList()
 
 
 
-	if ( self:IsResourceValidForBiome( "rhodonite", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "rhodonite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_rhodonite" )
 
@@ -460,7 +517,7 @@ function detector:GetTreasureList()
 		end
 	end
 
-	if ( self:IsResourceValidForBiome( "tanzanite", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "tanzanite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_tanzanite" )
 
@@ -471,7 +528,7 @@ function detector:GetTreasureList()
 		end
 	end
 
-	if ( self:IsResourceValidForBiome( "ferdonite", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "ferdonite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_ferdonite" )
 
@@ -482,7 +539,7 @@ function detector:GetTreasureList()
 		end
 	end
 
-	if ( self:IsResourceValidForBiome( "hazenite", isCampaignBiome, biomeName ) ) then
+	if ( self:IsResourceValidForBiome( "hazenite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
 		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_hazenite" )
 
@@ -492,6 +549,10 @@ function detector:GetTreasureList()
 			Insert(treasureList, "items/loot/treasures/treasure_hazenite_replenish")
 		end
 	end
+
+	local treasureListString = table.concat( treasureList, ", " )
+
+	--LogService:Log("treasureListString " .. treasureListString )
 
 	return treasureList
 end
