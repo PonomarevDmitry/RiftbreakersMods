@@ -243,7 +243,7 @@ end
 
 function turrets_cluster:AddToResult(result, indexX, indexZ)
 
-    local delta = 2
+    local delta = 4
 
     local maxIndex = math.max(indexX, indexZ)
     local totalIndex = indexX + indexZ
