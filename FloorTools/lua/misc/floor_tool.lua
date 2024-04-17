@@ -17,6 +17,7 @@ end
 function floor_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
+    self.childPos = {}
 
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "RotateSelectorRequest",       "OnRotateSelectorRequest" )
@@ -72,7 +73,15 @@ function floor_tool:InitializeValues()
 
     self:FillBuildingDesc()
 
+    self:SpawnCornerBlueprint()
+
     self:SpawnGhostFloorEntities()
+end
+
+function floor_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
 end
 
 function floor_tool:CheckCellCount( cellCount )
@@ -183,6 +192,9 @@ function floor_tool:SpawnGhostFloorEntities()
 
     EntityService:SetScale( self.entity, currentSize, 1.0, currentSize )
 
+    self:SetChildrenPosition()
+    self:RescaleChild()
+
     local currentTransform = EntityService:GetWorldTransform( self.entity )
     local orientation = currentTransform.orientation
 
@@ -224,6 +236,39 @@ function floor_tool:SpawnGhostFloorEntities()
     end
 
     self:UpdateMarker(cellCount)
+end
+
+function floor_tool:RescaleChild()
+
+    local scale = EntityService:GetScale( self.entity )
+
+    scale.x = 1.0 / scale.x
+    scale.z  = 1.0 / scale.z
+
+    if ( self.corners ~= nil ) then
+        EntityService:SetScale( self.corners,  scale.x, scale.y, scale.z )
+    end
+end
+
+function floor_tool:SetChildrenPosition()
+
+    local boundsSize = { x=1.0, y=1.0, z=1.0 }
+
+    local diagonal = VectorMulByNumber(boundsSize , self.currentSize)
+    diagonal.y = 1
+
+    local children = EntityService:GetChildren( self.corners, true )
+    for child in Iter( children ) do
+
+        local childPos = EntityService:GetLocalPosition(child)
+        if ( self.childPos[child] == nil ) then
+            self.childPos[child] = childPos
+        else
+            childPos = self.childPos[child]
+        end
+        childPos = VectorMul(childPos, diagonal)
+        EntityService:SetPosition(child,childPos)
+    end
 end
 
 function floor_tool:UpdateMarker(cellCount)
