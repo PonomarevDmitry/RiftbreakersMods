@@ -20,21 +20,46 @@ local function GetPlayerForEntity( entity )
     return 0
 end
 
-function FindFarthestEntity( source, entities )
+function FindFarthestEntity( source, entities, pickup_radius )
     local closest = {
         entity = INVALID_ID,
-        distance = nil
+        count = -1
     };
 
     for entity in Iter( entities ) do
-        local distance = EntityService:GetDistanceBetween( source, entity );
-        if closest.entity == INVALID_ID or distance > closest.distance then
+
+        local count = GetCountLoot(source, entity, entities, pickup_radius)
+
+        if closest.entity == INVALID_ID or count > closest.count then
             closest.entity = entity;
-            closest.distance = distance;
+            closest.count = count;
         end
     end
 
     return closest.entity;
+end
+
+function GetCountLoot(source, target, entities, pickup_radius)
+
+    local result = 0
+
+    for entity in Iter( entities ) do
+
+        if ( target == entity ) then
+            goto continue
+        end
+
+        local distance, closestPosition = GetDistanceAndClosestPositionToLineSegment(entity, source, target)
+
+        if ( distance <= pickup_radius ) then
+
+            result = result + 1
+        end
+
+        ::continue::
+    end
+
+    return result
 end
 
 function loot_collector_drone:FillInitialParams()
@@ -186,7 +211,7 @@ function loot_collector_drone:FindActionTarget()
 
     local entities = FindService:FindEntitiesByPredicateInRadius( pointEntity, self.search_radius, self.predicate );
 
-    local item = FindFarthestEntity( owner, entities )
+    local item = FindFarthestEntity( self.entity, entities, self.pickup_radius )
     local target = EntityService:GetParent( item )
     if target ~= INVALID_ID then
         if item ~= INVALID_ID then
