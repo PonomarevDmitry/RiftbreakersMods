@@ -1,7 +1,28 @@
 
 EntityBlueprint
 {
-	name  			"units/drones/drone_player_loot_collector_standard"
+	name  			"units/drones/drone_loot_collector_picker"
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"loot"
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "1.0"
+				y "100"
+				z "1.0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/drones/drone_loot_collector"
 	base_blueprint 	"units/drones/drone_base"
 
 
@@ -10,16 +31,14 @@ EntityBlueprint
 		template_name "drone"
 		params
 		{
-			hover_height			float:"1"
-			hover_min_height		float:"7"
-
-			owner_movement							string:"follow"
-			owner_movement_speed_near       		float:"1.5"
-			owner_movement_speed_far          	 	float:"1.5"
+			hover_height							float:"1"
+			hover_min_height						float:"7"
+			owner_movement_speed_near       		float:"1"
+			owner_movement_speed_far          	 	float:"1"
 			owner_movement_trigger_distance 		float:"12.0"
-			
+			owner_movement							string:"land"
 			target_movement							string:"hover"
-			target_search_mode  					string:"always"
+			target_search_mode						string:"always"
 		}
 	}
 
@@ -93,22 +112,4 @@ EntityBlueprint
 			}
 		}
 	}
-}
-
-EntityBlueprint
-{
-	name				"units/drones/drone_player_loot_collector_advanced"
-	base_blueprint		"units/drones/drone_player_loot_collector_standard"
-}
-
-EntityBlueprint
-{
-	name				"units/drones/drone_player_loot_collector_superior"
-	base_blueprint		"units/drones/drone_player_loot_collector_standard"
-}
-
-EntityBlueprint
-{
-	name				"units/drones/drone_player_loot_collector_extreme"
-	base_blueprint		"units/drones/drone_player_loot_collector_standard"
 }
