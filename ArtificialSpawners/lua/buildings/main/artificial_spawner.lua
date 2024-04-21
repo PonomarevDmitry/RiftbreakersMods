@@ -213,7 +213,7 @@ function artificial_spawner:GetDefaultBiomeBlueprint()
 
     local biomeName = MissionService:GetCurrentBiomeName()
 
-    local result = "items/artificial_spawner_waves/" .. biomeName .. "_standart"
+    local result = "items/artificial_spawner_waves/" .. biomeName .. "_standard"
 
     return result
 end
