@@ -236,6 +236,15 @@ function artificial_spawner:OnBuildingStart()
     self:PopulateSpecialActionInfo()
 end
 
+function artificial_spawner:OnBuildingEnd()
+
+    if ( building.OnBuildingEnd ) then
+        building.OnBuildingEnd(self)
+    end
+
+    self:PopulateSpecialActionInfo()
+end
+
 function artificial_spawner:OnEnterBuildMenuEvent( evt )
 
     self.showMenu = 1
@@ -395,6 +404,28 @@ function artificial_spawner:PopulateSpecialActionInfo()
 
                     slotsCount = slotsCount + 1
                 end
+            end
+        end
+    end
+
+    if ( slotsCount == 1 ) then
+
+        local defaultBiomeBlueprint = self:GetDefaultBiomeBlueprint();
+
+        local blueprint = ResourceManager:GetBlueprint( defaultBiomeBlueprint )
+        if ( blueprint ~= nil ) then
+
+            local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
+            if ( inventoryItemComponent ~= nil ) then
+
+                local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
+
+                menuDB:SetInt("slot_visible_" .. tostring(slotsCount), 1)
+                menuDB:SetString("slot_icon_" .. tostring(slotsCount), inventoryItemComponentRef.icon)
+                menuDB:SetString("slot_name_" .. tostring(slotsCount), inventoryItemComponentRef.name)
+                menuDB:SetInt("slot_rarity_" .. tostring(slotsCount), inventoryItemComponentRef.rarity)
+
+                slotsCount = slotsCount + 1
             end
         end
     end
