@@ -1,0 +1,140 @@
+EntityBlueprint
+{
+	name					"buildings/tools/artificial_spawner_slots_picker"
+
+	BuildingDesc
+	{
+		name				"artificial_spawner_slots_picker"
+		bp					"buildings/tools/artificial_spawner_slots_picker"
+		ghost_bp			"buildings/tools/artificial_spawner_slots_picker_ghost"
+		category			"main"
+
+		localization_id		"gui/hud/building_name/artificial_spawner_slots_picker_tool"
+		description			"gui/hud/building_description/artificial_spawner_slots_picker_tool"
+		menu_icon			"gui/hud/tools_icons/artificial_spawner_slots_picker_tool"
+
+		order				"100.125"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"artificial_spawner"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/artificial_spawner_slots_picker_ghost"
+
+	BuildingDesc
+	{
+		name				"artificial_spawner_slots_picker_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"main"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/artificial_spawner_slots_picker_tool.lua"
+		database
+		{
+			action					string:"artificial_spawner_slots_picker_tool"
+			buildingLowUpgrade		string:"artificial_spawner"
+
+			marker_name				string:"misc/marker_selector_artificial_spawner_slots_picker_tool"
+
+			config_name				string:"$artificial_spawner_slots_picker_tool.selectedslots"
+			config_list_name		string:"$artificial_spawner_slots_picker_tool.last_selected_slots"
+
+			config_list_length		int:"40"
+
+			current_localization	string:"gui/hud/artificial_spawner_slots_tools/current_slots"
+			last_localization		string:"gui/hud/artificial_spawner_slots_tools/last_slots"
+
+			item_type				string:"artificial_spawner_wave"
+
+			next_tool				string:"buildings/tools/artificial_spawner_slots_replacer"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/artificial_spawner_slots_replacer"
+
+	BuildingDesc
+	{
+		name				"artificial_spawner_slots_replacer"
+		bp					"buildings/tools/artificial_spawner_slots_replacer"
+		ghost_bp			"buildings/tools/artificial_spawner_slots_replacer_ghost"
+		category			"main"
+
+		localization_id		"gui/hud/building_name/artificial_spawner_slots_replacer_tool"
+		description			"gui/hud/building_description/artificial_spawner_slots_replacer_tool"
+		menu_icon			"gui/hud/tools_icons/artificial_spawner_slots_replacer_tool"
+
+		order				"100.125"
+		type				"artificial_spawner_slots_replacer"
+
+		buildable			"0"
+		building_group		"artificial_spawner"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/artificial_spawner_slots_replacer_ghost"
+
+	BuildingDesc
+	{
+		name				"artificial_spawner_slots_replacer_ghost"
+		buildable			"0"
+		type				"artificial_spawner_slots_replacer"
+		category			"main"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/artificial_spawner_slots_replacer_tool.lua"
+		database
+		{
+			action					string:"artificial_spawner_slots_replacer_tool"
+			buildingLowUpgrade		string:"artificial_spawner"
+
+			marker_name				string:"misc/marker_selector_artificial_spawner_slots_replacer_tool"
+
+			config_name				string:"$artificial_spawner_slots_picker_tool.selectedslots"
+			config_list_name		string:"$artificial_spawner_slots_picker_tool.last_selected_slots"
+
+			missing_localization	string:"gui/hud/artificial_spawner_slots_tools/mods_not_selected"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
