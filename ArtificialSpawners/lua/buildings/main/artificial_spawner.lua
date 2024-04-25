@@ -192,18 +192,30 @@ function artificial_spawner:GetWavesTemplatesArray()
             local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-                local blueprintName = EntityService:GetBlueprintName(modItem)
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
 
-                Insert(result, blueprintName)
+                if ( blueprintDatabase and blueprintDatabase:HasString("spawner_blueprint") ) then
+
+                    local blueprintName = blueprintDatabase:GetString("spawner_blueprint")
+
+                    Insert(result, blueprintName)
+                end
             end
         end
     end
 
     if ( #result == 0 ) then
 
-        local defaultBiomeBlueprint = self:GetDefaultBiomeBlueprint();
+        local defaultBiomeBlueprint = self:GetDefaultBiomeBlueprint()
 
-        Insert(result, defaultBiomeBlueprint)
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( defaultBiomeBlueprint )
+
+        if ( blueprintDatabase and blueprintDatabase:HasString("spawner_blueprint") ) then
+
+            local blueprintName = blueprintDatabase:GetString("spawner_blueprint")
+
+            Insert(result, blueprintName)
+        end
     end
 
     return result
