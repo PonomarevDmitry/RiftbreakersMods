@@ -161,7 +161,7 @@ function artificial_spawner_slots_picker_tool:AddedToSelection( entity )
 end
 
 function artificial_spawner_slots_picker_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function artificial_spawner_slots_picker_tool:FilterSelectedEntities( selectedEntities )
@@ -172,7 +172,7 @@ function artificial_spawner_slots_picker_tool:FilterSelectedEntities( selectedEn
         return entities
     end
 
-    for entity in Iter(selectedEntities ) do
+    for entity in Iter( selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
 
