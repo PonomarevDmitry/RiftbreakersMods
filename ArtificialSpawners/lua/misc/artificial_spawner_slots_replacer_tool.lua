@@ -182,21 +182,35 @@ function artificial_spawner_slots_replacer_tool:GetSlotsValues(equipmentComponen
 
         local slot = slots[i]
 
+        local blueprintName = ""
+
         if ( slot ) then
 
             local modItem = ItemService:GetEquippedItem( entity, slot.name )
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-                local blueprintName = EntityService:GetBlueprintName( modItem )
-
-                Insert(result, blueprintName)
+                blueprintName = EntityService:GetBlueprintName( modItem )
             end
         end
+
+        Insert(result, blueprintName)
     end
 
     if ( result[1] == "" and result[2] == "" and result[3] == "" ) then
-        return nil
+
+        local defaultBiomeBlueprint = self:GetDefaultBiomeBlueprint()
+
+        result[1] = defaultBiomeBlueprint
     end
+
+    return result
+end
+
+function artificial_spawner_slots_replacer_tool:GetDefaultBiomeBlueprint()
+
+    local biomeName = MissionService:GetCurrentBiomeName()
+
+    local result = "items/artificial_spawner_waves/" .. biomeName .. "_standard"
 
     return result
 end
