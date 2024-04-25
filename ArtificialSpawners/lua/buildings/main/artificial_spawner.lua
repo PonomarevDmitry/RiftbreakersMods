@@ -76,6 +76,7 @@ function artificial_spawner:SpawnWaves()
     self.timeoutTime = GetLogicTime() + 5
 
     local aggressiveRadius = self.data:GetFloatOrDefault( "aggressive_radius", 20 )
+    local waveEffect = self.data:GetStringOrDefault( "wave_started_effect", "" ) or ""
 
     local blueprints = self:GetWavesTemplatesArray()
 
@@ -92,6 +93,11 @@ function artificial_spawner:SpawnWaves()
             local waveAggressiveRadius = blueprintDatabase:GetFloatOrDefault( "aggressive_radius", 20 )
 
             aggressiveRadius = math.max(aggressiveRadius, waveAggressiveRadius)
+        end
+
+        if ( waveEffect == "" and blueprintDatabase:HasString("wave_started_effect") ) then
+
+            waveEffect = blueprintDatabase:GetString( "wave_started_effect" ) or ""
         end
 
         if ( ResourceManager:ResourceExists( "FlowGraphTemplate", waveLogic ) ) then
@@ -125,7 +131,7 @@ function artificial_spawner:SpawnWaves()
     
     local delay = self.data:GetFloatOrDefault( "delay", 0 )
 
-    local waveEffect = self.data:GetStringOrDefault( "wave_started_effect", "" )
+    
     if ( waveEffect ~= "" ) then
         EffectService:SpawnEffect(self.entity, waveEffect);
     end
