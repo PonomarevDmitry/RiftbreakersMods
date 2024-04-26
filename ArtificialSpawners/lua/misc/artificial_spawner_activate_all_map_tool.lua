@@ -10,9 +10,21 @@ end
 function artificial_spawner_activate_all_map_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_artificial_spawner_activate_all_map_tool", self.entity)
 
+    self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
+
     self.scaleMap = {
         1,
     }
+
+    local world_min = MissionService:GetWorldBoundsMin();
+    local world_max = MissionService:GetWorldBoundsMax();
+
+    world_min.y = -100.0
+    world_max.y = 100.0
+
+    self.allSpawners = FindService:FindEntitiesByBlueprintInBox("buildings/main/artificial_spawner", world_min, world_max )
+
+    self.popupShown = false
 end
 
 function artificial_spawner_activate_all_map_tool:GetScaleFromDatabase()
@@ -27,15 +39,33 @@ end
 
 function artificial_spawner_activate_all_map_tool:FindEntitiesToSelect( selectorComponent )
 
-    local possibleSelectedEnts = {}
+    return self.allSpawners
+end
 
-    return possibleSelectedEnts
+function artificial_spawner_activate_all_map_tool:OnUpdate()
+
+    for entity in Iter( self.selectedEntities ) do
+
+        local skinned = EntityService:IsSkinned(entity)
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+        end
+    end
 end
 
 function artificial_spawner_activate_all_map_tool:AddedToSelection( entity )
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+    end
 end
 
 function artificial_spawner_activate_all_map_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function artificial_spawner_activate_all_map_tool:OnRotate()
@@ -43,7 +73,32 @@ end
 
 function artificial_spawner_activate_all_map_tool:OnActivateSelectorRequest()
 
+    if ( #self.allSpawners == 0 ) then
+        return
+    end
 
+    if( self.popupShown == false ) then
+
+        self.popupShown = true
+
+        GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/artificial_spawner_slots_tools/activate_all_artificial_spawners")
+        self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+    end
+end
+
+
+function artificial_spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt)
+
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+    self.popupShown = false
+
+    if ( evt:GetResult() == "button_yes" ) then
+
+        for entity in Iter( self.allSpawners ) do
+
+            QueueEvent( "InteractWithEntityRequest", entity, self.player )
+        end
+    end
 end
 
 return artificial_spawner_activate_all_map_tool
