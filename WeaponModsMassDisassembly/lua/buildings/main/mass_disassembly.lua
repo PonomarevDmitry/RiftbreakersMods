@@ -117,7 +117,7 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
     end
 
 
-    EffectService:SpawnEffect(self.entity, "effects/enemies_generic/wave_start")
+    EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
 end
 
 function mass_disassembly:GetModsToDisassebly()
