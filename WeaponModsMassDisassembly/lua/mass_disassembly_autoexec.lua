@@ -1,4 +1,5 @@
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     BuildingService:UnlockBuilding("buildings/main/mass_disassembly")
+    BuildingService:UnlockBuilding("buildings/main/mass_disassembly_enable_mods")
 end)

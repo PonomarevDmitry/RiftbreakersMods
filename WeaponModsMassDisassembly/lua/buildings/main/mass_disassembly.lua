@@ -115,6 +115,9 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
             EntityService:RemoveEntity( itemEntity )
         end
     end
+
+
+    EffectService:SpawnEffect(self.entity, "effects/enemies_generic/wave_start")
 end
 
 function mass_disassembly:GetModsToDisassebly()
