@@ -15,8 +15,6 @@ function artificial_spawner:OnInit()
 
     ItemService:SetInvisible(self.entity, true)
 
-    self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
-
     self:RegisterEventHandlers()
 
     self:CreateMenuEntity()
@@ -52,6 +50,8 @@ function artificial_spawner:OnLoad()
 end
 
 function artificial_spawner:RegisterEventHandlers()
+
+    self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
