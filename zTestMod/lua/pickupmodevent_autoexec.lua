@@ -103,7 +103,7 @@ RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
 
                             --LogService:Log( " PickedUpItemEvent Mod destroyed resource "  .. tostring(researchCost.resource) .. " count " .. tostring(researchCost.count) )
 
-                            PlayerService:AddResourceAmount( researchCost.resource, researchCost.count )
+                            PlayerService:AddResourceAmount( researchCost.resource, researchCost.count / 2 )
                         end
                     end
                 end
