@@ -17,8 +17,6 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
 
     local player = event:GetOwner()
 
-    LogService:Log("OnInteractWithEntityRequest player " .. tostring(player) .. " playerBlueprint " .. EntityService:GetBlueprintName(player) )
-
     local hashItems,hasItems = self:GetModsToDisassebly()
     if ( hasItems == false ) then
         return
@@ -27,8 +25,6 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
 
     local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
     if ( inventoryComponent == nil ) then
-
-        LogService:Log("OnInteractWithEntityRequest inventoryComponent == nil")
         return
     end
 
@@ -47,8 +43,6 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
     end
 
     if ( inventoryComponentRef == nil or inventoryComponentRef.inventory == nil or inventoryComponentRef.inventory.items == nil ) then
-
-        LogService:Log("OnInteractWithEntityRequest inventoryComponentRef == nil")
         return
     end
 
@@ -73,10 +67,16 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
             goto continue
         end
 
+        if ( IndexOf( hashItems[itemBlueprintName], itemEntity.id ) ~= nil ) then
+            goto continue
+        end
+
         Insert(hashItems[itemBlueprintName], itemEntity.id)
 
         ::continue::
     end
+
+    local resourcesValues = {}
 
     for itemBlueprintName, itemList in pairs( hashItems ) do
 
@@ -99,9 +99,11 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
 
                             if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
 
-                                LogService:Log( " DisassemblyWeaponModsByBlueprint Mod destroyed resource "  .. tostring(researchCost.resource) .. " count " .. tostring(researchCost.count * #itemList) )
+                                local sum = (researchCost.count / 2) * #itemList
 
-                                PlayerService:AddResourceAmount( researchCost.resource, researchCost.count * #itemList )
+                                resourcesValues[researchCost.resource] = resourcesValues[researchCost.resource] or 0
+
+                                resourcesValues[researchCost.resource] = resourcesValues[researchCost.resource] + sum
                             end
                         end
                     end
@@ -109,13 +111,15 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
             end
         end
 
-        LogService:Log("DisassemblyWeaponModsByBlueprint itemList " .. table.concat(itemList, ", "))
-
         for itemEntity in Iter(itemList) do
             EntityService:RemoveEntity( itemEntity )
         end
     end
 
+    for resource, sum in pairs( resourcesValues ) do
+
+        PlayerService:AddResourceAmount( resource, sum )
+    end
 
     EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
 end
@@ -139,8 +143,6 @@ function mass_disassembly:GetModsToDisassebly()
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
                 local blueprintName = EntityService:GetBlueprintName(modItem)
-
-                LogService:Log("GetModsToDisassebly modItem " .. tostring(modItem) .. " modItemBlueprintName " .. blueprintName )
 
                 hashItems[blueprintName] = hashItems[blueprintName] or {}
 
