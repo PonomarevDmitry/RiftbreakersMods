@@ -132,7 +132,11 @@ function artificial_spawner_slots_replacer_tool:FilterSelectedEntities( selected
 
     local entities = {}
 
-    for entity in Iter(selectedEntities ) do
+    if ( self.SelectedSlotsBlueprints == nil or self.SelectedSlotsBlueprints == "") then
+        return entities
+    end
+
+    for entity in Iter( selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
 
