@@ -2,18 +2,18 @@ local building = require("lua/buildings/building.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/string_utils.lua")
 
-class 'mass_disassembly_lower' ( building )
+class 'mass_disassembly_equal_and_lower' ( building )
 
-function mass_disassembly_lower:__init()
+function mass_disassembly_equal_and_lower:__init()
     building.__init(self,self)
 end
 
-function mass_disassembly_lower:OnInit()
+function mass_disassembly_equal_and_lower:OnInit()
 
     self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 end
 
-function mass_disassembly_lower:OnInteractWithEntityRequest( event )
+function mass_disassembly_equal_and_lower:OnInteractWithEntityRequest( event )
 
     local player = event:GetOwner()
 
@@ -124,7 +124,7 @@ function mass_disassembly_lower:OnInteractWithEntityRequest( event )
     EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
 end
 
-function mass_disassembly_lower:GetModsToDisassebly()
+function mass_disassembly_equal_and_lower:GetModsToDisassebly()
 
     local hasItems = false
     local hashItems = {}
@@ -167,7 +167,7 @@ function mass_disassembly_lower:GetModsToDisassebly()
     return hashItems, hasItems
 end
 
-function mass_disassembly_lower:GetAdditionalBlueptints(itemBlueprint)
+function mass_disassembly_equal_and_lower:GetAdditionalBlueptints(itemBlueprint)
 
     local result = {}
 
@@ -190,4 +190,4 @@ function mass_disassembly_lower:GetAdditionalBlueptints(itemBlueprint)
     return result
 end
 
-return mass_disassembly_lower
+return mass_disassembly_equal_and_lower
