@@ -29,9 +29,12 @@ function artificial_spawner_slots_replacer_all_map_tool:OnInit()
 
     self.configName = self.data:GetString("config_name")
     self.configNameList = self.data:GetString("config_list_name")
+    self.configNameListLength = self.data:GetInt("config_list_length")
 
     self.missing_localization = self.data:GetString("missing_localization")
     self.buildingLowUpgrade = self.data:GetStringOrDefault("buildingLowUpgrade", "") or ""
+    self.current_localization = self.data:GetString("current_localization")
+    self.last_localization = self.data:GetString("last_localization")
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -44,11 +47,24 @@ function artificial_spawner_slots_replacer_all_map_tool:OnInit()
         self.SelectedSlotsBlueprints = self:GetSlotsArrayFromString(currentValue)
     end
 
+    self.modeSelect = 0
+    self.modeSelectLast = 100
+
+    self.defaultModesArray = { self.modeSelect }
+
+    self.modeValuesArray = self:FillLastSlotssList(self.defaultModesArray, self.modeSelectLast, self.selector)
+
+    self.selectedMode = self.modeSelect
+
     self:UpdateMarker()
 end
 
 function artificial_spawner_slots_replacer_all_map_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
 end
 
 function artificial_spawner_slots_replacer_all_map_tool:SpawnCornerBlueprint()
@@ -92,7 +108,22 @@ function artificial_spawner_slots_replacer_all_map_tool:UpdateMarker()
     markerDB:SetString("message_text", "")
     markerDB:SetInt("menu_visible", 1)
 
-    if ( self.SelectedSlotsBlueprints ~= nil) then
+    if ( self.selectedMode >= self.modeSelectLast ) then
+
+        local indexSlots = self.selectedMode - self.modeSelectLast
+
+        local slotsNumber = #self.lastSelectedSlotssArray - indexSlots
+
+        self.lastSelectedSlots = self.lastSelectedSlotssArray[slotsNumber]
+
+        self:SetSlotsIcons(self.lastSelectedSlots, markerDB)
+
+        local messageText = "${" .. self.last_localization .. "}: " .. tostring(indexSlots + 1)
+
+        markerDB:SetString("message_text", messageText)
+        markerDB:SetInt("menu_visible", 1)
+
+    elseif ( self.SelectedSlotsBlueprints ~= nil) then
 
         self:SetSlotsIcons(self.SelectedSlotsBlueprints, markerDB)
 
@@ -173,6 +204,10 @@ end
 function artificial_spawner_slots_replacer_all_map_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
+
+    if ( self.selectedMode ~= self.modeSelect ) then
+        return entities
+    end
 
     if ( self.SelectedSlotsBlueprints == nil or self.SelectedSlotsBlueprints == "") then
         return entities
@@ -295,6 +330,21 @@ function artificial_spawner_slots_replacer_all_map_tool:IsEqualSlots(slots1, slo
     return true
 end
 
+function artificial_spawner_slots_replacer_all_map_tool:IsFullEqualSlots(slots1, slots2)
+
+    for i=1,3 do
+
+        local slot1 = slots1[i] or ""
+        local slot2 = slots2[i] or ""
+
+        if ( slot1 ~= slot2 ) then
+            return false
+        end
+    end
+
+    return true
+end
+
 function artificial_spawner_slots_replacer_all_map_tool:AddedToSelection( entity )
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
@@ -308,10 +358,19 @@ function artificial_spawner_slots_replacer_all_map_tool:RemovedFromSelection( en
     EntityService:RemoveMaterial( entity, "selected" )
 end
 
-function artificial_spawner_slots_replacer_all_map_tool:OnRotate()
-end
-
 function artificial_spawner_slots_replacer_all_map_tool:OnActivateSelectorRequest()
+
+    if ( self.selectedMode >= self.modeSelectLast ) then
+
+        if ( self:ChangeSelector(self.lastSelectedSlots) ) then
+
+            return
+        end
+
+        return
+    end
+
+
 
     if ( #self.selectedEntities == 0 ) then
         return
@@ -329,7 +388,6 @@ function artificial_spawner_slots_replacer_all_map_tool:OnActivateSelectorReques
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
     end
 end
-
 
 function artificial_spawner_slots_replacer_all_map_tool:OnGuiPopupResultEvent( evt)
 
@@ -388,6 +446,201 @@ function artificial_spawner_slots_replacer_all_map_tool:OnGuiPopupResultEvent( e
 
         ::continueEntity::
     end
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:ChangeSelector(slotsValues)
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    local value = table.concat(slotsValues, ",")
+
+    selectorDB:SetString( self.configName, value )
+
+    if ( self.SelectedSlotsBlueprints ~= nil ) then
+
+        self:AddSlotsToLastList(self.SelectedSlotsBlueprints, selectorDB)
+    end
+
+    if ( slotsValues ~= nil ) then
+
+        self:AddSlotsToLastList(slotsValues, selectorDB)
+    end
+
+    self.SelectedSlotsBlueprints = slotsValues
+
+    self.modeValuesArray = self:FillLastSlotssList(self.defaultModesArray, self.modeSelectLast, self.selector)
+
+    self.selectedMode = self.modeSelect
+
+    self:UpdateMarker()
+
+    return true
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:FillLastSlotssList(defaultModesArray, modeSelectLast, selector)
+
+    local selectorDB = EntityService:GetDatabase( selector )
+
+    self.lastSelectedSlotssArray = self:GetCurrentList(self.configNameList, selectorDB)
+
+    if ( self.SelectedSlotsBlueprints ~= nil ) then
+
+        local index = self:GetSlotsIndexOf( self.lastSelectedSlotssArray, self.SelectedSlotsBlueprints )
+        if ( index ~= nil ) then
+
+            table.remove( self.lastSelectedSlotssArray, index )
+        end
+    end
+
+    local modeValuesArray = Copy(defaultModesArray)
+
+    for index=0,#self.lastSelectedSlotssArray-1 do
+
+        Insert(modeValuesArray, (modeSelectLast + index))
+    end
+
+    return modeValuesArray
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:GetSlotsIndexOf( array, slots )
+
+    for index, value in ipairs( array ) do
+
+        if ( self:IsFullEqualSlots(value, slots) ) then
+            return index
+        end
+    end
+
+    return nil
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:GetCurrentList(parameterName, selectorDB)
+
+    local currentListString = self:GetCurrentListString(parameterName, selectorDB)
+
+    local currentListArray = Split( currentListString, "|" )
+
+    local result = {}
+
+    for slotsString in Iter( currentListArray ) do
+
+        local slotsArray = self:GetSlotsArrayFromString(slotsString)
+
+        Insert(result, slotsArray)
+    end
+
+    return result
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:GetCurrentListString(parameterName, selectorDB)
+
+    local currentList = ""
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        currentList = selectorDB:GetStringOrDefault( parameterName, "" ) or ""
+    end
+
+    return currentList
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:AddSlotsToLastList(slots, selectorDB)
+
+    if ( slots == nil ) then
+        return
+    end
+
+    local currentListArray = self:GetCurrentList(self.configNameList, selectorDB)
+
+    if ( slots ~= nil ) then
+
+        local index = self:GetSlotsIndexOf( currentListArray, slots )
+        if ( index ~= nil ) then
+
+            table.remove( currentListArray, index )
+        end
+    end
+
+    Insert( currentListArray, slots )
+
+    while ( #currentListArray > self.configNameListLength ) do
+
+        table.remove( currentListArray, 1 )
+    end
+
+
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ",";
+
+    local templateStringArray = {}
+
+    for slotsArray in Iter( currentListArray ) do
+
+        if ( #templateStringArray > 0 ) then
+            Insert( templateStringArray, delimiterBlueprintsGroups )
+        end
+
+        Insert( templateStringArray, slotsArray[1] or "" )
+        Insert( templateStringArray, delimiterBlueprintName )
+
+        Insert( templateStringArray, slotsArray[2] or "" )
+        Insert( templateStringArray, delimiterBlueprintName )
+
+        Insert( templateStringArray, slotsArray[3] or "" )
+    end
+
+    local currentListString = table.concat( templateStringArray )
+
+    if ( selectorDB ) then
+        selectorDB:SetString(self.configNameList, currentListString)
+    end
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    local index = IndexOf( self.modeValuesArray, selectedMode )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #self.modeValuesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
+    end
+
+    local newValue = self.modeValuesArray[newIndex]
+
+    self.selectedMode = newValue
+
+    self:UpdateMarker()
+end
+
+function artificial_spawner_slots_replacer_all_map_tool:CheckModeValueExists( selectedMode )
+
+    selectedMode = selectedMode or self.modeValuesArray[1]
+
+    local index = IndexOf(self.modeValuesArray, selectedMode )
+
+    if ( index == nil ) then
+
+        return self.modeValuesArray[1]
+    end
+
+    return selectedMode
 end
 
 return artificial_spawner_slots_replacer_all_map_tool
