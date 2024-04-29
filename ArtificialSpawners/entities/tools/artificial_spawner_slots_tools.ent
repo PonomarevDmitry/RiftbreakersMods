@@ -149,6 +149,77 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name					"buildings/tools/artificial_spawner_slots_replacer_all_map"
+
+	BuildingDesc
+	{
+		name				"artificial_spawner_slots_replacer_all_map"
+		bp					"buildings/tools/artificial_spawner_slots_replacer_all_map"
+		ghost_bp			"buildings/tools/artificial_spawner_slots_replacer_all_map_ghost"
+		category			"main"
+
+		localization_id		"gui/hud/building_name/artificial_spawner_slots_replacer_all_map_tool"
+		description			"gui/hud/building_description/artificial_spawner_slots_replacer_all_map_tool"
+		menu_icon			"gui/hud/tools_icons/artificial_spawner_slots_replacer_all_map_tool"
+
+		order				"100.125"
+		type				"sell"
+
+		buildable			"0"
+		building_group		"artificial_spawner"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/artificial_spawner_slots_replacer_all_map_ghost"
+
+	BuildingDesc
+	{
+		name				"artificial_spawner_slots_replacer_all_map_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"main"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/artificial_spawner_slots_replacer_all_map_tool.lua"
+		database
+		{
+			action					string:"artificial_spawner_slots_replacer_all_map_tool"
+			buildingLowUpgrade		string:"artificial_spawner"
+
+			marker_name				string:"misc/marker_selector_artificial_spawner_slots_replacer_all_map_tool"
+
+			config_name				string:"$artificial_spawner_slots_picker_tool.selectedslots"
+			config_list_name		string:"$artificial_spawner_slots_picker_tool.last_selected_slots"
+
+			missing_localization	string:"gui/hud/artificial_spawner_slots_tools/mods_not_selected"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
 	name					"buildings/tools/artificial_spawner_activate"
 
 	BuildingDesc

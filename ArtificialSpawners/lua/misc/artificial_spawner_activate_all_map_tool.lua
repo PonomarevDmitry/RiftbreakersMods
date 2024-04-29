@@ -92,14 +92,15 @@ function artificial_spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt)
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
     self.popupShown = false
 
-    if ( evt:GetResult() == "button_yes" ) then
+    if ( evt:GetResult() ~= "button_yes" ) then
+        return
+    end
 
-        for entity in Iter( self.allSpawners ) do
+    for entity in Iter( self.allSpawners ) do
 
-            QueueEvent( "InteractWithEntityRequest", entity, self.player )
+        QueueEvent( "InteractWithEntityRequest", entity, self.player )
 
-            EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
-        end
+        EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
     end
 end
 
