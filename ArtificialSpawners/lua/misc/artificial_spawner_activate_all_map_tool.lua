@@ -31,6 +31,10 @@ function artificial_spawner_activate_all_map_tool:GetScaleFromDatabase()
     return { x=1, y=1, z=1 }
 end
 
+function artificial_spawner_activate_all_map_tool:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
 function artificial_spawner_activate_all_map_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
