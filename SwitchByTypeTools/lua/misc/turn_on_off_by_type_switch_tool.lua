@@ -114,6 +114,10 @@ function turn_on_off_by_type_switch_tool:FilterSelectedEntities( selectedEntitie
             goto continue
         end
 
+        if( BuildingService:IsPlayerWorking( entity ) == self.setPower ) then
+            goto continue
+        end
+
         Insert(entities, entity)
 
         ::continue::
