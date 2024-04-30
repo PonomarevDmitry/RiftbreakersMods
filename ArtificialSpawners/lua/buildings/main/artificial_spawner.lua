@@ -136,6 +136,8 @@ function artificial_spawner:SpawnWaves()
         EffectService:SpawnEffect(self.entity, waveEffect);
     end
 
+    EntityService:SpawnEntity( "items/consumables/radar_pulse", self.entity, "" )
+
     if ( delay > 0) then
         local entity = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.entity, "")
         local db = EntityService:GetDatabase( entity )

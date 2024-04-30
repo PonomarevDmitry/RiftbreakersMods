@@ -103,8 +103,6 @@ function artificial_spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt)
     for entity in Iter( self.allSpawners ) do
 
         QueueEvent( "InteractWithEntityRequest", entity, self.player )
-
-        EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
     end
 end
 

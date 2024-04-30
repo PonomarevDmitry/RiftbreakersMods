@@ -85,8 +85,6 @@ function artificial_spawner_activate_tool:OnActivateEntity( entity )
 
     QueueEvent( "InteractWithEntityRequest", entity, self.player )
 
-    EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
-
     Insert(self.activatedEntities, entity)
 end
 
