@@ -534,6 +534,15 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_heavy_plasma_superior_item", researched, team )
         --QueueEvent( "NewAwardEvent", INVALID_ID, "items/weapons/auto_heavy_plasma_extreme_item", researched, team )
 
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_arachnoid", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_baxmoth", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_gnerot", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_krocoon", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_magmoth", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_nerilian", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_nurglax", researched, team )
+        --QueueEvent( "NewAwardEvent", INVALID_ID, "items/artificial_spawner_waves/boss_stregaros", researched, team )
+
         --item = unlockedContainer:CreateItem()
         --item:SetValue("items/weapons/auto_shotgun_advanced_item")
         --
