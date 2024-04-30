@@ -73,7 +73,9 @@ end
 
 function artificial_spawner:SpawnWaves()
 
-    self.timeoutTime = GetLogicTime() + 5
+    local cooldown = 5
+
+    self.timeoutTime = GetLogicTime() + cooldown
 
     local aggressiveRadius = self.data:GetFloatOrDefault( "aggressive_radius", 20 )
     local waveEffect = self.data:GetStringOrDefault( "wave_started_effect", "" ) or ""
