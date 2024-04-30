@@ -60,13 +60,15 @@ function turn_on_ff_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
-    for ent in Iter( selectedEntities ) do
+    for entity in Iter( selectedEntities ) do
 
-        if ( EntityService:GetComponent(ent, "ResourceConverterComponent") ~= nil ) then
+        if ( EntityService:GetComponent(entity, "ResourceConverterComponent") ~= nil ) then
 
-            if (PowerUtils:CanChangePower(ent)) then
+            if (PowerUtils:CanChangePower(entity)) then
 
-                Insert(entities, ent)
+                if( BuildingService:IsPlayerWorking( entity ) ~= self.setPower ) then
+                    Insert(entities, entity)
+                end
             end
         end
     end
