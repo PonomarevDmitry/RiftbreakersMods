@@ -202,6 +202,8 @@ function switch_all_map_switcher_tool:FindEntitiesToSelect( selectorComponent )
 
     local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
+    local setPower = ( self.selectedMode == self.modeTurnOn or self.selectedMode == self.modeTurnGroupOn )
+
     for entity in Iter( entitiesBuildings ) do
 
         if ( IndexOf( result, entity ) ~= nil ) then
@@ -213,6 +215,10 @@ function switch_all_map_switcher_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         if ( not self:IsEntityApproved(entity) ) then
+            goto continue
+        end
+
+        if( BuildingService:IsPlayerWorking( entity ) == setPower ) then
             goto continue
         end
 

@@ -192,6 +192,8 @@ function switch_all_map_cat_switcher_tool:FindEntitiesToSelect( selectorComponen
 
     local entitiesBuildings = FindService:FindEntitiesByType( "building" )
 
+    local setPower = ( self.selectedMode == self.modeTurnOn )
+
     for entity in Iter( entitiesBuildings ) do
 
         if ( IndexOf( result, entity ) ~= nil ) then
@@ -233,6 +235,10 @@ function switch_all_map_cat_switcher_tool:FindEntitiesToSelect( selectorComponen
 
                 goto continue
             end
+        end
+
+        if( BuildingService:IsPlayerWorking( entity ) == setPower ) then
+            goto continue
         end
 
         Insert( result, entity )
