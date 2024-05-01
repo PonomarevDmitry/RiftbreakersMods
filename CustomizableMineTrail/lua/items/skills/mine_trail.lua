@@ -22,7 +22,7 @@ function mine_trail:OnLoad()
 
     if ( self.machine == nil ) then
         self:InitThrowStateMachine()
-    end    
+    end
 end
 
 function mine_trail:InitThrowStateMachine()
@@ -44,20 +44,20 @@ function mine_trail:OnActivate()
         local modItemBlueprint = self.data:GetStringOrDefault("mine_trail_MOD_" .. tostring(i), "") or ""
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
-            goto continue
+            goto continueModList
         end
 
         if ( not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
-            goto continue
+            goto continueModList
         end
 
         local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
         if ( blueprintDatabase == nil ) then
-            goto continue
+            goto continueModList
         end
 
         if ( not blueprintDatabase:HasString("blueprint_list") ) then
-            goto continue
+            goto continueModList
         end
 
         local blueprintListString = blueprintDatabase:GetString("blueprint_list")
@@ -68,27 +68,27 @@ function mine_trail:OnActivate()
 
             local playerItem = ItemService:GetFirstItemForBlueprint( self.owner, itemBlueprintName )
             if ( playerItem == INVALID_ID ) then
-                goto continue2
+                goto continueBlueprintList
             end
 
             local inventoryItemComponent = EntityService:GetComponent( playerItem, "InventoryItemComponent" )
             if ( inventoryItemComponent == INVALID_ID ) then
-                goto continue2
+                goto continueBlueprintList
             end
 
             local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
             if ( inventoryItemComponentRef.use_count <= 0 ) then
-                goto continue2
+                goto continueBlueprintList
             end
 
             local itemBlueprintDatabase = EntityService:GetBlueprintDatabase( playerItem )
 
             if ( itemBlueprintDatabase == nil ) then
-                goto continue2
+                goto continueBlueprintList
             end
 
             if ( not itemBlueprintDatabase:HasString("bp") ) then
-                goto continue2
+                goto continueBlueprintList
             end
 
             local grenadeBlueprint = itemBlueprintDatabase:GetString("bp")
@@ -102,12 +102,12 @@ function mine_trail:OnActivate()
                 inventoryItemComponentRef.use_count = inventoryItemComponentRef.use_count - 1
             end
 
-            goto continue
+            goto continueModList
 
-            ::continue2::
+            ::continueBlueprintList::
         end
 
-        ::continue::
+        ::continueModList::
     end
 
     if ( #self.grenadesToThrow > 0 ) then
