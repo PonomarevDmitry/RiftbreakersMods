@@ -11,6 +11,9 @@ end
 
 function turrets_cluster:OnActivate()
 
+    local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
+
     local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
     if ( pos.first == false ) then
         return
@@ -91,9 +94,6 @@ function turrets_cluster:OnActivate()
             local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
             ItemService:SetItemCreator( tower, self.entity_blueprint )
             EntityService:DissolveEntity( tower, 1.0, timeout )
-
-            local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
-            local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
 
             if ( unlimitedMoney == false and unlimitedAmmo == false ) then
                 inventoryItemComponentRef.use_count = inventoryItemComponentRef.use_count - 1
