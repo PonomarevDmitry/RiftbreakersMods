@@ -63,6 +63,8 @@ function mine_trail:StopWorking()
 
     self.isWorking = false
 
+    self.data:SetInt("mine_trail_current_number", 1)
+
     self.machine:Deactivate()
 end
 
@@ -145,8 +147,6 @@ function mine_trail:OnPlaceMineExecute( state )
     while (true) do
 
         if ( emptySlots >= 6 ) then
-
-            self.data:SetInt("mine_trail_current_number", 1)
 
             state:Exit()
             self:StopWorking()
