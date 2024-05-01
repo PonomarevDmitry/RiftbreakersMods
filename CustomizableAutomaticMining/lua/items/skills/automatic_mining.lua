@@ -3,20 +3,20 @@ require("lua/utils/table_utils.lua")
 
 local item = require("lua/items/item.lua")
 
-class 'mine_trail' ( item )
+class 'automatic_mining' ( item )
 
-function mine_trail:__init()
+function automatic_mining:__init()
     item.__init(self,self)
 end
 
-function mine_trail:OnInit()
+function automatic_mining:OnInit()
 
     self:InitThrowStateMachine()
 
     self.isWorking = self.isWorking or false
 end
 
-function mine_trail:OnLoad()
+function automatic_mining:OnLoad()
 
     if ( item.OnLoad ) then
         item.OnLoad(self)
@@ -27,7 +27,7 @@ function mine_trail:OnLoad()
     self.isWorking = self.isWorking or false
 end
 
-function mine_trail:InitThrowStateMachine()
+function automatic_mining:InitThrowStateMachine()
 
     if ( self.machine == nil ) then
         self.machine = self:CreateStateMachine()
@@ -35,7 +35,7 @@ function mine_trail:InitThrowStateMachine()
     end
 end
 
-function mine_trail:OnActivate()
+function automatic_mining:OnActivate()
 
     self:InitThrowStateMachine()
 
@@ -52,23 +52,23 @@ function mine_trail:OnActivate()
     end
 end
 
-function mine_trail:OnUnequipped()
+function automatic_mining:OnUnequipped()
 
     if ( self.isWorking ) then
         self:StopWorking()
     end
 end
 
-function mine_trail:StopWorking()
+function automatic_mining:StopWorking()
 
     self.isWorking = false
 
-    self.data:SetInt("mine_trail_current_number", 1)
+    self.data:SetInt("automatic_mining_current_number", 1)
 
     self.machine:Deactivate()
 end
 
-function mine_trail:OnRelease()
+function automatic_mining:OnRelease()
 
     if ( self.isWorking ) then
         self:StopWorking()
@@ -79,7 +79,7 @@ function mine_trail:OnRelease()
     end
 end
 
-function mine_trail:CanActivate()
+function automatic_mining:CanActivate()
 
     if ( item.CanActivate ) then
         item.CanActivate(self)
@@ -91,7 +91,7 @@ function mine_trail:CanActivate()
 
     for i=1,6 do
 
-        local modItemBlueprint = self.data:GetStringOrDefault("mine_trail_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = self.data:GetStringOrDefault("automatic_mining_MOD_" .. tostring(i), "") or ""
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continue
@@ -135,12 +135,12 @@ function mine_trail:CanActivate()
     return false
 end
 
-function mine_trail:OnPlaceMineExecute( state )
+function automatic_mining:OnPlaceMineExecute( state )
 
     local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
     local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
 
-    local currentModNumber = self.data:GetIntOrDefault("mine_trail_current_number", 1) or 1
+    local currentModNumber = self.data:GetIntOrDefault("automatic_mining_current_number", 1) or 1
 
     local emptySlots = 0
 
@@ -153,7 +153,7 @@ function mine_trail:OnPlaceMineExecute( state )
             return
         end
 
-        local modItemBlueprint = self.data:GetStringOrDefault("mine_trail_MOD_" .. tostring(currentModNumber), "") or ""
+        local modItemBlueprint = self.data:GetStringOrDefault("automatic_mining_MOD_" .. tostring(currentModNumber), "") or ""
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             emptySlots = emptySlots + 1
@@ -218,7 +218,7 @@ function mine_trail:OnPlaceMineExecute( state )
             end
             
 
-            self.data:SetInt("mine_trail_current_number", self:IncreaseModNumber(currentModNumber))
+            self.data:SetInt("automatic_mining_current_number", self:IncreaseModNumber(currentModNumber))
             self:SpawnMine(mineBlueprintName)
 
             do
@@ -235,7 +235,7 @@ function mine_trail:OnPlaceMineExecute( state )
     end
 end
 
-function mine_trail:IncreaseModNumber(currentModNumber)
+function automatic_mining:IncreaseModNumber(currentModNumber)
 
     local result = currentModNumber + 1
 
@@ -246,7 +246,7 @@ function mine_trail:IncreaseModNumber(currentModNumber)
     return result
 end
 
-function mine_trail:SpawnMine(mineBlueprintName)
+function automatic_mining:SpawnMine(mineBlueprintName)
 
     local spot = EntityService:GetPosition( self.owner )
 
@@ -265,4 +265,4 @@ function mine_trail:SpawnMine(mineBlueprintName)
     QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
 end
 
-return mine_trail
+return automatic_mining
