@@ -250,6 +250,8 @@ function automatic_mining:SpawnMine(mineBlueprintName)
 
     local spot = EntityService:GetPosition( self.owner )
 
+    spot.y = EnvironmentService:GetTerrainHeight(spot)
+
     local spawned = EntityService:SpawnEntity( mineBlueprintName, spot, EntityService:GetTeam( self.owner ))
 
     EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
