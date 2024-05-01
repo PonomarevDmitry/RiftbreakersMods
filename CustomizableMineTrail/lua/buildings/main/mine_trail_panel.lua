@@ -18,7 +18,7 @@ function mine_trail_panel:OnInit()
 
     self:RegisterEventHandlers()
 
-    self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
+    self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_equipment" )
 
     self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/mine_trail_1_item")
 end
@@ -31,7 +31,7 @@ function mine_trail_panel:OnLoad()
 
     self:RegisterEventHandlers()
 
-    self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
+    self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_equipment" )
 
     self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/mine_trail_1_item")
 end
@@ -157,6 +157,8 @@ function mine_trail_panel:OnItemEquippedEvent( evt )
             local keyName = "mine_trail_MOD_" .. tostring(slotNumber + modDelta)
 
             database:SetString(keyName, itemBlueprintName)
+
+            database:SetInt("mine_trail_current_number", 1)
         end
     end
 end
@@ -192,6 +194,8 @@ function mine_trail_panel:OnItemUnequippedEvent( evt )
             local keyName = "mine_trail_MOD_" .. tostring(slotNumber + modDelta)
 
             database:SetString(keyName, "")
+
+            database:SetInt("mine_trail_current_number", 1)
         end
     end
 end
