@@ -33,6 +33,9 @@ end
 
 function grenades_pack:OnActivate()
 
+    local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
+
     if ( self.machine == nil ) then
         self:InitThrowStateMachine()
     end
@@ -94,9 +97,6 @@ function grenades_pack:OnActivate()
             local grenadeBlueprint = itemBlueprintDatabase:GetString("bp")
 
             Insert( self.grenadesToThrow, grenadeBlueprint )
-
-            local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
-            local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
 
             if ( unlimitedMoney == false and unlimitedAmmo == false ) then
                 inventoryItemComponentRef.use_count = inventoryItemComponentRef.use_count - 1
