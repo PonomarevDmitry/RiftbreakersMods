@@ -148,8 +148,8 @@ function auto_mines_placement:OnPlaceMineExecute( state )
 
         if ( emptySlots >= 6 ) then
 
-            state:Exit()
-            self:StopWorking()
+            self.data:SetInt("auto_mines_placement_current_number", 1)
+
             return
         end
 
@@ -262,7 +262,7 @@ function auto_mines_placement:SpawnMine(mineBlueprintName)
 
     local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
 
-    local dissolveTime = database:GetFloatOrDefault( "dissolve", 0.5 )
+    local dissolveTime = database:GetFloatOrDefault( "dissolve", 0.3 )
 
     QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
 end
