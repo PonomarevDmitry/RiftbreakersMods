@@ -10,9 +10,9 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     local skillList = {
 
-        "items/skills/automatic_mining_1_item",
-        "items/skills/automatic_mining_2_item",
-        "items/skills/automatic_mining_3_item"
+        "items/skills/auto_mines_placement_1_item",
+        "items/skills/auto_mines_placement_2_item",
+        "items/skills/auto_mines_placement_3_item"
     }
 
     for skillName in Iter( skillList ) do
@@ -37,9 +37,9 @@ RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     local skillList = {
 
-        "items/skills/automatic_mining_1_item",
-        "items/skills/automatic_mining_2_item",
-        "items/skills/automatic_mining_3_item"
+        "items/skills/auto_mines_placement_1_item",
+        "items/skills/auto_mines_placement_2_item",
+        "items/skills/auto_mines_placement_3_item"
     }
 
     for skillName in Iter( skillList ) do

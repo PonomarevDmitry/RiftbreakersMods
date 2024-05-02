@@ -4,13 +4,13 @@ require("lua/utils/numeric_utils.lua")
 
 local building = require("lua/buildings/building.lua")
 
-class 'automatic_mining_panel' ( building )
+class 'auto_mines_placement_panel' ( building )
 
-function automatic_mining_panel:__init()
+function auto_mines_placement_panel:__init()
     building.__init(self,self)
 end
 
-function automatic_mining_panel:OnInit()
+function auto_mines_placement_panel:OnInit()
 
     if ( building.OnInit ) then
         building.OnInit(self)
@@ -20,10 +20,10 @@ function automatic_mining_panel:OnInit()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_equipment" )
 
-    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/automatic_mining_1_item")
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/auto_mines_placement_1_item")
 end
 
-function automatic_mining_panel:OnLoad()
+function auto_mines_placement_panel:OnLoad()
 
     if ( building.OnLoad ) then
         building.OnLoad(self)
@@ -33,10 +33,10 @@ function automatic_mining_panel:OnLoad()
 
     self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_equipment" )
 
-    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/automatic_mining_1_item")
+    self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/auto_mines_placement_1_item")
 end
 
-function automatic_mining_panel:RegisterEventHandlers()
+function auto_mines_placement_panel:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
@@ -44,7 +44,7 @@ function automatic_mining_panel:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
 
-function automatic_mining_panel:OnBuildingEnd()
+function auto_mines_placement_panel:OnBuildingEnd()
 
     if ( building.OnBuildingEnd ) then
         building.OnBuildingEnd(self)
@@ -53,7 +53,7 @@ function automatic_mining_panel:OnBuildingEnd()
     self:OnOperateActionMenuEvent()
 end
 
-function automatic_mining_panel:OnOperateActionMenuEvent()
+function auto_mines_placement_panel:OnOperateActionMenuEvent()
 
     local player_id = 0
     local player = PlayerService:GetPlayerControlledEnt(player_id)
@@ -89,7 +89,7 @@ function automatic_mining_panel:OnOperateActionMenuEvent()
 
             local slot = slots[i]
 
-            local keyName = "automatic_mining_MOD_" .. tostring(i + modDelta)
+            local keyName = "auto_mines_placement_MOD_" .. tostring(i + modDelta)
 
             local itemBlueprintName = ""
 
@@ -120,7 +120,7 @@ function automatic_mining_panel:OnOperateActionMenuEvent()
     end
 end
 
-function automatic_mining_panel:OnItemEquippedEvent( evt )
+function auto_mines_placement_panel:OnItemEquippedEvent( evt )
 
     local slotName = evt:GetSlot()
     local item = evt:GetItem()
@@ -154,16 +154,16 @@ function automatic_mining_panel:OnItemEquippedEvent( evt )
 
             local slotNumber = self:GetSlotNumber(slotName)
 
-            local keyName = "automatic_mining_MOD_" .. tostring(slotNumber + modDelta)
+            local keyName = "auto_mines_placement_MOD_" .. tostring(slotNumber + modDelta)
 
             database:SetString(keyName, itemBlueprintName)
 
-            database:SetInt("automatic_mining_current_number", 1)
+            database:SetInt("auto_mines_placement_current_number", 1)
         end
     end
 end
 
-function automatic_mining_panel:OnItemUnequippedEvent( evt )
+function auto_mines_placement_panel:OnItemUnequippedEvent( evt )
 
     local slotName = evt:GetSlot()
 
@@ -191,16 +191,16 @@ function automatic_mining_panel:OnItemUnequippedEvent( evt )
 
             local slotNumber = self:GetSlotNumber(slotName)
 
-            local keyName = "automatic_mining_MOD_" .. tostring(slotNumber + modDelta)
+            local keyName = "auto_mines_placement_MOD_" .. tostring(slotNumber + modDelta)
 
             database:SetString(keyName, "")
 
-            database:SetInt("automatic_mining_current_number", 1)
+            database:SetInt("auto_mines_placement_current_number", 1)
         end
     end
 end
 
-function automatic_mining_panel:GetSlotNumber( slotName )
+function auto_mines_placement_panel:GetSlotNumber( slotName )
 
     local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
     if ( equipmentComponent ~= nil ) then
@@ -222,4 +222,4 @@ function automatic_mining_panel:GetSlotNumber( slotName )
     return 1
 end
 
-return automatic_mining_panel
+return auto_mines_placement_panel
