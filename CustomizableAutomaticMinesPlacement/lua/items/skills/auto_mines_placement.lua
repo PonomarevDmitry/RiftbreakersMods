@@ -29,10 +29,13 @@ end
 
 function auto_mines_placement:InitThrowStateMachine()
 
-    if ( self.machine == nil ) then
-        self.machine = self:CreateStateMachine()
-        self.machine:AddState( "placemine", { execute="OnPlaceMineExecute", interval=1 } )
+    if ( self.machine ~= nil ) then
+        self.machine:Deactivate()
     end
+
+    self.machine = self:CreateStateMachine()
+    self.machine:AddState( "placemine", { execute="OnPlaceMineExecute", interval=1 } )
+    self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.5 } )
 end
 
 function auto_mines_placement:OnActivate()
@@ -48,7 +51,7 @@ function auto_mines_placement:OnActivate()
 
         self:OnPlaceMineExecute()
 
-        self.machine:ChangeState("placemine")
+        self.machine:ChangeState("delay")
     end
 end
 
@@ -87,6 +90,10 @@ function auto_mines_placement:CanActivate()
 
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
         return false
+    end
+
+    if ( self.isWorking ) then
+        return true
     end
 
     for i=1,6 do
@@ -133,6 +140,11 @@ function auto_mines_placement:CanActivate()
     end
 
     return false
+end
+
+function auto_mines_placement:OnDelayExecute( state )
+
+    self.machine:ChangeState("placemine")
 end
 
 function auto_mines_placement:OnPlaceMineExecute( state )
@@ -258,7 +270,8 @@ function auto_mines_placement:SpawnMine(mineBlueprintName)
 
     ItemService:SetItemCreator( spawned, mineBlueprintName)
 
-
+    
+    EntityService:SpawnEntity( "effects/auto_mines_placement/mine_created", spawned, "" )
 
     local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
 
