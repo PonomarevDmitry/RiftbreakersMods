@@ -3,20 +3,20 @@ require("lua/utils/table_utils.lua")
 
 local item = require("lua/items/item.lua")
 
-class 'auto_mines_placement' ( item )
+class 'auto_mines_laying' ( item )
 
-function auto_mines_placement:__init()
+function auto_mines_laying:__init()
     item.__init(self,self)
 end
 
-function auto_mines_placement:OnInit()
+function auto_mines_laying:OnInit()
 
     self:InitThrowStateMachine()
 
     self.isWorking = self.isWorking or false
 end
 
-function auto_mines_placement:OnLoad()
+function auto_mines_laying:OnLoad()
 
     if ( item.OnLoad ) then
         item.OnLoad(self)
@@ -27,7 +27,7 @@ function auto_mines_placement:OnLoad()
     self.isWorking = self.isWorking or false
 end
 
-function auto_mines_placement:InitThrowStateMachine()
+function auto_mines_laying:InitThrowStateMachine()
 
     if ( self.machine ~= nil ) then
         self.machine:Deactivate()
@@ -38,7 +38,7 @@ function auto_mines_placement:InitThrowStateMachine()
     self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.5 } )
 end
 
-function auto_mines_placement:OnActivate()
+function auto_mines_laying:OnActivate()
 
     self:InitThrowStateMachine()
 
@@ -55,23 +55,23 @@ function auto_mines_placement:OnActivate()
     end
 end
 
-function auto_mines_placement:OnUnequipped()
+function auto_mines_laying:OnUnequipped()
 
     if ( self.isWorking ) then
         self:StopWorking()
     end
 end
 
-function auto_mines_placement:StopWorking()
+function auto_mines_laying:StopWorking()
 
     self.isWorking = false
 
-    self.data:SetInt("auto_mines_placement_current_number", 1)
+    self.data:SetInt("auto_mines_laying_current_number", 1)
 
     self.machine:Deactivate()
 end
 
-function auto_mines_placement:OnRelease()
+function auto_mines_laying:OnRelease()
 
     if ( self.isWorking ) then
         self:StopWorking()
@@ -82,7 +82,7 @@ function auto_mines_placement:OnRelease()
     end
 end
 
-function auto_mines_placement:CanActivate()
+function auto_mines_laying:CanActivate()
 
     if ( item.CanActivate ) then
         item.CanActivate(self)
@@ -98,7 +98,7 @@ function auto_mines_placement:CanActivate()
 
     for i=1,6 do
 
-        local modItemBlueprint = self.data:GetStringOrDefault("auto_mines_placement_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = self.data:GetStringOrDefault("auto_mines_laying_MOD_" .. tostring(i), "") or ""
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continue
@@ -142,17 +142,17 @@ function auto_mines_placement:CanActivate()
     return false
 end
 
-function auto_mines_placement:OnDelayExecute( state )
+function auto_mines_laying:OnDelayExecute( state )
 
     self.machine:ChangeState("placemine")
 end
 
-function auto_mines_placement:OnPlaceMineExecute( state )
+function auto_mines_laying:OnPlaceMineExecute( state )
 
     local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
     local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
 
-    local currentModNumber = self.data:GetIntOrDefault("auto_mines_placement_current_number", 1) or 1
+    local currentModNumber = self.data:GetIntOrDefault("auto_mines_laying_current_number", 1) or 1
 
     local emptySlots = 0
 
@@ -160,12 +160,12 @@ function auto_mines_placement:OnPlaceMineExecute( state )
 
         if ( emptySlots >= 6 ) then
 
-            self.data:SetInt("auto_mines_placement_current_number", 1)
+            self.data:SetInt("auto_mines_laying_current_number", 1)
 
             return
         end
 
-        local modItemBlueprint = self.data:GetStringOrDefault("auto_mines_placement_MOD_" .. tostring(currentModNumber), "") or ""
+        local modItemBlueprint = self.data:GetStringOrDefault("auto_mines_laying_MOD_" .. tostring(currentModNumber), "") or ""
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             emptySlots = emptySlots + 1
@@ -230,7 +230,7 @@ function auto_mines_placement:OnPlaceMineExecute( state )
             end
             
 
-            self.data:SetInt("auto_mines_placement_current_number", self:IncreaseModNumber(currentModNumber))
+            self.data:SetInt("auto_mines_laying_current_number", self:IncreaseModNumber(currentModNumber))
             self:SpawnMine(mineBlueprintName)
 
             do
@@ -247,7 +247,7 @@ function auto_mines_placement:OnPlaceMineExecute( state )
     end
 end
 
-function auto_mines_placement:IncreaseModNumber(currentModNumber)
+function auto_mines_laying:IncreaseModNumber(currentModNumber)
 
     local result = currentModNumber + 1
 
@@ -258,7 +258,7 @@ function auto_mines_placement:IncreaseModNumber(currentModNumber)
     return result
 end
 
-function auto_mines_placement:SpawnMine(mineBlueprintName)
+function auto_mines_laying:SpawnMine(mineBlueprintName)
 
     local spot = EntityService:GetPosition( self.owner )
 
@@ -271,7 +271,7 @@ function auto_mines_placement:SpawnMine(mineBlueprintName)
     ItemService:SetItemCreator( spawned, mineBlueprintName)
 
     
-    EntityService:SpawnEntity( "effects/auto_mines_placement/mine_created", spawned, "" )
+    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", spawned, "" )
 
     local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
 
@@ -280,4 +280,4 @@ function auto_mines_placement:SpawnMine(mineBlueprintName)
     QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
 end
 
-return auto_mines_placement
+return auto_mines_laying
