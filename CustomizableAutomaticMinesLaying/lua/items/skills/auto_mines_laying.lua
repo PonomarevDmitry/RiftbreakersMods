@@ -57,6 +57,13 @@ function auto_mines_laying:OnActivate()
         self:OnPlaceMineExecute()
 
         self.machine:ChangeState("delay")
+
+        if ( self.skillWorking ~= nil ) then
+            EntityService:RemoveEntity( self.skillWorking )
+            self.skillWorking = nil
+        end
+
+        self.skillWorking = EntityService:SpawnAndAttachEntity( "effects/items/mech_mine_beacon_activated", self.owner, "att_grenade", EntityService:GetTeam( self.owner ) )
     end
 end
 
@@ -74,6 +81,12 @@ function auto_mines_laying:StopWorking()
     self.data:SetInt("auto_mines_laying_current_number", 1)
 
     self.machine:Deactivate()
+
+    if ( self.skillWorking ~= nil ) then
+
+        EntityService:RemoveEntity( self.skillWorking )
+        self.skillWorking = nil
+    end
 end
 
 function auto_mines_laying:OnRelease()
