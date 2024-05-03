@@ -29,13 +29,18 @@ end
 
 function auto_mines_laying:InitThrowStateMachine()
 
-    if ( self.machine ~= nil ) then
-        self.machine:Deactivate()
-    end
+    if ( self.machine == nil ) then
+        self.machine = self:CreateStateMachine()
+        self.machine:AddState( "placemine", { execute="OnPlaceMineExecute", interval=1 } )
+        self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.25 } )
+    else
 
-    self.machine = self:CreateStateMachine()
-    self.machine:AddState( "placemine", { execute="OnPlaceMineExecute", interval=1 } )
-    self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.5 } )
+        local state = self.machine:GetState("delay")
+        if ( state == nil ) then
+
+            self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.25 } )
+        end	 
+    end
 end
 
 function auto_mines_laying:OnActivate()
