@@ -47,8 +47,11 @@ function loot_container_spawner:OnLoad()
 
 			if ( minimapItemComponentRef.icon_material ~= "gui/hud/minimap_icons/minimap_treasure_opened" ) then
 				minimapItemComponentRef.icon_material = "gui/hud/minimap_icons/minimap_treasure_opened"
+				minimapItemComponentRef.type = 2
 
-				QueueEvent("RecreateComponentFromBlueprintRequest", self.entity, "MinimapGuiItemComponent" )
+				self:RegisterHandler( self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
+				EntityService:CreateComponent( self.entity, "TimerComponent")
+				QueueEvent( "SetTimerRequest", self.entity, "ChangeMinimapItemType", 0.3 )
 			end
 		end
 	end
@@ -84,8 +87,11 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 			local minimapItemComponentRef = reflection_helper( minimapItemComponent )
 
 			minimapItemComponentRef.icon_material = "gui/hud/minimap_icons/minimap_treasure_opened"
+			minimapItemComponentRef.type = 2
 
-			QueueEvent("RecreateComponentFromBlueprintRequest", self.entity, "MinimapGuiItemComponent" )
+			self:RegisterHandler( self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
+			EntityService:CreateComponent( self.entity, "TimerComponent")
+			QueueEvent( "SetTimerRequest", self.entity, "ChangeMinimapItemType", 0.2 )
 		end
 
 		local waveLogic			= self.data:GetStringOrDefault( "wave_logic_file",  "error" )
@@ -132,6 +138,22 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 		end
 	else
 		--LogService:Log( "loot_container_spawner:OnHarvestStartEvent - already activated." )
+	end
+end
+
+function loot_container_spawner:OnTimerElapsedEvent(evt)
+
+    if (evt:GetName() ~= "ChangeMinimapItemType") then
+        return
+    end
+
+	self:UnregisterHandler(self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
+
+	local minimapItemComponent = EntityService:GetComponent( self.entity, "MinimapItemComponent" )
+	if ( minimapItemComponent ~= nil ) then
+		local minimapItemComponentRef = reflection_helper( minimapItemComponent )
+
+		minimapItemComponentRef.type = 1
 	end
 end
 
