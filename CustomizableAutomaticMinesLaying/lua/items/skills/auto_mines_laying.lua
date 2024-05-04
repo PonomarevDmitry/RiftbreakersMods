@@ -32,13 +32,13 @@ function auto_mines_laying:InitThrowStateMachine()
     if ( self.machine == nil ) then
         self.machine = self:CreateStateMachine()
         self.machine:AddState( "placemine", { execute="OnPlaceMineExecute", interval=1 } )
-        self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.25 } )
+        self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.5 } )
     else
 
         local state = self.machine:GetState("delay")
         if ( state == nil ) then
 
-            self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.25 } )
+            self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.5 } )
         end	 
     end
 end
@@ -118,9 +118,11 @@ function auto_mines_laying:CanActivate()
         return true
     end
 
+    local modsConfiguration = self:GetModsConfiguration()
+
     for i=1,6 do
 
-        local modItemBlueprint = self.data:GetStringOrDefault("auto_mines_laying_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = modsConfiguration[i]
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continue
@@ -164,6 +166,49 @@ function auto_mines_laying:CanActivate()
     return false
 end
 
+function auto_mines_laying:GetModsConfiguration()
+
+    local result = {}
+
+    local hasItems = false
+
+    for i=1,6 do
+
+        local modItemBlueprint = self.data:GetStringOrDefault("auto_mines_laying_MOD_" .. tostring(i), "") or ""
+
+        if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
+            goto continue
+        end
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
+            goto continue
+        end
+
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
+
+        if ( blueprintDatabase == nil ) then
+            goto continue
+        end
+
+        if ( not blueprintDatabase:HasString("blueprint_list") ) then
+            goto continue
+        end
+
+        hasItems = true
+
+        result[i] = modItemBlueprint
+
+        ::continue::
+    end
+
+    if ( hasItems == false )  then
+
+        result[1] = "items/auto_mines_laying_mods/proximity_mine_standard_item"
+    end
+
+    return result
+end
+
 function auto_mines_laying:OnDelayExecute( state )
 
     self.machine:ChangeState("placemine")
@@ -178,6 +223,8 @@ function auto_mines_laying:OnPlaceMineExecute( state )
 
     local emptySlots = 0
 
+    local modsConfiguration = self:GetModsConfiguration()
+
     while (true) do
 
         if ( emptySlots >= 6 ) then
@@ -187,7 +234,7 @@ function auto_mines_laying:OnPlaceMineExecute( state )
             return
         end
 
-        local modItemBlueprint = self.data:GetStringOrDefault("auto_mines_laying_MOD_" .. tostring(currentModNumber), "") or ""
+        local modItemBlueprint = modsConfiguration[currentModNumber]
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             emptySlots = emptySlots + 1
