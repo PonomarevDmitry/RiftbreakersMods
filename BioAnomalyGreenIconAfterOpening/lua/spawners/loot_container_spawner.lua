@@ -143,9 +143,9 @@ end
 
 function loot_container_spawner:OnTimerElapsedEvent(evt)
 
-    if (evt:GetName() ~= "ChangeMinimapItemType") then
-        return
-    end
+	if (evt:GetName() ~= "ChangeMinimapItemType") then
+		return
+	end
 
 	self:UnregisterHandler(self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
 
