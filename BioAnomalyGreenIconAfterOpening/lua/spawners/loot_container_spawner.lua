@@ -106,6 +106,8 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 				EffectService:SpawnEffect(self.entity,waveEffect);
 			end
 
+			EntityService:SpawnEntity( "items/consumables/radar_pulse", self.entity, "" )
+
 			local spawnPoint = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul )
 			local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 			QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyOpen", params )
