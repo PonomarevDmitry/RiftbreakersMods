@@ -53,6 +53,9 @@ function artificial_spawner:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 
+    self:RegisterHandler( self.entity, "BuildingStartEvent", "OnBuildingStartEventGettingInfo" )
+    self:RegisterHandler( self.entity, "BuildingRemovedEvent", "OnBuildingRemovedEventTrasferingInfoToRuin" )
+
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
 
@@ -264,6 +267,42 @@ function artificial_spawner:OnBuildingEnd()
         building.OnBuildingEnd(self)
     end
 
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    self.slotItemsFromRuins = self.slotItemsFromRuins or {}
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent ~= nil ) then
+
+        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+        local slots = equipment.slots
+        for i=1,slots.count do
+
+            local slot = slots[i]
+
+            local databaseParameter = selfLowName .. "_" .. slot.name
+
+            local modItemBlueprintName = self.slotItemsFromRuins[databaseParameter] or ""
+
+            if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+
+                local item = ItemService:GetFirstItemForBlueprint( self.entity, modItemBlueprintName )
+
+                if ( item == INVALID_ID ) then
+                    item = ItemService:AddItemToInventory( self.entity, modItemBlueprintName )
+                end
+
+                if ( item ~= INVALID_ID ) then
+
+                    ItemService:EquipItemInSlot( self.entity, item, slot.name )
+                end
+            end
+        end
+    end
+
     self:PopulateSpecialActionInfo()
 end
 
@@ -453,6 +492,189 @@ function artificial_spawner:PopulateSpecialActionInfo()
     end
 
     self:SetMenuVisible(menuEntity)
+end
+
+function artificial_spawner:OnBuildingStartEventGettingInfo(evt)
+
+    local eventEntity = evt:GetEntity()
+
+    if (evt:GetUpgrading() == false) then
+
+        self:GettingInfoFromRuin()
+    end
+end
+
+function artificial_spawner:GettingInfoFromRuin()
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        if ( ruinDatabase == nil ) then
+            goto continue
+        end
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        self.slotItemsFromRuins = self.slotItemsFromRuins or {}
+
+        local blueprint = ResourceManager:GetBlueprint( selfBlueprintName )
+
+        if ( blueprint ~= nil ) then
+            local equipmentComponent = blueprint:GetComponent("EquipmentComponent")
+            if ( equipmentComponent ~= nil ) then
+
+                local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+                local slots = equipment.slots
+                for i=1,slots.count do
+
+                    local slot = slots[i]
+
+                    local databaseParameter = selfLowName .. "_" .. slot.name
+
+                    local modItemBlueprintName = ruinDatabase:GetStringOrDefault(databaseParameter, "") or ""
+
+                    local slotItemsFromRuinsBlueprintName = ""
+
+                    if ( modItemBlueprintName ~= nil and modItemBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
+                        slotItemsFromRuinsBlueprintName = modItemBlueprintName
+                    end
+
+                    self.slotItemsFromRuins[databaseParameter] = slotItemsFromRuinsBlueprintName
+                end
+            end
+        end
+
+        ::continue::
+    end
+end
+
+function artificial_spawner:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
+
+    local eventEntity = evt:GetEntity()
+
+    if (evt:GetWasSold() == true) then
+        return
+    end
+
+    local selfBlueprintName = EntityService:GetBlueprintName(self.entity)
+
+    local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
+
+    local selfRuinsBlueprint = selfBlueprintName .. "_ruins"
+
+    local position = EntityService:GetPosition(self.entity)
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local min = VectorSub(position, vectorBounds)
+    local max = VectorAdd(position, vectorBounds)
+
+    local entities = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+    for ruinEntity in Iter( entities ) do
+
+        local blueprintName = EntityService:GetBlueprintName(ruinEntity)
+        if ( blueprintName ~= selfRuinsBlueprint ) then
+            goto continue
+        end
+
+        local ruinPosition = EntityService:GetPosition(ruinEntity)
+        if ( ruinPosition.x ~= position.x or ruinPosition.y ~= position.y or ruinPosition.z ~= position.z ) then
+            goto continue
+        end
+
+        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        if ( ruinDatabase == nil ) then
+            goto continue
+        end
+
+        local ruinDatabaseBlueprint = ruinDatabase:GetStringOrDefault("blueprint", "")
+        if ( ruinDatabaseBlueprint ~= selfBlueprintName ) then
+            goto continue
+        end
+
+        local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+        if ( equipmentComponent ~= nil ) then
+
+            local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+            local slots = equipment.slots
+            for i=1,slots.count do
+
+                local slot = slots[i]
+
+                local databaseParameterBlueprintName = ""
+
+                local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+                if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+                    databaseParameterBlueprintName = EntityService:GetBlueprintName( modItem )
+                end
+
+                local databaseParameter = selfLowName .. "_" .. slot.name
+
+                ruinDatabase:SetString(databaseParameter, databaseParameterBlueprintName)
+            end
+        else
+            self.slotItemsFromRuins = self.slotItemsFromRuins or {}
+
+            local blueprint = ResourceManager:GetBlueprint( selfBlueprintName )
+            if ( blueprint ~= nil ) then
+                local equipmentComponent = blueprint:GetComponent("EquipmentComponent")
+                if ( equipmentComponent ~= nil ) then
+
+                    local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+                    local slots = equipment.slots
+                    for i=1,slots.count do
+
+                        local slot = slots[i]
+
+                        local databaseParameter = selfLowName .. "_" .. slot.name
+
+                        if ( self.slotItemsFromRuins[databaseParameter] and self.slotItemsFromRuins[databaseParameter] ~= nil and self.slotItemsFromRuins[databaseParameter] ~= "" ) then
+
+                            ruinDatabase:SetString(databaseParameter, tostring(self.slotItemsFromRuins[databaseParameter]))
+                        end
+                    end
+                end
+            end
+        end
+
+        ::continue::
+    end
 end
 
 return artificial_spawner
