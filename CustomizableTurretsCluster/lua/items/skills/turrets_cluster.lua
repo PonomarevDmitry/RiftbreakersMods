@@ -24,7 +24,7 @@ function turrets_cluster:OnActivate()
     originalPosition.y = pos.second.y
     originalPosition.z = pos.second.z
 
-    local positions = self:FindPositionsToBuild(8)
+    local positions = self:FindPositionsToBuild(10)
 
     local position = nil
     local positionNumber = 1
@@ -34,26 +34,20 @@ function turrets_cluster:OnActivate()
         local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
-            goto continue
+            goto continueSlot
         end
 
         if ( not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
-            goto continue
+            goto continueSlot
         end
 
         local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
         if ( blueprintDatabase == nil ) then
-            goto continue
+            goto continueSlot
         end
 
         if ( not blueprintDatabase:HasString("blueprint_list") ) then
-            goto continue
-        end
-
-        position,positionNumber = self:GetPositionToBuild(originalPosition, positionNumber, positions)
-
-        if ( position == nil ) then
-            goto continue
+            goto continueSlot
         end
 
         local blueprintListString = blueprintDatabase:GetString("blueprint_list")
@@ -64,32 +58,38 @@ function turrets_cluster:OnActivate()
 
             local playerItem = ItemService:GetFirstItemForBlueprint( self.owner, itemBlueprintName )
             if ( playerItem == INVALID_ID ) then
-                goto continue2
+                goto continueBlueprintListArray
             end
 
             local inventoryItemComponent = EntityService:GetComponent( playerItem, "InventoryItemComponent" )
             if ( inventoryItemComponent == INVALID_ID ) then
-                goto continue2
+                goto continueBlueprintListArray
             end
 
             local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
 
             if ( inventoryItemComponentRef.use_count <= 0 ) then
-                goto continue2
+                goto continueBlueprintListArray
             end
 
             local itemBlueprintDatabase = EntityService:GetBlueprintDatabase( playerItem )
 
             if ( itemBlueprintDatabase == nil ) then
-                goto continue2
+                goto continueBlueprintListArray
             end
 
             if ( not itemBlueprintDatabase:HasString("blueprint") ) then
-                goto continue2
+                goto continueBlueprintListArray
             end
 
             local turretBlueprint = itemBlueprintDatabase:GetString("blueprint")
             local timeout = itemBlueprintDatabase:GetFloatOrDefault("timeout", 20.0)
+
+            position,positionNumber = self:GetPositionToBuild(originalPosition, positionNumber, positions)
+
+            if ( position == nil ) then
+                goto continueSlot
+            end
 
             local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
             ItemService:SetItemCreator( tower, self.entity_blueprint )
@@ -99,12 +99,14 @@ function turrets_cluster:OnActivate()
                 inventoryItemComponentRef.use_count = inventoryItemComponentRef.use_count - 1
             end
 
-            goto continue
+            do
+                break
+            end
 
-            ::continue2::
+            ::continueBlueprintListArray::
         end
 
-        ::continue::
+        ::continueSlot::
     end
 end
 
