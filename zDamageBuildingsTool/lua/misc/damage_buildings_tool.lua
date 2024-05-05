@@ -38,6 +38,21 @@ function damage_buildings_tool:OnActivateEntity( entity )
     local damageValue = HealthService:GetHealth( entity ) / 4
 
     QueueEvent( "DamageRequest", entity, damageValue, "physical", 1, 0 )
+
+
+    local database = EntityService:GetDatabase( entity )
+    if ( database and database:HasInt("number_of_activations")) then
+
+        local currentNumberOfActivations =  database:GetInt("number_of_activations")
+
+        --local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
+
+        --local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+        
+        currentNumberOfActivations = math.ceil(currentNumberOfActivations / 4)
+
+        database:SetInt("number_of_activations", math.max(1, currentNumberOfActivations))
+    end
 end
 
 return damage_buildings_tool
