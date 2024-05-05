@@ -33,13 +33,6 @@ function auto_mines_laying:InitThrowStateMachine()
         self.machine = self:CreateStateMachine()
         self.machine:AddState( "placemine", { execute="OnPlaceMineExecute", interval=1 } )
         self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.4 } )
-    else
-
-        local state = self.machine:GetState("delay")
-        if ( state == nil ) then
-
-            self.machine:AddState( "delay", { execute="OnDelayExecute", interval=0.4 } )
-        end	 
     end
 end
 
