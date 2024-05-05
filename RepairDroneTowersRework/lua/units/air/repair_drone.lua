@@ -15,6 +15,24 @@ function FindMostDestroyedEntity( source, entities )
 
     for entity in Iter( entities ) do
         local healthPct = HealthService:GetHealthInPercentage( entity );
+
+        if ( healthPct >= 1) then
+
+            local database = EntityService:GetDatabase( entity )
+            if ( database and database:HasInt("number_of_activations")) then
+
+                local currentNumberOfActivations =  database:GetInt("number_of_activations")
+
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
+                local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+
+                if ( maxNumberOfActivations > 0) then
+
+                    healthPct = currentNumberOfActivations / maxNumberOfActivations
+                end
+            end
+        end
+
         if healthPct < 1.0 and (find.entity == INVALID_ID or healthPct < find.healthPct) then
             find.entity = entity;
             find.healthPct = healthPct;
@@ -100,13 +118,29 @@ function repair_drone:FindActionTarget()
                 return false
             end
 
-            local health = HealthService:GetHealthInPercentage( entity )
-            if health >= 1.0 then
+            local mode = BuildingService:GetBuildingMode(entity)
+            if mode ~= BM_COMPLETED then
                 return false
             end
 
-            local mode = BuildingService:GetBuildingMode(entity)
-            if mode ~= BM_COMPLETED then
+            local health = HealthService:GetHealthInPercentage( entity )
+            if health >= 1.0 then
+                local database = EntityService:GetDatabase( entity )
+                if ( database and database:HasInt("number_of_activations")) then
+
+                    local currentNumberOfActivations =  database:GetInt("number_of_activations")
+
+                    local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
+                    local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+
+                    if ( currentNumberOfActivations < maxNumberOfActivations and maxNumberOfActivations > 0 ) then
+
+                        health = currentNumberOfActivations / maxNumberOfActivations
+                    end
+                end
+            end
+
+            if health >= 1.0 then
                 return false
             end
 
@@ -239,7 +273,28 @@ function repair_drone:OnRepairExecute( state )
     end
 
     HealthService:SetHealth(target, math.min( health, maxHealth ));
-    if health >= maxHealth then
+
+    local currentNumberOfActivations = 0
+    local maxNumberOfActivations = 0
+
+    local database = EntityService:GetDatabase( target )
+    if ( database and database:HasInt("number_of_activations")) then
+
+        currentNumberOfActivations =  database:GetInt("number_of_activations")
+
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( target )
+
+        maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+        
+        if ( currentNumberOfActivations < maxNumberOfActivations ) then
+
+            currentNumberOfActivations = currentNumberOfActivations + 1
+
+            database:SetInt("number_of_activations", currentNumberOfActivations)
+        end
+    end
+    
+    if (health >= maxHealth and currentNumberOfActivations >= maxNumberOfActivations ) then
         return self:FinishTargetAction(state)
     end
 end
