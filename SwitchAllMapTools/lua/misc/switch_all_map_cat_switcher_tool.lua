@@ -66,7 +66,7 @@ function switch_all_map_cat_switcher_tool:UpdateMarker()
     local buildingIconVisible = 0
     local buildingIcon = ""
 
-    local markerBlueprint = self.data:GetString("marker_on")
+    local markerBlueprint = self.data:GetString("marker")
 
     if ( self.categoryTemplate == "" ) then
 
