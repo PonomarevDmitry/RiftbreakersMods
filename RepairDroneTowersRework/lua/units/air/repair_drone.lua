@@ -290,6 +290,8 @@ function repair_drone:OnRepairExecute( state )
 
             currentNumberOfActivations = currentNumberOfActivations + 1
 
+            currentNumberOfActivations = math.min( currentNumberOfActivations, maxNumberOfActivations )
+
             database:SetInt("number_of_activations", currentNumberOfActivations)
         end
     end
