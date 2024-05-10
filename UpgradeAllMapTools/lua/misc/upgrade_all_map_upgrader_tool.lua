@@ -51,6 +51,8 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
 
+        markerBlueprint = self.data:GetString("marker_select")
+
         local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
 
         local buildingNumber = #self.lastSelectedBuildingsArray - indexBuilding
@@ -73,46 +75,36 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
 
         local menuIcon, buildingDescRef = self:GetMenuIcon( self.selectedBuildingBlueprint )
 
+        messageText = self:GetBuildinsDescription()
+
         if ( menuIcon ~= "" ) then
 
             buildingIcon = menuIcon
             buildingIconVisible = 1
-
-            local isGroup = (self.selectedMode == self.modeBuildingGroup)
-
-            local buildingsIcons = self:GetBuildinsDescription()
-
-            if (string.len(buildingsIcons) > 0) then
-
-                if ( isGroup ) then
-                    messageText = "${gui/hud/upgrade_all_map/building_group}: " .. buildingsIcons
-                else
-                    messageText = buildingsIcons
-                end
-            else
-
-                if ( isGroup ) then
-                    messageText = "gui/hud/upgrade_all_map/building_group"
-                end
-            end
-
-            if ( isGroup ) then
-
-                markerBlueprint = self.data:GetString("marker_group")
-            end
         else
 
             buildingIcon = "gui/menu/research/icons/missing_icon_big"
             buildingIconVisible = 1
-
-            messageText = "gui/hud/upgrade_all_map/building_not_selected"
         end
     else
 
         buildingIconVisible = 1
 
         buildingIcon = "gui/menu/research/icons/missing_icon_big"
-        messageText = "gui/hud/upgrade_all_map/building_not_selected"
+        messageText = "${gui/hud/upgrade_all_map/building_not_selected}"
+    end
+
+    if ( self.selectedMode == self.modeBuildingGroup ) then
+
+        markerBlueprint = self.data:GetString("marker_group")
+
+        if (string.len(messageText) > 0) then
+
+            messageText = "${gui/hud/upgrade_all_map/building_group}: " .. messageText
+        else
+
+            messageText = "${gui/hud/upgrade_all_map/building_group}"
+        end
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
