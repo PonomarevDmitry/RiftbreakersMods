@@ -55,6 +55,8 @@ function sell_all_map_seller_tool:UpdateMarker()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
 
+        markerBlueprint = self.data:GetString("marker_select")
+
         local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
 
         local buildingNumber = #self.lastSelectedBuildingsArray - indexBuilding

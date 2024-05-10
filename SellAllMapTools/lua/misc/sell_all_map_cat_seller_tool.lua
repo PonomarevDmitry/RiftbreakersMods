@@ -79,6 +79,8 @@ function sell_all_map_cat_seller_tool:UpdateMarker()
 
     elseif ( self.selectedMode >= self.modeSelectLast ) then
 
+        markerBlueprint = self.data:GetString("marker_select")
+
         local indexCategory = self.selectedMode - self.modeSelectLast
 
         local categoryNumber = #self.lastSelectedCategoriesArray - indexCategory
