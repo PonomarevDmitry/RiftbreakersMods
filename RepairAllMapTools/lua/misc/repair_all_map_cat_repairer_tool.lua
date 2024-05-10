@@ -18,9 +18,6 @@ end
 
 function repair_all_map_cat_repairer_tool:OnInit()
 
-    local markerName = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity( markerName, self.entity )
-
     self.scaleMap = {
         1,
     }
@@ -55,21 +52,19 @@ end
 
 function repair_all_map_cat_repairer_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local messageText = ""
+    local buildingIconVisible = 0
+    local buildingIcon = ""
+
+    local markerBlueprint = self.data:GetString("marker_name")
 
     if ( self.categoryTemplate == "" ) then
 
-        markerDB:SetString("message_text", "")
-        markerDB:SetString("building_icon", "")
-        markerDB:SetInt("building_visible", 0)
+        messageText = ""
 
-        return
-    end
+    elseif ( self.selectedMode >= self.modeSelectLast ) then
 
-
-    markerDB:SetInt("building_visible", 1)
-
-    if ( self.selectedMode >= self.modeSelectLast ) then
+        markerBlueprint = self.data:GetString("marker_select")
 
         local indexCategory = self.selectedMode - self.modeSelectLast
 
@@ -80,29 +75,54 @@ function repair_all_map_cat_repairer_tool:UpdateMarker()
 
         local menuIcon = "gui/hud/building_icons/" .. self.lastSelectedCategory ..  "_structures_neutral"
 
-        local messageText = "${gui/hud/repair_all_map/last_building} " .. tostring(indexCategory + 1)
+        messageText = "${gui/hud/repair_all_map/last_building} " .. tostring(indexCategory + 1)
 
-        markerDB:SetString("building_icon", menuIcon)
-        markerDB:SetString("message_text", messageText)
+        buildingIcon = menuIcon
+        buildingIconVisible = 1
 
     elseif ( self.selectedCategory ~= "" ) then
 
-        markerDB:SetString("message_text", "")
+        messageText = ""
 
         local menuIcon = "gui/hud/building_icons/" .. self.selectedCategory ..  "_structures_neutral"
 
         if ( ResourceManager:ResourceExists("Material", menuIcon) ) then
 
-            markerDB:SetString("building_icon", menuIcon)
+            buildingIcon = menuIcon
         else
 
-            markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
+            buildingIcon = "gui/menu/research/icons/missing_icon_big"
         end
+
+        buildingIconVisible = 1
     else
 
-        markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
-        markerDB:SetString("message_text", "gui/hud/repair_all_map/building_category_not_selected")
+        buildingIcon = "gui/menu/research/icons/missing_icon_big"
+        buildingIconVisible = 1
+
+        messageText = "${gui/hud/repair_all_map/building_category_not_selected}"
     end
+
+    if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
+
+        -- Destroy old marker
+        if (self.childEntity ~= nil) then
+
+            EntityService:RemoveEntity(self.childEntity)
+            self.childEntity = nil
+        end
+
+        -- Create new marker
+        self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+    end
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+
+    markerDB:SetInt("building_visible", 1)
+
+    markerDB:SetInt("building_icon_visible", buildingIconVisible)
+    markerDB:SetString("building_icon", buildingIcon)
+    markerDB:SetString("message_text", messageText)
 end
 
 function repair_all_map_cat_repairer_tool:SpawnCornerBlueprint()

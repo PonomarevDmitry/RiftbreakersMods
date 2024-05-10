@@ -50,7 +50,18 @@ function repair_all_map_repairer_tool:SetBuildingIcon()
 
     local markerBlueprint = self.data:GetString("marker_name")
 
+    if ( self.selectedMode == self.modeBuilding ) then
+
+        markerBlueprint = self.data:GetString("marker_name")
+
+    elseif ( self.selectedMode == self.modeBuildingGroup ) then
+
+        markerBlueprint = self.data:GetString("marker_group")
+    end
+
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        markerBlueprint = self.data:GetString("marker_select")
 
         local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
 
@@ -72,8 +83,6 @@ function repair_all_map_repairer_tool:SetBuildingIcon()
 
     elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
-        local isGroup = (self.selectedMode == self.modeBuildingGroup)
-
         local menuIcon, buildingDescRef = self:GetMenuIcon( self.selectedBuildingBlueprint )
 
         if ( menuIcon ~= "" ) then
@@ -83,25 +92,33 @@ function repair_all_map_repairer_tool:SetBuildingIcon()
 
             messageText = "${" .. buildingDescRef.localization_id .. "}"
 
-            if ( isGroup ) then
+            if ( self.selectedMode == self.modeBuildingGroup ) then
 
                 messageText = "${gui/hud/repair_all_map/building_group}: " .. messageText
-
-                markerBlueprint = self.data:GetString("marker_group")
             end
         else
 
             buildingIcon = "gui/menu/research/icons/missing_icon_big"
             buildingIconVisible = 1
 
-            messageText = "gui/hud/repair_all_map/building_not_selected"
+            messageText = "${gui/hud/repair_all_map/building_not_selected}"
+
+            if ( self.selectedMode == self.modeBuildingGroup ) then
+
+                messageText = "${gui/hud/repair_all_map/building_group}: " .. messageText
+            end
         end
     else
 
         buildingIconVisible = 1
 
         buildingIcon = "gui/menu/research/icons/missing_icon_big"
-        messageText = "gui/hud/repair_all_map/building_not_selected"
+        messageText = "${gui/hud/repair_all_map/building_not_selected}"
+
+        if ( self.selectedMode == self.modeBuildingGroup ) then
+
+            messageText = "${gui/hud/repair_all_map/building_group}: " .. messageText
+        end
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
