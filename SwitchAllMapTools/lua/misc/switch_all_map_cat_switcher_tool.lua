@@ -68,6 +68,15 @@ function switch_all_map_cat_switcher_tool:UpdateMarker()
 
     local markerBlueprint = self.data:GetString("marker")
 
+    if ( self.selectedMode == self.modeTurnOn ) then
+
+        markerBlueprint = self.data:GetString("marker_on")
+
+    elseif ( self.selectedMode == self.modeTurnOff ) then
+
+        markerBlueprint = self.data:GetString("marker_off")
+    end
+
     if ( self.categoryTemplate == "" ) then
 
         if ( self.selectedMode == self.modeTurnOn ) then
@@ -84,6 +93,8 @@ function switch_all_map_cat_switcher_tool:UpdateMarker()
         end
 
     elseif ( self.selectedMode >= self.modeSelectLast ) then
+
+        markerBlueprint = self.data:GetString("marker_select")
 
         local indexCategory = self.selectedMode - self.modeSelectLast
 
@@ -111,26 +122,31 @@ function switch_all_map_cat_switcher_tool:UpdateMarker()
             buildingIcon = "gui/menu/research/icons/missing_icon_big"
         end
 
-        buildingIconVisible = 1
-
         if ( self.selectedMode == self.modeTurnOn ) then
-
-            markerBlueprint = self.data:GetString("marker_on")
 
             messageText = "${gui/hud/switch_all_map/power_on}"
 
         elseif ( self.selectedMode == self.modeTurnOff ) then
 
-            markerBlueprint = self.data:GetString("marker_off")
-
             messageText = "${gui/hud/switch_all_map/power_off}"
         end
+
+        buildingIconVisible = 1
     else
 
         buildingIcon = "gui/menu/research/icons/missing_icon_big"
         buildingIconVisible = 1
 
         messageText = "${gui/hud/switch_all_map/building_category_not_selected}"
+
+        if ( self.selectedMode == self.modeTurnOn ) then
+
+            messageText = "${gui/hud/switch_all_map/power_on}: " .. messageText
+
+        elseif ( self.selectedMode == self.modeTurnOff ) then
+
+            messageText = "${gui/hud/switch_all_map/power_off}: " .. messageText
+        end
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then

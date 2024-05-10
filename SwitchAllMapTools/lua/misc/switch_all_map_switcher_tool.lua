@@ -51,7 +51,26 @@ function switch_all_map_switcher_tool:UpdateMarker()
 
     local markerBlueprint = self.data:GetString("marker")
 
+    if ( self.selectedMode == self.modeTurnOn ) then
+
+        markerBlueprint = self.data:GetString("marker_on")
+
+    elseif ( self.selectedMode == self.modeTurnOff ) then
+
+        markerBlueprint = self.data:GetString("marker_off")
+
+    elseif ( self.selectedMode == self.modeTurnGroupOn ) then
+
+        markerBlueprint = self.data:GetString("marker_group_on")
+
+    elseif ( self.selectedMode == self.modeTurnGroupOff ) then
+
+        markerBlueprint = self.data:GetString("marker_group_off")
+    end
+
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        markerBlueprint = self.data:GetString("marker_select")
 
         local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
 
@@ -79,12 +98,46 @@ function switch_all_map_switcher_tool:UpdateMarker()
 
             buildingIcon = menuIcon
             buildingIconVisible = 1
+
+            if ( self.selectedMode == self.modeTurnOn ) then
+
+                messageText = "${gui/hud/switch_all_map/power_on}"
+
+            elseif ( self.selectedMode == self.modeTurnOff ) then
+
+                messageText = "${gui/hud/switch_all_map/power_off}"
+
+            elseif ( self.selectedMode == self.modeTurnGroupOn ) then
+
+                messageText = "${gui/hud/switch_all_map/building_group_power_on}"
+
+            elseif ( self.selectedMode == self.modeTurnGroupOff ) then
+
+                messageText = "${gui/hud/switch_all_map/building_group_power_off}"
+            end
         else
 
             buildingIcon = "gui/menu/research/icons/missing_icon_big"
             buildingIconVisible = 1
 
             messageText = "${gui/hud/switch_all_map/building_not_selected}"
+
+            if ( self.selectedMode == self.modeTurnOn ) then
+
+                messageText = "${gui/hud/switch_all_map/power_on}: " .. messageText
+
+            elseif ( self.selectedMode == self.modeTurnOff ) then
+
+                messageText = "${gui/hud/switch_all_map/power_off}: " .. messageText
+
+            elseif ( self.selectedMode == self.modeTurnGroupOn ) then
+
+                messageText = "${gui/hud/switch_all_map/building_group_power_on}: " .. messageText
+
+            elseif ( self.selectedMode == self.modeTurnGroupOff ) then
+
+                messageText = "${gui/hud/switch_all_map/building_group_power_off}: " .. messageText
+            end
         end
     else
 
@@ -92,31 +145,23 @@ function switch_all_map_switcher_tool:UpdateMarker()
 
         buildingIcon = "gui/menu/research/icons/missing_icon_big"
         messageText = "${gui/hud/switch_all_map/building_not_selected}"
-    end
 
-    if ( self.selectedMode == self.modeTurnOn ) then
+        if ( self.selectedMode == self.modeTurnOn ) then
 
-        markerBlueprint = self.data:GetString("marker_on")
+            messageText = "${gui/hud/switch_all_map/power_on}: " .. messageText
 
-        messageText = "${gui/hud/switch_all_map/power_on}"
+        elseif ( self.selectedMode == self.modeTurnOff ) then
 
-    elseif ( self.selectedMode == self.modeTurnOff ) then
+            messageText = "${gui/hud/switch_all_map/power_off}: " .. messageText
 
-        markerBlueprint = self.data:GetString("marker_off")
+        elseif ( self.selectedMode == self.modeTurnGroupOn ) then
 
-        messageText = "${gui/hud/switch_all_map/power_off}"
+            messageText = "${gui/hud/switch_all_map/building_group_power_on}: " .. messageText
 
-    elseif ( self.selectedMode == self.modeTurnGroupOn ) then
+        elseif ( self.selectedMode == self.modeTurnGroupOff ) then
 
-        markerBlueprint = self.data:GetString("marker_group_on")
-
-        messageText = "${gui/hud/switch_all_map/building_group_power_on}"
-
-    elseif ( self.selectedMode == self.modeTurnGroupOff ) then
-
-        markerBlueprint = self.data:GetString("marker_group_off")
-
-        messageText = "${gui/hud/switch_all_map/building_group_power_off}"
+            messageText = "${gui/hud/switch_all_map/building_group_power_off}: " .. messageText
+        end
     end
 
     if ( self.childEntity == nil or EntityService:GetBlueprintName(self.childEntity) ~= markerBlueprint ) then
