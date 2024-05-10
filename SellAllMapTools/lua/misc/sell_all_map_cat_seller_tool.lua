@@ -18,9 +18,6 @@ end
 
 function sell_all_map_cat_seller_tool:OnInit()
 
-    local markerName = self.data:GetString("marker_name")
-    self.childEntity = EntityService:SpawnAndAttachEntity( markerName, self.entity )
-
     self.scaleMap = {
         1,
     }
