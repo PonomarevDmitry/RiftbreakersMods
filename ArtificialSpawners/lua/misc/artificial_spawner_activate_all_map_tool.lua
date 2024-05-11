@@ -100,6 +100,8 @@ function artificial_spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt)
         return
     end
 
+    EffectService:SpawnEffect( self.player, "effects/enemies_generic/wave_start" )
+
     for entity in Iter( self.allSpawners ) do
 
         QueueEvent( "InteractWithEntityRequest", entity, self.player )
