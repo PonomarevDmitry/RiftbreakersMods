@@ -51,7 +51,68 @@ function switch_all_map_cat_switcher_tool:OnInit()
 
     self.selectedMode = self.modeTurnOn
 
+    self.entitiesBuildings = self:GetBaseEntitiesList()
+
     self:UpdateMarker()
+end
+
+function switch_all_map_cat_switcher_tool:GetBaseEntitiesList()
+
+    local result = {}
+    local hashResult = {}
+
+    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+
+    for entity in Iter( entitiesBuildings ) do
+
+        if ( hashResult[entity] == true ) then
+            goto continue
+        end
+
+        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+            goto continue
+        end
+
+        if ( EntityService:GetComponent(entity, "ResourceConverterComponent") == nil ) then
+            goto continue
+        end
+
+        if ( not PowerUtils:CanChangePower(entity) ) then
+            goto continue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+        if ( self.categoryTemplate ~= "" ) then
+
+            if ( buildingDescRef.category ~= self.selectedCategory ) then
+
+                goto continue
+            end
+        end
+
+        Insert( result, entity )
+        hashResult[entity] = true
+
+        ::continue::
+    end
+
+    return result
 end
 
 function switch_all_map_cat_switcher_tool:SpawnCornerBlueprint()
@@ -186,12 +247,15 @@ function switch_all_map_cat_switcher_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
+        if ( EntityService:GetComponent(entity, "IsVisibleComponent") ~= nil ) then
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            local skinned = EntityService:IsSkinned(entity)
+
+            if ( skinned ) then
+                EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+            else
+                EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            end
         end
 
         ::continue::
@@ -201,56 +265,24 @@ end
 function switch_all_map_cat_switcher_tool:FindEntitiesToSelect( selectorComponent )
 
     local result = {}
+    local hashResult = {}
 
     if ( self.selectedMode >= self.modeSelectLast ) then
         return result
     end
 
-    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+    local entitiesBuildings = self.entitiesBuildings or {}
 
     local setPower = ( self.selectedMode == self.modeTurnOn )
 
     for entity in Iter( entitiesBuildings ) do
 
-        if ( IndexOf( result, entity ) ~= nil ) then
+        if ( not EntityService:IsAlive(entity) ) then
             goto continue
         end
 
-        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        if ( buildingComponent == nil ) then
+        if ( hashResult[entity] == true ) then
             goto continue
-        end
-
-        if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-            goto continue
-        end
-
-        if ( EntityService:GetComponent(entity, "ResourceConverterComponent") == nil ) then
-            goto continue
-        end
-
-        if ( not PowerUtils:CanChangePower(entity) ) then
-            goto continue
-        end
-
-        local blueprintName = EntityService:GetBlueprintName( entity )
-
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-        if ( buildingDesc == nil ) then
-            goto continue
-        end
-
-        local buildingDescRef = reflection_helper( buildingDesc )
-        if ( buildingDescRef == nil ) then
-            goto continue
-        end
-
-        if ( self.categoryTemplate ~= "" ) then
-
-            if ( buildingDescRef.category ~= self.selectedCategory ) then
-
-                goto continue
-            end
         end
 
         if( BuildingService:IsPlayerWorking( entity ) == setPower ) then
@@ -258,6 +290,7 @@ function switch_all_map_cat_switcher_tool:FindEntitiesToSelect( selectorComponen
         end
 
         Insert( result, entity )
+        hashResult[entity] = true
 
         ::continue::
     end
@@ -320,6 +353,8 @@ function switch_all_map_cat_switcher_tool:ChangeSelector(category)
     self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
 
     self.selectedMode = self.modeTurnOn
+
+    self.entitiesBuildings = self:GetBaseEntitiesList()
 
     self:UpdateMarker()
 

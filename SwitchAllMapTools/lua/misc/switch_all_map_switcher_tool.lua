@@ -40,7 +40,44 @@ function switch_all_map_switcher_tool:OnInit()
 
     self.selectedMode = self.modeTurnOn
 
+    self.entitiesBuildings = self:GetBaseEntitiesList()
+
     self:UpdateMarker()
+end
+
+function switch_all_map_switcher_tool:GetBaseEntitiesList()
+
+    local result = {}
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+        return result
+    end
+
+    local hashResult = {}
+
+    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+
+    for entity in Iter( entitiesBuildings ) do
+
+        if ( hashResult[entity] == true ) then
+            goto continue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue
+        end
+
+        if ( not self:IsEntityApproved(entity) ) then
+            goto continue
+        end
+
+        Insert( result, entity )
+        hashResult[entity] = true
+
+        ::continue::
+    end
+
+    return result
 end
 
 function switch_all_map_switcher_tool:UpdateMarker()
@@ -225,12 +262,15 @@ function switch_all_map_switcher_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
+        if ( EntityService:GetComponent(entity, "IsVisibleComponent") ~= nil ) then
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            local skinned = EntityService:IsSkinned(entity)
+
+            if ( skinned ) then
+                EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+            else
+                EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            end
         end
 
         ::continue::
@@ -245,21 +285,19 @@ function switch_all_map_switcher_tool:FindEntitiesToSelect( selectorComponent )
         return result
     end
 
-    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+    local hashResult = {}
+
+    local entitiesBuildings = self.entitiesBuildings or {}
 
     local setPower = ( self.selectedMode == self.modeTurnOn or self.selectedMode == self.modeTurnGroupOn )
 
     for entity in Iter( entitiesBuildings ) do
 
-        if ( IndexOf( result, entity ) ~= nil ) then
+        if ( not EntityService:IsAlive(entity) ) then
             goto continue
         end
 
-        if ( EntityService:GetComponent(entity, "ResourceConverterComponent") == nil ) then
-            goto continue
-        end
-
-        if ( not self:IsEntityApproved(entity) ) then
+        if ( hashResult[entity] == true ) then
             goto continue
         end
 
@@ -268,6 +306,7 @@ function switch_all_map_switcher_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         Insert( result, entity )
+        hashResult[entity] = true
 
         ::continue::
     end
@@ -293,13 +332,12 @@ function switch_all_map_switcher_tool:IsEntityApproved( entity )
         return false
     end
 
-    local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-    if ( buildingComponent == nil ) then
+    if ( EntityService:GetComponent(entity, "ResourceConverterComponent") == nil ) then
         return false
     end
 
-    local buildingComponentRef = reflection_helper(buildingComponent)
-    if ( buildingComponentRef.m_isSellable == false ) then
+    local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+    if ( buildingComponent == nil ) then
         return false
     end
 
@@ -369,6 +407,8 @@ function switch_all_map_switcher_tool:OnRotateSelectorRequest(evt)
 
     self.selectedMode = newValue
 
+    self.entitiesBuildings = self:GetBaseEntitiesList()
+
     self:UpdateMarker()
 end
 
@@ -435,6 +475,8 @@ function switch_all_map_switcher_tool:ChangeSelector(blueprintName)
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
 
     self.selectedMode = self.modeTurnOn
+
+    self.entitiesBuildings = self:GetBaseEntitiesList()
 
     self:UpdateMarker()
 
