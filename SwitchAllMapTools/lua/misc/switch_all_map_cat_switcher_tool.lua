@@ -98,6 +98,11 @@ function switch_all_map_cat_switcher_tool:GetBaseEntitiesList()
             goto continue
         end
 
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName == "short_range_radar" ) then
+            goto continue
+        end
+
         if ( self.categoryTemplate ~= "" ) then
 
             if ( buildingDescRef.category ~= self.selectedCategory ) then
