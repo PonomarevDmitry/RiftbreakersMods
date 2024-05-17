@@ -19,6 +19,15 @@ end
 
 function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
+    local selectorPosition = selectorComponent.position
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+    local minVector = VectorSub(selectorPosition, scaleVector)
+    local maxVector = VectorAdd(selectorPosition, scaleVector)
+
     local predicate = {
 
         signature="TypeComponent",
@@ -31,20 +40,11 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
             return false
         end
-    };
-
-    local position = selectorComponent.position
-
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
-
-    local minVector = VectorSub(position, scaleVector)
-    local maxVector = VectorAdd(position, scaleVector)
+    }
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
 
-    local possibleSelectedEnts = {}
+    local result = {}
 
     for entity in Iter( tempCollection ) do
 
@@ -52,7 +52,7 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
-        if ( IndexOf( possibleSelectedEnts, entity ) ~= nil ) then
+        if ( IndexOf( result, entity ) ~= nil ) then
             goto continue
         end
 
@@ -60,12 +60,34 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
-        Insert( possibleSelectedEnts, entity )
+        Insert( result, entity )
 
         ::continue::
     end
 
-    local selectorPosition = selectorComponent.position
+
+    predicate = {
+        signature = "VegetationLifecycleEnablerComponent"
+    }
+
+    tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto continue2
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue2
+        end
+
+        Insert( result, entity )
+
+        ::continue2::
+    end
+
+    
 
     local sorter = function( t, lhs, rhs )
         local p1 = EntityService:GetPosition( lhs )
@@ -75,11 +97,11 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
         return d1 < d2
     end
 
-    table.sort(possibleSelectedEnts, function(a,b)
-        return sorter(possibleSelectedEnts, a, b)
+    table.sort(result, function(a,b)
+        return sorter(result, a, b)
     end)
 
-    return possibleSelectedEnts
+    return result
 end
 
 function eraser_flora_tool:AddedToSelection( entity )
