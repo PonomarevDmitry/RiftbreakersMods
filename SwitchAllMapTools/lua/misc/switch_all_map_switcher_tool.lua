@@ -63,10 +63,6 @@ function switch_all_map_switcher_tool:GetBaseEntitiesList()
             goto continue
         end
 
-        if ( IndexOf( result, entity ) ~= nil ) then
-            goto continue
-        end
-
         if ( not self:IsEntityApproved(entity) ) then
             goto continue
         end
