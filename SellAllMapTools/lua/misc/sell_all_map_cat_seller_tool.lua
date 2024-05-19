@@ -50,10 +50,72 @@ function sell_all_map_cat_seller_tool:OnInit()
 
     self.selectedMode = self.modeSelect
 
+    self.entitiesBuildings = self:GetBaseEntitiesList()
+
     self:UpdateMarker()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+end
+
+function sell_all_map_cat_seller_tool:GetBaseEntitiesList()
+
+    local result = {}
+    local hashResult = {}
+
+    if ( self.selectedMode >= self.modeSelectLast ) then
+        return result
+    end
+
+    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+
+    for entity in Iter( entitiesBuildings ) do
+
+        if ( hashResult[entity] == true ) then
+            goto continue
+        end
+
+        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local buildingComponentRef = reflection_helper(buildingComponent)
+        if ( buildingComponentRef.m_isSellable == false ) then
+            goto continue
+        end
+
+        if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+            goto continue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+        if ( self.categoryTemplate ~= "" ) then
+
+            if ( buildingDescRef.category ~= self.selectedCategory ) then
+
+                goto continue
+            end
+        end
+
+        Insert( result, entity )
+        hashResult[entity] = true
+
+        ::continue::
+    end
+
+    return result
 end
 
 function sell_all_map_cat_seller_tool:SpawnCornerBlueprint()
@@ -243,8 +305,6 @@ function sell_all_map_cat_seller_tool:OnUpdate()
 
         sellCostsEntities[entity] = true
 
-        local skinned = EntityService:IsSkinned(entity)
-
 
 
         local blueprintName = EntityService:GetBlueprintName( entity )
@@ -253,10 +313,15 @@ function sell_all_map_cat_seller_tool:OnUpdate()
 
         local buildingDescRef = reflection_helper( buildingDesc )
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+        if ( EntityService:GetComponent(entity, "IsVisibleComponent") ~= nil ) then
+
+            local skinned = EntityService:IsSkinned(entity)
+
+            if ( skinned ) then
+                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+            else
+                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+            end
         end
 
         local list = BuildingService:GetSellResourceAmount( entity )
@@ -377,51 +442,22 @@ end
 function sell_all_map_cat_seller_tool:FindEntitiesToSelect( selectorComponent )
 
     local result = {}
+    local hashResult = {}
 
     if ( self.selectedMode >= self.modeSelectLast ) then
         return result
     end
 
-    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+    local entitiesBuildings = self.entitiesBuildings or {}
 
     for entity in Iter( entitiesBuildings ) do
 
-        if ( IndexOf( result, entity ) ~= nil ) then
+        if ( not EntityService:IsAlive(entity) ) then
             goto continue
         end
 
-        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-        if ( buildingComponent == nil ) then
+        if ( hashResult[entity] == true ) then
             goto continue
-        end
-
-        local buildingComponentRef = reflection_helper(buildingComponent)
-        if ( buildingComponentRef.m_isSellable == false ) then
-            goto continue
-        end
-
-        if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-            goto continue
-        end
-
-        local blueprintName = EntityService:GetBlueprintName( entity )
-
-        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-        if ( buildingDesc == nil ) then
-            goto continue
-        end
-
-        local buildingDescRef = reflection_helper( buildingDesc )
-        if ( buildingDescRef == nil ) then
-            goto continue
-        end
-
-        if ( self.categoryTemplate ~= "" ) then
-
-            if ( buildingDescRef.category ~= self.selectedCategory ) then
-
-                goto continue
-            end
         end
 
         Insert( result, entity )
@@ -515,6 +551,8 @@ function sell_all_map_cat_seller_tool:ChangeSelector(category)
     self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
 
     self.selectedMode = self.modeSelect
+
+    self.entitiesBuildings = self:GetBaseEntitiesList()
 
     self:UpdateMarker()
 

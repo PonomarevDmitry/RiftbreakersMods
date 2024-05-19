@@ -39,10 +39,47 @@ function sell_all_map_seller_tool:OnInit()
 
     self.selectedMode = self.modeBuilding
 
+    self.entitiesBuildings = self:GetBaseEntitiesList()
+
     self:UpdateMarker()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+end
+
+function sell_all_map_seller_tool:GetBaseEntitiesList()
+
+    local result = {}
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+        return result
+    end
+
+    local hashResult = {}
+
+    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+
+    for entity in Iter( entitiesBuildings ) do
+
+        if ( hashResult[entity] == true ) then
+            goto continue
+        end
+
+        if ( not EntityService:IsAlive(entity) ) then
+            goto continue
+        end
+
+        if ( not self:IsEntityApproved(entity) ) then
+            goto continue
+        end
+
+        Insert( result, entity )
+        hashResult[entity] = true
+
+        ::continue::
+    end
+
+    return result
 end
 
 function sell_all_map_seller_tool:UpdateMarker()
@@ -281,7 +318,6 @@ function sell_all_map_seller_tool:OnUpdate()
 
         sellCostsEntities[entity] = true
 
-        local skinned = EntityService:IsSkinned(entity)
 
 
 
@@ -291,10 +327,15 @@ function sell_all_map_seller_tool:OnUpdate()
 
         local buildingDescRef = reflection_helper( buildingDesc )
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+        if ( EntityService:GetComponent(entity, "IsVisibleComponent") ~= nil ) then
+
+            local skinned = EntityService:IsSkinned(entity)
+
+            if ( skinned ) then
+                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+            else
+                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+            end
         end
 
         local list = BuildingService:GetSellResourceAmount( entity )
@@ -328,19 +369,22 @@ function sell_all_map_seller_tool:FindEntitiesToSelect( selectorComponent )
         return result
     end
 
-    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+    local hashResult = {}
+
+    local entitiesBuildings = self.entitiesBuildings or {}
 
     for entity in Iter( entitiesBuildings ) do
 
-        if ( IndexOf( result, entity ) ~= nil ) then
+        if ( not EntityService:IsAlive(entity) ) then
             goto continue
         end
 
-        if ( not self:IsEntityApproved(entity) ) then
+        if ( hashResult[entity] == true ) then
             goto continue
         end
 
         Insert( result, entity )
+        hashResult[entity] = true
 
         ::continue::
     end
@@ -438,6 +482,8 @@ function sell_all_map_seller_tool:OnRotateSelectorRequest(evt)
 
     self.selectedMode = newValue
 
+    self.entitiesBuildings = self:GetBaseEntitiesList()
+
     self:UpdateMarker()
 end
 
@@ -530,6 +576,8 @@ function sell_all_map_seller_tool:ChangeSelector(blueprintName)
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
 
     self.selectedMode = self.modeBuilding
+
+    self.entitiesBuildings = self:GetBaseEntitiesList()
 
     self:UpdateMarker()
 
