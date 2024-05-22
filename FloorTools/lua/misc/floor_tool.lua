@@ -304,6 +304,8 @@ end
 function floor_tool:SpawnGhostFloorEntity(position, orientation, currentSize)
 
     local lineEnt = EntityService:SpawnAndAttachEntity( self.ghostBlueprintName, self.selector )
+    
+    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
 
     EntityService:RemoveComponent( lineEnt, "LuaComponent" )
     EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
