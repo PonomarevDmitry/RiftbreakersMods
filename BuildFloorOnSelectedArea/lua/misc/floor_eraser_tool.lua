@@ -371,6 +371,7 @@ function floor_eraser:OnUpdate()
                     newPosition.z = positionZ
 
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 
@@ -405,6 +406,7 @@ function floor_eraser:OnUpdate()
                     newPosition.z = positionZ
 
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/eraser_1x1_ghost", newPosition, team )
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
 

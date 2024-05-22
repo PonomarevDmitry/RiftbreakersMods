@@ -347,6 +347,7 @@ function ghost_building_floor:OnUpdate()
                     newPosition.z = positionZ
 
                     local lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale )
 
@@ -381,6 +382,7 @@ function ghost_building_floor:OnUpdate()
                     newPosition.z = positionZ
 
                     local lineEnt = EntityService:SpawnEntity( self.ghostBlueprint, newPosition, team )
+                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale )
 
