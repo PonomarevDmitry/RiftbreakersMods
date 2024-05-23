@@ -30,7 +30,7 @@ TimeOfDayPreset
 			fade_in_falloff "2.000"
 		}
 
-		skybox_specular_intensity "0.210"
+		skybox_specular_intensity "0"
 		physics_gravity_factor "1.000"
 		time_of_day "2"
 		skybox_diffuse_intensity "0.115"
@@ -103,7 +103,7 @@ TimeOfDayPreset
 			fade_in_falloff "2.000"
 		}
 
-		skybox_specular_intensity "0.825"
+		skybox_specular_intensity "0"
 		physics_gravity_factor "1.000"
 		time_of_day "0"
 		skybox_diffuse_intensity "0.881"
@@ -176,7 +176,7 @@ TimeOfDayPreset
 			fade_in_falloff "2.000"
 		}
 
-		skybox_specular_intensity "0.440"
+		skybox_specular_intensity "0"
 		physics_gravity_factor "1.000"
 		time_of_day "3"
 		skybox_diffuse_intensity "0.201"
@@ -239,7 +239,7 @@ TimeOfDayPreset
 			fade_in_falloff "2.000"
 		}
 
-		skybox_specular_intensity "0.300"
+		skybox_specular_intensity "0"
 		physics_gravity_factor "1.000"
 		time_of_day "1"
 		skybox_diffuse_intensity "0.180"

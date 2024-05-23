@@ -1,0 +1,146 @@
+system rift/holder_marker_violet
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    category                                    RIFT
+    cache_count                                 5
+    technique 
+    {
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_02
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_self
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       40
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             250
+                max                             400
+            }
+            position                            0 50 0
+            colour                              0.501961 0 1 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.5  0.294118 0.294118 0.294118 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+    }
+    technique rings_alpha_3
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/alien_marker_ring_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       1.5
+            angle                               0
+            time_to_live                        2
+            velocity                            1
+            all_particle_dimensions             1
+            position                            0 50 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.05  0.752941 0.752941 0.752941 1
+            time_colour                         0.756522  0.752941 0.752941 0.752941 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             1
+                max                             -1
+            }
+            rotation_speed                      1
+        }
+        affector                                Scale Affector110
+        {
+            xyz_scale                           75
+        }
+    }
+    technique 
+    {
+        keep_local                              true
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_violet_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       80
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             5
+                max                             30
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             3
+            }
+            position                            0 100 0
+            direction                           0 -1 0
+            box_width                           80
+            box_height                          150
+            box_depth                           80
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.3  1 1 1 1
+            time_colour                         0.7  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

@@ -1,0 +1,129 @@
+system rift/mech_grenade_projectile_green
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.3
+    scale                                       0.3 0.3 0.3
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 150
+    technique smoke
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       25
+            angle                               10
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             30
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             3
+            }
+            direction                           -1 0 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            force_emission                      true
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 0
+            time_colour                         0.134783  0.444636 0.505338 0.442396 0.34902
+            time_colour                         0.756522  0.383841 0.501779 0.382138 0.34902
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+        affector                                LinearForce Affector78
+        {
+            force_vector                        0 -15 0
+        }
+        affector                                Scale Affector79
+        {
+            xyz_scale                           10
+        }
+    }
+    technique flare
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_glow_01
+        renderer                                Billboard
+        {
+            render_queue_group                  66
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       100
+            time_to_live                        0.1
+            velocity                            0.0001
+            all_particle_dimensions             dyn_random
+            {
+                min                             8
+                max                             12
+            }
+            colour                              0.185053 1 0 1
+        }
+        affector                                Colour Affector15
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.245652  1 1 1 1
+            time_colour                         0.754348  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator 
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+        }
+    }
+}

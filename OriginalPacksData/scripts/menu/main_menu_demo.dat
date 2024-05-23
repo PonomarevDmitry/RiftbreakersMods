@@ -1,10 +1,80 @@
-BUTTON_prologue_mission                 ""
-BUTTON_game_features_demo               "gui/menu/comming_soon"
-BUTTON_load_game                        "gui/menu/load_menu"
-BUTTON_help_and_options                 "gui/menu/help_and_options"
-BUTTON_upsell                           ""
+//BUTTON_prologue_mission                 ""
+//BUTTON_game_features_demo               "gui/menu/comming_soon"
+//BUTTON_load_game                        "gui/menu/load_menu"
+//BUTTON_help_and_options                 "gui/menu/help_and_options"
+//BUTTON_upsell                           ""
+//
+//#ifdef win
+//    gui/menu/streaming/discord_server   ""
+//    BUTTON_exit_game                    ""
+//#endif
 
-#ifdef win
-    gui/menu/streaming/discord_server   ""
-    BUTTON_exit_game                    ""
-#endif
+MainMenuScreen
+{
+    states
+    {
+        MainMenuState
+        {
+            name    "main"
+            title   "BUTTON_main_menu"
+            background_movie_material "menu/movies/main_menu_prolog_bg"
+
+            items
+            {
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_single_player_game"
+                    icon    "gui/menu/buttons/main_menu/single_player_selected" 
+                    action  "change_state:single_player"
+                }
+            }
+
+        }
+
+        MainMenuState
+        {
+            name    "single_player"
+            title   "BUTTON_single_player_game"
+            background_movie_material "menu/movies/main_menu_prolog_bg"
+
+            items
+            {
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_continue_story"
+                    icon    "gui/menu/buttons/main_menu/continue_selected" 
+                    requirement "has_save"
+                    action  "launch_activity:continue"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_prologue_mission"
+                    icon    "gui/menu/buttons/main_menu/survival_selected" 
+                    action  "start_campaign:campaigns/prologue/prologue.campaign"
+                    action_database
+                    {
+                        streaming   int:"0"
+                    }
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_game_features_demo"
+                    icon    "gui/menu/buttons/main_menu/prolog_selected" 
+                    action  "change_screen:gui/menu/comming_soon"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_load_game"
+                    icon    "gui/menu/buttons/main_menu/load_selected" 
+                    action  "change_screen:gui/menu/load_menu"
+                }
+            }
+
+        }
+        
+    }
+}

@@ -1,0 +1,633 @@
+AnimationGraph
+{
+	name "vegetation_aiming"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "default"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationStateMachineNode"
+				{
+					animation_node_vec
+					{
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "visible_entry"
+								position
+								{
+									x "416.667"
+									y "404.667"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationExitNode"
+						{
+							terminal_node "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "visible_exit"
+								position
+								{
+									x "1410.667"
+									y "396.667"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationMotionNode"
+						{
+							mirror "0"
+							blend_function_holder
+							{
+								funtion_type "0"
+							}
+
+							loop "0"
+							end_time "340282346638528859811704183484516925440.000"
+							anim_name "show"
+							speed "2.000"
+							start_time "0.000"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "show"
+								position
+								{
+									x "938.667"
+									y "166.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationMotionNode"
+						{
+							mirror "0"
+							blend_function_holder
+							{
+								funtion_type "0"
+							}
+
+							loop "1"
+							end_time "340282346638528859811704183484516925440.000"
+							anim_name "visible"
+							speed "1.000"
+							start_time "0.000"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "visible"
+								position
+								{
+									x "944.000"
+									y "398.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationMotionNode"
+						{
+							mirror "0"
+							blend_function_holder
+							{
+								funtion_type "0"
+							}
+
+							loop "0"
+							end_time "340282346638528859811704183484516925440.000"
+							anim_name "hide"
+							speed "2.000"
+							start_time "0.000"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "hide"
+								position
+								{
+									x "922.667"
+									y "604.667"
+								}
+
+							}
+
+						}
+
+					}
+
+					start_node_idx "0"
+					transition_vec
+					{
+						AnimationStateTransitionDef
+						{
+							src_idx "3"
+							condition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "1"
+								param "is_visible"
+								cmp "5"
+							}
+
+							authoritative "0"
+							dst_idx "4"
+							blend_function_type "0"
+							duration "0.100"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "2"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+							authoritative "0"
+							dst_idx "3"
+							blend_function_type "0"
+							duration "0.100"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationTrueTransitionCondition"
+							authoritative "0"
+							dst_idx "2"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "4"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+					}
+
+					metadata
+					{
+						name "visible"
+						position
+						{
+							x "1574.000"
+							y "666.000"
+						}
+
+					}
+
+					emit_progress_event "0"
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "1"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "hidden"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "hidden"
+						position
+						{
+							x "1610.000"
+							y "978.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationEntryNode"
+				{
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "start"
+						position
+						{
+							x "1086.000"
+							y "810.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "2"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_visible"
+						cmp "5"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.300"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "2"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_visible"
+						cmp "4"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "2"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_visible"
+						cmp "5"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_visible"
+						cmp "4"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.300"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+		AnimationGraphLayer
+		{
+			name "aiming"
+			blend_type "1"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "0"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "2"
+								}
+
+							}
+
+							id "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1240.000"
+									y "528.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetVectorParamNode"
+						{
+							param_name "target_pos"
+							dependency_vec
+							id "1"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "448.667"
+									y "328.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationLookAtNode"
+						{
+							goal_type "1"
+							end_bone "be_turret"
+							ik_bone "be_turret"
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "1"
+								}
+
+							}
+
+							id "2"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "852.000"
+									y "398.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					id "65535"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "aiming"
+						position
+						{
+							x "1138.667"
+							y "350.667"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationGetNeutralPoseNode"
+						{
+							dependency_vec
+							id "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "756.000"
+									y "795.333"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							id "1"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1162.000"
+									y "706.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					id "65535"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "neutral"
+						position
+						{
+							x "1193.333"
+							y "110.000"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "1"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_aiming"
+						cmp "4"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_aiming"
+						cmp "5"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "2.000"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "is_visible"
+			data_type "0"
+			is_const "0"
+		}
+
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "is_aiming"
+			data_type "0"
+			is_const "0"
+		}
+
+		ParamDecl "Vector3ParamDecl"
+		{
+			max
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+			}
+
+			min
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+			}
+
+			default
+			{
+				z "0.000"
+				x "0.000"
+				y "0.000"
+			}
+
+			param_name "target_pos"
+			data_type "4"
+			is_const "0"
+		}
+
+	}
+
+}
+

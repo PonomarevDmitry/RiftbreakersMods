@@ -38,7 +38,7 @@ TimeOfDayPreset
 			fog_density "0.025"
 			fade_in_falloff "20.000"
 		}		
-		skybox_specular_intensity "1.000"
+		skybox_specular_intensity "0.500"
 		fog_params
 		{
 			color
@@ -161,7 +161,7 @@ TimeOfDayPreset
 			fog_density "0.025"
 			fade_in_falloff "20.000"
 		}		
-		skybox_specular_intensity "1.000"
+		skybox_specular_intensity "0.250"
 		fog_params
 		{
 			color
@@ -218,7 +218,7 @@ TimeOfDayPreset
 			fog_density "0.025"
 			fade_in_falloff "10.000"
 		}		
-		skybox_specular_intensity "1.000"
+		skybox_specular_intensity "0.500"
 		fog_params
 		{
 			color

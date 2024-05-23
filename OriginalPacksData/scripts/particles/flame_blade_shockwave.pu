@@ -1,0 +1,90 @@
+system rift/flame_blade_shockwave
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.02
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 20
+    technique smoke_dirt
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_wave_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter1
+        {
+            emission_rate                       30
+            angle                               1
+            time_to_live                        0.5
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             400
+            }
+            all_particle_dimensions             250
+            direction                           1 1 0
+            colour                              1 0.501961 0 1
+            box_width                           50
+            box_height                          50
+        }
+        affector                                Colour Affector35
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique smoke_dirt
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/fire_anim_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter1
+        {
+            emission_rate                       50
+            angle                               45
+            time_to_live                        0.5
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             400
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             150
+                max                             200
+            }
+            direction                           1 1 0
+            colour                              1 0.501961 0 1
+            box_width                           50
+            box_height                          50
+        }
+        affector                                Colour Affector35
+        {
+            time_colour                         0    0.752941 0.752941 0.752941 0.4
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector22
+        {
+            force_vector                        0 -500 0
+        }
+    }
+}

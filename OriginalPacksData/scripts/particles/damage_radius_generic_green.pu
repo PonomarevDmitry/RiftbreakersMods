@@ -1,0 +1,70 @@
+system rift/damage_radius_generic_green
+{
+    fixed_timeout                               0.3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.25
+    scale                                       0.25 0.25 0.25
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 100
+    technique shockwave
+    {
+        enabled                                 false
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp2_shockwave_a_add
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.3
+            velocity                            0
+            all_particle_dimensions             1
+            position                            0 1 0
+            colour                              0 1 0.0338984 1
+            force_emission                      true
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           350
+        }
+    }
+    technique shockwave_1
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_02
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.3
+            velocity                            0
+            all_particle_dimensions             1
+            position                            0 1 0
+            force_emission                      true
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           350
+        }
+    }
+}

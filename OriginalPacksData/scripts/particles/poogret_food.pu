@@ -1,0 +1,52 @@
+system rift/poogret_food
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.3
+    scale                                       0.3 0.3 0.3
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 10
+    technique sparks_1
+    {
+        visual_particle_quota                   75
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box sparks
+        {
+            emission_rate                       50
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            0.1
+            all_particle_dimensions             dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           15
+            box_height                          15
+            box_depth                           15
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.11087  0.752941 0.752941 0.752941 1
+            time_colour                         0.758696  0.752941 0.752941 0.752941 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

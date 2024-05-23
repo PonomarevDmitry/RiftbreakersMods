@@ -1,14 +1,225 @@
-BUTTON_continue_story                   ""
-BUTTON_new_campaign                     "gui/menu/new_campaign"
-BUTTON_prologue_mission	                ""
-BUTTON_survival                         "gui/menu/new_survival"
-BUTTON_custom_game                      "gui/menu/new_custom_game"
-BUTTON_load_game                        "gui/menu/load_menu"
-BUTTON_help_and_options                 "gui/menu/help_and_options"
-BUTTON_downloadable_content             ""
+//BUTTON_continue_story                   ""
+//BUTTON_new_campaign                     "gui/menu/new_campaign"
+//BUTTON_prologue_mission	                ""
+//BUTTON_survival                         "gui/menu/new_survival"
+//BUTTON_custom_game                      "gui/menu/new_custom_game"
+//BUTTON_load_game                        "gui/menu/load_menu"
+//BUTTON_help_and_options                 "gui/menu/help_and_options"
+//BUTTON_downloadable_content             ""
+//
+//#ifdef win
+//    BUTTON_multiplayer_game             "gui/menu/multiplayer_game"
+//    BUTTON_mod_management               "gui/menu/mod_management"
+//    gui/menu/streaming/discord_server   ""
+//    BUTTON_exit_game                    ""
+//#endif
 
-#ifdef win
-    BUTTON_mod_management               "gui/menu/mod_management"
-    gui/menu/streaming/discord_server   ""
-    BUTTON_exit_game                    ""
-#endif
+MainMenuScreen
+{
+    states
+    {
+        MainMenuState
+        {
+            name    "main"
+            title   "BUTTON_main_menu"
+            background_movie_material "menu/movies/main_menu_bg"
+            background_material ""
+
+            items
+            {
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_single_player_game"
+                    icon    "gui/menu/buttons/main_menu/single_player_selected" 
+                    action  "change_state:single_player"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label       "BUTTON_multiplayer_game"
+                    icon        "gui/menu/buttons/main_menu/multi_player_selected" 
+                    action      "change_state:multiplayer"
+                    requirement "has_multiplayer"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_mod_management"
+                    icon    "gui/menu/buttons/main_menu/mods_selected" 
+                    action  "change_screen:gui/menu/mod_management"
+                }
+            }
+
+        }
+
+        MainMenuState
+        {
+            name    "single_player"
+            title   "BUTTON_single_player_game"
+            background_movie_material "menu/movies/main_menu_prolog_bg"
+            background_material ""
+            
+            items
+            {
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_continue_story"
+                    icon    "gui/menu/buttons/main_menu/continue_selected" 
+                    requirement "has_save"
+                    action  "launch_activity:continue"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "campaigns/story/story.campaign"
+                    icon    "gui/menu/buttons/main_menu/campaign_selected" 
+                    action  "change_state:campaign"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_survival"
+                    icon    "gui/menu/buttons/main_menu/survival_selected" 
+                    action  "change_state:survival"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_prologue_mission"
+                    icon    "gui/menu/buttons/main_menu/prolog_selected" 
+                    action  "start_campaign:campaigns/prologue/prologue.campaign"
+                    action_database
+                    {
+                        streaming   int:"0"
+                    }
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_custom_game"
+                    icon    "gui/menu/buttons/main_menu/custom_selected" 
+                    action  "change_screen:gui/menu/new_custom_game"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_load_game"
+                    icon    "gui/menu/buttons/main_menu/load_selected" 
+                    action  "change_screen:gui/menu/load_menu"
+                }
+            }
+
+        }
+        
+        MainMenuState
+        {
+            name    "survival"
+            title   "BUTTON_survival"
+            background_movie_material "menu/movies/main_menu_bg"
+            background_material ""
+            
+            items
+            {
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_continue_story"
+                    icon    "gui/menu/buttons/main_menu/continue_selected" 
+                    requirement "has_save:survival"
+                    action  "launch_activity:continue;survival"
+                }
+    
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_survival"
+                    icon    "gui/menu/buttons/main_menu/survival_selected" 
+                    action  "change_screen:gui/menu/new_survival"
+                }
+    
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_load_game"
+                    icon    "gui/menu/buttons/main_menu/load_selected" 
+                    action  "change_screen:gui/menu/load_menu"
+                }
+            }
+
+        }
+        
+        MainMenuState
+        {
+            name    "campaign"
+            title   "campaigns/story/story.campaign"
+            background_movie_material "menu/movies/main_menu_bg"
+            background_material ""
+            
+            items
+            {
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_continue_story"
+                    icon    "gui/menu/buttons/main_menu/continue_selected" 
+                    requirement "has_save:story"
+                    action  "launch_activity:continue;story"
+                }
+    
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_new_campaign"
+                    icon    "gui/menu/buttons/main_menu/survival_selected" 
+                    action  "change_screen:gui/menu/new_campaign"
+                }
+    
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_load_game"
+                    icon    "gui/menu/buttons/main_menu/load_selected" 
+                    action  "change_screen:gui/menu/load_menu"
+                }
+            }
+
+        }
+
+        
+        MainMenuState
+        {
+            name    "multiplayer"
+            title   "BUTTON_multiplayer_game"
+            background_movie_material "menu/movies/main_menu_prolog_bg"
+            background_material ""
+
+            items
+            {
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_host_game"
+                    icon    "gui/menu/buttons/main_menu/multi_player_host_game_selected" 
+                    action  "change_screen:gui/menu/multiplayer_game"
+                }
+    
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_join_game"
+                    icon    "gui/menu/buttons/main_menu/multi_player_join_game_selected" 
+                    action  "change_screen:gui/menu/multiplayer_server_list"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_load_game"
+                    icon    "gui/menu/buttons/main_menu/load_selected" 
+                    action  "change_screen:gui/menu/load_menu"
+                    action_database 
+                    {
+                        enable_listen_server    int:"1"
+                    }
+                }
+    
+            }
+
+        }
+    }
+}

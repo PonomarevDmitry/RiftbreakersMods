@@ -25,9 +25,7 @@ GameplayResourceDef
 	spawn_type		"liquid_volume"
 	order   		"37"
 
-	terrain_material 			"resources/resource_magma_vein"
-	terrain_overflow_material 	"resources/resource_magma_vein_blend"
-	
+	volume_unpack_blueprint "resources/volume_resource_magma"
 	volume_repeat_effect	"effects/world/magma_resource_ambient"
 	volume_ambient_effect  	"effects/world/magma_resource_ambient_sound"
 	volume_splash_effect	"effects/magma_splash_small"	

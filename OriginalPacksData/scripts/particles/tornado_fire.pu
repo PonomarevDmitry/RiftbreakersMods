@@ -43,13 +43,14 @@ system rift/tornado_fire
             repeat_delay                        20
             all_particle_dimensions             dyn_random
             {
-                min                             20
-                max                             40
+                min                             40
+                max                             80
             }
             position                            0 100 0
             start_colour_range                  0.333333 0.333333 0.333333 1
             end_colour_range                    0.207843 0.207843 0.207843 1
             colour                              0 0 0 1
+            auto_direction                      true
             box_width                           70
             box_height                          200
             box_depth                           70
@@ -64,12 +65,21 @@ system rift/tornado_fire
         affector                                Vortex Affector16
         {
             rotation_axis                       0 1 0
-            rotation_speed                      8
+            rotation_speed                      2
         }
         affector                                TextureAnimator Affector176
         {
             end_texture_coords_range            31
             texture_start_random                false
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             5
+            }
         }
     }
     technique smoke_ground_wide
@@ -107,8 +117,8 @@ system rift/tornado_fire
             repeat_delay                        20
             all_particle_dimensions             dyn_random
             {
-                min                             20
-                max                             40
+                min                             40
+                max                             80
             }
             position                            0 50 0
             direction                           1 0 0
@@ -129,12 +139,21 @@ system rift/tornado_fire
         affector                                Vortex Affector16
         {
             rotation_axis                       0 1 0
-            rotation_speed                      8
+            rotation_speed                      2
         }
         affector                                TextureAnimator Affector176
         {
             end_texture_coords_range            31
             texture_start_random                false
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             5
+            }
         }
     }
     technique debris_ground
@@ -148,6 +167,7 @@ system rift/tornado_fire
         renderer                                Billboard
         {
             render_queue_group                  64
+            billboard_type                      oriented_self
             billboard_rotation_type             vertex
         }
         emitter                                 Circle s2
@@ -165,10 +185,15 @@ system rift/tornado_fire
                 max                             50
             }
             repeat_delay                        20
-            all_particle_dimensions             dyn_random
+            particle_width                      dyn_random
+            {
+                min                             3
+                max                             6
+            }
+            particle_height                     dyn_random
             {
                 min                             1
-                max                             3
+                max                             2
             }
             position                            0 50 0
             start_colour_range                  0.333333 0.333333 0.333333 1
@@ -187,7 +212,7 @@ system rift/tornado_fire
         affector                                Vortex Affector16
         {
             rotation_axis                       0 1 0
-            rotation_speed                      8
+            rotation_speed                      2
         }
     }
     technique debris
@@ -206,15 +231,11 @@ system rift/tornado_fire
         emitter                                 Box s2
         {
             emission_rate                       2000
-            angle                               dyn_random
-            {
-                min                             2
-                max                             6
-            }
+            angle                               1
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             3
+                max                             2
             }
             velocity                            dyn_random
             {
@@ -225,12 +246,13 @@ system rift/tornado_fire
             all_particle_dimensions             dyn_random
             {
                 min                             1
-                max                             3
+                max                             2
             }
             position                            0 100 0
             start_colour_range                  0.333333 0.333333 0.333333 1
             end_colour_range                    0.207843 0.207843 0.207843 1
             colour                              0 0 0 1
+            auto_direction                      true
             box_width                           85
             box_height                          200
             box_depth                           85
@@ -244,7 +266,7 @@ system rift/tornado_fire
         affector                                Vortex Affector16
         {
             rotation_axis                       0 1 0
-            rotation_speed                      8
+            rotation_speed                      2
         }
     }
     technique swirl4
@@ -257,7 +279,6 @@ system rift/tornado_fire
         material                                particles_noatlas/orange_vortex_01
         renderer                                Billboard
         {
-            render_queue_group                  60
             texture_coords_rows                 8
             texture_coords_columns              8
             billboard_type                      perpendicular_common

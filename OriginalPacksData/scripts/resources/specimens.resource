@@ -1406,6 +1406,254 @@ GameplayResourceDef
 	allow_overflow 	"1"
 }
 
+////////// SWAMP FAUNA ////////////
+
+GameplayResourceDef
+{
+	id				"specimen_mudroner"
+	localization_id "resource_name/specimen_mudroner"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_stickrid"
+	localization_id "resource_name/specimen_stickrid"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_stickrid_alpha"
+	localization_id "resource_name/specimen_stickrid_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_stickrid_ultra"
+	localization_id "resource_name/specimen_stickrid_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_plutrodon"
+	localization_id "resource_name/specimen_plutrodon"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_plutrodon_alpha"
+	localization_id "resource_name/specimen_plutrodon_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_plutrodon_ultra"
+	localization_id "resource_name/specimen_plutrodon_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_fungor"
+	localization_id "resource_name/specimen_fungor"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_fungor_alpha"
+	localization_id "resource_name/specimen_fungor_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_fungor_ultra"
+	localization_id "resource_name/specimen_fungor_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_canceroth"
+	localization_id "resource_name/specimen_canceroth"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_canceroth_alpha"
+	localization_id "resource_name/specimen_canceroth_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_canceroth_ultra"
+	localization_id "resource_name/specimen_canceroth_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_artigian"
+	localization_id "resource_name/specimen_artigian"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_artigian_alpha"
+	localization_id "resource_name/specimen_artigian_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_artigian_ultra"
+	localization_id "resource_name/specimen_artigian_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_invigor"
+	localization_id "resource_name/specimen_invigor"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_invigor_alpha"
+	localization_id "resource_name/specimen_invigor_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_invigor_ultra"
+	localization_id "resource_name/specimen_invigor_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
 
 //////////////////////////////////// FAUNA NEUTRAL ////////////////////////////////////////////////
 
@@ -1638,6 +1886,34 @@ GameplayResourceDef
 {
 	id				"specimen_moltug_crystal"
 	localization_id "resource_name/specimen_moltug_crystal"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+//////////// SWAMP FAUNA NEUTRAL //////////
+
+GameplayResourceDef
+{
+	id				"specimen_poogret"
+	localization_id "resource_name/specimen_poogret"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_darnot"
+	localization_id "resource_name/specimen_darnot"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -3069,6 +3345,280 @@ GameplayResourceDef
 	allow_overflow 	"1"
 }
 
+////////////////////////////// FLORA SWAMP ///////////////////////////////////////////////////////////
+GameplayResourceDef
+{
+	id				"specimen_cactus_anemone_orange"
+	localization_id "resource_name/specimen_cactus_anemone_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cactus_anemone_violet"
+	localization_id "resource_name/specimen_cactus_anemone_violet"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cactus_anemone_green"
+	localization_id "resource_name/specimen_cactus_anemone_green"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_arachneum_pink"
+	localization_id "resource_name/specimen_mushroom_arachneum_pink"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_arachneum_orange"
+	localization_id "resource_name/specimen_mushroom_arachneum_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_arachneum_green"
+	localization_id "resource_name/specimen_mushroom_arachneum_green"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_bocoletus_brown"
+	localization_id "resource_name/specimen_mushroom_bocoletus_brown"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_bocoletus_green"
+	localization_id "resource_name/specimen_mushroom_bocoletus_green"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_bocoletus_violet"
+	localization_id "resource_name/specimen_mushroom_bocoletus_violet"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_corallium_gray"
+	localization_id "resource_name/specimen_mushroom_corallium_gray"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_corallium_orange"
+	localization_id "resource_name/specimen_mushroom_corallium_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_corallium_pink"
+	localization_id "resource_name/specimen_mushroom_corallium_pink"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_virsum_pink"
+	localization_id "resource_name/specimen_mushroom_virsum_pink"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_virsum_orange"
+	localization_id "resource_name/specimen_mushroom_virsum_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_virsum_red"
+	localization_id "resource_name/specimen_mushroom_virsum_red"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_mallow_pink"
+	localization_id "resource_name/specimen_tree_mallow_pink"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_mallow_orange"
+	localization_id "resource_name/specimen_tree_mallow_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_mallow_blue"
+	localization_id "resource_name/specimen_tree_mallow_blue"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_tongue_orange"
+	localization_id "resource_name/specimen_tree_tongue_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_tongue_violet"
+	localization_id "resource_name/specimen_tree_tongue_violet"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_tongue_green"
+	localization_id "resource_name/specimen_tree_tongue_green"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
 ////////////////////////////// OTHER (MINERALS) //////////////////////////////////////////////////////////////
 GameplayResourceDef
 {
@@ -3433,6 +3983,19 @@ GameplayResourceDef
 {
 	id				"sample_crystal"
 	localization_id "resource_name/sample_crystal"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"sample_poo"
+	localization_id "resource_name/sample_poo"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"

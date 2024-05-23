@@ -1,0 +1,130 @@
+system rift/poogret_fumes
+{
+    fixed_timeout                               3
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.05
+    scale                                       0.05 0.05 0.05
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 1
+    technique s2
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box s2
+        {
+            emission_rate                       200
+            angle                               dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             25
+                max                             50
+            }
+            duration                            4
+            all_particle_dimensions             dyn_random
+            {
+                min                             15
+                max                             25
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+            start_colour_range                  0.333333 0.333333 0.333333 1
+            end_colour_range                    0.207843 0.207843 0.207843 1
+            colour                              0 0 0 1
+            box_width                           2
+            box_height                          2
+            box_depth                           2
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.725424 0.725424 0.725424 0
+            time_colour                         0.3  0.725424 0.725424 0.725424 0.1
+            time_colour                         0.86087  0.738983 0.738983 0.738983 0.1
+            time_colour                         1    0.772881 0.772881 0.772881 0
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 200 0
+        }
+    }
+    technique s3
+    {
+        enabled                                 false
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box s2
+        {
+            emission_rate                       200
+            angle                               dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            duration                            4
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+            start_colour_range                  0.333333 0.333333 0.333333 1
+            end_colour_range                    0.207843 0.207843 0.207843 1
+            colour                              0 0 0 1
+            box_width                           2
+            box_height                          2
+            box_depth                           2
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.555978 0.732203 0 0
+            time_colour                         0.3  0.543108 0.715254 0 0.1
+            time_colour                         0.86087  0.523137 0.749153 0 0.1
+            time_colour                         1    0.483746 0.735593 0 0
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 100 0
+        }
+    }
+}

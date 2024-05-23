@@ -1,0 +1,314 @@
+system rift/artigian_muzzle
+{
+    fixed_timeout                               1.5
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.02
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique blood
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/water_foam_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       50
+            angle                               30
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             150
+                max                             250
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             60
+                max                             120
+            }
+            direction                           1 0 0
+            end_texture_coords_range            15
+            force_emission                      true
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+        affector                                LinearForce Affector30
+        {
+            force_vector                        0 -300 0
+        }
+        affector                                Colour Affector79
+        {
+            time_colour                         0    0.474576 1 0 1
+            time_colour                         0.9  0.332203 1 0 0.847059
+            time_colour                         1    0.59661 1 0 0
+        }
+        affector                                TextureAnimator Affector81
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+    }
+    technique debris_blood
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point debris_blood
+        {
+            emission_rate                       100
+            angle                               30
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             200
+                max                             400
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            direction                           1 0 0
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.637288 1 0 1
+            time_colour                         0.704348  0.718644 1 0 0.8
+            time_colour                         1    0.637288 1 0 0
+        }
+        affector                                LinearForce Affector50
+        {
+            force_vector                        0 -600 0
+        }
+        affector                                TextureRotator Affector192
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -10
+                max                             10
+            }
+        }
+    }
+    technique fire
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/water_foam_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter1
+        {
+            emission_rate                       100
+            angle                               30
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             0
+                max                             20
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            direction                           1 0 0
+            end_texture_coords_range            7
+            force_emission                      true
+            box_width                           70
+            box_height                          70
+            box_depth                           70
+        }
+        affector                                Colour Affector79
+        {
+            time_colour                         0    0.59661 1 0 0.94902
+            time_colour                         0.9  0.576271 1 0 0.94902
+            time_colour                         1    0.616949 1 0 0
+        }
+        affector                                TextureAnimator Affector81
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+    }
+    technique lines
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/water_foam_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point LinesEmitter
+        {
+            emission_rate                       100
+            angle                               30
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            particle_height                     dyn_random
+            {
+                min                             150
+                max                             200
+            }
+            direction                           1 0 0
+            end_texture_coords_range            7
+            force_emission                      true
+        }
+        affector                                Colour Affector79
+        {
+            time_colour                         0    0.555932 1 0 0.94902
+            time_colour                         0.758696  0.59661 1 0 0.94902
+            time_colour                         1    0.738983 1 0 0
+        }
+        affector                                TextureAnimator Affector81
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+    }
+    technique blood
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/water_foam_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       50
+            angle                               90
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             60
+                max                             120
+            }
+            direction                           1 0 0
+            end_texture_coords_range            15
+            force_emission                      true
+            box_width                           10
+            box_height                          10
+            box_depth                           10
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+        affector                                LinearForce Affector30
+        {
+            force_vector                        0 -300 0
+        }
+        affector                                Colour Affector79
+        {
+            time_colour                         0    0.494915 1 0 0.94902
+            time_colour                         0.9  0.616949 1 0 0.94902
+            time_colour                         1    0.759322 1 0 0
+        }
+        affector                                TextureAnimator Affector81
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+    }
+}

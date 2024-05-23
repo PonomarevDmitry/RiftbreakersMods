@@ -1,0 +1,145 @@
+system rift/aura_acid
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    SHOOTER
+    cache_count                                 5
+    technique sparks_1
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface sparks
+        {
+            emission_rate                       100
+            time_to_live                        dyn_random
+            {
+                min                             0.7
+                max                             0.9
+            }
+            velocity                            0.1
+            all_particle_dimensions             2
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              60
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.505085 0.505085 0.505085 1
+            time_colour                         0.606522  0.474576 0.474576 0.474576 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector70
+        {
+            mass_affector                       10000
+        }
+    }
+    technique sparksgravity
+    {
+        keep_local                              true
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface DebrisEmitter
+        {
+            emission_rate                       100
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      2
+            particle_height                     dyn_random
+            {
+                min                             3
+                max                             4
+            }
+            start_colour_range                  1 1 1 1
+            radius                              60
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.500977  0.491525 0.491525 0.491525 0.752811
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector70
+        {
+            mass_affector                       10000
+            gravity                             3
+        }
+    }
+    technique sparks_2
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_explosion_fire_01_anim
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 SphereSurface flash2
+        {
+            emission_rate                       100
+            angle                               1
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             30
+                max                             60
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            end_texture_coords_range            31
+            colour                              0.776471 0.388235 0 1
+            auto_direction                      true
+            radius                              50
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.518644 0.518644 0.518644 0
+            time_colour                         0.30092  0.535593 0.535593 0.535593 0.3
+            time_colour                         1    0.559322 0.559322 0.559322 0
+        }
+        affector                                TextureAnimator 
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+    }
+}

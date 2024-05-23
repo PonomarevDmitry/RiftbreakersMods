@@ -24,9 +24,8 @@ GameplayResourceDef
 
 	spawn_type			"liquid_volume"
 	order   			"36"
-	terrain_material 	"resources/resource_sludge_vein"
-	terrain_overflow_material 	"resources/resource_sludge_vein_blend"
-
+	
+	volume_unpack_blueprint "resources/volume_resource_sludge"
 	volume_ambient_effect  	"effects/world/sludge_resource_ambient_sound"
 	volume_repeat_effect	"effects/world/resource_sludge"
 	volume_splash_effect	"effects/sludge_splash_small"

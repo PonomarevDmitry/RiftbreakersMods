@@ -1,0 +1,53 @@
+system rift/canceroth_healing
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    technique fire_alpha
+    {
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_violet_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface fire_alpha
+        {
+            emission_rate                       300
+            angle                               1
+            time_to_live                        0.25
+            velocity                            dyn_random
+            {
+                min                             16
+                max                             18
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            position                            0 75 0
+            colour                              0.501961 0 1 1
+            auto_direction                      true
+            radius                              150
+        }
+        affector                                Gravity Affector13
+        {
+            mass_affector                       2000
+            gravity                             200
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.5  0.488136 0.488136 0.488136 0.6
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

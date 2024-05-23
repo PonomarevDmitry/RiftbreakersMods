@@ -1,24 +1,24 @@
 system rift/mech_single_muzzle
 {
-    fixed_timeout                               3
+    fixed_timeout                               0.2
     nonvisible_update_timeout                   1
-    scale_velocity                              0.0035
-    scale                                       0.0035 0.0035 0.0035
+    scale_velocity                              0.0025
+    scale                                       0.002 0.002 0.002
     tight_bounding_box                          true
     category                                    RIFT
     cache_count                                 50
     technique muzzle_front
     {
+        position                                -150 0 0
         visual_particle_quota                   1
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/muzzleflash_atlas
+        material                                particles/muzzle_flash_rifle
         renderer                                Billboard
         {
             render_queue_group                  65
-            texture_coords_columns              4
             billboard_type                      oriented_self
             billboard_origin                    bottom_center
             billboard_rotation_type             vertex
@@ -28,10 +28,9 @@ system rift/mech_single_muzzle
             angle                               0
             time_to_live                        0.2
             velocity                            1
-            all_particle_dimensions             100
+            all_particle_dimensions             1
             keep_local                          true
             direction                           1 0 0
-            end_texture_coords_range            3
             colour                              0.188235 0.188235 0.188235 1
             force_emission                      true
         }
@@ -45,8 +44,8 @@ system rift/mech_single_muzzle
         }
         affector                                Colour Affector8
         {
-            time_colour                         0    1 1 1 1
-            time_colour                         0.502174  1 1 1 1
+            time_colour                         0    0.183051 0.183051 0.183051 1
+            time_colour                         0.502174  0.240678 0.240678 0.240678 1
             time_colour                         1    0.2 0.2 0.2 0
         }
     }
@@ -57,11 +56,12 @@ system rift/mech_single_muzzle
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/muzzleflash_atlas_side_medium_1x4
+        material                                particles/muzzle_flash_orange_2x2
         renderer                                Billboard
         {
             render_queue_group                  64
-            texture_coords_columns              4
+            texture_coords_rows                 2
+            texture_coords_columns              2
             billboard_rotation_type             vertex
             common_direction                    1 0 0
             accurate_facing                     true
@@ -98,8 +98,8 @@ system rift/mech_single_muzzle
         }
         affector                                Colour Affector8
         {
-            time_colour                         0    1 1 1 1
-            time_colour                         0.502174  1 1 1 1
+            time_colour                         0    0.589831 0.589831 0.589831 1
+            time_colour                         0.502174  0.647458 0.647458 0.647458 1
             time_colour                         1    0.2 0.2 0.2 0
         }
     }
@@ -121,13 +121,14 @@ system rift/mech_single_muzzle
         {
             emission_rate                       100
             angle                               10
+            time_to_live                        1
             velocity                            dyn_random
             {
                 min                             2000
                 max                             3000
             }
-            particle_width                      170
-            particle_height                     270
+            particle_width                      150
+            particle_height                     200
             position                            -900 25 0
             direction                           -1 1 0
             colour                              0.803922 0.52549 0.105882 1
@@ -157,13 +158,6 @@ system rift/mech_single_muzzle
             time_colour                         0.904348  1 1 1 1
             time_colour                         1    1 1 1 0
             colour_operation                    multiply
-        }
-        affector                                PlaneCollider Affector75
-        {
-            position                            0 100 0
-            friction                            1
-            bouncyness                          0.2
-            normal                              0 1 0
         }
     }
 }

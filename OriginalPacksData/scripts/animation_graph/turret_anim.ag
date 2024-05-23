@@ -1,0 +1,273 @@
+AnimationGraph
+{
+	name "turret_anim"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "default"
+			blend_type "0"
+			bone_group "no_ik"
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationStateMachineNode"
+				{
+					animation_node_vec
+					{
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "idle_entry"
+								position
+								{
+									x "31.000"
+									y "246.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationMotionNode"
+						{
+							mirror "0"
+							blend_function_holder
+							{
+								funtion_type "0"
+							}
+
+							loop "0"
+							end_time "340282346638528859811704183484516925440.000"
+							anim_name
+							speed "1.000"
+							start_time "0.000"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "idle_1"
+								position
+								{
+									x "568.000"
+									y "214.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					start_node_idx "0"
+					transition_vec
+					{
+						AnimationStateTransitionDef
+						{
+							src_idx "1"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+							authoritative "0"
+							dst_idx "0"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationTrueTransitionCondition"
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+					}
+
+					metadata
+					{
+						name "idle"
+						position
+						{
+							x "-724.000"
+							y "134.000"
+						}
+
+					}
+
+					emit_progress_event "0"
+				}
+
+				AnimationStateNode "AnimationStateMachineNode"
+				{
+					animation_node_vec
+					{
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "attack_range_entry"
+								position
+								{
+									x "98.000"
+									y "289.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "attack_range_entry"
+								position
+								{
+									x "98.000"
+									y "289.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationMotionNode"
+						{
+							mirror "0"
+							blend_function_holder
+							{
+								funtion_type "0"
+							}
+
+							loop "1"
+							end_time "340282346638528859811704183484516925440.000"
+							anim_name "attack_1"
+							speed "1.000"
+							start_time "0.000"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "attack"
+								position
+								{
+									x "682.000"
+									y "264.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					start_node_idx "1"
+					transition_vec
+					{
+						AnimationStateTransitionDef
+						{
+							src_idx "1"
+							condition "AnimationTrueTransitionCondition"
+							authoritative "0"
+							dst_idx "2"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+					}
+
+					metadata
+					{
+						name "attack_range"
+						position
+						{
+							x "-138.000"
+							y "149.000"
+						}
+
+					}
+
+					emit_progress_event "0"
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_attacking_range"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.300"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_attacking_range"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.300"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "is_attacking_range"
+			data_type "0"
+			is_const "0"
+		}
+	}
+
+}
+

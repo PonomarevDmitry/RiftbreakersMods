@@ -23,11 +23,9 @@ GameplayResourceDef
 	bigger_icon		"gui/hud/resource_icons/morphium_pool_bigger"
 
 	spawn_type		"liquid_volume"
-	//terrain_material 			"resources/resource_morphium_vein"
-	//terrain_overflow_material 	"resources/resource_morphium_vein_blend"
-
 	order   		"35"
-	
+
+	volume_unpack_blueprint "resources/volume_resource_morphium"
 	volume_ambient_effect  	"effects/world/morphium_resource_ambient_sound"
 	volume_repeat_effect	""
 	volume_splash_effect	"effects/morphium_splash_small"

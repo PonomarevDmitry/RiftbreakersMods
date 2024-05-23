@@ -29,7 +29,7 @@ TimeOfDayPreset
 			fog_density "0.025"
 			fade_in_falloff "20.000"
 		}		
-		skybox_specular_intensity "0.300"
+		skybox_specular_intensity "0"
 		time_of_day "2"
 		skybox_diffuse_intensity "0.180"
 		light_color
@@ -95,7 +95,7 @@ TimeOfDayPreset
 			fog_density "0.025"
 			fade_in_falloff "10.000"
 		}		
-		skybox_specular_intensity "0.314"
+		skybox_specular_intensity "0"
 		time_of_day "0"
 		skybox_diffuse_intensity "0.253"
 		light_color
@@ -161,7 +161,7 @@ TimeOfDayPreset
 			fog_density "0.025"
 			fade_in_falloff "10.000"
 		}		
-		skybox_specular_intensity "0.221"
+		skybox_specular_intensity "0"
 		time_of_day "3"
 		skybox_diffuse_intensity "0.260"
 		light_color
@@ -218,7 +218,7 @@ TimeOfDayPreset
 			fog_density "0.025"
 			fade_in_falloff "20.000"
 		}			
-		skybox_specular_intensity "0.253"
+		skybox_specular_intensity "0"
 		time_of_day "1"
 		skybox_diffuse_intensity "0.213"
 		light_color
