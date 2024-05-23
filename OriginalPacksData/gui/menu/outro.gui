@@ -1,208 +1,78 @@
 GuiRootGroupDef
 {
-	navigation
-	{
-		default_node
-		edges
-		{
-			up
-			right
-			down
-			left
-		}
-
-		nodes
-	}
-
-	priority "0.000"
-	bg_blur "0.000"
-	shortcuts
 	full_screen "0"
-	container_type "0"
-	allow_overflow "1"
 	children
 	{
 		Pair_String_GuiDef2
 		{
+			key "bg"
 			value "GuiQuadDef"
 			{
-				border_width "0.000"
-				corner_radius "0.000"
-				corner_cut "0"
-				border_color
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-				}
-
-				border_alpha "1.000"
-				size
-				{
-					x "10000.000"
-					y "10000.000"
-				}
-
-				material_mode "normal"
+				alignment "center"
+				anchor "center"
 				animations
 				{
 					items
 					{
 						GuiAnimationDef
 						{
-							name "this@Show"
 							frames
 							{
 								GuiAnimationFrame
 								{
 									color
 									{
-										z "0.000"
-										x "0.000"
-										y "0.000"
 										w "-0.010"
 									}
 
-									rotation "0.000"
-									texture_number "0"
-									loop "-1"
-									scale
-									{
-										x "1.000"
-										y "1.000"
-									}
-
 									mask "32"
-									frame_number "0"
-									offset
-									{
-										x "0.000"
-										y "0.000"
-									}
-
 								}
 
 								GuiAnimationFrame
 								{
 									color
 									{
-										z "0.000"
-										x "0.000"
-										y "0.000"
 										w "1.000"
 									}
 
-									rotation "0.000"
-									texture_number "0"
-									loop "-1"
-									scale
-									{
-										x "1.000"
-										y "1.000"
-									}
-
-									mask "32"
 									frame_number "30"
-									offset
-									{
-										x "0.000"
-										y "0.000"
-									}
-
+									mask "32"
 								}
 
 							}
 
+							name "Show"
 						}
 
 					}
 
+				}
+
+				color
+				{
+					w "0.000"
+					x "0.000"
+					y "0.000"
+					z "0.000"
 				}
 
 				id "bg"
-				color
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.000"
-				}
-
-				rotation "0.000"
-				animation_groups
-				{
-					GuiAnimationGroupDef
-					{
-						items
-						{
-							String "this"
-						}
-
-						name "Show"
-					}
-
-				}
-
-				hitbox_visible "1"
-				tooltip
-				{
-					attachment_path
-					gui_id
-					placement_alignment "top_left"
-					fit_to_screen "1"
-					template
-					placement_mode "MOUSE_CURSOR"
-					data_source
-				}
-
-				anchor "center"
-				scale
-				{
-					x "1.000"
-					y "1.000"
-				}
-
-				z_order "0.000"
-				offset
-				{
-					x "-272.229"
-					y "273.106"
-				}
-
-				visible "0"
-				bindings
-				alignment "center"
 				item_scripts
 				{
 					scripts
 					{
 						Pair_IdString_GuiScriptDef2
 						{
+							key "OnShow"
 							value
 							{
+								event_name "OnShow"
 								script
 								{
-									cmd
 									children
 									{
 										GuiScriptNodeDef
 										{
-											cmd "GuiScriptCommandAnimStartDef"
-											{
-												anim_info
-												{
-													multiplier "0.400"
-													reverse "0"
-													stay_at_end "1"
-													loop "1"
-													random_start "0"
-												}
-
-												gui_path "this"
-												value "Show"
-												type "gui_play_anim"
-											}
-
 											children
 											{
 												GuiScriptNodeDef
@@ -213,7 +83,6 @@ GuiRootGroupDef
 														type "play_movie"
 													}
 
-													children
 												}
 
 												GuiScriptNodeDef
@@ -225,87 +94,74 @@ GuiRootGroupDef
 														type "set_visible"
 													}
 
-													children
 												}
 
+											}
+
+											cmd "GuiScriptCommandAnimStartDef"
+											{
+												anim_info
+												{
+													loop "1"
+													multiplier "0.400"
+												}
+
+												animations
+												{
+													Show
+													{
+														String "this"
+													}
+
+												}
+
+												type "gui_play_anim"
 											}
 
 										}
 
 									}
 
+									cmd
+									{
+										type "unsupported"
+									}
+
 								}
 
-								event_name "OnShow"
 							}
 
-							key "OnShow"
 						}
 
 					}
 
 				}
 
-				margin
+				offset
 				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.000"
+					x "-272.229"
+					y "273.106"
 				}
 
-				size_mode "0"
+				size
+				{
+					x "10000.000"
+					y "10000.000"
+				}
+
+				visible "0"
 			}
 
-			key "bg"
 		}
 
 		Pair_String_GuiDef2
 		{
+			key "movie"
 			value "GuiMovieDef"
 			{
 				material "menu/movies/riftbreaker_intro"
-				decoder_priority "1.000"
-				repeat "0"
 				start_paused "1"
-				mem_stream "0"
-				precached_frames "8"
-				animations
-				{
-					items
-				}
-
 				id "movie"
-				color
-				{
-					z "1.000"
-					x "1.000"
-					y "1.000"
-					w "1.000"
-				}
-
-				rotation "0.000"
-				animation_groups
-				hitbox_visible "1"
-				tooltip
-				{
-					attachment_path
-					gui_id
-					placement_alignment "top_left"
-					fit_to_screen "1"
-					template
-					placement_mode "MOUSE_CURSOR"
-					data_source
-				}
-
-				anchor "top_left"
-				scale
-				{
-					x "1.000"
-					y "1.000"
-				}
-
-				z_order "1.000"
 				offset
 				{
 					x "1.000"
@@ -313,29 +169,14 @@ GuiRootGroupDef
 				}
 
 				visible "0"
-				bindings
-				alignment "top_left"
-				item_scripts
-				{
-					scripts
-				}
-
-				margin
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.000"
-				}
-
-				size_mode "0"
+				z_order "1.000"
 			}
 
-			key "movie"
 		}
 
 		Pair_String_GuiDef2
 		{
+			key "subtitle"
 			value "GuiTextBoxDef"
 			{
 				max_size
@@ -345,144 +186,51 @@ GuiRootGroupDef
 				}
 
 				content "COMMON_Text_Line"
-				translate "1"
-				style_name "popups_content"
 				style
 				{
-					gradient_end
-					{
-						z "0.000"
-						x "0.000"
-						y "0.000"
-						w "1.000"
-					}
-
-					shadow_color
-					{
-						z "0.000"
-						x "0.000"
-						y "0.000"
-						w "1.000"
-					}
-
-					stroke_color
-					{
-						z "0.000"
-						x "1.000"
-						y "1.000"
-						w "0.197"
-					}
-
 					char_height "45.000"
-					font "orbitron-medium_sdf"
-					space_size "12.000"
-					glow_enabled "0"
-					glow_spread "10.000"
-					stroke_size "2.000"
-					color
-					{
-						z "1.000"
-						x "1.000"
-						y "1.000"
-						w "1.000"
-					}
-
-					color_enabled "1"
-					shadow_distance "2.000"
-					shadow_enabled "1"
 					df "1"
-					stroke_enabled "0"
+					font "orbitron-medium_sdf"
 					glow_color
 					{
-						z "0.000"
 						x "1.000"
 						y "1.000"
-						w "1.000"
+					}
+
+					glow_size "10.000"
+					glow_spread "10.000"
+					shadow_angle "135.000"
+					shadow_distance "2.000"
+					shadow_enabled "1"
+					stroke_color
+					{
+						w "0.197"
+						x "1.000"
+						y "1.000"
 					}
 
 					stroke_position "1"
-					gradient_enabled "0"
-					gradient_start
-					{
-						z "0.000"
-						x "0.000"
-						y "0.000"
-						w "1.000"
-					}
-
-					shadow_spread "1.000"
-					shadow_angle "135.000"
-					shadow_size "1.000"
-					glow_size "10.000"
+					stroke_size "2.000"
 				}
 
-				capitals "0"
-				animations
-				{
-					items
-				}
-
+				style_name "popups_content"
+				translate "1"
+				alignment "center"
 				id "subtitle"
-				color
-				{
-					z "1.000"
-					x "1.000"
-					y "1.000"
-					w "1.000"
-				}
-
-				rotation "0.000"
-				animation_groups
-				hitbox_visible "1"
-				tooltip
-				{
-					attachment_path
-					gui_id
-					placement_alignment "top_left"
-					fit_to_screen "1"
-					template
-					placement_mode "MOUSE_CURSOR"
-					data_source
-				}
-
-				anchor "top_left"
-				scale
-				{
-					x "1.000"
-					y "1.000"
-				}
-
-				z_order "2.000"
 				offset
 				{
 					x "960.000"
 					y "928.000"
 				}
 
-				visible "1"
-				bindings
-				alignment "center"
-				item_scripts
-				{
-					scripts
-				}
-
-				margin
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.000"
-				}
-
-				size_mode "0"
+				z_order "2.000"
 			}
 
-			key "subtitle"
 		}
 
 		Pair_String_GuiDef2
 		{
+			key "subtitle_left"
 			value "GuiTextBoxDef"
 			{
 				max_size
@@ -492,208 +240,55 @@ GuiRootGroupDef
 				}
 
 				content "COMMON_Text_Line"
-				translate "1"
-				style_name "popups_content"
 				style
 				{
-					gradient_end
-					{
-						z "0.000"
-						x "0.000"
-						y "0.000"
-						w "1.000"
-					}
-
-					shadow_color
-					{
-						z "0.000"
-						x "0.000"
-						y "0.000"
-						w "1.000"
-					}
-
-					stroke_color
-					{
-						z "0.000"
-						x "1.000"
-						y "1.000"
-						w "0.197"
-					}
-
 					char_height "45.000"
-					font "orbitron-medium_sdf"
-					space_size "12.000"
-					glow_enabled "0"
-					glow_spread "10.000"
-					stroke_size "2.000"
-					color
-					{
-						z "1.000"
-						x "1.000"
-						y "1.000"
-						w "1.000"
-					}
-
-					color_enabled "1"
-					shadow_distance "2.000"
-					shadow_enabled "1"
 					df "1"
-					stroke_enabled "0"
+					font "orbitron-medium_sdf"
 					glow_color
 					{
-						z "0.000"
 						x "1.000"
 						y "1.000"
-						w "1.000"
+					}
+
+					glow_size "10.000"
+					glow_spread "10.000"
+					shadow_angle "135.000"
+					shadow_distance "2.000"
+					shadow_enabled "1"
+					stroke_color
+					{
+						w "0.197"
+						x "1.000"
+						y "1.000"
 					}
 
 					stroke_position "1"
-					gradient_enabled "0"
-					gradient_start
-					{
-						z "0.000"
-						x "0.000"
-						y "0.000"
-						w "1.000"
-					}
-
-					shadow_spread "1.000"
-					shadow_angle "135.000"
-					shadow_size "1.000"
-					glow_size "10.000"
+					stroke_size "2.000"
 				}
 
-				capitals "0"
-				animations
-				{
-					items
-				}
-
+				style_name "popups_content"
+				translate "1"
 				id "subtitle_left"
-				color
-				{
-					z "1.000"
-					x "1.000"
-					y "1.000"
-					w "1.000"
-				}
-
-				rotation "0.000"
-				animation_groups
-				hitbox_visible "1"
-				tooltip
-				{
-					attachment_path
-					gui_id
-					placement_alignment "top_left"
-					fit_to_screen "1"
-					template
-					placement_mode "MOUSE_CURSOR"
-					data_source
-				}
-
-				anchor "top_left"
-				scale
-				{
-					x "1.000"
-					y "1.000"
-				}
-
-				z_order "3.000"
 				offset
 				{
 					x "60.000"
 					y "830.000"
 				}
 
-				visible "1"
-				bindings
-				alignment "top_left"
-				item_scripts
-				{
-					scripts
-				}
-
-				margin
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.000"
-				}
-
-				size_mode "0"
+				z_order "3.000"
 			}
 
-			key "subtitle_left"
 		}
 
 	}
 
+	id "gui/menu/outro"
 	size
 	{
 		x "1920.000"
 		y "1080.000"
 	}
 
-	animations
-	{
-		items
-	}
-
-	id "gui/menu/outro"
-	color
-	{
-		z "1.000"
-		x "1.000"
-		y "1.000"
-		w "1.000"
-	}
-
-	rotation "0.000"
-	animation_groups
-	hitbox_visible "1"
-	tooltip
-	{
-		attachment_path
-		gui_id
-		placement_alignment "top_left"
-		fit_to_screen "1"
-		template
-		placement_mode "MOUSE_CURSOR"
-		data_source
-	}
-
-	anchor "top_left"
-	scale
-	{
-		x "1.000"
-		y "1.000"
-	}
-
-	z_order "0.000"
-	offset
-	{
-		x "0.000"
-		y "0.000"
-	}
-
-	visible "1"
-	bindings
-	alignment "top_left"
-	item_scripts
-	{
-		scripts
-	}
-
-	margin
-	{
-		z "0.000"
-		x "0.000"
-		y "0.000"
-		w "0.000"
-	}
-
-	size_mode "0"
 }
 

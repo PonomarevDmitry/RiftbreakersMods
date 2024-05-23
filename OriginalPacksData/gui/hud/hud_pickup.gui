@@ -89,42 +89,70 @@ GuiRootGroupDef
 										{
 											Pair_String_GuiDef2
 											{
-												key "count"
-												value "GuiTextLineDef"
+												key "count_group"
+												value "GuiGroupDef"
 												{
-													capitals "1"
-													content "COMMON_Text_Line"
-													style_name "resource_value"
-													translate "1"
-													id "count"
-													offset
+													children
 													{
-														x "-210.000"
-														y "5.000"
+														Pair_String_GuiDef2
+														{
+															key "count"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "COMMON_Text_Line"
+																style_name "resource_value"
+																translate "1"
+																bindings
+																{
+																	content
+																	{
+																		model_field "count"
+																	}
+
+																}
+
+																id "count"
+																z_order "6.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "count_white"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "COMMON_Text_Line"
+																style_name "resource_white"
+																translate "1"
+																bindings
+																{
+																	content
+																	{
+																		model_field "count"
+																	}
+
+																}
+
+																id "count_white"
+																z_order "7.000"
+															}
+
+														}
+
 													}
 
-													z_order "6.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "count_white"
-												value "GuiTextLineDef"
-												{
-													capitals "1"
-													content "COMMON_Text_Line"
-													style_name "resource_white"
-													translate "1"
-													id "count_white"
+													id "count_group"
 													offset
 													{
-														x "-210.000"
-														y "5.000"
+														y "9.000"
 													}
 
-													z_order "7.000"
+													size_mode_x "1"
+													size_mode_y "1"
+													z_order "4.000"
 												}
 
 											}
@@ -136,100 +164,139 @@ GuiRootGroupDef
 												{
 													error_material "gui/hud/resource_icons/missing_item"
 													material "gui/hud/resource_icons/missing_item"
-													alignment "top_right"
-													anchor "top_right"
-													id "icon"
-													offset
+													stretch_proportional "1"
+													bindings
 													{
-														y "-4.000"
+														material
+														{
+															model_field "icon"
+														}
+
+														visible
+														{
+															model_field "icon"
+															converter "GuiModelCompareConverter"
+															{
+																compare_operator "neq"
+															}
+
+														}
+
 													}
 
-													z_order "9.000"
+													id "icon"
+													margin
+													{
+														x "10.000"
+													}
+
+													size
+													{
+														y "40.000"
+													}
+
+													size_mode_y "0"
+													z_order "3.000"
 												}
 
 											}
 
 											Pair_String_GuiDef2
 											{
-												key "label"
-												value "GuiTextLineDef"
+												key "label_group"
+												value "GuiGroupDef"
 												{
-													capitals "1"
-													content "COMMON_Text_Line"
-													style_name "resource_blue_smaller"
-													translate "1"
-													id "label"
-													offset
+													children
 													{
-														x "-380.000"
-														y "5.000"
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "COMMON_Text_Line"
+																style_name "resource_blue_smaller"
+																translate "1"
+																bindings
+																{
+																	content
+																	{
+																		model_field "label"
+																	}
+
+																}
+
+																id "label"
+																z_order "6.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "label_white"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "COMMON_Text_Line"
+																style_name "resource_white_smaller"
+																translate "1"
+																bindings
+																{
+																	content
+																	{
+																		model_field "label"
+																	}
+
+																}
+
+																id "label_white"
+																z_order "8.000"
+															}
+
+														}
+
 													}
 
+													id "label_group"
+													offset
+													{
+														y "9.000"
+													}
+
+													size_mode_x "1"
+													size_mode_y "1"
 													z_order "5.000"
 												}
 
 											}
 
-											Pair_String_GuiDef2
-											{
-												key "label_white"
-												value "GuiTextLineDef"
-												{
-													capitals "1"
-													content "COMMON_Text_Line"
-													style_name "resource_white_smaller"
-													translate "1"
-													id "label_white"
-													offset
-													{
-														x "-380.000"
-														y "5.000"
-													}
+										}
 
-													z_order "8.000"
-												}
+										container_type "1"
+										alignment "right"
+										anchor "top_right"
+										id "content"
+										margin
+										{
+											z "20.000"
+										}
 
-											}
-
+										offset
+										{
+											y "18.000"
 										}
 
 										size
 										{
-											x "0.000"
+											x "20.000"
 											y "36.000"
 										}
 
-										alignment "right"
-										id "content"
-										offset
-										{
-											x "310.000"
-											y "22.000"
-										}
-
+										size_mode_x "1"
 										z_order "4.000"
 									}
 
-								}
-
-							}
-
-							size
-							{
-								x "330.000"
-								y "40.000"
-							}
-
-							animation_groups
-							{
-								GuiAnimationGroupDef
-								{
-									items
-									{
-										String "this"
-									}
-
-									name "Show"
 								}
 
 							}
@@ -240,6 +307,12 @@ GuiRootGroupDef
 								w "1.000"
 							}
 
+							size
+							{
+								x "330.000"
+								y "40.000"
+							}
+
 							z_order "1.000"
 						}
 
@@ -248,18 +321,17 @@ GuiRootGroupDef
 				}
 
 				container_type "2"
-				size
-				{
-					x "330.000"
-					y "0.000"
-				}
-
 				alignment "bottom_right"
 				anchor "bottom_right"
 				id "group"
 				offset
 				{
 					y "-370.000"
+				}
+
+				size
+				{
+					x "330.000"
 				}
 
 				size_mode_y "1"
@@ -269,14 +341,25 @@ GuiRootGroupDef
 
 	}
 
+	alignment "bottom_right"
+	anchor "bottom_right"
+	id "gui/hud/hud_pickup"
 	size
 	{
 		x "1920.000"
 		y "1080.000"
 	}
 
-	alignment "bottom_right"
-	anchor "bottom_right"
-	id "gui/hud/hud_pickup"
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		fields
+		handle "[38349DED-8D79-46FA-85A0-54E937CEE7BA]"
+	}
+
 }
 

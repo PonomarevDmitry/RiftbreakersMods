@@ -1,118 +1,127 @@
 GuiRootGroupDef
 {
-	navigation
-	{
-		edges
-		{
-			left
-			down
-			up
-			right
-		}
-
-		nodes
-		default_node
-	}
-
 	full_screen "0"
-	priority "0.0"
-	shortcuts
-	size
-	{
-		y "24.0"
-		x "24.0"
-	}
-
 	children
 	{
 		Pair_String_GuiDef2
 		{
+			key "label"
 			value "GuiTextLineDef"
 			{
-				capitals "0"
-				style_name
 				content "gui/hud/tooltip/interact_Button"
 				style
 				{
-					smooth "32.0"
-					center "0.5"
-					shadow_distance "3.056338"
-					stroke_color
-					{
-						w "0.19718309"
-						y "1.0"
-						x "1.0"
-						z "0.0"
-					}
-
-					gradient_end
-					{
-						w "1.0"
-						y "0.0"
-						x "0.0"
-						z "0.0"
-					}
-
-					shadow_size "1.0"
-					font "orbitron-medium_sdf"
-					color
-					{
-						w "1.0"
-						y "1.0"
-						x "1.0"
-						z "1.0"
-					}
-
-					color_enabled "1"
-					stroke_size "2.000001"
+					char_height "50.000"
 					df "1"
-					space_size "12.0"
-					gradient_start
-					{
-						w "1.0"
-						y "0.0"
-						x "0.0"
-						z "0.0"
-					}
-
-					shadow_color
-					{
-						w "1.0"
-						y "0.0"
-						x "0.0"
-						z "0.0"
-					}
-
-					shadow_spread "1.0"
-					gradient_enabled "0"
-					glow_spread "10.0"
-					char_height "50.0"
-					glow_size "10.0"
-					stroke_position "1"
-					stroke_enabled "0"
-					blurr "0"
+					font "orbitron-medium_sdf"
 					glow_color
 					{
-						w "1.0"
-						y "1.0"
-						x "1.0"
-						z "0.0"
+						x "1.000"
+						y "1.000"
 					}
 
+					glow_size "10.000"
+					glow_spread "10.000"
+					shadow_angle "100.000"
+					shadow_distance "3.056"
 					shadow_enabled "1"
-					shadow_angle "100.0"
-					glow_enabled "0"
+					stroke_color
+					{
+						w "0.197"
+						x "1.000"
+						y "1.000"
+					}
+
+					stroke_position "1"
+					stroke_size "2.000"
 				}
 
 				translate "1"
+				alignment "center"
+				animations
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								GuiAnimationFrame
+								{
+									frame_number "9"
+									mask "12"
+									scale
+									{
+										x "0.950"
+										y "0.950"
+									}
+
+								}
+
+							}
+
+							name "Idle"
+						}
+
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "-1.000"
+									}
+
+									mask "44"
+									scale
+									{
+										x "0.750"
+										y "0.750"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "15"
+									mask "44"
+									scale
+									{
+										x "0.875"
+										y "0.875"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "30"
+									mask "44"
+								}
+
+							}
+
+							name "Show"
+						}
+
+					}
+
+				}
+
+				id "label"
 				item_scripts
 				{
 					scripts
 					{
-						Pair_IdString0_GuiScriptDef3
+						Pair_IdString_GuiScriptDef2
 						{
+							key "OnShow"
 							value
 							{
+								event_name "OnShow"
 								script
 								{
 									children
@@ -123,20 +132,22 @@ GuiRootGroupDef
 											{
 												GuiScriptNodeDef
 												{
-													children
 													cmd "GuiScriptCommandAnimStartDef"
 													{
 														anim_info
 														{
-															reverse "0"
-															stay_at_end "1"
-															random_start "0"
-															loop "-1"
-															multiplier "1.5"
+															multiplier "1.500"
 														}
 
-														value "Idle"
-														gui_path "this"
+														animations
+														{
+															Idle
+															{
+																String "this"
+															}
+
+														}
+
 														type "gui_play_anim"
 													}
 
@@ -148,15 +159,19 @@ GuiRootGroupDef
 											{
 												anim_info
 												{
-													reverse "0"
-													stay_at_end "1"
-													random_start "0"
 													loop "1"
-													multiplier "0.33"
+													multiplier "0.330"
 												}
 
-												value "Show"
-												gui_path "this"
+												animations
+												{
+													Show
+													{
+														String "this"
+													}
+
+												}
+
 												type "gui_play_anim"
 											}
 
@@ -165,281 +180,39 @@ GuiRootGroupDef
 									}
 
 									cmd
+									{
+										type "unsupported"
+									}
+
 								}
 
-								event_name "OnShow"
 							}
 
-							key "OnShow"
 						}
 
 					}
 
 				}
 
-				offset
-				{
-					y "0.0"
-					x "0.0"
-				}
-
-				rotation "0.0"
-				id "label"
-				color
-				{
-					w "1.0"
-					y "1.0"
-					x "1.0"
-					z "1.0"
-				}
-
-				visible "1"
 				scale
 				{
-					y "0.75"
-					x "0.75"
-				}
-
-				alignment "center"
-				z_order "0.0"
-				animations
-				{
-					items
-					{
-						GuiAnimationDef
-						{
-							frames
-							{
-								GuiAnimationFrame
-								{
-									offset
-									{
-										y "0.0"
-										x "0.0"
-									}
-
-									rotation "0.0"
-									color
-									{
-										w "-1.0"
-										y "0.0"
-										x "0.0"
-										z "0.0"
-									}
-
-									frame_number "0"
-									scale
-									{
-										y "0.75"
-										x "0.75"
-									}
-
-									texture_number "0"
-									loop "-1"
-									mask "44"
-								}
-
-								GuiAnimationFrame
-								{
-									offset
-									{
-										y "0.0"
-										x "0.0"
-									}
-
-									rotation "0.0"
-									color
-									{
-										w "0.0"
-										y "0.0"
-										x "0.0"
-										z "0.0"
-									}
-
-									frame_number "15"
-									scale
-									{
-										y "0.875"
-										x "0.875"
-									}
-
-									texture_number "0"
-									loop "-1"
-									mask "44"
-								}
-
-								GuiAnimationFrame
-								{
-									offset
-									{
-										y "0.0"
-										x "0.0"
-									}
-
-									rotation "0.0"
-									color
-									{
-										w "0.0"
-										y "0.0"
-										x "0.0"
-										z "0.0"
-									}
-
-									frame_number "30"
-									scale
-									{
-										y "1.0"
-										x "1.0"
-									}
-
-									texture_number "0"
-									loop "-1"
-									mask "44"
-								}
-
-							}
-
-							name "this@Show"
-						}
-
-						GuiAnimationDef
-						{
-							frames
-							{
-								GuiAnimationFrame
-								{
-									offset
-									{
-										y "0.0"
-										x "0.0"
-									}
-
-									rotation "0.0"
-									color
-									{
-										w "0.0"
-										y "0.0"
-										x "0.0"
-										z "0.0"
-									}
-
-									frame_number "0"
-									scale
-									{
-										y "1.0"
-										x "1.0"
-									}
-
-									texture_number "0"
-									loop "-1"
-									mask "0"
-								}
-
-								GuiAnimationFrame
-								{
-									offset
-									{
-										y "0.0"
-										x "0.0"
-									}
-
-									rotation "0.0"
-									color
-									{
-										w "0.0"
-										y "0.0"
-										x "0.0"
-										z "0.0"
-									}
-
-									frame_number "9"
-									scale
-									{
-										y "0.95"
-										x "0.95"
-									}
-
-									texture_number "0"
-									loop "-1"
-									mask "12"
-								}
-
-							}
-
-							name "this@Idle"
-						}
-
-					}
-
-				}
-
-				animation_groups
-				{
-					GuiAnimationGroupDef
-					{
-						items
-						{
-							String "this"
-						}
-
-						name "Show"
-					}
-
-					GuiAnimationGroupDef
-					{
-						items
-						{
-							String "this"
-						}
-
-						name "Idle"
-					}
-
+					x "0.750"
+					y "0.750"
 				}
 
 			}
 
-			key "label"
 		}
 
 	}
 
-	allow_overflow "1"
-	item_scripts
-	{
-		scripts
-	}
-
-	offset
-	{
-		y "0.0"
-		x "0.0"
-	}
-
-	rotation "0.0"
-	id "gui/hud/marker_select"
-	color
-	{
-		w "1.0"
-		y "1.0"
-		x "1.0"
-		z "1.0"
-	}
-
-	visible "1"
-	scale
-	{
-		y "1.0"
-		x "1.0"
-	}
-
 	alignment "bottom_left"
-	z_order "0.0"
-	animations
+	id "gui/hud/marker_select"
+	size
 	{
-		items
+		x "24.000"
+		y "24.000"
 	}
 
-	animation_groups
 }
 

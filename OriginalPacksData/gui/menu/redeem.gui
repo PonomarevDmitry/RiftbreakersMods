@@ -1,28 +1,27 @@
 GuiRootGroupDef
 {
+	bg_blur "0.400"
+	full_screen "0"
 	navigation
 	{
-		default_node
 		edges
 		{
-			up
+			down
 			{
 				Pair_String_String
 				{
-					value "popup.bg.text"
-					key "popup.buttons.button_no"
-				}
-
-				Pair_String_String
-				{
-					value "popup.bg.text"
-					key "popup.buttons.button_yes"
-				}
-
-				Pair_String_String
-				{
-					value "popup.buttons.button_yes"
 					key "popup.bg.text"
+					value "popup.buttons.button_yes"
+				}
+
+			}
+
+			left
+			{
+				Pair_String_String
+				{
+					key "popup.buttons.button_no"
+					value "popup.buttons.button_yes"
 				}
 
 			}
@@ -31,31 +30,36 @@ GuiRootGroupDef
 			{
 				Pair_String_String
 				{
-					value "popup.buttons.button_no"
 					key "popup.buttons.button_yes"
-				}
-				Pair_String_String
-				{
 					value "popup.buttons.button_no"
-					key "popup.bg.text"
 				}
+
+				Pair_String_String
+				{
+					key "popup.bg.text"
+					value "popup.buttons.button_no"
+				}
+
 			}
 
-			down
+			up
 			{
 				Pair_String_String
 				{
-					value "popup.buttons.button_yes"
-					key "popup.bg.text"
+					key "popup.buttons.button_yes"
+					value "popup.bg.text"
 				}
-			}
 
-			left
-			{
 				Pair_String_String
 				{
-					value "popup.buttons.button_yes"
 					key "popup.buttons.button_no"
+					value "popup.bg.text"
+				}
+
+				Pair_String_String
+				{
+					key "popup.bg.text"
+					value "popup.buttons.button_yes"
 				}
 
 			}
@@ -66,47 +70,18 @@ GuiRootGroupDef
 		{
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				popup_confirmation_node
-				popup_gui_id
-				scripts
-				{
-					scripts
-				}
-
-				type "button"
-				default_sound "1"
 				path "popup.buttons.button_no"
 			}
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				popup_confirmation_node
-				popup_gui_id
-				scripts
-				{
-					scripts
-				}
-
-				type "button"
-				default_sound "1"
 				path "popup.buttons.button_yes"
 			}
 
 			GuiNavNodeDef "GuiTextEditNodeDef"
 			{
-				default_text
-				max_char_count "34"
 				filename_mode "1"
-				pswrd_mode "0"
-				popup_confirmation_node
-				popup_gui_id
-				scripts
-				{
-					scripts
-				}
-
-				type "text_edit"
-				default_sound "1"
+				max_char_count "34"
 				path "popup.bg.text"
 			}
 
@@ -115,1320 +90,563 @@ GuiRootGroupDef
 	}
 
 	priority "1000.000"
-	bg_blur "0.400"
 	shortcuts
 	{
 		Pair_GuiInputCode_String
 		{
-			value "popup.buttons.button_yes"
-			key "6"
+			key "5"
+			value "popup.buttons.button_no"
 		}
 
 		Pair_GuiInputCode_String
 		{
-			value "popup.buttons.button_no"
-			key "5"
+			key "6"
+			value "popup.buttons.button_yes"
 		}
+
 	}
 
-	full_screen "0"
-	container_type "0"
-	allow_overflow "1"
 	children
 	{
 		Pair_String_GuiDef2
 		{
+			key "darken"
 			value "GuiQuadDef"
 			{
-				border_width "0.000"
-				corner_radius "0.000"
-				corner_cut "0"
-				border_color
+				alignment "center"
+				anchor "center"
+				color
 				{
-					z "0.000"
+					w "0.850"
 					x "0.000"
 					y "0.000"
+					z "0.000"
 				}
 
-				border_alpha "1.000"
+				id "darken"
+				offset
+				{
+					x "-13.000"
+				}
+
 				size
 				{
 					x "110000.000"
 					y "100000.000"
 				}
 
-				material_mode "normal"
-				animations
-				{
-					items
-				}
+			}
 
-				id "darken"
-				color
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.850"
-				}
-
-				rotation "0.000"
-				animation_groups
-				hitbox_visible "1"
-				tooltip
-				{
-					attachment_path
-					gui_id
-					placement_alignment "top_left"
-					fit_to_screen "1"
-					template
-					placement_mode "MOUSE_CURSOR"
-					data_source
-				}
-
+		}
+		
+		Pair_String_GuiDef2
+		{
+			key "pointer_blocker"
+			value "GuiPointerEventBlockerDef"
+			{
+				alignment "center"
 				anchor "center"
-				scale
-				{
-					x "1.000"
-					y "1.000"
-				}
-
-				z_order "0.000"
 				offset
 				{
 					x "-13.000"
-					y "0.000"
 				}
 
-				visible "1"
-				bindings
-				alignment "center"
-				item_scripts
+				size
 				{
-					scripts
+					x "110000.000"
+					y "100000.000"
 				}
 
-				margin
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.000"
-				}
-
-				size_mode "0"
+				id "pointer_blocker"
 			}
 
-			key "darken"
 		}
 
 		Pair_String_GuiDef2
 		{
+			key "popup"
 			value "GuiGroupDef"
 			{
-				container_type "2"
-				allow_overflow "1"
 				children
 				{
 					Pair_String_GuiDef2
 					{
+						key "bg"
 						value "GuiGroupDef"
 						{
-							container_type "5"
-							allow_overflow "1"
 							children
 							{
 								Pair_String_GuiDef2
 								{
+									key "bg_bottom"
 									value "GuiQuadDef"
 									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
+										anchor "bottom_left"
+										color
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-										}
-
-										border_alpha "1.000"
-										size
-										{
-											x "842.000"
-											y "1.000"
-										}
-
-										material_mode "normal"
-										animations
-										{
-											items
+											x "0.118"
+											y "0.365"
+											z "0.694"
 										}
 
 										id "bg_bottom"
-										color
-										{
-											z "0.694"
-											x "0.118"
-											y "0.365"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "bottom_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "53.000"
 										offset
 										{
-											x "0.000"
 											y "-1.000"
 										}
 
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-											w "0.000"
-										}
-
-										size_mode "1"
-									}
-
-									key "bg_bottom"
-								}
-
-								Pair_String_GuiDef2
-								{
-									value "GuiQuadDef"
-									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-										}
-
-										border_alpha "1.000"
 										size
 										{
 											x "842.000"
 											y "1.000"
 										}
 
-										material_mode "normal"
-										animations
-										{
-											items
-										}
-
-										id "bg_bottom_inside"
-										color
-										{
-											z "0.698"
-											x "0.118"
-											y "0.365"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "bottom_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "56.000"
-										offset
-										{
-											x "0.000"
-											y "-6.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "5.000"
-											x "5.000"
-											y "0.000"
-											w "0.000"
-										}
-
-										size_mode "1"
+										size_mode_x "2"
+										z_order "53.000"
 									}
 
-									key "bg_bottom_inside"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "bg_bottom_inside"
 									value "GuiQuadDef"
 									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
+										anchor "bottom_left"
+										color
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
+											x "0.118"
+											y "0.365"
+											z "0.698"
 										}
 
-										border_alpha "1.000"
+										id "bg_bottom_inside"
+										margin
+										{
+											x "5.000"
+											z "5.000"
+										}
+
+										offset
+										{
+											y "-6.000"
+										}
+
+										size
+										{
+											x "842.000"
+											y "1.000"
+										}
+
+										size_mode_x "2"
+										z_order "56.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "bg_inside"
+									value "GuiQuadDef"
+									{
+										color
+										{
+											w "0.750"
+											x "0.067"
+											y "0.125"
+											z "0.161"
+										}
+
+										id "bg_inside"
+										margin
+										{
+											x "1.000"
+											y "41.000"
+										}
+
+										offset
+										{
+											y "-1.000"
+										}
+
 										size
 										{
 											x "883.000"
 											y "157.800"
 										}
 
-										material_mode "normal"
-										animations
-										{
-											items
-										}
-
-										id "bg_inside"
-										color
-										{
-											z "0.161"
-											x "0.067"
-											y "0.125"
-											w "0.750"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
+										size_mode_x "2"
+										size_mode_y "2"
 										z_order "55.000"
-										offset
-										{
-											x "0.000"
-											y "-1.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "1.000"
-											y "41.000"
-											w "0.000"
-										}
-
-										size_mode "3"
 									}
 
-									key "bg_inside"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "bg_inside_bg"
 									value "GuiQuadDef"
 									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
+										color
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-										}
-
-										border_alpha "1.000"
-										size
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										material_mode "normal"
-										animations
-										{
-											items
+											w "0.750"
+											x "0.055"
+											y "0.212"
+											z "0.306"
 										}
 
 										id "bg_inside_bg"
-										color
+										margin
 										{
-											z "0.306"
-											x "0.055"
-											y "0.212"
-											w "0.750"
+											w "5.000"
+											x "6.000"
+											y "46.000"
+											z "5.000"
 										}
 
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
+										offset
 										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
+											y "-1.000"
 										}
 
-										anchor "top_left"
-										scale
+										size
 										{
 											x "1.000"
 											y "1.000"
 										}
 
+										size_mode_x "2"
+										size_mode_y "2"
 										z_order "60.000"
-										offset
-										{
-											x "0.000"
-											y "-1.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "5.000"
-											x "6.000"
-											y "46.000"
-											w "5.000"
-										}
-
-										size_mode "3"
 									}
 
-									key "bg_inside_bg"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "bg_left_inside"
 									value "GuiQuadDef"
 									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
+										color
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-										}
-
-										border_alpha "1.000"
-										size
-										{
-											x "1.000"
-											y "190.800"
-										}
-
-										material_mode "normal"
-										animations
-										{
-											items
+											x "0.118"
+											y "0.365"
+											z "0.698"
 										}
 
 										id "bg_left_inside"
-										color
+										margin
 										{
-											z "0.698"
-											x "0.118"
-											y "0.365"
-											w "1.000"
+											w "5.000"
+											x "5.000"
+											y "45.000"
+											z "5.000"
 										}
 
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "58.000"
 										offset
 										{
-											x "0.000"
 											y "-1.000"
 										}
 
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "5.000"
-											x "5.000"
-											y "45.000"
-											w "5.000"
-										}
-
-										size_mode "2"
-									}
-
-									key "bg_left_inside"
-								}
-
-								Pair_String_GuiDef2
-								{
-									value "GuiQuadDef"
-									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-										}
-
-										border_alpha "1.000"
 										size
 										{
 											x "1.000"
 											y "190.800"
 										}
 
-										material_mode "normal"
-										animations
-										{
-											items
-										}
-
-										id "bg_left_outside"
-										color
-										{
-											z "0.698"
-											x "0.118"
-											y "0.365"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "52.000"
-										offset
-										{
-											x "0.000"
-											y "-1.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "40.000"
-											w "0.000"
-										}
-
-										size_mode "2"
+										size_mode_y "2"
+										z_order "58.000"
 									}
 
-									key "bg_left_outside"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "bg_left_outside"
 									value "GuiQuadDef"
 									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
+										color
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
+											x "0.118"
+											y "0.365"
+											z "0.698"
 										}
 
-										border_alpha "1.000"
+										id "bg_left_outside"
+										margin
+										{
+											y "40.000"
+										}
+
+										offset
+										{
+											y "-1.000"
+										}
+
 										size
 										{
 											x "1.000"
-											y "149.800"
+											y "190.800"
 										}
 
-										material_mode "normal"
-										animations
+										size_mode_y "2"
+										z_order "52.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "bg_right_inside"
+									value "GuiQuadDef"
+									{
+										anchor "top_right"
+										color
 										{
-											items
+											x "0.118"
+											y "0.365"
+											z "0.698"
 										}
 
 										id "bg_right_inside"
-										color
+										margin
 										{
-											z "0.698"
-											x "0.118"
-											y "0.365"
-											w "1.000"
+											w "4.000"
+											y "45.000"
 										}
 
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_right"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "57.000"
 										offset
 										{
 											x "-5.000"
 											y "-1.000"
 										}
 
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
+										size
 										{
-											scripts
+											x "1.000"
+											y "149.800"
 										}
 
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "45.000"
-											w "4.000"
-										}
-
-										size_mode "2"
+										size_mode_y "2"
+										z_order "57.000"
 									}
 
-									key "bg_right_inside"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "bg_right_outside"
 									value "GuiQuadDef"
 									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
+										anchor "top_right"
+										color
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
+											x "0.118"
+											y "0.365"
+											z "0.698"
 										}
 
-										border_alpha "1.000"
+										id "bg_right_outside"
+										margin
+										{
+											y "40.000"
+										}
+
+										offset
+										{
+											y "-1.000"
+										}
+
 										size
 										{
 											x "1.000"
 											y "160.000"
 										}
 
-										material_mode "normal"
-										animations
-										{
-											items
-										}
-
-										id "bg_right_outside"
-										color
-										{
-											z "0.698"
-											x "0.118"
-											y "0.365"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_right"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
+										size_mode_y "2"
 										z_order "54.000"
-										offset
-										{
-											x "0.000"
-											y "-1.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "40.000"
-											w "0.000"
-										}
-
-										size_mode "2"
 									}
 
-									key "bg_right_outside"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "bg_top"
 									value "GuiQuadDef"
 									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
+										color
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-										}
-
-										border_alpha "1.000"
-										size
-										{
-											x "842.000"
-											y "1.000"
-										}
-
-										material_mode "normal"
-										animations
-										{
-											items
+											x "0.118"
+											y "0.365"
+											z "0.698"
 										}
 
 										id "bg_top"
-										color
+										margin
 										{
-											z "0.698"
-											x "0.118"
-											y "0.365"
-											w "1.000"
+											y "40.000"
 										}
 
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "51.000"
 										offset
 										{
-											x "0.000"
 											y "-1.000"
 										}
 
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "40.000"
-											w "0.000"
-										}
-
-										size_mode "1"
-									}
-
-									key "bg_top"
-								}
-
-								Pair_String_GuiDef2
-								{
-									value "GuiQuadDef"
-									{
-										border_width "0.000"
-										corner_radius "0.000"
-										corner_cut "0"
-										border_color
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-										}
-
-										border_alpha "1.000"
 										size
 										{
 											x "842.000"
 											y "1.000"
 										}
 
-										material_mode "normal"
-										animations
-										{
-											items
-										}
-
-										id "bg_top_inside"
-										color
-										{
-											z "0.698"
-											x "0.118"
-											y "0.365"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "59.000"
-										offset
-										{
-											x "0.000"
-											y "-1.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "5.000"
-											x "5.000"
-											y "45.000"
-											w "0.000"
-										}
-
-										size_mode "1"
+										size_mode_x "2"
+										z_order "51.000"
 									}
 
-									key "bg_top_inside"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "bg_top_inside"
+									value "GuiQuadDef"
+									{
+										color
+										{
+											x "0.118"
+											y "0.365"
+											z "0.698"
+										}
+
+										id "bg_top_inside"
+										margin
+										{
+											x "5.000"
+											y "45.000"
+											z "5.000"
+										}
+
+										offset
+										{
+											y "-1.000"
+										}
+
+										size
+										{
+											x "842.000"
+											y "1.000"
+										}
+
+										size_mode_x "2"
+										z_order "59.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "enter_code"
 									value "GuiTextLineDef"
 									{
 										content "gui/menu/redeem.enter_you_code"
-										translate "1"
-										style_name "build_info_header_blue"
 										style
 										{
-											gradient_end
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
-											}
-
-											shadow_color
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "0.435"
-											}
-
-											stroke_color
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
-											}
-
 											char_height "23.000"
-											font "orbitron-medium_sdf"
-											space_size "7.000"
-											glow_enabled "0"
-											glow_spread "0.000"
-											stroke_size "0.000"
 											color
 											{
-												z "1.000"
 												x "0.396"
 												y "0.922"
-												w "1.000"
 											}
 
-											color_enabled "1"
-											shadow_distance "2.000"
-											shadow_enabled "1"
 											df "1"
-											stroke_enabled "0"
+											font "orbitron-medium_sdf"
 											glow_color
 											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
 												w "0.000"
 											}
 
-											stroke_position "0"
-											gradient_enabled "0"
-											gradient_start
+											glow_size "0.000"
+											glow_spread "0.000"
+											shadow_angle "135.000"
+											shadow_color
 											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
+												w "0.435"
 											}
 
+											shadow_distance "2.000"
+											shadow_enabled "1"
 											shadow_spread "0.915"
-											shadow_angle "135.000"
-											shadow_size "1.000"
-											glow_size "0.000"
+											space_size "7.000"
+											stroke_position "0"
+											stroke_size "0.000"
 										}
 
-										capitals "0"
-										animations
-										{
-											items
-										}
-
+										style_name "build_info_header_blue"
+										translate "1"
 										id "enter_code"
-										color
-										{
-											z "1.000"
-											x "1.000"
-											y "1.000"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "61.000"
 										offset
 										{
 											x "30.000"
 											y "51.000"
 										}
 
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-											w "0.000"
-										}
-
-										size_mode "0"
+										z_order "61.000"
 									}
 
-									key "enter_code"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "header"
 									value "GuiImageDef"
 									{
-										material "gui/menu/inventory/inventory_list_header"
 										error_material "gui/default"
-										animations
-										{
-											items
-										}
-
+										material "gui/menu/inventory/inventory_list_header"
 										id "header"
-										color
-										{
-											z "1.000"
-											x "1.000"
-											y "1.000"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
 										z_order "50.000"
-										offset
-										{
-											x "0.000"
-											y "0.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-											w "0.000"
-										}
-
-										size_mode "0"
 									}
 
-									key "header"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "header_label"
 									value "GuiTextLineDef"
 									{
+										capitals "1"
 										content "gui/menu/redeem.redeem_code"
-										translate "1"
-										style_name "build_info_header_blue"
 										style
 										{
-											gradient_end
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
-											}
-
-											shadow_color
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "0.435"
-											}
-
-											stroke_color
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
-											}
-
 											char_height "23.000"
-											font "orbitron-medium_sdf"
-											space_size "7.000"
-											glow_enabled "0"
-											glow_spread "0.000"
-											stroke_size "0.000"
 											color
 											{
-												z "1.000"
 												x "0.396"
 												y "0.922"
-												w "1.000"
 											}
 
-											color_enabled "1"
-											shadow_distance "2.000"
-											shadow_enabled "1"
 											df "1"
-											stroke_enabled "0"
+											font "orbitron-medium_sdf"
 											glow_color
 											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
 												w "0.000"
 											}
 
-											stroke_position "0"
-											gradient_enabled "0"
-											gradient_start
+											glow_size "0.000"
+											glow_spread "0.000"
+											shadow_angle "135.000"
+											shadow_color
 											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
+												w "0.435"
 											}
 
+											shadow_distance "2.000"
+											shadow_enabled "1"
 											shadow_spread "0.915"
-											shadow_angle "135.000"
-											shadow_size "1.000"
-											glow_size "0.000"
+											space_size "7.000"
+											stroke_position "0"
+											stroke_size "0.000"
 										}
 
-										capitals "1"
-										animations
-										{
-											items
-										}
-
-										id "header_label"
-										color
-										{
-											z "1.000"
-											x "1.000"
-											y "1.000"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "79.000"
-										offset
-										{
-											x "25.000"
-											y "8.000"
-										}
-
-										visible "1"
+										style_name "build_info_header_blue"
+										translate "1"
 										bindings
 										{
 											content
@@ -1438,146 +656,59 @@ GuiRootGroupDef
 
 										}
 
-										alignment "top_left"
-										item_scripts
+										id "header_label"
+										offset
 										{
-											scripts
+											x "25.000"
+											y "8.000"
 										}
 
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-											w "0.000"
-										}
-
-										size_mode "0"
+										z_order "79.000"
 									}
 
-									key "header_label"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "limit"
 									value "GuiTextLineDef"
 									{
+										capitals "1"
 										content "gui/menu/redeem.invalid_code"
-										translate "1"
-										style_name "resource_red"
 										style
 										{
-											gradient_end
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
-											}
-
-											shadow_color
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "0.850"
-											}
-
-											stroke_color
-											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
-											}
-
 											char_height "21.000"
-											font "Exo2_Bold_sdf"
-											space_size "7.000"
-											glow_enabled "0"
-											glow_spread "0.000"
-											stroke_size "0.000"
 											color
 											{
-												z "0.286"
-												x "1.000"
 												y "0.286"
-												w "1.000"
+												z "0.286"
 											}
 
-											color_enabled "1"
-											shadow_distance "2.000"
-											shadow_enabled "1"
 											df "1"
-											stroke_enabled "0"
+											font "Exo2_Bold_sdf"
 											glow_color
 											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
 												w "0.000"
 											}
 
-											stroke_position "0"
-											gradient_enabled "0"
-											gradient_start
+											glow_size "0.000"
+											glow_spread "0.000"
+											shadow_angle "135.000"
+											shadow_color
 											{
-												z "0.000"
-												x "0.000"
-												y "0.000"
-												w "1.000"
+												w "0.850"
 											}
 
+											shadow_distance "2.000"
+											shadow_enabled "1"
 											shadow_spread "0.000"
-											shadow_angle "135.000"
-											shadow_size "1.000"
-											glow_size "0.000"
+											space_size "7.000"
+											stroke_position "0"
+											stroke_size "0.000"
 										}
 
-										capitals "1"
-										animations
-										{
-											items
-										}
-
-										id "limit"
-										color
-										{
-											z "1.000"
-											x "1.000"
-											y "1.000"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "80.000"
-										offset
-										{
-											x "30.000"
-											y "143.000"
-										}
-
-										visible "1"
+										style_name "resource_red"
+										translate "1"
 										bindings
 										{
 											visible
@@ -1587,670 +718,207 @@ GuiRootGroupDef
 
 										}
 
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
+										id "limit"
 										margin
 										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
 											w "15.000"
 										}
 
-										size_mode "0"
+										offset
+										{
+											x "30.000"
+											y "143.000"
+										}
+
+										z_order "80.000"
 									}
 
-									key "limit"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "text"
 									value "GuiGroupDef"
 									{
-										container_type "0"
-										allow_overflow "1"
 										children
 										{
 											Pair_String_GuiDef2
 											{
+												key "active"
 												value "GuiGroupDef"
 												{
-													container_type "3"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "guimenubuttonsinteractive_stream_textbox_0"
 															value "GuiImageDef"
 															{
 																material "gui/menu/buttons/interactive_stream_textbox"
-																error_material "gui/default"
-																animations
-																{
-																	items
-																}
-
 																id "guimenubuttonsinteractive_stream_textbox_0"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
 																scale
 																{
 																	x "0.900"
-																	y "1.000"
 																}
 
 																z_order "72.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "guimenubuttonsinteractive_stream_textbox_0"
 														}
 
-													}
-
-													size
-													{
-														x "700.000"
-														y "56.000"
-													}
-
-													animations
-													{
-														items
 													}
 
 													id "active"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "71.000"
-													offset
-													{
-														x "0.000"
-														y "0.000"
-													}
-
-													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
-												}
-
-												key "active"
-											}
-
-											Pair_String_GuiDef2
-											{
-												value "GuiGroupDef"
-												{
-													container_type "3"
-													allow_overflow "1"
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															value "GuiImageDef"
-															{
-																material "gui/menu/buttons/interactive_stream_textbox"
-																error_material "gui/default"
-																animations
-																{
-																	items
-																}
-
-																id "guimenubuttonsinteractive_stream_textbox_1"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "0.900"
-																	y "1.000"
-																}
-
-																z_order "67.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
-															}
-
-															key "guimenubuttonsinteractive_stream_textbox_1"
-														}
-
-														Pair_String_GuiDef2
-														{
-															value "GuiImageDef"
-															{
-																material "gui/menu/buttons/interactive_stream_textbox_selected"
-																error_material "gui/default"
-																animations
-																{
-																	items
-																}
-
-																id "guimenubuttonsinteractive_stream_textbox_selected_0"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "0.900"
-																	y "1.000"
-																}
-
-																z_order "68.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
-															}
-
-															key "guimenubuttonsinteractive_stream_textbox_selected_0"
-														}
-
-													}
-
 													size
 													{
 														x "700.000"
 														y "56.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "active_selected"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "66.000"
-													offset
-													{
-														x "0.000"
-														y "0.000"
-													}
-
+													size_mode_x "1"
+													size_mode_y "1"
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "71.000"
 												}
 
-												key "active_selected"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "active_selected"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
-															value "GuiQuadDef"
+															key "guimenubuttonsinteractive_stream_textbox_1"
+															value "GuiImageDef"
 															{
-																border_width "0.000"
-																corner_radius "0.000"
-																corner_cut "0"
-																border_color
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																}
-
-																border_alpha "1.000"
-																size
-																{
-																	x "4.000"
-																	y "2.000"
-																}
-
-																material_mode "normal"
-																animations
-																{
-																	items
-																}
-
-																id "bottom"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
+																error_material "gui/default"
+																material "gui/menu/buttons/interactive_stream_textbox"
+																id "guimenubuttonsinteractive_stream_textbox_1"
 																scale
 																{
-																	x "1.000"
-																	y "1.000"
+																	x "0.900"
 																}
 
-																z_order "77.000"
+																z_order "67.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "guimenubuttonsinteractive_stream_textbox_selected_0"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/interactive_stream_textbox_selected"
+																id "guimenubuttonsinteractive_stream_textbox_selected_0"
+																scale
+																{
+																	x "0.900"
+																}
+
+																z_order "68.000"
+															}
+
+														}
+
+													}
+
+													id "active_selected"
+													size
+													{
+														x "700.000"
+														y "56.000"
+													}
+
+													size_mode_x "1"
+													size_mode_y "1"
+													visible "0"
+													z_order "66.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "cursor"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "bottom"
+															value "GuiQuadDef"
+															{
+																id "bottom"
 																offset
 																{
-																	x "0.000"
 																	y "19.000"
 																}
 
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
-															}
-
-															key "bottom"
-														}
-
-														Pair_String_GuiDef2
-														{
-															value "GuiQuadDef"
-															{
-																border_width "0.000"
-																corner_radius "0.000"
-																corner_cut "0"
-																border_color
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																}
-
-																border_alpha "1.000"
 																size
 																{
 																	x "4.000"
 																	y "2.000"
 																}
 
-																material_mode "normal"
-																animations
-																{
-																	items
-																}
-
-																id "top"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
-																z_order "76.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
+																z_order "77.000"
 															}
 
-															key "top"
 														}
 
 														Pair_String_GuiDef2
 														{
+															key "top"
 															value "GuiQuadDef"
 															{
-																border_width "0.000"
-																corner_radius "0.000"
-																corner_cut "0"
-																border_color
+																id "top"
+																size
 																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
+																	x "4.000"
+																	y "2.000"
 																}
 
-																border_alpha "1.000"
+																z_order "76.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "vertical"
+															value "GuiQuadDef"
+															{
+																id "vertical"
+																offset
+																{
+																	x "1.000"
+																	y "2.000"
+																}
+
 																size
 																{
 																	x "2.000"
 																	y "17.000"
 																}
 
-																material_mode "normal"
-																animations
-																{
-																	items
-																}
-
-																id "vertical"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
 																z_order "78.000"
-																offset
-																{
-																	x "1.000"
-																	y "2.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "vertical"
 														}
 
+													}
+
+													id "cursor"
+													offset
+													{
+														x "12.000"
+														y "16.000"
 													}
 
 													size
@@ -2259,658 +927,191 @@ GuiRootGroupDef
 														y "21.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "cursor"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
 													z_order "75.000"
-													offset
-													{
-														x "12.000"
-														y "16.000"
-													}
-
-													visible "1"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
 												}
 
-												key "cursor"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "disabled"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
-													children
-													size
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													animations
-													{
-														items
-													}
-
 													id "disabled"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "73.000"
 													offset
 													{
 														x "160.000"
-														y "0.000"
+													}
+
+													size
+													{
+														x "1.000"
+														y "1.000"
 													}
 
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "73.000"
 												}
 
-												key "disabled"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "neutral"
 												value "GuiGroupDef"
 												{
-													container_type "3"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "guimenubuttonsinteractive_stream_textbox_0"
 															value "GuiImageDef"
 															{
-																material "gui/menu/buttons/interactive_stream_textbox"
 																error_material "gui/default"
-																animations
-																{
-																	items
-																}
-
+																material "gui/menu/buttons/interactive_stream_textbox"
 																id "guimenubuttonsinteractive_stream_textbox_0"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
 																scale
 																{
 																	x "0.900"
-																	y "1.000"
 																}
 
 																z_order "70.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "guimenubuttonsinteractive_stream_textbox_0"
 														}
 
 													}
 
+													id "neutral"
 													size
 													{
 														x "700.000"
 														y "56.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "neutral"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "69.000"
-													offset
-													{
-														x "0.000"
-														y "0.000"
-													}
-
+													size_mode_x "1"
+													size_mode_y "1"
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "69.000"
 												}
 
-												key "neutral"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "neutral_selected"
 												value "GuiGroupDef"
 												{
-													container_type "3"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "guimenubuttonsinteractive_stream_textbox_1"
 															value "GuiImageDef"
 															{
-																material "gui/menu/buttons/interactive_stream_textbox"
 																error_material "gui/default"
-																animations
-																{
-																	items
-																}
-
+																material "gui/menu/buttons/interactive_stream_textbox"
 																id "guimenubuttonsinteractive_stream_textbox_1"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
 																scale
 																{
 																	x "0.900"
-																	y "1.000"
 																}
 
 																z_order "64.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "guimenubuttonsinteractive_stream_textbox_1"
 														}
 
 														Pair_String_GuiDef2
 														{
+															key "guimenubuttonsinteractive_stream_textbox_selected_0"
 															value "GuiImageDef"
 															{
-																material "gui/menu/buttons/interactive_stream_textbox_selected"
 																error_material "gui/default"
-																animations
-																{
-																	items
-																}
-
+																material "gui/menu/buttons/interactive_stream_textbox_selected"
 																id "guimenubuttonsinteractive_stream_textbox_selected_0"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
 																scale
 																{
 																	x "0.900"
-																	y "1.000"
 																}
 
 																z_order "65.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "guimenubuttonsinteractive_stream_textbox_selected_0"
 														}
 
 													}
 
+													id "neutral_selected"
 													size
 													{
 														x "700.000"
 														y "56.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "neutral_selected"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "63.000"
-													offset
-													{
-														x "0.000"
-														y "0.000"
-													}
-
+													size_mode_x "1"
+													size_mode_y "1"
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "63.000"
 												}
 
-												key "neutral_selected"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "text"
 												value "GuiTextLineDef"
 												{
-													content
-													translate "0"
-													style_name "resource_white_smaller"
 													style
 													{
-														gradient_end
-														{
-															z "0.000"
-															x "0.000"
-															y "0.000"
-															w "1.000"
-														}
-
-														shadow_color
-														{
-															z "0.000"
-															x "0.000"
-															y "0.000"
-															w "0.850"
-														}
-
-														stroke_color
-														{
-															z "0.000"
-															x "0.000"
-															y "0.000"
-															w "1.000"
-														}
-
 														char_height "21.000"
-														font "Exo2_Bold_sdf"
-														space_size "7.000"
-														glow_enabled "0"
-														glow_spread "0.000"
-														stroke_size "0.000"
-														color
-														{
-															z "1.000"
-															x "1.000"
-															y "1.000"
-															w "1.000"
-														}
-
-														color_enabled "1"
-														shadow_distance "2.394"
-														shadow_enabled "0"
 														df "1"
-														stroke_enabled "0"
+														font "Exo2_Bold_sdf"
 														glow_color
 														{
-															z "0.000"
-															x "0.000"
-															y "0.000"
 															w "0.000"
 														}
 
-														stroke_position "0"
-														gradient_enabled "0"
-														gradient_start
+														glow_size "0.000"
+														glow_spread "0.000"
+														shadow_angle "135.000"
+														shadow_color
 														{
-															z "0.000"
-															x "0.000"
-															y "0.000"
-															w "1.000"
+															w "0.850"
 														}
 
+														shadow_distance "2.394"
 														shadow_spread "0.000"
-														shadow_angle "135.000"
-														shadow_size "1.000"
-														glow_size "0.000"
+														space_size "7.000"
+														stroke_position "0"
+														stroke_size "0.000"
 													}
 
-													capitals "0"
-													animations
-													{
-														items
-													}
-
+													style_name "resource_white_smaller"
 													id "text"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "74.000"
 													offset
 													{
 														x "16.000"
 														y "15.000"
 													}
 
-													visible "1"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "74.000"
 												}
 
-												key "text"
 											}
 
+										}
+
+										id "text"
+										margin
+										{
+											w "15.000"
+										}
+
+										offset
+										{
+											x "16.000"
+											y "81.000"
 										}
 
 										size
@@ -2919,754 +1120,216 @@ GuiRootGroupDef
 											y "56.000"
 										}
 
-										animations
-										{
-											items
-										}
-
-										id "text"
-										color
-										{
-											z "1.000"
-											x "1.000"
-											y "1.000"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
 										z_order "62.000"
-										offset
-										{
-											x "16.000"
-											y "81.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-											w "15.000"
-										}
-
-										size_mode "0"
 									}
 
-									key "text"
 								}
 
 							}
 
+							id "bg"
 							size
 							{
 								x "593.000"
 								y "137.000"
 							}
 
-							animations
-							{
-								items
-							}
-
-							id "bg"
-							color
-							{
-								z "1.000"
-								x "1.000"
-								y "1.000"
-								w "1.000"
-							}
-
-							rotation "0.000"
-							animation_groups
-							hitbox_visible "1"
-							tooltip
-							{
-								attachment_path
-								gui_id
-								placement_alignment "top_left"
-								fit_to_screen "1"
-								template
-								placement_mode "MOUSE_CURSOR"
-								data_source
-							}
-
-							anchor "top_left"
-							scale
-							{
-								x "1.000"
-								y "1.000"
-							}
-
+							size_mode_y "1"
 							z_order "49.000"
-							offset
-							{
-								x "0.000"
-								y "0.000"
-							}
-
-							visible "1"
-							bindings
-							alignment "top_left"
-							item_scripts
-							{
-								scripts
-							}
-
-							margin
-							{
-								z "0.000"
-								x "0.000"
-								y "0.000"
-								w "0.000"
-							}
-
-							size_mode "0"
 						}
 
-						key "bg"
 					}
 
 					Pair_String_GuiDef2
 					{
+						key "buttons"
 						value "GuiGroupDef"
 						{
-							container_type "0"
-							allow_overflow "1"
 							children
 							{
 								Pair_String_GuiDef2
 								{
+									key "button_no"
 									value "GuiGroupDef"
 									{
-										container_type "0"
-										allow_overflow "1"
 										children
 										{
 											Pair_String_GuiDef2
 											{
+												key "disabled"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
-													children
-													size
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													animations
-													{
-														items
-													}
-
 													id "disabled"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "22.000"
 													offset
 													{
 														x "181.000"
 														y "10.500"
 													}
 
+													size
+													{
+														x "1.000"
+														y "1.000"
+													}
+
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "22.000"
 												}
 
-												key "disabled"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "neutral"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "bg"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "center"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			id "center"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
 																			scale
 																			{
 																				x "10.000"
-																				y "1.000"
 																			}
 
 																			z_order "18.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "center"
 																	}
 
 																	Pair_String_GuiDef2
 																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "left"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "19.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
 																		key "left"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																			id "left"
+																			z_order "19.000"
+																		}
+
 																	}
 
 																	Pair_String_GuiDef2
 																	{
+																		key "right"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			id "right"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
 																			z_order "17.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "right"
 																	}
 
 																}
 
+																id "bg"
 																size
 																{
 																	x "160.000"
 																	y "44.000"
-																}
-
-																animations
-																{
-																	items
-																}
-
-																id "bg"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
 																}
 
 																z_order "16.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "bg"
 														}
 
 														Pair_String_GuiDef2
 														{
+															key "content"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "label"
 																		value "GuiTextLineDef"
 																		{
+																			capitals "1"
 																			content "BUTTON_cancel"
-																			translate "1"
-																			style_name "shortcuts"
 																			style
 																			{
-																				gradient_end
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
-																				shadow_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "0.850"
-																				}
-
-																				stroke_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
 																				char_height "30.000"
-																				font "orbitron-medium_sdf"
-																				space_size "7.000"
-																				glow_enabled "0"
-																				glow_spread "0.000"
-																				stroke_size "0.000"
 																				color
 																				{
-																					z "1.000"
 																					x "0.396"
 																					y "0.922"
-																					w "1.000"
 																				}
 
-																				color_enabled "1"
-																				shadow_distance "2.000"
-																				shadow_enabled "1"
 																				df "1"
-																				stroke_enabled "0"
+																				font "orbitron-medium_sdf"
 																				glow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
 																					w "0.000"
 																				}
 
-																				stroke_position "0"
-																				gradient_enabled "0"
-																				gradient_start
+																				glow_size "0.000"
+																				glow_spread "0.000"
+																				shadow_angle "135.000"
+																				shadow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
+																					w "0.850"
 																				}
 
+																				shadow_distance "2.000"
+																				shadow_enabled "1"
 																				shadow_spread "0.000"
-																				shadow_angle "135.000"
-																				shadow_size "1.000"
-																				glow_size "0.000"
+																				space_size "7.000"
+																				stroke_position "0"
+																				stroke_size "0.000"
 																			}
 
-																			capitals "1"
-																			animations
-																			{
-																				items
-																			}
-
+																			style_name "shortcuts"
+																			translate "1"
 																			id "label"
-																			color
+																			offset
 																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
+																				x "15.000"
+																				y "4.000"
 																			}
 
 																			z_order "21.000"
-																			offset
-																			{
-																				x "15.000"
-																				y "4.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "label"
 																	}
 
 																}
 
+																id "content"
 																size
 																{
 																	x "278.182"
 																	y "37.000"
-																}
-
-																animations
-																{
-																	items
-																}
-
-																id "content"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
 																}
 
 																z_order "20.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "content"
 														}
 
+													}
+
+													id "neutral"
+													offset
+													{
+														x "16.000"
 													}
 
 													size
@@ -3675,879 +1338,229 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "neutral"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "15.000"
-													offset
-													{
-														x "16.000"
-														y "0.000"
-													}
-
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "15.000"
 												}
 
-												key "neutral"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "neutral_selected"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "bg"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "center"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			id "center"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
 																			scale
 																			{
 																				x "10.000"
-																				y "1.000"
 																			}
 
 																			z_order "7.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "center"
 																	}
 
 																	Pair_String_GuiDef2
 																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "left"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "8.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
 																		key "left"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																			id "left"
+																			z_order "8.000"
+																		}
+
 																	}
 
 																	Pair_String_GuiDef2
 																	{
+																		key "right"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			id "right"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
 																			z_order "6.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "right"
 																	}
 
-																}
-
-																size
-																{
-																	x "160.000"
-																	y "44.000"
-																}
-
-																animations
-																{
-																	items
 																}
 
 																id "bg"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
-																z_order "5.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
-															}
-
-															key "bg"
-														}
-
-														Pair_String_GuiDef2
-														{
-															value "GuiGroupDef"
-															{
-																container_type "0"
-																allow_overflow "1"
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_center_selection"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "center"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "10.000"
-																				y "1.000"
-																			}
-
-																			z_order "11.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
-																		key "center"
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_left_selection"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "left"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "12.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
-																		key "left"
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_right_selection"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "right"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "10.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
-																		key "right"
-																	}
-
-																}
-
 																size
 																{
 																	x "160.000"
 																	y "44.000"
 																}
 
-																animations
-																{
-																	items
-																}
-
-																id "bg_selection"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
-																z_order "9.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
+																z_order "5.000"
 															}
 
-															key "bg_selection"
 														}
 
 														Pair_String_GuiDef2
 														{
+															key "bg_selection"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "center"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_center_selection"
+																			id "center"
+																			scale
+																			{
+																				x "10.000"
+																			}
+
+																			z_order "11.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "left"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_left_selection"
+																			id "left"
+																			z_order "12.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "right"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_right_selection"
+																			id "right"
+																			z_order "10.000"
+																		}
+
+																	}
+
+																}
+
+																id "bg_selection"
+																size
+																{
+																	x "160.000"
+																	y "44.000"
+																}
+
+																z_order "9.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "content"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "label"
 																		value "GuiTextLineDef"
 																		{
+																			capitals "1"
 																			content "BUTTON_cancel"
-																			translate "1"
-																			style_name "shortcuts"
 																			style
 																			{
-																				gradient_end
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
-																				shadow_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "0.850"
-																				}
-
-																				stroke_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
 																				char_height "30.000"
-																				font "orbitron-medium_sdf"
-																				space_size "7.000"
-																				glow_enabled "0"
-																				glow_spread "0.000"
-																				stroke_size "0.000"
 																				color
 																				{
-																					z "1.000"
 																					x "0.396"
 																					y "0.922"
-																					w "1.000"
 																				}
 
-																				color_enabled "1"
-																				shadow_distance "2.000"
-																				shadow_enabled "1"
 																				df "1"
-																				stroke_enabled "0"
+																				font "orbitron-medium_sdf"
 																				glow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
 																					w "0.000"
 																				}
 
-																				stroke_position "0"
-																				gradient_enabled "0"
-																				gradient_start
+																				glow_size "0.000"
+																				glow_spread "0.000"
+																				shadow_angle "135.000"
+																				shadow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
+																					w "0.850"
 																				}
 
+																				shadow_distance "2.000"
+																				shadow_enabled "1"
 																				shadow_spread "0.000"
-																				shadow_angle "135.000"
-																				shadow_size "1.000"
-																				glow_size "0.000"
+																				space_size "7.000"
+																				stroke_position "0"
+																				stroke_size "0.000"
 																			}
 
-																			capitals "1"
-																			animations
-																			{
-																				items
-																			}
-
+																			style_name "shortcuts"
+																			translate "1"
 																			id "label"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "14.000"
 																			offset
 																			{
 																				x "15.000"
 																				y "4.000"
 																			}
 
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
+																			z_order "14.000"
 																		}
 
-																		key "label"
 																	}
 
 																}
 
+																id "content"
 																size
 																{
 																	x "278.182"
 																	y "37.000"
 																}
 
-																animations
-																{
-																	items
-																}
-
-																id "content"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
 																z_order "13.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "content"
 														}
 
+													}
+
+													id "neutral_selected"
+													offset
+													{
+														x "16.000"
 													}
 
 													size
@@ -4556,121 +1569,34 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "neutral_selected"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "4.000"
-													offset
-													{
-														x "16.000"
-														y "0.000"
-													}
-
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "4.000"
 												}
 
-												key "neutral_selected"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "shortcuts"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "pad"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "key"
 																		value "GuiImageDef"
 																		{
-																			material "gui/hud/keys/key_261"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/hud/keys/key_261"
 																			id "key"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
 																			scale
 																			{
 																				x "0.600"
@@ -4678,106 +1604,32 @@ GuiRootGroupDef
 																			}
 
 																			z_order "25.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "key"
 																	}
 
 																}
 
+																id "pad"
 																size
 																{
 																	x "34.800"
 																	y "31.200"
 																}
 
-																animations
-																{
-																	items
-																}
-
-																id "pad"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
 																z_order "24.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "pad"
 														}
 
+													}
+
+													alignment "top"
+													id "shortcuts"
+													offset
+													{
+														x "17.000"
+														y "2.000"
 													}
 
 													size
@@ -4786,70 +1638,18 @@ GuiRootGroupDef
 														y "31.200"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "shortcuts"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
 													z_order "23.000"
-													offset
-													{
-														x "17.000"
-														y "2.000"
-													}
-
-													visible "1"
-													bindings
-													alignment "top"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
 												}
 
-												key "shortcuts"
 											}
 
+										}
+
+										alignment "top_right"
+										id "button_no"
+										offset
+										{
+											x "550.000"
 										}
 
 										size
@@ -4858,674 +1658,194 @@ GuiRootGroupDef
 											y "44.000"
 										}
 
-										animations
-										{
-											items
-										}
-
-										id "button_no"
-										color
-										{
-											z "1.000"
-											x "1.000"
-											y "1.000"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "1"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
 										z_order "3.000"
-										offset
-										{
-											x "550.000"
-											y "0.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_right"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-											w "0.000"
-										}
-
-										size_mode "0"
 									}
 
-									key "button_no"
 								}
 
 								Pair_String_GuiDef2
 								{
+									key "button_yes"
 									value "GuiGroupDef"
 									{
-										container_type "0"
-										allow_overflow "1"
 										children
 										{
 											Pair_String_GuiDef2
 											{
+												key "disabled"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
-													children
-													size
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													animations
-													{
-														items
-													}
-
 													id "disabled"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "45.000"
 													offset
 													{
 														x "181.000"
 														y "10.500"
 													}
 
+													size
+													{
+														x "1.000"
+														y "1.000"
+													}
+
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "45.000"
 												}
 
-												key "disabled"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "neutral"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "bg"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "center"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			id "center"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
 																			scale
 																			{
 																				x "10.000"
-																				y "1.000"
 																			}
 
 																			z_order "41.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "center"
 																	}
 
 																	Pair_String_GuiDef2
 																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "left"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "42.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
 																		key "left"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																			id "left"
+																			z_order "42.000"
+																		}
+
 																	}
 
 																	Pair_String_GuiDef2
 																	{
+																		key "right"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			id "right"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
 																			z_order "40.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "right"
 																	}
 
 																}
 
+																id "bg"
 																size
 																{
 																	x "160.000"
 																	y "44.000"
-																}
-
-																animations
-																{
-																	items
-																}
-
-																id "bg"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
 																}
 
 																z_order "39.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "bg"
 														}
 
 														Pair_String_GuiDef2
 														{
+															key "content"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "label"
 																		value "GuiTextLineDef"
 																		{
+																			capitals "1"
 																			content "BUTTON_redeem"
-																			translate "1"
-																			style_name "shortcuts"
 																			style
 																			{
-																				gradient_end
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
-																				shadow_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "0.850"
-																				}
-
-																				stroke_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
 																				char_height "30.000"
-																				font "orbitron-medium_sdf"
-																				space_size "7.000"
-																				glow_enabled "0"
-																				glow_spread "0.000"
-																				stroke_size "0.000"
 																				color
 																				{
-																					z "1.000"
 																					x "0.396"
 																					y "0.922"
-																					w "1.000"
 																				}
 
-																				color_enabled "1"
-																				shadow_distance "2.000"
-																				shadow_enabled "1"
 																				df "1"
-																				stroke_enabled "0"
+																				font "orbitron-medium_sdf"
 																				glow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
 																					w "0.000"
 																				}
 
-																				stroke_position "0"
-																				gradient_enabled "0"
-																				gradient_start
+																				glow_size "0.000"
+																				glow_spread "0.000"
+																				shadow_angle "135.000"
+																				shadow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
+																					w "0.850"
 																				}
 
+																				shadow_distance "2.000"
+																				shadow_enabled "1"
 																				shadow_spread "0.000"
-																				shadow_angle "135.000"
-																				shadow_size "1.000"
-																				glow_size "0.000"
+																				space_size "7.000"
+																				stroke_position "0"
+																				stroke_size "0.000"
 																			}
 
-																			capitals "1"
-																			animations
-																			{
-																				items
-																			}
-
+																			style_name "shortcuts"
+																			translate "1"
 																			id "label"
-																			color
+																			offset
 																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
+																				x "15.000"
+																				y "4.000"
 																			}
 
 																			z_order "44.000"
-																			offset
-																			{
-																				x "15.000"
-																				y "4.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "label"
 																	}
 
 																}
 
+																id "content"
 																size
 																{
 																	x "278.182"
 																	y "37.000"
-																}
-
-																animations
-																{
-																	items
-																}
-
-																id "content"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
 																}
 
 																z_order "43.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "content"
 														}
 
+													}
+
+													id "neutral"
+													offset
+													{
+														x "16.000"
 													}
 
 													size
@@ -5534,879 +1854,229 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "neutral"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "38.000"
-													offset
-													{
-														x "16.000"
-														y "0.000"
-													}
-
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "38.000"
 												}
 
-												key "neutral"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "neutral_selected"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "bg"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "center"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_center_neutral"
 																			id "center"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
 																			scale
 																			{
 																				x "10.000"
-																				y "1.000"
 																			}
 
 																			z_order "30.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "center"
 																	}
 
 																	Pair_String_GuiDef2
 																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "left"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "31.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
 																		key "left"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																			id "left"
+																			z_order "31.000"
+																		}
+
 																	}
 
 																	Pair_String_GuiDef2
 																	{
+																		key "right"
 																		value "GuiImageDef"
 																		{
-																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																			id "right"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
 																			z_order "29.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "right"
 																	}
 
-																}
-
-																size
-																{
-																	x "160.000"
-																	y "44.000"
-																}
-
-																animations
-																{
-																	items
 																}
 
 																id "bg"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
-																z_order "28.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
-															}
-
-															key "bg"
-														}
-
-														Pair_String_GuiDef2
-														{
-															value "GuiGroupDef"
-															{
-																container_type "0"
-																allow_overflow "1"
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_center_selection"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "center"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "10.000"
-																				y "1.000"
-																			}
-
-																			z_order "34.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
-																		key "center"
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_left_selection"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "left"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "35.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
-																		key "left"
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		value "GuiImageDef"
-																		{
-																			material "gui/menu/buttons/inventory/simple_btn_right_selection"
-																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
-																			id "right"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "33.000"
-																			offset
-																			{
-																				x "0.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
-																		}
-
-																		key "right"
-																	}
-
-																}
-
 																size
 																{
 																	x "160.000"
 																	y "44.000"
 																}
 
-																animations
-																{
-																	items
-																}
-
-																id "bg_selection"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
-																z_order "32.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
+																z_order "28.000"
 															}
 
-															key "bg_selection"
 														}
 
 														Pair_String_GuiDef2
 														{
+															key "bg_selection"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "center"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_center_selection"
+																			id "center"
+																			scale
+																			{
+																				x "10.000"
+																			}
+
+																			z_order "34.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "left"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_left_selection"
+																			id "left"
+																			z_order "35.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "right"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/simple_btn_right_selection"
+																			id "right"
+																			z_order "33.000"
+																		}
+
+																	}
+
+																}
+
+																id "bg_selection"
+																size
+																{
+																	x "160.000"
+																	y "44.000"
+																}
+
+																z_order "32.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "content"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "label"
 																		value "GuiTextLineDef"
 																		{
+																			capitals "1"
 																			content "BUTTON_redeem"
-																			translate "1"
-																			style_name "shortcuts"
 																			style
 																			{
-																				gradient_end
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
-																				shadow_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "0.850"
-																				}
-
-																				stroke_color
-																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
-																				}
-
 																				char_height "30.000"
-																				font "orbitron-medium_sdf"
-																				space_size "7.000"
-																				glow_enabled "0"
-																				glow_spread "0.000"
-																				stroke_size "0.000"
 																				color
 																				{
-																					z "1.000"
 																					x "0.396"
 																					y "0.922"
-																					w "1.000"
 																				}
 
-																				color_enabled "1"
-																				shadow_distance "2.000"
-																				shadow_enabled "1"
 																				df "1"
-																				stroke_enabled "0"
+																				font "orbitron-medium_sdf"
 																				glow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
 																					w "0.000"
 																				}
 
-																				stroke_position "0"
-																				gradient_enabled "0"
-																				gradient_start
+																				glow_size "0.000"
+																				glow_spread "0.000"
+																				shadow_angle "135.000"
+																				shadow_color
 																				{
-																					z "0.000"
-																					x "0.000"
-																					y "0.000"
-																					w "1.000"
+																					w "0.850"
 																				}
 
+																				shadow_distance "2.000"
+																				shadow_enabled "1"
 																				shadow_spread "0.000"
-																				shadow_angle "135.000"
-																				shadow_size "1.000"
-																				glow_size "0.000"
+																				space_size "7.000"
+																				stroke_position "0"
+																				stroke_size "0.000"
 																			}
 
-																			capitals "1"
-																			animations
-																			{
-																				items
-																			}
-
+																			style_name "shortcuts"
+																			translate "1"
 																			id "label"
-																			color
-																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
-																			}
-
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
-																			scale
-																			{
-																				x "1.000"
-																				y "1.000"
-																			}
-
-																			z_order "37.000"
 																			offset
 																			{
 																				x "15.000"
 																				y "4.000"
 																			}
 
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
+																			z_order "37.000"
 																		}
 
-																		key "label"
 																	}
 
 																}
 
+																id "content"
 																size
 																{
 																	x "278.182"
 																	y "37.000"
 																}
 
-																animations
-																{
-																	items
-																}
-
-																id "content"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "1"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
 																z_order "36.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "content"
 														}
 
+													}
+
+													id "neutral_selected"
+													offset
+													{
+														x "16.000"
 													}
 
 													size
@@ -6415,121 +2085,39 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "neutral_selected"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "1"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
-													z_order "27.000"
-													offset
-													{
-														x "16.000"
-														y "0.000"
-													}
-
 													visible "0"
-													bindings
-													alignment "top_left"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
+													z_order "27.000"
 												}
 
-												key "neutral_selected"
 											}
 
 											Pair_String_GuiDef2
 											{
+												key "shortcuts"
 												value "GuiGroupDef"
 												{
-													container_type "0"
-													allow_overflow "1"
 													children
 													{
 														Pair_String_GuiDef2
 														{
+															key "pad"
 															value "GuiGroupDef"
 															{
-																container_type "0"
-																allow_overflow "1"
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "key"
 																		value "GuiImageDef"
 																		{
-																			material "gui/hud/keys/key_263"
 																			error_material "gui/default"
-																			animations
-																			{
-																				items
-																			}
-
+																			material "gui/hud/keys/key_263"
 																			id "key"
-																			color
+																			offset
 																			{
-																				z "1.000"
-																				x "1.000"
-																				y "1.000"
-																				w "1.000"
+																				x "-1.000"
 																			}
 
-																			rotation "0.000"
-																			animation_groups
-																			hitbox_visible "1"
-																			tooltip
-																			{
-																				attachment_path
-																				gui_id
-																				placement_alignment "top_left"
-																				fit_to_screen "1"
-																				template
-																				placement_mode "MOUSE_CURSOR"
-																				data_source
-																			}
-
-																			anchor "top_left"
 																			scale
 																			{
 																				x "0.600"
@@ -6537,106 +2125,34 @@ GuiRootGroupDef
 																			}
 
 																			z_order "48.000"
-																			offset
-																			{
-																				x "-1.000"
-																				y "0.000"
-																			}
-
-																			visible "1"
-																			bindings
-																			alignment "top_left"
-																			item_scripts
-																			{
-																				scripts
-																			}
-
-																			margin
-																			{
-																				z "0.000"
-																				x "0.000"
-																				y "0.000"
-																				w "0.000"
-																			}
-
-																			size_mode "0"
 																		}
 
-																		key "key"
 																	}
 
 																}
 
+																hitbox_visible "0"
+																id "pad"
 																size
 																{
 																	x "34.800"
 																	y "31.200"
 																}
 
-																animations
-																{
-																	items
-																}
-
-																id "pad"
-																color
-																{
-																	z "1.000"
-																	x "1.000"
-																	y "1.000"
-																	w "1.000"
-																}
-
-																rotation "0.000"
-																animation_groups
-																hitbox_visible "0"
-																tooltip
-																{
-																	attachment_path
-																	gui_id
-																	placement_alignment "top_left"
-																	fit_to_screen "1"
-																	template
-																	placement_mode "MOUSE_CURSOR"
-																	data_source
-																}
-
-																anchor "top_left"
-																scale
-																{
-																	x "1.000"
-																	y "1.000"
-																}
-
 																z_order "47.000"
-																offset
-																{
-																	x "0.000"
-																	y "0.000"
-																}
-
-																visible "1"
-																bindings
-																alignment "top_left"
-																item_scripts
-																{
-																	scripts
-																}
-
-																margin
-																{
-																	z "0.000"
-																	x "0.000"
-																	y "0.000"
-																	w "0.000"
-																}
-
-																size_mode "0"
 															}
 
-															key "pad"
 														}
 
+													}
+
+													alignment "top"
+													hitbox_visible "0"
+													id "shortcuts"
+													offset
+													{
+														x "17.000"
+														y "2.000"
 													}
 
 													size
@@ -6645,70 +2161,18 @@ GuiRootGroupDef
 														y "31.200"
 													}
 
-													animations
-													{
-														items
-													}
-
-													id "shortcuts"
-													color
-													{
-														z "1.000"
-														x "1.000"
-														y "1.000"
-														w "1.000"
-													}
-
-													rotation "0.000"
-													animation_groups
-													hitbox_visible "0"
-													tooltip
-													{
-														attachment_path
-														gui_id
-														placement_alignment "top_left"
-														fit_to_screen "1"
-														template
-														placement_mode "MOUSE_CURSOR"
-														data_source
-													}
-
-													anchor "top_left"
-													scale
-													{
-														x "1.000"
-														y "1.000"
-													}
-
 													z_order "46.000"
-													offset
-													{
-														x "17.000"
-														y "2.000"
-													}
-
-													visible "1"
-													bindings
-													alignment "top"
-													item_scripts
-													{
-														scripts
-													}
-
-													margin
-													{
-														z "0.000"
-														x "0.000"
-														y "0.000"
-														w "0.000"
-													}
-
-													size_mode "0"
 												}
 
-												key "shortcuts"
 											}
 
+										}
+
+										hitbox_visible "0"
+										id "button_yes"
+										offset
+										{
+											x "-50.000"
 										}
 
 										size
@@ -6717,70 +2181,19 @@ GuiRootGroupDef
 											y "44.000"
 										}
 
-										animations
-										{
-											items
-										}
-
-										id "button_yes"
-										color
-										{
-											z "1.000"
-											x "1.000"
-											y "1.000"
-											w "1.000"
-										}
-
-										rotation "0.000"
-										animation_groups
-										hitbox_visible "0"
-										tooltip
-										{
-											attachment_path
-											gui_id
-											placement_alignment "top_left"
-											fit_to_screen "1"
-											template
-											placement_mode "MOUSE_CURSOR"
-											data_source
-										}
-
-										anchor "top_left"
-										scale
-										{
-											x "1.000"
-											y "1.000"
-										}
-
 										z_order "26.000"
-										offset
-										{
-											x "-50.000"
-											y "0.000"
-										}
-
-										visible "1"
-										bindings
-										alignment "top_left"
-										item_scripts
-										{
-											scripts
-										}
-
-										margin
-										{
-											z "0.000"
-											x "0.000"
-											y "0.000"
-											w "0.000"
-										}
-
-										size_mode "0"
 									}
 
-									key "button_yes"
 								}
 
+							}
+
+							hitbox_visible "0"
+							id "buttons"
+							offset
+							{
+								x "45.000"
+								y "9.000"
 							}
 
 							size
@@ -6789,70 +2202,20 @@ GuiRootGroupDef
 								y "20.000"
 							}
 
-							animations
-							{
-								items
-							}
-
-							id "buttons"
-							color
-							{
-								z "1.000"
-								x "1.000"
-								y "1.000"
-								w "1.000"
-							}
-
-							rotation "0.000"
-							animation_groups
-							hitbox_visible "0"
-							tooltip
-							{
-								attachment_path
-								gui_id
-								placement_alignment "top_left"
-								fit_to_screen "1"
-								template
-								placement_mode "MOUSE_CURSOR"
-								data_source
-							}
-
-							anchor "top_left"
-							scale
-							{
-								x "1.000"
-								y "1.000"
-							}
-
 							z_order "2.000"
-							offset
-							{
-								x "45.000"
-								y "9.000"
-							}
-
-							visible "1"
-							bindings
-							alignment "top_left"
-							item_scripts
-							{
-								scripts
-							}
-
-							margin
-							{
-								z "0.000"
-								x "0.000"
-								y "0.000"
-								w "0.000"
-							}
-
-							size_mode "0"
 						}
 
-						key "buttons"
 					}
 
+				}
+
+				container_type "2"
+				alignment "center"
+				anchor "top"
+				id "popup"
+				offset
+				{
+					y "300.000"
 				}
 
 				size
@@ -6861,136 +2224,31 @@ GuiRootGroupDef
 					y "113.000"
 				}
 
-				animations
-				{
-					items
-				}
-
-				id "popup"
-				color
-				{
-					z "1.000"
-					x "1.000"
-					y "1.000"
-					w "1.000"
-				}
-
-				rotation "0.000"
-				animation_groups
-				hitbox_visible "1"
-				tooltip
-				{
-					attachment_path
-					gui_id
-					placement_alignment "top_left"
-					fit_to_screen "1"
-					template
-					placement_mode "MOUSE_CURSOR"
-					data_source
-				}
-
-				anchor "top"
-				scale
-				{
-					x "1.000"
-					y "1.000"
-				}
-
+				size_mode_y "1"
 				z_order "1.000"
-				offset
-				{
-					x "0.000"
-					y "300.000"
-				}
-
-				visible "1"
-				bindings
-				alignment "center"
-				item_scripts
-				{
-					scripts
-				}
-
-				margin
-				{
-					z "0.000"
-					x "0.000"
-					y "0.000"
-					w "0.000"
-				}
-
-				size_mode "0"
 			}
 
-			key "popup"
 		}
 
 	}
 
+	id "gui/menu/redeem"
 	size
 	{
 		x "1920.000"
 		y "1080.000"
 	}
 
-	animations
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
 	{
-		items
+		name "ScreenModel"
+		fields
+		handle "[A149085C-15F7-4772-A0A5-C71E593077F8]"
 	}
 
-	id "gui/menu/redeem"
-	color
-	{
-		z "1.000"
-		x "1.000"
-		y "1.000"
-		w "1.000"
-	}
-
-	rotation "0.000"
-	animation_groups
-	hitbox_visible "1"
-	tooltip
-	{
-		attachment_path
-		gui_id
-		placement_alignment "top_left"
-		fit_to_screen "1"
-		template
-		placement_mode "MOUSE_CURSOR"
-		data_source
-	}
-
-	anchor "top_left"
-	scale
-	{
-		x "1.000"
-		y "1.000"
-	}
-
-	z_order "0.000"
-	offset
-	{
-		x "0.000"
-		y "0.000"
-	}
-
-	visible "1"
-	bindings
-	alignment "top_left"
-	item_scripts
-	{
-		scripts
-	}
-
-	margin
-	{
-		z "0.000"
-		x "0.000"
-		y "0.000"
-		w "0.000"
-	}
-
-	size_mode "0"
 }
 

@@ -1,0 +1,316 @@
+GuiRootGroupDef
+{
+	full_screen "5"
+	priority "11.000"
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "normal"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bar"
+						value "GuiBarDef"
+						{
+							rawData "1 0 0"
+							error_material "default_bar_1x2"
+							material "gui/hud/bars/elite_health_1x3"
+							alignment "center"
+							anchor "top"
+							id "bar"
+							z_order "2.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "skills_container"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "skill_icons"
+									value "GuiStackPanelDef"
+									{
+										template_reference
+										{
+											path "templates.skill_icon"
+											ref_gui_id "gui/hud/hud_health_bar"
+											size
+											{
+												x "32.000"
+												y "32.000"
+											}
+
+											size_mode_x "1"
+											size_mode_y "1"
+										}
+
+										id "skill_icons"
+										model_source "skills"
+										size
+										{
+											x "20.000"
+											y "20.000"
+										}
+
+										size_mode_x "1"
+										size_mode_y "1"
+										z_order "1.000"
+									}
+
+								}
+
+							}
+
+							alignment "bottom"
+							anchor "top"
+							bindings
+							{
+								visible
+								{
+									model_field "skills"
+									converter "GuiModelObjectNullOrEmptyConverter"
+									{
+										invert "1"
+									}
+
+								}
+
+							}
+
+							id "skills_container"
+							offset
+							{
+								y "-10.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+				}
+
+				alignment "top"
+				id "normal"
+				size
+				{
+					x "432.000"
+					y "47.000"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "templates"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "skill_icon"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiImageDef"
+									{
+										error_material "gui/menu/research/icons/missing_icon"
+										material "gui/hud/aura_badge"
+										id "background"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "image"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/items_icons/consumables/missing_icon"
+										alignment "center"
+										anchor "center"
+										bindings
+										{
+											material
+											{
+												model_field "icon"
+											}
+
+										}
+
+										id "image"
+										scale
+										{
+											x "0.600"
+											y "0.600"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+							}
+
+							id "skill_icon"
+							size
+							{
+								x "32.000"
+								y "32.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+				}
+
+				id "templates"
+				size_mode_x "2"
+				size_mode_y "2"
+				visible "0"
+			}
+
+		}
+
+	}
+
+	id "gui/hud/hud_health_bar"
+	size
+	{
+		x "1920.000"
+		y "1080.000"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_float"
+					default_value
+					{
+						typehash "3744762499"
+						Vector_float
+						{
+							float "1.000"
+							float "0.000"
+							float "0.000"
+						}
+
+					}
+
+				}
+
+				key "data"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/hud/bars/elite_health_1x3"
+					}
+
+				}
+
+				key "material"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[1C735673-7536-41BA-AC45-67D626C41C7D]/SkillLinkUnitComponent4"
+					default_value
+					{
+						typehash "1245490064"
+						Vector_[1C735673-7536-41BA-AC45-67D626C41C7D]/SkillLinkUnitComponent4
+						{
+							[1C735673-7536-41BA-AC45-67D626C41C7D]/SkillLinkUnitComponent
+							{
+								icon "gui/menu/inventory/stat_icons/area_damage_icon"
+							}
+
+							[1C735673-7536-41BA-AC45-67D626C41C7D]/SkillLinkUnitComponent
+							{
+								icon "gui/hud/resource_icons/flammable_gas"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "skills"
+			}
+
+		}
+
+		handle "[D216195B-2404-4AAE-AE4A-088BBBE66733]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "SkillLinkUnitComponent"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/inventory/stat_icons/area_damage_icon"
+					}
+
+				}
+
+				key "icon"
+			}
+
+		}
+
+		handle "[1C735673-7536-41BA-AC45-67D626C41C7D]"
+	}
+
+}
+

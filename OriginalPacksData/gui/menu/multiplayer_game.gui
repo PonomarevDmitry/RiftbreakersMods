@@ -1,0 +1,3081 @@
+GuiRootGroupDef
+{
+	full_screen "0"
+	navigation
+	{
+		default_node "game_options.content.scroll_list.game_name"
+		nodes
+		{
+			GuiNavNodeDef "GuiTextEditNodeDef"
+			{
+				max_char_count "40"
+				path "game_options.content.scroll_list.fixed_options.server_name.content.game_name"
+			}
+
+			GuiNavNodeDef "GuiScrollListDef"
+			{
+				path "mission_select.content.scroll_list"
+			}
+
+			GuiNavNodeDef "GuiScrollListDef"
+			{
+				path "difficulty_select.content.scroll_list"
+			}
+
+		}
+
+	}
+
+	priority "50.000"
+	shortcuts
+	{
+		Pair_GuiInputCode_String
+		{
+			key "5"
+			value "button_back"
+		}
+
+	}
+
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "difficulty_select"
+			value "GuiReferenceDef"
+			{
+				path "frame_double_auto"
+				ref_children
+				{
+					Pair_String_Vector_GuiDef2
+					{
+						key "content"
+						value
+						{
+							GuiDef "GuiGroupDef"
+							{
+								children
+								{
+									Pair_String_GuiDef2
+									{
+										key "mask"
+										value "GuiGroupDef"
+										{
+											allow_overflow "0"
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "content_group"
+													value "GuiGroupDef"
+													{
+														children
+														{
+															Pair_String_GuiDef2
+															{
+																key "difficulty_list"
+																value "GuiStackPanelDef"
+																{
+																	stack_type "1"
+																	template_reference
+																	{
+																		path "templates.difficulty_button"
+																		ref_gui_id "gui/menu/multiplayer_game"
+																		margin
+																		{
+																			w "5.000"
+																			x "5.000"
+																			y "5.000"
+																			z "5.000"
+																		}
+
+																		size
+																		{
+																			x "600.000"
+																			y "60.000"
+																		}
+
+																		size_mode_x "2"
+																		size_mode_y "1"
+																		z_order "2.000"
+																	}
+
+																	id "difficulty_list"
+																	model_source "difficulties"
+																	size_mode_x "2"
+																	size_mode_y "1"
+																	z_order "5.000"
+																}
+
+															}
+
+														}
+
+														id "content_group"
+														size_mode_x "2"
+														size_mode_y "1"
+													}
+
+												}
+
+											}
+
+											id "mask"
+											size_mode_x "2"
+											size_mode_y "1"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "neutral"
+										value "GuiGroupDef"
+										{
+											id "neutral"
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "neutral_selected"
+										value "GuiGroupDef"
+										{
+											id "neutral_selected"
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+								}
+
+								id "scroll_list"
+								margin
+								{
+									w "5.000"
+									x "5.000"
+									y "5.000"
+									z "5.000"
+								}
+
+								model_source "selected_campaign"
+								size
+								{
+									x "386.000"
+								}
+
+								size_mode_y "1"
+								z_order "6.000"
+							}
+
+						}
+
+					}
+
+				}
+
+				ref_gui_id "gui/template/framed_group"
+				ref_model
+				{
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "header"
+							}
+
+							StringData
+							{
+								key "header_visible"
+								value "0"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				alignment "center"
+				anchor "center"
+				bindings
+				{
+					visible
+					{
+						model_field "difficulties"
+						converter "GuiModelObjectNullOrEmptyConverter"
+						{
+							invert "1"
+						}
+
+					}
+
+				}
+
+				hitbox_visible "0"
+				id "difficulty_select"
+				margin
+				{
+					w "75.000"
+					x "2.000"
+					y "130.000"
+					z "30.000"
+				}
+
+				model_source "selected_campaign"
+				offset
+				{
+					x "40.000"
+				}
+
+				size
+				{
+					x "400.000"
+					y "250.000"
+				}
+
+				size_mode_y "1"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "footer"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "button_back"
+						value "GuiReferenceDef"
+						{
+							path "main_button"
+							ref_gui_id "gui/template/buttons"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "content"
+											value "BUTTON_back"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							alignment "left"
+							anchor "left"
+							id "button_back"
+							offset
+							{
+								x "40.000"
+							}
+
+							size
+							{
+								x "600.000"
+								y "100.000"
+							}
+
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "button_server_list"
+						value "GuiReferenceDef"
+						{
+							path "main_button"
+							ref_gui_id "gui/template/buttons"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "content"
+											value "gui/menu/multiplayer/button/server_list"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							alignment "center"
+							anchor "center"
+							id "button_server_list"
+							size
+							{
+								x "600.000"
+								y "100.000"
+							}
+
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "button_start"
+						value "GuiReferenceDef"
+						{
+							path "main_button"
+							ref_gui_id "gui/template/buttons"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "content"
+											value "BUTTON_start_game"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							alignment "right"
+							anchor "right"
+							id "button_start"
+							offset
+							{
+								x "-40.000"
+							}
+
+							size
+							{
+								x "600.000"
+								y "100.000"
+							}
+
+						}
+
+					}
+
+				}
+
+				alignment "bottom"
+				anchor "bottom"
+				hitbox_visible "0"
+				id "footer"
+				size
+				{
+					x "1920.000"
+					y "120.000"
+				}
+
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "game_options"
+			value "GuiReferenceDef"
+			{
+				path "frame_double_fill"
+				ref_children
+				{
+					Pair_String_Vector_GuiDef2
+					{
+						key "content"
+						value
+						{
+							GuiDef "GuiGroupDef"
+							{
+								children
+								{
+									Pair_String_GuiDef2
+									{
+										key "fixed_options"
+										value "GuiGroupDef"
+										{
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "button_dedicated_server"
+													value "GuiReferenceDef"
+													{
+														path "toggle_button_small"
+														ref_gui_id "gui/template/toggle_buttons"
+														ref_model
+														{
+															bindings_proxy
+															{
+																is_checked
+																{
+																	model_field "dedicated_server"
+																}
+
+															}
+
+															database
+															{
+																Strings
+																{
+																	StringData
+																	{
+																		key "label"
+																		value "gui/menu/multiplayer/options/dedicated_server"
+																	}
+
+																}
+
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														id "button_dedicated_server"
+														margin
+														{
+															x "-5.000"
+														}
+
+														size
+														{
+															x "34.000"
+														}
+
+														size_mode_x "2"
+														size_mode_y "1"
+														z_order "6.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "button_public_game"
+													value "GuiReferenceDef"
+													{
+														path "toggle_button_small"
+														ref_gui_id "gui/template/toggle_buttons"
+														ref_model
+														{
+															bindings_proxy
+															{
+																is_checked
+																{
+																	model_field "public_game"
+																}
+
+															}
+
+															database
+															{
+																Strings
+																{
+																	StringData
+																	{
+																		key "label"
+																		value "gui/menu/multiplayer/options/public_server"
+																	}
+
+																}
+
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														id "button_public_game"
+														margin
+														{
+															x "-5.000"
+														}
+
+														size
+														{
+															x "34.000"
+															y "34.000"
+														}
+
+														size_mode_x "2"
+														z_order "7.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "max_players_count"
+													value "GuiReferenceDef"
+													{
+														path "templates.game_option_float"
+														ref_gui_id "gui/menu/multiplayer_game"
+														id "max_players_count"
+														model_source "max_players_option"
+														size_mode_x "2"
+														size_mode_y "1"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "select_campaign"
+													value "GuiReferenceDef"
+													{
+														path "templates.game_option"
+														ref_children
+														{
+															Pair_String_Vector_GuiDef2
+															{
+																key "content"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "templates.campaign_button"
+																		ref_gui_id "gui/menu/multiplayer_game"
+																		hitbox_visible "0"
+																		id "campaign"
+																		model_source "campaign"
+																		size
+																		{
+																			x "895.006"
+																			y "34.000"
+																		}
+
+																		size_mode_x "2"
+																		size_mode_y "1"
+																		z_order "8.000"
+																	}
+
+																}
+
+															}
+
+														}
+
+														ref_gui_id "gui/menu/multiplayer_game"
+														ref_model
+														{
+															database
+															{
+																Strings
+																{
+																	StringData
+																	{
+																		key "localization"
+																		value "${gui/menu/multiplayer/options/game_mode}:"
+																	}
+
+																}
+
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														id "select_campaign"
+														model_source "selected_campaign"
+														size_mode_x "2"
+														size_mode_y "1"
+														z_order "19.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "server_name"
+													value "GuiReferenceDef"
+													{
+														path "templates.game_option"
+														ref_children
+														{
+															Pair_String_Vector_GuiDef2
+															{
+																key "content"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "simple"
+																		ref_gui_id "gui/template/text_input"
+																		hitbox_visible "0"
+																		id "game_name"
+																		size
+																		{
+																			x "895.006"
+																			y "34.000"
+																		}
+
+																		size_mode_x "2"
+																		z_order "8.000"
+																	}
+
+																}
+
+															}
+
+														}
+
+														ref_gui_id "gui/menu/multiplayer_game"
+														ref_model
+														{
+															database
+															{
+																Strings
+																{
+																	StringData
+																	{
+																		key "localization"
+																		value "${gui/menu/multiplayer/options/game_name}:"
+																	}
+
+																}
+
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														id "server_name"
+														size
+														{
+															y "68.000"
+														}
+
+														size_mode_x "2"
+														size_mode_y "1"
+														z_order "20.000"
+													}
+
+												}
+
+											}
+
+											container_type "2"
+											id "fixed_options"
+											size
+											{
+												x "64.000"
+											}
+
+											size_mode_x "2"
+											size_mode_y "1"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "mask"
+										value "GuiGroupDef"
+										{
+											allow_overflow "0"
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "content_group"
+													value "GuiGroupDef"
+													{
+														children
+														{
+															Pair_String_GuiDef2
+															{
+																key "options_list"
+																value "GuiStackPanelDef"
+																{
+																	stack_type "1"
+																	template_reference
+																	{
+																		path "templates.game_option_float"
+																		ref_gui_id "gui/menu/multiplayer_game"
+																		offset
+																		{
+																			y "5.000"
+																		}
+
+																		size
+																		{
+																			x "600.000"
+																			y "68.000"
+																		}
+
+																		size_mode_x "2"
+																	}
+
+																	id "options_list"
+																	model_source "options"
+																	size_mode_x "2"
+																	size_mode_y "1"
+																	z_order "5.000"
+																}
+
+															}
+
+														}
+
+														id "content_group"
+														model_source "selected_campaign"
+														size_mode_x "2"
+														size_mode_y "1"
+													}
+
+												}
+
+											}
+
+											id "mask"
+											margin
+											{
+												y "400.000"
+											}
+
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "neutral"
+										value "GuiGroupDef"
+										{
+											id "neutral"
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "neutral_selected"
+										value "GuiGroupDef"
+										{
+											id "neutral_selected"
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "vertical_scroll_bar"
+										value "GuiGroupDef"
+										{
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "bar"
+													value "GuiQuadDef"
+													{
+														color
+														{
+															x "0.627"
+														}
+
+														id "bar"
+														margin
+														{
+															x "1.000"
+															z "1.000"
+														}
+
+														size
+														{
+															x "3.000"
+															y "1.000"
+														}
+
+														z_order "153.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "bg"
+													value "GuiQuadDef"
+													{
+														color
+														{
+															x "0.118"
+															y "0.365"
+															z "0.698"
+														}
+
+														id "bg"
+														offset
+														{
+															x "-0.000"
+															y "-0.000"
+														}
+
+														size
+														{
+															x "5.000"
+															y "787.000"
+														}
+
+														z_order "151.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "slider"
+													value "GuiQuadDef"
+													{
+														color
+														{
+															x "0.000"
+															y "0.000"
+															z "0.000"
+														}
+
+														id "slider"
+														offset
+														{
+															x "1.000"
+															y "1.000"
+														}
+
+														size
+														{
+															x "3.000"
+															y "785.000"
+														}
+
+														z_order "152.000"
+													}
+
+												}
+
+											}
+
+											anchor "top_right"
+											id "vertical_scroll_bar"
+											offset
+											{
+												x "6.000"
+											}
+
+											size
+											{
+												x "5.000"
+											}
+
+											size_mode_y "2"
+											visible "0"
+											z_order "150.000"
+										}
+
+									}
+
+								}
+
+								id "scroll_list"
+								margin
+								{
+									w "10.000"
+									x "10.000"
+									y "10.000"
+									z "10.000"
+								}
+
+								size
+								{
+									x "3.000"
+									y "3.000"
+								}
+
+								size_mode_x "2"
+								size_mode_y "2"
+							}
+
+						}
+
+					}
+
+				}
+
+				ref_gui_id "gui/template/framed_group"
+				ref_model
+				{
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "header"
+								value " "
+							}
+
+							StringData
+							{
+								key "header_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "header_text"
+								value "BUTTON_help_and_options"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				hitbox_visible "0"
+				id "game_options"
+				margin
+				{
+					w "120.000"
+					x "28.000"
+					y "160.000"
+				}
+
+				size
+				{
+					x "735.000"
+				}
+
+				size_mode_y "2"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "menu_overlay"
+			value "GuiReferenceDef"
+			{
+				path "overlay"
+				ref_gui_id "gui/template/menu_overlay"
+				ref_model
+				{
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "footer_visible"
+								value "0"
+							}
+
+							StringData
+							{
+								key "title"
+								value "BUTTON_multiplayer_game"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				id "menu_overlay"
+				size_mode_x "2"
+				size_mode_y "2"
+				z_order "100.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "mission_select"
+			value "GuiReferenceDef"
+			{
+				path "frame_double_fill"
+				ref_children
+				{
+					Pair_String_Vector_GuiDef2
+					{
+						key "content"
+						value
+						{
+							GuiDef "GuiGroupDef"
+							{
+								children
+								{
+									Pair_String_GuiDef2
+									{
+										key "bottom"
+										value "GuiQuadDef"
+										{
+											alignment "bottom_left"
+											anchor "bottom_left"
+											color
+											{
+												w "0.841"
+												x "0.184"
+												y "0.471"
+												z "0.600"
+											}
+
+											id "bottom"
+											margin
+											{
+												w "1.000"
+											}
+
+											size
+											{
+												x "1.000"
+												y "1.000"
+											}
+
+											size_mode_x "2"
+											z_order "142.000"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "preview_image"
+										value "GuiImageDef"
+										{
+											error_material "gui/menu/menu_skills_preview"
+											material "gui/menu/menu_skills_preview"
+											alignment "center"
+											anchor "center"
+											bindings
+											{
+												material
+												{
+													model_field "preview_material"
+												}
+
+											}
+
+											id "preview_image"
+											size_mode_x "2"
+											size_mode_y "2"
+											z_order "2.000"
+										}
+
+									}
+
+								}
+
+								id "mission_preview"
+								margin
+								{
+									w "4.000"
+									x "4.000"
+									y "4.000"
+									z "3.000"
+								}
+
+								model_source "selected_mission"
+								size
+								{
+									y "250.000"
+								}
+
+								size_mode_x "2"
+							}
+
+							GuiDef "GuiGroupDef"
+							{
+								children
+								{
+									Pair_String_GuiDef2
+									{
+										key "mask"
+										value "GuiGroupDef"
+										{
+											allow_overflow "0"
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "content_group"
+													value "GuiGroupDef"
+													{
+														children
+														{
+															Pair_String_GuiDef2
+															{
+																key "mission_list"
+																value "GuiStackPanelDef"
+																{
+																	stack_type "1"
+																	template_reference
+																	{
+																		path "templates.mission_button"
+																		ref_gui_id "gui/menu/multiplayer_game"
+																		margin
+																		{
+																			w "5.000"
+																			x "5.000"
+																			y "5.000"
+																			z "5.000"
+																		}
+
+																		model_source "mission"
+																		size
+																		{
+																			x "600.000"
+																			y "60.000"
+																		}
+
+																		size_mode_x "2"
+																		size_mode_y "1"
+																		z_order "2.000"
+																	}
+
+																	id "mission_list"
+																	model_source "missions"
+																	size_mode_x "2"
+																	size_mode_y "1"
+																	z_order "5.000"
+																}
+
+															}
+
+														}
+
+														id "content_group"
+														size_mode_x "2"
+														size_mode_y "1"
+													}
+
+												}
+
+											}
+
+											id "mask"
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "neutral"
+										value "GuiGroupDef"
+										{
+											id "neutral"
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "neutral_selected"
+										value "GuiGroupDef"
+										{
+											id "neutral_selected"
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+									Pair_String_GuiDef2
+									{
+										key "vertical_scroll_bar"
+										value "GuiGroupDef"
+										{
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "bar"
+													value "GuiQuadDef"
+													{
+														color
+														{
+															x "0.627"
+														}
+
+														id "bar"
+														margin
+														{
+															x "1.000"
+															z "1.000"
+														}
+
+														size
+														{
+															x "3.000"
+															y "1.000"
+														}
+
+														z_order "153.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "bg"
+													value "GuiQuadDef"
+													{
+														color
+														{
+															x "0.118"
+															y "0.365"
+															z "0.698"
+														}
+
+														id "bg"
+														offset
+														{
+															x "-0.000"
+															y "-0.000"
+														}
+
+														size
+														{
+															x "5.000"
+															y "787.000"
+														}
+
+														size_mode_y "2"
+														z_order "151.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "slider"
+													value "GuiQuadDef"
+													{
+														color
+														{
+															x "0.000"
+															y "0.000"
+															z "0.000"
+														}
+
+														id "slider"
+														offset
+														{
+															x "1.000"
+															y "1.000"
+														}
+
+														size
+														{
+															x "3.000"
+															y "785.000"
+														}
+
+														z_order "152.000"
+													}
+
+												}
+
+											}
+
+											anchor "top_right"
+											id "vertical_scroll_bar"
+											margin
+											{
+												w "-8.000"
+											}
+
+											offset
+											{
+												x "10.000"
+											}
+
+											size
+											{
+												x "5.000"
+											}
+
+											size_mode_y "2"
+											visible "0"
+											z_order "150.000"
+										}
+
+									}
+
+								}
+
+								id "scroll_list"
+								margin
+								{
+									w "5.000"
+									x "5.000"
+									y "255.000"
+									z "5.000"
+								}
+
+								model_source "selected_campaign"
+								size_mode_x "2"
+								size_mode_y "2"
+							}
+
+						}
+
+					}
+
+				}
+
+				ref_gui_id "gui/template/framed_group"
+				ref_model
+				{
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "header"
+								value " "
+							}
+
+							StringData
+							{
+								key "header_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "header_text"
+								value "gui/menu/mod_management/tags/missions"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				alignment "top_right"
+				anchor "top_right"
+				hitbox_visible "0"
+				id "mission_select"
+				margin
+				{
+					w "120.000"
+					y "160.000"
+					z "24.000"
+				}
+
+				size
+				{
+					x "656.000"
+				}
+
+				size_mode_y "2"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "templates"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "campaign_button"
+						value "GuiButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "content"
+									value "GuiGroupDef"
+									{
+										allow_overflow "0"
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "campaign_image"
+												value "GuiImageDef"
+												{
+													error_material "gui/menu/menu_skills_preview"
+													material "gui/menu/biomes_prev/jungle_prev"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "preview_material"
+														}
+
+													}
+
+													id "campaign_image"
+													size_mode_x "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "overlay"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "campaign_label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "TEST"
+																style
+																{
+																	char_height "25.000"
+																	color_enabled "0"
+																	df "1"
+																	font "orbitron-medium_sdf"
+																	gradient_end
+																	{
+																		x "0.627"
+																		y "1.000"
+																		z "1.000"
+																	}
+
+																	gradient_start
+																	{
+																		x "1.000"
+																		y "1.000"
+																		z "1.000"
+																	}
+
+																	shadow_angle "135.000"
+																	shadow_distance "2.000"
+																	shadow_enabled "1"
+																	space_size "7.000"
+																}
+
+																style_name "active_30"
+																translate "1"
+																alignment "center"
+																anchor "center"
+																bindings
+																{
+																	content
+																	{
+																		model_field "resource_name"
+																	}
+
+																}
+
+																id "campaign_label"
+																model_source "campaign"
+																size_mode_x "2"
+																z_order "1.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "quad"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	w "0.707"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "quad"
+																size_mode_x "2"
+																size_mode_y "2"
+															}
+
+														}
+
+													}
+
+													alignment "center"
+													anchor "center"
+													id "overlay"
+													size_mode_x "2"
+													size_mode_y "1"
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "content"
+										size
+										{
+											y "150.000"
+										}
+
+										size_mode_x "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "border_bottom"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													border_width "1.000"
+													alignment "bottom"
+													anchor "bottom"
+													id "border_bottom"
+													size
+													{
+														y "1.000"
+													}
+
+													size_mode_x "2"
+													z_order "10.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_left"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													border_width "1.000"
+													alignment "left"
+													anchor "left"
+													id "border_left"
+													size
+													{
+														x "1.000"
+														y "1.000"
+													}
+
+													size_mode_y "2"
+													z_order "10.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_right"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													border_width "1.000"
+													alignment "right"
+													anchor "right"
+													id "border_right"
+													size
+													{
+														x "1.000"
+														y "1.000"
+													}
+
+													size_mode_y "2"
+													z_order "10.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_top"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													border_width "1.000"
+													alignment "top"
+													anchor "top"
+													id "border_top"
+													size
+													{
+														y "1.000"
+													}
+
+													size_mode_x "2"
+													z_order "10.000"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size_mode "3"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "border_bottom"
+												value "GuiQuadDef"
+												{
+													alignment "bottom_left"
+													anchor "bottom_left"
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													hitbox_visible "0"
+													id "border_bottom"
+													size
+													{
+														y "2.000"
+													}
+
+													size_mode_x "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_left"
+												value "GuiQuadDef"
+												{
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													hitbox_visible "0"
+													id "border_left"
+													size
+													{
+														x "2.000"
+														y "2.000"
+													}
+
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_right"
+												value "GuiQuadDef"
+												{
+													alignment "top_right"
+													anchor "top_right"
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													hitbox_visible "0"
+													id "border_right"
+													size
+													{
+														x "2.000"
+														y "2.000"
+													}
+
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_top"
+												value "GuiQuadDef"
+												{
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													hitbox_visible "0"
+													id "border_top"
+													size
+													{
+														y "2.000"
+													}
+
+													size_mode_x "2"
+												}
+
+											}
+
+										}
+
+										color
+										{
+											w "0.700"
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "200.000"
+											y "50.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+							}
+
+							id "campaign_button"
+							offset
+							{
+								x "41.502"
+								y "402.156"
+							}
+
+							size
+							{
+								x "710.000"
+								y "150.000"
+							}
+
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "difficulty_button"
+						value "GuiReferenceDef"
+						{
+							path "main_button_dynamic"
+							ref_gui_id "gui/template/radio_buttons"
+							ref_model
+							{
+								bindings_proxy
+								{
+									content
+									{
+										model_field "localization"
+									}
+
+								}
+
+								database
+								{
+									Strings
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							id "difficulty_button"
+							margin
+							{
+								w "5.000"
+								x "5.000"
+								y "5.000"
+								z "5.000"
+							}
+
+							size
+							{
+								x "600.000"
+								y "60.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "1"
+							z_order "2.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "game_option"
+						value "GuiButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "content"
+									value "GuiGroupDef"
+									{
+										alignment "bottom"
+										anchor "bottom"
+										id "content"
+										margin
+										{
+											w "5.000"
+											y "34.000"
+										}
+
+										size
+										{
+											x "500.000"
+											y "34.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "28.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "text"
+												value "GuiTextDef"
+												{
+													content "TEST"
+													style_name "neutral_25"
+													translate "1"
+													bindings
+													{
+														content
+														{
+															model_field "localization"
+														}
+
+													}
+
+													id "text"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											y "34.000"
+										}
+
+										size_mode_x "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "text"
+												value "GuiTextDef"
+												{
+													style_name "selected_25"
+													translate "1"
+													bindings
+													{
+														content
+														{
+															model_field "localization"
+														}
+
+													}
+
+													id "text"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											y "34.000"
+										}
+
+										size_mode_x "2"
+									}
+
+								}
+
+							}
+
+							id "game_option"
+							margin
+							{
+								y "34.000"
+							}
+
+							offset
+							{
+								y "5.000"
+							}
+
+							size
+							{
+								x "600.000"
+								y "68.000"
+							}
+
+							size_mode_x "2"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "game_option_float"
+						value "GuiReferenceDef"
+						{
+							path "templates.game_option"
+							ref_children
+							{
+								Pair_String_Vector_GuiDef2
+								{
+									key "content"
+									value
+									{
+										GuiDef "GuiReferenceDef"
+										{
+											path "simple"
+											ref_gui_id "gui/template/text_input"
+											alignment "left"
+											anchor "left"
+											hitbox_visible "0"
+											id "option_value_input"
+											size
+											{
+												x "100.000"
+												y "32.000"
+											}
+
+											z_order "8.000"
+										}
+
+										GuiDef "GuiGroupDef"
+										{
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "bar"
+													value "GuiBarDef"
+													{
+														rawData "0.5 0.5"
+														error_material "default_bar_1x2"
+														material "gui/menu/bars/interactive_bar"
+														alignment "center"
+														anchor "center"
+														id "bar"
+														size_mode_x "2"
+														size_mode_y "2"
+														z_order "51.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "neutral"
+													value "GuiGroupDef"
+													{
+														id "neutral"
+														size
+														{
+															y "25.000"
+														}
+
+														size_mode "3"
+														size_mode_x "2"
+														size_mode_y "2"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "neutral_selected"
+													value "GuiGroupDef"
+													{
+														id "neutral_selected"
+														size
+														{
+															y "25.000"
+														}
+
+														size_mode "3"
+														size_mode_x "2"
+														size_mode_y "2"
+													}
+
+												}
+
+											}
+
+											alignment "left"
+											anchor "left"
+											id "option_value_slider"
+											margin
+											{
+												x "110.000"
+											}
+
+											size
+											{
+												y "25.000"
+											}
+
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+								}
+
+							}
+
+							ref_gui_id "gui/menu/multiplayer_game"
+							id "game_option_float"
+							offset
+							{
+								x "-31.306"
+								y "-146.096"
+							}
+
+							size_mode_x "2"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "mission_button"
+						value "GuiReferenceDef"
+						{
+							path "main_button_dynamic"
+							ref_gui_id "gui/template/radio_buttons"
+							ref_model
+							{
+								bindings_proxy
+								{
+									content
+									{
+										model_field "localization_id"
+									}
+
+								}
+
+								database
+								{
+									Strings
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							id "mission_button"
+							margin
+							{
+								w "5.000"
+								x "5.000"
+								y "5.000"
+								z "5.000"
+							}
+
+							size
+							{
+								x "600.000"
+								y "60.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "1"
+							z_order "2.000"
+						}
+
+					}
+
+				}
+
+				id "templates"
+				size_mode_x "2"
+				size_mode_y "2"
+				visible "0"
+			}
+
+		}
+
+	}
+
+	id "gui/menu/multiplayer_game"
+	size
+	{
+		x "1920.000"
+		y "1080.000"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[62799E9F-23BD-4F0C-887F-04EB113FE7B9]/MultiplayerCampaign4"
+					default_value
+					{
+						typehash "1283542197"
+						Vector_[62799E9F-23BD-4F0C-887F-04EB113FE7B9]/MultiplayerCampaign4
+						{
+							[62799E9F-23BD-4F0C-887F-04EB113FE7B9]/MultiplayerCampaign
+							{
+								difficulties
+								options
+								{
+									[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+									{
+										name "warmup_duration"
+										value "60"
+										localization "gui/menu/difficulty/warmup_duration"
+										type "float"
+									}
+
+									[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+									{
+										name "warmup_duration"
+										value "60"
+										localization "gui/menu/difficulty/warmup_duration"
+										type "float"
+									}
+
+									[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+									{
+										name "warmup_duration"
+										value "60"
+										localization "gui/menu/difficulty/warmup_duration"
+										type "float"
+									}
+
+								}
+
+								campaign
+								{
+									preview_material "gui/menu/biomes_prev/metallic_prev"
+									resource_name
+								}
+
+								missions
+								{
+									[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+									{
+										mission
+										{
+											localization_id "Jungle Arena!"
+											preview_material "gui/menu/biomes_prev/acid_prev"
+										}
+
+										preview_material
+									}
+
+									[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+									{
+										mission
+										{
+											localization_id "Metallic Alien Base!"
+											preview_material "gui/menu/biomes_prev/metallic_prev"
+										}
+
+										preview_material
+									}
+
+									[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+									{
+										mission
+										{
+											localization_id "Jungle Arena!"
+											preview_material "gui/menu/biomes_prev/acid_prev"
+										}
+
+										preview_material
+									}
+
+								}
+
+							}
+
+							[62799E9F-23BD-4F0C-887F-04EB113FE7B9]/MultiplayerCampaign
+							{
+								difficulties
+								options
+								{
+									[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+									{
+										name "warmup_duration"
+										value "60"
+										localization "gui/menu/difficulty/warmup_duration"
+										type "float"
+									}
+
+									[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+									{
+										name "warmup_duration"
+										value "60"
+										localization "gui/menu/difficulty/warmup_duration"
+										type "float"
+									}
+
+									[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+									{
+										name "warmup_duration"
+										value "60"
+										localization "gui/menu/difficulty/warmup_duration"
+										type "float"
+									}
+
+								}
+
+								campaign
+								{
+									preview_material "gui/menu/biomes_prev/metallic_prev"
+									resource_name
+								}
+
+								missions
+								{
+									[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+									{
+										mission
+										{
+											localization_id "Jungle Arena!"
+											preview_material "gui/menu/biomes_prev/acid_prev"
+										}
+
+										preview_material
+									}
+
+									[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+									{
+										mission
+										{
+											localization_id "Metallic Alien Base!"
+											preview_material "gui/menu/biomes_prev/metallic_prev"
+										}
+
+										preview_material
+									}
+
+									[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+									{
+										mission
+										{
+											localization_id "Jungle Arena!"
+											preview_material "gui/menu/biomes_prev/acid_prev"
+										}
+
+										preview_material
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+				key "campaigns"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "dedicated_server"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption"
+					default_value
+					{
+						typehash "4029059725"
+						[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+						{
+							name "warmup_duration"
+							value "10"
+							localization "gui/menu/multiplayer/options/max_player_count"
+							type "float"
+						}
+
+					}
+
+				}
+
+				key "max_players_option"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "public_game"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[62799E9F-23BD-4F0C-887F-04EB113FE7B9]/MultiplayerCampaign"
+					default_value
+					{
+						typehash "1755139329"
+						[62799E9F-23BD-4F0C-887F-04EB113FE7B9]/MultiplayerCampaign
+						{
+							difficulties
+							{
+								[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+								{
+									name "test"
+									localization "Normal"
+								}
+
+								[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+								{
+									name "test"
+									localization "Normal"
+								}
+
+								[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+								{
+									name "test"
+									localization "Normal"
+								}
+
+								[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+								{
+									name "test"
+									localization "Normal"
+								}
+
+								[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+								{
+									name "test"
+									localization "Normal"
+								}
+
+							}
+
+							options
+							{
+								[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+								{
+									name "warmup_duration"
+									value "60"
+									localization "gui/menu/difficulty/warmup_duration"
+									type "float"
+								}
+
+								[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+								{
+									name "game_duration"
+									value "60"
+									localization "gui/menu/difficulty/mission_duration"
+									type "float"
+								}
+
+							}
+
+							campaign
+							{
+								preview_material "gui/menu/biomes_prev/metallic_prev"
+								resource_name "DEATHMATCH"
+							}
+
+							missions
+							{
+								[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+								{
+									mission
+									{
+										localization_id "Jungle Arena!"
+										preview_material "gui/menu/biomes_prev/acid_prev"
+									}
+
+									preview_material
+								}
+
+								[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+								{
+									mission
+									{
+										localization_id "Metallic Alien Base!"
+										preview_material "gui/menu/biomes_prev/acid_prev"
+									}
+
+									preview_material
+								}
+
+								[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+								{
+									mission
+									{
+										localization_id "Jungle Arena!"
+										preview_material "gui/menu/biomes_prev/acid_prev"
+									}
+
+									preview_material
+								}
+
+								[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+								{
+									mission
+									{
+										localization_id "Jungle Arena!"
+										preview_material "gui/menu/biomes_prev/acid_prev"
+									}
+
+									preview_material
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+				key "selected_campaign"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission"
+					default_value
+					{
+						typehash "433475949"
+						[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+						{
+							mission
+							{
+								localization_id "Jungle Arena!"
+								preview_material "gui/menu/biomes_prev/acid_prev"
+							}
+
+							preview_material
+						}
+
+					}
+
+				}
+
+				key "selected_mission"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Dummy server"
+					}
+
+				}
+
+				key "server_name"
+			}
+
+		}
+
+		handle "[B7C12608-7252-4CB4-9593-66D735E6A5B0]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "MultiplayerMission"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[7B84A53F-2051-4F37-940A-C1A4BA054739]/MissionDef"
+					default_value
+					{
+						typehash "1426073381"
+						[7B84A53F-2051-4F37-940A-C1A4BA054739]/MissionDef
+						{
+							localization_id "Jungle Arena!"
+							preview_material "gui/menu/biomes_prev/acid_prev"
+						}
+
+					}
+
+				}
+
+				key "mission"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/biomes_prev/acid_prev"
+					}
+
+				}
+
+				key "preview_material"
+			}
+
+		}
+
+		handle "[C2BF1EAC-7CD2-449F-952A-4774FA46D032]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "CampaignCustomOption"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/difficulty/warmup_duration"
+					}
+
+				}
+
+				key "localization"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "warmup_duration"
+					}
+
+				}
+
+				key "name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "float"
+					}
+
+				}
+
+				key "type"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "60"
+					}
+
+				}
+
+				key "value"
+			}
+
+		}
+
+		handle "[67F32456-A0CB-4DBC-A01C-A9B93C985430]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "MultiplayerCampaign"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[E0920E4A-A89E-46CA-A2D4-EADB7BC3CE86]/CampaignDef"
+					default_value
+					{
+						typehash "3527649200"
+						[E0920E4A-A89E-46CA-A2D4-EADB7BC3CE86]/CampaignDef
+						{
+							preview_material "gui/menu/biomes_prev/metallic_prev"
+							resource_name
+						}
+
+					}
+
+				}
+
+				key "campaign"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef4"
+					default_value
+					{
+						typehash "3747690223"
+						Vector_[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef4
+						{
+							[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+							{
+								name "test"
+								localization "Normal"
+							}
+
+							[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+							{
+								name "test"
+								localization "Normal"
+							}
+
+							[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+							{
+								name "test"
+								localization "Normal"
+							}
+
+							[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]/DifficultyDef
+							{
+								name "test"
+								localization "Normal"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "difficulties"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission4"
+					default_value
+					{
+						typehash "3785491585"
+						Vector_[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission4
+						{
+							[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+							{
+								mission
+								{
+									localization_id "Jungle Arena!"
+									preview_material "gui/menu/biomes_prev/acid_prev"
+								}
+
+								preview_material "gui/menu/biomes_prev/acid_prev"
+							}
+
+							[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+							{
+								mission
+								{
+									localization_id "Metallic Alien Base!"
+									preview_material "gui/menu/biomes_prev/metallic_prev"
+								}
+
+								preview_material "gui/menu/biomes_prev/acid_prev"
+							}
+
+							[C2BF1EAC-7CD2-449F-952A-4774FA46D032]/MultiplayerMission
+							{
+								mission
+								{
+									localization_id "Jungle Arena!"
+									preview_material "gui/menu/biomes_prev/acid_prev"
+								}
+
+								preview_material "gui/menu/biomes_prev/acid_prev"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "missions"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption4"
+					default_value
+					{
+						typehash "199748181"
+						Vector_[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption4
+						{
+							[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+							{
+								name "warmup_duration"
+								value "60"
+								localization "gui/menu/difficulty/warmup_duration"
+								type "float"
+							}
+
+							[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+							{
+								name "warmup_duration"
+								value "60"
+								localization "gui/menu/difficulty/warmup_duration"
+								type "float"
+							}
+
+							[67F32456-A0CB-4DBC-A01C-A9B93C985430]/CampaignCustomOption
+							{
+								name "warmup_duration"
+								value "60"
+								localization "gui/menu/difficulty/warmup_duration"
+								type "float"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "options"
+			}
+
+		}
+
+		handle "[62799E9F-23BD-4F0C-887F-04EB113FE7B9]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "MissionDef"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Jungle Arena!"
+					}
+
+				}
+
+				key "localization_id"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/biomes_prev/acid_prev"
+					}
+
+				}
+
+				key "preview_material"
+			}
+
+		}
+
+		handle "[7B84A53F-2051-4F37-940A-C1A4BA054739]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "CampaignDef"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/biomes_prev/metallic_prev"
+					}
+
+				}
+
+				key "preview_material"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "campaigns/mp_deathmatch.campaign"
+					}
+
+				}
+
+				key "resource_name"
+			}
+
+		}
+
+		handle "[E0920E4A-A89E-46CA-A2D4-EADB7BC3CE86]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "DifficultyDef"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Normal"
+					}
+
+				}
+
+				key "localization"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "test"
+					}
+
+				}
+
+				key "name"
+			}
+
+		}
+
+		handle "[82CF4D69-A654-45B2-8FE5-40F4C597AFB1]"
+	}
+
+}
+
