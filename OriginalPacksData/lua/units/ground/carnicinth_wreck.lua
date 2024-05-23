@@ -8,8 +8,9 @@ end
 
 function carnicinth_wreck:initParams()
 	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 10
-	self.leaveBodyProbability = 0
+	self.wreckLifetime = 10
+    self.normalExplodeProbability = 0
+	self.leaveBodyProbability = 1
 end
 
 return carnicinth_wreck

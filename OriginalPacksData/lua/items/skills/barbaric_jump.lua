@@ -122,12 +122,14 @@ function barbaric_jump:OnJumpExecute( state, dt )
 	if( self.enabled == 2 and  EntityService:GetComponent( self.owner ,"SimpleMovementComponent") == nil ) then
 		local entity = EntityService:SpawnEntity( self.bp, self.owner, self.att, EntityService:GetTeam( self.owner ))
 		ItemService:SetItemCreator( entity, self.entity_blueprint );
+		EntityService:PropagateEntityOwner( entity, self.owner )
 
 		if ( self.radiusBp ~= "" ) then
 			local points = FindService:GetSpotsInRadius( self.owner, 0, self.data:GetFloat("radius_size") )
 			for pos in Iter(points) do
 				local trail = EntityService:SpawnEntity( self.radiusBp, pos, EntityService:GetTeam( self.owner ))
 				ItemService:SetItemCreator( trail, self.entity_blueprint );
+				EntityService:PropagateEntityOwner( trail, self.owner )
 				EntityService:DissolveEntity( trail, self.data:GetFloat("radius_lifetime"), 1.0 )	
 			end
 		end

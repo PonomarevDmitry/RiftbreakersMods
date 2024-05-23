@@ -19,12 +19,18 @@ end
 function ghost_building_radius:OnInit()
     self:FindMinDistance()
     
-	self:RegisterHandler( INVALID_ID, "BuildingStartEvent", "OnBuildingStartEvent" )
+	self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
     ShowBuildingDisplayRadiusAround( self.entity, self.blueprint )
 end
 
 function ghost_building_radius:OnBuildingStartEvent( evt)
-    if ( evt:GetPlayerId() ~= self.playerId or not self.activated) then
+    local playerReferenceComponent = EntityService:GetComponent( evt:GetEntity(), "PlayerReferenceComponent")
+    local owner = -1
+    if (playerReferenceComponent) then
+        local helper = reflection_helper(playerReferenceComponent)
+        owner = helper.player_id
+    end
+    if ( owner ~= self.playerId or not self.activated) then
         return
     end
 

@@ -20,11 +20,7 @@ function logic_if_exist_entity:Activated()
     self.waitUntilTrue = self.data:GetString("wait_until_true")
     self.searchRadius = self.data:GetFloat("search_radius")
     self.searchTargetName = self.data:GetString("search_target")
-    
-    if self.searchTargetName ~= "" then
-        self.searchTarget = FindService:FindEntityByName( self.searchTargetName )
-    end
-    
+    self.searchTarget = INVALID_ID
     self.targetName = ""
     self.targetGroup = ""
     self.targetType = ""
@@ -61,13 +57,18 @@ function logic_if_exist_entity:OnExecuteWait( state )
         return
     end
     
-    if ( self.searchTargetName ~= "" and EntityService:IsAlive( self.searchTarget ) == false ) then
+    -- CUSTOM PATCH for acid_scout.logic, we have removed `player_trigger` child entity from mech
+    if self.searchTargetName == "player_trigger" then
+        self.searchTarget = PlayerService:GetPlayerControlledEnt(0)
+    elseif self.searchTargetName ~= "" then
         self.searchTarget = FindService:FindEntityByName( self.searchTargetName )
+    end
+
+    if self.searchTargetName ~= "" and not EntityService:IsAlive( self.searchTarget ) then
         return
     end
     
     local entitiesFound = self:Find()
-    
     if self.comparisonType == "equal" and ( #entitiesFound == self.count ) then
         --LogService:Log("IF STATEMENT POSITIVE")
         self:SetFinished()

@@ -10,34 +10,67 @@ function mission_base:__init()
     LuaGraphNode.__init(self,self)
 end
 
+function mission_base:GetTileRegionBounds( s, e )
+    local world_min = MissionService:GetWorldBoundsMin()
+    local world_max = MissionService:GetWorldBoundsMax()
+
+    local center_offset = 
+    {
+        x = math.fmod( ( world_max.x + world_min.x ) / 2.0, 128 ),
+        z = math.fmod( ( world_max.z + world_min.z ) / 2.0, 128 ),
+    }
+
+    local start_coord = { z = math.min( s.x, e.x ), x = math.min( s.y, e.y ) }
+    local end_coord = { z = math.max( s.x, e.x ), x = math.max( s.y, e.y ) }
+
+    local region_min = 
+    {
+        x = start_coord.x * 128.0 - center_offset.x,
+        y = -10,
+        z = start_coord.z * 128.0 - center_offset.z
+    }
+
+    local region_max = 
+    {
+        x = ( end_coord.x + 1 ) * 128.0 - center_offset.x,
+        y = 40.0,
+        z = ( end_coord.z + 1 ) * 128.0 - center_offset.z
+    }
+
+    return {
+        min = region_min,
+        max = region_max
+    } 
+end
+
 function mission_base:GetNonPlayableRegions()
     local playable_min = MissionService:GetPlayableRegionMin();
     local playable_max = MissionService:GetPlayableRegionMax();
-    local world_min = MissionService:GetWorldBoundsMin();
-    local world_max = MissionService:GetWorldBoundsMax();
+
+    local margin = tonumber(ConsoleService:GetConfig("map_non_playable_margin"))
 
     return
     {
 		-- Due to camera rotation -x,x is not left right and -z,z is not down up
         [ "spawn_enemy_border_west" ] =
         {
-            min = { x = playable_min.x,    y = -10,    z = world_min.z },
-            max = { x = playable_max.x,    y = 10,     z = playable_min.z } 
+            min = { x = playable_min.x,                 y = -10,    z = playable_min.z - margin },
+            max = { x = playable_max.x,                 y = 10,     z = playable_min.z } 
         },
         [ "spawn_enemy_border_east" ] =
         {
-            min = { x = playable_min.x,     y = -10,    z = playable_max.z },
-            max = { x = playable_max.x,     y = 10,     z = world_max.z } 
+            min = { x = playable_min.x,                 y = -10,    z = playable_max.z },
+            max = { x = playable_max.x,                 y = 10,     z = playable_max.z + margin } 
         },
         [ "spawn_enemy_border_north" ] =
         {
-            min = { x = playable_max.x,     y = -10,    z = playable_min.z },
-            max = { x = world_max.x,        y = 10,     z = playable_max.z } 
+            min = { x = playable_max.x,                 y = -10,    z = playable_min.z },
+            max = { x = playable_max.x + margin,        y = 10,     z = playable_max.z } 
         },
         [ "spawn_enemy_border_south" ] =
         {
-            min = { x = world_min.x,        y = -10,    z = playable_min.z },
-            max = { x = playable_min.x,     y = 10,     z = playable_max.z } 
+            min = { x = playable_min.x - margin,        y = -10,    z = playable_min.z },
+            max = { x = playable_min.x,                 y = 10,     z = playable_max.z } 
         },
     };
 end
@@ -53,6 +86,36 @@ function mission_base:RemoveBlueprintsOutOfPlayableBounds(blueprints)
             end
         end
     end
+end
+
+function mission_base:SetAccessibleWorldRegion( min, max )
+    local regions = self:GetNonPlayableRegions()
+    for group,_ in pairs( regions ) do
+        local entities = FindService:FindEntitiesByGroup( group );
+        for entity in Iter( entities ) do
+            EntityService:SetName( entity, "" );
+            EntityService:SetGroup( entity, "" );
+
+            local children = EntityService:GetChildren( entity, false )
+            for child in Iter( children ) do
+                if EntityService:GetBlueprintName( child ) == "logic/spawn_enemy_grid_culler" then
+                    EntityService:RemoveEntity( child )
+                end
+            end
+        end
+    end
+
+    local margin = tonumber(ConsoleService:GetConfig("map_non_playable_margin"))
+    min.x = min.x + margin
+    min.z = min.z + margin
+    max.x = max.x - margin
+    max.z = max.z - margin
+    
+    -- we need to swap x/z here so it maches in game tile grid indexing
+    MissionService:SetPlayableRegion( { x = min.z, y = min.y, z = min.x }, { x = max.z, y = max.y, z = max.x } )
+    EntityService:SpawnEntity("effects/world/map_resized", 0.0, 0.0, 0.0, "none")
+    
+    self:PrepareSpawnPoints()
 end
 
 function mission_base:SelectWaveSpawnPoints()
@@ -168,12 +231,14 @@ function mission_base:SelectPlayerSpawnPoint()
 end
 
 function mission_base:PrepareSpawnPoints(safeRadius)
-    local spawn_point = self:SelectPlayerSpawnPoint();
-    MissionService:SetPlayerSpawnPoint( spawn_point );
+    if MapGenerator:GetInitialSpawnPoint() == INVALID_ID then
+        local spawn_point = self:SelectPlayerSpawnPoint();
+        MapGenerator:SetInitialSpawnPoint( spawn_point );
+    end
 
     self:SelectWaveSpawnPoints();
 
-    self:RemoveBlueprintsOutOfPlayableBounds({ "logic/spawn_objective" });
+    --self:RemoveBlueprintsOutOfPlayableBounds({ "logic/spawn_objective" });
 
     return spawn_point
 end
@@ -182,4 +247,47 @@ function mission_base:init()
     self:PrepareSpawnPoints();
 end
 
+function mission_base:Activated()
+	self:RegisterHandler( event_sink, "LuaGlobalEvent", "_OnLuaGlobalEvent" )
+end
+
+function mission_base:OnMissionFinish( status )
+    MissionService:FinishCurrentMission( status )
+end
+
+function mission_base:_OnLuaGlobalEvent( evt)
+    if (evt:GetEvent() == "win_game") then
+        self:OnMissionFinish( MISSION_STATUS_WIN )
+    elseif ( evt:GetEvent() == "lose_game") then
+        self:OnMissionFinish( MISSION_STATUS_LOSE )
+    elseif( evt:GetEvent() == "change_world_bounds") then
+        local params = evt:GetDatabase()
+
+        local minX = params:GetIntOrDefault("minX", -1)
+        local minY = params:GetIntOrDefault("minY", -1)
+        local maxX = params:GetIntOrDefault("maxX", 1)
+        local maxY = params:GetIntOrDefault("maxY", 1)
+
+        if params:HasString("min") then
+            local min = Split(params:GetString("min"), "," )
+            minX = tonumber(min[1])
+            minY = tonumber(min[2])
+        end
+
+        if params:HasString("max") then
+            local max = Split(params:GetString("max"), "," )
+            maxX = tonumber(max[1])
+            maxY = tonumber(max[2])
+        end
+        
+        local world_region = self:GetTileRegionBounds( { x = minX, y = minY }, { x = maxX, y = maxY } )
+        self:SetAccessibleWorldRegion( world_region.min, world_region.max )
+    end
+end
+
+function mission_base:OnLoad()
+    if ( self:HasEventHandler( event_sink, "LuaGlobalEvent") == false ) then
+        self:RegisterHandler( event_sink, "LuaGlobalEvent", "_OnLuaGlobalEvent" )
+    end
+end
 return mission_base

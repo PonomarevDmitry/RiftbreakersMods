@@ -18,11 +18,21 @@ function logic_if_exist_entity_new:init()
     self.targetFindValue = self.data:GetString("find_value") 
     self.searchTargetValue = self.data:GetString("search_target_value")
     self.targetRelationship = self.data:GetStringOrDefault("find_relationship", "")
+    self.inverseTargetRelationship = self.data:GetIntOrDefault("inverse_relationship", 0)
 
     self.fsm = self:CreateStateMachine()
     self.fsm:AddState( "wait", { from="*", execute="OnExecuteWait" } )
-end
 
+    if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
+end
 
 function logic_if_exist_entity_new:Activated()
     self.nodeEnabled = true
@@ -44,7 +54,14 @@ function logic_if_exist_entity_new:OnExecuteWait( state )
         if not IsNullOrEmpty( self.targetRelationship ) then
             isValidRelationship = false
             for target in Iter(searchTarget) do
-                isValidRelationship = isValidRelationship or EntityService:IsInTeamRelation(entity, target,self.targetRelationship, "player" )
+                if not isValidRelationship then
+
+                    if self.inverseTargetRelationship == 1 then
+                        isValidRelationship = not EntityService:IsInTeamRelation(entity, target,self.targetRelationship, "player" )
+                    else
+                        isValidRelationship = EntityService:IsInTeamRelation(entity, target,self.targetRelationship, "player" )
+                    end
+                end
             end
         end
 

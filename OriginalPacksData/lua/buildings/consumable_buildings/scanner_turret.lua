@@ -19,6 +19,8 @@ function scanner_turret:OnInit()
 	self.effect 	= INVALID_ID
 	self.scanningTime = 0.0
 	self.maxScanTime = self.data:GetFloatOrDefault( "scanning_time", 2 )
+
+    self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
 end
 
 function scanner_turret:OnBuild()

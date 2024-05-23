@@ -12,11 +12,17 @@ function wreck_ground_unit:init()
     self:RegisterHandler( self.entity, "AnimationMarkerReached", "OnAnimationMarkerReached" )
     self:RegisterHandler( self.entity, "TargetFoundEvent", "OnBuildingFoundEvent" )
 
-    local damageType = self.data:GetStringOrDefault( "damage_type", "" )
+    local wreckTeamComponent = EntityService:GetConstComponent( self.entity, "WreckTeamComponent")
+    local damageType = ""
+    if ( wreckTeamComponent ~= nil ) then
+        damageType = wreckTeamComponent:GetField("killed_by_damage_type"):GetValue()
+    end
 
     self:initDefaultParams()
     self:initParams()
-    	
+    
+    self:overrideParams()
+
     if EntityService:CompareType( self.entity, "ground_unit_small" ) then
         EntityService:ChangeType( self.entity, "prop|wreck_small" )
     elseif EntityService:CompareType( self.entity, "ground_unit_medium" ) then 
@@ -60,6 +66,17 @@ function wreck_ground_unit:OnLoad()
         self:DestroyStateMachine( self.dissolve )
         EntityService:DissolveEntity( self.entity, 3.0, self.wreckLifetime )
         self.dissolve = nil
+    end
+end
+
+function wreck_ground_unit:overrideParams()
+
+    local forceLeaveBody = UnitService:GetStateMachineParamInt( self.entity, "force_leave_body" )
+
+    if ( forceLeaveBody == 1 ) then
+        self.normalExplodeProbability = 0
+        self.leaveBodyProbability = 1
+        self.resurrectCooldown = 1000
     end
 end
 

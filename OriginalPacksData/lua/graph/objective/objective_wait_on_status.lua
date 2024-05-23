@@ -25,6 +25,10 @@ function objective_wait_on_status:OnUpdate()
 		if ( self.localObjective == 1 ) then
 			 questName = self.parent:CreateGraphUniqueString( quest )
 		end
+		local objectiveId = ObjectiveService:GetObjectiveIdFromObjectiveUniqueName( questName )
+		if not Assert( objectiveId ~= INVALID_OBJECTIVE_ID, "ERROR: could NOT find objective with name: `" .. questName .. "`" ) then
+			return self:SetFinished()
+		end
 		
 		local questStatus = self.data:GetString( quest )
 

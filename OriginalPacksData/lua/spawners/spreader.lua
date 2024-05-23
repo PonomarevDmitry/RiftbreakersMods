@@ -82,25 +82,21 @@ function spreader:ClearFloors( spawned, position )
         filter = function(entity)
 			local buildingType = BuildingService:GetBuildingType(entity)
 			local terrainType = EnvironmentService:GetTerrainTypeUnderEntity( entity )
-			LogService:Log("Terraintype: ".. terrainType) 
 			return  buildingType == "floor" and terrainType ~= "acid_floor"
         end
     };
 
 	local entities = FindService:FindEntitiesByPredicateInBox( VectorSub(position,size), VectorAdd(position, size), self.predicate )
 	for ent in Iter(entities) do
-		LogService:Log("To tu? :" .. tostring(ent))
 		EntityService:DissolveEntity( ent, 1.0 )
 		local children = EntityService:GetChildren( ent, false )
 		for child in Iter(children) do
-			LogService:Log(tostring(child))
 			EntityService:DissolveEntity( child, 1.0 )
 		end
 	end
 end
 
 function spreader:SpawnBlueprint( bp, position, resetDatabase )
-	
 	local spawned = EntityService:SpawnEntity( bp, RandPosition(position), EntityService:GetTeam( "enemy") );
 	self:ClearFloors(spawned, position)
 
@@ -121,8 +117,7 @@ function spreader:SpawnBlueprint( bp, position, resetDatabase )
 		QueueEvent( "DamageRequest", prop, HealthService:GetMaxHealth(prop), "creeper", 0, 0 )
 	end
 	
-	EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
-	QueueEvent( "FadeEntityInRequest", spawned, 1 );
+	EntityService:FadeEntity( spawned, DD_FADE_IN, 1.0 )
 	EffectService:AttachEffects(spawned, "spawn")
 	EntityService:Rotate( spawned, 0, 1, 0, RandFloat( 0, 360) );
 	EntityService:RemoveTypesInEntityBounds( spawned, "prop" )
@@ -135,6 +130,19 @@ function spreader:Spread( state )
 		return
 	end
 	self.data:SetInt("scanning",0)
+
+	if self.currentIdx > #self.spots then
+		self.currentIdx = 1
+	end
+
+	if #self.spots == 0 then
+		self.spots = FindService:GetSpotsInRadius( self.entity, 0, self.max_radius )
+		self.currentIdx = 1
+
+		if #self.spots == 0 then
+			return
+		end
+	end
 
 	local blocked = false
 	for i=self.currentIdx,#self.spots 
@@ -234,14 +242,12 @@ function spreader:OnCollapseExecute( state )
 		Remove(self.branches, toDestroy);
 
 		if ( EntityService:IsAlive( toDestroy ) and HealthService:IsAlive( toDestroy )  ) then
-			LogService:Log(tostring(toDestroy))
 			EntityService:DissolveEntity( toDestroy, 1 )
 			break
 		end
 	end
 
 	if ( #self.branches == 0 ) then
-		LogService:Log(tostring(self.entity))
 		EntityService:DissolveEntity(self.entity, 1 )
 		state:Exit();
 		return;
@@ -271,7 +277,6 @@ function spreader:OnDestroyRequest( evt )
 		data:SetInt( "branch_" .. tostring(i), self.branches[i])
 	end
 	data:SetFloat( "collapse_interval" , self.collapse_interval )
-	LogService:Log("a"..tostring(self.entity))
 	EntityService:DissolveEntity(self.entity, 1)
 end
 
@@ -292,7 +297,6 @@ function spreader:OnChildDestroyRequest( evt )
 		EntityService:ChangeType( child, "prop" )
 		EntityService:RemoveComponent( child, "TeamComponent" )
 	end	
-	LogService:Log(tostring(child))
 	EntityService:DissolveEntity( child, 1.0, 15.0 )
 	if ( EntityService:GetComponent( child, "VegetationComponent") == nil) then
 		EntityService:RequestDestroyPattern( child, "default")

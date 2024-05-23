@@ -15,6 +15,19 @@ function entity_change_name:init()
 	self.singleTarget = self.data:GetIntOrDefault("target_single", 0)
     
     self.newName = self.data:GetStringOrDefault("new_name", "")
+	if self.data:GetIntOrDefault("name_is_global", 1) == 0 then
+		self.newName = self.parent:CreateGraphUniqueString(self.newName)
+	end
+
+	if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
 end
 
 function entity_change_name:Activated()	

@@ -1,4 +1,5 @@
 require("lua/utils/string_utils.lua")
+require("lua/utils/throttler_utils.lua")
 
 local base_drone = require("lua/units/air/base_drone.lua")
 class 'planter_drone' ( base_drone )
@@ -113,12 +114,12 @@ function planter_drone:OnPlantExit()
 
     local target = self:GetDroneActionTarget();
     if EntityService:IsAlive(target) then 
-        EntityService:RemovePropsInEntityBounds( target )
-
         local plant_blueprint = self.data:GetStringOrDefault("plant_blueprint", "");
         local plant_prefab = self.data:GetStringOrDefault("plant_prefab", "");
 
         if plant_blueprint ~= "" then
+            EntityService:RemovePropsInEntityBounds( target )
+
             local entity = EntityService:SpawnEntity(plant_blueprint, target, "" );
             EntityService:EnableVegetationChain( entity );
             EffectService:SpawnEffect(entity, self.plant_effect );

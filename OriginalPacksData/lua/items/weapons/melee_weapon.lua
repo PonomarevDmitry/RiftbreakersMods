@@ -71,7 +71,6 @@ function melee_weapon:OnUpdate()
 
 	if self.is_deactivating == 1 then
 		if WeaponService:IsMeleeReady( self.item ) == true then
-			self.data:SetInt( "activated", 0 ) 
 			ItemService:SetActivationStatus( self.entity, false )
 			self:OnAttackEnd()
 			self.is_deactivating = 0

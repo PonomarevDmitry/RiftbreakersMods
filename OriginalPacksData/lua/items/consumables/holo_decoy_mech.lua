@@ -6,7 +6,7 @@ function holo_decoy_mech:__init()
 end
 
 function holo_decoy_mech:GetItemBlueprint( entity )
-	local inventoryItem = EntityService:GetComponent( entity, "InventoryItemComponent" )
+	local inventoryItem = EntityService:GetConstComponent( entity, "InventoryItemComponent" )
 	if ( inventoryItem == nil ) then
 		return ""
 	end

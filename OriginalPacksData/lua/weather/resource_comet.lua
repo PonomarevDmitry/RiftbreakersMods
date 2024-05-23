@@ -36,11 +36,19 @@ function resource_comet:init()
 	end
 end
 
+function resource_comet:SelectFlyoverCandidate()
+	for entity in Iter( PlayerService:GetPlayersMechs() ) do
+		return entity
+	end
+
+	return FindService:FindEntityByName("headquarters")
+end
+
 function resource_comet:OnEnterSpawn( state )
 	if ( self.findMode == "resource") then
 		self.spaceEnt = ResourceService:FindEmptySpace( 100, 500 );
 	elseif ( self.findMode == "objective") then
-		self.spaceEnt = FindObjectiveSpot()
+		self.spaceEnt = MissionService:SpawnMissionObjective( "logic/position_marker", true )
 	elseif ( self.findMode == "target") then
 		self.spaceEnt = FindService:FindEntityByName( self.targetName )
 
@@ -51,8 +59,8 @@ function resource_comet:OnEnterSpawn( state )
 	else
 	 	self.spaceEnt = ResourceService:FindEmptySpace( 100, 500 );
 	end
-	--self.cometEnt = MeteorService:SpawnComet( PlayerService:GetPlayerControlledEnt( 0 ), self.spaceEnt, self.cometFlyingBp, 35, 20 )
-	self.cometEnt = MeteorService:SpawnComet( PlayerService:GetPlayerControlledEnt( 0 ), self.spaceEnt, self.cometFlyingBp, 35, 40, false ) --wersja do spadanie ukosem
+
+	self.cometEnt = MeteorService:SpawnComet( self:SelectFlyoverCandidate(), self.spaceEnt, self.cometFlyingBp, 35, 40, false ) --wersja do spadanie ukosem
 end
 
 function resource_comet:OnExecuteSpawn( state )
@@ -81,6 +89,8 @@ function resource_comet:OnExitSpawn( state )
 		if ( self.makeAggresive == 1 ) then
 			EntityService:SetTeam( spawnedEntity, "wave_enemy")
 			UnitService:SetInitialState( spawnedEntity, UNIT_AGGRESSIVE);
+		elseif self.findMode == "objective" then
+			MissionService:PushEntityToMissionObjectSpawnerPools( spawnedEntity, "objectives" )
 		end
 	end
 	if ( self.removeSpaceEnt == true ) then

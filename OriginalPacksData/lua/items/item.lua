@@ -6,6 +6,25 @@ function item:__init()
 	LuaEntityObject.__init(self,self)
 end
 
+function item:IsActivated()
+	local runtimeData = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
+	if ( runtimeData == nil ) then
+		return false
+	end
+	
+	return runtimeData:GetField( "activated" ):GetValue() == "1"
+end
+
+function item:IsEquipped()
+	local runtimeData = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
+	if ( runtimeData == nil ) then
+		return false
+	end
+	
+	return runtimeData:GetField( "equipped" ):GetValue() == "1"
+end
+
+
 function item:init()
 	self:RegisterHandler( self.entity, "EquipItemEvent", 	     "_OnEquipped" )
 	self:RegisterHandler( self.entity, "UnequipedItemEvent", 	 "_OnUnequipped" )		
@@ -14,18 +33,13 @@ function item:init()
 
 	self.entity_blueprint = EntityService:GetBlueprintName(self.entity);
 	self:OnInit()
-	
-	if ( self.data:HasInt("activated") == false ) then
-		self.data:SetInt( "activated", 0 )
-	end
 
-	if ( self.data:HasInt("equipped" ) == false ) then
-		self.data:SetInt( "equipped", 0 );
-	end
-
-	self.data:SetInt( "equipped_entity", INVALID_ID )
 	self.slot = "" 
+	self.subSlot = nil 
 	self.references = {}
+	self.pickup = false
+
+	self.version = 2
 end
 
 function item:SpawnReferenceEntity( blueprint, target, team )
@@ -36,8 +50,9 @@ function item:SpawnReferenceEntity( blueprint, target, team )
 end
 
 function item:_OnEquipped( evt )
-	if ( self.data:GetInt("equipped" ) == 0  ) then
-		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemComponent")
+	local equipped = self:IsEquipped()
+	if ( not equipped  ) then
+		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
 		invItemComponent:GetField( "equipped" ):SetValue("1")		
 		
 		self:RegisterHandler( self.entity, "ActivateItemRequest", 	 "_OnActivate" )
@@ -46,17 +61,16 @@ function item:_OnEquipped( evt )
 		self.item = evt:GetItemEnt()
 		self.owner = evt:GetOwner()
 		self.slot = evt:GetSlot()
+		self.subSlot = ItemService:GetItemSubSlot( self.owner, self.entity )
 
 		if ( self.item ~= INVALID_ID ) then 
 			ItemService:SetItemCreator( self.item, self.entity_blueprint )
+			EntityService:PropagateEntityOwner( self.item, self.owner )
 
 			EffectService:AttachEffects( self.item, self.slot ) 
 			EffectService:AttachEffects( self.item, "item_equipped" ) 
 		end
 		
-		self.data:SetInt( "equipped", 1 )
-		self.data:SetInt( "equipped_entity", self.item )
-
 		self:DissolveShow()
 		self:OnEquipped()
 	end
@@ -64,36 +78,35 @@ end
 
 function item:_OnActivate(evt)
 	--LogService:Log( "_OnActivate!" )
-	if ( self.data:GetInt("equipped")== 1 ) then
+	if ( self:IsEquipped() ) then
 		local continous = evt:GetContinous()
-		if( continous == true or self.data:GetInt( "activated" ) == 0 ) then	
-			ItemService:SetActivationStatus( self.entity, true );
-			if ( self.data:GetInt( "activated" ) == 0 ) then
+		local activated = self:IsActivated()
+		if( continous == true or not activated ) then	
+			if ( not activated ) then
 				EffectService:AttachEffects( self.item, "item_activated_once" )
 			end
 
 			EffectService:AttachEffects( self.item, "item_activated" ) 
 			self:OnActivate()
-			self.data:SetInt( "activated", 1 ) 
+			ItemService:SetActivationStatus( self.entity, true );
 		end
 	end
 end
 
 function item:_OnActivateOnce(evt)
-	--LogService:Log( "_OnActivate!" )
-	if ( self.data:GetInt("equipped")== 1 ) then
-	
+	--LogService:Log( "_OnActivateOnce!" )
+	if ( self:IsEquipped() ) then
+		local activated = self:IsActivated()
 		if ( self.OnActivateOnce == nil ) then
 			local continous = evt:GetContinous()
-			if( continous == true or self.data:GetInt( "activated" ) == 0 ) then	
-				ItemService:SetActivationStatus( self.entity, true );
-				if ( self.data:GetInt( "activated" ) == 0 ) then
+			if( continous == true or not activated ) then	
+				if ( not activated ) then
 					EffectService:AttachEffects( self.item, "item_activated_once" )
 				end
 	
 				EffectService:AttachEffects( self.item, "item_activated" ) 
 				self:OnActivate()
-				self.data:SetInt( "activated", 1 ) 
+				ItemService:SetActivationStatus( self.entity, true );
 			end
 			
 			EffectService:AttachEffects( self.item, "item_deactivated" ) 
@@ -101,10 +114,9 @@ function item:_OnActivateOnce(evt)
 			if ( deactivated  == true or forced == true) then
 				--LogService:Log("forced deactivation")
 				ItemService:SetActivationStatus( self.entity, false );
-				self.data:SetInt( "activated", 0 ) 
 			end		
 		else
-			if ( self.data:GetInt( "activated" ) == 0 ) then
+			if ( not activated ) then
 				EffectService:AttachEffects( self.item, "item_activated_once" )
 			end
 	
@@ -112,16 +124,13 @@ function item:_OnActivateOnce(evt)
 			self:OnActivateOnce()
 			EffectService:AttachEffects( self.item, "item_deactivated" ) 
 		end
-		
 	end
-
-
-
 end
 
 function item:_Deactivate( forced )
 	--LogService:Log( "_Deactivate!" )
-	if ( self.data:GetIntOrDefault( "activated", 0 ) == 1 ) then
+	local activated = self:IsActivated()
+	if ( activated ) then
 		EffectService:AttachEffects( self.item, "item_deactivated" ) 
 		EffectService:DestroyEffectsByGroup( self.item, "item_activated" )
 		EffectService:DestroyEffectsByGroup( self.item, "item_activated_once" )
@@ -129,7 +138,6 @@ function item:_Deactivate( forced )
 		if ( deactivated  == true or forced == true) then
 			--LogService:Log("forced deactivation")
 			ItemService:SetActivationStatus( self.entity, false );
-			self.data:SetInt( "activated", 0 ) 
 		end		
 	end	
 end
@@ -157,22 +165,20 @@ end
 
 function item:_OnUnequipped( evt )	
 
-	if ( self.data:GetIntOrDefault("equipped", 0) == 1 ) then
-		self:UnregisterHandler( self.entity, "ActivateItemRequest", 	"_OnActivate" )
-		self:UnregisterHandler( self.entity, "ActivateOnceItemRequest", "_OnActivateOnce" )
-		self:UnregisterHandler( self.entity, "DeactivateItemRequest", 	"_OnDeactivate" )
+	if ( self:IsEquipped() ) then
+		if ( self:HasEventHandler( self.entity, "ActivateItemRequest" ) ) then
+			self:UnregisterHandler( self.entity, "ActivateItemRequest", 	"_OnActivate" )
+			self:UnregisterHandler( self.entity, "ActivateOnceItemRequest", "_OnActivateOnce" )
+			self:UnregisterHandler( self.entity, "DeactivateItemRequest", 	"_OnDeactivate" )
+		end
 		self.owner = evt:GetOwner()
-		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemComponent")
+		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
 		if invItemComponent then
 			invItemComponent:GetField( "equipped" ):SetValue("0")
 		end
-		self.data:SetInt( "equipped", 0 )
 
 		self:_Deactivate( true )
 		self:OnUnequipped()	
-
-		self.data:SetInt( "equipped_entity", INVALID_ID )
-
 		self:DespawnReferenceEntities()
 		self.owner = INVALID_ID;
 	end
@@ -180,6 +186,9 @@ end
 
 function item:_OnDropItemEvent(evt)
 	self.item = evt:GetItem()
+	if ( evt:GetPlayerId() ~= INVALID_ID  ) then
+		self.pickup = true
+	end
 	self.owner = INVALID_ID
 	self:OnDrop()
 end
@@ -187,12 +196,14 @@ end
 function item:_OnPickEventLua( evt )
 	self.item = INVALID_ID
 	local owner = evt:GetInventory()
-
-	if ( self.data:HasInt("#subslot#") ) then
-		local subslot = self.data:GetInt("#subslot#")
-		local slot = self.data:GetString("#slot#")
-		ItemService:TryEquipItemInSlot( owner, self.entity, slot, subslot)
+	if ( self.pickup == true ) then
+		if ( self.slot ~= "" and self.subSlot ~= nil ) then
+			ItemService:TryEquipItemInSlot( owner, self.entity, self.slot, self.subSlot)
+		else
+			ItemService:TryEquipItemInEmptySlot( owner, self.entity )
+		end
 		ItemService:ClearNewItemMark( owner, self.entity )
+
 	end
 	
 	self:OnPickUp( owner)
@@ -207,6 +218,20 @@ function item:OnLoad()
 	if ( self.dissolveSM and self.dissolveSM:GetCurrentState() == "") then
 		self:RemoveDissolveStateMachine()
     end
+
+	if ( self.version == nil ) then
+		self.data:RemoveKey( "activated" )
+		self.data:RemoveKey( "equipped" )
+
+		self.subSlot = self.data:GetIntOrDefault( "#subslot#", 0 )
+		self.data:RemoveKey( "#slot#" )
+		self.data:RemoveKey( "#subslot#" )
+		self.version = 1
+	end
+	if ( self.version <= 1 ) then
+		self.pickup =  (self.slot ~= "" and self.subSlot ~= nil)
+		self.version = 2
+	end
 end
 
 function item:OnEquipped()
@@ -234,31 +259,21 @@ function item:IsPickable( owner )
 end
 
 function item:DissolveShow()
-	self.dissolveSM = self:CreateStateMachine()
-	self.dissolveSM:AddState( "dissolve_show", { from="*", enter="OnDissolveShowEnter", execute="OnDissolveShowExecute",  exit="OnDissolveShowExit" } )
-	self.dissolveSM:ChangeState( "dissolve_show" )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
+	if ( EntityService:IsAlive( self.item )) then
+		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75 )
+	end
 end
 
 function item:OnDissolveShowEnter( state )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
-	state:SetDurationLimit( 0.75 )
 end
 
 function item:OnDissolveShowExecute( state )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 - ( state:GetDuration() / 0.75 ) )
 end
 
 function item:RemoveDissolveStateMachine()
-	if self.dissolveSM == nil then return end
-
-	self:DestroyStateMachine( self.dissolveSM )
-	self.dissolveSM = nil
 end
 
 function item:OnDissolveShowExit( state )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 0 )
-	self:RemoveDissolveStateMachine()
 end
 
 function item:CanActivate()

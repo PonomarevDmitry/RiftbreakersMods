@@ -17,6 +17,15 @@ function entity_highlight:init()
     self.targetFindType = self.data:GetString("find_type") 
     self.targetFindValue = self.data:GetString("find_value") 
     
+    if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
 end
 
 function entity_highlight:Activated()

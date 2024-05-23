@@ -57,12 +57,6 @@ function event_manager:init()
 	self:RegisterHandler( event_sink, "GameStreamingClearVoteRequest",  "OnGameStreamingClearVoteRequest" )
 	self:RegisterHandler( event_sink, "GameStreamingActionEvent",		"OnGameStreamingActionEvent" )
 
-	self.tapTap = self:CreateStateMachine()
-	self.tapTap:AddState( "taptap_prepare", { enter="OnEnterTapTapPrepare", exit= "OnExitTapTapPrepare" } )
-
-	self.tapTapVoting = self:CreateStateMachine()
-	self.tapTapVoting:AddState( "taptap_voting_prepare", { enter="OnEnterTapTapVotingPrepare", exit= "OnExitTapTapVotingPrepare" } )
-
 	self.eventManagerTimer = self:CreateStateMachine()
 	self.eventManagerTimer:AddState( "timer", { execute="OnExecuteTimer" } )
 	self.eventManagerTimer:ChangeState( "timer" )
@@ -118,76 +112,6 @@ end
 
 function event_manager:OnExecuteTimer( state, dt )
 	self.eventManagerTimer = self.eventManagerTimer + dt
-end
-
---  ----------------------------------------------------------- TapTapPrepare ---------------------------------------
-
-function event_manager:OnEnterTapTapPrepare( state )
-
-	LogService:Log( "OnEnterPrepare" )
-
-	state:SetDurationLimit( 5 )
-
-end
-
-function event_manager:OnExitTapTapPrepare( state )
-	
-	LogService:Log( "OnExitPrepare" )
-
-	if ( GameStreamingService:IsInStreamEvent() == false ) then
-		if ( RiftbreakerGameStreamingService:AreThereAnyEnemiesInFrustum() == true ) then
-
-			LogService:Log( "Creatures in frustum - starting taptap" )
-
-			GameStreamingService:CreateDynamicScene( self.dynamicStreamingSceneName )
-
-			if ( self.tapTapEventName == "ammunition_support"  ) then
-				GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, "extra_ammo", 0, "" )
-			elseif ( self.tapTapEventName == "help_from_above" ) then
-				GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, "meteor_strike", 0, "" )
-			end
-
-			GameStreamingService:StartTapTap( self.dynamicStreamingSceneName, self.tapTapTime, true, false )
-		else
-			
-			LogService:Log( "No Creatures in frustum - waiting taptap" )
-
-			self.tapTap:ChangeState( "taptap_prepare" )
-		end
-	end
-end
-
-
---  ----------------------------------------------------------- TapTapVotingPrepare ---------------------------------------
-
-function event_manager:OnEnterTapTapVotingPrepare( state )
-
-	LogService:Log( "OnEnterTapTapVotingPrepare" )
-
-	state:SetDurationLimit( 5 )
-
-end
-
-function event_manager:OnExitTapTapVotingPrepare( state )
-	
-	LogService:Log( "OnExitTapTapVotingPrepare" )
-
-	if ( GameStreamingService:IsInStreamEvent() == false ) then
-
-		GameStreamingService:CreateDynamicScene( self.dynamicStreamingSceneName )
-		
-		if ( self.tapTapEventName == "spawn_tornado_near_base" ) then	
-			GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, "tornado_away_base", 0, "" )
-			GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, "tornado_towards_base", 0, "" )
-			MissionService:ActivateMissionFlow( "", self.eventLogicFile, "default", self.data )
-		elseif ( self.tapTapEventName == "spawn_tornado_near_player"  ) then
-			GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, "tornado_away_player", 0, "" )
-			GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, "tornado_towards_player", 0, "" )
-			MissionService:ActivateMissionFlow( "", self.eventLogicFile, "default", self.data )
-		end
-
-		GameStreamingService:StartTapTapVoting( self.dynamicStreamingSceneName, self.tapTapTime, true, self.streamingTapTapVotingTime )
-	end
 end
 
 function event_manager:GetAmountFromAction( actionName )
@@ -591,12 +515,6 @@ function event_manager:PrepareEvents( gameState )
 				table.insert( tableTmp, data )
 			end
 		end
-	
-		-- tap tap events are not available on the Twitch platform
-		if ( ( data.isTapTap ~= nil ) and ( data.isTapTap == true ) and ( GameStreamingService:GetCurrentStreamingType() == GST_TWITCH ) ) then
-			LogService:Log( "Tap tap events are not available on the Twitch platform. Removining an action : " .. tostring( data.action ) )
-			table.insert( tableTmp, data )
-		end
 
 	end
 
@@ -867,6 +785,47 @@ function event_manager:SpawnExtraResources( logicFile )
 
 end
 
+function event_manager:StartStreamingVoting()
+	LogService:Log( "event_manager:StartAnEvent() - building streaming event" )
+	GameStreamingService:CreateDynamicScene( self.dynamicStreamingSceneName )
+
+	local optionsAtOnce = RandInt( 3, 6 )
+
+	LogService:Log( "Options count : " .. tostring( optionsAtOnce) )
+
+	-- remove extra options
+	while #self.currentStreamingData > optionsAtOnce do
+		local random = RandInt( 1, #self.currentStreamingData )
+		LogService:Log( "Removing : " .. self.currentStreamingData[random].action )
+		table.remove( self.currentStreamingData, random )	
+	end 
+
+	-- create actions
+	for data in Iter( self.currentStreamingData ) do 
+		LogService:Log( data.action )
+
+		local value = 0
+		local text = ""
+
+		if ( ( data.passValue ~= nil ) or ( data.passValue == true ) ) then
+
+			if ( data.amount ~= nil ) then
+				value = math.abs( data.amount )
+			end 
+
+			if ( data.text ~= nil ) then
+				text = data.text
+			end 
+		end
+
+		GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, data.action, value, text )
+	end
+
+	-- start voting
+	GameStreamingService:StartVoting( self.dynamicStreamingSceneName, self.streamingVotingTime )
+	
+end
+
 function event_manager:StartAnEvent( gameState )
 
 	LogService:Log( "event_manager:StartAnEvent()" )
@@ -875,43 +834,7 @@ function event_manager:StartAnEvent( gameState )
 
 	if ( ( GameStreamingService:IsStreamingSessionStarted() == true ) and ( #self.spawnedAttacks <= 1 ) and ( GameStreamingService:IsInStreamEvent() == false ) and ( #self.currentStreamingData > 1 ) ) then
 
-		LogService:Log( "event_manager:StartAnEvent() - building streaming event" )
-		GameStreamingService:CreateDynamicScene( self.dynamicStreamingSceneName )
-
-		local optionsAtOnce = RandInt( 3, 6 )
-
-		LogService:Log( "Options count : " .. tostring( optionsAtOnce) )
-
-		-- remove extra options
-		while #self.currentStreamingData > optionsAtOnce do
-			local random = RandInt( 1, #self.currentStreamingData )
-			LogService:Log( "Removing : " .. self.currentStreamingData[random].action )
-			table.remove( self.currentStreamingData, random )	
-		end 
-
-		-- create actions
-		for data in Iter( self.currentStreamingData ) do 
-			LogService:Log( data.action )
-
-			local value = 0
-			local text = ""
-
-			if ( ( data.passValue ~= nil ) or ( data.passValue == true ) ) then
-
-				if ( data.amount ~= nil ) then
-					value = math.abs( data.amount )
-				end 
-
-				if ( data.text ~= nil ) then
-					text = data.text
-				end 
-			end
-
-			GameStreamingService:AddActionToDynamicScene( self.dynamicStreamingSceneName, data.action, value, text )
-		end
-
-		-- start voting
-		GameStreamingService:StartVoting( self.dynamicStreamingSceneName, self.streamingVotingTime )
+		self:StartStreamingVoting()
 
 	elseif ( ( GameStreamingService:IsStreamingSessionStarted() == false ) and ( GameStreamingService:IsInStreamEvent() == false ) and ( #self.currentStreamingData > 0 ) ) then
 
@@ -988,22 +911,6 @@ function event_manager:OnExitHelpFromAbove( state )
 
 end
 
---  ----------------------------------------------------------- DefaultTapTap ---------------------------------------
-
-function event_manager:OnEnterDefaultTapTap( state )
-
-	LogService:Log( "OnEnterDefaultTapTap" )
-
-	state:SetDurationLimit( 5 )
-
-end
-
-function event_manager:OnExitDefaultTapTap( state )
-
-	LogService:Log( "OnExitDefaultTapTap" )
-
-end
-
 
 function event_manager:OnGameStreamingActionEvent( event )
 	self:SpawnEvent( event:GetActionName(), event:GetParticipantList() )
@@ -1036,7 +943,6 @@ function event_manager:SpawnEvent( action, participants )
 	if ( ( translatedEventName == "spawn_tornado_near_player" ) or ( translatedEventName == "spawn_tornado_near_base" ) ) then
 		self.tapTapEventName = translatedEventName;
 		self.tapTapTime		 = time
-		self.tapTapVoting:ChangeState( "taptap_voting_prepare" )
 	elseif ( translatedEventName == "spawn_acid_rain" ) or 
 		   ( translatedEventName == "spawn_wind_weak" ) or
 		   ( translatedEventName == "spawn_wind_strong" ) or
@@ -1078,7 +984,6 @@ function event_manager:SpawnEvent( action, participants )
 	elseif ( ( translatedEventName == "help_from_above" ) or ( translatedEventName == "ammunition_support" ) )then
 		self.tapTapEventName = translatedEventName;
 		self.tapTapTime = time
-		self.tapTap:ChangeState( "taptap_prepare" )
 	elseif ( translatedEventName == "meteor_strike" ) then
 		MeteorService:SpawnMeteorInFrustum( "weather/meteor_medium", 50, 140 )
 	elseif ( ( translatedEventName == "tornado_away_base" ) or ( translatedEventName == "tornado_away_player" ) ) then

@@ -16,10 +16,6 @@ function gnerot_burning:OnInit()
 	self.uniformFSM:AddState( "uniform", { execute="OnUniformExecute"} )
 	self.uniformFSM:ChangeState( "uniform" )
 
-	self.lightFSM = self:CreateStateMachine()
-	self.lightFSM:AddState( "light", { enter="OnLightEnter", execute="OnLightExecute" } )
-	self.lightFSM:ChangeState( "light" )
-
 	self.resource = INVALID_ID;
 	self.wreck_type = "wreck_big"
 	self.wreckMinSpeed = 4
@@ -27,38 +23,6 @@ function gnerot_burning:OnInit()
 	self.currentUniformValue = 1.0
 	self.newUniformValue = 1.0
 	self.uniformScaleValue = 0.4
-
-	local r_soft_shadows = ConsoleService:GetConfig( "r_soft_shadows" )
-	if r_soft_shadows ~= "ray" and r_soft_shadows ~= "compare" then
-		local lightId = FindService:FindEntityByName( "_gnerot_burning_burning_light_name_hack_" )
-		if lightId ~= nil then
-			EntityService:SetLightColor( lightId, 0, 1.2, 0, 250 )
-			EntityService:SetLightRange( lightId, 100 )
-		end
-	end
-end
-
-function gnerot_burning:OnLightEnter( state )
-	state:SetDurationLimit( 2.0 )
-	self.currentLightRange = 20.0
-	self.currentLightPower = 200.0
-end
-
-function gnerot_burning:OnLightExecute( state, dt )
-	local r_soft_shadows = ConsoleService:GetConfig( "r_soft_shadows" )
-	if r_soft_shadows == "ray" or r_soft_shadows == "compare" then
-		if self.currentLightPower < 500 then
-			self.currentLightPower = self.currentLightPower + dt * 150
-		end
-		if self.currentLightRange < 150 then
-			self.currentLightRange = self.currentLightRange + dt * 65
-		end
-		local lightId = FindService:FindEntityByName( "_gnerot_burning_burning_light_name_hack_" )
-		if lightId ~= nil then
-			EntityService:SetLightColor( lightId, 1, 0.2, 0, self.currentLightPower )
-			EntityService:SetLightRange( lightId, self.currentLightRange )
-		end
-	end
 end
 
 function gnerot_burning:OnUniformExecute( state, dt )

@@ -6,16 +6,14 @@ function base_unit:__init()
 	LuaEntityObject.__init(self, self)
 end
 
-local CURRENT_BASE_UNIT_VERSION = 1
+local FXSYSTEM_HANDLES_SOUND 	= 2
+local CURRENT_BASE_UNIT_VERSION = FXSYSTEM_HANDLES_SOUND
 
 function base_unit:init()
 	SetupUnitScale( self.entity, self.data )
 
 	self.lastDamageGenericTime = 0
 
-	self:CreateSoundStateMachine()
-
-	self:RegisterHandler( self.entity, "RunningStateChangeEvent", "_OnRunningStateChange" )
 	self:RegisterHandler( self.entity, "DestroyRequest",  "_OnDestroyRequest" )
     self:RegisterHandler( self.entity, "DamageEvent",  "_OnDamageEvent" )
 	self:RegisterHandler( self.entity, "AnimationMarkerReached", "_OnAnimationMarkerReached" )
@@ -32,27 +30,8 @@ end
 function base_unit:OnInit()
 end
 
-function base_unit:CreateSoundStateMachine( )
-	self.soundFSM = self:CreateStateMachine()
-	self.soundFSM:AddState( "idle", {interval=10.0} )
-	self.soundFSM:AddState( "move", {enter="_OnSoundMoveEnter", exit="_OnSoundMoveExit", interval=0.5} )
-	self.soundFSM:AddState( "run", {enter="_OnSoundRunEnter", exit="_OnSoundRunExit", interval=0.5} )
-	self.soundFSM:ChangeState("idle")
-end
-
 function base_unit:_OnDamageEvent( evt )
-	if not evt:GetDamageOverTime() then 
-		local currentTime = GetLogicTime()
-		if self.lastDamageGenericTime + 0.3 < currentTime then
-			local isResisted = IsEnumFlagSet( evt:GetEffect(), DAMAGE_EFFECT_RESISTED )
-			local isThresholded = IsEnumFlagSet( evt:GetEffect(), DAMAGE_EFFECT_THRESHOLDED )
-
-			if not isResisted and not isThresholded then
-				EffectService:AttachEffects( self.entity, "damage_generic" )
-				self.lastDamageGenericTime = currentTime
-			end
-		end
-	end
+	-- `damage_generic` spawning moved to FxSystem so it is done only on client side!
 
     if self.OnDamageEvent then
         self:OnDamageEvent(evt)
@@ -61,7 +40,6 @@ end
 
 function base_unit:_OnDestroyRequest( evt )
 	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(),self.wreck_type, self.wreckMinSpeed )
-	self:ChangeSoundState("idle")
 
     if self.OnDestroyRequest then
         self:OnDestroyRequest(evt)
@@ -87,46 +65,41 @@ function base_unit:_OnAnimationStateChanged( evt )
     end
 end
 
-function base_unit:ChangeSoundState( name )
-	if ( name ~= self.soundFSM:GetCurrentState() ) then
-		-- LogService:Log( "ChangeSoundState " .. tostring(self.entity) .. " state: " .. name )	
-		self.soundFSM:ChangeState( name )
-	end
-end
-
-function base_unit:_OnRunningStateChange( evt )
-	if evt:GetState() == 1 then
-		self:ChangeSoundState("move")
-	elseif evt:GetState() == 2 then
-		self:ChangeSoundState("run")
-	else
-		self:ChangeSoundState("idle")
-	end
-end
-
-function base_unit:_OnSoundMoveEnter( state )
-	EffectService:AttachEffects( self.entity, "move_random" )
-end
-function base_unit:_OnSoundMoveExit( state )
-	EffectService:DestroyEffectsByGroup( self.entity, "move_random" )
-end
-
-function base_unit:_OnSoundRunEnter( state )
-	EffectService:AttachEffects( self.entity, "run" )
-end
-function base_unit:_OnSoundRunExit( state )
-	EffectService:DestroyEffectsByGroup( self.entity, "run" )
-end
-
-function  base_unit:OnLoad()
+function base_unit:OnLoad()
 	if ( self.baseUnitVersion == nil or self.baseUnitVersion < 1 ) then
 		self:UnregisterHandler( self.entity, "IdleStateChangedEvent", "_OnIdleStateChanged" )
-		self:DestroyStateMachine(self.soundFSM)
-		self:CreateSoundStateMachine()
-		self.baseUnitVersion = 1
+
+		if self.soundFSM then
+			self:DestroyStateMachine(self.soundFSM)
+		end
+		
+		self.soundFSM = nil
+	elseif self.baseUnitVersion < FXSYSTEM_HANDLES_SOUND then
+		self:UnregisterHandler( self.entity, "RunningStateChangeEvent", "_OnRunningStateChange" )
+
+		if self.soundFSM then
+			self:DestroyStateMachine(self.soundFSM)
+		end
+
+		self.soundFSM = nil
 	end
 	
 	self.baseUnitVersion = CURRENT_BASE_UNIT_VERSION
 end
 	
+-- LEGACY
+function base_unit:_OnRunningStateChange( evt )
+end
+
+function base_unit:_OnSoundMoveEnter( state )
+end
+function base_unit:_OnSoundMoveExit( state )
+end
+
+function base_unit:_OnSoundRunEnter( state )
+end
+
+function base_unit:_OnSoundRunExit( state )
+end
+
 return base_unit

@@ -26,12 +26,12 @@ function fist_weapon:OnAttackStart()
 			local itemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 			QueueEvent( "FadeEntityOutRequest", itemEnt, 0.2 )
 			self:CreateMirrorFist( "att_r_hand_item")
-			QueueEvent( "FadeEntityInRequest", self.mirrorItem, 0.2 )
+			EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.2 )
 		else
 			local itemEnt = ItemService:GetEquippedPresentationItem( self.owner, "LEFT_HAND" )
 			QueueEvent( "FadeEntityOutRequest", itemEnt, 0.2 )
 			self:CreateMirrorFist( "att_l_hand_item" )
-			QueueEvent( "FadeEntityInRequest", self.mirrorItem, 0.2 )
+			EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.2 )
 		end
 	end
 end
@@ -41,11 +41,11 @@ function fist_weapon:OnAttackEnd()
 	if doubleWeapon == INVALID_ID then
 		if self.slot == "LEFT_HAND" then
 			local itemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
-			QueueEvent( "FadeEntityInRequest", itemEnt, 0.2 )
+			EntityService:FadeEntity( itemEnt, DD_FADE_IN, 0.2 )
 			self:CleanupMirrorFist()
 		else
 			local itemEnt = ItemService:GetEquippedPresentationItem( self.owner, "LEFT_HAND" )
-			QueueEvent( "FadeEntityInRequest", itemEnt, 0.2 )
+			EntityService:FadeEntity( itemEnt, DD_FADE_IN, 0.2 )
 			self:CleanupMirrorFist()
 		end
 	end
@@ -66,7 +66,8 @@ function fist_weapon:CreateMirrorFist( attachment )
 	EntityService:CreateComponent( self.mirrorItem, "BoundsComponent" )
 	EntityService:ChangeMesh( self.mirrorItem, WeaponService:GetMirrorMeshName( meshId ) )
 	EntityService:SetMaterial( self.mirrorItem, materialId, "default" )
-	EntityService:SetGraphicsUniform( self.mirrorItem, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.0 )
+
 end
 
 return fist_weapon

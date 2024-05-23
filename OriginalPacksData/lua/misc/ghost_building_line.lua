@@ -9,16 +9,6 @@ end
 
 function ghost_building_line:OnInit()
     self.linesEntities = {}
-
-    if ( self.data:GetInt("activated") == 1 ) then
-        self.activated = true
-        self.buildStartPosition = EntityService:GetWorldTransform( self.entity )
-        self.buildStartPosition.position.x = self.data:GetFloat("activation_position_x")
-        self.buildStartPosition.position.y = self.data:GetFloat("activation_position_y")
-        self.buildStartPosition.position.z = self.data:GetFloat("activation_position_z")
-        EntityService:SetVisible( self.entity , false )
-    end
-
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
 end
 
@@ -89,11 +79,20 @@ function ghost_building_line:FinishLineBuild()
         local additionalCubesCount = math.ceil( count / 5 ) 
         step = math.ceil( count / additionalCubesCount) 
     end
+
+    local database = EntityService:GetBlueprintDatabase( self.blueprint)
+    local randomRotation = database:GetIntOrDefault("random_rotation", 0 )
+
     for i=1,count do
         local ghost = self.linesEntities[i]
         local createCube = i == 1 or i == count or i % step == 0
         --LogService:Log(tostring(i) .. ":" .. tostring(step) .. ":" .. tostring(createCube))
         local transform = EntityService:GetWorldTransform( ghost )
+        if ( randomRotation == 1 ) then
+            local angle = {0, 90, 180, 270}
+            local randomAngle = angle[RandInt(1,4)]
+            transform.orientation = CreateQuaternion( {x=0,y=1,z=0}, randomAngle )
+        end
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
        
         local testBuildable = self:CheckEntityBuildable( ghost , transform, false, i )

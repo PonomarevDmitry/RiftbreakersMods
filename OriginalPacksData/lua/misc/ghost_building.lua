@@ -17,14 +17,20 @@ function ghost_building:OnInit()
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
     local transform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity , transform )
-	self:RegisterHandler( INVALID_ID, "BuildingStartEvent", "OnBuildingStartEvent" )
+	self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
 
     self.ghostBlueprint = self.data:GetStringOrDefault("building_blueprint", "");
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
 end
 
-function ghost_building:OnBuildingStartEvent( evt)
-    if ( evt:GetPlayerId() ~= self.playerId or not self.activated) then
+function ghost_building:OnBuildingStartEvent( evt )
+    local playerReferenceComponent = EntityService:GetComponent( evt:GetEntity(), "PlayerReferenceComponent")
+    local owner = -1
+    if (playerReferenceComponent) then
+        local helper = reflection_helper(playerReferenceComponent)
+        owner = helper.player_id
+    end
+    if ( owner ~= self.playerId or not self.activated) then
         return
     end
 

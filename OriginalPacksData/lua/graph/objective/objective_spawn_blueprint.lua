@@ -16,7 +16,7 @@ function objective_spawn_blueprint:Activated()
 	self.markerName = self.data:GetStringOrDefault( "marker", "");
 	self.team = self.data:GetStringOrDefault( "team", "enemy");
 
-	local objectiveSpawn = MissionService:SpawnMissionObjective(self.blueprint)
+	local objectiveSpawn = MissionService:SpawnMissionObjective(self.blueprint, false)
 	if objectiveSpawn ~= INVALID_ID then
 		if ( self.markerName ~= "" ) then
 			local markerEntity = EntityService:SpawnEntity( "effects/messages_and_markers/objective_marker_red", objectiveSpawn, "no_team" )	

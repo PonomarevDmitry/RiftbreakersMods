@@ -9,6 +9,4 @@ function SetupUnitScale( entity, database )
 	for child in Iter(children) do
 		EntityService:SetPhysicsScale( child, x, x, x )
 	end
-
-	database:SetFloat( "uniform_scale", x );
 end

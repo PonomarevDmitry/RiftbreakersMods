@@ -6,12 +6,21 @@ function survival_base:__init()
     mission_base.__init(self,self)
 end
 
+function survival_base:init()
+    mission_base.init( self )
+	self:RegisterHandler( event_sink, "PlayerInitializedEvent", "OnPlayerInitializedEvent" )
+end
 
-function survival_base:AddSaplingItemsToPlayerInventory()
+function survival_base:OnPlayerInitializedEvent( evt )
+    local playerId = evt:GetPlayerId()
+    self:AddSaplingItemsToPlayerInventory( playerId )
+end
+
+function survival_base:AddSaplingItemsToPlayerInventory( playerId )
     if CampaignService:GetCurrentCampaignType() ~= "survival" then
         return
     end
-    PlayerService:AddItemsByTypeToInventory(0, "saplings")
+    PlayerService:AddItemsByTypeToInventory(playerId , "saplings")
 end
 
 function survival_base:SetupInitialTime()
@@ -31,11 +40,6 @@ function survival_base:SetupInitialTime()
 end
 
 function survival_base:Update()
-    if not self.saplings_created then
-        self:AddSaplingItemsToPlayerInventory();
-        self.saplings_created = true
-    end
-
     if (not  self.time_initialized ) then
         local time_of_day_system_data_component = EntityService:GetSingletonComponent("TimeOfDaySystemDataComponent")
         if time_of_day_system_data_component and reflection_helper(time_of_day_system_data_component).initialized then

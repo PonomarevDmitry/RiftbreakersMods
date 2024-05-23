@@ -33,7 +33,7 @@ function acid_fissures_on_target:OnEntitiesFound( entities )
 	local acidFissures = AcidRainService:SpawnAcidFissuresAtTarget( entities[1], acidFissuresBp, timeOfDayPreset, markerBp, damagePerSecond, lifeTime, healthPercentage, radius, localEffectsRandomOffset, minimumDistancePerLocalEffect )
 
 	local position = EntityService:GetPosition( acidFissures )
-	GuiService:AddMinimapCircleMarker( position, tostring( acidFissures ), radius, marker_color_r, marker_color_g, marker_color_b, marker_color_a )
+	GuiService:AddMinimapCircleMarker( position, tostring( acidFissures ), radius, marker_color_r, marker_color_g, marker_color_b, 90 / 255 )
 
 	self:SetFinished("true")
 

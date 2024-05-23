@@ -164,8 +164,7 @@ function anoryxian_base:OnLoad()
 	LogService:Log( "anoryxian_base:OnLoad()" )
 	
 	if ( self.isDead == false ) then
-		PlayerService:DisableBuildMode( PlayerService:GetPlayerControlledEnt( 0 ) )
-		LogService:Log( "self.isDead == false")
+		self:DisableBuildMode()
 	end
 end
 
@@ -754,6 +753,24 @@ function anoryxian_base:ClearAfterDeath()
 
 end
 
+function anoryxian_base:DisableBuildMode()
+
+	local players = PlayerService:GetAllPlayers()
+
+	for i = 1, #players, 1 do
+		PlayerService:DisableBuildMode( players[i] )
+	end
+end
+
+function anoryxian_base:EnableBuildMode()
+
+	local players = PlayerService:GetAllPlayers()
+
+	for i = 1, #players, 1 do
+		PlayerService:EnableBuildMode( players[i] )
+	end
+end
+
 function anoryxian_base:OnLuaGlobalEvent( evt )
 	local eventName = evt:GetEvent()
 	local params = evt:GetDatabase()
@@ -762,7 +779,7 @@ function anoryxian_base:OnLuaGlobalEvent( evt )
 		local cameraId = CameraService:GetActiveCamera()
 		CameraService:SetTargetDistance( cameraId, self.config.cameraDistance )
 		self.bossIntroFile = MissionService:ActivateMissionFlow( "",  self.config.introLogicFile , "default" )
-		PlayerService:DisableBuildMode( PlayerService:GetPlayerControlledEnt( 0 ) )
+		self:DisableBuildMode()
 		CampaignService:OperateDOMPlanetaryJump( false )
 		GuiService:EnableMinimapInterference()
 	elseif 	( eventName == self.BossIntroDefenseDown ) then
@@ -800,7 +817,7 @@ function anoryxian_base:OnMissionFlowDeactivatedEvent( event )
 		self.fightFSM:ChangeState( "fight" )
 		self.bossFightFile = MissionService:ActivateMissionFlow( "",  self.config.fightLogicFile , "default" )
 	elseif ( logicFile == self.bossOutroFile ) then
-		PlayerService:EnableBuildMode( PlayerService:GetPlayerControlledEnt( 0 ) )
+		self:EnableBuildMode()
 		CampaignService:OperateDOMPlanetaryJump( true )
 		GuiService:DisableMinimapInterference()
 	end

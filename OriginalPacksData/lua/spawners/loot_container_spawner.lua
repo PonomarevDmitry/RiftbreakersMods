@@ -16,11 +16,6 @@ function loot_container_spawner:init()
 	self.fsm = self:CreateStateMachine()
     self.fsm:AddState( "wait", { from="*", enter="OnEnterWating", exit="OnExitWaiting" } )
 	SetupUnitScale( self.entity, self.data )
-
-	local entities = FindService:FindEntitiesByTypeInRadius( self.entity, "prop", 10.0)
-	for ent in Iter(entities) do
-		EntityService:RemoveEntity( ent )
-	end
 	
 	EntityService:SetGroup( self.entity, "loot_container");
 
@@ -52,6 +47,11 @@ function loot_container_spawner:OnInteractWithEntityRequest( evt )
 	local owner = evt:GetOwner()
 	local playerReferenceComponent = EntityService:GetComponent( owner, "PlayerReferenceComponent")
 	if ( playerReferenceComponent ) then
+		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" )
+		if ( forcedGroup ~= "" ) then
+			QueueEvent("ForceLootContainerTypeRequest", self.entity,	forcedGroup )
+		end
+
 		local helper = reflection_helper(playerReferenceComponent)
 		QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity, helper.player_id )
 	end
@@ -67,7 +67,14 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 
 		local waveLogic			= self.data:GetStringOrDefault( "wave_logic_file",  "error" )
 		local waveLogicMul		= self.data:GetIntOrDefault( "wave_logic_file_mul",  1 )
+		local waterOverride		= self.data:GetIntOrDefault( "water_override", 0 )
 		local waveSpawnDistance = self.data:GetIntOrDefault( "wave_spawn_distance",  40 )
+
+		local ignoreWater = false
+
+		if ( waterOverride == 1 ) then
+			ignoreWater = true
+		end
 
 		if ( ResourceManager:ResourceExists( "FlowGraphTemplate", waveLogic ) ) then
 			--LogService:Log( "loot_container_spawner:OnHarvestStartEvent - exist : " .. tostring( waveLogic ) )
@@ -77,7 +84,7 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 				EffectService:SpawnEffect(self.entity,waveEffect);
 			end
 
-			local spawnPoint = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul )
+			local spawnPoint = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul, ignoreWater )
 			local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 			QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyOpen", params )
 

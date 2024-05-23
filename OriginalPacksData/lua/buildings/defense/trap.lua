@@ -14,6 +14,9 @@ function trap:OnInit()
 
     self.numberOfActivations = self.data:GetInt("number_of_activations")
     self.damageBlueprint = self.data:GetString("damage_blueprint")
+    if ( self.data:HasFloat( "reset_timer")) then
+        self.resetTimer = self.data:GetFloat("reset_timer")
+    end
     self.entitiesInsideCount = 0
     self.activated = false
     EntityService:CreateComponent( self.entity, "TimerComponent")
@@ -42,8 +45,8 @@ function trap:ActivateTrap( attachEffects)
     end
     self.damageEnt = EntityService:SpawnAndAttachEntity(self.damageBlueprint, self.entity, EntityService:GetTeam(self.entity) )
     local areaDamageComponent = reflection_helper( EntityService:GetComponent(self.damageEnt, "AreaDamageComponent"))
-    areaDamageComponent.owner_ent = self.entity
-    areaDamageComponent.creator_ent = self.entity
+    areaDamageComponent.owner_ent.id = self.entity
+    areaDamageComponent.creator_ent.id = self.entity
 
     local damagePattern = areaDamageComponent.DamagePattern
     self.timer = damagePattern.area_damage_duration
@@ -51,7 +54,7 @@ function trap:ActivateTrap( attachEffects)
     areaDamageComponent.area_timer.timeLimit = self.timer
     areaDamageComponent.update_timer.timePassed = areaDamageComponent.update_timer.timeLimit 
     
-    QueueEvent( "SetTimerRequest", self.entity, "DamageDealing", self.timer )
+    QueueEvent( "SetTimerRequest", self.entity, "DamageDealing", self.resetTimer or self.timer )
      
 	local unlimitedActivations = ConsoleService:GetConfig("cheat_unlimited_activations") == "1"
     if ( unlimitedActivations == false) then

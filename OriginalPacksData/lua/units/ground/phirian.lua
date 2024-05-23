@@ -19,7 +19,7 @@ function phirian:OnInit()
 end
 
 function phirian:OnEnterDashEvent( evt )
-	LogService:Log( "phirian:OnEnterDashEvent" )
+	--LogService:Log( "phirian:OnEnterDashEvent" )
 	self.dashTargets = {}
 end
 
@@ -40,7 +40,7 @@ function phirian:OnMiddleDashEvent( evt )
 end
 
 function phirian:OnExitDashEvent( evt )
-	LogService:Log( "phirian:OnExitDashEvent" )
+	--LogService:Log( "phirian:OnExitDashEvent" )
 	self.dashTargets = {}
 end
 

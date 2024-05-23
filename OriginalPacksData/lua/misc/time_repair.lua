@@ -20,23 +20,31 @@ function time_repair:init()
 
     local percent = currentHealth / maxHealth
     local activationsPercent = 1.0
+    local database = EntityService:GetDatabase( self.parent )
+    self.hasActivations = false
     if ( database and database:HasInt("number_of_activations")) then
-        local currentNumberOfActivations =  database:GetInt("number_of_activations")
+		healthScale = 0
+		local currentNumberOfActivations =  database:GetInt("number_of_activations")
         local blueprintDatabase = EntityService:GetBlueprintDatabase( self.parent )
         local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
         self.hasActivations = maxNumberOfActivations > currentNumberOfActivations
-        activationsPercent = currentNumberOfActivations / maxNumberOfActivations
+		activationsPercent = 1.0 - ( currentNumberOfActivations / maxNumberOfActivations )
+        if ( database:HasFloat( "repair_time")) then
+            buildTime = database:GetFloat("repair_time")
+            buildTimeScale = 1.0
+        end
     end
 
-    local time = 0
+    local time = 0.0
     if ( healthScale == 0 ) then
         time = (buildTime * buildTimeScale) * activationsPercent
     else
         time = (buildTime * buildTimeScale) * ( 1.0 - percent )
     end
     
-    self.repairTime = repairMinTime + time
-    local step = self.repairTime / self.interval
+	self.repairTime = math.max( repairMinTime , time )
+    
+	local step = self.repairTime / self.interval
     local missingHealth = maxHealth - currentHealth
     self.repairAmount = missingHealth / step
 
@@ -54,7 +62,6 @@ function time_repair:init()
     self.timer = nil
 
     local database = EntityService:GetDatabase( self.parent )
-    self.hasActivations = false
 
     if (canAffordRepair and EntityService:IsAlive( self.parent) ) then
     	self:RegisterHandler( self.parent, "DamageEvent", "OnDamageEvent" )
@@ -126,7 +133,7 @@ function  time_repair:OnHealEnd()
         local database = EntityService:GetDatabase( self.parent )
         self.hasActivations = false
         if ( database and database:HasInt("number_of_activations")) then
-            local blueprintDatabase = EntityService:GetBlueprintDatabase( self.parent )
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( self.parent )
             local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
             database:SetInt("number_of_activations", maxNumberOfActivations)
         end

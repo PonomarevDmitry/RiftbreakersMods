@@ -10,7 +10,7 @@ function tower_portal_bomb:init()
     EntityService:SetPosition( self.entity, pos.x, pos.y, pos.z )
 	AnimationService:StartAnim( self.entity, "show_bomb", false )
 	local animTime = AnimationService:GetAnimDuration( self.entity, "show_bomb" );
-	QueueEvent( "FadeEntityInRequest", self.entity, animTime )
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, animTime )
 
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "working", { enter="OnEnter", execute="OnExecute", exit="OnExit" } )

@@ -26,7 +26,7 @@ end
 
 function spawn_nest:Activated()
 
-	local objectiveSpawn = MissionService:SpawnMissionObjective(self.nestBP)
+	local objectiveSpawn = MissionService:SpawnMissionObjective(self.nestBP, false)
 	if objectiveSpawn == INVALID_ID then
 		LogService:Log("NO FREE OBJECTIVE SPAWN POINTS - ABORTING OBJECTIVE")
 		QueueEvent( "LuaGlobalEvent", event_sink, "SpawnFailed", {} )	

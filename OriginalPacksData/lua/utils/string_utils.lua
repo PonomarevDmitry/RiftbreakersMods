@@ -14,14 +14,18 @@ function IsNullOrEmpty( str )
     return str == ""
 end
 
-function Split(string, separator)
+function Split(string, separator, map)
     if separator == nil then
             separator = "%s"
     end
     
     local tokens = {} ; index = 1
     for token in string.gmatch(string, "([^"..separator.."]+)") do
-        tokens[index] = token
+        if map then
+            tokens[index] = map( token )
+        else
+            tokens[index] = token
+        end
         index = index + 1
     end
     

@@ -22,14 +22,14 @@ function tower_portal:OnInit()
 end
 
 function tower_portal:OnActivate()
-	tower:OnActivate()
+	tower.OnActivate(self)
 
 	self.fsm:ChangeState( "working" )
 	self.sfsm:ChangeState( "shooting" )
 end
 
 function tower_portal:OnDeactivate()
-	tower:OnDeactivate()
+	tower.OnDeactivate(self)
 
 	self.fsm:Deactivate()
 	self.sfsm:ChangeState( "shooting_disabled" )

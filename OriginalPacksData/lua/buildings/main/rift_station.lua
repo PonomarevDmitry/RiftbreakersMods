@@ -245,6 +245,8 @@ function rift_station:OnLoad()
 	self.workingProtectionTimer = self.workingProtectionTimer or 0.0
 	if ( self.charging == 0 ) then
 		BuildingService:DisableBuilding( self.entity )
+	elseif (self.charging == 1 and self.workingProtectionTimer < 10 )  then
+		self.workingProtectionTimer = 10
 	end
 end
 

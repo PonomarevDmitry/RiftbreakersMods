@@ -4,6 +4,16 @@ require("lua/utils/reflection.lua")
 local item = require("lua/items/item.lua")
 class 'drone_spawner' ( item )
 
+local RARITY_BLUEPRINT_SUFFIX = 
+{
+    [WR_STANDARD] = "_standard",
+    [WR_ADVANCED] = "_advanced",
+    [WR_SUPERIOR] = "_superior",
+    [WR_EXTREME] = "_extreme",
+}
+
+local DRONE_TYPE = { "repair_drone", "attack_drone", "defense_drone", "loot_drone" }
+
 function drone_spawner:__init()
 	item.__init(self,self)
 end
@@ -16,30 +26,28 @@ local function GetDronesCountStat( stats, stat )
         end
     end
 
-    return nil
+    return 0
 end
 
-local function GetBlueprintSuffix( rarity )
-    local suffixes = 
+local function GetDroneBlueprint( drone_type, rarity )
+    local blueprint_suffix = ( RARITY_BLUEPRINT_SUFFIX[ rarity ] or "_extreme" );
+    local stat_drone_blueprints = 
     {
-        [WR_STANDARD] = "_standard",
-        [WR_ADVANCED] = "_advanced",
-        [WR_SUPERIOR] = "_superior",
-        [WR_EXTREME] = "_extreme",
-    }
+        [EntityModType.repair_drone]     = "units/drones/drone_player_repair" .. blueprint_suffix,             -- stat RepairDrone
+        [EntityModType.attack_drone]     = "units/drones/drone_player_offensive".. blueprint_suffix,           -- stat AttackDrone
+        [EntityModType.defense_drone]    = "units/drones/drone_player_defensive".. blueprint_suffix,           -- stat DefensiveDrone
+        [EntityModType.loot_drone]       = "units/drones/drone_player_loot_collector".. blueprint_suffix,      -- stat LootDrone
+    };
 
-    local suffix = suffixes[ rarity ]
-    if suffix == nil then
-        return ""
-    end
-    return suffix
+    local drone_blueprint = stat_drone_blueprints[ EntityModType[drone_type] ]
+    Assert( drone_blueprint ~= nil, "ERROR: failed to match drone blueprint for drone type: '" .. drone_type .. "'");
+    return drone_blueprint or "error"
 end
 
 function drone_spawner:SpawnDroneBlueprint( blueprint, count )
     local team = EntityService:GetTeam(self.owner)
 
     for i=1,count do
-        
         local position = EntityService:GetPosition(self.owner)
         position.x = position.x + RandFloat( 1.0, 5.0 )
         position.y = position.y + RandFloat( 7.0, 8.0 )
@@ -50,10 +58,15 @@ function drone_spawner:SpawnDroneBlueprint( blueprint, count )
         UnitService:SetCurrentTarget( drone, "owner", self.owner );
 
         QueueEvent( "EnableDroneRequest", drone)
-		QueueEvent( "FadeEntityInRequest", drone, 2.0 )
+        EntityService:FadeEntity( drone, DD_FADE_IN, 2.0 )
 
 	    EffectService:AttachEffects(drone, "fly")
         ItemService:SetItemReference( drone, self.entity, EntityService:GetBlueprintName( self.entity ))
+        EntityService:PropagateEntityOwner( drone, self.entity )
+        if self.data:HasFloat("drone_lifetime") then
+            EntityService:CreateOrSetLifetime(drone, self.data:GetFloat("drone_lifetime"), "normal")
+        end
+
         Insert(self.spawned_drones,drone)
     end
 end
@@ -61,15 +74,39 @@ end
 function drone_spawner:init()
 	item.init(self)
 
+    self.owner = EntityService:GetParent(self.entity)
     self.spawned_drones = {}
+
+    if not self.data:HasString("drone_spawn_trigger") then
+        local item_component = EntityService:GetConstComponent(self.entity, "InventoryItemComponent")
+        if item_component ~= nil then
+
+            local component = reflection_helper( item_component )
+            if component.type == "consumable" or component.type == "skill" then
+                self.data:SetString("drone_spawn_trigger", "item_activated")
+            else
+                self.data:SetString("drone_spawn_trigger", "item_equipped")
+            end
+        else
+            self.data:SetString("drone_spawn_trigger", "spawn")
+        end
+    end
+
+    if self:IsTriggeredOn( "spawn" ) then
+        self:SpawnDrones()
+    end
 end
 
 function drone_spawner:OnLoad()
     item.OnLoad(self)
 
+    if self.data:GetIntOrDefault( "equipped", 0 ) == 0 then
+        return
+    end
+
     self:OnUnequipped()
 
-    if self.owner == EntityService:GetParent(self.entity) and self.data:GetIntOrDefault( "equipped", 0 ) == 1 then
+    if self.owner == EntityService:GetParent(self.entity) then
         self:OnEquipped()
     end
 end
@@ -78,27 +115,29 @@ function drone_spawner:SpawnDrones()
     self:DespawnDrones()
 
     if not self.data:HasString("drone_blueprint") then
-        local modComponent = EntityService:GetComponent(self.entity, "EntityModComponent")
-        if modComponent == nil then
-            return
+        local drone_rarity = WR_EXTREME;
+        local drone_mod_stats = nil
+
+        local component = EntityService:GetConstComponent(self.entity, "EntityModComponent")
+        if component ~= nil then
+            drone_rarity = reflection_helper( component ).rarity
+            drone_mod_stats = reflection_helper( component ).entity_mods
+        else
+            component = EntityService:GetConstComponent(self.entity, "InventoryItemComponent")
+            if component ~= nil then
+                drone_rarity = reflection_helper( component ).rarity
+            end
         end
 
-        local rarity = reflection_helper( modComponent ).rarity
+        for drone_type in Iter( DRONE_TYPE ) do
+            local drone_count = tonumber( self.data:GetStringOrDefault(drone_type, "0") )
+            if drone_mod_stats ~= nil then
+                drone_count = drone_count + GetDronesCountStat(drone_mod_stats, EntityModType[drone_type])
+            end
 
-        local blueprint_suffix = GetBlueprintSuffix(rarity)
-        local stat_drone_blueprints = 
-        {
-            [EntityModType.repair_drone]     = "units/drones/drone_player_repair" .. blueprint_suffix,             -- stat RepairDrone
-            [EntityModType.attack_drone]     = "units/drones/drone_player_offensive".. blueprint_suffix,           -- stat AttackDrone
-            [EntityModType.defense_drone]    = "units/drones/drone_player_defensive".. blueprint_suffix,           -- stat DefensiveDrone
-            [EntityModType.loot_drone]       = "units/drones/drone_player_loot_collector".. blueprint_suffix,      -- stat LootDrone
-        };
-
-        local stats = reflection_helper( modComponent ).entity_mods
-        for stat, blueprint in pairs(stat_drone_blueprints) do
-            local count = GetDronesCountStat(stats, stat)
-            if count ~= nil then
-                self:SpawnDroneBlueprint(blueprint, count)
+            if drone_count > 0 then
+                local drone_blueprint = GetDroneBlueprint( drone_type, rarity )
+                self:SpawnDroneBlueprint(drone_blueprint, drone_count)
             end
         end
     else
@@ -112,13 +151,36 @@ function drone_spawner:DespawnDrones()
             QueueEvent( "DisableDroneRequest", drone )
             QueueEvent( "EmitStateMachineEventRequest", drone, "state_dead" )
             QueueEvent( "DissolveEntityRequest", drone, 0.5, 0.0 )
+            EntityService:RequestDestroyPattern( drone, "lifetime", false)
         end
     end
 
     self.spawned_drones = {}
 end
 
+function drone_spawner:IsTriggeredOn(action)
+    return self.data:GetStringOrDefault("drone_spawn_trigger", "item_equipped" ) == action
+end
+
+function drone_spawner:OnActivate()
+    if not self:IsTriggeredOn("item_activated") then
+        return
+    end
+
+    self:UnregisterHandlers( "RiftTeleportStartEvent" )
+    self:UnregisterHandlers( "RiftTeleportEndEvent" )
+    
+    self:RegisterHandler( self.owner, "RiftTeleportStartEvent",     "OnRiftTeleportStartEvent" )
+    self:RegisterHandler( self.owner, "RiftTeleportEndEvent",       "OnRiftTeleportEndEvent" )
+
+    self:SpawnDrones()
+end
+
 function drone_spawner:OnEquipped()
+    if not self:IsTriggeredOn("item_equipped") then
+        return
+    end
+
     self:UnregisterHandlers( "RiftTeleportStartEvent" )
     self:UnregisterHandlers( "RiftTeleportEndEvent" )
     
@@ -145,6 +207,10 @@ end
 
 function drone_spawner:OnRelease()
     self:DespawnDrones()
+
+    if item.OnRelease then
+        item.OnRelease(self)
+    end
 end
 
 return drone_spawner

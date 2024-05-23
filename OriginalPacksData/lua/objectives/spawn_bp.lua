@@ -30,7 +30,7 @@ function spawn_objective_blueprint:Activated()
 
 	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
 
-	local objectiveSpawn = MissionService:SpawnMissionObjective(self.blueprint)
+	local objectiveSpawn = MissionService:SpawnMissionObjective(self.blueprint, false)
 	if objectiveSpawn == INVALID_ID then
 		LogService:Log("NO FREE OBJECTIVE SPAWN POINTS - ABORTING OBJECTIVE")
 		QueueEvent( "LuaGlobalEvent", event_sink, self.startFailedEvent, {} )	

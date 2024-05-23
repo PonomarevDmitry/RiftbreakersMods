@@ -21,11 +21,19 @@ end
 
 function interface_minimap_show_zone_objective:Activated()
 	local targetName = self.data:GetStringOrDefault("target_name", "");
+	if self.data:GetIntOrDefault("target_name_is_global", 1) == 0 then
+		targetName = self.parent:CreateGraphUniqueString(targetName)
+	end
+
 	if not Assert( not IsNullOrEmpty(targetName), "ERROR: `target_name` can NOT be empty!" ) then
 		return self:SetFinished()
 	end
 
 	local markerName = self.data:GetStringOrDefault("marker_name", "");
+	if self.data:GetIntOrDefault("marker_name_is_global", 1) == 0 then
+		markerName = self.parent:CreateGraphUniqueString(markerName)
+	end
+
 	if not Assert( not IsNullOrEmpty(markerName), "ERROR: `marker_name` can NOT be empty!" ) then
 		return self:SetFinished()
 	end

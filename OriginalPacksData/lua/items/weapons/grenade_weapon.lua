@@ -49,6 +49,7 @@ end
 function grenade_weapon:OnExecute( state )
 	if ( self.aimEnt == nil or EntityService:IsAlive( self.aimEnt ) == false ) then 
 		self.aimEnt = self:SpawnReferenceEntity( self.aimBp, { x=0, y=0, z=0 })
+		EntityService:CreateComponent(self.aimEnt, "NetReplicateToOwnerComponent")
 	end
 
 	WeaponService:UpdateGrenadeAiming( self.aimEnt, self.owner, self.item, self.maxDistance )

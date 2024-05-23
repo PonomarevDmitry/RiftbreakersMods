@@ -8,16 +8,64 @@ function drexolian:__init()
 end
 
 function drexolian:OnInit()
+	self:RegisterHandler( self.entity, "SleepEvent",  "OnSleepEvent" )
 	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
+	self:RegisterHandler( self.entity, "ShootArtilleryEvent",  "OnShootArtilleryEvent" )
 
-	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.uniformFSM = self:CreateStateMachine()
+	self.uniformFSM:AddState( "uniform", { execute="OnUniformExecute"} )
+	self.uniformFSM:ChangeState( "uniform" )	
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
+
+	self.waller = self.data:GetStringOrDefault( "waller", "misc/waller" )
+
+	self.currentUniformValue = 1.0
+	self.newUniformValue = 1.0
+	self.uniformScaleValue = 0.6
+	
+	self.wreck_type = "wreck_big"
+	self.wreckMinSpeed = 4
+end
+
+function drexolian:OnUniformExecute( state, dt )
+	local value = self.currentUniformValue
+    value = value + ( ( self.newUniformValue - value ) * dt * self.uniformScaleValue )
+	self.currentUniformValue = value
+	EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", self.currentUniformValue )
+end
+
+function drexolian:OnSleepEvent( evt )
+	self.newUniformValue = evt:GetEmissiveValue()
+end
+
+function drexolian:OnShootArtilleryEvent( evt )
+	if ( FindService:FindEntityByBlueprint( self.waller ) == INVALID_ID ) then
+		local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), evt:GetTargetTag() )
+		local targetEntity = UnitService:GetCurrentTarget( evt:GetEntity(), evt:GetTargetTag() )
+		
+		if  ( targetEntity ~= INVALID_ID ) then
+			targetOrigin = VectorAdd( targetOrigin, PlayerService:GetVelocity( targetEntity ) )
+		end
+
+		local myOrigin = EntityService:GetPosition( self.entity )
+
+		local entity = EntityService:SpawnEntity( self.waller, targetOrigin.x, targetOrigin.y, targetOrigin.z, "" )
+
+		local forward = Normalize( VectorSub( myOrigin, targetOrigin ) )
+		local right= EntityService:GetRightVector( VectorSub( targetOrigin, myOrigin ) )
+		local db = EntityService:GetDatabase( entity )
+
+		db:SetVector( "forward", forward )
+		db:SetVector( "right", right )
+	end
 end
 
 function drexolian:OnShootEvent( evt )
-	WeaponService:ShootOnce( self.entity )
+
+	local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), "range_attack_origin" )
+	WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot" )	
+	--WeaponService:ShootOnce( self.entity )
 end
 
 return drexolian

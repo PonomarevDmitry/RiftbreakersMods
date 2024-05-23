@@ -48,7 +48,7 @@ function item_creator_continuous:OnActivate()
 
 end
 function item_creator_continuous:BringBackUseCount()
-    local inventoryItemComponent = reflection_helper(EntityService:GetComponent( self.entity, "InventoryItemComponent"))
+    local inventoryItemComponent = reflection_helper(EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent"))
     inventoryItemComponent.use_count = inventoryItemComponent.use_count + 1
 end
 
@@ -63,7 +63,8 @@ function item_creator_continuous:OnDeactivate()
     end
 
     local spot = self:FindAndCheckAimPosition()
-    local spawned = EntityService:SpawnEntity( self.bp, spot, EntityService:GetTeam( self.owner ))
+
+    local spawned = EntityService:SpawnEntity( spot ) 
 
 	if ( self.ownerAimDir ) then
 		local position = EntityService:GetPosition( self.owner )
@@ -71,12 +72,16 @@ function item_creator_continuous:OnDeactivate()
 		EntityService:SetForward( spawned, dir.x, dir.y, dir.z )
 	end
 
+    EntityService:SetTeam( spawned, EntityService:GetTeam(EntityService:GetTeam( self.owner ) ) )
+    EntityService:UnpackEntity( spawned, self.bp )
+
+
 	if ( self.dissolveProps ) then
 		EntityService:RemovePropsInEntityBounds(spawned)
 	end
-	EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( spawned, DD_FADE_IN, 1.0 )
 	ItemService:SetItemCreator( spawned, self.bp)
-	QueueEvent( "FadeEntityInRequest", spawned, self.dissolveTime );
+	EntityService:PropagateEntityOwner( spawned, self.owner )
 
     return true
 end
@@ -151,7 +156,7 @@ function item_creator_continuous:CanActivate()
     end
 
     self.canActivate = self:HasSpot()
-    return self.canActivate or self.data:GetInt( "activated") == 1
+    return self.canActivate or self:IsActivated() 
 end
 
 return item_creator_continuous

@@ -121,7 +121,7 @@ function tool:FindEntitiesToSelect( selectorComponent )
 
     local selectedEntities = {}
     for entity in Iter(possibleSelectedEnts ) do
-        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
         if ( selectableComponent == nil ) then goto continue end
     
         local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )

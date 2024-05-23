@@ -1,4 +1,5 @@
 class 'proximity_mine' ( LuaEntityObject )
+require("lua/utils/entity_utils.lua")
 
 function proximity_mine:__init()
 	LuaEntityObject.__init(self,self)
@@ -22,9 +23,17 @@ function proximity_mine:init()
 	EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 0.0 )
 	self.sm:ChangeState("armed")
 	self.entered = 0
+	self.owner = GetOwnerPlayer( self.entity )
 end
 
 function proximity_mine:OnEnteredTriggerEvent( evt )
+	if ( self.owner ~= nil ) then
+		local otherOwner = GetOwnerPlayer( evt:GetOtherEntity() )
+		if ( self.owner == otherOwner ) then
+			return
+		end
+	end
+
 	if ( self.armed == false ) then
 		self.entered = self.entered + 1
 		return
@@ -40,6 +49,12 @@ function proximity_mine:OnEnteredTriggerEvent( evt )
 end
 
 function proximity_mine:OnLeftTriggerEvent( evt )
+	if ( self.owner ~= nil ) then
+		local otherOwner = GetOwnerPlayer( evt:GetOtherEntity() )
+		if ( self.owner == otherOwner ) then
+			return
+		end
+	end
 	if self.exploded == true  then 
 		return
 	end
@@ -91,6 +106,7 @@ function proximity_mine:OnExplodeEnd(  )
 	if itemCreator ~= "" then
 		ItemService:SetItemCreator( entity, itemCreator );
 	end
+	EntityService:PropagateEntityOwner( entity, self.entity )
 	EntityService:DissolveEntity( self.entity, 0.2 ) 
 end
 

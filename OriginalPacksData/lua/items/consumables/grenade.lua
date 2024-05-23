@@ -18,6 +18,7 @@ end
 function grenade:OnActivate()
 	local entity = WeaponService:ThrowGrenade( self.bp , self.owner, self.att )
 	ItemService:SetItemCreator( entity, self.entity_blueprint );
+	EntityService:PropagateEntityOwner( entity, self.owner )
 end
 
 function grenade:OnDeactivate()

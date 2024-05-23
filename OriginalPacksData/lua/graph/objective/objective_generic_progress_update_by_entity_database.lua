@@ -40,6 +40,15 @@ function objective_generic_progress_update_by_entity_database:OnUpdate()
 		end
 		if ( database ~= nil ) then
 			database:SetInt( "progress_current", progressCurrent )
+
+			if database:HasInt( "progress_max") then
+				local progressMax = database:GetInt( "progress_max" )
+				if progressMax <= progressCurrent then
+					ObjectiveService:SetObjectiveStatusByObjectiveId( objectiveId, OBJECTIVE_SUCCESS )
+				else
+					ObjectiveService:SetObjectiveStatusByObjectiveId( objectiveId, OBJECTIVE_IN_PROGRESS )
+				end
+			end
 		end
 	end
 end

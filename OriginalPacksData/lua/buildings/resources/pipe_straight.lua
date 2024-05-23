@@ -9,6 +9,7 @@ end
 function pipe_straight:OnInit()
 	self:RegisterHandler( self.entity, "SpecialBuildingActionRequest",  "OnSpecialBuildingActionRequest" )
 	self:RegisterHandler( self.entity, "BuildingModifiedEvent",  "OnBuildingModifiedEvent" )
+	self:RegisterHandler( self.entity, "RecreateComponentFromBlueprintRequest",  "OnRecreateComponentFromBlueprintRequest" )
 	
 	self.resource = ""
 	self.postfix = self.data:GetStringOrDefault( "postfix", "_pipe")
@@ -43,6 +44,10 @@ function pipe_straight:OnSpecialBuildingActionRequest( evt )
 end
 
 function pipe_straight:OnBuildingModifiedEvent( evt )
+	self:FixMaterial()
+end
+
+function pipe_straight:OnRecreateComponentFromBlueprintRequest( evt )
 	self:FixMaterial()
 end
 

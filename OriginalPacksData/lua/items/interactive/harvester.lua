@@ -25,37 +25,32 @@ end
 
 function harvester:OnHarvestStartEnter( state )
 	state:SetDurationLimit( 0.75 )
+	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75)
+	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
 	QueueEvent( "HarvestStartEvent", GetInteractiveEntity( self.owner ) )
 end
 
 function harvester:OnHarvestStartExecute( state )
-	local currentProgress = ( state:GetDuration() / 0.75 )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 - currentProgress )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", currentProgress )
 end
 
 function harvester:OnHarvestStartExit( state )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 0 )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", 1 )
 end
 
 function harvester:OnHarvestStopEnter( state )
 	state:SetDurationLimit( 0.75 )
+	
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
+	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
 end
 
 function harvester:OnHarvestStopExecute( state )
-	local currentProgress = ( state:GetDuration() / 0.75 )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", currentProgress )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", 1 - currentProgress )
 end
 
 function harvester:OnHarvestStopExit( state )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", 0 )
 end
 
 function harvester:OnEquipped()
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 	self.duration = 0.0
 end
 
@@ -65,7 +60,7 @@ function harvester:OnActivate()
 	end
 	
 	local ownerData = EntityService:GetDatabase( self.owner );
-	if ( self.data:GetInt( "activated" ) == 0  ) then
+	if ( not self:IsActivated() ) then
   		self:RegisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )
 		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
@@ -109,18 +104,7 @@ function harvester:OnExecuteHarvesting()
 		dur =  database:GetFloatOrDefault("harvest_duration", 2.0 )
 	end
 
-	local cooldown =  ItemService:GetCooldown( self.entity) 
-
-	if ( self.version == nil or self.version < 1 ) then
-		local inventoryItemComponent = reflection_helper(EntityService:GetComponent(self.entity, "InventoryItemComponent"))
-		inventoryItemComponent.cooldown = 0
-		cooldown = 0
-		self.version = 1
-	end
-
-	if (cooldown == 0 ) then
-		cooldown = 1.0 / 30.0
-	end
+	local cooldown = 1.0 / 30.0
 	self.duration = self.duration + cooldown
 
 	if ( dur > 2.0 ) then

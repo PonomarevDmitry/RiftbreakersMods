@@ -1,10 +1,12 @@
 local building = require("lua/buildings/building.lua")
-
+require("lua/utils/throttler_utils.lua")
 class 'solar_panels' ( building )
+
+local LOCK_SOLAR_PANELS = "solar_panels";
+SetTargetFinderThrottler(LOCK_SOLAR_PANELS, 15)
 
 function solar_panels:__init()
 	building.__init(self)
-
 end
 
 function solar_panels:OnBuildingEnd()
@@ -24,13 +26,12 @@ function solar_panels:OnInit()
 	self.lastAcidDamage = 0
 		
     self.cfsm = self:CreateStateMachine()
-    self.cfsm:AddState( "biom_modifier", { enter="OnEnterBiomModifier", execute="OnUpdateBiomModifier" } )
+    self.cfsm:AddState( "biom_modifier", { execute="OnUpdateBiomModifier" } )
 end 
 
 function solar_panels:OnDayStartedEvent(evt)
 end
 function solar_panels:OnRecalculateModifiersEvent(evt)
-	self:Recalculate()
 	self.cfsm:ChangeState("biom_modifier")
 end
 
@@ -76,11 +77,14 @@ function solar_panels:OnWorking( state , dt)
 end
 
 function solar_panels:OnEnterBiomModifier( state )
-	state:SetDurationLimit(10)
 end
 
-function solar_panels:OnUpdateBiomModifier()
+function solar_panels:OnUpdateBiomModifier(state)
+	if IsRequestThrottled(LOCK_SOLAR_PANELS) then
+		return 
+	end
 	self:Recalculate()
+	state:Exit()
 end
 
 function solar_panels:Recalculate()

@@ -22,6 +22,8 @@ function necrodon:OnInit()
 	self.resurrectEffect = false;
 	self.summonEffect = false; 
 
+	UnitService:SetStateMachineParam( self.entity, "corpses_target_valid", 0 )
+
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end
 

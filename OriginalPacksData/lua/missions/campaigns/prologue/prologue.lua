@@ -14,7 +14,7 @@ function mission_prologue:PrepareSpawnPoints()
         return
     end
 
-    MissionService:SetPlayerSpawnPoint( spawn_point );
+    MapGenerator:SetInitialSpawnPoint( spawn_point );
 
     --self:RemoveSpawnersAroundSpawnPoint( spawn_point, 128.0 );
     self:SelectWaveSpawnPoints();

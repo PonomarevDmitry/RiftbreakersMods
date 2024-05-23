@@ -28,7 +28,7 @@ end
 function spawn_nest:Activated()
     LogService:Log(tostring(self.spawnCount))
 
-	local objectiveSpawn = FindObjectiveSpot()	
+	local objectiveSpawn = MissionService:SpawnMissionObjective( "logic/position_marker", false )
 	if objectiveSpawn == INVALID_ID then
 		LogService:Log("NO FREE OBJECTIVE SPAWN POINTS - ABORTING OBJECTIVE")
 		QueueEvent( "LuaGlobalEvent", event_sink, "SpawnFailed" , {})	
@@ -44,10 +44,8 @@ function spawn_nest:Activated()
                 return d1 < d2 
             end 
         local counter = 0
-        LogService:Log("SpawnStart")
         for item in SortedIter( spots, predicate ) do
             counter = counter + 1
-            LogService:Log("Spawning " .. tostring(counter ))
             
             self.nest = EntityService:SpawnEntity( self.nestBP, item, "enemy" )
             if EntityService:GetComponent(self.nest, "NavMeshMovementComponent") == nil then
@@ -56,6 +54,8 @@ function spawn_nest:Activated()
 
             EntityService:SetGroup( self.nest, "objective" )	
             EntityService:SetName( self.nest, self.name )	
+
+            MissionService:PushEntityToMissionObjectSpawnerPools( self.nest, "objectives" )
             
             self.marker = EntityService:SpawnAndAttachEntity( "effects/messages_and_markers/objective_marker_red", self.nest )	
             EntityService:SetName( self.marker, self.marker_name )
@@ -64,7 +64,6 @@ function spawn_nest:Activated()
                 break
             end
         end
-        LogService:Log("SpawnEnd")
 
         if ( counter > 0 ) then
             QueueEvent( "LuaGlobalEvent", event_sink, "SpawnSuccessful", {} )

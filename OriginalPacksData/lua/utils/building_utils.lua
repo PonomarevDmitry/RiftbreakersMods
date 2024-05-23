@@ -80,10 +80,10 @@ function GetBuildingDisplayRadius( entity )
 		end
 	end
 
-	local turretComponent = EntityService:GetComponent(entity, "TurretComponent")
-	if turretComponent ~= nil then
-		local component = reflection_helper(turretComponent)
-		local aim_volume = component.turret_desc.aim_volume;
+	local turretDesc = EntityService:GetComponent(entity, "TurretDesc")
+	if turretDesc ~= nil then
+		local desc = reflection_helper(turretDesc)
+		local aim_volume = desc.aim_volume;
 
 		return aim_volume.range_min, aim_volume.range_max
 	end
@@ -124,5 +124,4 @@ function SetupBuildingScale( entity, database )
 		EntityService:SetPhysicsScale( child, x, x, x )
 	end
 
-	database:SetFloat( "uniform_scale", x );
 end

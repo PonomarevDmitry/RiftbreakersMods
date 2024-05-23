@@ -79,6 +79,15 @@ function weapon:SetPadTriggerVibrationMode( position, amplitude, frequency, forc
 end
 
 function weapon:UpdateWeaponFeedbackState( state, dt )
+    local playerReferenceComponent = EntityService:GetComponent( self.entity, "PlayerReferenceComponent")
+    local playerId = -1    
+    if (playerReferenceComponent) then
+        local helper = reflection_helper(playerReferenceComponent)
+        playerId = helper.player_id
+    else
+        return
+    end
+
     if self.pad_trigger.force_feedback and type(dt) == 'number' then
         local duration = self.pad_trigger.force_feedback.duration - dt
         self.pad_trigger.force_feedback.duration = duration
@@ -88,24 +97,24 @@ function weapon:UpdateWeaponFeedbackState( state, dt )
     end
 
     if not WeaponService:HasAmmoToShoot( self.item ) then
-        return PlayerService:SetPadTriggerFeedbackMode( 0, self.pad_trigger.index, 0, 8 )
+        return PlayerService:SetPadTriggerFeedbackMode( playerId, self.pad_trigger.index, 0, 8 )
 	elseif ItemService:GetActiveCooldownLeft( self.entity ) > 1.2 then
-        return PlayerService:SetPadTriggerFeedbackMode( 0, self.pad_trigger.index, 0, 8 )
-    elseif self.data:GetInt( "activated" ) == 0 and not ItemService:CanActivateItemSlot( self.owner, self.slot, self.item_type ) then
-        return PlayerService:SetPadTriggerFeedbackMode( 0, self.pad_trigger.index, 0, 8 )
+        return PlayerService:SetPadTriggerFeedbackMode( playerId, self.pad_trigger.index, 0, 8 )
+    elseif not self:IsActivated() and not ItemService:CanActivateItemSlot( self.owner, self.slot, self.item_type ) then
+        return PlayerService:SetPadTriggerFeedbackMode( playerId, self.pad_trigger.index, 0, 8 )
     end
 
     local feedback = self.pad_trigger.force_feedback or self.pad_trigger.feedback
     if not feedback then
-        return PlayerService:ResetPadTriggerMode( 0, self.pad_trigger.index );
+        return PlayerService:ResetPadTriggerMode( playerId, self.pad_trigger.index );
     end
 
     if feedback.mode == "vibration" then
-        return PlayerService:SetPadTriggerVibrationMode( 0, self.pad_trigger.index, feedback.position, feedback.amplitude, feedback.frequency )
+        return PlayerService:SetPadTriggerVibrationMode( playerId, self.pad_trigger.index, feedback.position, feedback.amplitude, feedback.frequency )
 	elseif feedback.mode == "feedback" then
-        return PlayerService:SetPadTriggerFeedbackMode( 0, self.pad_trigger.index, feedback.position, feedback.strength )
+        return PlayerService:SetPadTriggerFeedbackMode( playerId, self.pad_trigger.index, feedback.position, feedback.strength )
     elseif feedback.mode == "weapon" then
-        return PlayerService:SetPadTriggerWeaponMode( 0, self.pad_trigger.index, feedback.start_position, feedback.end_position, feedback.strength )
+        return PlayerService:SetPadTriggerWeaponMode( playerId, self.pad_trigger.index, feedback.start_position, feedback.end_position, feedback.strength )
     end
 end
 

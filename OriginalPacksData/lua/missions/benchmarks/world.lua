@@ -97,7 +97,7 @@ function mission_survival:init()
         return
     end
 
-    MissionService:SetPlayerSpawnPoint( spawn_point );
+    MapGenerator:SetInitialSpawnPoint( spawn_point );
 
     self:RemoveSpawnersAroundSpawnPoint( spawn_point, 128.0 );
     self:SelectWaveSpawnPoints();

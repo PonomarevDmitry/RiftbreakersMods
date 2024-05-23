@@ -1,6 +1,9 @@
 local building = require("lua/buildings/building.lua")
-
+require("lua/utils/throttler_utils.lua")
 class 'wind_turbine' ( building )
+
+local LOCK_WIND_TURBINE = "wind_turbine";
+SetTargetFinderThrottler(LOCK_WIND_TURBINE, 15)
 
 function wind_turbine:__init()
 	building.__init(self)
@@ -8,7 +11,7 @@ end
 
 function wind_turbine:OnInit()
     self.fsm = self:CreateStateMachine()
-    self.fsm:AddState( "biom_modifier", { enter="OnEnterBiomModifier", execute="OnUpdateBiomModifier", interval=0.2 } )
+    self.fsm:AddState( "biom_modifier", { execute="OnUpdateBiomModifier", interval=0.2 } )
 	self.lastModifier = 1.0
 end 
 
@@ -19,9 +22,7 @@ function wind_turbine:OnBuildingEnd()
 end
 
 function wind_turbine:OnRecalculateModifiersEvent(evt)
-	self:Recalculate()
 	self.fsm:ChangeState("biom_modifier")
-
 end
 
 
@@ -30,11 +31,14 @@ function wind_turbine:OnActivate()
 end
 
 function wind_turbine:OnEnterBiomModifier( state )
-	state:SetDurationLimit(10)
 end
 
-function wind_turbine:OnUpdateBiomModifier()
+function wind_turbine:OnUpdateBiomModifier( state)
+	if IsRequestThrottled(LOCK_WIND_TURBINE) then
+		return 
+	end
 	self:Recalculate()
+	state:Exit()
 end
 
 function wind_turbine:Recalculate()

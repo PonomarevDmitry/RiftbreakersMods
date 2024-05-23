@@ -8,10 +8,34 @@ end
 
 function autofire_weapon:OnInit()
 	self.animSpeed = self.data:GetFloatOrDefault("animation_speed", 1.0 )
+	
+	if self.data:HasString( "aim_bp" ) then
+        self.aimBp = self.data:GetString( "aim_bp" )
+        self.aimMaxDistance = self.data:GetFloatOrDefault( "aim_max_distance", 0.0 )
+        self.aimEnt = INVALID_ID
+        self.sm = self:CreateStateMachine()
+        self.sm:AddState( "aiming_marker_execute", { execute="OnAimingMarkerExecute" } )
+    end
+end
+
+function autofire_weapon:OnLoad()
+    weapon.OnLoad( self )
+
+    if self.aimBp ~= nil then
+    	if self.aimEnt ~= INVALID_ID then
+       		if ( not self:ValidateEntityReference( self.aimEnt ) ) then
+	            self.aimEnt = INVALID_ID
+	        end
+	    end
+    end
 end
 
 function autofire_weapon:OnEquipped()
 	weapon.OnEquipped( self )
+
+	if self.sm ~= nil then
+        self.sm:ChangeState("aiming_marker_execute")
+    end
 end
 
 function autofire_weapon:OnActivate()
@@ -31,10 +55,29 @@ function autofire_weapon:OnDeactivate()
 	return true
 end
 
+function autofire_weapon:OnUnequipped()
+	weapon.OnUnequipped( self )
+
+    if self.sm ~= nil then
+        self.sm:Deactivate()
+    end
+end
+
 function autofire_weapon:OnShootingStop()
 	weapon.OnShootingStop( self )
 
 	EffectService:AttachEffects( self.item, "shooting_end" ) 
 end
+
+function autofire_weapon:OnAimingMarkerExecute( state )
+    if ( self.aimEnt == INVALID_ID or EntityService:IsAlive( self.aimEnt ) == false ) then 
+        self.aimEnt = self:SpawnReferenceEntity( self.aimBp, { x=0, y=0, z=0 })
+        EntityService:CreateComponent(self.aimEnt, "NetReplicateToOwnerComponent")
+    end
+
+    WeaponService:UpdateGrenadeAiming( self.aimEnt, self.owner, self.item, self.aimMaxDistance )
+    EntityService:SetVisible( self.aimEnt, PlayerService:IsInFighterMode( self.owner ) )
+end
+
 
 return autofire_weapon

@@ -15,12 +15,14 @@ function cave_entrance:OnLuaGlobalEvent( event )
         component.slot = "ACTIVATOR"
         component.radius = 6 
         component.remove_entity = 0
+        component.remove_component = 0
     end
 end
 
 
 function cave_entrance:OnInteractWithEntityRequest( evt )
-	QueueEvent( "LuaGlobalEvent", event_sink, "CavernsEntranceActivated", {} )
+	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
+	QueueEvent( "LuaGlobalEvent", event_sink, "CavernsEntranceActivated", params )	
 end
 
 

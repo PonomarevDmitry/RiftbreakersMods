@@ -46,7 +46,7 @@ function wave_ground:SpawnWaveIndicator(spawnPoint)
 	EntityService:CreateLifeTime( indicatorID, indicatorDuration, "normal" )
 end
 
-function wave_ground:SelectSpawnPoint()
+function wave_ground:SelectSpawnPoint(ignore_water)
 	local spawn_type = self.data:GetStringOrDefault( "spawn_type", FIND_TYPE_NAME )
 	local spawn_direction = self.data:GetStringOrDefault( "spawn_direction", "" )
 	local spawn_target_name = self.data:GetStringOrDefault( "target_name", "" )
@@ -54,6 +54,14 @@ function wave_ground:SelectSpawnPoint()
 	local spawn_target_max_radius = self.data:GetFloatOrDefault( "search_radius", 0.0 )
 	local spawn_target_min_radius = self.data:GetFloatOrDefault( "search_min_radius", 0.0 )
 	local spawn_count = self.data:GetIntOrDefault( "search_count", 1 )
+
+	if self.spawn_point == "error" then
+		self.spawn_point = ""
+	end
+
+	if self.spawn_group == "error" then
+		self.spawn_group = ""
+	end
 
 	if spawn_type == FIND_TYPE_NAME and self.spawn_point == "" then
 		if self.spawn_group ~= "" then
@@ -66,6 +74,10 @@ function wave_ground:SelectSpawnPoint()
 			spawn_type = FIND_TYPE_RANDOM_BORDER
 		elseif spawn_target_name ~= "" then
 			spawn_type = FIND_TYPE_CLOSEST_BORDER
+		end
+
+		if spawn_type == FIND_TYPE_NAME and self.spawn_point == "" then
+			spawn_type = FIND_TYPE_RANDOM_BORDER
 		end
 	end
 
@@ -83,7 +95,7 @@ function wave_ground:SelectSpawnPoint()
 	if spawn_type == FIND_TYPE_CREATE_DYNAMIC then
 		local target = FindEntities( spawn_target_type, spawn_target_name )
 		if Assert( #target > 0, "ERROR: failed to find target: " .. spawn_target_type .. "=" .. spawn_target_name .. " for wave: '" .. self.self_id .. "'" ) then
-			entities = UnitService:CreateDynamicSpawnPoints( target[1], spawn_target_min_radius, spawn_target_max_radius, spawn_count )
+			entities = UnitService:CreateDynamicSpawnPoints( target[1], spawn_target_min_radius, spawn_target_max_radius, spawn_count, ignore_water or false )
 		end
 	elseif spawn_type == FIND_TYPE_CLOSEST_BORDER then
 		local selector = { distance = nil, group_name = ""}
@@ -126,7 +138,7 @@ function wave_ground:SelectSpawnPoint()
 		end
 	end
 
-	if Assert( #selected > 0, "ERROR: failed to find spawnpoints with: " .. spawn_type .. "=" .. self.spawn_point  .. " for wave: '" .. self.self_id .. "'") then
+	if Assert( #selected > 0, "ERROR: failed to find spawnpoints with: " .. spawn_type .. "='" .. self.spawn_point  .. "' for wave: '" .. self.self_id .. "'") then
     	return selected;
 	else
 		return {}

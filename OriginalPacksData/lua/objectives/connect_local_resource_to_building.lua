@@ -26,7 +26,17 @@ function connect_local_resource_to_building:FillInitialParams()
     self.searchTargetValue = self.data:GetString("search_target_value")
 
     self.targetFindType = self.data:GetString("find_type") 
-    self.targetFindValue = self.data:GetString("find_value") 
+    self.targetFindValue = self.data:GetString("find_value")
+
+	if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
 end
 
 function connect_local_resource_to_building:OnLoad()

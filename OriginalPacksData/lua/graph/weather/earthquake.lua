@@ -32,7 +32,7 @@ function earthquake:Activated()
 	local earthquake = EarthquakeService:SpawnEarthquake( INVALID_ID, earthquakeBp, timeOfDayPreset, markerBp, damagePerSecond, lifeTime, healthPercentage, radius, localEffectsRandomOffset, minimumDistancePerLocalEffect, cameraShakePower, cameraShakeFreq )
 
 	local position = EntityService:GetPosition( earthquake )
-	GuiService:AddMinimapCircleMarker( position, tostring( earthquake ), radius, marker_color_r, marker_color_g, marker_color_b, marker_color_a )
+	GuiService:AddMinimapCircleMarker( position, tostring( earthquake ), radius, marker_color_r, marker_color_g, marker_color_b, 90 / 255 )
 
 	local worldEffectComponent = reflection_helper( EntityService:GetComponent( earthquake, "WorldEffectComponent") )
 	worldEffectComponent.local_effects_dissolve = localEffectsDissolve

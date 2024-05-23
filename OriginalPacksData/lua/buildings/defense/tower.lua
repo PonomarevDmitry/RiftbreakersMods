@@ -12,7 +12,7 @@ function tower:OnInit()
 	self:RegisterHandler( event_sink , "SunriseStartedEvent", "_OnDayCycleSunriseStartedEvent")	
 	self:RegisterHandler( event_sink , "SunsetStartedEvent", "_OnDayCycleSunsetStartedEvent")	
 	self:RegisterHandler( self.entity, "ResourceMissingEvent", "OnResourceMissingEvent" ) 
-	self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
+
 	self.lightStatus = false
 	
 	self.data:SetFloat( "shooting", 0 )

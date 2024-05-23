@@ -36,7 +36,7 @@ end
 function repair_facility_drone:OnDroneLiftingStarted(drone)
 	self:UpdateWorkingDrones(true)
 
-    --QueueEvent( "FadeEntityInRequest", drone, 0.5 )
+    --EntityService:FadeEntity( drone, DD_FADE_IN, 0.5 )
 end
 
 function repair_facility_drone:OnDroneLandingStarted(drone)

@@ -18,6 +18,7 @@ function mission_grant_current_mission_awards:Activated()
     end
 
     local missionDefHelper = reflection_helper( missionDef )
+    Assert( missionDefHelper.mission_award ~= "", "MissionDef '" .. missionDefName .. "'  does not have a mission_award field")
     local players = PlayerService:GetPlayersFromTeam( EntityService:GetTeam( "player") );
     for player in Iter(players) do
         PlayerService:AddItemToInventory( player, missionDefHelper.mission_award )

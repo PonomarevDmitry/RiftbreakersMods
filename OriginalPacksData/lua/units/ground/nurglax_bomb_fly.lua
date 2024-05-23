@@ -20,8 +20,8 @@ function nurglax_bomb_fly:OnAmmoRemoveRequest()
 	local origin = EntityService:GetPosition( self.entity )
 
 	for i = 1, self.eggCount do			
-		local egg = EntityService:SpawnEntity( self.eggBp, origin.x, origin.y, origin.z, "" )
-		EntityService:SetTeam( egg, "wave_enemy" )
+		local egg = EntityService:SpawnEntity( self.eggBp, origin.x + RandFloat( 0.0, 1.0 ), origin.y + RandFloat( 0.0, 1.0 ), origin.z + RandFloat( 0.0, 1.0 ), "" )
+		EntityService:SetTeam( egg, EntityService:GetTeam( self.entity ) )
 		EntityService:PhysicsSleepNotify( egg, true )
 		UnitService:AddDynamicForce( egg, 1500, 2500 )
 	end

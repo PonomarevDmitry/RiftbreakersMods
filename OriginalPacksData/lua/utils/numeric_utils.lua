@@ -21,6 +21,17 @@ function SnapValue( value, snap )
 	return RoundUnderOffset( value / snap, 0.5 ) * snap
 end
 
+function CreateQuaternion( axis, angle )
+	local quaternion = {}
+	local halfAngle = math.rad(angle) * 0.5
+	local s = math.sin(halfAngle)
+	quaternion.x = axis.x * s
+	quaternion.y = axis.y * s
+	quaternion.z = axis.z * s
+	quaternion.w = math.cos(halfAngle)
+	return quaternion
+end
+
 function Lerp( minValue, maxValue, t )
 	return (minValue * (1 - t) + maxValue * t);
 end

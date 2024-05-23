@@ -22,6 +22,16 @@ function gather_optional_resource:init()
     self.targetFindType = self.data:GetString("find_type") 
     self.targetFindValue = self.data:GetString("find_value") 
 	
+	if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
+	
 	for resource in Iter(self.resources) do 
 		if ( resource ~= "parent_objective_id" and tonumber(self.data:GetString( resource )) ~= nil  ) then
 			if ( self.resourceAmount == nil ) then

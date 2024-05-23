@@ -95,14 +95,14 @@ function FindEntitiesInDinstance( findType, findValue, findTarget, searchMinRadi
         elseif ( findType == FIND_TYPE_TYPE ) then               
             ConcatUnique( found, FilterEntities(target, FindService:FindEntitiesByTypeInRadius( target, findValue, searchMaxRadius ) ))
         elseif ( findType == FIND_TYPE_BLUEPRINT ) then
-            ConcatUnique( found, FilterEntities(target, FindService:FindEntitiesByBlueprintInRadius( target, findValue, searchMaxRadius ) ))  
+            ConcatUnique( found, FilterEntities(target, FindService:FindEntitiesByBlueprintInRadius( target, findValue, searchMaxRadius ) ))
         end
     end
 
     return found
 end
 
-function FindEntitiesByTarget( findType, findValue, searchMinRadius, searchMaxRadius, searchFindTargetType, searchFindTargetValue)  
+function FindEntitiesByTarget( findType, findValue, searchMinRadius, searchMaxRadius, searchFindTargetType, searchFindTargetValue)
 	--LogService:Log("FindEntities: " .. tostring(searchFindTargetType) .. ", " .. tostring(searchFindTargetValue) .. ", " .. tostring(searchRadius) .. ", " .. tostring(findType) .. ", " .. tostring(findValue)  )   
     local searchTarget = {}
     if ( searchFindTargetType ~= nil and searchFindTargetType ~= "" ) then
@@ -152,47 +152,6 @@ function FindClosestEntityWithDistance( source, entities )
     end
 
     return closest;
-end
-
-function FindObjectiveSpot(borderMargin)
-	local playable_min = MissionService:GetPlayableRegionMin();
-    local playable_max = MissionService:GetPlayableRegionMax();
-
-    if borderMargin then
-        playable_min.x = playable_min.x + borderMargin
-        playable_min.z = playable_min.z + borderMargin
-
-        playable_max.x = playable_max.x - borderMargin
-        playable_max.z = playable_max.z - borderMargin
-    end
-
-    local wave_start_point = INVALID_ID;
-	local blueprint = "logic/spawn_objective"
-
-	local entities = FindService:FindEntitiesByBlueprintInBox(blueprint, playable_min, playable_max );
-    while #entities > 0 do	
-        local randomNumber = RandInt( 1, #entities )			
-        wave_start_point = entities[ randomNumber ]
-        if FindService:FindEntityByTypeInDistance( wave_start_point, "player", 128 ) ~= INVALID_ID then			
-            LogService:Log("OBJECTIVE TOO CLOSE TO THE PLAYER - DISCARDING")
-            table.remove(entities, randomNumber)				
-        elseif FindService:FindEntityByTypeInDistance( wave_start_point, "building", 128 ) ~= INVALID_ID then 
-            LogService:Log("OBJECTIVE TOO CLOSE TO A BUILDING - DISCARDING")
-            table.remove(entities, randomNumber)
-        elseif FindService:FindEntityByGroupInDistance( wave_start_point, "objective", 128 ) ~= INVALID_ID then 
-            LogService:Log("OBJECTIVE TOO CLOSE TO ANOTHER OBJECTIVE - DISCARDING")
-            table.remove(entities, randomNumber)
-        elseif FindService:FindEntityByGroupInDistance( wave_start_point, "loot_container", 128 ) ~= INVALID_ID then 
-            LogService:Log("OBJECTIVE TOO CLOSE TO LOOT CONTAINER - DISCARDING")
-            table.remove(entities, randomNumber)
-        else
-            LogService:Log("OBJECTIVE SPAWN LOCATION FOUND")
-            return wave_start_point;
-        end			
-    end
-
-    LogService:Log("OBJECTIVE LOCATION NOT FOUND")
-	return INVALID_ID
 end
 
 function FindAllAvailableObjectiveSpots()

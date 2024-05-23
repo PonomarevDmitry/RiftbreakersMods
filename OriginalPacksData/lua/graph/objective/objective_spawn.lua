@@ -26,6 +26,7 @@ end
 
 function objective_spawn:Activated()
 	self.objectiveID = ObjectiveService:CreateObjective( self.data:GetString( "objective_blueprint" ), self.data, self.global, CampaignService:GetCurrentMissionId() )
+	self.data:SetString("out_objective_id", tostring(self.objectiveID) )
 
 	if self.wait then
 		self:RegisterHandler( event_sink, "ObjectiveFinishedEvent", "OnObjectiveFinishedEvent" )

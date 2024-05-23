@@ -23,36 +23,32 @@ end
 
 function drill:OnDrillStartEnter( state )
 	state:SetDurationLimit( 0.75 )
+	
+	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75)
+	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
 end
 
 function drill:OnDrillStartExecute( state )
-	local currentProgress = ( state:GetDuration() / 0.75 )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 - currentProgress )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", currentProgress )
 end
 
 function drill:OnDrillStartExit( state )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 0 )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", 1 )
 end
 
 function drill:OnDrillStopEnter( state )
 	state:SetDurationLimit( 0.75 )
+	
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
+	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
 end
 
 function drill:OnDrillStopExecute( state )
-	local currentProgress = ( state:GetDuration() / 0.75 )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", currentProgress )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", 1 - currentProgress )
 end
 
 function drill:OnDrillStopExit( state )
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
-	EntityService:SetGraphicsUniform( self.lastItemEnt, "cDissolveAmount", 0 )
 end
 
 function drill:OnEquipped()
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 	self.duration = 0.0
 end
 
@@ -62,7 +58,7 @@ function drill:OnActivate()
 	end
 	
 	local ownerData = EntityService:GetDatabase( self.owner );
-	if ( self.data:GetInt( "activated" ) == 0  ) then
+	if ( not self:IsActivated()  ) then
 		self:RegisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )
 		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )

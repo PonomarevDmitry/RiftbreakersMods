@@ -38,8 +38,9 @@ function GetRandomPositionInRadius( targetEntity, radius )
 end
 
 function spawn_elite_multiple:Activated()
-	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )	
-	local objectiveSpawn = FindObjectiveSpot()	
+	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
+	
+	local objectiveSpawn = MissionService:SpawnMissionObjective( "logic/position_marker", false )
 	if objectiveSpawn == INVALID_ID then
 		LogService:Log("NO FREE OBJECTIVE SPAWN POINTS - ABORTING OBJECTIVE")
 		QueueEvent( "LuaGlobalEvent", event_sink, self.parent:CreateGraphUniqueString( "SpawnFailed" ), {} )			
@@ -55,6 +56,8 @@ function spawn_elite_multiple:Activated()
 				local position = GetRandomPositionInRadius( objectiveSpawn, self.radius )
 				eliteUnit = EntityService:SpawnEntity( self.eliteBlueprint, position, EntityService:GetTeam("enemy") )
 			end
+
+			MissionService:PushEntityToMissionObjectSpawnerPools( eliteUnit, "objectives" )
 
 			if EntityService:GetComponent(eliteUnit, "NavMeshMovementComponent") == nil then
 				EntityService:RemovePropsInEntityBounds( eliteUnit );

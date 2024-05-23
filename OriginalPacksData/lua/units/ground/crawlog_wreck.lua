@@ -34,7 +34,7 @@ end
 function crawlog_wreck:OnEnterResurrect( state )
 	EntityService:RemoveComponent( self.entity,"UniformComponent" );
 	HealthService:SetHealth( self.entity, 5 )
-
+	EntityService:CreateComponent( self.entity,"DeadStateComponent" );
 	local time = math.random( self.data:GetFloat( "resurrect_min_time" ), self.data:GetFloat( "resurrect_max_time" ) )
 	state:SetDurationLimit( time )
 end
@@ -48,9 +48,9 @@ function crawlog_wreck:OnExitResurrect( state )
 		EntityService:SetVisible( entity, false );
 
 		EffectService:AttachEffects( entity, "resurrect"  )
-
-		local scaleMin = self.data:GetFloatOrDefault( "min_scale", 1.0 )
-		local scaleMax = self.data:GetFloatOrDefault( "max_scale", 1.0 )
+		local data = EntityService:GetBlueprintDatabase( self.entity )
+		local scaleMin = data:GetFloatOrDefault( "min_scale", 1.0 )
+		local scaleMax = data:GetFloatOrDefault( "max_scale", 1.0 )
 
 		local db = EntityService:GetDatabase( entity )
 

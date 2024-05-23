@@ -21,8 +21,17 @@ function logic_if_alive_advanced:init()
 
     self.fsm = self:CreateStateMachine()
     self.fsm:AddState( "wait", { from="*", execute="OnExecuteWait" } )
-end
 
+    if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
+end
 
 function logic_if_alive_advanced:Activated()
     self.nodeEnabled = true

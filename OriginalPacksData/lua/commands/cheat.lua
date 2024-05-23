@@ -4,9 +4,16 @@ ConsoleService:RegisterCommand( "debug_spawn_entity", function( args )
     if #args == 1 then
         local player = PlayerService:GetPlayerControlledEnt(0)
         local position = EntityService:GetPosition( player )
-        EntityService:SpawnEntity( args[ 1], position.x, position.y, position.z, "" )
+        local ent = EntityService:SpawnEntity( args[ 1], position.x, position.y, position.z, "" )
+        EntityService:EnableVegetationChain( ent )
+    elseif #args == 2 then
+        local player = PlayerService:GetPlayerControlledEnt(0)
+        local position = EntityService:GetPosition( player )
+        local ent = EntityService:SpawnEntity( args[ 1], position.x, position.y, position.z, args[2] )
+        EntityService:EnableVegetationChain( ent )
     elseif #args == 4 then
-        EntityService:SpawnEntity( args[ 1 ], tonumber(args[ 2 ]), tonumber(args[ 3 ]), tonumber(args[ 4 ]) , "" )
+        local ent = EntityService:SpawnEntity( args[ 1 ], tonumber(args[ 2 ]), tonumber(args[ 3 ]), tonumber(args[ 4 ]) , "" )
+        EntityService:EnableVegetationChain( ent )
     end
 end)
 
@@ -20,6 +27,10 @@ end)
 
 ConsoleService:RegisterCommand( "cheat_spawn_meteor", function( args )
     MeteorService:SpawnMeteorInFrustum( "weather/meteor_medium", 50, 140 )
+end)
+
+ConsoleService:RegisterCommand( "debug_start_vote", function( args )
+	QueueEvent( "LuaGlobalEvent", event_sink, "DebugStartVote", {} )
 end)
 
 ConsoleService:RegisterCommand( "cheat_set_player_health", function( args )
@@ -56,11 +67,11 @@ ConsoleService:RegisterCommand( "cheat_add_all_player_items", function( args )
 end)
 
 ConsoleService:RegisterCommand( "cheat_win_game", function( args )
-	MissionService:FinishCurrentMission( MISSION_STATUS_WIN )
+    QueueEvent( "LuaGlobalEvent", event_sink, "win_game", {} )
 end)
 
 ConsoleService:RegisterCommand( "cheat_lose_game", function( args )
-	MissionService:FinishCurrentMission( MISSION_STATUS_LOSE )
+    QueueEvent( "LuaGlobalEvent", event_sink, "lose_game", {} )
 end)
 
 ConsoleService:RegisterCommand( "cheat_increase_family_info_lvl", function( args )
@@ -164,6 +175,17 @@ ConsoleService:RegisterCommand( "cheat_add_resource", function( args )
     end
 end)
 
+ConsoleService:RegisterCommand( "cheat_reset_skill_cooldowns", function( args )
+    for item_type in Iter({"consumable", "skill"}) do
+        local blueprints = ItemService:GetAllItemsBlueprintsByType(item_type)
+        for blueprint in Iter(blueprints) do
+            local entities = FindService:FindEntitiesByBlueprint(blueprint)
+            for entity in Iter(entities) do
+                ItemService:ResetCooldown(entity, 0.0)
+            end
+        end
+    end
+end)
 
 ConsoleService:RegisterCommand( "cheat_remove_all_cultivator_plants", function( args )
     local playable_min = MissionService:GetPlayableRegionMin();

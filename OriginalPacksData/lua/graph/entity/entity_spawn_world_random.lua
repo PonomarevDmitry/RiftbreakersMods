@@ -36,10 +36,7 @@ function entity_spawn_world_random:Activated()
 		spawnPoint = FindService:FindEntityByName( spawnTarget );
 		Assert( spawnPoint ~= INVALID_ID, "ERROR: failed to find entity with name: '" .. spawnTarget .. "'" )
 	else
-		spawnPoint = MissionService:GetPlayerSpawnPoint()
-		if spawnPoint == INVALID_ID then
-			spawnPoint = PlayerService:GetPlayerControlledEnt(0)
-		end
+		spawnPoint = MapGenerator:GetInitialSpawnPoint()
 	end
 
 	local blueprint = self.data:GetString( "blueprint" )

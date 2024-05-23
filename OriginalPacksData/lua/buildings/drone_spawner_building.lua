@@ -105,7 +105,7 @@ end
 function drone_spawner_building:SpawnDrones()
 	self:CleanupDrones();
 
-	local isActive = self.data:GetIntOrDefault( "activated", 0 ) == 1;
+	local isActive = self.working;
 
 	local blueprints = Split( self.drone_blueprint, ",") 
 	
@@ -118,7 +118,7 @@ function drone_spawner_building:SpawnDrones()
 
 			UnitService:SetCurrentTarget( drone, "owner", attachment )
 			if self.drones_visible then
-				QueueEvent( "FadeEntityInRequest", drone, DRONE_FADE_TIME )
+				EntityService:FadeEntity( drone, DD_FADE_IN, DRONE_FADE_TIME )
 			else
 				QueueEvent( "FadeEntityOutRequest", drone, 1 )
 			end
@@ -172,7 +172,7 @@ end
 
 function drone_spawner_building:_OnDroneLiftingStartedEvent(evt)
 	if not self.drones_visible then
-		QueueEvent( "FadeEntityInRequest", evt:GetEntity(), DRONE_FADE_TIME )
+		EntityService:FadeEntity( evt:GetEntity(), DD_FADE_IN, DRONE_FADE_TIME )
 	end
 
 	self:OnDroneLiftingStarted(evt:GetEntity())

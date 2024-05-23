@@ -25,7 +25,7 @@ function weather_generic_local:Activated()
 	local weather = AcidRainService:SpawnLocalGeneric( INVALID_ID, weatherGenericBlueprint, timeOfDayPreset, damagePerSecond, damageType, lifeTime, healthPercentage, radius )
 
 	local position = EntityService:GetPosition( weather )
-	GuiService:AddMinimapCircleMarker( position, tostring( weather ), radius, marker_color_r, marker_color_g, marker_color_b, marker_color_a )
+	GuiService:AddMinimapCircleMarker( position, tostring( weather ), radius, marker_color_r, marker_color_g, marker_color_b, 90 / 255 )
 
 	self:SetFinished()
 

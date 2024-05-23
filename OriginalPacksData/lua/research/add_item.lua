@@ -32,10 +32,10 @@ function add_item:OnResearchAcquired( teamId )
         end 
     end
 
-	self:RegisterHandler( event_sink, "PlayerCreatedEvent",  "OnPlayerCreatedEvent" )
+	self:RegisterHandler( event_sink, "PlayerInitializedEvent",  "OnPlayerInitializedEvent" )
 end
 
-function add_item:OnPlayerCreatedEvent( evt)
+function add_item:OnPlayerInitializedEvent( evt)
     local player = evt:GetPlayerId()
     if ( self:CheckPlayer( player ) == true ) then
         return

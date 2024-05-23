@@ -20,7 +20,7 @@ local function CalculateBuildingBuildTime( entity )
 end
 
 function building_base:init()
-	self.version = 1
+	self.version = 2
 	SetupBuildingScale( self.entity, self.data )
 
 	if ( not EntityService:HasTeam( self.entity ) ) then
@@ -29,7 +29,7 @@ function building_base:init()
 	self.meshEnt = BuildingService:GetMeshEntity(self.entity);
 
 	----LogService:Log("Initialize building " .. tostring( self.entity ) ) 
-	self:RegisterHandler( self.entity, "BuildingStartEvent",  "_OnBuildNew" )
+	self:RegisterHandler( self.entity, "StartBuildingEvent",  "_OnBuildNew" )
 	self:RegisterHandler( self.entity, "StartBuildingEvent",  "OnStartBuildingEvent" )
 	self:RegisterHandler( self.entity, "BuildingSellEvent",  "_OnSell" )
 	self:RegisterHandler( self.entity, "BuildingOverrideEvent",  "_OnOverride" )
@@ -44,10 +44,6 @@ function building_base:init()
 	self:RegisterHandler( self.entity, "BuildingBuildEndEvent", "_OnBuildingEnd" )
 	self:RegisterHandler( self.entity, "DestroyRequest", "OnDestroyRequest" )
 
-	if (self.data:HasInt("activated" ) == false ) then
-		self.data:SetInt("activated", 0 )
-	end
-	
 	self.power = self.data:GetIntOrDefault("power", -1 )
 	self.resource = self.data:GetIntOrDefault("resource", -1 )
 
@@ -391,9 +387,6 @@ function building_base:_OnBuildingEnter( state )
 	for i, material in ipairs(self:GetMaterials()) do
 		EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default" )
 	end
-
-	self.dissolveCurrent = 1;
-    EntityService:SetGraphicsUniform( self.meshEnt, "cDissolveAmount", self.dissolveCurrent )
 	EntityService:SetMaterial( self.meshEnt, "selector/hologram_blue_depth" , "dissolve" )
 
     if ( self.printingCube ~= nil ) then
@@ -409,6 +402,7 @@ end
 
 function building_base:_OnBuildingExecute( state )
 	local currentDuration = state:GetDuration() + self.forwardTime
+	self.meshEnt = BuildingService:GetMeshEntity(self.entity);
 
     local progress = currentDuration / state:GetDurationLimit()
 	local healthMod = progress - self.lastProgress
@@ -416,8 +410,6 @@ function building_base:_OnBuildingExecute( state )
 		HealthService:AddHealthInPercentage( self.entity, healthMod * 100 )
 	end
 	self.lastProgress = progress
-	self.dissolveCurrent = 1 - progress
-    EntityService:SetGraphicsUniform( self.meshEnt, "cDissolveAmount", self.dissolveCurrent )
 
     if ( self.printingCube ~= nil ) then
     	local offset1 = math.sin( progress * 45 * self.width / 20 )
@@ -447,8 +439,6 @@ function building_base:_OnBuildingExit( state )
 	for i, material in ipairs( self.materials ) do
 		EntityService:SetSubMeshMaterial( self.meshEnt, material, i - 1, "default" )
 	end
-
-	EntityService:RemoveGraphicsUniform( self.meshEnt, "cDissolveAmount" )
 
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
 	if ( EntityService:IsAlive(self.endCubeEnt) == true ) then
@@ -501,18 +491,13 @@ function building_base:_OnSellEnter( state )
 			EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default"  )
 		end
 	end
+	EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
+	EntityService:FadeEntity( self.meshEnt, DD_FADE_OUT, self.sellTime )
+
 	self:OnSell()
 end
 
 function building_base:_OnSellExecute( state )
-	local progress  = 1
-	if ( self.buildingFinished == 1 ) then
-		progress = state:GetDuration() / state:GetDurationLimit()
-		progress = Lerp( self.dissolveCurrent, 1.0, progress )
-	else
-		progress = state:GetDuration() / state:GetDurationLimit() 
-	end
-    EntityService:SetGraphicsUniform( self.meshEnt, "cDissolveAmount", progress )
 end
 
 function building_base:_OnSellExit( state )
@@ -886,7 +871,6 @@ end
 
 function building_base:_OnActivate()
 	EffectService:AttachDelayedEffects(self.entity, "working", 0.1)	
-	self.data:SetInt("activated", 1 )
 	self.working = true
 	self.data:SetFloat("is_working", 1.0 )
 	self:OnActivate()
@@ -898,7 +882,6 @@ end
 
 function building_base:_OnDeactivate()
 	EffectService:DestroyEffectsByGroup(self.entity, "powered")
-	self.data:SetInt("activated", 0 )
 	self.working = false;
 	self.data:SetFloat("is_working", 0.0 )
 	EffectService:DestroyEffectsByGroup(self.entity, "working")	
@@ -1070,7 +1053,9 @@ function building_base:OnLoad()
 		EntityService:LoadMissingDatabaseKeysFromBlueprint( self.entity )
 		self.version = 1
 	end
-	
+	if ( self.version < 2 ) then
+		self.data:RemoveKey("activated")
+	end
 	if ( self.buildingSell == false and self.buildingFinished == 0 and self.data:GetIntOrDefault("remove_lua_after_build", 0) == 1) then
 		QueueEvent("RemoveBuildingLuaComponent", self.entity )
 	end
@@ -1088,6 +1073,8 @@ function building_base:OnLoad()
 	if not self.display_radius_size then
 		self:InitializeDisplayRadiusHandlers();
 	end
+
+	
 end
 
 function building_base:SetTurretMode( mode )

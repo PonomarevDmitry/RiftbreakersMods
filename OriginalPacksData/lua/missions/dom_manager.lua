@@ -33,7 +33,7 @@ function dom_mananger:init()
 
 	self:RegisterHandler( event_sink, "MissionFlowDeactivatedEvent",   "OnMissionFlowDeactivatedEvent" )
 	self:RegisterHandler( event_sink, "MissionFlowActivatedEvent",     "OnMissionFlowActivatedEvent" )
-	self:RegisterHandler( event_sink, "BuildingStartEvent",        	   "OnBuildingStartEvent" )
+	self:RegisterHandler( event_sink, "StartUpgradingEvent",        	"OnStartUpgradingEvent" )
 	self:RegisterHandler( event_sink, "LuaGlobalEvent",       		   "OnLuaGlobalEvent" )
 	self:RegisterHandler( event_sink, "RespawnFailedEvent",			   "OnRespawnFailedEvent" )
 	self:RegisterHandler( event_sink, "PlayerDiedEvent",			   "OnPlayerDiedEvent" )
@@ -64,6 +64,7 @@ function dom_mananger:init()
 
 	self:LogicFilesSanityCheck();
 
+	self.version = 1
 end
 
 	-- ======================================== LOGIC ============================================
@@ -155,6 +156,9 @@ function dom_mananger:OnLuaGlobalEvent( evt )
 		self:SetSuspended( true )
 	elseif ( eventName == "ResumeDOM" ) then
 		self:SetSuspended( false )
+	elseif ( eventName == "DebugStartVote") then
+		self.currentStreamingData = self:PrepareEvents( "IDLE" )
+		self:StartStreamingVoting()
 	end    
 end
 
@@ -167,13 +171,7 @@ function dom_mananger:ClosePrepareForTheAttack()
 	end
 end
 
-function dom_mananger:OnBuildingStartEvent( evt )
-	
-	local isUpgrading = evt:GetUpgrading();
-	if ( isUpgrading == false ) then
-		return
-	end
-	
+function dom_mananger:OnStartUpgradingEvent( evt )
 	local buildingName = BuildingService:GetBuildingName( evt:GetEntity() );
 	local upgradeTime = BuildingService:CalculateBuildTime( evt:GetEntity() )
 
@@ -547,6 +545,17 @@ function dom_mananger:DropPlayerItems( owner, playerId )
 		return
 	end
 
+	local mech = PlayerService:GetPlayerControlledEnt( playerId)
+	LogService:Log("Mech:" .. tostring( mech ))
+	if ( mech ~= INVALID_ID ) then
+		local mechDatabase = EntityService:GetDatabase( mech )
+		LogService:Log("MechDatabase:" .. tostring(mechDatabase ))
+
+		if ( mechDatabase:GetIntOrDefault("disable_drop",0  ) == 1 ) then
+			LogService:Log("Disable mech drop!")
+			return
+		end
+	end
 	--local status = CampaignService:GetMissionStatus( CampaignService:GetCurrentMissionId() )
 	--if ( status ~= MISSION_STATUS_IN_PROGRESS and status ~= MISSION_STATUS_NONE ) then
 	--	return
@@ -580,4 +589,12 @@ function dom_mananger:OnPlayerDiedEvent( evt )
 	self:DropPlayerItems(evt:GetEntity(), evt:GetPlayerId())
 end
 
+
+function dom_mananger:OnLoad()
+	if ( self.version == nil ) then
+		self:RegisterHandler( event_sink, "StartUpgradingEvent",        	   "OnStartUpgradingEvent" )
+		self:UnregisterHandler( event_sink, "BuildingStartEvent",        	   "OnBuildingStartEvent" )
+		self.version = 1
+	end
+end
 return dom_mananger

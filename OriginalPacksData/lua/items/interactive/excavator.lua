@@ -9,7 +9,7 @@ end
 
 function excavator:OnEquipped()
 	BuildingService:DisablePhysics(self.item)
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1.0 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
 function excavator:OnActivate()

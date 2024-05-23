@@ -19,6 +19,15 @@ function entity_destroy:init()
 	self.dissolveState = self.data:GetStringOrDefault("dissolve_state", "false")
 	self.dissolveDuration = self.data:GetFloatOrDefault("dissolve_duration", 1 )
 	
+	if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
 end
 
 function entity_destroy:Activated()	

@@ -39,9 +39,9 @@ function item_creator:OnActivate()
 	if ( self.dissolveProps ) then
 		EntityService:RemovePropsInEntityBounds(spawned)
 	end
-	EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( spawned, DD_FADE_IN, 1.0 )
 	ItemService:SetItemCreator( spawned, self.bp)
-	QueueEvent( "FadeEntityInRequest", spawned, self.dissolveTime );
+	EntityService:PropagateEntityOwner( spawned, self.owner )
 end
 
 function item_creator:FillInitialParams()

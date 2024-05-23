@@ -1,4 +1,5 @@
 require("lua/utils/string_utils.lua")
+require("lua/utils/throttler_utils.lua")
 
 local base_drone = require("lua/units/air/base_drone.lua")
 class 'loot_collector_drone' ( base_drone )
@@ -177,6 +178,7 @@ function loot_collector_drone:FindActionTarget()
     local item = FindFarthestEntity( owner, entities )
     local target = EntityService:GetParent( item )
     if target ~= INVALID_ID then
+        self:LockTarget(item, LOCK_TYPE_LOOT_DRONE)
         self:EnableEffect()
     end
 

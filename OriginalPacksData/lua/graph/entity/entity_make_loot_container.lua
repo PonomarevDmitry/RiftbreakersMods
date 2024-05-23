@@ -15,6 +15,16 @@ function entity_make_loot_container:init()
 	self.searchRadius = self.data:GetFloatOrDefault("search_radius", 0)
     
     self.rarity = StringToItemRarity(self.data:GetString("rarity"))
+
+	if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
 end
 
 function entity_make_loot_container:Activated()	

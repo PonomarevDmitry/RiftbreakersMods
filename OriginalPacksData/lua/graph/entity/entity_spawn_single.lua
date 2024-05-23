@@ -11,6 +11,10 @@ function entity_spawn_single:init()
 	self.team = self.data:GetString( "team" )		
 	
 	self.entityName = self.data:GetString( "entity_name" )
+	if self.entityName ~= "" and self.data:GetIntOrDefault("name_is_global", 1) == 0 then
+		self.entityName = self.parent:CreateGraphUniqueString(self.entityName)
+	end
+
 	self.entityGroup = self.data:GetString( "entity_group" )	
 	
 	self.singleTarget = self.data:GetIntOrDefault("target_single", 0)
@@ -25,6 +29,16 @@ function entity_spawn_single:init()
 	self.searchRadius = self.data:GetFloatOrDefault("search_radius", 0)
 
 	self.attach = self.data:GetIntOrDefault("attach_entity", 0)
+	
+    if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
 end
 
 function entity_spawn_single:Activated()	

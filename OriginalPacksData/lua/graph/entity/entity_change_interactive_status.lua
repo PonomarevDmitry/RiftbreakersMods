@@ -14,6 +14,16 @@ function entity_change_interactive_status:init()
 	self.searchRadius = self.data:GetFloatOrDefault("search_radius", 0)
     
     self.status = self.data:GetIntOrDefault("status", 0) == 1
+
+	if self.searchTargetType == "LocalName" then
+		self.searchTargetType = "Name"
+		self.searchTargetValue = self.parent:CreateGraphUniqueString(self.searchTargetValue)
+	end
+
+    if self.targetFindType == "LocalName" then
+		self.targetFindType = "Name"
+		self.targetFindValue = self.parent:CreateGraphUniqueString(self.targetFindValue)
+	end
 end
 
 function entity_change_interactive_status:Activated()	

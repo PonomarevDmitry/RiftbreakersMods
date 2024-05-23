@@ -3,13 +3,13 @@ require("lua/utils/table_utils.lua")
 
 class 'mech' ( day_cycle_machine )
 
-function mech:UpdateChildrenDissolveAmount( entity, amount )
+function mech:UpdateChildrenDissolveAmount( entity, type, time )
 	local children =  EntityService:GetChildren( entity, false )
 	for child in Iter(children) do
 		local itemType = ItemService:GetItemType(child);
-		if ( itemType ~= "interactive" and itemType ~= "equipment" ) then
-			EntityService:SetGraphicsUniform( child, "cDissolveAmount", amount )
-			self:UpdateChildrenDissolveAmount( child, amount )
+		if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" ) then			
+			EntityService:FadeEntity( child, type, time)
+			self:UpdateChildrenDissolveAmount( child, type, time )
 		end
 	end
 end
@@ -36,7 +36,7 @@ function mech:init()
 	local isSkipPortal = MissionService:IsSkipSpawnPortalSequence()
 	if ( isSkipPortal == false and database:GetIntOrDefault( "initial_spawn", 0 ) == 1 ) then
 		HealthService:SetImmortality( self.entity, true )	
-		PlayerService:RemoveMechComponent( self.entity )
+		self:EnableMechFunctionality( false )
 
 		self.fsm = self:CreateStateMachine()
 		self.fsm:AddState( "portal_open", {enter="OnPortalOpenEnter", execute="OnPortalOpenExecute", exit="OnPortalOpenExit"} )
@@ -51,6 +51,11 @@ function mech:init()
 
 	self.invisibilityFsm = self:CreateStateMachine()
 	self.invisibilityFsm:AddState( "invisibility", {enter="OnInvisibilityEnter", exit="OnInvisibilityExit"} )
+	self.version = 1
+	
+	if self._OnInit then
+		self:_OnInit()
+	end
 end
 
 function mech:OnRiftTeleportStartEvent()
@@ -66,17 +71,18 @@ function mech:OnLeaveShadowEvent()
 end
 
 function mech:OnDissolveStart( state)
+	self:EnableMechFunctionality( false )
+	
 	EntityService:RemovePropsInEntityBounds( self.entity )
-	PlayerService:RemoveMechComponent( self.entity )
-	QueueEvent( "FadeEntityInRequest", self.entity, 1.0 )
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, 1.0 )
+
 	state:SetDurationLimit( 1.0 )
 end
 
 function mech:OnDissolveEnd()
-	PlayerService:RecreateMechComponent( self.entity )
 	QueueEvent( "LuaGlobalEvent", event_sink, "InitialSpawnEnded", {} )
+	self:EnableMechFunctionality( true )
 end
-
 
 function mech:OnAnimationMarkerReached(evt)
 	if ( evt:GetMarkerName() == "servo" ) then
@@ -97,6 +103,10 @@ end
 
 function mech:OnDestroyRequest( evt )
 	LampService:ReportMechDestroy()
+
+	if self._OnDestroyRequest then
+		self:_OnDestroyRequest( evt )
+	end
 end
 
 function mech:OnRevealHiddenEntityEvent( evt )
@@ -125,6 +135,15 @@ end
 
 function mech:OnLoad()
 	day_cycle_machine.OnLoad( self )
+
+	self:_ChangeDayState( "" )
+	local timeOfDay = EnvironmentService:GetTimeOfDay()
+	self:_ChangeDayState( timeOfDay )
+
+	if ( self.version == nil or self.version < 1 ) then
+		EntityService:RemoveGraphicsUniform( self.entity, 0,  "cDissolveAmount")
+	end
+
 end
 
 function mech:OnExitInvisiblityEvent( evt )
@@ -134,7 +153,7 @@ function mech:OnExitInvisiblityEvent( evt )
 		local invisibilityState = self.invisibilityFsm:GetState( invisibilityStateName )
 		invisibilityState:SetDurationLimit( 0.5 )
 
-		QueueEvent( "FadeEntityInRequest", self.entity, 0.5 )
+		EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.5 )
 		EffectService:DestroyEffectsByGroup( self.entity, "invisiblity" )
 
 		local children =  EntityService:GetChildren( self.entity, false )
@@ -143,7 +162,7 @@ function mech:OnExitInvisiblityEvent( evt )
 			if ( itemType ~= "interactive" and itemType ~= "equipment" ) then
 				local meshChildren =  EntityService:GetChildren( child, false )
 				for meshChild in Iter(meshChildren) do
-					QueueEvent( "FadeEntityInRequest", meshChild, 0.5 )
+					EntityService:FadeEntity( meshChild, DD_FADE_IN, 0.5 )
 				end
 			end
 		end
@@ -155,7 +174,7 @@ function mech:OnItemEquippedEvent( evt )
 		local children =  EntityService:GetChildren( self.entity, false )
 		for child in Iter(children) do
 			local itemType =ItemService:GetItemType(child);
-			if ( itemType ~= "interactive" and itemType ~= "equipment" ) then
+			if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" ) then
 				local meshChildren =  EntityService:GetChildren( child, false )
 				for meshChild in Iter(meshChildren) do
 					QueueEvent( "FadeEntityOutRequest", meshChild, 0.5 )
@@ -208,12 +227,9 @@ end
 
 function mech:OnPortalOpenEnter( state )
 	EntityService:SetVisible( self.entity, false )
-	EntityService:SetGraphicsUniform( self.entity, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.0)
+	self:UpdateChildrenDissolveAmount( self.entity,DD_FADE_OUT, 0 )
 
-	self:UpdateChildrenDissolveAmount( self.entity, 1 )
-
-	PlayerService:ChangePlayerEquipmentVisibility( 0, false );
-	
 	--EffectService:SpawnEffect( self.entity, "effects/mech/jump_portal_start", "att_jump" )
 	--EffectService:SpawnEffect( self.entity, "effects/mech/jump_portal_light", "att_jump_light" )
 	EffectService:SpawnEffects( self.entity, "jump_portal" )
@@ -221,44 +237,54 @@ function mech:OnPortalOpenEnter( state )
 end
 
 function mech:OnPortalOpenExecute( state, dt )
-	PlayerService:ChangePlayerEquipmentVisibility( 0, false )
 end
 
 function mech:OnPortalOpenExit( state )
 	EntityService:SetVisible( self.entity, true )
 	EffectService:SpawnEffect( self.entity, "effects/mech/jump_portal_exit", "att_jump" )
+	self:UpdateChildrenDissolveAmount( self.entity, DD_FADE_IN, 0.5 )
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.5)
 	self.fsm:ChangeState("initial_spawn")
 end
 
 function mech:OnInitialSpawnEnter( state )
-	self:UpdateChildrenDissolveAmount( self.entity, 1 )
-
-	EntityService:SetGraphicsUniform( self.entity, "cDissolveAmount", 1 )
-	PlayerService:ChangePlayerEquipmentVisibility( 0, true )
-	
 	local database = EntityService:GetDatabase( self.entity )
 	database:SetInt( "is_spawn", 1 )
 	state:SetDurationLimit( 0.5 )
 end
 
-function mech:OnInitialSpawnExecute( state, dt )
-	local currentProgress = ( state:GetDuration() / 0.5  )
-	EntityService:SetGraphicsUniform( self.entity, "cDissolveAmount", 1 - currentProgress )	
+function mech:OnInitialSpawnExecute( state, dt )	
 end
 
 function mech:OnInitialSpawnExit( state )
-	EntityService:SetGraphicsUniform( self.entity, "cDissolveAmount", 0 )
-	self:UpdateChildrenDissolveAmount( self.entity, 0 )
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.0)
 end
 
 function mech:OnShockwaveEnter( state )
 	state:SetDurationLimit( 1 )
 end
 
+function mech:EnableMechFunctionality( enable )
+	if enable then
+		QueueEvent( "RecreateComponentFromBlueprintRequest", self.entity, "MechComponent")
+		if not self.is_bot then
+			QueueEvent( "CreateActionMapperRequest", self.entity, "MechActionMapper", MECH_ACTION_MAPPER_NAME, 0 )
+		end
+	else
+		if not self.is_bot then
+			QueueEvent( "RemoveActionMapperRequest", self.entity, MECH_ACTION_MAPPER_NAME )
+		end
+
+		EntityService:RemoveComponent( self.entity, "MechComponent" )
+	end
+end
+
 function mech:OnShockwaveExit( state )
-	PlayerService:RecreateMechComponent( self.entity )
 	HealthService:SetImmortality( self.entity, false  )
+
 	QueueEvent( "LuaGlobalEvent", event_sink, "InitialSpawnEnded", {} )
+
+	self:EnableMechFunctionality( true )
 end
 
 return mech

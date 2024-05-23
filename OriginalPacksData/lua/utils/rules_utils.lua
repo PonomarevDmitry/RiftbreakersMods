@@ -1,39 +1,44 @@
+local function GetRulesScriptName( name, postfix )
+	local script_name = name .. postfix .. ".lua"
+	if ResourceManager:ResourceExists( "LuaScript", script_name ) then
+		return script_name
+	end
+
+	LogService:Log( "GetRulesForDifficulty - missing dom rules script: '" .. script_name .. "'" )
+	return nil
+end
+
 function GetRulesForDifficulty( name )
-	if ( DifficultyService:IsCustomDifficulty() == true ) then
-		local customScriptname = name .. "custom.lua"
-
-		LogService:Log( "GetRulesForDifficulty - searching for : " .. customScriptname )	
-
-		if ( ResourceManager:ResourceExists( "LuaScript", customScriptname ) == true ) then
-			LogService:Log( "GetRulesForDifficulty - found : " .. customScriptname )
-			return ( customScriptname )
-		else
-			LogService:Log( "GetRulesForDifficulty - failed. Setting default : " .. name .. "default.lua" )
-			return ( name .. "default.lua" )
-		end
-	else
-		local difficulty = DifficultyService:GetCurrentDifficultyName()
-		LogService:Log( "GetRulesForDifficulty - searching for : " .. name .. difficulty .. ".lua" )	
-
-		if ( ResourceManager:ResourceExists( "LuaScript", name .. difficulty .. ".lua" ) == true ) then
-			LogService:Log( "GetRulesForDifficulty - found : " .. name .. difficulty .. ".lua" )
-			return ( name .. difficulty .. ".lua" )
-		else
-			LogService:Log( "GetRulesForDifficulty - failed. Setting default : " .. name .. "default.lua" )
-			return ( name .. "default.lua" )
+	if DifficultyService.GetDomRulesScriptPostfix then
+		local postfix = DifficultyService:GetDomRulesScriptPostfix()
+		if postfix ~= "" then
+			local script_name = GetRulesScriptName( name, postfix )
+			if script_name ~= nil then
+				return script_name
+			end
 		end
 	end
+
+	if DifficultyService:IsCustomDifficulty() then
+		local script_name = GetRulesScriptName( name, "custom" )
+		if script_name ~= nil then
+			return script_name
+		end
+	end
+
+	local script_name = GetRulesScriptName( name, DifficultyService:GetCurrentDifficultyName() )
+	if script_name ~= nil then
+		return script_name
+	end
+
+	return name .. "default.lua";
 end
 
 function GetRulesForCustomDifficulty( name )
-	local difficulty = DifficultyService:GetWaveStrength()
-	LogService:Log( "GetRulesForCustomDifficulty - searching for : " .. name .. difficulty .. ".lua" )	
-
-	if ( ResourceManager:ResourceExists( "LuaScript", name .. difficulty .. ".lua" ) == true ) then
-		LogService:Log( "GetRulesForCustomDifficulty - found : " .. name .. difficulty .. ".lua" )
-		return ( name .. difficulty .. ".lua" )
-	else
-		LogService:Log( "GetRulesForCustomDifficulty - failed. Setting default : " .. name .. "default.lua" )
-		return ( name .. "default.lua" )
+	local script_name = GetRulesScriptName( name, DifficultyService:GetWaveStrength() )
+	if script_name ~= nil then
+		return script_name
 	end
+
+	return name .. "default.lua";
 end

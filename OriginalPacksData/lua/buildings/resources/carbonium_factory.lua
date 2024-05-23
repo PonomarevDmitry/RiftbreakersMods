@@ -11,7 +11,7 @@ function carbonium_factory:OnAnimationMarker( markerName )
 	if ( markerName == "grab_rocks" ) then
 		self.rock = EntityService:SpawnAndAttachEntity("items/loot/resources/shard_carbonium", self.entity,  "att_grab_rocks", "" )
 		EntityService:SetScale( self.rock, 1.3, 1.3, 1.3 )		
-		QueueEvent( "FadeEntityInRequest", self.rock, 1 )
+		EntityService:FadeEntity( self.rock, DD_FADE_IN, 1 )
 	elseif (  markerName =="drop_rocks" and self.rock ~= nil )then
 		EntityService:DetachEntity(self.rock)
 		EntityService:CreateLifeTime(self.rock, 5.0, "normal" )

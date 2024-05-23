@@ -38,7 +38,7 @@ function resource_earthquake:Activated()
 	EntityService:RemoveEntity( ent )
 
 	local position = EntityService:GetPosition( eartquake )
-	GuiService:AddMinimapCircleMarker( position, tostring( eartquake ), radius, marker_color_r, marker_color_g, marker_color_b, marker_color_a )
+	GuiService:AddMinimapCircleMarker( position, tostring( eartquake ), radius, marker_color_r, marker_color_g, marker_color_b, 90 / 255 )
 
 
 	self:SetFinished()

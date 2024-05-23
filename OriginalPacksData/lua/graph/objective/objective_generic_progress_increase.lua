@@ -31,6 +31,15 @@ function objective_generic_increase:Activated()
 
 	database:SetInt( "progress_current", progressCurrent )
 
+	if database:HasInt( "progress_max") then
+		local progressMax = database:GetInt( "progress_max" )
+		if progressMax <= progressCurrent then
+			ObjectiveService:SetObjectiveStatusByObjectiveId( objectiveId, OBJECTIVE_SUCCESS )
+		else
+			ObjectiveService:SetObjectiveStatusByObjectiveId( objectiveId, OBJECTIVE_IN_PROGRESS )
+		end
+	end
+
 	self:SetFinished()
 end
 

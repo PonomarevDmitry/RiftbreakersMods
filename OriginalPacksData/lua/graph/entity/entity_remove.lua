@@ -26,7 +26,11 @@ function entity_remove:Activated()
 	--if self.data:HasString( "target_name" ) then
 		targetName = self.data:GetString("target_name")	
 		--LogService:Log(targetName)
-		if targetName ~= "" then			
+		if targetName ~= "" then
+			if self.data:GetIntOrDefault("name_is_global", 1) == 0 then
+				targetName = self.parent:CreateGraphUniqueString(targetName)
+			end
+
 			local objectId = FindService:FindEntitiesByName( targetName )		
 			for i = 1, #objectId do				
 				--LogService:Log("Removing entiy with name " .. targetName .. " entityID " .. tostring(objectId))

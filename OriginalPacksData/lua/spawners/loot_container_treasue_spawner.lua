@@ -10,7 +10,7 @@ function loot_container_treasue_spawner:init()
 	self.rarity = self.data:GetIntOrDefault( "rarity", 0 );
 	SetupUnitScale( self.entity, self.data )
     EntityService:MarkEntityAsLootContainer( self.entity, self.rarity )
-    QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity, EntityService:GetTeam(self.entity) )
+    QueueEvent("TeamSpawnFromLootContainerRequest", self.entity, self.rarity, EntityService:GetTeam(self.entity) )
 	QueueEvent("DestroyRequest", self.entity, "default", 100 )
 end
 

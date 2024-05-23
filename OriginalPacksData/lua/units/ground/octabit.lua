@@ -61,8 +61,9 @@ function octabit:OnDivide( state )
 		local entity = EntityService:SpawnEntity( self.data:GetString( "clone_bp" ), self.entity, "wave_enemy" )
 		UnitService:SetInitialState( entity, UNIT_AGGRESSIVE);
 
-		local scaleMin = self.data:GetFloatOrDefault( "min_scale", 1.0 )
-		local scaleMax = self.data:GetFloatOrDefault( "max_scale", 1.0 )
+		local data = EntityService:GetBlueprintDatabase( self.entity )
+		local scaleMin = data:GetFloatOrDefault( "min_scale", 1.0 )
+		local scaleMax = data:GetFloatOrDefault( "max_scale", 1.0 )
 
 		local db = EntityService:GetDatabase( entity )
 

@@ -1,201 +1,30 @@
 require("lua/utils/table_utils.lua")
 
-local base_unit = require("lua/units/base_unit.lua")
-class 'viremoth' ( base_unit )
+local swarm = require("lua/units/ground/swarm.lua")
+class 'viremoth' ( swarm )
 
 function viremoth:__init()
-	base_unit.__init(self, self)
+	swarm.__init(self, self)
 end
 
-function viremoth:OnInit()
+function viremoth:_OnInit()
 	
-	self:RegisterHandler( self.entity, "LuaGlobalEvent", "OnLuaGlobalEvent" )
-	self:RegisterHandler( self.entity, "EnteredTriggerEvent", 	 "OnEnteredTriggerEvent" )
-	self:RegisterHandler( self.entity, "LeftTriggerEvent", 	 "OnLeftTriggerEvent" )
+
 	self:RegisterHandler( self.entity, "ShootLightningEvent",  "OnShootLightningEvent" )
-	self:RegisterHandler( self.entity, "EnterStunEvent",  "OnEnterStunEvent" )
-	self:RegisterHandler( self.entity, "ExitStunEvent",  "OnExitStunEvent" )
 
 	self.wreck_type = "wreck_big"
 	self.wreckMinSpeed = 4
 
-	self.fsm = self:CreateStateMachine()
-	self.fsm:AddState( "logic", { enter="OnEnterLogic", execute="OnExecuteLogic" } )
-	self.fsm:ChangeState( "logic" )
-
-	self.fsmAlive = self:CreateStateMachine()
-	self.fsmAlive:AddState( "alive", { execute="OnExecuteAlive", interval = 1.0 } )
-	self.fsmAlive:ChangeState( "alive" )
-
-	self.children = {}
-
-	self.removeChildDistance = 20
-
-	self.dealDamage = 25
-	self.heal = 25
-	self.childSpeed = 5.0
-
-	self.damageDealTo  = {}
-	self.healTo  = {}
-
 	self.lightnings  = {}
 
 	self.stormEffect = self.data:GetString( "storm_effect" )
-
-	self.INVALID_ID = tostring( INVALID_ID )
+	self.stormTimer = RandFloat( 1.0, 2.0 )
 
 	self.stormTimer = RandFloat( 1.0, 2.0 )
 
-	self.createChildTimer = self.data:GetFloatOrDefault( "create_child_timer", 10.0 )
-	self.childrenCount    = self.data:GetIntOrDefault( "children_count", 10 )
-
-	self.isStunned = false
-
-	self.healEffect = "time_damage_acid"
-	self.dmgEffect = "leech"
 end
 
-function viremoth:CreateChild()
-	local entity = EntityService:SpawnEntity( self.data:GetString( "child_bp" ), self.entity, "wave_enemy" )
-	UnitService:SetInitialState( entity, UNIT_AGGRESSIVE )
-	UnitService:SetNavMeshMoveToTarget( entity, self.entity )
-	HealthService:SetHealth( entity, HealthService:GetMaxHealth( self.entity ) )
-	QueueEvent( "SetBaseMovementDataRequest", entity, self.childSpeed, self.childSpeed )
-	
-	return entity;
-end
-
-function viremoth:OnEnterLogic( state )
-	for i = 1, self.childrenCount do
-		table.insert( self.children, self:CreateChild() )
-	end
-
-end
-
-function viremoth:AddEntityToData( target )
-	local entity = tonumber( target )
-
-	if ( ( EntityService:GetTeam( "player" ) == EntityService:GetTeam( entity ) ) or ( EntityService:GetType( entity ) == "cavern_wall" ) ) then
-		for i = 1, #self.damageDealTo, 1 do 
-		
-			if ( self.damageDealTo[i].entity == entity ) then
-				self.damageDealTo[i].counter = self.damageDealTo[i].counter + 1 		
-				return
-			end
-		end
-
-		local dealTo = {}
-		dealTo.entity = entity
-		dealTo.counter  = 1
-
-		table.insert( self.damageDealTo, dealTo )
-	else
-		for i = 1, #self.healTo, 1 do 
-		
-			if ( self.healTo[i].entity == entity ) then
-				self.healTo[i].counter = self.healTo[i].counter + 1 		
-				return
-			end
-		end
-
-		local heal = {}
-		heal.entity = entity
-		heal.counter  = 1
-
-		table.insert( self.healTo, heal )
-	end
-end
-
-function viremoth:RemoveEntityFromData( target )
-	local entity = tonumber( target )
-
-	if ( ( EntityService:GetTeam( "player" ) == EntityService:GetTeam( entity ) ) or ( EntityService:GetType( entity ) == "cavern_wall" ) ) then
-		for i = 1, #self.damageDealTo, 1 do  		
-			if ( self.damageDealTo[i].entity == entity ) then
-				self.damageDealTo[i].counter = self.damageDealTo[i].counter - 1 	
-				if ( self.damageDealTo[i].counter == 0 ) then
-					table.remove( self.damageDealTo, i )
-					EffectService:DestroyEffectsByGroup( entity, self.dmgEffect );
-					return
-				end
-			end
-		end
-	else
-		for i = 1, #self.healTo, 1 do  		
-			if ( self.healTo[i].entity == entity ) then
-				self.healTo[i].counter = self.healTo[i].counter - 1 	
-				if ( self.healTo[i].counter == 0 ) then
-					EffectService:DestroyEffectsByGroup( entity, self.healEffect );
-					table.remove( self.healTo, i )
-					return
-				end
-			end
-		end
-	end
-end
-
-function viremoth:OnLuaGlobalEvent( evt )
-	
-	local params = evt:GetDatabase()
-	local eventName = evt:GetEvent()
-
-	local target = params:GetStringOrDefault( "target", self.INVALID_ID )
-
-	if ( eventName == "ChildDealEvent" ) then
-		self:AddEntityToData( target )
-	elseif ( eventName == "ChildReleaseEvent" ) then
-		self:RemoveEntityFromData( target )
-	end
-end
-
-function viremoth:OnEnterStunEvent( evt )
-	self.isStunned = true
-
-	for i = 1, #self.children do	
-		if ( EntityService:IsAlive( self.children[i] ) == true ) then
-		    QueueEvent( "SetBaseMovementDataRequest", self.children[i], 0.0, 0.0 )	
-		end
-	end
-end
-
-function viremoth:OnExitStunEvent( evt )
-	self.isStunned = false
-
-	for i = 1, #self.children do	
-		if ( EntityService:IsAlive( self.children[i] ) == true ) then
-			QueueEvent( "SetBaseMovementDataRequest", self.children[i], self.childSpeed, self.childSpeed )	
-		end
-	end
-end
-
-function viremoth:OnEnteredTriggerEvent( evt )
-	self:AddEntityToData( evt:GetOtherEntity() )
-end
-
-function viremoth:OnLeftTriggerEvent( evt )
-	self:RemoveEntityFromData( evt:GetOtherEntity() )
-end
-
-function viremoth:OnExecuteAlive( state, dt )
-	for i = 1, #self.children do	
-		if ( EntityService:IsAlive( self.children[i] ) == false ) then
-			table.remove( self.children, i )
-			break
-		end
-	end
-
-	for i = 1, #self.children do	
-		local distance = EntityService:GetDistanceBetween( self.entity, self.children[i] )
-		if ( distance > self.removeChildDistance ) then
-			EntityService:RemoveEntity( self.children[i] )	
-			table.remove( self.children, i )
-			table.insert( self.children, self:CreateChild() )
-			break
-		end
-	end
-end
-
-function viremoth:OnExecuteLogic( state, dt )
+function viremoth:_OnExecuteLogic( state, dt )
 
 	local removeChildren = {}
 
@@ -250,7 +79,13 @@ function viremoth:OnExecuteLogic( state, dt )
 			if ( self.stormTimer <= 0 ) then
 				local count = RandInt( #self.children,  #self.children * 3 )
 
-				local origins = EntityService:BuildConvexHullOrigins( self.children )
+				local convexEntities = {}
+
+				for i = 1, #self.children do	
+					table.insert( convexEntities, self.children[i].entity )
+				end
+
+				local origins = EntityService:BuildConvexHullOrigins( convexEntities )
 
 				if ( #origins >= 3 ) then		
 					for i = 1, count, 1 do  
@@ -267,37 +102,15 @@ function viremoth:OnExecuteLogic( state, dt )
 			self.createChildTimer = self.createChildTimer - dt
 
 			if ( self.createChildTimer <= 0 ) then
-				table.insert( self.children, self:CreateChild() )
+				local child = {}
+				child.entity = self:CreateChild()
+				child.currentHeight  = 0
+
+				table.insert( self.children, child )
 				self.createChildTimer = self.data:GetFloatOrDefault( "create_child_timer", 10.0 )
 			end
 		end
 	end
-end
-
-
-function viremoth:CreateStorm( fromOrigin, toOrigin )
-	local distance = Distance( fromOrigin, toOrigin )
-
-	if ( distance > 10 ) then
-		return
-	end
-
-    local lightning = EntityService:SpawnEntity( self.stormEffect, self.entity, "" )
-    local component = reflection_helper( EntityService:GetComponent( lightning, "LightningComponent" ) )
-
-    local container = rawget( component.lighning_vec, "__ptr" );
-    local instance =  reflection_helper( container:CreateItem() )
-
-    instance.start_point.x = fromOrigin.x
-    instance.start_point.y = fromOrigin.y
-    instance.start_point.z = fromOrigin.z
-
-    instance.end_point.x = toOrigin.x
-    instance.end_point.y = toOrigin.y + RandFloat( 2.0, 4.0 )
-    instance.end_point.z = toOrigin.z
-
-	EntityService:CreateLifeTime( lightning, RandFloat( 0.1, 0.4 ), "" )
-
 end
 
 function viremoth:OnShootLightningEvent( evt )
@@ -325,24 +138,6 @@ function viremoth:OnShootLightningEvent( evt )
 
 		table.insert( self.lightnings, lightning )
 	end
-end
-
-function viremoth:_OnDestroyRequest( state )
-
-	for i = 1, #self.children do	
-		EntityService:RemoveEntity( self.children[i] )	
-	end
-
-	for i = 1, #self.damageDealTo, 1 do  		
-		EffectService:DestroyEffectsByGroup( self.damageDealTo[i].entity, self.dmgEffect );
-	end
-
-	for i = 1, #self.healTo, 1 do  		
-		EffectService:DestroyEffectsByGroup( self.healTo[i].entity, self.healEffect );
-	end
-
-
-	EntityService:RemoveEntity( self.entity )	
 end
 
 return viremoth

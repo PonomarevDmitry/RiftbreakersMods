@@ -1,4 +1,5 @@
 class 'teleport_machine' ( LuaEntityObject )
+require("lua/utils/table_utils.lua")
 
 function teleport_machine:__init()
 	LuaEntityObject.__init(self, self)
@@ -37,7 +38,7 @@ function teleport_machine:init()
     self.parent = EntityService:GetParent( self.entity )
 
     self.teleported = false
-
+    self.hiddenChildren = {}
     self.fsm:ChangeState("disappear")
 end
 
@@ -46,9 +47,13 @@ function teleport_machine:OnDisappearEnter( state)
     QueueEvent("RiftTeleportStartEvent", self.parent )
     QueueEvent("AttachEffectGroupRequest", self.parent, "portal_enter", 0 )
 
+    self.hiddenChildren = {}
     local children = EntityService:GetChildren( self.parent, true )
 	for child in Iter(children) do
-        EntityService:SetVisible( child, false )
+		if ( EntityService:IsVisible( child ) ) then		
+            QueueEvent("FadeEntityOutRequest", child, 0.5 )
+            Insert(self.hiddenChildren, child )
+        end
     end
     HealthService:SetImmortality( self.parent, true )
 
@@ -78,22 +83,28 @@ function teleport_machine:OnWaitExit( state)
 end
 
 function teleport_machine:OnAppearEnter( state)
-    QueueEvent("FadeEntityInRequest", self.parent, self.appearTime )
+    EntityService:FadeEntity( self.parent, DD_FADE_IN, self.appearTime )
     QueueEvent("AttachEffectGroupRequest", self.parent, "portal_exit", 0 )
     QueueEvent("TeleportAppearEnter", self.portalEntity )
 
+	for child in Iter(self.hiddenChildren) do
+        EntityService:FadeEntity( child, DD_FADE_IN, 0.5 )
+    end
+    self.hiddenChildren = {}
     state:SetDurationLimit( self.appearTime )
 end
 
 function teleport_machine:OnAppearExit( state)
     QueueEvent("RiftTeleportEndEvent", self.parent )
     QueueEvent("TeleportAppearExit", self.portalEntity )
-
-
-    local children = EntityService:GetChildren( self.parent, true )
-	for child in Iter(children) do
-        EntityService:SetVisible( child, true )
+    local portalComponent = EntityService:GetComponent( self.portalEntity, "RiftPointComponent")
+    if ( portalComponent ~= nil ) then
+        local helper = reflection_helper(portalComponent)
+        if ( helper.name == "temp_rift") then
+            QueueEvent("DissolveEntityRequest", self.portalEntity, 0.5, 0.0)
+        end
     end
+
 
     HealthService:SetImmortality( self.parent, false )
 

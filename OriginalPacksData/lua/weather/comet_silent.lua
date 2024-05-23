@@ -29,37 +29,61 @@ function comet_silent:FillInitialParams()
 	self.cometSpawnBpName 		= self.data:GetStringOrDefault( "comet_impact_spawn_name", "" )
 	self.findMode = self.data:GetStringOrDefault( "find_mode", "resource" )
 	self.makeAggresive = self.data:GetIntOrDefault( "make_unit_aggressive" , 0)
+	self.spawnHeight = 10
 end
 
 function comet_silent:OnLoad()
 	self:FillInitialParams()
 end
 
-function comet_silent:OnEnterSpawn( state )
+function comet_silent:SelectFlyoverCandidate()
+	for entity in Iter( PlayerService:GetPlayersMechs() ) do
+		return entity
+	end
 
+	return FindService:FindEntityByName("headquarters")
+end
+
+function comet_silent:UpdateSpawnHeightForDamage( entity )
+	local position = EntityService:GetPosition( entity )
+	self.spawnHeight = math.max( EnvironmentService:GetTerrainHeight( position ) + 1, position.y )
+end
+
+function comet_silent:OnEnterSpawn( state )
 	if ( self.findMode == "resource") then
 		self.spaceEnt = ResourceService:FindEmptySpace( 100, 500 );
 	elseif ( self.findMode == "objective") then
-		self.spaceEnt = FindObjectiveSpot()
+		self.spaceEnt = MissionService:SpawnMissionObjective( "logic/position_marker", true )
 	else
 	 	self.spaceEnt = ResourceService:FindEmptySpace( 100, 500 );
 	end
-    self.cometEnt = MeteorService:SpawnComet( PlayerService:GetPlayerControlledEnt( 0 ), self.spaceEnt, self.cometFlyingBp, 35, 20 )
+	
+	if Assert(self.spaceEnt ~= INVALID_ID, "ERROR: failed to find spawn position for blueprint: '" .. self.cometFlyingBp .. "'") then
+    	self.cometEnt = MeteorService:SpawnComet( self:SelectFlyoverCandidate(), self.spaceEnt, self.cometFlyingBp, 35, 20 )
+		self:UpdateSpawnHeightForDamage( self.cometEnt )
+	else
+		EntityService:RemoveEntity( self.entity )
+	end
 end
 
 function comet_silent:OnExecuteSpawn( state )
 	if ( EntityService:IsAlive( self.cometEnt ) == false ) then
 		self.spawner:ChangeState( "cleanup" )
+	else
+		self:UpdateSpawnHeightForDamage( self.cometEnt )
 	end
 end
 
 function comet_silent:OnExitSpawn( state )
 	if ( self.cometDmgBp ~= "" ) then
-		MeteorService:SpawnMeteorInRadius( self.spaceEnt, self.cometDmgBp, 0, 1, 140, 0, 0.0, "" ) --wersja do spadania ukosem 
+		MeteorService:SpawnMeteorInRadius( self.spaceEnt, self.cometDmgBp, 0, self.spawnHeight, self.spawnHeight * 0.5, 0, 0.0, "" ) --wersja do spadania ukosem 
 	end
 
 	if ( self.cometImpactPlaceBp ~= ""  ) then
-		EntityService:SpawnEntity( self.cometImpactPlaceBp, self.spaceEnt, "no_team" )
+		local entity = EntityService:SpawnEntity( self.cometImpactPlaceBp, self.spaceEnt, "no_team" )
+		if self.findMode == "objective" then
+			MissionService:PushEntityToMissionObjectSpawnerPools( entity, "objectives" )
+		end
 	end
 
 	if ( self.cometSpawnBp ~= "" ) then
@@ -67,9 +91,12 @@ function comet_silent:OnExitSpawn( state )
 		if ( self.cometSpawnBpName ~= "") then
 			EntityService:SetName(spawnedEntity, self.cometSpawnBpName)
 		end
+
 		if ( self.makeAggresive == 1 ) then
 			EntityService:SetTeam( spawnedEntity, "wave_enemy")
 			UnitService:SetInitialState( spawnedEntity, UNIT_AGGRESSIVE);
+		elseif self.findMode == "objective" then
+			MissionService:PushEntityToMissionObjectSpawnerPools( spawnedEntity, "objectives" )
 		end
 	end
 	if ( self.removeSpaceEnt == true ) then

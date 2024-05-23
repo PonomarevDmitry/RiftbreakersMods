@@ -30,9 +30,9 @@ function crystal_wall_ruins:OnTimerElapsedEvent(evt)
 	local dissolveTime = self.data:GetFloatOrDefault("dissolve_time", 2.0)
 
 	HealthService:SetHealthInPercentageWithoutEffects( building, healthAmountInPercent)
-    EntityService:SetGraphicsUniform( building, "cDissolveAmount", 1.0 )
-	QueueEvent( "FadeEntityInRequest", building, dissolveTime )
+	EntityService:FadeEntity( building, DD_FADE_IN, dissolveTime )
 	
+
 	local playerReferenceComponent = EntityService:GetComponent(self.entity, "PlayerReferenceComponent")
 	local playerReference = reflection_helper(EntityService:CreateComponent(building, "PlayerReferenceComponent"))
 	if ( playerReferenceComponent )  then
@@ -41,7 +41,7 @@ function crystal_wall_ruins:OnTimerElapsedEvent(evt)
     	playerReference.reference_type.internal_enum = helper.reference_type.internal_enum
 	else
 		playerReference.player_id = 0
-    	playerReference.reference_type = 4
+    	playerReference.reference_type.internal_enum = 4
 	end
 end
 

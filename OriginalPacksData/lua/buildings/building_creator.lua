@@ -58,7 +58,6 @@ function building_creator:init()
 
 	self:CreateBuildingStateMachine()
 	self.extendLength = 0.5
-	self.lastProgress = 0
 	self.currentLines = {}
 	self.lines = {}
 	self.currentCubes = {}
@@ -68,7 +67,6 @@ function building_creator:init()
 	self.printingLine1 = nil
 	self.printingLine2 = nil
 	self.printingCube  = nil
-	self.dissolveCurrent = 0
 	self.forwardTime = 0
 	self.timeMachine = 0
 	self.isFloor = self.buildingType == "floor"
@@ -287,9 +285,8 @@ function building_creator:_OnBuildingEnter( state )
 		EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default" )
 	end
 
-	self.dissolveCurrent = 1;
-    EntityService:SetGraphicsUniform( self.meshEnt, "cDissolveAmount", self.dissolveCurrent )
 	EntityService:SetMaterial( self.meshEnt, "selector/hologram_blue_depth" , "dissolve" )
+	EntityService:FadeEntity( self.meshEnt, DD_FADE_IN, state:GetDurationLimit() )
 
     if ( self.printingCube ~= nil ) then
 		self.printingData1 = { EntityService:GetPositionX( self.printingCube ), EntityService:GetPositionY( self.printingCube ), EntityService:GetPositionZ( self.printingCube ) }
@@ -302,11 +299,8 @@ end
 function building_creator:_OnBuildingExecute( state )
 	local currentDuration = state:GetDuration() + self.forwardTime
 
+	EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
     local progress = currentDuration / state:GetDurationLimit()
-	self.lastProgress = progress
-	self.dissolveCurrent = 1 - progress
-    EntityService:SetGraphicsUniform( self.meshEnt, "cDissolveAmount", self.dissolveCurrent )
-
     if ( self.printingCube ~= nil ) then
     	local offset1 = math.sin( progress * 45 * self.width / 20 )
     	local progress2 = progress * 45 * self.width / 100
@@ -332,7 +326,6 @@ function building_creator:_OnBuildingExit( state )
 	end
 	
 	QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent" )
-	EntityService:RemoveGraphicsUniform( self.meshEnt, "cDissolveAmount" )
 
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
 	if ( EntityService:IsAlive(self.endCubeEnt) == true ) then

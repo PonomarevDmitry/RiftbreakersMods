@@ -8,13 +8,19 @@ function carnicinth:__init()
 end
 
 function carnicinth:OnInit()	
-	self.data:SetInt( "skip_dig_up", 1 )
+	
+	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
 
 	self.wreck_type = "wreck_small"
-	self.wreckMinSpeed = 0
+	self.wreckMinSpeed = 10
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end
 
+function carnicinth:OnShootEvent( evt )
+
+	WeaponService:ShootOnce( self.entity )
+
+end
 
 return carnicinth

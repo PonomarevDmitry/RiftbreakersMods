@@ -37,6 +37,7 @@ function firetrail_dash:OnDashExecute( state )
 
 		local trail =	EntityService:SpawnEntity( self.trailEffect, self.owner, "" )
 		ItemService:SetItemCreator( trail, self.entity_blueprint );
+		EntityService:PropagateEntityOwner( trail, self.owner )
 		EntityService:DissolveEntity( trail, self.trailTime, 1.0 )
 	else
 		local currentPosition = EntityService:GetPosition( self.owner )
@@ -48,6 +49,7 @@ function firetrail_dash:OnDashExecute( state )
 
 			local trail = EntityService:SpawnEntity(self.trailEffect, self.owner, "" )
 			ItemService:SetItemCreator( trail, self.entity_blueprint );
+			EntityService:PropagateEntityOwner( trail, self.owner )
 			EntityService:DissolveEntity( trail, self.trailTime, 1.0 )
 		end
 	end

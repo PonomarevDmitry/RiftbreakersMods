@@ -12,6 +12,8 @@ function shielding:OnInit()
     self.damage_type = self.data:GetString("damage_type")
     self.resistance_factor = self.data:GetFloatOrDefault("resistance_factor", 0)
     self:OnShieldingAcquired()
+
+	self.itemVersion = 1
 end
 
 function shielding:SetResistance( entity, factor )
@@ -29,12 +31,12 @@ function shielding:OnShieldingAcquired()
 		self:SetResistance(entity, self.resistance_factor )
 	end
 	
-	self:RegisterHandler( event_sink , "BuildingStartEvent", "OnBuildingStartEvent")
+	self:RegisterHandler( event_sink , "StartBuildingEvent", "OnStartBuildingEvent")
 	self:RegisterHandler( event_sink , "PlayerControlledEntityChangeEvent", "OnPlayerControlledEntityChangeEvent")
 	self:RegisterHandler( event_sink , "ShieldEntityCreatedEvent", "OnShieldEntityCreatedEvent")
 end
 
-function shielding:OnBuildingStartEvent(evt)
+function shielding:OnStartBuildingEvent(evt)
 	self:SetResistance(evt:GetEntity(), 0.0)
 end
 
@@ -45,6 +47,19 @@ end
 function shielding:OnPlayerControlledEntityChangeEvent(evt)
 	if ( EntityService:IsAlive( evt:GetControlledEntity() ) ) then
 		self:SetResistance(evt:GetControlledEntity(), self.resistance_factor)
+	end
+end
+
+--Deprecated
+function shielding:OnBuildingStartEvent( evt )
+end
+--EndDeprecated
+
+function shielding:OnLoad()
+
+	if ( self.itemVersion == nil or self.itemVersion < 1 ) then
+		self:UnregisterHandler( event_sink , "BuildingStartEvent", "OnBuildingStartEvent");
+		self.itemVersion = 1
 	end
 end
 return shielding

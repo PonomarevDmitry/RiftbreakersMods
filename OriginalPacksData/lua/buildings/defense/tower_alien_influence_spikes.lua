@@ -5,9 +5,24 @@ function tower_alien_influence_spikes:__init()
 end
 
 function tower_alien_influence_spikes:init()
-	self.initialPos = EntityService:GetPosition( self.entity )
+	self.initialPos = EntityService:GetPosition( self.entity ) 
+	self.initialPos.y = EnvironmentService:GetTerrainHeight( self.initialPos )
+	EntityService:SetPosition( self.entity, self.initialPos.x, self.initialPos.y, self.initialPos.z )
     local size = EntityService:GetBoundsSize( self.entity )
     self.spikeHeight = size.y;
+
+    local hasWater = false
+    local cellEnt = EnvironmentService:GetTerrainCell( self.initialPos )
+	if cellEnt ~= INVALID_ID then
+ 		if EntityService:HasComponent( cellEnt, "WaterLayerComponent" ) then
+ 			EffectService:SpawnEffects( self.entity, "water" )
+ 			hasWater = true
+ 		end
+	end
+
+	if hasWater == false then 
+		EffectService:SpawnEffects( self.entity, "default" )
+	end
 
     EntityService:SetOrientation( self.entity, 0, 1, 0, RandFloat( 0.0, 360.0 ) )
 

@@ -19,11 +19,16 @@ function spawner:init()
 	elseif ( (  currentDifficulty == "brutal" ) and ( EntityService:IsBlueprintExist( bpNameUltra ) == true ) ) then
 		UnitSpawnerService:ReplaceSpawnBlueprint( self.entity, bpNameUltra )
 	end
+
+	if self.OnInit then
+        self:OnInit( evt )
+    end
 end
 
 function spawner:OnDestroyRequest( evt )
 	AnimationService:StopAnim( self.entity , "working" )	
 	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(), "wreck_big", 0 )
+	EntityService:RemoveComponent( self.entity, "UnitsSpawnerComponent" )
 end
 
 function spawner:OnSpawnerInfoRequest( evt )

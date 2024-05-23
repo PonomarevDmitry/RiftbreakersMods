@@ -20,6 +20,8 @@ function gravity_hole:OnInit()
 	
 	self.initialBlast =  self.data:GetStringOrDefault("initial_blast","items/consumables/gravity_hole_initial_blast")
 	self.damage =  self.data:GetStringOrDefault("damage","items/consumables/gravity_hole_damage")
+	
+	EntityService:SetTeam( self.entity, "player" )
 end
 
 function gravity_hole:OnClosedEnter( state )
@@ -53,6 +55,7 @@ function gravity_hole:SetItemCreator(entity)
 	else
 		ItemService:SetItemCreator( entity, self.entity_blueprint );
 	end
+	EntityService:PropagateEntityOwner( entity, self.entity )
 end
 
 function gravity_hole:OnOpeningEnter( state )
@@ -60,8 +63,6 @@ function gravity_hole:OnOpeningEnter( state )
 	
 	self.idleDamageEnt = EntityService:SpawnAndAttachEntity( self.damage, self.entity )
 	self:SetItemCreator(self.idleDamageEnt)
-
-	EntityService:SetTeam( self.idleDamageEnt, "player" )
 end
 
 function gravity_hole:OnOpeningExecute( state )

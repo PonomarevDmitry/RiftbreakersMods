@@ -19,6 +19,22 @@ end
 function upgrade_tool:AddedToSelection( entity )
 
 end
+function upgrade_tool:FilterSelectedEntities( selectedEntities ) 
+
+    local entities = {}
+    for  ent in Iter(selectedEntities ) do
+        local buildingComponent = EntityService:GetComponent(ent, "BuildingComponent")
+        if ( buildingComponent == nil ) then goto continue end
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode == BM_COMPLETED ) then 
+            Insert(entities, ent)
+        end
+
+        ::continue::
+    end
+
+    return entities
+end
 
 function upgrade_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )

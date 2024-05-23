@@ -29,7 +29,7 @@ end
 
 function spawn_elite:Activated()
 	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )	
-	local objectiveSpawn = MissionService:SpawnMissionObjective(self.eliteBlueprint)
+	local objectiveSpawn = MissionService:SpawnMissionObjective(self.eliteBlueprint, false)
 	if objectiveSpawn == INVALID_ID then
 		LogService:Log("NO FREE OBJECTIVE SPAWN POINTS - ABORTING OBJECTIVE")
 		

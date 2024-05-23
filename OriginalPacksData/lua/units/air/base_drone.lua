@@ -1,30 +1,9 @@
 require("lua/utils/table_utils.lua")
 require("lua/units/units_utils.lua")
+require("lua/utils/throttler_utils.lua")
 
 class 'base_drone' ( LuaEntityObject )
 
-g_throttler = {}
-
-function SetTargetFinderThrottler( lock_name, limit )
-	g_throttler[ lock_name ] = { time = 0, requests = 0, requests_limit = limit }
-end
-
-function IsRequestThrottled( lock_name )
-	if g_throttler[ lock_name ] == nil then
-		return false
-	end
-	
-	local time = GetLogicTime()
-
-	local state = g_throttler[ lock_name ];
-	if state.time ~= time then
-		state.time = time
-		state.requests = 0
-	end
-
-	state.requests = state.requests + 1
-	return state.requests > state.requests_limit
-end
 
 function base_drone:__init()
 	LuaEntityObject.__init(self, self)
@@ -104,29 +83,29 @@ function base_drone:OnOwnerDistanceCheckExecute()
 		return
 	end
 
-	local distance = EntityService:GetDistance2DBetween(self.entity, owner)
-	if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil then
+	local distance = EntityService:GetDistance2DBetween( self.entity, owner )
+	if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent( self.entity, "IsVisibleComponent" ) == nil then
 
 		if self.is_enabled then
 			QueueEvent( "DisableDroneRequest", self.entity )
 			QueueEvent( "EnableDroneRequest", self.entity )
 		end
 
-		local target_position = EntityService:GetPosition(owner)
-		target_position.y = EntityService:GetPositionY(self.entity)
+		local target_position = EntityService:GetPosition( owner )
+		target_position.y = EntityService:GetPositionY( self.entity )
 
-		EntityService:Teleport(self.entity, target_position)
-		QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+		EntityService:Teleport( self.entity, target_position )
+		EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.3 )
 	end
 
 	local action_target = self:GetDroneActionTarget()
-	if action_target ~= INVALID_ID and not EntityService:IsAlive(action_target) then
+	if action_target ~= INVALID_ID and not EntityService:IsAlive( action_target ) then
 		self:SetTargetActionFinished()
 	end
 end
 
 function base_drone:_OnEnableDroneRequest( evt )
-	local storage = self.data:GetFloatOrDefault("storage", 1);
+	local storage = self.data:GetFloatOrDefault( "storage", 1 );
 
 	self:SetEnabled(true)
 	EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", storage )

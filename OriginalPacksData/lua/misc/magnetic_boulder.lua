@@ -11,10 +11,21 @@ function magnetic_boulder:init()
 	self:RegisterHandler( self.entity, "DestroyRequest", "OnDestroyRequest" )
 	
 	self.disabledEnts = {}
+	self.version = 1
+end
+
+function magnetic_boulder:OnLoad()
+	self.version = self.version or 0
+	if self.version < 1 then
+		for ent in Iter( self.disabledEnts ) do
+			GuiService:DisableMinimapInterference()
+		end
+
+		self.version = 1
+	end
 end
 
 function magnetic_boulder:OnEnteredTriggerEvent( evt )
-	GuiService:EnableMinimapInterference()
 	PlayerService:DisableBuildMode( evt:GetOtherEntity() )
 	Insert(self.disabledEnts, evt:GetOtherEntity() )
 	--EffectService:AttachEffects( evt:GetOtherEntity(), "interference" )
@@ -22,7 +33,6 @@ function magnetic_boulder:OnEnteredTriggerEvent( evt )
 end
 
 function magnetic_boulder:OnLeftTriggerEvent( evt )
-	GuiService:DisableMinimapInterference()
 	PlayerService:EnableBuildMode( evt:GetOtherEntity() )
 	--EffectService:DestroyEffectsByGroup( evt:GetOtherEntity(), "interference" )
 	Remove( self.disabledEnts, evt:GetOtherEntity() )
@@ -35,7 +45,6 @@ end
 
 function magnetic_boulder:OnRelease()
 	for ent in Iter( self.disabledEnts ) do
-		GuiService:DisableMinimapInterference()
 		PlayerService:EnableBuildMode( ent )
     end
 	
