@@ -1,8 +1,8 @@
-//editor "scroll(-442.00,447.00)|zoom(1.00)"
+//editor "scroll(-381.33,889.33)|zoom(0.67)"
 FlowGraphTemplate
 {
-	version "13"
-	editor "5247"
+	version "14"
+	editor "5738"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -93,7 +93,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(15,861)"
+			//editor "layout(condition_true.xml)|pos(15,859)"
 			key "true"
 			self_id "logic_if_global_variable_0###true"
 			value "logic_if_global_variable_0###true"
@@ -222,9 +222,110 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(16,1429)"
+			//editor "layout(condition_true.xml)|pos(16,1427)"
 			key "true"
 			self_id "logic_if_global_variable_1###true"
+			value "logic_if_global_variable_0###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(662,1657)"
+			graph "logic/missions/campaigns/dlc_3/swamp_headquarters.logic"
+			self_id "event_graph_2"
+			start_point "default"
+			validate_graph_resource "0"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(25,1535)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.swamp_start"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(25,1802)"
+			key "true"
+			self_id "logic_if_global_variable_2###true"
 			value "logic_if_global_variable_0###true"
 		}
 
@@ -232,11 +333,13 @@ FlowGraphTemplate
 
 	GraphConnections
 	{
-		default "logic_if_global_variable_0|logic_if_global_variable_1"
+		default "logic_if_global_variable_0|logic_if_global_variable_1|logic_if_global_variable_2"
 		logic_if_global_variable_0 "logic_if_global_variable_0###true"
 		logic_if_global_variable_0###true "event_graph_0"
 		logic_if_global_variable_1 "logic_if_global_variable_1###true"
 		logic_if_global_variable_1###true "event_graph_1"
+		logic_if_global_variable_2 "logic_if_global_variable_2###true"
+		logic_if_global_variable_2###true "event_graph_2"
 	}
 
 	GraphComments

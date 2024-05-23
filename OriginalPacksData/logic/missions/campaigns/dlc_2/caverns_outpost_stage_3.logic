@@ -1,8 +1,8 @@
-//editor "scroll(-4679.31,849.37)|zoom(0.67)"
+//editor "scroll(-2734.92,157.50)|zoom(0.33)"
 FlowGraphTemplate
 {
-	version "85"
-	editor "5659"
+	version "86"
+	editor "5998"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -158,6 +158,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_13"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -326,6 +327,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_14"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -367,7 +369,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(-4317,1227)"
+			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(-3753,1213)"
 			database
 			{
 				Floats
@@ -391,6 +393,19 @@ FlowGraphTemplate
 					IntData
 					{
 						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					IntData
+					{
+						key "marker_name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "target_name_is_global"
 						value "1"
 					}
 
@@ -426,7 +441,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_global_variable.xml)|pos(-3791,1180)"
+			//editor "layout(logic_if_global_variable.xml)|pos(-3227,1167)"
 			database
 			{
 				Floats
@@ -491,7 +506,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-3791,1447)"
+			//editor "layout(condition_true.xml)|pos(-3227,1433)"
 			key "true"
 			self_id "logic_if_global_variable_5###true"
 			value "logic_if_global_variable_2###true"
@@ -499,9 +514,19 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_minimap_hide_zone.xml)|pos(-3210,1409)"
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(-2647,1395)"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -520,7 +545,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_generic.xml)|pos(-4300,1553)"
+			//editor "layout(objective_generic.xml)|pos(-4381,1204)"
 			database
 			{
 				Integers
@@ -598,7 +623,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_finish.xml)|pos(-3205,1546)"
+			//editor "layout(objective_finish.xml)|pos(-2641,1533)"
 			database
 			{
 				Integers
@@ -639,7 +664,7 @@ FlowGraphTemplate
 	{
 		default "campaign_mission_remove_1|logic_wait_18|mission_time_rewind_1"
 		interface_dialogue_show_group_13 "logic_wait_19"
-		interface_dialogue_show_group_14 "interface_minimap_show_zone_objective_3|objective_generic_5"
+		interface_dialogue_show_group_14 "objective_generic_5"
 		interface_minimap_show_zone_objective_3 "logic_if_global_variable_5"
 		logic_if_global_variable_4 "logic_if_global_variable_4###true"
 		logic_if_global_variable_4###true "interface_dialogue_show_group_14"
@@ -648,6 +673,7 @@ FlowGraphTemplate
 		logic_wait_13 "interface_dialogue_show_group_13"
 		logic_wait_18 "entity_add_item_5|logic_wait_13"
 		logic_wait_19 "logic_if_global_variable_4"
+		objective_generic_5 "interface_minimap_show_zone_objective_3"
 	}
 
 	GraphComments

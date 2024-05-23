@@ -1,8 +1,8 @@
-//editor "scroll(934.50,-515.97)|zoom(0.75)"
+//editor "scroll(1046.43,-708.25)|zoom(0.75)"
 FlowGraphTemplate
 {
-	version "30"
-	editor "5670"
+	version "31"
+	editor "5686"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -791,20 +791,62 @@ FlowGraphTemplate
 			self_id "mission_ambient_creatures_spawn_1"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_block_players_action_mappers.xml)|pos(414,682)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "block"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_block_players_action_mappers.lua"
+			self_id "logic_block_players_action_mappers_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_block_players_action_mappers.xml)|pos(2426,-669)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "block"
+						value "0"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_block_players_action_mappers.lua"
+			self_id "logic_block_players_action_mappers_2"
+		}
+
 	}
 
 	GraphConnections
 	{
 		audio_adaptive_music_system_1 "audio_music_change_playlist_1"
 		audio_music_change_playlist_1 "event_end_1"
-		camera_move_at_target_1 "logic_event_send_1|logic_wait_4|logic_wait_6"
+		camera_move_at_target_1 "logic_block_players_action_mappers_1|logic_event_send_1|logic_wait_4|logic_wait_6"
 		default "camera_move_at_target_1|entity_spawn_single_2|interface_hud_visible_1|mission_ambient_creatures_spawn_1"
 		interface_dialogue_show_group_1 "entity_spawn_single_1|interface_dialogue_show_group_2|logic_wait_8|weather_generic_1"
 		interface_dialogue_show_group_2 "event_end_1"
 		logic_wait_4 "event_end_1"
 		logic_wait_6 "interface_dialogue_show_group_1"
 		logic_wait_7 "entity_spawn_single_3"
-		logic_wait_8 "audio_adaptive_music_system_1|audio_ears_attach_to_mech_1|interface_hud_visible_2|logic_event_send_2"
+		logic_wait_8 "audio_adaptive_music_system_1|audio_ears_attach_to_mech_1|interface_hud_visible_2|logic_block_players_action_mappers_2|logic_event_send_2"
 	}
 
 	GraphComments

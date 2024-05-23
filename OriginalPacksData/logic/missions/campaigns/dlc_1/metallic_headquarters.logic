@@ -1,8 +1,8 @@
-//editor "scroll(1328.89,5.56)|zoom(0.67)"
+//editor "scroll(1609.47,-561.30)|zoom(0.60)"
 FlowGraphTemplate
 {
-	version "27"
-	editor "5654"
+	version "28"
+	editor "6109"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -30,73 +30,6 @@ FlowGraphTemplate
 		{
 			//editor "layout(logic_or.xml)|pos(5361,496)"
 			self_id "logic_or_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(weather_comet_spawner.xml)|pos(2372,-338)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "make_unit_aggressive"
-						value "0"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "blueprint"
-						value "weather/comet_silent"
-					}
-
-					StringData
-					{
-						key "comet_flying_blueprint"
-						value "weather/alien_comet_flying"
-					}
-
-					StringData
-					{
-						key "comet_dmg_blueprint"
-						value "weather/alien_comet_dmg"
-					}
-
-					StringData
-					{
-						key "comet_impact_place_blueprint"
-						value "weather/alien_comet_impact_place"
-					}
-
-					StringData
-					{
-						key "comet_impact_spawn"
-						value "props/special/interactive/comet_impact_site"
-					}
-
-					StringData
-					{
-						key "find_mode"
-						value "objective"
-					}
-
-					StringData
-					{
-						key "impact_spawn_name"
-						value "comet_spawn"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/weather/comet.lua"
-			self_id "weather_comet_spawner_0"
 		}
 
 		LuaBehaviourNode
@@ -172,6 +105,12 @@ FlowGraphTemplate
 					{
 						key "target_single"
 						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
 					}
 
 				}
@@ -299,6 +238,16 @@ FlowGraphTemplate
 			//editor "layout(interface_minimap_hide_zone.xml)|pos(5672,476)"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -496,6 +445,16 @@ FlowGraphTemplate
 					FloatData
 					{
 						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
 						value "1"
 					}
 
@@ -1017,6 +976,7 @@ FlowGraphTemplate
 			interrupt "1"
 			priority "10.00"
 			self_id "interface_dialogue_show_group_1"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1084,6 +1044,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_2"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1114,6 +1075,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_3"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1144,6 +1106,7 @@ FlowGraphTemplate
 			interrupt "1"
 			priority "1.00"
 			self_id "interface_dialogue_show_group_4"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1495,6 +1458,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -1576,6 +1545,16 @@ FlowGraphTemplate
 					FloatData
 					{
 						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
 						value "1"
 					}
 
@@ -1823,6 +1802,12 @@ FlowGraphTemplate
 						value "1"
 					}
 
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -1922,6 +1907,19 @@ FlowGraphTemplate
 						value "1"
 					}
 
+					IntData
+					IntData
+					{
+						key "marker_name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "target_name_is_global"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -1950,6 +1948,33 @@ FlowGraphTemplate
 
 			script "lua/graph/interface/interface_minimap_show_zone_objective.lua"
 			self_id "interface_minimap_show_zone_objective_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_objective_comet.xml)|pos(2307,-511)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "weather/alien_comet"
+					}
+
+					StringData
+					{
+						key "find_mode"
+						value "objective"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/comet.lua"
+			self_id "weather_objective_comet_2"
 		}
 
 	}
@@ -1997,7 +2022,7 @@ FlowGraphTemplate
 		logic_or_2 "logic_or_3"
 		logic_or_3 "logic_wait_0|logic_wait_2"
 		logic_or_4 "interface_hud_hide_text_1"
-		logic_wait_0 "logic_if_exist_entity_new_1|weather_comet_spawner_0"
+		logic_wait_0 "logic_if_exist_entity_new_1|weather_objective_comet_2"
 		logic_wait_1 "entity_spawn_objective_marker_1|interface_minimap_show_zone_objective_1|objective_generic_0"
 		logic_wait_2 "interface_dialogue_show_group_1"
 		logic_wait_6 "logic_or_4"

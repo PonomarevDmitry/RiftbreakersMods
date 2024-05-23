@@ -1,0 +1,229 @@
+//editor "scroll(409.35,427.52)|zoom(0.33)"
+FlowGraphTemplate
+{
+	version "3"
+	editor "5738"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(244,2122)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_and_equip_item.xml)|pos(852,1866)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/weapons/sword_item"
+					}
+
+					StringData
+					{
+						key "hand"
+						value "LEFT_HAND"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_and_equip_item.lua"
+			self_id "entity_add_and_equip_item_12"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_and_equip_item.xml)|pos(857,2417)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/consumables/repair_standard"
+					}
+
+					StringData
+					{
+						key "hand"
+						value "USABLE_1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_and_equip_item.lua"
+			self_id "entity_add_and_equip_item_17"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_and_equip_item.xml)|pos(865,2213)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/skills/dash"
+					}
+
+					StringData
+					{
+						key "hand"
+						value "DASH_SKILL"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_and_equip_item.lua"
+			self_id "entity_add_and_equip_item_19"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(4080,2124)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_item.xml)|pos(2325,2401)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "9"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/consumables/repair_standard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_item.lua"
+			self_id "entity_add_item_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_item.xml)|pos(1801,2409)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "9"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/consumables/proximity_mine_standard_item"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_item.lua"
+			self_id "entity_add_item_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_and_equip_item.xml)|pos(1364,2407)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/consumables/proximity_mine_standard_item"
+					}
+
+					StringData
+					{
+						key "hand"
+						value "USABLE_2"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_and_equip_item.lua"
+			self_id "entity_add_and_equip_item_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_clear_new_items_marks.xml)|pos(3602,2114)"
+			script "lua/graph/entity/entity_clear_new_items_marks.lua"
+			self_id "entity_clear_new_items_marks_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "entity_add_and_equip_item_12|entity_add_and_equip_item_17|entity_add_and_equip_item_19"
+		entity_add_and_equip_item_12 "entity_clear_new_items_marks_0"
+		entity_add_and_equip_item_17 "entity_add_and_equip_item_3"
+		entity_add_and_equip_item_19 "entity_clear_new_items_marks_0"
+		entity_add_and_equip_item_3 "entity_add_item_1"
+		entity_add_item_0 "entity_clear_new_items_marks_0"
+		entity_add_item_1 "entity_add_item_0"
+		entity_clear_new_items_marks_0 "event_end_1"
+	}
+
+	GraphComments
+}
+

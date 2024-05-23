@@ -1,0 +1,751 @@
+//editor "scroll(-188.93,35.64)|zoom(0.50)"
+FlowGraphTemplate
+{
+	version "6"
+	editor "5928"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-1521,496)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1871,530)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_difficulty_wave.xml)|pos(17,493)"
+			script "lua/graph/logic/logic_if_difficulty_wave.lua"
+			self_id "logic_if_difficulty_wave_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_difficulty.xml)|pos(17,577)"
+			key "easy"
+			self_id "logic_if_difficulty_wave_1###easy"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_difficulty.xml)|pos(17,607)"
+			key "normal"
+			self_id "logic_if_difficulty_wave_1###normal"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_difficulty.xml)|pos(17,636)"
+			key "hard"
+			self_id "logic_if_difficulty_wave_1###hard"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_difficulty.xml)|pos(17,665)"
+			key "brutal"
+			self_id "logic_if_difficulty_wave_1###brutal"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_difficulty.xml)|pos(17,695)"
+			key "sandbox"
+			self_id "logic_if_difficulty_wave_1###sandbox"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(616,1828)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1051,522)"
+			self_id "logic_or_1"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(478,-1138)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "50"
+			self_id "wave_ground_1"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/kermon"
+					count "2"
+					delay "10"
+					delay_group "0"
+					units_in_one_spawn "15"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(480,-413)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "50"
+			self_id "wave_ground_2"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/kermon"
+					count "2"
+					delay "10"
+					delay_group "0"
+					units_in_one_spawn "30"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(496,312)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "50"
+			self_id "wave_ground_3"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/kermon_alpha"
+					count "2"
+					delay "10"
+					delay_group "0"
+					units_in_one_spawn "30"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(494,1029)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "50"
+			self_id "wave_ground_4"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/kermon_ultra"
+					count "2"
+					delay "10"
+					delay_group "0"
+					units_in_one_spawn "30"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(-1131,425)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "Warning! Cloaked enemy units approaching base perimiter!"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "kermon_attack"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(1301,493)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "kermon_attack"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_1"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-258,906)"
+			global "0"
+			interrupt "0"
+			priority "-1"
+			self_id "interface_dialogue_show_group_1"
+			timeout "10"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/generic/mech_attack_start_02"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-533,982)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(-163,180)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/anticipation"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(-503,182)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(1306,248)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_2"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_adaptive_music_system_1 "audio_music_change_playlist_1"
+		default "objective_generic_1"
+		logic_and_1 "logic_or_1"
+		logic_if_difficulty_wave_1 "logic_if_difficulty_wave_1###brutal|logic_if_difficulty_wave_1###easy|logic_if_difficulty_wave_1###hard|logic_if_difficulty_wave_1###normal|logic_if_difficulty_wave_1###sandbox"
+		logic_if_difficulty_wave_1###brutal "wave_ground_4"
+		logic_if_difficulty_wave_1###easy "wave_ground_1"
+		logic_if_difficulty_wave_1###hard "wave_ground_3"
+		logic_if_difficulty_wave_1###normal "wave_ground_2"
+		logic_if_difficulty_wave_1###sandbox "logic_and_1"
+		logic_or_1 "audio_adaptive_music_system_2|objective_finish_1"
+		logic_wait_1 "interface_dialogue_show_group_1"
+		objective_finish_1 "event_end_0"
+		objective_generic_1 "audio_adaptive_music_system_1|logic_if_difficulty_wave_1|logic_wait_1"
+		wave_ground_1 "logic_or_1"
+		wave_ground_2 "logic_or_1"
+		wave_ground_3 "logic_or_1"
+		wave_ground_4 "logic_or_1"
+	}
+
+	GraphComments
+}
+

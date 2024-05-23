@@ -1,8 +1,8 @@
-//editor "scroll(-12.66,193.34)|zoom(1.00)"
+//editor "scroll(-200.20,292.23)|zoom(0.67)"
 FlowGraphTemplate
 {
-	version "8"
-	editor "5250"
+	version "9"
+	editor "5738"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -61,7 +61,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(514,641)"
+			//editor "layout(condition_true.xml)|pos(514,637)"
 			key "true"
 			self_id "logic_if_engine_resource_exists_0###true"
 			value "logic_if_engine_resource_exists_0###true"
@@ -69,7 +69,7 @@ FlowGraphTemplate
 
 		BehaviourGraphNode
 		{
-			//editor "layout(event_graph.xml)|pos(1074,541)"
+			//editor "layout(event_graph.xml)|pos(1077,569)"
 			graph "logic/campaigns/dlc_1/metallic_campaign_default.logic"
 			self_id "event_graph_0"
 			start_point "default"
@@ -130,7 +130,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(504,1045)"
+			//editor "layout(condition_true.xml)|pos(504,1041)"
 			key "true"
 			self_id "logic_if_engine_resource_exists_1###true"
 			value "logic_if_engine_resource_exists_0###true"
@@ -138,9 +138,78 @@ FlowGraphTemplate
 
 		BehaviourGraphNode
 		{
-			//editor "layout(event_graph.xml)|pos(1069,953)"
+			//editor "layout(event_graph.xml)|pos(1067,982)"
 			graph "logic/campaigns/dlc_2/caverns_campaign_default.logic"
 			self_id "event_graph_1"
+			start_point "default"
+			validate_graph_resource "0"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_engine_resource_exists.xml)|pos(491,1252)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "resource_type"
+						value "MissionDef"
+					}
+
+					StringData
+					{
+						key "resource_name"
+						value "missions/campaigns/dlc_3/swamp_outpost.mission"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_engine_resource_exists.lua"
+			self_id "logic_if_engine_resource_exists_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(491,1408)"
+			key "true"
+			self_id "logic_if_engine_resource_exists_2###true"
+			value "logic_if_engine_resource_exists_0###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(1065,1342)"
+			graph "logic/campaigns/dlc_3/swamp_campaign_default.logic"
+			self_id "event_graph_2"
 			start_point "default"
 			validate_graph_resource "0"
 			database
@@ -168,11 +237,13 @@ FlowGraphTemplate
 
 	GraphConnections
 	{
-		default "logic_if_engine_resource_exists_0|logic_if_engine_resource_exists_1"
+		default "logic_if_engine_resource_exists_0|logic_if_engine_resource_exists_1|logic_if_engine_resource_exists_2"
 		logic_if_engine_resource_exists_0 "logic_if_engine_resource_exists_0###true"
 		logic_if_engine_resource_exists_0###true "event_graph_0"
 		logic_if_engine_resource_exists_1 "logic_if_engine_resource_exists_1###true"
 		logic_if_engine_resource_exists_1###true "event_graph_1"
+		logic_if_engine_resource_exists_2 "logic_if_engine_resource_exists_2###true"
+		logic_if_engine_resource_exists_2###true "event_graph_2"
 	}
 
 	GraphComments

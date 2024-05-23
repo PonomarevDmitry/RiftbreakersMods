@@ -1,0 +1,629 @@
+//editor "scroll(720.24,-399.44)|zoom(0.40)"
+FlowGraphTemplate
+{
+	version "10"
+	editor "6101"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-570,533)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(1825,18)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "60"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "10"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "player"
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Group"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Type"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_2"
+			spawn_group
+			spawn_point "spawn_cavern_spline"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "plutrodon"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "plutrodon"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "plutrodon"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "plutrodon"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "plutrodon"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "stickrid"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "stickrid"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "stickrid"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "stickrid"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "stickrid"
+					count "10"
+					delay "0.7"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(231,389)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "25"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "logic/spawn_enemy_spline_group_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(231,711)"
+			key "true"
+			self_id "logic_if_exist_entity_new_9###true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(2019,-1149)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-27,533)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3454,699)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "240"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3297,1090)"
+			self_id "logic_or_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_reactivate_or.xml)|pos(3372,449)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_or_4"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_reactivate_or.lua"
+			self_id "logic_reactivate_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-253,537)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_9"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(841,553)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "100"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "building"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_11"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(841,875)"
+			key "true"
+			self_id "logic_if_exist_entity_new_11###true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(841,904)"
+			key "false"
+			self_id "logic_if_exist_entity_new_11###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(1839,1794)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_14"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(1819,-475)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "40"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "effects/enemies_generic/spline_group_attack_start"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/spawn_enemy_spline_group_marker"
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(2898,-877)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(1285,608)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_and_9"
+		logic_and_1 "entity_spawn_single_1|wave_ground_2"
+		logic_and_10 "logic_and_7"
+		logic_and_14 "logic_or_4"
+		logic_and_7 "logic_and_8"
+		logic_and_8 "logic_if_exist_entity_new_9"
+		logic_and_9 "logic_and_8"
+		logic_if_exist_entity_new_11 "logic_if_exist_entity_new_11###false|logic_if_exist_entity_new_11###true"
+		logic_if_exist_entity_new_11###false "logic_and_1"
+		logic_if_exist_entity_new_11###true "logic_and_14"
+		logic_if_exist_entity_new_9 "logic_if_exist_entity_new_9###true"
+		logic_if_exist_entity_new_9###true "logic_if_exist_entity_new_11"
+		logic_or_4 "logic_wait_2"
+		logic_reactivate_or_1 "logic_and_10"
+		logic_wait_2 "logic_reactivate_or_1"
+		wave_ground_2 "logic_or_4"
+	}
+
+	GraphComments
+}
+

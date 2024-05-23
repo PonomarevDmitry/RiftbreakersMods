@@ -1,0 +1,1488 @@
+//editor "scroll(920.38,-32.08)|zoom(0.22)"
+FlowGraphTemplate
+{
+	version "17"
+	editor "5868"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-359,1723)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(6913,2054)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_objective_marker.xml)|pos(5219,2398)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "objective_marker"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "LocalName"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "objective"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_objective_marker.lua"
+			self_id "entity_spawn_objective_marker_2"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1769,1410)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_6"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_nest_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/objective/ashley_nest_start_01"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3169,1764)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "LocalName"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "objective"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3169,2086)"
+			key "true"
+			self_id "logic_if_exist_entity_new_3###true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(3964,2295)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "marker_name"
+						value "objective_minimap_marker"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_hide_zone.lua"
+			self_id "interface_minimap_hide_zone_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3669,2067)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(3967,2052)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single.find"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(6091,2053)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_6"
+		}
+
+		MarkerBlueprintSpawnerNode
+		{
+			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(649,1258)"
+			self_id "entity_marker_blueprint_spawner_2"
+			spawn_at_marker "logic/spawn_swamp_tower_carnicinth"
+			spawn_at_marker_name
+			spawn_at_marker_name_is_global "1"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax
+			spawn_minmax_distance_from_edge "50"
+			spawn_pool "towers"
+			spawn_pool_local
+			spawn_preference "undiscovered"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "units/ground/carnicinth"
+					spawn_chance "1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name
+					spawn_entity_name_is_global "1"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "nest"
+					value "65"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "25"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(3161,2261)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "marker_radius"
+						value "50"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "marker_randomize_position"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					IntData
+					{
+						key "marker_name_is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "target_name_is_global"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "objective"
+					}
+
+					StringData
+					{
+						key "marker_name"
+						value "objective_minimap_marker"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_show_zone_objective.lua"
+			self_id "interface_minimap_show_zone_objective_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(7909,2040)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(7207,2384)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "objective_marker"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_type"
+						value
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_remove.lua"
+			self_id "entity_remove_2"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(8503,2062)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(2379,1838)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/nest_find"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single.find"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "nest_single"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_7"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(3167,1264)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "LocalName"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "objective"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3167,1586)"
+			key "true"
+			self_id "logic_if_alive_advanced_3###true"
+			value
+		}
+
+		MarkerBlueprintSpawnerNode
+		{
+			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(649,155)"
+			self_id "entity_marker_blueprint_spawner_5"
+			spawn_at_marker "logic/spawn_swamp_tower_invigor"
+			spawn_at_marker_name
+			spawn_at_marker_name_is_global "1"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax
+			spawn_minmax_distance_from_edge "50"
+			spawn_pool "towers"
+			spawn_pool_local
+			spawn_preference "undiscovered"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "units/ground/invigor"
+					spawn_chance "1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name
+					spawn_entity_name_is_global "1"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "nest"
+					value "65"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "25"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "towers"
+					value "5"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(5537,1940)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "LocalName"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "objective"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5537,2262)"
+			key "true"
+			self_id "logic_if_alive_advanced_2###true"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(1767,1841)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "Stop Fungor attacks."
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_6"
+		}
+
+		MarkerBlueprintSpawnerNode
+		{
+			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(651,2312)"
+			self_id "entity_marker_blueprint_spawner_4"
+			spawn_at_marker "logic/spawn_swamp_tower_artigian"
+			spawn_at_marker_name
+			spawn_at_marker_name_is_global "1"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax
+			spawn_minmax_distance_from_edge "50"
+			spawn_pool "towers"
+			spawn_pool_local
+			spawn_preference "undiscovered"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "units/ground/artigian"
+					spawn_chance "1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name
+					spawn_entity_name_is_global "1"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "nest"
+					value "65"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "25"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "towers"
+					value "5"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(4617,1643)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_5"
+			timeout "10"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_nest_encounter_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/objective/ashley_nest_encounter_01"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3969,1758)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_7"
+		}
+
+		MarkerBlueprintSpawnerNode
+		{
+			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(-39,1268)"
+			self_id "entity_marker_blueprint_spawner_3"
+			spawn_at_marker "logic/spawn_objective"
+			spawn_at_marker_name
+			spawn_at_marker_name_is_global "1"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "1,1"
+			spawn_minmax_distance_from_edge "100"
+			spawn_pool "objectives"
+			spawn_pool_local "nest"
+			spawn_preference "undiscovered"
+			spawn_required "1"
+			spawn_team "enemy"
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "units/ground/spawner_swamp_fungor"
+					spawn_chance "1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name "objective"
+					spawn_entity_name_is_global "0"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "1,1"
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "64"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "64"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "64"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "128"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(6419,2040)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single.kill"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1317,1708)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_4"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(7197,1934)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_4"
+			timeout "10"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_nest_end_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/objective/ashley_nest_end_01"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(4611,2014)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "Destroy all Fungor nests."
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "nest_single.kill"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "nest_single"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_8"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "entity_marker_blueprint_spawner_3"
+		entity_marker_blueprint_spawner_2 "logic_wait_4"
+		entity_marker_blueprint_spawner_3 "entity_marker_blueprint_spawner_2|entity_marker_blueprint_spawner_4|entity_marker_blueprint_spawner_5"
+		entity_marker_blueprint_spawner_4 "logic_wait_4"
+		entity_marker_blueprint_spawner_5 "logic_wait_4"
+		interface_dialogue_show_group_4 "objective_finish_6"
+		interface_minimap_show_zone_objective_2 "interface_minimap_hide_zone_2"
+		logic_if_alive_advanced_2 "logic_if_alive_advanced_2###true"
+		logic_if_alive_advanced_2###true "logic_wait_6"
+		logic_if_alive_advanced_3 "logic_if_alive_advanced_3###true"
+		logic_if_alive_advanced_3###true "logic_or_1"
+		logic_if_exist_entity_new_3 "logic_if_exist_entity_new_3###true"
+		logic_if_exist_entity_new_3###true "logic_or_1|logic_wait_7"
+		logic_or_1 "interface_minimap_hide_zone_2|objective_finish_8"
+		logic_wait_4 "interface_dialogue_show_group_6|objective_generic_6"
+		logic_wait_5 "entity_remove_2|interface_dialogue_show_group_4"
+		logic_wait_6 "objective_finish_7"
+		logic_wait_7 "interface_dialogue_show_group_5"
+		objective_finish_6 "event_end_3"
+		objective_finish_7 "logic_wait_5"
+		objective_finish_8 "objective_generic_8"
+		objective_generic_6 "objective_generic_7"
+		objective_generic_7 "interface_minimap_show_zone_objective_2|logic_if_alive_advanced_3|logic_if_exist_entity_new_3"
+		objective_generic_8 "entity_spawn_objective_marker_2|logic_if_alive_advanced_2"
+	}
+
+	GraphComments
+}
+
