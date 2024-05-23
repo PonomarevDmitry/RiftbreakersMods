@@ -1,0 +1,163 @@
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+
+	name "effects/enemies_fungor/death"
+
+	ParticleDesc
+	{
+		name    "rift/death_yellow_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_yellow_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+
+	name "effects/enemies_fungor/death_long"
+
+	ParticleDesc
+	{
+		name    "rift/death_yellow_big_long"
+	}
+
+	SoundDesc
+	{
+		name "enemies/fungor/death"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_yellow_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/enemies_fungor/attack_start
+
+
+	base_blueprints
+	{
+		 effects/default
+	}
+
+	SoundDesc
+	{
+		name "enemies/fungor/attack_start"
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name effects/enemies_fungor/attack_ground_hit
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_hammer_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/fungor/attack_ground_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_11"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		
+		}
+	}	
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"50"
+		radius 	"30"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "10 10 10"
+				}
+			}
+		}			
+	}	
+}
+
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_fungor/idle"
+
+	SoundDesc
+	{
+		name "enemies/fungor/idle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+		name "effects/enemies_fungor/run"
+
+	SoundDesc
+	{
+		name "enemies/fungor/run"
+	}
+}

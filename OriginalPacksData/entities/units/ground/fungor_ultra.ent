@@ -1,0 +1,163 @@
+EntityBlueprint
+{
+	name "units/ground/fungor_ultra"
+
+	base_blueprint "units/ground/fungor_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/fungor.lua"
+		database
+		{
+			min_scale	float:"1.25"
+			max_scale	float:"1.35"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"5500"
+		health 						"5500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/fungor.mesh"
+		material 	"units/ground/fungor_ultra"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/fungor_ultra"
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_fungor/death"	
+					part_prefix 			"meshes/units/ground/fungor"
+					part_material 			"units/ground/fungor_ultra"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/fungor_ultra/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_hammer_melee"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_fungor/attack_start"
+						attack_start_time			"0.76"
+						attack_end_time				"1.00"
+						attack_duration 			"2.59"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+							on_world_hit_effect 	"effects/enemies_fungor/attack_ground_hit"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+							area_damage_impact_type "world"
+							collision_3d 			"world|world_destructible|destructible|ground_unit|building|building_small|vegetation|shield"
+
+							DamagePattern
+							{
+								area_damage_radius	"6"
+								area_damage_speed 	"200"
+
+								Damages
+								{
+									Damage
+									{
+										value 			"165"
+										type			"area"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsSphereShape
+					{
+						r "2.0"
+						
+						position 
+						{
+							x "0"
+							y "0"
+							z "-1.5"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

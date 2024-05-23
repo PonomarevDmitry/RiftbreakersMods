@@ -65,7 +65,13 @@ EntityBlueprint
 				{
 					blueprint "effects/world/tornado_big_stones"
 					bone "att_tornado"
+				}	
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_orange"
+					offset "0 10 0"
 				}
+				
 			}
 		}	
 	}
@@ -91,7 +97,19 @@ EntityBlueprint
 
 	}
 
-	
+	BurningComponent
+	{
+		spread_radius 			"15"			// radius to spread fire
+		spread_chance_override 	"1.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_timer
+		{
+			limit "200000" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"10000000000"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
 
 }
 

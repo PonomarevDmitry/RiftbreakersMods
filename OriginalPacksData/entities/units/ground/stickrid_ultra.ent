@@ -1,0 +1,152 @@
+EntityBlueprint
+{
+	name "units/ground/stickrid_ultra"
+
+	base_blueprint "units/ground/stickrid_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/stickrid.lua"
+		database
+		{
+			min_scale				float:"1.35"
+			max_scale				float:"1.45"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"200"
+		health 						"200"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/stickrid.mesh"
+		material 	"units/ground/stickrid_ultra"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/stickrid_ultra"
+		can_activate 0
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		ammo_blueprint 			"units/ground/stickrid_projectile"
+		muzzle_flash_effect 	"effects/enemies_stickrid/muzzle"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/stickrid_ultra/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stickrid/attack_start"
+						attack_start_time			"0.62"
+						attack_end_time				"0.82"
+						attack_duration 			"1.43"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"85"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "3.0"
+						z "2.0"
+					}
+				}
+			}
+		}
+	}
+}

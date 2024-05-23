@@ -1,0 +1,253 @@
+EntityBlueprint
+{
+	name "items/consumables/fertilizer_base"
+
+    LuaDesc
+	{
+		script "lua/items/consumables/fertilizer.lua"
+
+		database
+		{
+			radius	            float:"30.0"
+            interval            float:"5.0"
+            fertilize_effect    string:"effects/buildings_generic/building_repair_big"
+		}
+	}
+
+    LifeTimeDesc
+    {
+        time "20.0"
+    }
+}
+
+EntityBlueprint
+{
+	name            "items/consumables/fertilizer"
+	base_blueprint  "items/consumables/fertilizer_base"
+
+	DatabaseComponent
+	{
+        radius	    float:"10.0"
+        interval    float:"5.0"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		5
+			y		1
+			z		5
+			
+		}
+		attach "1"
+	}
+}	
+
+EntityBlueprint
+{
+	name            "items/consumables/fertilizer_advanced"
+	base_blueprint  "items/consumables/fertilizer_base"
+
+	DatabaseComponent
+	{
+        radius	    float:"15.0"
+        interval    float:"5.0"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		8
+			y		1
+			z		8
+			
+		}
+		attach "1"
+	}
+}	
+
+EntityBlueprint
+{
+	name            "items/consumables/fertilizer_superior"
+	base_blueprint  "items/consumables/fertilizer_base"
+
+	DatabaseComponent
+	{
+        radius	    float:"20.0"
+        interval    float:"5.0"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		10
+			y		1
+			z		10
+			
+		}
+		attach "1"
+	}
+}	
+
+EntityBlueprint
+{
+	name            "items/consumables/fertilizer_extreme"
+	base_blueprint  "items/consumables/fertilizer_base"
+
+	DatabaseComponent
+	{
+        radius	    float:"25.0"
+        interval    float:"5.0"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		13
+			y		1
+			z		13
+			
+		}
+		attach "1"
+	}
+}	
+
+EntityBlueprint
+{
+    name "items/consumables/fertilizer_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/fertilizer"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"fertilizer"
+		icon						"gui/hud/items_icons/consumables/fertilizer"
+		bigger_icon 				"gui/menu/items_icons/consumables/fertilizer"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/fertilizer"	
+		rarity						"STANDARD"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+
+    LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+
+		database
+		{
+			bp						string:"items/consumables/fertilizer"
+		}
+	}
+	
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/fertilizer_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/fertilizer"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"fertilizer"
+		icon						"gui/hud/items_icons/consumables/fertilizer"
+		bigger_icon 				"gui/menu/items_icons/consumables/fertilizer"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/fertilizer_upgraded"	
+		rarity						"ADVANCED"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+    LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+
+		database
+		{
+			bp						string:"items/consumables/fertilizer_advanced"
+		}
+	}	
+	
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/fertilizer_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/fertilizer"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"fertilizer"
+		icon						"gui/hud/items_icons/consumables/fertilizer"
+		bigger_icon 				"gui/menu/items_icons/consumables/fertilizer"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/fertilizer_upgraded"	
+		rarity						"SUPERIOR"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}
+
+    LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+
+		database
+		{
+			bp						string:"items/consumables/fertilizer_superior"
+		}
+	}	
+	
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/fertilizer_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/fertilizer"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"fertilizer"
+		icon						"gui/hud/items_icons/consumables/fertilizer"
+		bigger_icon 				"gui/menu/items_icons/consumables/fertilizer"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/fertilizer_upgraded"	
+		rarity						"EXTREME"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}
+
+    LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+
+		database
+		{
+			bp						string:"items/consumables/fertilizer_extreme"
+		}
+	}	
+	
+	CostDesc	
+}

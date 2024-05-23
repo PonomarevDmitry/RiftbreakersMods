@@ -1,0 +1,750 @@
+EntityBlueprint
+{
+	name "units/ground/invigor"
+
+	base_blueprint "units/ground/invigor_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/invigor.lua"
+		database
+		{
+			min_scale	float:"1.25"
+			max_scale	float:"1.35"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"1500"
+		health 						"1500"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+	
+	//RegenerationComponent
+	//{
+	//	regeneration 				"200"
+	//	regeneration_cooldown 		"5"
+	//	regeneration_effect			"effects/enemies_invigor/healing"
+	//	regeneration_end_effect     "effects/enemies_invigor/healing_finished"
+	//}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/invigor.mesh"
+		material 	"units/ground/invigor"
+		flags		"4"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/invigor/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "be_antenna"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_invigor/attack_start"
+						attack_start_time			"1.20"
+						attack_end_time				"1.40"
+						attack_duration 			"2.40"
+						damage_multiple 			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+							on_world_hit_effect 	"effects/enemies_invigor/ground_hit"
+							on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+							friendly_fire			"pass"
+							area_damage_impact_type "world"
+							collision_3d 			"world|world_destructible|destructible|ground_unit|building|building_small|vegetation|shield"
+
+							DamagePattern
+							{
+								area_damage_radius	"5.5"
+								area_damage_speed 	"200"
+
+								Damages
+								{
+									Damage
+									{
+										value 			"50"
+										type			"area"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "4.0"
+						z "1.0"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/invigor_base"
+
+	StateMachineDesc
+	{
+		template_name "invigor"
+		params
+		{
+			melee_attack_name					string:"attack_1"
+			unhide_distance						float:"15"
+			hide_distance						float:"17"
+			hide_delay							float:"1.15"
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"5.0"
+		acid			"0.1"
+		energy			"1.0"
+		cryo			"0.1"
+		area			"1.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.30"
+		stagger_health_threshold		"0.50"
+		stagger_long_time				"0.95"
+		stagger_long_health_threshold	"0.75"
+		
+		stagger_cooldown				"20.0"
+		stagger_long_cooldown			"30.0"
+		stun_cooldown					"25"
+	}
+
+	NavMeshMovementComponent
+	{
+		current_speed					"0"
+		max_speed						"0"
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.4"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/invigor"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "invigor"
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "300"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min 		"0"
+			range_max 		"15"
+			aiming_range 	"20"
+		}
+
+		aiming_cooldown "0.1"
+		aiming_target_time "0.1"
+		aiming_idle_angle "20"
+		pitch "att_fake_be_barrel"
+		yaw "be_turret"
+		check_target_visibility "0"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "2"
+						half_height "3"
+
+						position
+						{
+							x "0.0"
+							y "3"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	2
+				y	2
+				z	2
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "3"
+			y "3"
+		}
+
+		visibility "radar"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/invigor"
+		can_activate 0
+	}
+
+
+	AIUnitGroupNonPackableComponent
+	{
+
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_invigor/death"
+					part_prefix 			"meshes/units/ground/nerilian"
+					part_material 			"units/ground/nerilian"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "idle_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_invigor/idle"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_invigor/death_long"
+					bone "att_death"
+				}
+			}
+		}
+		
+		EffectGroup
+		{						
+			group "death_splash"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_invigor/ground_hit"	
+					bone "be_antenna"
+					always_up "1"
+				}
+			}
+		}	
+		
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.2 1.2 1.2"			
+					always_up "1"						
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "dig_up"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_invigor/unhide"
+					always_up "1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "dig_down"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_invigor/hide"
+					always_up "1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_green"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 3.5 0"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}		
+	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0"
+		max "1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/invigor/trigger"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			ExcludeTypeTriggerFilter
+			{
+				type		"wall|prop"
+			}
+
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "13"
+				y "4"
+				z "0.5"
+			}
+		}
+	}
+}

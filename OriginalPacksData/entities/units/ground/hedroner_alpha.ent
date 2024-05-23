@@ -31,7 +31,7 @@ EntityBlueprint
 	{
 		physical		"0.5"
 		fire			"1.0"
-		acid			"0.0"
+		acid			"0.1"
 		energy			"2.0"
 		cryo			"2.0"
 		area			"1.0"
@@ -87,6 +87,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/hedroner_alpha/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
@@ -207,5 +212,19 @@ EntityBlueprint
 				}
 			}
 		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 4 1"
+				}
+			}
+		}		
 	}	
 }

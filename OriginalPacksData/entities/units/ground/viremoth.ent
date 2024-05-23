@@ -14,7 +14,7 @@ EntityBlueprint
 			children_count					int:"10"
 			child_bp                        string:"units/ground/viremoth_child"
 		    bp_on_range_attack			    string:"units/ground/lesigian/lightning"
-			warning_effect_on_range_attack	string:"effects/enemies_gnerot/spike_warning"
+			warning_effect_on_range_attack	string:"units/ground/lesigian/lightning_danger_marker"
 			lightning_spawn_radius			float:"8.0"
 			lightning_count					int:"3"
 			lightning_delay_min_time		float:"1.0"
@@ -111,10 +111,10 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.0"
+		physical		"0.1"
 		fire			"1.0"
-		acid			"0.0"
-		energy			"0.0"
+		acid			"0.1"
+		energy			"0.1"
 		cryo			"1.0"
 		area			"1.0"	
 	}
@@ -150,7 +150,7 @@ EntityBlueprint
 	{
 		name   "range"
 		target "player|ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
@@ -177,8 +177,13 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "0"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
 			}
 			InvisibleTriggerFilter
 		}

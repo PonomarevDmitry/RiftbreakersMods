@@ -1,0 +1,69 @@
+EntityBlueprint
+{
+	name "props/trees/tongue_leaves_medium_05"
+
+	base_blueprints
+	{
+		props/trees/tongue_leaves_medium_04
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/trees/tongue_leaves_medium_05.mesh"
+		material "props/trees/tongue_leaves_medium_01"	
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/trees/tongue_leaves_medium_05"
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.0"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.0"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"0.0"		// czas wygaszania
+		bending_spring_damping			"0.0"		// wygluszanie oscylacji
+		bending_spring_phases			"0.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"0.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/trees/tongue_leaves_medium_05_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_leafs_destruction_big_violet"
+					explosion_effect_scale 	"0.6"
+					part_material	 		"props/trees/tongue_leaves_medium_01"
+					part_prefix 			"meshes/props/trees/tongue_leaves_medium_05"
+					part_effect 			"effects/destructibles/tree_leafs_part_trail_violet"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/trees/tongue_leaves_medium_01"
+					part_prefix 			"meshes/props/trees/tongue_leaves_medium_05"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}
+	}
+}

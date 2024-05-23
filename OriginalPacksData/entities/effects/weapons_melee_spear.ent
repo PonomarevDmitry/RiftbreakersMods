@@ -72,11 +72,6 @@ EntityBlueprint
 		effects/default
 	}
 
-	TeamDesc
-	{
-		team "player"
-	}
-
 	ParticleDesc
 	{
 		name    "rift/mech_plasma_gun_projectile_hit"
@@ -93,4 +88,37 @@ EntityBlueprint
 	{
 		name "items/weapons/melee_spear/spear_hit_enemy"
 	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_spear/trident_shockwave
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/trident_shockwave"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 6 1"
+				}
+			}
+		}			
+	}		
 }

@@ -8,7 +8,7 @@ EntityBlueprint
 	{
 		mesh 		"meshes/projectiles/rocket_small.mesh"
 		material 	"projectiles/rocket_small"
-	}
+	}	
 
 	SkeletonDesc
 	{
@@ -26,25 +26,34 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
 		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
 		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_medium"
-
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		//hit_effect_scale		"splash"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"
+		}			
 	}
 
-	//EffectDesc
-	//{
-	//	EffectGroup
-	//	{
-	//		Effects
-	//		{
-	//			Effect
-	//			{
-	//				blueprint "effects/weapons_explosive/rocket_projectile_medium"
-	//				bone "att_exhaust"
-	//			}			
-	//		}
-	//	}		
-	//}
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 6 1"
+				}
+			}
+		}			
+	}
 
 	LifeTimeDesc
 	{
@@ -93,6 +102,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/rocket_launcher.mesh"
 		material 	"items/weapons/rocket_launcher"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 
 	SkeletonDesc
 	{
@@ -109,7 +123,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor  "4"
 		}		
 		WeaponMuzzles
 		{
@@ -142,7 +156,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "2"
+			emissive_factor  "2"
 		}			
         ChargeLevels
         {
@@ -316,6 +330,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/rocket_launcher.mesh"
 		material 	"items/weapons/rocket_launcher_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint
@@ -401,6 +420,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/rocket_launcher.mesh"
 		material 	"items/weapons/rocket_launcher_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint
@@ -486,6 +510,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/rocket_launcher.mesh"
 		material 	"items/weapons/rocket_launcher_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint

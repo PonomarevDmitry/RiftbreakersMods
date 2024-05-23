@@ -1,15 +1,3 @@
-EntityBlueprint "effects/default"
-{
-		name "effects/enemies_carnicinth/attack_start"
-
-	SoundDesc
-	{
-		name "enemies/kermon/attack"
-	}
-
-		
-}
-
 EntityBlueprint
 {
 	base_blueprint effects/default
@@ -19,7 +7,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/death_yellow_medium"
+		name    "rift/death_green_medium"
 	}
 
 	SoundDesc
@@ -29,17 +17,14 @@ EntityBlueprint
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/blood_splat_yellow_random"
+		blueprint "effects/decals/blood_splat_green_random"
 		scale
 		{
 			x		2.0
 			y		2.0
 			z		2.0
-		
 		}
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -51,27 +36,24 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/death_yellow_small_long"
+		name    "rift/death_green_medium_long"
 	}
 
 	SoundDesc
 	{
-		name "enemies/kermon/death"
+		name "enemies/carnicinth/death"
 	}
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/blood_splat_yellow_random"
+		blueprint "effects/decals/blood_splat_green_random"
 		scale
 		{
 			x		2.0
 			y		2.0
 			z		2.0
-		
 		}
-	}
-
-		
+	}		
 }
 
 EntityBlueprint "effects/default"
@@ -80,31 +62,138 @@ EntityBlueprint "effects/default"
 
 	SoundDesc
 	{
-		name "enemies/kermon/idle"
+		name "enemies/carnicinth/idle"
 	}
 }
 
 EntityBlueprint
 {
+	name "effects/enemies_carnicinth/muzzle"
+
 	base_blueprints
 	{
-		lights/point/muzzle_orange_small
-		effects/default
+		 lights/point/muzzle_green_very_small
+		 effects/default
 	}
-
-	name effects/enemies_carnicinth/muzzle
-
 
 	ParticleDesc
 	{
-		name    "rift/tower_basic_muzzle"
+		name    	"rift/arachnoid_sentinel_boss_muzzle"
 	}
 
-
-	
-	//SoundDesc
-	//{
-	//	name "weapon_fire/mech_burst_rifle"
-	//}		
+	SoundDesc
+	{
+		name 		"enemies/carnicinth/acid_spit"
+	}	
 }
 
+EntityBlueprint
+{
+	name "effects/enemies_carnicinth/healing"
+
+	base_blueprints
+	{
+		 lights/point/fire_green_very_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/artigian_healing"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_carnicinth/healing_finished"
+
+	base_blueprints
+	{
+		 lights/point/explosion_green_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/artigian_healing_finished"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_carnicinth/hide"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plant_hide_unhide"
+	}
+
+	SoundDesc
+	{
+		name "enemies/carnicinth/hide"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_carnicinth/unhide"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plant_hide_unhide"
+	}
+
+	SoundDesc
+	{
+		name "enemies/carnicinth/unhide"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_carnicinth/acid_hit"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_very_small
+		 effects/default
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"acid_stain"	
+		extend  		"2"
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/arachnoid_sentinel_projectile_hit"
+	}
+
+	SoundDesc
+	{
+		name "enemies/carnicinth/acid_hit"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_acid_random"
+		scale
+		{
+			x		2.2
+			y		2.2
+			z		2.2
+		}
+	}	
+}

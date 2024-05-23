@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
 		material 	"items/weapons/corrosive_gun"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 
 	SkeletonDesc
 	{
@@ -34,7 +39,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor  "4"
 		}
 
 		ammo_blueprint 				"items/weapons/corrosive_gun_projectile"
@@ -134,7 +139,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
 		material 	"items/weapons/corrosive_gun_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
 
+	}	
 }
 
 EntityBlueprint
@@ -179,6 +188,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
 		material 	"items/weapons/corrosive_gun_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -224,6 +238,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/corrosive_gun.mesh"
 		material 	"items/weapons/corrosive_gun_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -300,8 +319,14 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
 		on_resisted_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_green"
+		}			
 	}
 
 	LifeTimeDesc

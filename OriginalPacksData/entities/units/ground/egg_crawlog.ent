@@ -1,0 +1,157 @@
+EntityBlueprint
+{
+	name "units/ground/egg_crawlog"
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+
+		database
+		{
+			spawn_effect string:"effects/enemies_crawlog/death"
+			min_scale	float:"0.8"
+			max_scale	float:"1.2"
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 					"60"
+		health 						"60"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/egg_crawlog.mesh"
+		material "units/ground/egg_crawlog"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "arachnoid"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.8"
+						y "3"
+						z "1.8"
+
+						position
+						{
+							x "0.0"
+							y "1.5"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_crawlog/death"
+					part_material	 		"units/ground/egg_crawlog"
+					part_prefix 			"meshes/units/ground/egg_crawlog"
+					part_effect 			"effects/enemies_generic/blood_trail_blue"
+					part_physics_material	"gibs_light"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EggDesc
+	{
+		blueprint				"units/ground/crawlog"
+		time_to_hatch			"10"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_crawlog_alpha"
+
+	base_blueprint "units/ground/egg_crawlog"
+
+	EggDesc
+	{
+		blueprint				"units/ground/crawlog_alpha"
+		time_to_hatch			"10"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_crawlog_ultra"
+
+	base_blueprint "units/ground/egg_crawlog"
+
+	EggDesc
+	{
+		blueprint				"units/ground/crawlog_ultra"
+		time_to_hatch			"10"
+		unit_state_spawn		"1" // do not touch
+	}
+}

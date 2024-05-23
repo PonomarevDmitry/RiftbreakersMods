@@ -1,0 +1,398 @@
+EntityBlueprint
+{
+	name  "items/weapons/insect_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/insect_gun.mesh"
+		material 	"items/weapons/insect_gun"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/insect_gun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.50"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "1"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone   "be_recoil"
+				recoil_time   	"0.1"
+				recoil_offset   "0.4"
+			}
+			
+		}
+
+		ammo_blueprint 				"items/weapons/insect_gun_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_explosive/insect_gun_muzzle"
+
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.1"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/insect_gun_projectile"
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/insect_gun_projectile_hit"
+		on_world_hit_effect 	"effects/weapons_explosive/insect_gun_projectile_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
+		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_red"
+		}			
+	}
+
+
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 6 2"
+				}
+			}
+		}			
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.3
+		type 		"camera"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/insect_gun_projectile.mesh"
+		material    "projectiles/insect_gun_projectile"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_gold"
+				update_bounds 		1
+				fade_out_time		0.5
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.2"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.2"
+					}
+				}
+			}	
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/insect_gun_advanced"
+
+	base_blueprint "items/weapons/insect_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/insect_gun.mesh"
+		material 	"items/weapons/insect_gun_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+}
+
+EntityBlueprint
+{
+	name "items/weapons/insect_gun_superior"
+
+	base_blueprint "items/weapons/insect_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/insect_gun.mesh"
+		material 	"items/weapons/insect_gun_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+}
+
+EntityBlueprint
+{
+	name "items/weapons/insect_gun_extreme"
+
+	base_blueprint "items/weapons/insect_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/insect_gun.mesh"
+		material 	"items/weapons/insect_gun_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+}
+
+EntityBlueprint
+{
+    name "items/weapons/insect_gun_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/insect_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/insect_gun"
+		icon		"gui/hud/items_icons/weapons/insect_gun"
+		bigger_icon "gui/menu/items_icons/weapons/insect_gun"
+		description "gui/menu/inventory/weapon_charge_description/insect_gun"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/insect_gun_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/insect_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/insect_gun_advanced"
+		icon		"gui/hud/items_icons/weapons/insect_gun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/insect_gun_advanced"
+		description "gui/menu/inventory/weapon_charge_description/insect_gun"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/insect_gun_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/insect_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/insect_gun_superior"
+		icon		"gui/hud/items_icons/weapons/insect_gun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/insect_gun_superior"
+		description "gui/menu/inventory/weapon_charge_description/insect_gun"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/insect_gun_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/insect_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/insect_gun_extreme"
+		icon		"gui/hud/items_icons/weapons/insect_gun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/insect_gun_extreme"
+		description "gui/menu/inventory/weapon_charge_description/insect_gun"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}

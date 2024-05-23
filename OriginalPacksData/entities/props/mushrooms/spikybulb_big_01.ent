@@ -26,11 +26,6 @@ EntityBlueprint
 		type "flora|spikybulb"
 	}
 
-	SkeletonDesc
-	{
-		name "meshes/props/mushrooms/spikybulb_big"
-	}
-
 	PhysicsDesc
 	{
 		objects
@@ -131,19 +126,24 @@ EntityBlueprint
 
 	EffectDesc
 	{
-		EffectGroup
-		{
-			enabled "1"
+        EffectGroup
+        {
+            enabled "1"
 			group 	"light"
-			Effects
-			{
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/spikybulb_big"
+                    offset "0 9.5 2"
+                }
 				Effect
-				{
-					blueprint "lights/spot/spikybulb_pink"
-					bone "att_light"
-				}
-			}
-		}
+                {
+                    blueprint "lights/props/spikybulb_medium"
+                    offset "-0.5 8.5 -3"
+                }
+            }
+        }
 		EffectGroup
 		{
 			group 	"time_damage_fire"

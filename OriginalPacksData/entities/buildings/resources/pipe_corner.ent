@@ -14,10 +14,10 @@ EntityBlueprint
 		require 	"headquarters"
 		building_mode		"line"
 		menu_action			"resource_clear"	
-		build_on_water		"1"
 		check_connect		"1"
 		
-		pipe_mode   "1"
+		building_functionality	"BUILD_ON_WATER|PIPE_MODE|NO_FOUNDATION"
+
 		costs
 		{
 			BuildingCostInfo
@@ -53,7 +53,6 @@ EntityBlueprint
 		{
 			cone_effect			string:"build_cone_1x1"
 			cone_effect_sell	string:"sell_small"
-			building_time		float:"1"
 		}
 	}
 
@@ -101,7 +100,7 @@ EntityBlueprint
 
 	TypeDesc
 	{
-		type "building|resource|not_move_to_target"
+		type "building|resource|not_move_to_target|ignore_as_target"
 	}
 
 	SkeletonDesc
@@ -123,13 +122,13 @@ EntityBlueprint
 					PhysicsBoxShape
 					{
 						x "2"
-						y "1.0"
+						y "2"
 						z "2"
 							
 						position 
 						{
 							x "0.0"
-							y "0.5"
+							y "1"
 							z "0.0"
 						}							
 					}

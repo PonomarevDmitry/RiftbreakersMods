@@ -106,9 +106,7 @@ EntityBlueprint
 				}
 			}
 		}		
-	}
-
-	
+	}	
 }
 
 EntityBlueprint
@@ -118,9 +116,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_hit_acid"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -130,9 +126,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_hit_cryo"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -142,9 +136,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_hit_energy"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -154,9 +146,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_hit_fire"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -213,9 +203,7 @@ EntityBlueprint
 				}
 			}
 		}		
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -225,9 +213,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_muzzle_acid"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -237,9 +223,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_muzzle_cryo"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -249,9 +233,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_muzzle_energy"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -261,9 +243,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_muzzle_fire"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -320,10 +300,7 @@ EntityBlueprint
 				}
 			}
 		}		
-	}
-
-	
-	
+	}	
 }
 
 EntityBlueprint
@@ -333,9 +310,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_projectile_acid"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -345,9 +320,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_projectile_cryo"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -357,9 +330,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_projectile_energy"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -369,9 +340,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_projectile_fire"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -381,9 +350,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_time_damage_acid"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -393,9 +360,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_time_damage_cryo"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -405,9 +370,7 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_time_damage_energy"
-	}
-
-		
+	}		
 }
 
 EntityBlueprint
@@ -417,8 +380,88 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_elemental_time_damage_fire"
-	}
-
-		
+	}	
 }
 
+EntityBlueprint
+{
+	name effects/weapons_elemental/tower_water_big_projectile	
+	
+	base_blueprints
+	{
+		lights/point/comet_fire_mild_blue_big_shadow_caster
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_water_big_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_elemental/tower_water_big_hit
+
+	base_blueprints
+	{
+		lights/point/explosion_blue_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_water_big_hit"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/cryo_stain"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+			
+		}
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "10 10 10"
+				}
+			}
+		}			
+	}		
+}

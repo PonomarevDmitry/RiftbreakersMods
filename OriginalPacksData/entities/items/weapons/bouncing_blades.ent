@@ -8,6 +8,11 @@ EntityBlueprint
 		material 	"items/weapons/bouncing_blades"
 	}
 	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+	
 	SkeletonDesc
 	{
 		name "meshes/items/weapons/bouncing_blades"
@@ -34,7 +39,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "3.5"
+			emissive_factor  "6"
 		}
 
 		ammo_blueprint 				"items/weapons/bouncing_blades_projectile"
@@ -162,6 +167,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/bouncing_blades.mesh"
 		material 	"items/weapons/bouncing_blades_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -211,6 +221,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/bouncing_blades.mesh"
 		material 	"items/weapons/bouncing_blades_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -364,8 +379,14 @@ EntityBlueprint
 		on_world_hit_effect 		"effects/weapons_bullet/bouncing_blades_hit_world"
 		on_resisted_hit_effect 		"effects/weapons_generic/projectile_hit_resisted"	
 
-		collision_3d 				"world|world_blocker|world_destructible|destructible|vegetation|building|ground_unit|shield"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|grenade|vegetation|building|ground_unit|shield"
 		collision_2d 				"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_white"
+		}			
 	}
 
 	LifeTimeDesc
@@ -373,6 +394,24 @@ EntityBlueprint
 		time 		0.3
 		type 		"camera"
 	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 6 2"
+				}
+			}
+		}			
+	}	
 }
 
 EntityBlueprint
@@ -386,6 +425,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/bouncing_blades.mesh"
 		material 	"items/weapons/bouncing_blades_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint

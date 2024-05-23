@@ -1,0 +1,198 @@
+EntityBlueprint
+{
+	name "units/ground/canceroth_child_ultra"
+	base_blueprint "units/ground/canceroth_child_base"
+
+	MeshDesc
+	{
+		material "units/ground/canceroth_child_ultra"
+		mesh "meshes/units/ground/canceroth_child_1.mesh"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/canceroth_child_1"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/canceroth_child.lua"
+		database
+		{
+			min_scale	   float:"1.0"
+			max_scale	   float:"1.1"
+			min_idle_speed float:"0.4"
+			max_idle_speed float:"0.6"
+			speed_factor   float:"0.75"
+		}			
+	}
+
+	MovementDatabaseUpdateComponent
+	{
+	}
+	
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		is_manual					"0"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/canceroth_child_base"
+		}
+		EffectGroup
+		{
+			group 	"roots"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "units/ground/canceroth_roots"
+					scale "0.8 0.8 0.8"
+					bone "rootB"
+					random_delay "0.2"		
+					random_orientation "1"
+				}
+
+				Effect
+				{
+					blueprint "units/ground/canceroth_roots"
+					scale "1.0 1.0 1.0"
+					bone "rootB"
+					random_delay "0.2"
+					random_orientation "1"
+				}
+
+				Effect
+				{
+					blueprint "units/ground/canceroth_roots"
+					scale "0.9 0.9 0.9"
+					bone "rootB"
+					random_delay "0.2"
+					random_orientation "1"
+				}
+
+				Effect
+				{
+					blueprint "units/ground/canceroth_roots"
+					scale "0.8 0.8 0.8"	
+					bone "rootB"
+					offset "0 -1 0"		
+					random_delay "0.2"
+					random_orientation "1"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"energy"
+			enabled "1"			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_canceroth/canceroth_child_energy_red"
+					bone "rootB"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"light"
+			enabled "1"			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/canceroth_child_red"
+				}
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_canceroth/attack"
+						attack_start_time			"0.07"
+						attack_end_time				"0.30"
+						attack_duration 			"0.96"
+						damage_multiple 			"1"
+					}
+
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_small"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"42"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsSphereShape
+					{
+						r "4.5"
+					}
+				}
+			}
+		}
+	}
+}

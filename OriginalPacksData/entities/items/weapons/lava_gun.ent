@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/lava_gun.mesh"
 		material 	"items/weapons/lava_gun"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 
 	SkeletonDesc
 	{
@@ -34,7 +39,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "6"
+			emissive_factor  "7"
 		}
 
 		ammo_blueprint 				"items/weapons/lava_gun_projectile"
@@ -162,6 +167,11 @@ EntityBlueprint
 		material 	"items/weapons/lava_gun_advanced"
 	}
 
+ 	ShadowExcludeComponent
+	{
+
+	}		
+
 }
 
 EntityBlueprint
@@ -210,6 +220,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/lava_gun.mesh"
 		material 	"items/weapons/lava_gun_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -259,6 +274,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/lava_gun.mesh"
 		material 	"items/weapons/lava_gun_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -366,8 +386,14 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_fluid/lava_gun_hit"
 		on_resisted_hit_effect 	"effects/weapons_fluid/lava_gun_hit"
 		hit_effect_direction 	"up"
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"
+		}			
 	}
 	
 	ParticleDesc
@@ -386,6 +412,24 @@ EntityBlueprint
 		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
 		material    "projectiles/laser_red"
 	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 6 2"
+				}
+			}
+		}			
+	}		
 }
 
 EntityBlueprint
@@ -423,13 +467,19 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_fluid/lava_gun_charged_hit"
 		on_resisted_hit_effect 	"effects/weapons_fluid/lava_gun_charged_hit"
 		hit_effect_direction 	"up"
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"
+		}		
 	}
 	
 	ParticleDesc
 	{
-		name    "rift/lava_gun_projectile"
+		name    "rift/lava_gun_projectile_charged"
 	}	
 
 	LifeTimeDesc
@@ -443,4 +493,22 @@ EntityBlueprint
 		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
 		material    "projectiles/laser_red"
 	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "3 6 3"
+				}
+			}
+		}			
+	}		
 }

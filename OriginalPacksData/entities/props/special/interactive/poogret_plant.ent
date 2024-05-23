@@ -1,0 +1,489 @@
+EntityBlueprint
+{
+	name "props/special/interactive/poogret_plant_big_01"
+	
+	base_blueprints
+	{
+		 props/base/flammable_medium
+		 props/base/resistant_medium
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/lift_interactive.lua"
+
+		database
+		{
+			emit_event		string:"PoogretPlantActivated"
+			destroy_entity 	int:"1"
+		}
+	}
+
+	InteractiveComponent 
+	{
+		slot 				"LIFT"
+		item 				"props/special/interactive/poogret_food_item"
+		item_count 			"0"
+		radius 				"8"
+		remove_entity 		"0"
+		remove_component 	"0"
+	}
+
+	HealthDesc
+	{ 
+		max_health 			"400"
+		health 				"400"
+		is_manual           "1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/interactive/poogret_plant_big_01.mesh"	
+		material "props/special/interactive/poogret_plant_leaves"	
+	}	
+	
+	TypeDesc
+	{
+		type "flora|food"
+	}
+
+	PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                type    		 	"static"
+                group_id    		"destructible"
+                physics_material  	"default"
+
+                Shapes
+                {
+                    PhysicsMeshShape
+                    {
+                        mesh "meshes/props/special/interactive/poogret_plant_big_01_root_c1.nxs"
+                    }
+                }
+            }
+        }
+    }	
+	
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/poogret_plant"
+		visibility 				"discovered"
+	}	
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "1"
+				y "1"
+				z "1"
+			}
+		}
+	}	
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/special/interactive/poogret_plant_big_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+		root_material 					"props/special/interactive/poogret_plant_leaves_small"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_blue"	
+					explosion_effect_scale 	"0.6"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+				}
+			}
+			Pair
+			{
+				key "interact"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_blue"	
+					explosion_effect_scale 	"0.6"
+					//part_material	 		"props/special/interactive/poogret_plant_leaves"
+					//part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+					dissolve_time			"1.5"
+				}
+			}			
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"					
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}	
+	}
+	
+	EffectDesc
+    {
+      EffectGroup
+      {
+          enabled "1"
+		group 	"light"
+          Effects
+          {
+              Effect
+              {
+                  blueprint "lights/point/poogret_plant_blue"
+				offset "0 1 0"
+              }
+          }
+      }
+
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/poogret_plant_idle_blue"
+					offset "0 0 0"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 0.0 0"
+				}
+			}
+		}		
+    }	
+}
+
+EntityBlueprint
+{
+	name "props/special/interactive/poogret_plant_medium_01"
+	
+	base_blueprints
+	{
+		 props/base/flammable_small
+		 props/base/resistant_small
+	}		
+	
+	HealthDesc
+	{ 
+		max_health 				"300"
+		health 					"300"
+		is_manual               "1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/interactive/poogret_plant_medium_01.mesh"
+		material "props/special/interactive/poogret_plant_leaves_medium"
+	}
+	
+	TypeDesc
+	{
+		type "flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+					Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/cryo_plant/cryo_plant_medium_01_c1.nxs"
+						
+					}
+				}
+			}
+		}
+	}	
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "1"
+				y "1"
+				z "1"
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/special/interactive/poogret_plant_big_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.8"
+		max "1.2"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_blue"	
+					explosion_effect_scale 	"0.8"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_medium_01"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_medium_01"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}	
+	}
+
+	EffectDesc
+    {		
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 0.0 0"
+				}
+			}
+		}		
+    }	
+}
+
+EntityBlueprint
+{
+	name "props/special/interactive/poogret_plant_small_01"
+	
+	base_blueprints
+	{
+		 props/base/flammable_small
+		 props/base/resistant_small
+	}		
+	
+	HealthDesc
+	{ 
+		max_health 				"200"
+		health 					"200"
+		is_manual               "1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/interactive/poogret_plant_small_01.mesh"
+		material "props/special/interactive/poogret_plant_leaves_small"
+	}
+	
+	TypeDesc
+	{
+		type "flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.8"
+						y "2"
+						z "1.8"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "-0.1"
+						}
+					}
+				}
+			}
+		}
+	}		
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "1"
+				y "1"
+				z "1"
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/special/interactive/poogret_plant_big_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_blue"	
+					explosion_effect_scale 	"0.8"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_small_01"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_small_01"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}	
+	}
+
+	EffectDesc
+    {			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 0.0 0"
+				}
+			}
+		}		
+    }	
+}
+

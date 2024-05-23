@@ -25,7 +25,7 @@ EntityBlueprint
 			max_idle_time						float:"8.0"
 			eat_time							float::"15.0"
 			bp_on_range_attack					string:"units/ground/gnerot/underground_rock"
-			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
+			warning_effect_on_range_attack		string:"units/ground/gnerot/underground_rock_danger_marker"
 			range_attack_underground_offset		float:"-8.0"
 			range_attack_cooldown				float:"8.0"
 		}		
@@ -123,6 +123,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/gnerot/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
@@ -367,6 +372,11 @@ EntityBlueprint
 {
 	name  "units/ground/gnerot/trigger"
 
+	NetReplicationDisabledComponent
+	{
+
+	}
+
 	AttachmentDesc
 	{
 		attachment "att_attack_trigger"
@@ -382,8 +392,13 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
 			}
 			InvisibleTriggerFilter
 		}
@@ -396,6 +411,23 @@ EntityBlueprint
 				y 2
 				z 3
 			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/ground/gnerot/underground_rock_danger_marker"
+	base_blueprint effects/messages_and_markers/danger_marker_red
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+
+		database
+		{
+			override_radius		float:"6"
+			override_time   	float:"1"
 		}
 	}
 }
@@ -533,7 +565,7 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.0"
+		physical		"0.1"
 		fire			"1.0"
 		acid			"1.0"
 		energy			"1.0"
@@ -658,7 +690,7 @@ EntityBlueprint
 	{
 		name   "range"
 		target "player|ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
@@ -669,8 +701,8 @@ EntityBlueprint
 		aiming_cooldown "1"
 		aiming_target_time "2"
 		aiming_idle_angle "20"
-		pitch "att_muzzle"
-		yaw "att_muzzle"
+		pitch "att_turret"
+		yaw "att_turret"
 		check_target_visibility "1"
 		use_IK "0"
 	}
@@ -729,7 +761,21 @@ EntityBlueprint
 				}
 			}
 		}
-		
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "2.5 2.5 2.5"		
+					always_up "1"						
+				}
+			}
+		}			
 		EffectGroup
 		{						
 			group "death_splash"
@@ -952,8 +998,120 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 6 0"
+					offset "0 9 0"
 					scale "1 1 1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_big"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
 				}
 			}
 		}		

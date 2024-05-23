@@ -110,7 +110,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    	"rift/arachnoid_sentinel_muzzle"
+		name    	"rift/acid_spitter_muzzle"
 	}
 
 	CameraFeedbackShakeDesc
@@ -145,13 +145,6 @@ EntityBlueprint
 	{
 		name "items/weapons/fluid/acid_spitter_hit"
 	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_acid_stain"	
-		extend  		"4"
-	}
 	
 	DecalDesc
 	{	
@@ -178,13 +171,6 @@ EntityBlueprint
 	{
 		effects/weapons_fluid/spitter_acid_hit
 	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_acid_stain_advanced"	
-		extend  		"4"
-	}
 }
 
 EntityBlueprint
@@ -195,13 +181,6 @@ EntityBlueprint
 	{
 		effects/weapons_fluid/spitter_acid_hit
 	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_acid_stain_superior"	
-		extend  		"4"
-	}
 }
 
 EntityBlueprint
@@ -211,12 +190,6 @@ EntityBlueprint
 	base_blueprints
 	{
 		effects/weapons_fluid/spitter_acid_hit
-	}
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_acid_stain_extreme"	
-		extend  		"4"
 	}
 }
 
@@ -238,13 +211,6 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/weapons/fluid/fire_spitter_hit"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_fire_stain"	
-		extend  		"4"
 	}
 	
 	DecalDesc
@@ -275,6 +241,7 @@ EntityBlueprint
 	//
 	//	burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 	//	burning_time			"0.01"	// how long it will burn in seconds
+	//	disable_light_fade_out "1"
 	//}		
 }
 
@@ -286,13 +253,6 @@ EntityBlueprint
 	{
 		effects/weapons_fluid/spitter_fire_hit
 	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_fire_stain_advanced"	
-		extend  		"4"
-	}
 }
 
 EntityBlueprint
@@ -303,13 +263,6 @@ EntityBlueprint
 	{
 		effects/weapons_fluid/spitter_fire_hit
 	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_fire_stain_superior"	
-		extend  		"4"
-	}
 }
 
 EntityBlueprint
@@ -319,13 +272,6 @@ EntityBlueprint
 	base_blueprints
 	{
 		effects/weapons_fluid/spitter_fire_hit
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_fire_stain_extreme"	
-		extend  		"4"
 	}
 }
 
@@ -347,13 +293,6 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/weapons/fluid/cryo_spitter_hit"
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_cryo_stain"	
-		extend  		"4"
 	}
 	
 	DecalDesc
@@ -381,13 +320,6 @@ EntityBlueprint
 	{
 		effects/weapons_fluid/spitter_cryo_hit
 	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_cryo_stain_advanced"	
-		extend  		"4"
-	}
 }
 
 EntityBlueprint
@@ -398,13 +330,6 @@ EntityBlueprint
 	{
 		effects/weapons_fluid/spitter_cryo_hit
 	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_cryo_stain_superior"	
-		extend  		"4"
-	}
 }
 
 EntityBlueprint
@@ -414,13 +339,6 @@ EntityBlueprint
 	base_blueprints
 	{
 		effects/weapons_fluid/spitter_cryo_hit
-	}
-
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"spitter_cryo_stain_extreme"	
-		extend  		"4"
 	}
 }
 
@@ -517,8 +435,8 @@ EntityBlueprint
 
 	BurningComponent
 	{
-		spread_radius 			"5.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_radius 			"6.0"			// radius to spread fire
+		spread_chance_override 	"0.8"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
 
 		spread_timer
 		{
@@ -527,6 +445,7 @@ EntityBlueprint
 
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}	
 }	
 
@@ -552,8 +471,8 @@ EntityBlueprint
 
 	BurningComponent
 	{
-		spread_radius 			"10.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_radius 			"13.0"			// radius to spread fire
+		spread_chance_override 	"0.8"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
 
 		spread_timer
 		{
@@ -562,6 +481,7 @@ EntityBlueprint
 
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 		burning_time			"0.05"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}	
 }	
 
@@ -820,4 +740,79 @@ EntityBlueprint
 	{
 		name "items/weapons/fluid/spitter_equipped"
 	}
+}
+
+EntityBlueprint
+{
+	name "effects/weapons_fluid/tower_water_basic_projectile_hit"
+	
+	base_blueprints
+	{
+		lights/point/explosion_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_water_basic_projectile_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_hit"
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"2.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
+}	
+
+EntityBlueprint
+{
+	name effects/weapons_fluid/tower_water_basic_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"100"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_missile_launch"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.2"
+		falloff_radius 	"3"
+		radius   		"25"
+		frequency 		"10"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/lava_gun_fire"
+	}	
 }

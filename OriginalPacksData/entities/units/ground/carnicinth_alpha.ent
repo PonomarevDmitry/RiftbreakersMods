@@ -4,22 +4,13 @@ EntityBlueprint
 
 	base_blueprint "units/ground/carnicinth_base"
 
-	StateMachineDesc
-	{
-		template_name "carnicinth"
-		params
-		{
-
-		}		
-	}
-
 	LuaDesc
 	{
 		script "lua/units/ground/carnicinth.lua"
 		database
 		{
-			min_scale	float:"1.05"
-			max_scale	float:"1.10"
+			min_scale	float:"1.15"
+			max_scale	float:"1.25"
 		}			
 	}
 
@@ -30,10 +21,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"500"
-		health 						"500"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"750"
+		health 						"750"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -47,14 +36,22 @@ EntityBlueprint
 			}
 		}		
 	}
+	
+	RegenerationComponent
+	{
+		regeneration 				"200"
+		regeneration_cooldown 		"2"
+		regeneration_effect			"effects/enemies_carnicinth/healing"
+		regeneration_end_effect     "effects/enemies_carnicinth/healing_finished"
+	}
 
 	NavMeshMovementComponent
 	{
 		current_speed					"0"
 		max_speed						"0"
 		angle_turn_speed				"240"
-		unit_soft_radius				"0.5"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		unit_soft_radius				"1.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|sludge_vein"
 		dominance_group				    "0"
 	}
 
@@ -62,6 +59,7 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/carnicinth.mesh"
 		material 	"units/ground/carnicinth_alpha"
+		flags		"4"
 	}
 
 	SelectableDesc
@@ -84,14 +82,13 @@ EntityBlueprint
 			}
 		}
 
-
-		ammo_blueprint 				"units/ground/zorant/attack_range"
+		ammo_blueprint 				"units/ground/carnicinth_projectile"
 
 		muzzle_flash_effect 		"effects/enemies_carnicinth/muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
-		burst_column_angle 			"0"
+		burst_column_angle 			"15"
 	}
 }
 

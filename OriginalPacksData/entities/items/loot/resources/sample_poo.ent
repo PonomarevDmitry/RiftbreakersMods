@@ -1,0 +1,130 @@
+EntityBlueprint
+{ 
+	name "items/loot/resources/sample_poo"
+
+	MeshDesc
+	{
+		mesh 		"meshes/misc/specimen.mesh"
+		material 	"loot/resources/specimen"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/misc/specimen"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "idle"
+				animTime "0.0"
+			}
+		}
+	}
+
+	
+}
+
+EntityBlueprint
+{ 
+	name "items/loot/resources/sample_poo_item"
+
+	ResourceComponent
+	{
+		type_produced 	sample_poo
+		initial_amount	1		
+	}
+
+	InventoryItemDesc
+	{
+		type 			"misc"
+		name 			"resource_name/sample_poo"
+		item_bp			"items/loot/resources/sample_poo"
+		icon			gui/hud/resource_icons/specimen
+		bigger_icon 	gui/hud/resource_icons/specimen_bigger
+	}
+
+	LuaDesc
+	{
+		script "lua/items/misc/resource_giver.lua"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"loot"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 	"2"
+						y 	"2"
+						z 	"2"
+						
+						position 
+						{
+							x "0.0"
+							y "0.25"
+							z "0.0"
+						}							
+					}			
+				}	
+				mass 		"380"					
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/rare_sample"							
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_collect_specimen"							
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_max"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_max"							
+				}
+			}
+		}
+	}
+}
+

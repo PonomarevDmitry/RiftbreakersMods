@@ -22,8 +22,14 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
 		on_resisted_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
+		}			
 	}
 
 	LifeTimeDesc
@@ -48,6 +54,23 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 6 2"
+				}
+			}
+		}			
 	}	
 }
 
@@ -127,6 +150,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
 		material 	"items/weapons/heavy_plasma_gun"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 
 	SkeletonDesc
 	{
@@ -143,7 +171,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor  "8"
 		}
 
 		WeaponMuzzles
@@ -165,12 +193,7 @@ EntityBlueprint
 	}
 
 	ChargeWeaponComponent
-	{
-		WeaponAffector
-		{
-			emissive_time "0.35"
-			emissive_factor "2"
-		}			
+	{			
         ChargeLevels
         {
             ChargeLevel
@@ -283,6 +306,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
 		material 	"items/weapons/heavy_plasma_gun_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -332,6 +360,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
 		material 	"items/weapons/heavy_plasma_gun_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -417,6 +450,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
 		material 	"items/weapons/heavy_plasma_gun_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint

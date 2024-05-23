@@ -156,6 +156,7 @@ EntityBlueprint
 	KeepHighNavigationComponent
 	{
 		interpolation_speed  "0.75"
+		water_offset		 "-0.5"
 	}
 
 	SelectableDesc
@@ -168,7 +169,7 @@ EntityBlueprint
 	{
 		name   "range"
 		target "player|ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
@@ -255,6 +256,21 @@ EntityBlueprint
 				}
 			}
 		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.5 1.5 1.5"		
+					always_up "1"						
+				}
+			}
+		}			
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -390,7 +406,119 @@ EntityBlueprint
 					scale "0.7 0.7 0.7"
 				}
 			}
-		}			
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}		
 	}
 }
 
@@ -459,6 +587,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/hedroner/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
@@ -579,6 +712,20 @@ EntityBlueprint
 				}
 			}
 		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 4 1"
+				}
+			}
+		}		
 	}	
 }
 
@@ -605,6 +752,11 @@ EntityBlueprint
 {
 	name  "units/ground/hedroner/trigger"
 
+	NetReplicationDisabledComponent
+	{
+
+	}
+
 	AttachmentDesc
 	{
 		attachment "att_attack_trigger"
@@ -620,9 +772,15 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "1"
 			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
+			}
+			
 			InvisibleTriggerFilter
 		}
 

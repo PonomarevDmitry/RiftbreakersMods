@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/crystal_gun.mesh"
 		material 	"items/weapons/crystal_gun"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 
 	SkeletonDesc
 	{
@@ -35,7 +40,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "3"
+			emissive_factor  "3"
 		}		
 		WeaponMuzzles
 		{
@@ -142,6 +147,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/crystal_gun.mesh"
 		material 	"items/weapons/crystal_gun_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -187,6 +197,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/crystal_gun.mesh"
 		material 	"items/weapons/crystal_gun_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -264,6 +279,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/crystal_gun.mesh"
 		material 	"items/weapons/crystal_gun_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -358,7 +378,13 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_bullet/crystal_gun_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
+		}			
 	}
 
 	LifeTimeDesc

@@ -112,7 +112,7 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"0.5"
-		fire			"0.0"
+		fire			"0.1"
 		acid			"1.0"
 		energy			"1.0"
 		cryo			"1.0"
@@ -162,24 +162,16 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"destructible"
+				group_id 			"world_destructible"
 				physics_material 	"default"
+
 				Shapes
 				{
-					PhysicsBoxShape
+					PhysicsMeshShape
 					{
-						x "11"
-						y "11"
-						z "11"
-
-						position 
-						{
-							x "0.0"
-							y "5.5"
-							z "0.0"
-						}
+						mesh "meshes/units/ground/spawner_metallic_c1.nxs"
 					}
-				}			
+				}
 			}
 		}
 	}
@@ -192,19 +184,8 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "8"
-			y "8"
-		}
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
 		visibility "discovered"
 	}
 
@@ -599,7 +580,118 @@ EntityBlueprint
 				}
 			}
 		}			
-		
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_big"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "4 4 4"
+				}
+			}
+		}			
         EffectGroup
         {           
             enabled "1"

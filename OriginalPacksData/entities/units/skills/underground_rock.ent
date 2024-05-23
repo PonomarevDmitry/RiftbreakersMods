@@ -1,0 +1,263 @@
+EntityBlueprint
+{
+	name "units/skills/underground_rock"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"35"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/underground_rock"
+		description 	"gui/hud/enemy_skill_description/underground_rock"
+		icon 			"gui/menu/inventory/stat_icons/underground_rock_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/underground_rock.lua"
+		database
+		{
+			rock_bp				string:"units/skills/underground_rock_effect"
+			warning_bp			string:"effects/enemies_gnerot/spike_warning"
+			warning_radius      float:"4.5"
+			spawn_min_time		float:"0.65"
+			spawn_max_time		float:"1.25"
+			rocks_in_one_spawn	int:"2"
+			delay_min			float:"1.5"
+			delay_max			float:"2.5"
+			delay_offset		float:"0.35"
+			offset				float:"-8.0"
+			spread				float:"10"
+		}			
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/underground_rock_lvl_4"
+	base_blueprint	"units/skills/underground_rock"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/underground_rock_lvl_4"
+		description 	"gui/hud/enemy_skill_description/underground_rock"
+		icon 			"gui/hud/building_icons/tower_artillery"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/underground_rock.lua"
+		database
+		{
+			rock_bp				string:"units/skills/underground_rock_effect_lvl_4"
+			warning_bp			string:"effects/enemies_gnerot/spike_warning"
+			warning_radius      float:"5.5"
+			spawn_min_time		float:"0.55"
+			spawn_max_time		float:"0.95"
+			rocks_in_one_spawn	int:"3"
+			delay_min			float:"1.0"
+			delay_max			float:"2.0"
+			delay_offset		float:"0.35"
+			offset				float:"-8.0"
+			spread				float:"10"
+		}			
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/skills/underground_rock_effect"
+
+	LuaDesc
+	{
+		script "lua/misc/underground_rock.lua"
+		database
+		{
+			Strings
+			{
+				StringData
+				{
+					key		"damage_bp"
+					value	"units/skills/underground_rock_damage"
+				}	
+			}	
+			Floats
+			{
+				FloatData
+				{
+					key		"speed_acceleration"
+					value	"50"
+				}
+				FloatData
+				{
+					key		"origin_to_stop_above_ground_height"
+					value	"0.0"
+				}		
+			}	
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gnerot/underground_rock.mesh"
+		material "units/ground/underground_rock"
+	}
+
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			EffectDesc
+			{
+				EffectGroup
+				{
+					Effects
+					{
+						Effect
+						{
+							blueprint "effects/enemies_gnerot/spike_emerge"
+						}
+					}
+				}
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "4.0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name 			"units/skills/underground_rock_effect_lvl_4"
+	base_blueprint	"units/skills/underground_rock_effect"
+	
+	LuaDesc
+	{
+		script "lua/misc/underground_rock.lua"
+		database
+		{
+			Strings
+			{
+				StringData
+				{
+					key		"damage_bp"
+					value	"units/skills/underground_rock_damage_lvl_4"
+				}	
+			}	
+			Floats
+			{
+				FloatData
+				{
+					key		"speed_acceleration"
+					value	"50"
+				}
+				FloatData
+				{
+					key		"origin_to_stop_above_ground_height"
+					value	"0.0"
+				}		
+			}	
+		}			
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/skills/underground_rock_damage"
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemies_gnerot/underground_rock_damage"
+
+		DamagePattern
+		{
+			area_damage_radius 	"5"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"50"
+					type 		"physical"
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"10000"
+					//explosion_effect 		"effects/weapons_explosive/explosion_atomic"	
+					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_material 			"props/rocks/jagged/jagged_small_01_05"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "rocks"
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{ 
+	name 			"units/skills/underground_rock_damage_lvl_4"
+	base_blueprint	"units/skills/underground_rock_damage"
+	
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemies_gnerot/underground_rock_damage"
+
+		DamagePattern
+		{
+			area_damage_radius 	"6"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"100"
+					type 		"physical"
+				}
+			}
+		}
+	}
+}

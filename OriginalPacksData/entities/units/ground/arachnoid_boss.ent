@@ -29,7 +29,10 @@ EntityBlueprint
 		{
 			min_scale	float:"3.0"
 			max_scale	float:"3.0"
-			
+						
+			STING_item_type string:"enemy_range_weapon"
+			STING_pose_type string:"range"
+
 			items 		string:"items/weapons_enemy/alien_acid_elite_item"
 		}
 	}
@@ -61,10 +64,11 @@ EntityBlueprint
 	{
 		physical		"1.0"
 		fire			"1.5"
-		acid			"0.0"
+		acid			"0.1"
 		energy			"1.0"
 		cryo			"1.0"
 		area			"1.0"	
+		reflect_damage_max_percent 		"0.03"
 	}
 
 	StunDataComponent
@@ -271,7 +275,7 @@ EntityBlueprint
 	{
 		name   "range"
 		target "player|ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "10000"
 		aim_volume "SphericalAimVolume"
 		{
@@ -335,6 +339,21 @@ EntityBlueprint
 				}
 			}
 		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1 1 1"	
+					always_up "1"						
+				}
+			}
+		}			
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -537,7 +556,119 @@ EntityBlueprint
 					offset "0 4 0"
 				}
 			}
-		}			
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_big"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}		
 	}
 
 	FxComponent
@@ -557,6 +688,10 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
+			NetReplicationDisabledComponent
+			{
+			}
+
 		    name "units/ground/arachnoid_boss/trigger"
 			
 			AttachmentDesc
@@ -574,8 +709,13 @@ EntityBlueprint
 				{
 					TeamRelationTriggerFilter 
 					{
-						team		"hostility"
+						relation_name     "hostility"
 						check_parent "1"
+					}
+					
+					ExcludeTypeTriggerFilter
+					{
+						type "prop"
 					}
 					InvisibleTriggerFilter
 				}
@@ -595,7 +735,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 			name "units/ground/arachnoid_boss/destructor"
-			
+		
+			NetReplicationDisabledComponent
+			{
+			}	
+
 			DamageTriggerComponent
 			{
 				damage_amount	10
@@ -617,6 +761,10 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/arachnoid_boss/attack_1"
+
+			NetReplicationDisabledComponent
+			{
+			}
 
 			AttachmentDesc
 			{
@@ -694,6 +842,10 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/arachnoid_boss/attack_2"
+
+			NetReplicationDisabledComponent
+			{
+			}
 
 			AttachmentDesc
 			{
@@ -773,6 +925,10 @@ EntityBlueprint
 EntityBlueprint
 {
 	name  "units/ground/arachnoid_boss_armour"
+
+	NetReplicationDisabledComponent
+	{
+	}
 
 	DestroyDesc
 	{

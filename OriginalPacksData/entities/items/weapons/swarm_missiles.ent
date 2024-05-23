@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
 		material 	"items/weapons/swarm_missiles"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
 
 	SkeletonDesc
 	{
@@ -23,7 +28,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "5"
+			emissive_factor  "8"
 		}		
 		WeaponMuzzles
 		{
@@ -56,7 +61,7 @@ EntityBlueprint
 
 
 		burst_column_spacing 		"0.5"
-		burst_rate 					"0.3"
+		burst_rate 					"0.1"
 		//burst_column_angle 			"5"
 	}
 
@@ -146,6 +151,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
 		material 	"items/weapons/swarm_missiles_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint
@@ -190,6 +200,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
 		material 	"items/weapons/swarm_missiles_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint
@@ -265,6 +280,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/swarm_missiles.mesh"
 		material 	"items/weapons/swarm_missiles_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint
@@ -327,28 +347,37 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_explosive/explosion_small"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"
+		}			
 	}
 
 
 
-	//EffectDesc
-	//{
-	//	EffectGroup
-	//	{
-	//		Effects
-	//		{
-	//			Effect
-	//			{
-	//				blueprint "effects/weapons_explosive/rocket_projectile_small"
-	//				bone "att_exhaust"
-	//			}
-	//		}
-	//	}
-	//}
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 6 2"
+				}
+			}
+		}			
+	}
 
-		LifeTimeDesc
+	LifeTimeDesc
 	{
 		time 		0.3
 		type 		"camera"

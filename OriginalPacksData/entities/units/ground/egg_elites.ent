@@ -1,0 +1,517 @@
+///////////////////////JUNGLE//////////////////
+EntityBlueprint
+{
+	name "units/ground/egg_elite_canoptrix"
+
+	HealthDesc
+	{
+		max_health 					"3"
+		health 						"3"
+	}
+
+	MeshDesc
+	{
+		mesh     	"meshes/units/ground/spawner_canoptrix_eggs_01.mesh"
+		material 	"units/ground/spawner_canoptrix_eggs"
+		flags    	"4"											//this flag set to 4 prevents animation poping when eggs are growing
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		database
+		{
+			min_scale	float:"0.8"
+			max_scale	float:"1.2"
+			grow_speed	float:"1.0"
+			grow		int:"1"
+		}
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "canoptrix"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"trunk"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+						
+	}
+
+	HighlightComponent
+	{
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_canoptrix/death"
+					part_prefix 			"meshes/units/ground/spawner_canoptrix_eggs_01"
+					part_material 			"units/ground/spawner_canoptrix_eggs"
+					part_effect 			"effects/enemies_generic/blood_trail_red"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+	}
+	
+	EggDesc
+	{
+		blueprint				"units/ground/canoptrix"
+		time_to_hatch			"3"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_canoptrix_alpha"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/canoptrix_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_canoptrix_ultra"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/canoptrix_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+///////////////////////DESERT//////////////////
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_mushbit"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/mushbit"
+		time_to_hatch			"3"
+		unit_state_spawn		"1" // do not touch
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/spawner_mushbit_eggs_01.mesh"
+		material 	"units/ground/spawner_mushbit_eggs"
+		flags    	"4"											//this flag set to 4 prevents animation poping when eggs are growing
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_mushbit/death"
+					part_prefix 			"meshes/units/ground/spawner_mushbit_eggs_01"
+					part_material 			"units/ground/spawner_mushbit_eggs"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_mushbit_alpha"
+	base_blueprint 	"units/ground/egg_elite_mushbit"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/mushbit_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_mushbit_ultra"
+	base_blueprint 	"units/ground/egg_elite_mushbit"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/mushbit_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+////////////////////////ACID /////////////////
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_granan"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/granan"
+		time_to_hatch			"3"
+		unit_state_spawn		"1" // do not touch
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/spawner_granan_eggs_01.mesh"
+		material 	"units/ground/spawner_granan_eggs"
+		flags    	"4"											//this flag set to 4 prevents animation poping when eggs are growing
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_granan/death"
+					part_prefix 			"meshes/units/ground/spawner_granan_eggs_01"
+					part_material 			"units/ground/spawner_granan_eggs"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material	"gibs_light"					
+				}
+				key "default"
+			}					
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_granan_alpha"
+	base_blueprint 	"units/ground/egg_elite_granan"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/granan_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_granan_ultra"
+	base_blueprint 	"units/ground/egg_elite_granan"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/granan_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+//////////////////////// MAGMA /////////////////
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_morirot"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/morirot"
+		time_to_hatch			"3"
+		unit_state_spawn		"1" // do not touch
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/spawner_morirot_eggs_01.mesh"
+		material 	"units/ground/spawner_morirot"
+		flags    	"4"											//this flag set to 4 prevents animation poping when eggs are growing
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_morirot/death"
+					part_prefix 			"meshes/units/ground/spawner_morirot_eggs_01"
+					part_material 			"units/ground/spawner_morirot"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material	"gibs_light"					
+				}
+				key "default"
+			}					
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_morirot_alpha"
+	base_blueprint 	"units/ground/egg_elite_morirot"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/morirot_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_morirot_ultra"
+	base_blueprint 	"units/ground/egg_elite_morirot"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/morirot_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+//////////////////////// METALLIC /////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_wingmite"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/wingmite"
+		time_to_hatch			"3"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_wingmite_alpha"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/wingmite_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_wingmite_ultra"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/wingmite_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+//////////////////////// CAVERNS /////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_crawlog"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/crawlog"
+		time_to_hatch			"3"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_crawlog_alpha"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/crawlog_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_crawlog_ultra"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/crawlog_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+//////////////////////// SWAMP /////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_stickrid"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/stickrid"
+		time_to_hatch			"3"
+		unit_state_spawn		"1" // do not touch
+	}
+	
+	MeshDesc
+	{
+		mesh "meshes/units/ground/egg_spawrot.mesh"
+		material "units/ground/spawrot"
+		flags    	"4"											//this flag set to 4 prevents animation poping when eggs are growing
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_arachnoid/death"
+					part_prefix 			"meshes/units/ground/spawner_granan_eggs_03"
+					part_material 			"units/ground/spawner_granan_eggs"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_stickrid_alpha"
+	base_blueprint 	"units/ground/egg_elite_stickrid"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/stickrid_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"1" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_stickrid_ultra"
+	base_blueprint 	"units/ground/egg_elite_stickrid"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/stickrid_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"1" // do not touch
+	}
+}

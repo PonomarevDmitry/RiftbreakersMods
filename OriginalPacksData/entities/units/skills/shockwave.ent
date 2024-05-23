@@ -1,0 +1,152 @@
+EntityBlueprint
+{
+	name "units/skills/shockwave"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"15"
+		}		
+	}
+
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/shockwave"
+		description 	"gui/hud/enemy_skill_description/shockwave"
+		icon 			"gui/menu/inventory/stat_icons/shockwave_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/shockwave.lua"
+		database
+		{
+			shockwave_blueprint		string:"units/skills/shockwave_effect"
+			aura_effect			    string:"aura_shockwave"
+			spawn_time				float:"1.5"
+		}			
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/shockwave_lvl_4"
+	base_blueprint	"units/skills/shockwave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/shockwave_lvl_4"
+		description 	"gui/hud/enemy_skill_description/shockwave"
+		icon 			"gui/menu/items_icons/skills/emergency_explosion"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/shockwave.lua"
+		database
+		{
+			shockwave_blueprint		string:"units/skills/shockwave_effect_lvl_4"
+			aura_effect			    string:"aura_shockwave"
+			spawn_time				float:"1.5"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/shockwave_effect"
+
+	LuaDesc
+	{
+		script "lua/weather/ion_storm.lua"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/aura_shockwave_explosion"
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"15"
+			area_damage_speed	"50"
+			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane
+			Damages
+			{
+				Damage
+				{
+					value 			"20"
+					type			"area"
+				}
+			}
+		}
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"50"
+		radius 	"50"
+	}	
+	
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.35"
+		falloff_radius 	"25"
+		radius   		"35"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/bradron/shockwave"
+	}
+
+	LifeTimeDesc
+	{
+		time 		5
+	}
+	
+	TeamInheritanceComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/shockwave_effect_lvl_4"
+	base_blueprint	"units/skills/shockwave_effect"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"20"
+			area_damage_speed	"50"
+			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane
+			Damages
+			{
+				Damage
+				{
+					value 			"40"
+					type			"area"
+				}
+			}
+		}
+	}
+}

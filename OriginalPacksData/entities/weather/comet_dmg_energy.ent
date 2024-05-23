@@ -6,8 +6,12 @@ EntityBlueprint
 	{
 		mesh 		"meshes/projectiles/granite_rock_small.mesh"
 		material 	"units/ground/krocoon_boss_energy"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 
 	//MinimapItemDesc
 	//{
@@ -24,8 +28,9 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_atomic_blue_big"
-		on_world_hit_effect 	"effects/weapons_explosive/explosion_atomic_blue_big"
+		diameter				"20"
+		on_enemy_hit_effect 	"effects/weapons_explosive/comet_explosion_blue"
+		on_world_hit_effect 	"effects/weapons_explosive/comet_explosion_blue"
 		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
 		
 		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
@@ -33,6 +38,7 @@ EntityBlueprint
 		DamagePattern
 		{
 			area_damage_radius 	"30"
+			area_damage_speed 	"40"
 
 			Damages
 			{
@@ -47,13 +53,18 @@ EntityBlueprint
 
 	CameraShakeDesc
 	{
-		duration 		"60"
+		duration 		"3"
 		power   		"4.7"
 		falloff_radius 	"400"
 		radius   		"300"
 		frequency 		"20"
 		group			"special"
 	}
+	
+	LifeTimeDesc
+	{
+		time 		3
+	}	
 
 	EffectDesc
 	{

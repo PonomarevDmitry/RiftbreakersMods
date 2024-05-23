@@ -49,11 +49,12 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.0"
+		fire			"0.1"
 		acid			"1.0"
 		energy			"0.5"
 		cryo			"4.0"
-		area			"0.0"	
+		area			"0.1"	
+		reflect_damage_max_percent 		"0.1"
 	}
 	
 	StunDataComponent
@@ -82,8 +83,12 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/krocoon.mesh"
 		material 	"units/ground/krocoon_boss_fire"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 	
 	MinimapItemDesc
 	{
@@ -150,6 +155,7 @@ EntityBlueprint
 
 		burning_effect_group    ""			// effect group to be enabled on entity
 		burning_time			"10000000000"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}	
 
 	EffectDesc
@@ -334,6 +340,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/krocoon_boss_fire/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{

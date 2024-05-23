@@ -1,0 +1,287 @@
+EntityBlueprint
+{
+	name  "props/special/resin_tree/resin_tree_02"
+
+	BuildingDesc
+	{
+		name 				"resin_tree_02"
+		bp   				"props/special/resin_tree/resin_tree_02"
+		category 			"resources"
+		type				"pipe"
+		localization_id		"gui/hud/building_name/resin_tree"
+		description			"gui/hud/building_description/resin_tree"
+		menu_icon			"gui/hud/other/resin_tree_icon"
+		buildable			"0"
+		sellable			"0"
+	}	
+
+	LuaDesc
+	{
+		script "lua/buildings/building.lua"
+				
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}	
+	}
+	
+	ResourceConverterDesc 
+	{
+		in
+		{					
+		}
+
+		out
+		{
+			GameplayResource
+			{
+				resource 	"resin"
+				value 		"25"
+				attachment	"att_in_1|att_in_2|att_in_3|att_in_4"
+			}			
+		}
+	}	
+	
+	ResourceStorageDesc
+	{
+		Storages
+		{
+			Storage
+			{
+				resource 		"resin"
+				max 	 		"100"
+				attachment		"att_in_1|att_in_2|att_in_3|att_in_4"
+			}			
+		}
+	}	
+	
+	PipeComponent
+	{
+		attachment		"att_in_1,att_in_2,att_in_3,att_in_4"
+	}	
+
+	//SelectableDesc
+	//{
+	//	content "gui/hud/building_name/alien_building_with_pipe_entrance_morphium"
+	//	can_activate 0
+	//}
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/resin_tree/resin_tree_big_02.mesh"
+		material "props/special/resin_tree/resin_tree_big_01"
+
+			SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/resin_tree/resin_tree_big_01"
+			}
+			SubMesh
+			{
+				id "1"
+				material "props/special/resin_tree/resin_roots"
+			}
+		}
+	}	
+	
+	SkeletonDesc
+	{
+		name "meshes/props/special/resin_tree/resin_tree_big_01"
+	}
+
+	PhysicsDesc  
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     			"static"
+				group_id    		"world_blocker"
+				physics_material 	 "default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{	
+						mesh "meshes/props/special/resin_tree/resin_tree_big_01_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	19
+    				y	19
+    				z	19
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "0.82"
+			y "0.39"
+			z "0.89"
+			w "1"
+		}
+		size
+		{
+			x "5"
+			y "5"
+		}
+
+		visibility			"discovered"
+	}
+	
+	EffectDesc
+	{	
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_1_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_2"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_2_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_3"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_3_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_4"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_4_arrow"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "light"
+			enabled "1"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_1"
+				}
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_2"
+				}
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_3"
+				}
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_4"
+				}				
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name  "props/special/resin_tree/resin_tree_02_child"
+
+			AttachmentDesc
+			{
+				attachment 	"att_top"
+			}
+
+			MeshDesc
+			{
+				mesh "meshes/props/special/resin_tree/resin_tree_big_top_02.mesh"
+				material "props/special/resin_tree/resin_tree_big_01"
+			}
+
+			PhysicsDesc  
+		 	{
+				objects
+				{
+					PhysicsObjectDesc
+					{
+						type     			"static"
+						group_id    		"world_blocker"
+						physics_material 	 "default"
+						Shapes
+						{
+							PhysicsMeshShape
+							{	
+								mesh "meshes/props/special/resin_tree/resin_tree_big_top_02_c1.nxs"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

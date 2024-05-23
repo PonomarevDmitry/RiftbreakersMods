@@ -1,0 +1,78 @@
+EntityBlueprint
+{
+	name  "props/special/loot_containers/loot_container_small_pile_superior"
+
+	base_blueprint "props/special/loot_containers/loot_container_small_pile"
+
+	MeshDesc
+	{
+		mesh 						"meshes/props/special/loot_containers/loot_container_small_pile.mesh"
+		material 					"props/special/loot_containers/loot_container_small_pile_superior"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"7000"
+					explosion_effect 		"effects/loot/treasure_small_open_superior"
+
+					part_material	 		"props/special/loot_containers/loot_container_small_pile_superior"
+					part_prefix 			"meshes/props/special/loot_containers/loot_container_small_pile"
+					//part_effect 			"effects/destructibles/acid_bulb_part_trail_violet_medium"
+					part_physics_material   "debris_heavy"
+				}
+			}
+		}
+	}
+
+	DecalDesc
+	{
+		blueprint "effects/decals/loot_container_small_pile"
+		scale
+		{
+			x		3.5
+			y		3.5
+			z		3.5
+
+		}
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {
+            enabled "1"
+			group 	"light"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/loot_container_small_violet"
+					offset "0 4 0"
+                }
+            }
+        }
+		EffectGroup
+		{
+			group "container"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_container_small_idle_superior"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}

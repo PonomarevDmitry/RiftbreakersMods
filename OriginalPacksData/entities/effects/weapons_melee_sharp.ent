@@ -150,6 +150,71 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	base_blueprints
+	{
+		effects/default
+	}
+
+	name effects/weapons_melee_sharp/flame_blade_hit_enemy
+
+	ParticleDesc
+	{
+		name    "rift/flame_blade_hit"
+	}
+
+	//CameraShakeDesc
+	//{
+	//	duration 		"0.1"
+	//	power   		"0.1"
+	//	falloff_radius 	"3"
+	//	radius   		"25"
+	//	frequency 		"10"
+	//	group			"weapon_hit"
+	//}
+	
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.3"
+		group			"weapon_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/fluid/fire_spitter_muzzle"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/flame_blade_hit_world
+
+	base_blueprints
+	{
+		lights/point/muzzle_orange_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/flame_blade_hit"
+	}
+	
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.4"
+		group			"weapon_hit"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/fluid/fire_spitter_muzzle"
+	}	
+}
+
+EntityBlueprint
+{
 	name effects/weapons_melee_sharp/sword_hit_world
 
 	base_blueprints
@@ -217,3 +282,49 @@ EntityBlueprint
 		
 }
 
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/flame_blade_shockwave
+
+	base_blueprints
+	{
+		lights/point/orange_very_small
+		effects/no_lifetime
+	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2.0"			// radius to spread fire
+		spread_chance_override 	"1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"0.3"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/flame_blade_shockwave"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/flame_blade_fire
+
+	base_blueprints
+	{
+		//lights/point/orange_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/flame_blade_fire"
+	}
+}

@@ -78,8 +78,8 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.0"
-		fire			"0.0"
+		physical		"0.1"
+		fire			"0.1"
 		acid			"4.0"
 		energy			"1.0"
 		cryo			"2.0"
@@ -249,6 +249,21 @@ EntityBlueprint
 			}
 		}
 		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1 1 1"	
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
 		{			
 			group "idle_random"
 			enabled "0"		
@@ -374,6 +389,11 @@ EntityBlueprint
 		{
 			name "units/ground/moltug/destructor"
 			
+			NetReplicationDisabledComponent
+			{
+
+			}
+
 			DamageTriggerComponent
 			{
 				damage_amount	10

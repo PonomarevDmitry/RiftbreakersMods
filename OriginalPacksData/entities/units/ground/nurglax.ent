@@ -6,7 +6,7 @@ EntityBlueprint
 	{
 		physical		"1.0"
 		fire			"6.0"
-		acid			"0.0"
+		acid			"0.1"
 		energy			"1.0"
 		cryo			"1.0"
 		area			"2.0"	
@@ -26,8 +26,14 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"2.9"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein"
 		dominance_group				    "0"
+	}
+	
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.75"
+		water_offset	     "-1.0"
 	}
 
 	TypeDesc
@@ -73,20 +79,8 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "4"
-			y "4"
-		}
-		
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/enemy_medium"
 		visibility "radar"
 	}
 
@@ -145,13 +139,12 @@ EntityBlueprint
 	{
 		name   "range"
 		target "ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "18"
 			range_max "50"
-			aiming_range "55"
 		}
 
 		aiming_cooldown "1"
@@ -160,10 +153,10 @@ EntityBlueprint
 		pitch "att_muzzle"
 		yaw "att_muzzle"
 		check_target_visibility "1"
-		gravity_factor "6"
 		use_IK "0"
 	}
 	
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -239,6 +232,21 @@ EntityBlueprint
 				}
 			}
 		}	
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "2.5 2.5 2.5"		
+					always_up "1"						
+				}
+			}
+		}			
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -349,7 +357,119 @@ EntityBlueprint
 					scale "0.8 0.8 0.8"
 				}
 			}
-		}			
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_big"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}		
 	}
 	FxComponent
 	{
@@ -436,6 +556,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/nurglax/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
@@ -537,6 +662,10 @@ EntityBlueprint
 		delay_update_time		"0.3"
 		manual_remove			"1"
 		diameter				"4.0"
+
+		artillery_gravity_factor 	"6"
+		artillery_min_angle 		"45"
+		artillery_max_angle 		"45"
 
 		DamagePattern
 		{
@@ -641,6 +770,11 @@ EntityBlueprint
 {
 	name  "units/ground/nurglax/trigger"
 
+	NetReplicationDisabledComponent
+	{
+
+	}
+
 	AttachmentDesc
 	{
 		attachment "att_attack_trigger"
@@ -656,8 +790,13 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
 			}
 			InvisibleTriggerFilter
 		}

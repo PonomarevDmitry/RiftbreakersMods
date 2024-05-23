@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/blaster.mesh"
 		material 	"items/weapons/blaster"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
 
 	SkeletonDesc
 	{
@@ -34,7 +39,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "3.5"
+			emissive_factor  "3.5"
 		}
 
 		ammo_blueprint 				"items/weapons/blaster_projectile"
@@ -161,6 +166,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/blaster.mesh"
 		material 	"items/weapons/blaster_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
 }
 
 EntityBlueprint
@@ -246,6 +256,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/blaster.mesh"
 		material 	"items/weapons/blaster_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
 }
 
 EntityBlueprint
@@ -332,8 +347,14 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
+		}			
 	}
 
 	LifeTimeDesc
@@ -355,8 +376,14 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_energy/energy_explosion_small"
 		on_resisted_hit_effect 	"effects/weapons_energy/energy_explosion_small"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
+		}			
 	}
 
 	LifeTimeDesc
@@ -377,6 +404,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/blaster.mesh"
 		material 	"items/weapons/blaster_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
 }
 
 EntityBlueprint

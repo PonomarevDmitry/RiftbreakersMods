@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/plasma_gun.mesh"
 		material 	"items/weapons/plasma_gun"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 
 	SkeletonDesc
 	{
@@ -34,7 +39,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "5"
+			emissive_factor  "5"
 		}
 
 		ammo_blueprint 				"items/weapons/plasma_gun_projectile"
@@ -134,6 +139,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/plasma_gun.mesh"
 		material 	"items/weapons/plasma_gun_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint
@@ -178,6 +188,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/plasma_gun.mesh"
 		material 	"items/weapons/plasma_gun_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint
@@ -254,8 +269,14 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
+		}		
 	}
 
 	LifeTimeDesc
@@ -276,6 +297,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/plasma_gun.mesh"
 		material 	"items/weapons/plasma_gun_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 }
 
 EntityBlueprint

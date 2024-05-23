@@ -112,6 +112,7 @@ EntityBlueprint
 
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}
 }
 
@@ -282,6 +283,7 @@ EntityBlueprint
 
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}	
 }
 
@@ -413,6 +415,51 @@ EntityBlueprint "effects/default"
 	}
 }
 
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_baxmoth/drone_attack_cryo"
+
+	SoundDesc
+	{
+		name "enemies/baxmoth/drone_attack"
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/baxmoth_drone_muzzle_cryo"
+	}
+}
+
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_baxmoth/drone_attack_fire"
+
+	SoundDesc
+	{
+		name "enemies/baxmoth/drone_attack"
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/baxmoth_drone_muzzle_fire"
+	}
+}
+
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_baxmoth/drone_attack_energy"
+
+	SoundDesc
+	{
+		name "enemies/baxmoth/drone_attack"
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/baxmoth_drone_muzzle_energy"
+	}
+}
+
 EntityBlueprint
 {
 	base_blueprints
@@ -430,6 +477,81 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "enemies/arachnoid/acid_hit"
+	}	
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		 lights/point/muzzle_blue_very_small
+		 effects/default
+	}	
+	name "effects/enemies_baxmoth/drone_projectile_hit_cryo"	
+
+	ParticleDesc
+	{
+		name    "rift/cryo_explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_hit"
+	}	
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		 lights/point/muzzle_blue_very_small
+		 effects/default
+	}	
+	name "effects/enemies_baxmoth/drone_projectile_hit_energy"	
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_hit"
+	}	
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
+		 lights/point/muzzle_orange_very_small
+		 effects/default
+	}	
+	name "effects/enemies_baxmoth/drone_projectile_hit_fire"	
+
+	ParticleDesc
+	{
+		name    "rift/fire_explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_hit"
+	}	
+	
+	BurningComponent
+	{
+		spread_radius 			"1.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}	
 }
 

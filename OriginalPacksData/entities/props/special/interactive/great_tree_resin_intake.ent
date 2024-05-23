@@ -1,0 +1,211 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/great_tree_resin_intake"
+
+	ResourceConverterDesc 
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"resin"
+				value 		"200"
+				attachment		"att_in_1"
+			}		
+		}
+	
+		out
+		{
+		}
+	}
+	
+	ResourceStorageDesc
+	{
+		Storages
+		{
+			Storage
+			{
+				resource	 	"resin"
+				max 	 		"30000"
+				attachment		"att_in_1"
+			}
+		}
+	}	
+
+	BuildingDesc
+	{
+		name 				"great_tree_resin_intake"
+		bp   				"props/special/interactive/great_tree_resin_intake"
+		category 			"resources"
+		type				"pipe"
+		localization_id		"gui/hud/building_name/great_tree_resin_intake"
+		description			"gui/hud/building_description/great_tree_resin_intake"
+		menu_icon			"gui/hud/building_icons/great_tree_resin_intake"
+		
+		building_functionality	"PIPE_MODE"
+
+		buildable			"0"
+		sellable			"0"
+	}	
+
+	LuaDesc
+	{
+		script "lua/props/special/great_tree_resin_intake.lua"
+				
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+		}
+			
+	}
+
+	SelectableDesc
+	{
+		content "gui/hud/building_name/great_tree_resin_intake"
+		can_activate 0
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_alien_influence_lvl_3.mesh"
+		material "buildings/defense/tower_alien_influence_lvl_3_destroyed"	
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_alien_influence_lvl_3"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "4"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	//MinimapItemDesc
+	//{
+	//	type	"quad"
+	//	color
+	//	{
+	//		x "0.82"
+	//		y "0.39"
+	//		z "0.89"
+	//		w "1"
+	//	}
+	//	size
+	//	{
+	//		x "5"
+	//		y "5"
+	//	}
+	//
+	//	visibility			"discovered"
+	//}
+	
+	EffectDesc
+	{	
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_1_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_2"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_2_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_3"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_3_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_4"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_4_arrow"
+				}
+			}
+		}	
+	}	
+}

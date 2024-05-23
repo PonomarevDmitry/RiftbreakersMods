@@ -101,20 +101,8 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "4"
-			y "4"
-		}
-
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/enemy_big"
 		visibility "discovered"
 	}
 
@@ -181,7 +169,6 @@ EntityBlueprint
 		aiming_target_time "2"
 		aiming_idle_angle "20"
 		pitch "be_barrel"
-		gravity_factor "8"
 		yaw "be_turret"
 		check_target_visibility "1"
 		//use_IK "0"
@@ -505,6 +492,23 @@ EntityBlueprint
 				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+					always_up "1"					
+				}
+			}
+		}			
+		
 		EffectGroup
 		{
 			group "damage_generic"
@@ -617,6 +621,118 @@ EntityBlueprint
 				}
 			}
 		}
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_big"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}			
 	}
 
 	FxComponent
@@ -666,10 +782,13 @@ EntityBlueprint
 		name 		"_alien_tower_spawner_"
 	}
 
-	PlayerTargetFinderComponent
+	TargetFinderInitializerComponent
 	{
-		tag 		"player"
-		in_radius 	"25"
+		search_component			"MechComponent"
+		random_timer_at_start		1
+		timer_duration				1
+		tag 						"player"
+		in_radius 					"25"
 	}
 
 	TargetComponent
@@ -981,6 +1100,10 @@ EntityBlueprint
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 		hit_effect_direction	"up"  //inverse, normal, up
 		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
+
+		artillery_gravity_factor 	"8"
+		artillery_min_angle 		"45"
+		artillery_max_angle 		"45"
 	}
 
 	LifeTimeDesc

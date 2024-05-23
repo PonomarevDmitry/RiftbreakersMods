@@ -1,0 +1,117 @@
+EntityBlueprint
+{
+	name "spawners/item_spawner"
+
+	DatabaseComponent
+	{
+		blueprint		string:"items/weapons/blaster_item"
+		cooldown		float:"10"
+		ammo_count		int:"2"
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/item_spawner.lua"
+
+		database
+		{
+			unique		int:"1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/weapon_base.mesh"
+		material 	"items/consumables/weapon_base"
+	}
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"character"
+		type		"GRID"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "3"
+			}
+		}
+	}
+
+}
+
+EntityBlueprint
+{
+	name "spawners/item_spawner_health"
+	base_blueprint "spawners/item_spawner"
+
+	MeshDesc
+	{
+	mesh 		"meshes/items/consumables/health_base.mesh"
+	material 	"items/consumables/health_base"
+	}
+}
+
+
+
+EntityBlueprint
+{
+	name "spawners/item_spawner_small"
+
+	DatabaseComponent
+	{
+		blueprint		string:"items/weapons/blaster_item"
+		cooldown		float:"10"
+		ammo_count		int:"2"
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/item_spawner.lua"
+
+		database
+		{
+			unique		int:"1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/shield_base.mesh"
+		material 	"items/consumables/shield_base"
+	}
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"character"
+		type		"GRID"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "3"
+			}
+		}
+	}
+
+	LocalAabbDesc
+	{
+		min
+		{
+			x "-0.1"
+			y "-0.1"
+			z "-0.1"
+		}
+		max
+		{
+			x "0.1"
+			y "0.1"
+			z "0.1"
+		}
+	}
+
+}

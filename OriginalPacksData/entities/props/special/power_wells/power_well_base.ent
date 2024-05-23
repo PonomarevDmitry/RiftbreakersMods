@@ -1,0 +1,205 @@
+EntityBlueprint
+{
+    name            "props/special/power_wells/power_well_base"
+
+	LuaDesc
+	{
+		script 		"lua/misc/player_modificator.lua"
+	}
+
+	IdDesc
+	{
+		group 		"power_well"
+	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/power_wells/power_well_source"
+
+	MeshDesc
+	{
+
+		mesh 		"meshes/props/special/power_wells/power_well.mesh"
+		
+
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/power_wells/power_well"
+			}
+			SubMesh
+			{
+				id "1"
+				material "props/special/power_wells/power_well_core"
+			}
+		}	
+	
+
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/special/power_wells/power_well"
+	}
+	
+	//AnimationGraphDesc
+	//{
+	//	animation_graph_name "working"
+	//}	
+	
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "working"
+				animTime "0.0"
+			}
+		}
+	}		
+	
+	InteractiveComponent 
+	{
+		slot 			    "ACTIVATOR"
+		radius 			    "8"
+		remove_entity 	    "1"
+	}
+
+    LuaDesc
+	{
+		script "lua/misc/player_modificator_source.lua"
+		
+		database
+		{
+			blueprint string:"props/special/power_wells/power_well_all"
+		}	
+	}	
+
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "2"
+						half_height "3"
+
+						position 
+						{
+							x "0.0"
+							y "3"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
+				}
+			}
+		}
+	}
+	//InfluenceComponent
+	//{
+	//	radius "14"		
+	//	energy_radius "0"
+	//	emissive_radius "9"		
+	//}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/power_well_drained"	
+					
+					//part_material	 		"props/crystals/pure_set"
+					//part_prefix 			"meshes/props/crystals/pure_medium_01"
+					//part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					//part_physics_material   "debris_heavy"
+				}
+			}
+			Pair
+			{
+				key "interact"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/power_well_drained"	
+					
+					//part_material	 		"props/crystals/pure_set"
+					//part_prefix 			"meshes/props/crystals/pure_medium_01"
+					//part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					//part_physics_material   "debris_heavy"
+				}
+			}	
+		}		
+	}
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/power_well"
+		visibility 		"discovered"
+		unknown_until_visible 	"1"
+	}
+	
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+	}
+
+	EffectDesc
+    {
+      EffectGroup
+		{
+			group "container"
+			enabled "1"	
+			
+			Effects
+			{
+				
+                Effect
+                {
+                    blueprint "lights/props/power_well"
+					bone "att_light"	
+                }	
+                Effect
+                {
+                    blueprint "effects/loot/power_well_energy"
+					bone "att_light"	
+                }				
+			}
+		} 
+	}	
+}
+
+
+

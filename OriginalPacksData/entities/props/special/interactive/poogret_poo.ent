@@ -1,0 +1,122 @@
+EntityBlueprint
+{ 
+	name "props/special/interactive/poogret_poo"
+	
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+	}	
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/interactive/poogret_poo.mesh"
+		material "props/special/interactive/poogret_poo"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/misc/specimen"
+	}
+
+	//AnimationDesc
+	//{
+	//	animations
+	//	{
+	//		Anim
+	//		{
+	//			animName "idle"
+	//			animTime "0.0"
+	//		}
+	//	}
+	//}
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"grenade"
+				physics_material 	"gibs_super_heavy"
+                Shapes
+                {
+                    PhysicsMeshShape
+                    {
+                        mesh "meshes/props/special/interactive/poogret_plant_big_01_fruit_c1.nxs"
+                    }
+                }					
+			}
+		}
+	}
+	
+	InteractiveComponent 
+	{
+		slot 			"HARVESTER"
+		item 			"items/loot/resources/sample_poo_item"
+		item_count 		"1"
+		radius 			"6"
+		remove_entity 	"1"
+	}	
+	
+	HealthDesc
+	{
+		max_health 				"10000"
+		health 					"10000"
+		is_manual               "1"
+		is_immortal 			"1"
+	}
+	
+	ResistanceComponent
+	{
+		min_damage_threshold 	"10000"	
+	}		
+	
+	LootDesc
+	{
+		explosion_max_power 	"14000"
+		explosion_min_power 	"8000"	
+	}		
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/poogret_poo_idle"						
+				}
+			}			
+		}	
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_collect_specimen"							
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_max"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_max"							
+				}
+			}
+		}
+	}	
+}	

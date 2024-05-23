@@ -72,11 +72,12 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.0"
-		acid			"0.0"
+		fire			"0.1"
+		acid			"0.1"
 		energy			"1.0"
 		cryo			"4.0"
 		area			"2.0"	
+		reflect_damage_max_percent 		"0.1"
 	}
 
 	StunDataComponent
@@ -95,8 +96,12 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/nurglax.mesh"
 		material 	"units/ground/nurglax_boss_fire"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 	
 	SkeletonDesc
 	{
@@ -120,7 +125,7 @@ EntityBlueprint
 	{
 		name   "range"
 		target "ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
@@ -135,7 +140,6 @@ EntityBlueprint
 		pitch "att_muzzle"
 		yaw "att_muzzle"
 		check_target_visibility "1"
-		gravity_factor "8"
 		use_IK "0"
 	}
 
@@ -174,6 +178,7 @@ EntityBlueprint
 
 		burning_effect_group    ""			// effect group to be enabled on entity
 		burning_time			"10000000000"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}	
 	
 	EffectDesc
@@ -310,6 +315,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 
+			NetReplicationDisabledComponent
+			{
+
+			}
+
 			AttachmentDesc
 			{
 				attachment "Head"
@@ -411,6 +421,10 @@ EntityBlueprint
 		manual_remove			"1"
 		diameter				"4.0"
 
+		artillery_gravity_factor 	"6"
+		artillery_min_angle 		"45"
+		artillery_max_angle 		"45"
+
 		DamagePattern
 		{
 			area_damage_radius 	"7"
@@ -477,8 +491,12 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/nurglax_bomb_grow.mesh"
 		material    "units/ground/nurglax_boss_fire"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 	
 	EffectDesc
 	{		

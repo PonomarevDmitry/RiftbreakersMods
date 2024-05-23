@@ -1,0 +1,96 @@
+EntityBlueprint
+{
+	name "units/ground/artigian_ultra"
+
+	base_blueprint "units/ground/artigian_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/artigian.lua"
+		database
+		{
+			min_scale	float:"1.45"
+			max_scale	float:"1.55"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"4000"
+		health 						"4000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 				"250"
+		regeneration_cooldown 		"5"
+		regeneration_effect			"effects/enemies_artigian/healing"
+		regeneration_end_effect     "effects/enemies_artigian/healing_finished"
+	}
+
+	NavMeshMovementComponent
+	{
+		current_speed					"0"
+		max_speed						"0"
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.2"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/artigian.mesh"
+		material "units/ground/artigian_ultra"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/artigian_ultra"
+		can_activate 0
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
+			}
+		}
+
+		ammo_blueprint 			"units/ground/artigian/projectile"
+		muzzle_flash_effect		"effects/enemies_artigian/artillery_launch"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+	
+}
+

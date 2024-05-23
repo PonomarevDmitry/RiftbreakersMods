@@ -22,18 +22,12 @@ EntityBlueprint
 		light_range "40"
 	}
 
-	AffectorDesc
+	LightFadeInOutAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightFadeInOutAffector
-			{
-				fade_in_start 	"0"
-				fade_in_end   	"2"
-				fade_out_start	"12"
-				fade_out_end    "12.5"
-			}
-	 	}
+		fade_in_start 	"0"
+		fade_in_end   	"2"
+		fade_out_start	"12"
+		fade_out_end    "12.5"
 	}
 
 	children
@@ -705,7 +699,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/weapons_explosive/grenade_projectile"
+					blueprint "effects/weapons_explosive/grenade_projectile_blue"
 				}
 				Effect
 				{
@@ -713,6 +707,20 @@ EntityBlueprint
 				}
 			}				
 		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}			
 	}
 
 	children
@@ -857,8 +865,8 @@ EntityBlueprint
 		type 						"consumable"
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
-		cooldown					"3"
-		cooldown_category			"grenade_gravity"
+		cooldown					"1"
+		cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
 		storage_limit 				"5"
@@ -892,8 +900,8 @@ EntityBlueprint
 		type 						"consumable"
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
-		cooldown					"3"
-		cooldown_category			"grenade_gravity"
+		cooldown					"1"
+		cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
 		storage_limit 				"5"
@@ -927,8 +935,8 @@ EntityBlueprint
 		type 						"consumable"
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
-		cooldown					"3"
-		cooldown_category			"grenade_gravity"
+		cooldown					"1"
+		cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
 		storage_limit 				"5"
@@ -962,11 +970,11 @@ EntityBlueprint
 		type 						"consumable"
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
-		cooldown					"3"
-		cooldown_category			"grenade_gravity"
+		cooldown					"1"
+		cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
-		storage_limit 				"5"
+		storage_limit 				"5"		
 		description 				"gui/menu/inventory/consumable_description/grenade_gravity_superior"
 		rarity						"SUPERIOR"
 		replace_lower_quality		"1"

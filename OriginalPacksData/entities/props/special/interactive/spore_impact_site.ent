@@ -1,0 +1,97 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/spore_impact_site"
+	
+	MeshDesc
+	{
+		mesh "meshes/props/special/great_tree/evil_spore_dead.mesh"
+		material "props/special/great_tree/evil_spore_dead"
+	}	
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_big_blue_comet"
+		scale
+		{
+			x		1
+			y		1
+			z		1
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/lift_interactive.lua"
+
+		database
+		{
+			emit_event		string:"SporeActivated"
+			destroy_entity 	int:"0"
+		}
+	}
+
+	InteractiveComponent 
+	{
+		slot 				"LIFT"
+		item 				"props/special/interactive/large_spore_sample_item"
+		item_count 			"0" // must be 0!
+		radius 				"6"
+		remove_entity 		"0" // (optional) remove entity after lift (0/1)
+		remove_component 	"0" // (optional) remove interactive feature after lift (0/1)
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "4"
+						half_height "3"
+
+						position
+						{
+							x "2"
+							y "3"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
+		}
+	}	
+	
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "4"
+				y "4"
+				z "4"
+			}
+		}
+	}		
+}

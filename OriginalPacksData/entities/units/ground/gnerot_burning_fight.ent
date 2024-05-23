@@ -98,7 +98,7 @@ EntityBlueprint
 			max_idle_time						float:"8.0"
 			eat_time							float::"15.0"
 			bp_on_range_attack					string:"units/ground/gnerot/underground_rock_burning"
-			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
+			warning_effect_on_range_attack		string:"units/ground/gnerot/underground_rock_danger_marker"
 			range_attack_underground_offset		float:"-8.0"
 			range_attack_cooldown				float:"3.0"
 		}		
@@ -141,12 +141,13 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.0"
-		fire			"0.0"
+		physical		"0.1"
+		fire			"0.1"
 		acid			"1.0"
 		energy			"1.0"
 		cryo			"4.0"
 		area			"1.0"	
+		reflect_damage_max_percent 		"0.1"
 	}
 	
 	StunDataComponent
@@ -175,8 +176,12 @@ EntityBlueprint
 	{
 		material "units/ground/gnerot_ultra_burning"
 		mesh "meshes/units/ground/gnerot.mesh"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 
 	MinimapItemDesc
 	{
@@ -257,6 +262,7 @@ EntityBlueprint
 
 		burning_effect_group    ""			// effect group to be enabled on entity
 		burning_time			"10000000000"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}		
 
 	EffectDesc
@@ -446,21 +452,21 @@ EntityBlueprint
 					scale "1 1 1"
 				}
 			}
-		}				
-	}
-
-	BurningComponent
-	{
-		spread_radius 			"2"			// radius to spread fire
-		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-
-		spread_timer
+		}	
+		EffectGroup
 		{
-			limit "500000" 						// how often e                    ntity will try to spread fire in microseconds ( 2s )
-		}
-
-		burning_effect_group    ""			// effect group to be enabled on entity
-		burning_time			"10000000000"	// how long it will burn in seconds
+			group "attack_1_ground_splash"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/attack_ground_hit_fire"
+					bone "att_attack_1_ground_splash"
+					always_up "1"
+				}
+			}
+		}			
 	}	
 
 	children
@@ -469,6 +475,11 @@ EntityBlueprint
 		{
 			name "units/ground/gnerot_burning_fight/destructor"
 			
+			NetReplicationDisabledComponent
+			{
+
+			}
+
 			DamageTriggerComponent
 			{
 				damage_amount	10
@@ -497,6 +508,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/gnerot_burning_fight/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{

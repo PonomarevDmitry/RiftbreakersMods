@@ -23,6 +23,10 @@ EntityBlueprint
 {
 	name "units/ground/canoptrix/trigger"
 
+	NetReplicationDisabledComponent
+	{
+	}
+
 	AttachmentDesc
 	{
 		attachment "att_attack_trigger"
@@ -38,8 +42,13 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
 			}
 			
 			InvisibleTriggerFilter
@@ -71,6 +80,10 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
@@ -180,6 +193,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 
+			NetReplicationDisabledComponent
+			{
+
+			}
+
 			AttachmentDesc
 			{
 				attachment "att_muzzle"
@@ -286,6 +304,11 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
@@ -635,6 +658,21 @@ EntityBlueprint
 		}
 		EffectGroup
 		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1 1 1"		
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
+		{
 			group "idle_random"
 			enabled "0"
 			Effects
@@ -765,6 +803,90 @@ EntityBlueprint
 					blueprint "effects/enemies_generic/enemy_stunned"
 					offset "0 2.5 0"
 					scale "0.5 0.5 0.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_small"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "1 1 1"
 				}
 			}
 		}		

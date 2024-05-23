@@ -1,0 +1,399 @@
+EntityBlueprint
+{
+    name "items/consumables/gas_grenade_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/gas_grenade"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/gas_grenade"
+		bigger_icon 				"gui/menu/items_icons/consumables/gas_grenade"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/gas_grenade"	
+		rarity						"STANDARD"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/gas_grenade"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/gas_grenade"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/gas_grenade_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/gas_grenade"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/gas_grenade"
+		bigger_icon 				"gui/menu/items_icons/consumables/gas_grenade"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/gas_grenade_upgraded"	
+		rarity						"ADVANCED"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/gas_grenade_advanced"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/gas_grenade_advanced"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/gas_grenade_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/gas_grenade"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/gas_grenade"
+		bigger_icon 				"gui/menu/items_icons/consumables/gas_grenade"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/gas_grenade_upgraded"	
+		rarity						"SUPERIOR"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/gas_grenade_superior"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/gas_grenade_superior"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/gas_grenade_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/gas_grenade"
+		use_count					"1"
+		cooldown					"1"
+		cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/gas_grenade"
+		bigger_icon 				"gui/menu/items_icons/consumables/gas_grenade"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/gas_grenade_upgraded"	
+		rarity						"EXTREME"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/gas_grenade_extreme"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/gas_grenade_extreme"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/gas_grenade"
+
+	MeshDesc
+	{
+		mesh 						"meshes/items/consumables/grenade_gas.mesh"
+		material 					"items/consumables/grenade_gas"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_10_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_world_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_resisted_hit_effect 		"effects/items/gas_grenade_smoke"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			time_damage_interval	"0.25"			
+			area_damage_radius		"8"
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"20"
+					duration		"1"
+					type			"acid"
+				}
+			}			
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/grenade_projectile_green"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_explosive/grenade_throw"
+				}
+			}			
+		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}		
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_green"
+				update_bounds 		1
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.6"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.6"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/gas_grenade_advanced"
+		base_blueprint "items/consumables/gas_grenade"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_world_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_resisted_hit_effect 		"effects/items/gas_grenade_smoke"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			time_damage_interval	"0.25"			
+			area_damage_radius		"8"
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"30"
+					duration		"1"
+					type			"acid"
+				}
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/gas_grenade_superior"
+		base_blueprint "items/consumables/gas_grenade"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_world_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_resisted_hit_effect 		"effects/items/gas_grenade_smoke"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			time_damage_interval	"0.25"			
+			area_damage_radius		"8"
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"40"
+					duration		"1"
+					type			"acid"
+				}
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/gas_grenade_extreme"
+		base_blueprint "items/consumables/gas_grenade"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_world_hit_effect 		"effects/items/gas_grenade_smoke"
+		on_resisted_hit_effect 		"effects/items/gas_grenade_smoke"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			time_damage_interval	"0.25"			
+			area_damage_radius		"8"
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"50"
+					duration		"1"
+					type			"acid"
+				}
+			}			
+		}
+	}
+}

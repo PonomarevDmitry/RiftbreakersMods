@@ -1,0 +1,230 @@
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+
+	name "effects/enemies_artigian/death"
+
+	ParticleDesc
+	{
+		name    "rift/death_green_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/default
+
+
+	name "effects/enemies_artigian/death_long"
+
+	ParticleDesc
+	{
+		name    "rift/death_green_medium_long"
+	}
+
+	SoundDesc
+	{
+		name "enemies/artigian/death"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}		
+}
+
+EntityBlueprint "effects/default"
+{
+		name "effects/enemies_artigian/idle"
+
+	SoundDesc
+	{
+		name "enemies/artigian/idle"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_artigian/artillery_launch"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_medium
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/artigian_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "enemies/artigian/artillery_launch"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_artigian/artillery_projectile"
+
+	base_blueprints
+	{
+		 lights/point/fire_green_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/artigian_artillery_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_artigian/artillery_explosion"
+
+	base_blueprints
+	{
+		 lights/point/explosion_green_medium
+		 effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_bulb_explosion_green_medium"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/artigian/artillery_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_green_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_artigian/gas_grenade_smoke"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_big
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/artigian_artillery_smoke"
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"50"
+		radius 	"10"
+	}	
+	
+	LifeTimeDesc
+	{
+		time 		6
+	}	
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"4"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"20"
+					type			"acid"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_artigian/healing"
+
+	base_blueprints
+	{
+		 lights/point/fire_green_very_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/artigian_healing"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_artigian/healing_finished"
+
+	base_blueprints
+	{
+		 lights/point/explosion_green_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/artigian_healing_finished"
+	}
+}

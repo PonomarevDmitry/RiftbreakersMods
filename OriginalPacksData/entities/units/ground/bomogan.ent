@@ -26,7 +26,6 @@ EntityBlueprint
 			range_attack_cooldown				float:"5.0"
 			range_attack_prepare_min_time		float:"0.0"
 			range_attack_prepare_max_time		float:"1.5"
-			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
 			evade_check_distance				float:"20.0"
 			evade_escape_distance				float:"35.0"
 		}		
@@ -109,6 +108,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/bomogan/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
@@ -246,7 +250,12 @@ EntityBlueprint
 		delay_update_time		"0.3"
 		diameter				"1.0"
 		manual_remove			"1"
+		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
 		
+		artillery_gravity_factor 	"4"
+		artillery_min_angle 		"45"
+		artillery_max_angle 		"45"
+
 		DamagePattern
 		{
 			area_damage_radius 	"6"
@@ -289,6 +298,11 @@ EntityBlueprint
 {
 	name  "units/ground/bomogan/trigger"
 
+	NetReplicationDisabledComponent
+	{
+
+	}
+
 	AttachmentDesc
 	{
 		attachment "att_attack_trigger"
@@ -304,8 +318,13 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
 			}
 			InvisibleTriggerFilter
 		}
@@ -387,20 +406,8 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "3"
-			y "3"
-		}
-		
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/enemy_medium"
 		visibility "radar"
 	}
 
@@ -459,7 +466,7 @@ EntityBlueprint
 	{
 		name   "range"
 		target "ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
@@ -473,7 +480,6 @@ EntityBlueprint
 		pitch "att_muzzle"
 		yaw "att_muzzle"
 		check_target_visibility "1"
-		gravity_factor "4"
 		use_IK "0"
 	}
 
@@ -528,6 +534,21 @@ EntityBlueprint
 				}
 			}
 		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.5 1.5 1.5"			
+					always_up "1"						
+				}
+			}
+		}			
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -652,7 +673,119 @@ EntityBlueprint
 					scale "0.5 0.5 0.5"
 				}
 			}
-		}			
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}		
 	}
 
 	FxComponent

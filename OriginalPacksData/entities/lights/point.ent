@@ -1,5 +1,43 @@
 EntityBlueprint
 {
+	name lights/point/antimatter_ball
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "1"
+			y "0.05"
+			z "0.05"
+			w "1000"
+		}
+
+		light_range "25"
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
+	}
+	
+	LightPerlinAffectorComponent
+	{
+		const_value 	"2"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}	
+}
+
+EntityBlueprint
+{
 	name lights/point/future_city_ad_violet
 
 	SceneEditorDesc
@@ -14,7 +52,7 @@ EntityBlueprint
 		light_color
 		{
 			x "0.9"
-			y "0.0"
+			y "0.05"
 			z "1"
 			w "50.0"
 		}
@@ -43,7 +81,7 @@ EntityBlueprint
 		scattering_intensity "1"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.7"
 			z "1.0"
 			w "50.0"
@@ -75,7 +113,7 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.3"
-			z "0.0"
+			z "0.05"
 			w "50.0"
 		}
 
@@ -104,7 +142,7 @@ EntityBlueprint
 		light_color
 		{
 			x "0.9"
-			y "0.0"
+			y "0.05"
 			z "1"
 			w "100.0"
 		}
@@ -165,7 +203,7 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.3"
-			z "0.0"
+			z "0.05"
 			w "100.0"
 		}
 
@@ -193,7 +231,7 @@ EntityBlueprint
 		scattering_intensity "1"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.7"
 			z "1.0"
 			w "100.0"
@@ -225,28 +263,20 @@ EntityBlueprint
 		{
 			x "0.9"
 			y "0.8"
-			z "0.0"
+			z "0.05"
 			w "50.0"
 		}
 
 		light_range "3"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"0.9"
-				frequency    	"1"
-				persistance    	"1.9"
-				steps 			"3"
-			}
-	 	}
+		const_value 	"0.9"
+		frequency    	"1"
+		persistance    	"1.9"
+		steps 			"3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -266,12 +296,11 @@ EntityBlueprint
 		{
 			x "1"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "50000.0"
 		}
 		light_size 0.0001
-		is_shadow_caster "1"
-		light_range "100"
+		light_range "50"
 		
 		light_world_offset
 		{
@@ -279,18 +308,17 @@ EntityBlueprint
 		}	
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"3"
-			}
-	 	}
-	}	
+		shadow_intensity "1"
+	}
+	
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"3"
+	}
 }
 
 EntityBlueprint
@@ -310,11 +338,10 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
+			z "0.05"
 			w "25000.0"
 		}
 		light_size 0.0001
-		//is_shadow_caster "1"
 		light_range "50"
 		
 		light_world_offset
@@ -323,17 +350,11 @@ EntityBlueprint
 		}			
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"3"
 	}
 }
 
@@ -354,11 +375,10 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
+			z "0.05"
 			w "50000.0"
 		}
 		light_size 0.0001
-		//is_shadow_caster "1"
 		light_range "50"
 		
 		light_world_offset
@@ -367,17 +387,11 @@ EntityBlueprint
 		}			
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"2"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"2"
 	}
 }
 
@@ -396,13 +410,12 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.2"
 			z "1.0"
 			w "50000.0"
 		}
 		light_size 0.0001
-		//is_shadow_caster "1"
 		light_range "50"
 		
 		light_world_offset
@@ -411,17 +424,48 @@ EntityBlueprint
 		}			
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"2"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"2"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/atomic_explosion_green
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.1"
+			y "1.0"
+			z "0.1"
+			w "50000.0"
+		}
+		light_size 0.0001
+		light_range "50"
+		
+		light_world_offset
+		{
+			y "3"
+		}			
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"2"
 	}
 }
 
@@ -446,7 +490,7 @@ EntityBlueprint
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
@@ -470,13 +514,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
-			y "0"
+			x "0.05"
+			y "0.05"
 			z "1"
-			w "500.0"
+			w "800.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
@@ -500,13 +544,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1"
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
@@ -530,13 +574,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "1"
-			z "0"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
@@ -562,11 +606,11 @@ EntityBlueprint
 		{
 			x "0.95"
 			y "0.2"
-			z "0"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
@@ -591,12 +635,12 @@ EntityBlueprint
 		light_color
 		{
 			x "1"
-			y "0"
-			z "0"
+			y "0.05"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
@@ -621,12 +665,12 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
@@ -652,20 +696,17 @@ EntityBlueprint
 		{
 			x "0.9"
 			y "0.8"
-			z "0"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
 	{
 		instant 0
 	}
-
-
-
 }
 
 EntityBlueprint
@@ -683,13 +724,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 }
 
@@ -739,7 +780,7 @@ EntityBlueprint
 			w "0.1"
 		}
 
-		light_range "25"
+		light_range "8"
 	}
 }
 
@@ -758,13 +799,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "500.0"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 }
 
@@ -780,38 +821,30 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.41"
+		scattering_intensity "0.1"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "100000.0"
+			w "100000"
 		}
-		light_size 0.0001
-		is_shadow_caster "1"
-		light_range "100"
+		light_size 0.01
+		light_range "50"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightFadeInOutAffector
-			{
-				fade_in_start 	"0"
-				fade_in_end   	"2"
-				fade_out_start	"3"
-				fade_out_end    "4"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightFadeInOutAffectorComponent
 	{
+		fade_in_start 	"0"
+		fade_in_end   	"2"
+		fade_out_start	"3"
+		fade_out_end    "4"
 	}
-
-
 }
 
 EntityBlueprint
@@ -828,14 +861,14 @@ EntityBlueprint
 		type "0"
 		scattering_intensity "0.41"
 		light_color
-		{d
-			x "0"
+		{
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "500.0"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 }
 
@@ -854,10 +887,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "500.0"
+			w "200.0"
 		}
 
 		light_range "5"
@@ -879,7 +912,7 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "50.0"
@@ -904,10 +937,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "500.0"
+			w "100.0"
 		}
 
 		light_range "3"
@@ -929,19 +962,57 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "160.0"
+			w "125.0"
 		}
 
 		light_range "5"
 	}
 
 	LightDayAndNightAffector
-			{
-				instant 0
-			}
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/comet_fire_violet_big_shadow_caster
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.9"
+			y "0.05"
+			z "1"
+			w "2000.0"
+		}
+		light_size 0.1
+		light_range "100"
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
 }
 
 EntityBlueprint
@@ -961,30 +1032,24 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
-			w "1000.0"
+			z "0.05"
+			w "2000.0"
 		}
 		light_size 0.1
-		is_shadow_caster "1"
-		light_range "200"
+		light_range "100"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -1003,32 +1068,26 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "1000.0"
+			z "0.05"
+			w "2000.0"
 		}
 		light_size 0.1
-		is_shadow_caster "1"
-		light_range "200"
+		light_range "100"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -1047,32 +1106,26 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "1000.0"
+			w "2000.0"
 		}
 		light_size 0.1
-		is_shadow_caster "1"
-		light_range "200"
+		light_range "100"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -1094,29 +1147,23 @@ EntityBlueprint
 			x "0.1"
 			y "1.0"
 			z "1.0"
-			w "1000.0"
+			w "2000.0"
 		}
 		light_size 0.1
-		is_shadow_caster "1"
-		light_range "200"
+		light_range "100"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -1132,7 +1179,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 
 		light_color
 		{
@@ -1163,7 +1210,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "0.1"
@@ -1193,7 +1240,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "0.1"
@@ -1223,7 +1270,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 
 		light_color
 		{
@@ -1244,7 +1291,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name lights/point/crystal_green_medium
+	name "lights/point/crystal_green_medium"
 
 	SceneEditorDesc
 	{
@@ -1254,7 +1301,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "0.3"
@@ -1274,7 +1321,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name lights/point/crystal_green_small
+	name "lights/point/crystal_green_small"
 
 	SceneEditorDesc
 	{
@@ -1284,7 +1331,98 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
+		light_color
+		{
+			x "0.3"
+			y "1.0"
+			z "0.3"
+			w "15.0"
+		}
+
+		light_range "6"
+	}
+
+	LightDayAndNightAffector
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name 	"lights/point/crystal_green_radioactive_big"
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "1.99"
+
+		light_color
+		{
+			x "0.3"
+			y "1.0"
+			z "0.3"
+			w "150.0"
+		}
+
+		light_range "18"
+	}
+
+	LightDayAndNightAffector
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name "lights/point/crystal_green_radioactive_medium"
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "1.99"
+		light_color
+		{
+			x "0.3"
+			y "1.0"
+			z "0.3"
+			w "75.0"
+		}
+
+		light_range "10"
+	}
+
+	LightDayAndNightAffector
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name "lights/point/crystal_green_radioactive_small"
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "1.99"
 		light_color
 		{
 			x "0.3"
@@ -1314,12 +1452,12 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 
 		light_color
 		{
 			x "1.0"
-			y "0.45"
+			y "0.3"
 			z "1.0"
 			w "150.0"
 		}
@@ -1345,11 +1483,11 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "1.0"
-			y "0.45"
+			y "0.3"
 			z "1.0"
 			w "75.0"
 		}
@@ -1375,11 +1513,11 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "1.0"
-			y "0.45"
+			y "0.3"
 			z "1.0"
 			w "15.0"
 		}
@@ -1405,13 +1543,13 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 
 		light_color
 		{
 			x "1.0"
-			y "0.3"
-			z "0.3"
+			y "0.1"
+			z "0.1"
 			w "150.0"
 		}
 
@@ -1436,12 +1574,12 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "1.0"
-			y "0.3"
-			z "0.3"
+			y "0.1"
+			z "0.1"
 			w "75.0"
 		}
 
@@ -1466,12 +1604,12 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "1.0"
-			y "0.3"
-			z "0.3"
+			y "0.1"
+			z "0.1"
 			w "15.0"
 		}
 
@@ -1496,7 +1634,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 
 		light_color
 		{
@@ -1527,7 +1665,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "1.0"
@@ -1557,12 +1695,103 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.1"
+		scattering_intensity "0.7"
 		light_color
 		{
 			x "1.0"
 			y "1.0"
 			z "0.4"
+			w "15.0"
+		}
+
+		light_range "6"
+	}
+
+	LightDayAndNightAffector
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name 	"lights/point/crystal_orange_big"
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.7"
+
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "0.05"
+			w "150.0"
+		}
+
+		light_range "15"
+	}
+
+	LightDayAndNightAffector
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/crystal_orange_medium
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.7"
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "0.05"
+			w "75.0"
+		}
+
+		light_range "10"
+	}
+
+	LightDayAndNightAffector
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/crystal_orange_small
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.7"
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "0.05"
 			w "15.0"
 		}
 
@@ -1590,13 +1819,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "5000.0"
 		}
 
-		light_range "25"
+		light_range "20"
 		
 		light_world_offset
 		{
@@ -1604,20 +1833,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -1635,10 +1856,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "5000.0"
+			w "4000.0"
 		}
 
 		light_range "15"
@@ -1649,17 +1870,11 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
 }
 
@@ -1678,7 +1893,7 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "50000.0"
@@ -1692,17 +1907,11 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
 }
 
@@ -1721,13 +1930,12 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "200000.0"
 		}
 		//light_size 0.0001
-		//is_shadow_caster "1"
 		light_range "15"
 		
 		light_world_offset
@@ -1736,20 +1944,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -1767,10 +1967,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "5000.0"
+			w "3000.0"
 		}
 
 		light_range "9"
@@ -1781,20 +1981,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -1812,10 +2004,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "5000.0"
+			w "2000.0"
 		}
 
 		light_range "5"
@@ -1826,20 +2018,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -1857,13 +2041,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
+			z "0.05"
 			w "5000.0"
 		}
 
-		light_range "25"
+		light_range "20"
 		
 		light_world_offset
 		{
@@ -1871,20 +2055,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -1902,10 +2078,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "5000.0"
+			z "0.05"
+			w "4000.0"
 		}
 
 		light_range "15"
@@ -1916,20 +2092,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -1947,10 +2115,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "5000.0"
+			z "0.05"
+			w "3000.0"
 		}
 
 		light_range "9"
@@ -1961,20 +2129,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -1992,10 +2152,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "5000.0"
+			z "0.05"
+			w "2000.0"
 		}
 
 		light_range "5"
@@ -2006,20 +2166,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2039,11 +2191,11 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "5000.0"
 		}
 
-		light_range "25"
+		light_range "20"
 		
 		light_world_offset
 		{
@@ -2051,20 +2203,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2084,8 +2228,8 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "5000.0"
+			z "0.05"
+			w "4000.0"
 		}
 
 		light_range "15"
@@ -2096,20 +2240,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2129,8 +2265,8 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "5000.0"
+			z "0.05"
+			w "3000.0"
 		}
 
 		light_range "9"
@@ -2141,20 +2277,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2174,8 +2302,8 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "5000.0"
+			z "0.05"
+			w "2000.0"
 		}
 
 		light_range "5"
@@ -2186,20 +2314,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2218,12 +2338,12 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
+			y "0.05"
+			z "0.05"
 			w "5000.0"
 		}
 
-		light_range "25"
+		light_range "20"
 		
 		light_world_offset
 		{
@@ -2231,20 +2351,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2263,9 +2375,9 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "5000.0"
+			y "0.05"
+			z "0.05"
+			w "4000.0"
 		}
 
 		light_range "15"
@@ -2276,20 +2388,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2308,9 +2412,9 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "5000.0"
+			y "0.05"
+			z "0.05"
+			w "3000.0"
 		}
 
 		light_range "9"
@@ -2321,20 +2425,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2353,9 +2449,9 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "5000.0"
+			y "0.05"
+			z "0.05"
+			w "2000.0"
 		}
 
 		light_range "5"
@@ -2366,20 +2462,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2403,7 +2491,7 @@ EntityBlueprint
 			w "5000.0"
 		}
 
-		light_range "25"
+		light_range "20"
 		
 		light_world_offset
 		{
@@ -2411,17 +2499,11 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
 }
 
@@ -2443,7 +2525,7 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "5000.0"
+			w "4000.0"
 		}
 
 		light_range "15"
@@ -2454,20 +2536,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2488,7 +2562,7 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "5000.0"
+			w "3000.0"
 		}
 
 		light_range "9"
@@ -2499,20 +2573,12 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
-
-
 }
 
 EntityBlueprint
@@ -2533,7 +2599,7 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "5000.0"
+			w "2000.0"
 		}
 
 		light_range "5"
@@ -2544,17 +2610,11 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
 }
 
@@ -2574,12 +2634,12 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
 			w "5000.0"
 		}
 
-		light_range "25"
+		light_range "20"
 		
 		light_world_offset
 		{
@@ -2587,17 +2647,11 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
 }
 
@@ -2617,9 +2671,9 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
-			w "5000.0"
+			w "4000.0"
 		}
 
 		light_range "15"
@@ -2630,17 +2684,11 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
 }
 
@@ -2660,9 +2708,9 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
-			w "5000.0"
+			w "3000.0"
 		}
 
 		light_range "9"
@@ -2673,17 +2721,11 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
 	}
 }
 
@@ -2702,27 +2744,31 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "10500.0"
 		}
 
 		light_range "25"
+		
+		light_world_offset
+		{
+			y "5"
+		}
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
+	}
+	
+	LightPerlinAffectorComponent
+	{
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -2741,27 +2787,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "160.0"
+			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -2780,27 +2820,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "160.0"
+			w "350.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -2819,27 +2853,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "160.0"
+			w "200.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -2858,27 +2886,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "160.0"
+			w "125.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -2897,27 +2919,54 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "160.0"
+			w "75.0"
 		}
 
 		light_range "3"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/fire_violet_medium
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.65"
+			y "0.05"
+			z "1.0"
+			w "400.0"
+		}
+
+		light_range "11"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -2937,26 +2986,20 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0.0"
+			y "0.05"
 			z "1.0"
-			w "160.0"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -2976,26 +3019,53 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0.0"
+			y "0.05"
 			z "1.0"
-			w "160.0"
+			w "175.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/fire_green_medium
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.05"
+			y "1.0"
+			z "0.05"
+			w "300.0"
+		}
+
+		light_range "8"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3014,30 +3084,22 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "150.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3055,27 +3117,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "100.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3094,27 +3150,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "50.0"
 		}
 
 		light_range "3"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3135,25 +3185,19 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "300.0"
+			z "0.05"
+			w "650.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3174,28 +3218,20 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "160.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightFadeInOutAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightFadeInOutAffector
-			{
-				fade_in_start 	"0"
-				fade_in_end   	"1"
-				fade_out_start	"1"
-				fade_out_end    "4"
-			}
-	 	}
+		fade_in_start 	"0"
+		fade_in_end   	"1"
+		fade_out_start	"1"
+		fade_out_end    "4"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3215,28 +3251,63 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "300.0"
+			z "0.05"
+			w "450.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/fire_orange_gas_vent
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
 	}
 
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "0.05"
+			w "500.0"
+		}
+		light_size 0.01
+		light_range "30"
+		
+		light_world_offset
+		{
+			y "3"
+		}
+	}
 
+	ShadowComponent
+	{
+		shadow_intensity "1"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"2"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
 }
 
 EntityBlueprint
@@ -3256,28 +3327,20 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3297,28 +3360,20 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "300.0"
+			z "0.05"
+			w "150.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3338,28 +3393,20 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "300.0"
+			z "0.05"
+			w "75.0"
 		}
 
 		light_range "3"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3383,12 +3430,16 @@ EntityBlueprint
 			w "1000"
 		}
 
-		light_range "30"
-
+		light_range "25"
 		light_world_offset
 		{
 			y "3"
 		}
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
 	}
 }
 
@@ -3408,26 +3459,20 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "300.0"
+			y "0.05"
+			z "0.05"
+			w "800.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3447,29 +3492,21 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "300.0"
+			y "0.05"
+			z "0.05"
+			w "450.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3488,29 +3525,21 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
+			y "0.05"
+			z "0.05"
 			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3529,29 +3558,21 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "300.0"
+			y "0.05"
+			z "0.05"
+			w "125.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
-
-
 }
 
 EntityBlueprint
@@ -3572,27 +3593,85 @@ EntityBlueprint
 			x "1.0"
 			y "1.0"
 			z "1.0"
-			w "160.0"
+			w "120.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/fire_mild_blue_medium
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
 	}
 
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.1"
+			y "1.0"
+			z "1.0"
+			w "300.0"
+		}
 
+		light_range "11"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/fire_mild_blue_small
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.1"
+			y "1.0"
+			z "1.0"
+			w "200.0"
+		}
+
+		light_range "8"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
 }
 
 EntityBlueprint
@@ -3613,24 +3692,18 @@ EntityBlueprint
 			x "0.1"
 			y "1.0"
 			z "1.0"
-			w "160.0"
+			w "125.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3652,24 +3725,18 @@ EntityBlueprint
 			x "0.1"
 			y "1.0"
 			z "1.0"
-			w "160.0"
+			w "75.0"
 		}
 
 		light_range "3"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"1"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3690,25 +3757,19 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
+			z "0.05"
 			w "200.0"
 		}
 		light_size 0.1
-		light_range "50"
+		light_range "20"
 	}
 
-	AffectorDesc
+	LightPerlinAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3729,30 +3790,24 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
+			z "0.05"
 			w "200.0" 				// "500"
 		}
 		light_size 0.1
-		is_shadow_caster "1"		// "1"
 		light_range "20" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3771,13 +3826,12 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "1000.0" 				// "500"
 		}
 		light_size 0.4
-		is_shadow_caster "1"		// "1"
 		light_range "40" 			// "150"
 		
 		light_world_offset
@@ -3786,21 +3840,93 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
-	UniqueShadowComponent
+
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/tornado_shadow_caster_orange
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.5"
+		light_color
+		{
+			x "1.0"
+			y "0.4"
+			z "0.1"
+			w "300.0" 				// "500"
+		}
+		light_size 0.1
+		light_range "50" 			// "150"
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/tornado_shadow_caster_green
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.3"
+		light_color
+		{
+			x "0.1"
+			y "1.0"
+			z "0.1"
+			w "300.0" 				// "500"
+		}
+		light_size 0.1
+		light_range "50" 			// "150"
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3821,30 +3947,24 @@ EntityBlueprint
 		{
 			x "0.5"
 			y "1.0"
-			z "0.0"
+			z "0.05"
 			w "100.0" 				// "500"
 		}
 		light_size 0.1
-		is_shadow_caster "1"		// "1"
 		light_range "25" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3865,30 +3985,24 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
+			z "0.05"
 			w "200.0" 				// "500"
 		}
 		light_size 0.1
-		is_shadow_caster "1"		// "1"
 		light_range "25" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3913,26 +4027,20 @@ EntityBlueprint
 			w "200.0" 				// "500"
 		}
 		light_size 0.1
-		is_shadow_caster "1"		// "1"
 		light_range "25" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3951,32 +4059,26 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.3"
 			z "1.0"
 			w "200.0" 				// "500"
 		}
 		light_size 0.1
-		is_shadow_caster "1"		// "1"
 		light_range "25" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -3995,32 +4097,26 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
+			z "0.05"
 			w "200.0" 				// "500"
 		}
 		light_size 0.1
-		is_shadow_caster "1"		// "1"
 		light_range "25" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -4041,28 +4137,12 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
+			z "0.05"
 			w "100.0"
 		}
 
 		light_range "5"
 	}
-
-
-
-	//AffectorDesc
-	//{
-	// 	AffectorLambdaDesc
-	// 	{
-	//	 	affector_lambda LightPerlinAffector
-	//		{
-	//			const_value 	"1"
-	//			frequency    	"25"
-	//			persistance    	"0.1"
-	//			steps 			"5"
-	//		}
-	// 	}
-	//}
 }
 
 EntityBlueprint
@@ -4077,35 +4157,29 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0.32"
+		scattering_intensity "0.82"
 		light_color
 		{
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "150.0" 				// "500"
+			w "50.0" 				// "500"
 		}
-		light_size 0.1
-		is_shadow_caster "1"		// "1"
+		light_size 0.3
 		light_range "35" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -4124,32 +4198,26 @@ EntityBlueprint
 		scattering_intensity "0.82"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.3"
 			z "1.0"
 			w "200.0" 				// "500"
 		}
-		light_size 0.1
-		is_shadow_caster "1"		// "1"
+		light_size 0.3
 		light_range "35" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -4166,34 +4234,29 @@ EntityBlueprint
 	{
 		type "0"
 		scattering_intensity "0.82"
+		shadow_intensity "1"
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
 			w "200.0" 				// "500"
 		}
-		light_size 0.1
-		is_shadow_caster "1"		// "1"
+		light_size 0.3
 		light_range "35" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -4213,31 +4276,25 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
+			y "0.05"
+			z "0.05"
 			w "200.0" 				// "500"
 		}
-		light_size 0.1
-		is_shadow_caster "1"		// "1"
+		light_size 0.3
 		light_range "35" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -4257,7 +4314,7 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
 			w "70000.0" 				// "500"
 		}
@@ -4265,17 +4322,11 @@ EntityBlueprint
 		light_range "500" 			// "150"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"3.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"3.0"
 	}
 }
 
@@ -4294,7 +4345,7 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "1"
 			z "1"
 			w "70000.0" 				// "500"
@@ -4303,17 +4354,11 @@ EntityBlueprint
 		light_range "500" 			// "150"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"3.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"3.0"
 	}
 }
 
@@ -4341,17 +4386,11 @@ EntityBlueprint
 		light_range "500" 			// "150"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"3.0"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"3.0"
 	}
 }
 
@@ -4370,32 +4409,26 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.3"
 			z "1.0"
 			w "500.0" 				// "500"
 		}
 		light_size 0.1
-		is_shadow_caster "1"		// "1"
 		light_range "40" 			// "150"
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightPerlinAffector
-			{
-				const_value 	"5"
-				frequency    	"25"
-				persistance    	"0.1"
-				steps 			"5"
-			}
-	 	}
+		shadow_intensity "1"
 	}
 
-	UniqueShadowComponent
+	LightPerlinAffectorComponent
 	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }
 
@@ -4414,13 +4447,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "800.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 }
 
@@ -4439,13 +4472,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "500.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 }
 
@@ -4464,13 +4497,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 }
 
@@ -4489,10 +4522,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "200.0"
 		}
 
 		light_range "5"
@@ -4514,10 +4547,10 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.1"
 			y "1.0"
-			z "0.0"
-			w "160.0"
+			z "0.1"
+			w "50.0"
 		}
 
 		light_range "3"
@@ -4539,9 +4572,9 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
+			z "0.05"
 			w "20.0"
 		}
 
@@ -4589,7 +4622,7 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "200.0"
@@ -4611,7 +4644,7 @@ EntityBlueprint
 	LightDesc
 	{
 		type "0"
-		scattering_intensity "0"
+		scattering_intensity "0.05"
 		light_color
 		{
 			x "1.0"
@@ -4621,6 +4654,10 @@ EntityBlueprint
 		}
 
 		light_range "30"
+		//light_world_offset
+		//{
+		//	y "3"
+		//}			
 	}
 
 	LightDayAndNightAffector
@@ -4642,6 +4679,7 @@ EntityBlueprint
 	{
 		type "0"
 		scattering_intensity "0.51"
+		light_size 0.1
 		light_color
 		{
 			x "1.0"
@@ -4651,11 +4689,22 @@ EntityBlueprint
 		}
 
 		light_range "30"
+		//light_world_offset
+		//{
+		//	y "3"
+		//}			
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
+		max_intensity "0.5"
 	}
 
 	LightDayAndNightAffector
 	{
 		instant 0
+		use_shadow_intensity 1
 	}
 }
 
@@ -4674,29 +4723,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4714,29 +4755,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "500.0"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4754,29 +4787,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "500.0"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4794,29 +4819,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "500.0"
+			w "200.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4834,29 +4851,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4874,29 +4883,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4914,29 +4915,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4954,29 +4947,21 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "1.0"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "200.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -4996,27 +4981,19 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5036,27 +5013,19 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5076,27 +5045,19 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5116,27 +5077,19 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "200.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5155,28 +5108,20 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
+			y "0.05"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5195,28 +5140,20 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "500.0"
+			y "0.05"
+			z "0.05"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5235,28 +5172,20 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "500.0"
+			y "0.05"
+			z "0.05"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5275,28 +5204,20 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "500.0"
+			y "0.05"
+			z "0.05"
+			w "200.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5320,23 +5241,15 @@ EntityBlueprint
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5357,26 +5270,18 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "500.0"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5397,26 +5302,18 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "500.0"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
 	}
-
-
 }
 
 EntityBlueprint
@@ -5437,26 +5334,146 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "500.0"
+			w "200.0"
 		}
 
 		light_range "5"
 	}
 
-	AffectorDesc
+	LightLinearAffectorComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"0.3"
-			}
-	 	}
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/muzzle_violet_big
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
 	}
 
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.65"
+			y "0.1"
+			z "1"
+			w "500.0"
+		}
 
+		light_range "15"
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/muzzle_violet_medium
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.65"
+			y "0.1"
+			z "1"
+			w "400.0"
+		}
+
+		light_range "11"
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/muzzle_violet_small
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.65"
+			y "0.1"
+			z "1"
+			w "300.0"
+		}
+
+		light_range "8"
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/muzzle_violet_very_small
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.65"
+			y "0.1"
+			z "1"
+			w "200.0"
+		}
+
+		light_range "5"
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"0.3"
+	}
 }
 
 EntityBlueprint
@@ -5476,11 +5493,11 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 }
 
@@ -5501,11 +5518,11 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 }
 
@@ -5526,39 +5543,11 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "500.0"
+			z "0.05"
+			w "300.0"
 		}
 
-		light_range "9"
-	}
-
-
-
-}
-
-EntityBlueprint
-{
-	name lights/point/orange_super_small
-
-	SceneEditorDesc
-	{
-		mesh 		"meshes/light_point.mesh"
-	}
-
-	LightDesc
-	{
-		type "0"
-		scattering_intensity "0.41"
-		light_color
-		{
-			x "1.0"
-			y "0.5"
-			z "0.0"
-			w "100.0"
-		}
-
-		light_range "3"
+		light_range "8"
 	}
 }
 
@@ -5579,11 +5568,36 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
-			w "160.0"
+			z "0.05"
+			w "200.0"
 		}
 
 		light_range "5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/orange_super_small
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "0.05"
+			w "100.0"
+		}
+
+		light_range "3"
 	}
 }
 
@@ -5604,20 +5618,17 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "500.0"
 		}
 
-		light_range "30"
+		light_range "25"
 	}
 
 	LightDayAndNightAffector
-			{
-				instant 0
-			}
-
-
-
+	{
+		instant 0
+	}
 }
 
 EntityBlueprint
@@ -5636,12 +5647,12 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "1000.0"
+			y "0.05"
+			z "0.05"
+			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 }
 
@@ -5661,12 +5672,12 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "1000.0"
+			y "0.05"
+			z "0.05"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 }
 
@@ -5686,12 +5697,12 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "1000.0"
+			y "0.05"
+			z "0.05"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 }
 
@@ -5711,9 +5722,9 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "1000.0"
+			y "0.05"
+			z "0.05"
+			w "200.0"
 		}
 
 		light_range "5"
@@ -5736,9 +5747,9 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
-			w "1000.0"
+			y "0.05"
+			z "0.05"
+			w "100.0"
 		}
 
 		light_range "3"
@@ -5762,7 +5773,7 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.2"
-			z "0.0"
+			z "0.05"
 			w "90.0"
 		}
 
@@ -5770,9 +5781,9 @@ EntityBlueprint
 	}
 
 	LightDayAndNightAffector
-			{
-				instant 0
-			}
+	{
+		instant 0
+	}
 }
 
 EntityBlueprint
@@ -5790,14 +5801,13 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "50000.0"
 		}
 		light_size 0.0001
-		is_shadow_caster "1"
-		light_range "100"
+		light_range "50"
 		
 		light_world_offset
 		{
@@ -5805,17 +5815,16 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1"
-			}
-	 	}
+		shadow_intensity "1"
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"1"
 	}
 }
 
@@ -5836,12 +5845,11 @@ EntityBlueprint
 		{
 			x "1"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "50000.0"
 		}
 		light_size 0.0001
-		is_shadow_caster "1"
-		light_range "100"
+		light_range "40"
 		
 		light_world_offset
 		{
@@ -5849,17 +5857,16 @@ EntityBlueprint
 		}		
 	}
 
-	AffectorDesc
+	ShadowComponent
 	{
-	 	AffectorLambdaDesc
-	 	{
-		 	affector_lambda LightLinearAffector
-			{
-				start    	"1"
-				end    		"0"
-				duration	"1"
-			}
-	 	}
+		shadow_intensity "1"
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"1"
 	}
 }
 
@@ -5940,12 +5947,12 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
 			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 }
 
@@ -5965,12 +5972,12 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
-			w "500.0"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 }
 
@@ -5990,12 +5997,12 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
-			w "500.0"
+			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 }
 
@@ -6015,9 +6022,9 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
-			w "500.0"
+			w "200.0"
 		}
 
 		light_range "5"
@@ -6040,9 +6047,9 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
-			w "500.0"
+			w "100.0"
 		}
 
 		light_range "3"
@@ -6067,10 +6074,10 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "300.0"
+			w "500.0"
 		}
 
-		light_range "25"
+		light_range "15"
 	}
 }
 
@@ -6092,10 +6099,10 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "300.0"
+			w "400.0"
 		}
 
-		light_range "15"
+		light_range "11"
 	}
 }
 
@@ -6120,7 +6127,7 @@ EntityBlueprint
 			w "300.0"
 		}
 
-		light_range "9"
+		light_range "8"
 	}
 }
 
@@ -6142,7 +6149,7 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "300.0"
+			w "200.0"
 		}
 
 		light_range "5"
@@ -6167,7 +6174,7 @@ EntityBlueprint
 			x "1.0"
 			y "0.9"
 			z "0.7"
-			w "300.0"
+			w "100.0"
 		}
 
 		light_range "3"
@@ -6191,7 +6198,7 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.5"
-			z "0.0"
+			z "0.05"
 			w "200.0"
 		}
 
@@ -6214,7 +6221,7 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0.0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "250.0"
@@ -6265,8 +6272,8 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
+			y "0.05"
+			z "0.05"
 			w "250.0"
 		}
 
@@ -6291,11 +6298,15 @@ EntityBlueprint
 		{
 			x "1.0"
 			y "0.3"
-			z "0.0"
+			z "0.05"
 			w "250.0"
 		}
 
-		light_range "100"
+		light_range "20"
+		light_world_offset
+		{
+			y "3"
+		}			
 	}
 }
 
@@ -6315,8 +6326,8 @@ EntityBlueprint
 		light_color
 		{
 			x "1.0"
-			y "0.0"
-			z "0.0"
+			y "0.05"
+			z "0.05"
 			w "200.0"
 		}
 
@@ -6374,7 +6385,7 @@ EntityBlueprint
 		light_color
 		{
 			x "0.65"
-			y "0"
+			y "0.05"
 			z "1"
 			w "200.0"
 		}
@@ -6403,7 +6414,7 @@ EntityBlueprint
 		scattering_intensity "0.41"
 		light_color
 		{
-			x "0"
+			x "0.05"
 			y "0.5"
 			z "1.0"
 			w "200.0"
@@ -6417,6 +6428,127 @@ EntityBlueprint
 		}	
 	}
 }
+
+EntityBlueprint
+{
+	name lights/point/target_marker_blue
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.05"
+			y "0.5"
+			z "1.0"
+			w "400.0"
+		}
+
+		light_range "11"
+		
+		light_world_offset
+		{
+			y "2"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/target_marker_green
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.05"
+			y "1.0"
+			z "0.05"
+			w "500.0"
+		}
+
+		light_range "11"
+		
+		light_world_offset
+		{
+			y "2"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/target_marker_orange
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "1.0"
+			y "0.5"
+			z "0.05"
+			w "400.0"
+		}
+
+		light_range "11"
+		
+		light_world_offset
+		{
+			y "2"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/target_marker_violet
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.65"
+			y "0.05"
+			z "1"
+			w "500.0"
+		}
+
+		light_range "11"
+		
+		light_world_offset
+		{
+			y "2"
+		}			
+	}
+}
+
 
 ///////////// CAVERN WALL CRYSTALS ///////
 EntityBlueprint
@@ -6488,5 +6620,203 @@ EntityBlueprint
 		}
 
 		light_range "8"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/canceroth
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.21"
+		light_color
+		{
+			x "0.1"
+			y "0.01"
+			z "0.5"
+			w "530.0"
+		}
+		light_size 0.1
+		light_range "10"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"3"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/canceroth_child
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.21"
+		light_color
+		{
+			x "0.1"
+			y "0.01"
+			z "0.5"
+			w "5.0"
+		}
+		light_size 0.1
+		light_range "5"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/canceroth_blue
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.21"
+		light_color
+		{
+			x "0.1"
+			y "0.1"
+			z "0.7"
+			w "530.0"
+		}
+		light_size 0.1
+		light_range "10"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"3"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/canceroth_child_blue
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.21"
+		light_color
+		{
+			x "0.1"
+			y "0.1"
+			z "0.7"
+			w "5.0"
+		}
+		light_size 0.1
+		light_range "5"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/canceroth_red
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.21"
+		light_color
+		{
+			x "0.5"
+			y "0.1"
+			z "0.1"
+			w "530.0"
+		}
+		light_size 0.1
+		light_range "10"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"3"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/canceroth_child_red
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.21"
+		light_color
+		{
+			x "0.5"
+			y "0.1"
+			z "0.1"
+			w "5.0"
+		}
+		light_size 0.1
+		light_range "5"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
 	}
 }

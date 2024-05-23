@@ -2,39 +2,15 @@ EntityBlueprint
 {
 	name  "resources/resource_mud"
 
-
-	
     //MeshDesc
 	//{
 	//	mesh 		"meshes/resources/resource_water.mesh"
 	//	material 	"resources/resource_mud"
 	//}
 	
-		TypeDesc
+	TypeDesc
 	{
 		type "resource"
-	}
-
-	PhysicsDesc
- 	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"static"
-				group_id 			"resource"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsBoxShape
-					{
-						x 2
-						y 1
-						z 2
-					}
-				}
-			}
-		}
 	}
 
 	LocalAabbDesc
@@ -58,8 +34,21 @@ EntityBlueprint
 
 	GridMarkerComponent
 	{
-		mode	"origin"
-		terrain_type  "liquid"		
+		mode			"origin"
+		terrain_type    "mud"		
+	}
+}
+
+EntityBlueprint
+{
+	name  "resources/resource_mud_swamp"
+
+	base_blueprint "resources/resource_mud"
+
+	GridMarkerComponent
+	{
+		mode			"origin"
+		terrain_type    "mud_swamp"		
 	}
 }
 

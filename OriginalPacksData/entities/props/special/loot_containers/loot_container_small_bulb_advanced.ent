@@ -1,0 +1,75 @@
+EntityBlueprint
+{
+	name  "props/special/loot_containers/loot_container_small_bulb_advanced"
+
+	base_blueprint "props/special/loot_containers/loot_container_small_bulb"
+
+	MeshDesc
+	{
+		mesh 						"meshes/props/special/loot_containers/loot_container_small_bulb_advanced.mesh"
+		material 					"props/special/loot_containers/loot_container_small_bulb_advanced"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "props/special/loot_containers/loot_container_small_bulb_membrane_advanced"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"3500"
+					explosion_min_power 	"3500"
+					explosion_effect 		"effects/loot/treasure_small_open_advanced"
+
+					part_material	 		"props/special/loot_containers/loot_container_small_bulb_advanced"
+					part_prefix 			"meshes/props/special/loot_containers/loot_container_small_bulb"
+					//part_effect 			"effects/destructibles/acid_bulb_part_trail_blue_medium"
+					part_physics_material   "debris_heavy"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {
+            enabled "1"
+			group 	"light"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/loot_container_small_blue"
+					offset "0 4 0"
+                }
+            }
+        }
+		EffectGroup
+		{
+			group "container"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_container_small_idle_advanced"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}

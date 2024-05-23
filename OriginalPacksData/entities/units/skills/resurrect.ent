@@ -1,0 +1,84 @@
+EntityBlueprint
+{
+	name "units/skills/resurrect"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"40"
+			tag									string:"move"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/resurrect"
+		description 	"gui/hud/enemy_skill_description/resurrect"
+		icon 			"gui/menu/inventory/stat_icons/resurrect_aura_icon"
+	}
+
+	ResurrectUnitDesc
+	{
+		pool					   "1700"
+		pool_regeneration		   "1000"
+		resurrect_time			   "1.5"
+		resurrect_radius		   "12"
+		summon_time				   "1.5"
+		summon_radius			   "8"
+		body_ressurect_effect	   "effects/enemies_necrodon/resurrect_body"
+		dome_effect				   "units/ground/necrodon_dome_effect"
+		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
+		summon_effect			   "effects/enemies_necrodon/resurrect_body"
+		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
+		summon_bp				   "units/ground/canoptrix_ultra_1"
+		max_summon_counter	       "20"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/resurrect.lua"
+		database
+		{
+			aura_effect			string:"aura_resurrect"
+		}			
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/resurrect_lvl_4"
+	base_blueprint	"units/skills/resurrect"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/resurrect_lvl_4"
+		description 	"gui/hud/enemy_skill_description/resurrect"
+		icon 			"gui/menu/items_icons/skills/antimatter_ball"
+	}
+	
+	ResurrectUnitDesc
+	{
+		pool					   "2500"
+		pool_regeneration		   "2000"
+		resurrect_time			   "0.75"
+		resurrect_radius		   "12"
+		summon_time				   "0.75"
+		summon_radius			   "10"
+		body_ressurect_effect	   "effects/enemies_necrodon/resurrect_body"
+		dome_effect				   "units/ground/necrodon_dome_effect"
+		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
+		summon_effect			   "effects/enemies_necrodon/resurrect_body"
+		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
+		summon_bp				   "units/ground/canoptrix_ultra_1"
+		max_summon_counter	       "60"
+	}
+}

@@ -1,0 +1,127 @@
+EntityBlueprint
+{
+	name "props/bush/moss_fluffy_big_03_skin1"
+
+	base_blueprints
+	{
+		 props/base/flammable_big
+		 props/base/resistant_small
+	}
+
+	HealthDesc
+	{
+	    is_manual 1
+		max_health 				"5"
+		health 					"5"
+	}
+
+	MeshDesc
+	{
+		material "props/bush/moss_fluffy_skin1"
+		mesh "meshes/props/bush/moss_fluffy_big_03.mesh"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "4"
+						y "2"
+						z "4"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"1"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"1"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"3.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"1.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"4.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_max_power 	"6000"
+					explosion_effect 		"effects/destructibles/grass_medium_violet"
+
+					part_material	 		"props/bush/moss_fluffy_skin1_parts"
+					part_prefix 			"meshes/props/bush/moss_fluffy_big_03"
+					//part_effect 			"effects/destructibles/grass_part_trail"
+
+
+				}
+			}
+
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_max_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+
+					part_material	 		"props/bush/moss_fluffy_skin1"
+					part_prefix 			"meshes/props/bush/moss_fluffy_big_03"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}

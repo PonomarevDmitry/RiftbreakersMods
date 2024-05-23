@@ -1,0 +1,61 @@
+EntityBlueprint
+{
+	name "units/ground/mudroner_spawner"
+
+	LuaDesc
+	{
+		script "lua/units/ground/spawner.lua"
+	}
+
+	UnitsSpawnerDesc
+	{
+		blueprint				"units/ground/mudroner"
+		amount_on_single_spawn	"1"
+		max_spawn				"10"
+		time_to_spawn			"20"
+		unit_state_spawn		"1"  // do not touch
+		max_spawn_distance		"20"
+		spawn_type				"normal"
+		spawn_marker_bp			"effects/messages_and_markers/wave_marker"
+		spawn_marker_life_time	"30"
+		can_spawn_when_visible	"0"
+		defend_radius			"40"
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		is_manual 1
+    }
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large|spawner"
+	}
+
+	TeamDesc
+	{
+		team "hedroner"
+	}
+
+    LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-5"
+				y "-5"
+				z "-5"
+			}
+			max
+			{
+				x "5"
+				y "5"
+				z "5"
+			}	
+		}
+	}
+
+}

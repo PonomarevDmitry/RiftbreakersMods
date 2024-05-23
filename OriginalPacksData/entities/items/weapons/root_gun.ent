@@ -1,0 +1,395 @@
+EntityBlueprint
+{
+	name "items/weapons/root_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/root_gun.mesh"
+		material 	"items/weapons/root_gun"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+	
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/root_gun"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "weapon"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				//recoil_bone  "be_recoil_01"
+				//recoil_time   "0.7"
+				//recoil_offset   "0.3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "20"
+		}
+
+		ammo_blueprint 				"items/weapons/root_gun/spawner"
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_bullet/root_gun_fire"
+
+		burst_column_spacing 		"1"
+		burst_rate 					"1"
+		burst_column_angle 			"1"
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/root_gun_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/root_gun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_big_bullet_weapon"
+				}
+			}
+		}
+
+		//EffectGroup
+		//{
+		//	group "laser_pointer"
+		//	enabled "1"
+		//
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/mech/laser_pointer"
+		//			bone "att_muzzle"
+		//		}
+		//	}
+		//}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/root_gun_advanced"
+
+	base_blueprint "items/weapons/root_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/root_gun.mesh"
+		material 	"items/weapons/root_gun_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/root_gun_superior"
+
+	base_blueprint "items/weapons/root_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/root_gun.mesh"
+		material 	"items/weapons/root_gun_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/root_gun_extreme"
+
+	base_blueprint "items/weapons/root_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/root_gun.mesh"
+		material 	"items/weapons/root_gun_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/root_gun/spawner"
+
+	SpikeAmmoComponent
+	{			
+		type_mask					"ground_unit"
+		spike_effect 				"items/weapons/root_gun/spikes"
+		spike_damage_delay			"0.3"
+		spike_count 				"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/root_gun/spikes"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/plutrodon_spikes.mesh"
+		material	"projectiles/root_gun_spikes"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/misc/spikes.lua"
+
+		database
+		{
+			duration			float:"1.0"
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "default"
+			enabled "0"
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/spikes"
+				}				
+			}
+		}	
+		EffectGroup
+		{
+			group "water"
+			enabled "0"
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/spikes_water"
+				}				
+			}
+		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 2 2"
+				}
+			}
+		}			
+	}			
+}
+
+EntityBlueprint
+{
+    name "items/weapons/root_gun_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/root_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/root_gun"
+		icon		"gui/hud/items_icons/weapons/root_gun"
+		bigger_icon "gui/menu/items_icons/weapons/root_gun"
+		description "gui/menu/inventory/weapon_charge_description/root_gun"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/root_gun_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/root_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/root_gun_advanced"
+		icon		"gui/hud/items_icons/weapons/root_gun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/root_gun_advanced"
+		description "gui/menu/inventory/weapon_charge_description/root_gun"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/root_gun_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/root_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/root_gun_superior"
+		icon		"gui/hud/items_icons/weapons/root_gun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/root_gun_superior"
+		description "gui/menu/inventory/weapon_charge_description/root_gun"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/root_gun_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/root_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/root_gun_extreme"
+		icon		"gui/hud/items_icons/weapons/root_gun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/root_gun_extreme"
+		description "gui/menu/inventory/weapon_charge_description/root_gun"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			animation_speed				float:"2"
+			pad_equipped_feedback 		string:"vibration,5,4,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}

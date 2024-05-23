@@ -1,0 +1,1381 @@
+EntityBlueprint
+{
+	name "items/weapons/trident"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/trident.mesh"
+		material 	"items/weapons/trident"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/trident"
+	}
+
+	AnimationDesc
+	{
+	}
+
+	WeaponMovementDataComponent
+	{
+		melee_attack_lock_aiming			"1"
+		//melee_attack_lock_movement			"1"
+		attack_movement_factor				"0.65"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_factor "8"
+		}
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"spear_attack_right_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+			
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}				
+
+			MeleeDamage
+			{
+				name 						"spear_attack_right_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+			
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}		
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/items/weapons/trident_damage_collision.nxs"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/equipped_melee_sharp_weapon"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/trident_advanced"
+
+	base_blueprint "items/weapons/trident"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/trident_advanced.mesh"
+		material 	"items/weapons/trident_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/trident_advanced"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_factor  "6"
+		}
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"spear_attack_right_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_right_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/items/weapons/trident_damage_collision.nxs"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/trident_superior"
+
+	base_blueprint "items/weapons/trident"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/trident_superior.mesh"
+		material 	"items/weapons/trident_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/trident_superior"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_factor  "4"
+		}
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"spear_attack_right_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_right_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/items/weapons/trident_damage_collision.nxs"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/trident_extreme"
+
+	base_blueprint "items/weapons/trident"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/trident_extreme.mesh"
+		material 	"items/weapons/trident_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/trident_extreme"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_factor  "1.5"
+		}
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"spear_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"spear_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				attack_start_effect 			"effects/weapons_melee_spear/spear_attack"
+				slash_effect 					"items/weapons/trident_slash"
+				slash_immediately				1
+				melee_damage_name				"spear_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"spear_attack_right_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_right_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_left_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_1"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"spear_attack_double_2"
+				attack_effect 				"effects/weapons_melee_spear/spear_swing"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/mech_sword"
+				anim_name 					"attack"
+				attachment 					"att_damage"
+				//hit_on_end 					"1"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_spear/spear_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_spear/spear_hit_object"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "once"
+					collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/items/weapons/trident_damage_collision.nxs"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/trident_slash"
+
+	RibbonComponent
+	{
+		material 			"ribbon/melee_trail_blue"
+		update_bounds 		1
+		fade_out_time		0.15
+		keep_local			1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "tip_middle"
+				offset "3 0 1.0"
+			}
+
+			Ribbon
+			{
+				parent_attachment "tip_middle"
+				offset "6 0 0.0"
+			}
+
+			Ribbon
+			{
+				parent_attachment "tip_middle"
+				offset "3 0 -1.0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "items/weapons/trident_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"
+		name 		"gui/menu/inventory/weapon_name/trident"
+		item_bp		"items/weapons/trident"
+		icon		"gui/hud/items_icons/weapons/trident"
+		bigger_icon "gui/menu/items_icons/weapons/trident"
+		description "gui/menu/inventory/weapon_charge_description/trident"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/spear_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+    name "items/weapons/trident_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"
+		name 		"gui/menu/inventory/weapon_name/trident"
+		item_bp		"items/weapons/trident_advanced"
+		icon		"gui/hud/items_icons/weapons/trident_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/trident_advanced"
+		description "gui/menu/inventory/weapon_charge_description/trident"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/spear_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+    name "items/weapons/trident_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"
+		name 		"gui/menu/inventory/weapon_name/trident"
+		item_bp		"items/weapons/trident_superior"
+		icon		"gui/hud/items_icons/weapons/trident_superior"
+		bigger_icon "gui/menu/items_icons/weapons/trident_superior"
+		description "gui/menu/inventory/weapon_charge_description/trident"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/spear_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+    name "items/weapons/trident_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"
+		name 		"gui/menu/inventory/weapon_name/trident"
+		item_bp		"items/weapons/trident_extreme"
+		icon		"gui/hud/items_icons/weapons/trident_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/trident_extreme"
+		description "gui/menu/inventory/weapon_charge_description/trident"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/spear_weapon.lua"
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}

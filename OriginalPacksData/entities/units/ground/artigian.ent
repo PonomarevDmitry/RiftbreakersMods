@@ -1,0 +1,670 @@
+EntityBlueprint
+{
+	name "units/ground/artigian"
+
+	base_blueprint "units/ground/artigian_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/artigian.lua"
+		database
+		{
+			min_scale	float:"1.25"
+			max_scale	float:"1.35"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"2000"
+		health 						"2000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 				"150"
+		regeneration_cooldown 		"5"
+		regeneration_effect			"effects/enemies_artigian/healing"
+		regeneration_end_effect     "effects/enemies_artigian/healing_finished"
+	}
+
+	NavMeshMovementComponent
+	{
+		current_speed					"0"
+		max_speed						"0"
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.2"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/artigian.mesh"
+		material "units/ground/artigian"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
+			}
+		}
+
+		ammo_blueprint 			"units/ground/artigian/projectile"
+		muzzle_flash_effect		"effects/enemies_artigian/artillery_launch"
+
+		burst_column_spacing 	"0"
+		burst_rate 				"0"
+		burst_column_angle 		"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/artigian_base"
+
+	StateMachineDesc
+	{
+		template_name "artigian"
+		params
+		{
+			scared_distance						float:"10"
+		}		
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.05"
+		stagger_long_time				"0.95"
+		stagger_long_health_threshold	"0.10"
+	}
+	
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"5.0"
+		acid			"0.1"
+		energy			"1.0"
+		cryo			"0.1"
+		area			"1.0"
+	}
+	
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/artigian"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "artigian"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/artigian_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	4
+				y	4
+				z	4
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/enemy_medium"
+		visibility "radar"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/artigian"
+		can_activate 0
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible|ignore_as_target"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "10"
+			range_max "70"
+			aiming_range "80"
+		}
+
+		aiming_cooldown "0.1"
+		aiming_target_time "0.1"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_artigian/death"	
+					part_prefix 			"meshes/units/ground/artigian"
+					part_material 			"units/ground/artigian"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_artigian/idle"
+				}
+			}
+		}
+		EffectGroup
+		{						
+			group "death_splash"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/death_ground_hit"	
+					bone "be_head"
+					always_up "1"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_artigian/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.5 1.5 1.5"						
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+					bone "att_death"
+					scale "1.5 1.5 1.5"		
+					always_up "1"						
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_green"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 9 0"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}		
+	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/artigian/projectile"
+
+	LuaDesc
+	{
+		script "lua/units/ground/bomogan_bomb.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/artigian_projectile.mesh"
+		material    "projectiles/artigian_projectile"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_artigian/artillery_projectile"
+				}
+			}
+		}				
+	}
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/enemies_artigian/gas_grenade_smoke"
+		on_world_hit_effect 		"effects/enemies_artigian/gas_grenade_smoke"	
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small"
+		hit_effect_direction 		"up"		
+		delay_update_time			"0.3"
+		diameter					"1.0"
+		manual_remove				"1"
+		crosshair_effect 			"effects/messages_and_markers/alien_artillery_marker"
+		
+		artillery_gravity_factor 	"4"
+		artillery_min_angle 		"45"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			time_damage_interval	"0.25"			
+			area_damage_radius		"8"
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"50"
+					duration		"1"
+					type			"acid"
+				}
+			}			
+		}
+	}
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_artigian/artillery_explosion"	
+					part_prefix 			"meshes/projectiles/artigian_projectile"
+					part_material 			"projectiles/artigian_projectile"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}
+		}
+	}	
+}

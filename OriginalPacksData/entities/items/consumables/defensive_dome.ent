@@ -1,0 +1,333 @@
+EntityBlueprint
+{
+    name "items/consumables/defensive_dome_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/defensive_dome"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"shield"
+		icon						"gui/hud/items_icons/consumables/defensive_dome"
+		bigger_icon 				"gui/menu/items_icons/consumables/defensive_dome"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/defensive_dome"	
+		rarity						"STANDARD"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+		
+		database
+		{
+			bp		string:"items/consumables/defensive_dome"
+			att		string:"be_body_upper"
+			check_empty_spot int:"0"
+
+			stat_bp				string:"items/consumables/defensive_dome"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/defensive_dome_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/defensive_dome"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"shield"
+		icon						"gui/hud/items_icons/consumables/defensive_dome"
+		bigger_icon 				"gui/menu/items_icons/consumables/defensive_dome"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/defensive_dome_upgraded"	
+		rarity						"ADVANCED"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+		
+		database
+		{
+			bp		string:"items/consumables/defensive_dome_advanced"
+			att		string:"be_body_upper"
+			check_empty_spot int:"0"
+
+			stat_bp				string:"items/consumables/defensive_dome_advanced"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/defensive_dome_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/defensive_dome"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"shield"
+		icon						"gui/hud/items_icons/consumables/defensive_dome"
+		bigger_icon 				"gui/menu/items_icons/consumables/defensive_dome"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/defensive_dome_upgraded"	
+		rarity						"SUPERIOR"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+		
+		database
+		{
+			bp		string:"items/consumables/defensive_dome_superior"
+			att		string:"be_body_upper"
+			check_empty_spot int:"0"
+
+			stat_bp				string:"items/consumables/defensive_dome_superior"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/consumables/defensive_dome_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/defensive_dome"
+		use_count					"1"
+		cooldown					"3"
+		cooldown_category			"shield"
+		icon						"gui/hud/items_icons/consumables/defensive_dome"
+		bigger_icon 				"gui/menu/items_icons/consumables/defensive_dome"
+		storage_limit 				"5"
+		description 				"gui/menu/inventory/consumable_description/defensive_dome_upgraded"	
+		rarity						"EXTREME"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/consumables/item_creator.lua"
+		
+		database
+		{
+			bp		string:"items/consumables/defensive_dome_extreme"
+			att		string:"be_body_upper"
+			check_empty_spot int:"0"
+
+			stat_bp				string:"items/consumables/defensive_dome_extreme"
+		}
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+	name "items/consumables/defensive_dome"
+
+	LuaDesc
+	{
+		script "lua/items/shields/heavy_plasma_shield.lua"
+
+		database
+		{
+			blink_speed 							float:"3"
+        	glow_factor								float:"10.0"
+        	delta_scale								float:"0.1"
+		}
+	}
+
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		20
+	}	
+	
+	ResistanceComponent
+	{
+		quicksand		"12"
+	}		
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/consumables/defensive_dome.mesh"
+		material 	"items/consumables/defensive_dome"
+	}
+
+	TypeDesc
+	{
+		type "shield"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+                group_id    "shield"
+                type        "kinematic"				
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "10"
+					}	
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0.5"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "6"
+			y "6"
+		}
+		visibility			"discovered"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	DestroyDesc
+	{
+
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/weapons_energy/energy_explosion_big"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_lifetime "3"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "working"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/fire_blue_big"
+					offset "0 5 0"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name "items/consumables/defensive_dome_advanced"
+	base_blueprint "items/consumables/defensive_dome"
+
+	HealthDesc
+	{
+		max_health 					"1250"
+		health 						"1250"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		25
+	}		
+}
+
+EntityBlueprint
+{
+	name "items/consumables/defensive_dome_superior"
+	base_blueprint "items/consumables/defensive_dome"
+
+	HealthDesc
+	{
+		max_health 					"1500"
+		health 						"1500"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		30
+	}		
+}
+
+EntityBlueprint
+{
+	name "items/consumables/defensive_dome_extreme"
+	base_blueprint "items/consumables/defensive_dome"
+
+	HealthDesc
+	{
+		max_health 					"1750"
+		health 						"1750"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		35
+	}		
+}

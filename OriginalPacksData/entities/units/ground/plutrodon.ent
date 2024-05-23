@@ -1,0 +1,740 @@
+EntityBlueprint
+{
+	name "units/ground/plutrodon_base"
+
+	StateMachineDesc
+	{
+		template_name "plutrodon"
+		params
+		{
+			aggressive_speed					float:"14"
+			aggressive_acceleration				float:"42"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			crawl_speed							float:"4"
+			crawl_acceleration					float:"4"
+			rotate_speed						float:"450"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"2.0"
+		acid			"0.1"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"1.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.08"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_medium"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/plutrodon"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "plutrodon"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/plutrodon_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+
+		visibility "radar"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.3"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein"
+		dominance_group				    "0"
+	}
+	
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.5"
+		water_offset	     "-1.0"
+	}
+
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+
+		ammo_blueprint 				"units/ground/plutrodon/spikes_spawner"
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/enemies_plutrodon/spikes_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible|ignore_as_target"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "20"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "idle_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/idle"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/run"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/death_long"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.5 1.5 1.5"			
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_red"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_red"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_red"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 3 0"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}		
+	}
+
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name "units/ground/plutrodon"
+	base_blueprint "units/ground/plutrodon_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/plutrodon.lua"
+		database
+		{
+			min_scale	       float:"1.20"
+			max_scale	       float:"1.30"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"250"
+		health 						"250"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/plutrodon.mesh"	
+		material "units/ground/plutrodon"					
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/plutrodon"
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_plutrodon/death"
+					part_prefix 			"meshes/units/ground/plutrodon"
+					part_material 			"units/ground/plutrodon"
+					part_effect 			"effects/enemies_generic/blood_trail_red"
+					part_physics_material   "gibs_heavy"
+				}
+				key "default"
+			}
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/plutrodon/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_plutrodon/attack_start"
+						attack_start_time			"0.43"
+						attack_end_time				"0.54"
+						attack_duration 			"1.000"
+					}
+
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_small"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"10.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.0"
+						y "2.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/plutrodon/spikes_spawner"
+
+	SpikeAmmoComponent
+	{			
+		type_mask					"ground_unit"
+		spike_effect 				"units/ground/plutrodon/spikes"
+		spike_damage_delay			"0.2"
+		spike_count 				"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/plutrodon/spikes"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/plutrodon_spikes.mesh"
+		material	"projectiles/plutrodon_spikes"
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_alien_influence_spikes.lua"
+
+		database
+		{
+			duration			float:"1"
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "default"
+			enabled "0"
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/spikes"
+				}				
+			}
+		}	
+		EffectGroup
+		{
+			group "water"
+			enabled "0"
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/spikes_water"
+				}				
+			}
+		}	
+	}	
+}
+
+EntityBlueprint
+{
+    name "units/ground/plutrodon/trigger"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
+			}
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "3"
+				y "2"
+				z "2"
+			}
+		}
+	}
+}

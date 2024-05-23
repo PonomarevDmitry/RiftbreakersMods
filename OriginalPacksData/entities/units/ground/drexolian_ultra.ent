@@ -4,28 +4,14 @@ EntityBlueprint
 
 	base_blueprint "units/ground/drexolian_base"
 
-	StateMachineDesc
-	{
-		template_name "drexolian"
-		params
-		{
-			aggressive_speed					float:"5"
-			aggressive_acceleration				float:"5"
-			rotate_speed						float:"350"
-			priority_target						string:"headquarters|player|energy|tower"
-			priority_target_distance			float:"40"
-			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
-			melee_attack_name					string:"attack_1|attack_2"
-		}		
-	}
-
 	LuaDesc
 	{
 		script "lua/units/ground/drexolian.lua"
 		database
 		{
-			min_scale	float:"1.15"
-			max_scale	float:"1.20"
+			min_scale	float:"1.40"
+			max_scale	float:"1.50"
+			waller		string:"misc/waller"
 		}			
 	}
 
@@ -36,8 +22,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"1000"
-		health 						"1000"
+		max_health 					"5000"
+		health 						"5000"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -52,14 +38,6 @@ EntityBlueprint
 				//destroyed_state_effect_group 		"0_state"
 			}
 		}		
-	}
-
-	NavMeshMovementComponent
-	{
-		angle_turn_speed				"240"
-		unit_soft_radius				"1.6"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
-		dominance_group				    "0"
 	}
 
 	MeshDesc
@@ -78,35 +56,20 @@ EntityBlueprint
 	{
 	}
 
-	BurstWeaponComponent
-	{
-		WeaponMuzzles
-		{
-			WeaponMuzzle
-			{
-				attachment "att_shoot"
-			}
-		}
-
-
-		ammo_blueprint 				"units/ground/drexolian/attack_range"
-
-		muzzle_flash_effect 		"effects/weapon_fire/tower_basic"
-
-		burst_column_spacing 		"0"
-		burst_rate 					"0"
-		burst_column_angle 			"0"
-	}
-
 	children
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/drexolian_ultra/attack"
+		    name "units/ground/drexolian_ultra/attack_1"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{
-				attachment "att_attack_trigger"
+				attachment "LowerArm.R"
 			}
 
 			MeleeWeaponDesc
@@ -119,10 +82,11 @@ EntityBlueprint
 						attack_name 				"attack_1"
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
-						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
-						attack_start_time			"1.80"
-						attack_end_time				"2.00"
-						attack_duration 			"4.47"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.80"
+						attack_end_time				"1.07"
+						attack_duration 			"2.17"
+						damage_multiple  			"1"
 					}
 
 					MeleeAttack 
@@ -131,10 +95,11 @@ EntityBlueprint
 						attack_name 				"attack_2"
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
-						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
-						attack_start_time			"0.68"
-						attack_end_time				"1.11"
-						attack_duration 			"2.63"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.60"
+						attack_end_time				"0.80"
+						attack_duration 			"1.63"
+						damage_multiple  			"1"
 					}
 				}
 
@@ -160,7 +125,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"35.0"
+										value 	"70"
 										type 	"physical"
 									}
 								}
@@ -173,13 +138,122 @@ EntityBlueprint
 				{
 					PhysicsBoxShape
 					{
-						x "2.0"
-						y "2.0"
-						z "2.0"
-					}	
+						x "4.5"
+						y "3.0"
+						z "1.5"
+						
+						position 
+						{
+							x "0.0"
+							y "1.0"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+		
+		EntityBlueprint
+		{
+		    name "units/ground/drexolian_ultra/attack_2"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "Shin.R"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.80"
+						attack_end_time				"1.07"
+						attack_duration 			"2.17"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.60"
+						attack_end_time				"0.80"
+						attack_duration 			"1.63"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"70"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.5"
+						y "3.0"
+						z "1.5"
+						
+						position 
+						{
+							x "0.0"
+							y "1.0"
+							z "0.0"
+						}
+					}
 				}
 			}
 		}
 	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}		
 }
 

@@ -23,10 +23,11 @@ EntityBlueprint
 	{
 		physical		"1.0"
 		fire			"6.0"
-		acid			"0.0"
+		acid			"0.1"
 		energy			"1.0"
 		cryo			"1.0"
 		area			"1.5"	
+		reflect_damage_max_percent 		"0.1"
 	}
 	
 	StunDataComponent
@@ -74,8 +75,12 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/baxmoth.mesh"
 		material 	"units/ground/baxmoth_boss_acid"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 	
 	SkeletonDesc
 	{
@@ -99,7 +104,7 @@ EntityBlueprint
 	{
 		name   "attack"
 		target "player|ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
@@ -347,6 +352,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 
+			NetReplicationDisabledComponent
+			{
+
+			}
+
 			AttachmentDesc
 			{
 				attachment "att_attack_trigger"
@@ -367,6 +377,7 @@ EntityBlueprint
 						attack_start_time			"0.51"
 						attack_end_time				"0.68"
 						attack_duration 			"0.99"
+						damage_multiple  			"1"
 					}
 				}
 

@@ -82,6 +82,11 @@ EntityBlueprint
 		{
 		    name "units/ground/stregaros/attack"
 
+			NetReplicationDisabledComponent
+			{
+
+			}
+
 			AttachmentDesc
 			{
 				attachment "att_attack_trigger"
@@ -188,6 +193,11 @@ EntityBlueprint
 {
 	name  "units/ground/stregaros/shield"
 
+	NetReplicationDisabledComponent
+	{
+
+	}
+
 	HealthDesc
 	{
 		max_health 					"10"
@@ -196,10 +206,10 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.0"
+		physical		"0.1"
 		fire			"1.0"
 		acid			"1.0"
-		energy			"0.0"
+		energy			"0.1"
 		cryo			"1.0"
 		area			"1.0"	
 	}
@@ -254,6 +264,11 @@ EntityBlueprint
 {
 	name  "units/ground/stregaros/trigger"
 
+	NetReplicationDisabledComponent
+	{
+
+	}
+
 	AttachmentDesc
 	{
 		attachment "att_attack_trigger"
@@ -269,8 +284,13 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
 			}
 			InvisibleTriggerFilter
 		}
@@ -475,6 +495,21 @@ EntityBlueprint
 			}
 		}	
 		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.8 1.8 1.8"	
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
 		{						
 			group "damage_generic"
 			enabled "0"				
@@ -608,7 +643,119 @@ EntityBlueprint
 					scale "0.9 0.9 0.9"
 				}
 			}
-		}		
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}			
 	}
 
 	FxComponent

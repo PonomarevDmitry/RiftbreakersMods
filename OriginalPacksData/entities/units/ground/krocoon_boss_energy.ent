@@ -51,9 +51,10 @@ EntityBlueprint
 		physical		"1.0"
 		fire			"1.0"
 		acid			"3.0"
-		energy			"0.0"
+		energy			"0.1"
 		cryo			"1.0"
-		area			"0.0"	
+		area			"0.1"	
+		reflect_damage_max_percent 		"0.1"
 	}
 	
 	StunDataComponent
@@ -82,8 +83,12 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/krocoon.mesh"
 		material 	"units/ground/krocoon_boss_energy"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 
 	MinimapItemDesc
 	{
@@ -320,6 +325,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/krocoon_boss_energy/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{

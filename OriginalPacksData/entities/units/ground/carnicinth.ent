@@ -4,15 +4,6 @@ EntityBlueprint
 
 	base_blueprint "units/ground/carnicinth_base"
 
-	StateMachineDesc
-	{
-		template_name "carnicinth"
-		params
-		{
-
-		}		
-	}
-
 	LuaDesc
 	{
 		script "lua/units/ground/carnicinth.lua"
@@ -30,10 +21,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"250"
-		health 						"250"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"500"
+		health 						"500"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -47,14 +36,22 @@ EntityBlueprint
 			}
 		}		
 	}
-
+	
+	RegenerationComponent
+	{
+		regeneration 				"150"
+		regeneration_cooldown 		"2"
+		regeneration_effect			"effects/enemies_carnicinth/healing"
+		regeneration_end_effect     "effects/enemies_carnicinth/healing_finished"
+	}
+	
 	NavMeshMovementComponent
 	{
 		current_speed					"0"
 		max_speed						"0"
 		angle_turn_speed				"240"
-		unit_soft_radius				"0.5"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		unit_soft_radius				"1.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|sludge_vein"
 		dominance_group				    "0"
 	}
 
@@ -62,6 +59,7 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/carnicinth.mesh"
 		material 	"units/ground/carnicinth"
+		flags		"4"
 	}
 
 	WeaponItemDesc
@@ -78,27 +76,46 @@ EntityBlueprint
 			}
 		}
 
-
-		ammo_blueprint 				"units/ground/zorant/attack_range"
+		ammo_blueprint 				"units/ground/carnicinth_projectile"
 
 		muzzle_flash_effect 		"effects/enemies_carnicinth/muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
-		burst_column_angle 			"0"
+		burst_column_angle 			"15"
 	}
 }
 
 EntityBlueprint
 {
 	name "units/ground/carnicinth_base"
+	
+	StateMachineDesc
+	{
+		template_name "carnicinth"
+		params
+		{
+			unhide_distance						float:"24"
+			hide_distance						float:"28"
+		}		
+	}
 
 	StunDataComponent
 	{
-		stagger_time 					"0.2"
-		stagger_health_threshold		"1"
-		stagger_long_time				"0.8"
-		stagger_long_health_threshold	"0.3"
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.10"
+		stagger_long_time				"0.95"
+		stagger_long_health_threshold	"0.05"
+	}
+	
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"5.0"
+		acid			"0.1"
+		energy			"1.0"
+		cryo			"0.1"
+		area			"1.0"
 	}
 
 	TypeDesc
@@ -127,22 +144,57 @@ EntityBlueprint
 		{
 			PhysicsObjectDesc
 			{
-				type 				"kinematic"
+				type 				"static"
 				group_id 			"ground_unit"
 				physics_material 	"default"
 
 				Shapes
 				{
-					PhysicsBoxShape
+					PhysicsCapsuleShape
 					{
-						x "2"
-						y "4"
-						z "2"
+						r "1.5"
+						half_height "3"
+
+						position
+						{
+							x "0.0"
+							y "3"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
 					}
 				}
+				
+				//Shapes
+				//{
+				//	PhysicsMeshShape
+				//	{
+				//		mesh "meshes/units/ground/carnicinth_c1.nxs"
+				//	}
+				//}
 			}
 		}
 	}
+	
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	2
+				y	2
+				z	2
+			}
+		}
+	}	
 
 	MinimapItemDesc
 	{
@@ -177,12 +229,6 @@ EntityBlueprint
 	{
 	}
 
-	VegetationBendingComponentDesc
-	{
-		bending_power	"5000"
-		bending_radius	"4"
-	}
-
 	FlammableComponentDesc
 	{
 		fire_spread_interval 			"4.0"
@@ -213,12 +259,12 @@ EntityBlueprint
 	{
 		name   "range"
 		target "player|ground_unit|building"
-		target_ignore "wall|invisible"
-		speed "200"
+		target_ignore "wall|invisible|ignore_as_target"
+		speed "400"
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "0"
-			range_max "30"
+			range_max "28"
 		}
 
 		aiming_cooldown "0.1"
@@ -227,6 +273,11 @@ EntityBlueprint
 		pitch "be_barrel"
 		yaw "be_turret"
 		check_target_visibility "1"
+	}
+
+	AIUnitGroupNonPackableComponent
+	{
+
 	}
 
 	DestroyDesc
@@ -243,7 +294,7 @@ EntityBlueprint
 					explosion_effect 		"effects/enemies_carnicinth/death"	
 					part_prefix 			"meshes/units/ground/carnicinth"
 					part_material 			"units/ground/carnicinth"
-					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
 					part_physics_material   "gibs_heavy"					
 				}
 
@@ -291,7 +342,21 @@ EntityBlueprint
 				}
 			}
 		}
-
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1 1 1"	
+					always_up "1"						
+				}
+			}
+		}	
 		EffectGroup
 		{
 			group "hide"
@@ -300,7 +365,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_shegret/dig_up"
+					blueprint "effects/enemies_carnicinth/hide"
 					always_up "1"
 				}
 			}
@@ -314,7 +379,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_shegret/dig_down"
+					blueprint "effects/enemies_carnicinth/unhide"
 					always_up "1"
 				}
 			}
@@ -328,7 +393,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"	
+					blueprint "effects/enemies_generic/damage_generic_green"	
 					bone "att_death"
 				}
 			}
@@ -341,7 +406,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"	
+					blueprint "effects/enemies_generic/damage_generic_green"	
 				}
 			}
 		}			
@@ -411,7 +476,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_physical_yellow"
+					blueprint "effects/enemies_generic/time_damage_physical_green"
 					bone "att_death"
 					scale "1 1 1"
 				}
@@ -430,7 +495,152 @@ EntityBlueprint
 					scale "0.7 0.7 0.7"
 				}
 			}
-		}			
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}		
 	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
 }
 
+EntityBlueprint
+{
+	name  "units/ground/carnicinth_projectile"
+
+	base_blueprint "effects/enemies_arachnoid/acid_projectile_boss"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_boss_projectile.mesh"
+		material    "projectiles/arachnoid_boss_projectile"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 		"effects/enemies_carnicinth/acid_hit"
+		on_world_hit_effect 		"effects/enemies_carnicinth/acid_hit"
+		on_shield_hit_effect		"effects/enemies_generic/shield_hit"
+
+		friendly_fire				"pass"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_2d 				"ground_unit|hitbox"
+	}
+}

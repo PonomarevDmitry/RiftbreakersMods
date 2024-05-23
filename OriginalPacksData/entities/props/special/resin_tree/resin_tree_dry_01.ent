@@ -1,0 +1,109 @@
+EntityBlueprint
+{
+	name  "props/special/resin_tree/resin_tree_dry_01"
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/resin_tree/resin_tree_big_01.mesh"
+		material "props/special/resin_tree/resin_tree_dry_big_01"
+
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/resin_tree/resin_tree_dry_big_01"
+			}
+			SubMesh
+			{
+				id "1"
+				material "props/special/resin_tree/resin_roots_dry"
+			}
+		}
+	}	
+	
+	SkeletonDesc
+	{
+		name "meshes/props/special/resin_tree/resin_tree_big_01"
+	}
+
+	PhysicsDesc  
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     			"static"
+				group_id    		"world_blocker"
+				physics_material 	 "default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{	
+						mesh "meshes/props/special/resin_tree/resin_tree_big_01_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	19
+    				y	19
+    				z	19
+   			}			
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name  "props/special/resin_tree/resin_tree_dry_01_child"
+
+			AttachmentDesc
+			{
+				attachment 	"att_top"
+			}
+
+			MeshDesc
+			{
+				mesh "meshes/props/special/resin_tree/resin_tree_big_top_01.mesh"
+				material "props/special/resin_tree/resin_tree_dry_big_01"
+			}
+
+			PhysicsDesc  
+		 	{
+				objects
+				{
+					PhysicsObjectDesc
+					{
+						type     			"static"
+						group_id    		"world_blocker"
+						physics_material 	 "default"
+						Shapes
+						{
+							PhysicsMeshShape
+							{	
+								mesh "meshes/props/special/resin_tree/resin_tree_big_top_01_c1.nxs"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

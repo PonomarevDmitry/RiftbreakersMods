@@ -4,16 +4,13 @@ EntityBlueprint "effects/default"
 
 	SoundDesc
 	{
-		name "enemies/kermon/attack"
-	}
-
-		
+		name "enemies/drexolian/attack"
+	}	
 }
 
 EntityBlueprint
 {
 	base_blueprint effects/default
-
 
 	name "effects/enemies_drexolian/death"
 
@@ -24,28 +21,13 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "enemies/generic/enemy_death_medium"
+		name "enemies/drexolian/death"
 	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_yellow_random"
-		scale
-		{
-			x		2.0
-			y		2.0
-			z		2.0
-		
-		}
-	}
-
-		
 }
 
 EntityBlueprint
 {
 	base_blueprint effects/default
-
 
 	name "effects/enemies_drexolian/death_long"
 
@@ -56,31 +38,17 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "enemies/hammeroceros/death"
+		name "enemies/drexolian/death_animated"
 	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_yellow_random"
-		scale
-		{
-			x		2.0
-			y		2.0
-			z		2.0
-		
-		}
-	}
-
-		
 }
 
 EntityBlueprint "effects/default"
 {
-		name "effects/enemies_drexolian/idle"
+	name "effects/enemies_drexolian/idle"
 
 	SoundDesc
 	{
-		name "enemies/kermon/idle"
+		name "enemies/drexolian/idle"
 	}
 }
 
@@ -94,17 +62,102 @@ EntityBlueprint
 
 	name effects/enemies_drexolian/muzzle
 
+	ParticleDesc
+	{
+		name    "rift/drexolian_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "enemies/drexolian/muzzle"
+	}		
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_drexolian/projectile_hit"
+	
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/muzzle_orange_small
+		effects/default
+	}
 
 	ParticleDesc
 	{
-		name    "rift/tower_basic_muzzle"
+		name    "rift/drexolian_projectile_hit"
 	}
-
-
 	
-	//SoundDesc
-	//{
-	//	name "weapon_fire/mech_burst_rifle"
-	//}		
+	SoundDesc
+	{
+		name "enemies/drexolian/projectile_hit"
+	}
 }
 
+EntityBlueprint
+{
+	name "effects/enemies_drexolian/run"
+
+	base_blueprint "effects/no_lifetime"
+
+	SoundDesc
+	{
+		name "enemies/drexolian/run"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_drexolian/wall_dig_up"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/drexolian_wall_dig_up"
+	}
+
+	SoundDesc
+	{
+		name "enemies/drexolian/wall_dig_up"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_drexolian/wall_explosion"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/drexolian_wall_explosion"
+	}
+
+	SoundDesc
+	{
+		name "enemies/drexolian/wall_explosion"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_drexolian/wall_part_trail"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/drexolian_wall_part_trail"
+	}	
+}

@@ -1,0 +1,67 @@
+EntityBlueprint
+{
+	name "units/skills/swarm"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"40"
+			tag									string:"move"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/swarm"
+		description 	"gui/hud/enemy_skill_description/swarm"
+		icon 			"gui/menu/inventory/stat_icons/swarm_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/swarm.lua"
+		database
+		{
+			min_scale						float:"0.8"
+			max_scale						float:"1.2"
+			children_count					int:"40"
+			child_bp                        string:"units/ground/canceroth_child"
+			create_child_timer				float:"0.75"
+		}			
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/swarm_lvl_4"
+	base_blueprint	"units/skills/swarm"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/swarm_lvl_4"
+		description 	"gui/hud/enemy_skill_description/swarm"
+		icon 			"gui/hud/fauna/canceroth_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/swarm.lua"
+		database
+		{
+			min_scale						float:"1.1"
+			max_scale						float:"1.5"
+			children_count					int:"60"
+			child_bp                        string:"units/ground/canceroth_child_ultra"
+			create_child_timer				float:"0.25"
+		}			
+	}
+}

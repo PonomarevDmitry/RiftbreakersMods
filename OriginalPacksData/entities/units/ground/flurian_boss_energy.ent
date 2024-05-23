@@ -59,9 +59,10 @@ EntityBlueprint
 		physical		"1.0"
 		fire			"1.0"
 		acid			"1.5"
-		energy			"0.0"
+		energy			"0.1"
 		cryo			"0.5"
 		area			"0.5"	
+		reflect_damage_max_percent 		"0.03"
 	}	
 	
 	StunDataComponent
@@ -80,8 +81,12 @@ EntityBlueprint
 	{
 		mesh 		"meshes/units/ground/flurian.mesh"
 		material 	"units/ground/flurian_boss"
-		render_group 29 // no point light cast shadow
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
 	
 	MinimapItemDesc
 	{
@@ -94,7 +99,7 @@ EntityBlueprint
 	{
 		name   "range"
 		target "ground_unit|building"
-		target_ignore "wall|invisible"
+		target_ignore "wall|invisible|ignore_as_target"
 		speed "200"
 		aim_volume "SphericalAimVolume"
 		{
@@ -109,7 +114,6 @@ EntityBlueprint
 		pitch "att_muzzle"
 		yaw "att_muzzle"
 		check_target_visibility "1"
-		gravity_factor "10"
 		use_IK "0"
 	}	
 
@@ -300,6 +304,11 @@ EntityBlueprint
 		EntityBlueprint
 		{
 		    name "units/ground/flurian_ultra/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
 
 			AttachmentDesc
 			{

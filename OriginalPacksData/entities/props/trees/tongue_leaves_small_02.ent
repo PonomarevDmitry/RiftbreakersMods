@@ -1,0 +1,87 @@
+EntityBlueprint
+{
+	name  "props/trees/tongue_leaves_small_02"
+
+	base_blueprints
+	{
+		props/trees/tongue_leaves_small_01
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/trees/tongue_leaves_small_02.mesh"
+		material "props/trees/tongue_leaves_medium_01"	
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.6"
+						y "3"
+						z "1.9"
+
+						position
+						{
+							x "-0.2"
+							y "1"
+							z "-0.2"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_leafs_destruction_big_brown"	
+					explosion_effect_scale 	"0.5"					
+					part_material	 		"props/trees/tongue_leaves_medium_01"
+					part_prefix 			"meshes/props/trees/tongue_leaves_small_02"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+					
+					//part_linear_damping		"1"
+				}
+			}
+			
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					
+					part_material 			"props/trees/tongue_leaves_medium_01"
+					part_prefix 			"meshes/props/trees/tongue_leaves_small_02"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+					
+					//part_linear_damping		"1"
+				}
+			}
+		}		
+	}
+}
+

@@ -4,7 +4,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh        "meshes/cube.mesh"
+		mesh        "meshes/water_quad.mesh"
 		material 	"resources/resource_water"
         flags       "2"
 	}
@@ -70,17 +70,29 @@ EntityBlueprint
 		type 		"water_vein"
 		amount 		"500"
 		infinity 	"1"
+        disable_custom_renderable "1"
 	}
-
-	//WaterVolumeDesc
-    //{
-    //    splash_effect           "effects/water_splash_medium"
-    //
-    //    object_damping          "15.0"
-    //    object_inertia_scale    "0.3"
-    //    object_height_change    "0.5"
-    //}
-
-
 }
 
+EntityBlueprint
+{
+	name  "resources/volume_resource_water_visual_only"
+
+	MeshDesc
+	{
+		mesh        "meshes/water_quad.mesh"
+		material 	"resources/resource_water"
+        flags       "2"
+	}
+
+	SceneEditorDesc
+    {
+        initial_scale
+        {
+            x "10.0"
+            y "4.0"
+            z "10.0"
+        }
+    }
+
+}

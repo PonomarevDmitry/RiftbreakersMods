@@ -1,0 +1,96 @@
+EntityBlueprint
+{
+	name  "props/grass/bulrush_small_02_skin2"
+
+	base_blueprints
+	{
+		"props/grass/bulrush_small_01"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/grass/bulrush_small_02.mesh"
+		material "props/grass/bulrush_skin2"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.5"
+						y "1.5"
+						z "3"
+
+						position
+						{
+							x "0.0"
+							y "0.75"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/grass_medium_brown"
+					explosion_effect_scale	"0.6"
+					part_material	 		"props/grass/bulrush_skin2"
+					part_prefix 			"meshes/props/grass/bulrush_small_02"
+					//part_effect 			"effects/destructibles/grass_part_trail"
+					part_lifetime			"0.5"
+
+					part_linear_damping		"3"
+				}
+			}
+
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					explosion_effect_scale	"0.5"
+					part_material 			"props/grass/bulrush_skin2"
+					part_prefix 			"meshes/props/grass/bulrush_small_02"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+					part_lifetime			"0.5"
+					part_linear_damping		"3"
+				}
+			}
+		}
+	}
+
+	VegetationDayAndNightAffector
+	{
+		day_factor 	 					"0.2"
+		day_vegetation_add_factor   	"10"
+		night_factor 					"0.8"
+		night_vegetation_add_factor   	"15"
+		vegetation_timeout  			"2"
+	}
+}

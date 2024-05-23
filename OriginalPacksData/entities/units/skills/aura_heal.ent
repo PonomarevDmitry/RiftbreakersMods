@@ -1,0 +1,93 @@
+EntityBlueprint
+{
+	name "units/skills/aura_heal"
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"building|building_small|ground_unit|shield"
+		tag 		"trigger"
+
+		Filters
+		{
+			TeamTriggerFilter 
+			{
+				team     "wave_enemy"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.0"
+			}
+		}
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_heal"
+		description 	"gui/hud/enemy_skill_description/aura_heal"
+		icon 			"gui/menu/inventory/stat_icons/heal_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/aura_heal.lua"
+		database
+		{
+			healing_effect		string:"healing"
+			aura_effect			string:"aura_healing"
+			healing_ray			string:"units/skills/healing_ray"	
+			radius				float:25
+			min_heal			float:25
+			max_heal			float:100
+			entity_hp_max		float:4000
+		}			
+	}
+}
+
+
+EntityBlueprint
+{
+	name "units/skills/aura_heal_lvl_4"
+	base_blueprint "units/skills/aura_heal"
+
+	LuaDesc
+	{
+		script "lua/units/skills/aura_heal.lua"
+		database
+		{
+			healing_effect		string:"healing"
+			aura_effect			string:"aura_healing"
+			healing_ray			string:"units/skills/healing_ray"
+			radius				float:35
+			min_heal			float:100
+			max_heal			float:600
+			entity_hp_max		float:4000
+		}			
+	}
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_heal_lvl_3"
+		description 	"gui/hud/enemy_skill_description/aura_heal_lvl_3"
+		icon 			"gui/hud/items_icons/consumables/repair_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/skills/healing_ray"
+
+	LightningComponent
+	{
+		material 				"items/weapons/healing_beam"
+		tesselation_step 		"0.1" 	// lightning branching, step in meters
+		beam_min_width 			"0.02"
+		beam_max_width 			"0.1"
+		beam_count 				"1"
+		update_bounds			"1"
+	}
+}

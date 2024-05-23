@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/spitter.mesh"
 		material 	"items/weapons/spitter_fire_basic"
 	}
+	
+	ShadowExcludeComponent
+	{
+
+	}		
 
 	SkeletonDesc
 	{
@@ -23,7 +28,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "1.2"
+			emissive_factor  "4"
 		}
 		WeaponMuzzles
 		{
@@ -74,7 +79,7 @@ EntityBlueprint
 			}
 		}
 
-		 EffectGroup
+		EffectGroup
 		{
 			group "item_equipped"
 			enabled "0"
@@ -130,13 +135,18 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/spitter.mesh"
 		material 	"items/weapons/spitter_fire_advanced"
 	}
+	
+	ShadowExcludeComponent
+	{
+
+	}		
 
 	BurstWeaponComponent
 	{
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "1.4"
+			emissive_factor  "4"
 		}
 		WeaponMuzzles
 		{
@@ -175,14 +185,13 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
-			max_distance            float:"17.0"
+			aim_max_distance        float:"17.0"
 		}
 	}
 
@@ -204,13 +213,18 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/spitter.mesh"
 		material 	"items/weapons/spitter_fire_extreme"
 	}
+	
+	ShadowExcludeComponent
+	{
+
+	}		
 
 	BurstWeaponComponent
 	{
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "1.8"
+			emissive_factor  "4"
 		}
 		WeaponMuzzles
 		{
@@ -249,14 +263,13 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
-			max_distance            float:"17.0"
+			aim_max_distance        float:"17.0"
 		}
 	}
 
@@ -285,14 +298,13 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
-			max_distance            float:"17.0"
+			aim_max_distance        float:"17.0"
 		}
 	}
 
@@ -314,13 +326,18 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/spitter.mesh"
 		material 	"items/weapons/spitter_fire_superior"
 	}
+	
+	ShadowExcludeComponent
+	{
+
+	}		
 
 	BurstWeaponComponent
 	{
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "1.6"
+			emissive_factor  "4"
 		}
 		WeaponMuzzles
 		{
@@ -359,14 +376,13 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_fire_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
-			max_distance            float:"17.0"
+			aim_max_distance        float:"17.0"
 		}
 	}
 
@@ -438,13 +454,41 @@ EntityBlueprint
 
 		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
 
-		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
 
 		diameter					"1"
 
 		artillery_min_angle 		"25"
 		artillery_max_angle 		"45"
+		
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			area_damage_radius		"2"
+			time_damage_interval	"0.1"
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"				
+		}		
 	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 2 2"
+				}
+			}
+		}			
+	}	
 }
 
 EntityBlueprint
@@ -506,29 +550,48 @@ EntityBlueprint
 {
 	name  "items/weapons/fire_spitter_projectile_random"	
 	
-	RandomBlueprintDesc
+	MeshDesc
 	{
-		Blueprint
+	}
+
+	RandomMeshComponent
+	{
+		random_meshes
 		{
-			blueprint "items/weapons/fire_spitter_projectile_1"
+			MeshDesc
+			{
+				mesh 		"meshes/projectiles/blob_1.mesh"
+				material 	"projectiles/blob_fire"
+			}
+
+			MeshDesc
+			{
+				mesh 		"meshes/projectiles/blob_2.mesh"
+				material 	"projectiles/blob_fire"
+			}
+
+			MeshDesc
+			{
+				mesh 		"meshes/projectiles/blob_3.mesh"
+				material 	"projectiles/blob_fire"
+			}
+
+
+			MeshDesc
+			{
+				mesh 		"meshes/projectiles/blob_4.mesh"
+				material 	"projectiles/blob_fire"
+			}
+
+			MeshDesc
+			{
+				mesh 		"meshes/projectiles/blob_4.mesh"
+				material 	"projectiles/blob_fire"
+			}
 		}
-		Blueprint
-		{
-			blueprint "items/weapons/fire_spitter_projectile_2"
-		}
-		Blueprint
-		{
-			blueprint "items/weapons/fire_spitter_projectile_3"
-		}		
-		Blueprint
-		{
-			blueprint "items/weapons/fire_spitter_projectile_4"
-		}
-		Blueprint
-		{
-			blueprint "items/weapons/fire_spitter_projectile_5"
-		}			
-	}	
+	}
+
+
 }		
 
 EntityBlueprint
@@ -557,6 +620,16 @@ EntityBlueprint
 
 		artillery_min_angle 		"25"
 		artillery_max_angle 		"45"
+		
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			area_damage_radius		"2"
+			time_damage_interval	"0.1"
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"				
+		}			
 	}
 }
 
@@ -586,6 +659,16 @@ EntityBlueprint
 
 		artillery_min_angle 		"25"
 		artillery_max_angle 		"45"
+		
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			area_damage_radius		"2"
+			time_damage_interval	"0.1"
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"				
+		}			
 	}
 }
 
@@ -615,5 +698,15 @@ EntityBlueprint
 
 		artillery_min_angle 		"25"
 		artillery_max_angle 		"45"
+		
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			area_damage_radius		"2"
+			time_damage_interval	"0.1"
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"				
+		}			
 	}
 }

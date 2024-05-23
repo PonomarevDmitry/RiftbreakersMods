@@ -4,7 +4,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh        "meshes/cube.mesh"
+        mesh        "meshes/water_quad.mesh"
 		material 	"resources/resource_sludge"
         flags       "2"
 	}
@@ -70,30 +70,20 @@ EntityBlueprint
 		type 		"sludge_vein"
 		amount 		"500"
 		infinity 	"1"
+        disable_custom_renderable "1"
 	}
-
-	//WaterVolumeDesc
-    //{
-    //    splash_effect           "effects/water_splash_medium"
-    //
-    //    object_damping          "15.0"
-    //    object_inertia_scale    "0.3"
-    //    object_height_change    "0.5"
-    //}
-
-
 }
 
 EntityBlueprint
 {
 	name  "resources/volume_resource_sludge_visual_only"
 
-	MeshDesc
-	{
-		mesh        "meshes/cube.mesh"
-		material 	"resources/resource_sludge"
+    MeshDesc
+    {
+        mesh        "meshes/water_quad.mesh"
+        material    "resources/resource_sludge"
         flags       "2"
-	}
+    }
 
 	SceneEditorDesc
     {
@@ -102,29 +92,6 @@ EntityBlueprint
             x "10.0"
             y "4.0"
             z "10.0"
-        }
-    }
-
-
-	PhysicsDesc
-    {
-        objects
-        {
-            PhysicsObjectDesc
-            {
-                group_id    "water"
-                type        "static"
-
-                Shapes
-                {
-                    PhysicsBoxShape
-                    {
-                        x "1"
-                        y "1"
-                        z "1"
-                    }
-                }
-            }
         }
     }
 }

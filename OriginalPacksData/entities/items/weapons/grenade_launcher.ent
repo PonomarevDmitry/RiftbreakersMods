@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
 		material 	"items/weapons/grenade_launcher"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 
 	SkeletonDesc
 	{
@@ -23,7 +28,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "5"
+			emissive_factor  "8"
 		}		
 		WeaponMuzzles
 		{
@@ -130,6 +135,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
 		material 	"items/weapons/grenade_launcher_advanced"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -150,11 +160,10 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"			
 		}
@@ -178,6 +187,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
 		material 	"items/weapons/grenade_launcher_extreme"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -198,11 +212,10 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"	
 		}
@@ -233,11 +246,10 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"	
 		}
@@ -261,6 +273,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
 		material 	"items/weapons/grenade_launcher_superior"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 }
 
 EntityBlueprint
@@ -281,11 +298,10 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/autofire_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
 			aim_bp					string:"effects/weapons_generic/mech_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"	
 		}
@@ -341,12 +357,18 @@ EntityBlueprint
 
 		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
 
-		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
 
 		diameter					"1"
 
 		artillery_min_angle 		"25"
 		artillery_max_angle 		"45"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"
+		}		
 	}
 	
 	children

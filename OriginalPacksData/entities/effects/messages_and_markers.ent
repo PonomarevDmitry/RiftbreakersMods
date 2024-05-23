@@ -1,3 +1,160 @@
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/danger_marker_red
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"markers/danger_marker_progress_red"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/cube.mesh"
+				material 	"markers/danger_marker_inner_red"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"30"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/cube.mesh"
+				material 	"markers/danger_marker_outer_red"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-30"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/danger_marker_blue
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"markers/danger_marker_progress_blue"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/cube.mesh"
+				material 	"markers/danger_marker_inner_blue"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"30"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/cube.mesh"
+				material 	"markers/danger_marker_outer_blue"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-30"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/warning_marker_red
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"markers/warning_generic_progress_red"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/cube.mesh"
+				material 	"markers/warning_generic_inner_red"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"30"
+					}
+				}
+			}
+		}
+	}
+}
+
 EntityBlueprint "effects/default"
 {
 		name effects/messages_and_markers/alert_building_destroyed
@@ -52,28 +209,18 @@ EntityBlueprint "effects/no_lifetime"
 	{
 		name    "rift/explosion_radius"
 	}
-
-	
 }
 
-EntityBlueprint "effects/no_lifetime"
+EntityBlueprint
 {
 	name effects/messages_and_markers/meteor_marker
-
-	ParticleDesc
-	{
-		name    "rift/meteor_marker"
-	}
+	base_blueprint effects/messages_and_markers/danger_marker_red
 }
 
-EntityBlueprint "effects/no_lifetime"
+EntityBlueprint
 {
 	name effects/messages_and_markers/alien_artillery_marker
-
-	ParticleDesc
-	{
-		name    "rift/alien_artillery_marker"
-	}
+	base_blueprint effects/messages_and_markers/danger_marker_red
 }
 
 EntityBlueprint "effects/no_lifetime"
@@ -776,5 +923,51 @@ EntityBlueprint "effects/no_lifetime"
 		clamp_mode		"1"
 		visibility		"always"		
 		additional_z_order	"15"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+		name effects/messages_and_markers/rain_marker
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/wind_spot"
+		clamp_mode		"1"
+		visibility		"always"		
+		additional_z_order	"15"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_generic/holder_marker_violet
+
+	base_blueprints
+	{
+		lights/point/target_marker_violet
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/holder_marker_violet"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_generic/holder_marker_blue
+
+	base_blueprints
+	{
+		lights/point/target_marker_blue
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/holder_marker_blue"
 	}
 }

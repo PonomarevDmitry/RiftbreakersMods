@@ -1,5 +1,43 @@
 EntityBlueprint
 {
+	name effects/items/freeze_ray_beam
+
+	base_blueprints
+	{
+		 lights/point/fire_laser_blue
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/freeze_ray_skill"
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"10000"
+		speed 	"30"
+		radius 	"50"
+	}	
+
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"5.2"
+		falloff_radius 	"20"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/orbital_laser_hit"
+	}		
+}
+
+EntityBlueprint
+{
 	name effects/items/orbital_laser
 
 	base_blueprints
@@ -164,6 +202,24 @@ EntityBlueprint
 			y		4.0
 			z		4.0
 		}
+	}	
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "10 10 10"
+				}
+			}
+		}			
 	}	
 }
 
@@ -615,6 +671,11 @@ EntityBlueprint
 	{
 		name "items/shield/mech_shield_activated"
 	}
+	
+	ParticleDesc
+	{
+		name    "rift/pickup_blue"
+	}	
 }
 
 EntityBlueprint
@@ -920,6 +981,7 @@ EntityBlueprint
 
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
 		burning_time			"1"	// how long it will burn in seconds
+		disable_light_fade_out "1"
 	}	
 }
 
@@ -1046,5 +1108,309 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "enemies/flurian/projectile_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/items/antimatter_ball"
+	
+	base_blueprints
+	{
+		//lights/point/fire_red_small
+		effects/no_lifetime
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/bradron_laser_hit"
+	//}
+	
+	SoundDesc
+	{
+		name "items/skills/antimatter_ball_idle"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/items/antimatter_ball_muzzle"
+	
+	base_blueprints
+	{
+		//lights/point/fire_red_small
+		effects/default
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/bradron_laser_hit"
+	//}
+	
+	SoundDesc
+	{
+		name "items/skills/antimatter_ball_muzzle"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/items/tornado_muzzle"
+	
+	base_blueprints
+	{
+		//lights/point/fire_red_small
+		effects/default
+	}
+	
+	SoundDesc
+	{
+		name "items/skills/tornado_activated"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/items/pickup_green
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_medium
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/pickup_green"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/pickup_blue
+
+	base_blueprints
+	{
+		 lights/point/muzzle_blue_medium
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/pickup_green"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/pickup_red
+
+	base_blueprints
+	{
+		 lights/point/muzzle_red_medium
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/pickup_green"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/items/gas_grenade_smoke"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_big
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_grenade_smoke"
+	}
+
+	SoundDesc
+	{
+		name "items/consumables/gas_grenade_explosion"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		6
+	}		
+}
+
+EntityBlueprint
+{
+	name "effects/items/drone_swarm_activated"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_big
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/pickup_green"
+	}
+
+	SoundDesc
+	{
+		name "items/consumables/drone_swarm_activated"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/items/tombstone_pickup"
+
+	base_blueprints
+	{
+		effects/default
+		lights/point/muzzle_violet_medium		
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/shotguns/shotgun_equipped"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tombstone_pickup"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/items/tombstone_pickup_idle"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/tombstone_pickup_idle"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/poogret_food
+
+	base_blueprints 
+	{
+		lights/props/loot_container_small_violet
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/poogret_food"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_holder_equipped
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/holder/equipped"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/holder_equipped"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_holder_activated
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/holder/activated"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_holder_loop
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name "items/holder/loop"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_holder_rotator
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/holder_rotator"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_holder_energy
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/holder_energy"
 	}
 }

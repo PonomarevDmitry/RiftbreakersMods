@@ -1,0 +1,67 @@
+EntityBlueprint
+{
+	name "units/skills/aura_resistance"
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"building|building_small|ground_unit|shield"
+		tag 		"trigger"
+
+		Filters
+		{
+			TeamTriggerFilter 
+			{
+				team     "wave_enemy"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.0"
+			}
+		}
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_resistance"
+		description 	"gui/hud/enemy_skill_description/aura_resistance"
+		icon 			"gui/menu/inventory/stat_icons/resistance_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/aura_resistance.lua"
+		database
+		{
+			radius				float:25
+			resistance			float:0.5
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/skills/aura_resistance_lvl_4"
+	base_blueprint "units/skills/aura_resistance"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_resistance_lvl_4"
+		description 	"gui/hud/enemy_skill_description/aura_resistance"
+		icon 			"gui/hud/items_icons/consumables/defensive_dome"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_resistance.lua"
+		database
+		{
+			radius				float:32
+			resistance			float:0.3
+		}			
+	}		
+}

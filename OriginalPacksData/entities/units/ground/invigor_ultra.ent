@@ -1,0 +1,138 @@
+EntityBlueprint
+{
+	name "units/ground/invigor_ultra"
+
+	base_blueprint "units/ground/invigor_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/invigor.lua"
+		database
+		{
+			min_scale	float:"1.45"
+			max_scale	float:"1.55"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"2500"
+		health 						"2500"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/invigor.mesh"
+		material 	"units/ground/invigor_ultra"
+		flags		"4"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/invigor_ultra"
+		can_activate 0
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/invigor_ultra/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "be_antenna"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_invigor/attack_start"
+						attack_start_time			"1.20"
+						attack_end_time				"1.40"
+						attack_duration 			"2.40"
+						damage_multiple 			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							on_enemy_hit_effect 	"effects/weapons_melee_blunt/hammer_hit_object"
+							on_world_hit_effect 	"effects/enemies_invigor/ground_hit"
+							on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+							friendly_fire			"pass"
+							area_damage_impact_type "world"
+							collision_3d 			"world|world_destructible|destructible|ground_unit|building|building_small|vegetation|shield"
+
+							DamagePattern
+							{
+								area_damage_radius	"6.5"
+								area_damage_speed 	"200"
+
+								Damages
+								{
+									Damage
+									{
+										value 			"100"
+										type			"area"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "4.0"
+						z "1.0"
+					}
+				}
+			}
+		}
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.1"
+		max "1"
+	}
+}

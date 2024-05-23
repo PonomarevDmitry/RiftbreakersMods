@@ -1,0 +1,201 @@
+EntityBlueprint
+{
+	name  "props/cactus/anemone_medium_01_skin1"
+
+	base_blueprints
+	{
+		 props/base/flammable_medium
+		 props/base/resistant_medium
+	}
+
+	LuaDesc
+	{
+		script "lua/props/vegetation/vegetation.lua"
+
+		database
+		{
+			response_random_delay		float:"0.1"
+			//immortal_on_hide			int:"1"
+			inverted 					int:"1"
+			target_aiming				int:"0"
+		}
+	}
+
+	TargetFinderInitializerComponent
+	{
+		search_component			"MechComponent"
+		random_timer_at_start		1
+		timer_duration				0.2
+		tag 						"player"
+		in_radius 					"18"
+	}
+
+	TargetComponent
+	{
+
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "vegetation"
+	}
+
+	HealthDesc
+	{
+		is_manual				"1"
+		max_health 				"100"
+		health 					"100"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/cactus/anemone_medium_01.mesh"
+		material "props/cactus/anemone_big_01_skin1"
+	}
+
+
+	SkeletonDesc
+	{
+		name "meshes/props/cactus/anemone_medium_01"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.0"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.0"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"0.0"		// czas wygaszania
+		bending_spring_damping			"0.0"		// wygluszanie oscylacji
+		bending_spring_phases			"0.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"0.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"0.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"0.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+	  	root_mesh 						"meshes/props/cactus/anemone_medium_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                type     "static"
+                group_id    		"destructible"
+                physics_material  "default"
+
+                Shapes
+                {
+                    PhysicsMeshShape
+                    {
+                        mesh "meshes/props/cactus/anemone_medium_01_c1.nxs"
+                    }
+                          
+                }
+            }
+        }
+    }
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_violet"
+					explosion_effect_scale 	"0.7"
+					part_material	 		"props/cactus/anemone_big_01_skin1"
+					part_prefix 			"meshes/props/cactus/anemone_medium_01"
+					part_effect 			"effects/destructibles/mushroom_part_trail_violet"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+					part_material	 		"props/cactus/anemone_big_01_skin1"
+					part_prefix 			"meshes/props/cactus/anemone_medium_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_medium"
+					offset "0 1 0"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"hide"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+				    blueprint "effects/destructibles/anemone_hide_unhide"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"show"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+				    blueprint "effects/destructibles/anemone_hide_unhide"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"visible"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+				    blueprint "lights/point/crystal_pink_medium"
+					bone "be_trunk_2"
+					offset "0 2 0"
+				}										
+			}
+		}		
+	}
+}
+
+
+

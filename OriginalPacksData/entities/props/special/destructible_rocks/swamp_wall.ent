@@ -1,0 +1,730 @@
+EntityBlueprint
+{
+	name  "props/special/destructible_rocks/swamp_wall"
+
+	DestructibleVolumeComponent
+	{
+		on_wall_hit_effect		"effects/destructibles/destructible_wall_swamp_damaged"
+		cover_material			"props/special/destructible_rocks/swamp_ceil"
+
+		cover_height_high		5.5
+		cover_height_low		3.0
+
+		navigation_cost_type 	"cavern_wall"
+
+		minimap_color
+		{
+			r "0.05"
+			g "0.15"
+			b "0.25"
+			a "1.000"
+		}
+
+		rebuild_walls_timer 	17.0
+		rebuild_walls_effect	"effects/destructibles/destructible_wall_swamp_grow_back"
+	}
+
+	SceneEditorDesc
+	{
+		highlight_color
+		{
+			r "1.0"
+			g "1.0"
+			b "0.0"
+			a "1.0"
+		}
+	}
+
+	LocalAabbDesc
+	{
+		min
+		{
+			x "-0.5"
+			y "-0.5"
+			z "-0.5"
+		}
+
+		max
+		{
+			x "0.5"
+			y "0.5"
+			z "0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/destructible_rocks/swamp_wall_blocker"
+	
+	base_blueprints
+	{
+		props/base/flammable_big
+	}	
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_big_01"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}			
+		}
+	}
+
+	DestructibleWallComponent
+
+	HealthDesc
+	{
+		max_health 				"75"
+		health 					"75"
+		is_manual				"1"
+	}
+
+	TeamDesc
+	{
+		team "none"
+	}
+
+	ResistanceComponent
+	{
+		min_damage_threshold 	"75"
+		fire					"1000"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "8.0"
+				z "1"
+			}	
+		}
+	}
+
+	TypeDesc
+	{
+		type "cavern_wall"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    			x	2
+    			y	2
+    			z	2
+   			}
+		}
+	}
+	
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"world_destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "2"
+						half_height "2"
+
+						position 
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
+				}
+			}
+		}
+	}
+
+	DatabaseComponent
+	{
+		harvest_duration float:"0.05"
+	}
+
+	InteractiveComponent 
+	{
+		slot 			"EXCAVATOR"
+		radius 			"6"
+		remove_entity	"0"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_swamp_wall"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_big_01"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_big_01.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_big_01"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}			
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_big_02"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_big_02.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_big_02"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_big_03"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_big_03.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_big_03"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"props/special/destructible_rocks/swamp_wall_large"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_big_01"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_big_02"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_big_03"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_medium_01"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_medium_01.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_medium_01"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_medium_02"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_medium_02.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_medium_02"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_medium_03"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_medium_03.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_medium_03"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"props/special/destructible_rocks/swamp_wall_medium"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_medium_01"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_medium_02"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_medium_03"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_small_01"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_small_01.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_small_01"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_small_02"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_small_02.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_small_02"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"props/special/destructible_rocks/swamp_wall_small_03"
+	base_blueprint	"props/special/destructible_rocks/swamp_wall_blocker"
+
+	MeshDesc
+	{
+		material 	"props/special/destructible_rocks/swamp_wall_set"
+		mesh 		"meshes/props/special/destructible_rocks/swamp_wall_small_03.mesh"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "0"
+				render_group "54"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"4500"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/destructible_wall_swamp"
+					explosion_effect_scale 	"1"
+					part_physics_material   "gibs_super_heavy"
+					part_prefix 			"meshes/props/special/destructible_rocks/swamp_wall_small_03"
+					part_material 			"props/special/destructible_rocks/swamp_wall_set"
+					part_effect 			"effects/destructibles/destructible_wall_swamp_trail"
+					part_lifetime			"2"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"props/special/destructible_rocks/swamp_wall_small"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_small_01"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_small_02"
+		}
+
+		Blueprint
+		{
+			blueprint "props/special/destructible_rocks/swamp_wall_small_03"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"test/swamp_wall_ceil"
+
+	MeshDesc
+	{
+		mesh		"meshes/error.mesh" // it will be replaced by content of randomized mesh
+		material	"error"
+	}
+
+	RandomMeshComponent
+	{
+		random_meshes
+		{
+			MeshDesc
+			{
+				material 	"props/special/destructible_rocks/swamp_wall_set"
+				mesh 		"meshes/props/special/destructible_rocks/swamp_wall_ceil_01.mesh"
+
+			}
+
+			MeshDesc
+			{
+				material 	"props/special/destructible_rocks/swamp_wall_set"
+				mesh 		"meshes/props/special/destructible_rocks/swamp_wall_ceil_02.mesh"
+
+			}
+
+			MeshDesc
+			{
+				material 	"props/special/destructible_rocks/swamp_wall_set"
+				mesh 		"meshes/props/special/destructible_rocks/swamp_wall_ceil_03.mesh"
+
+			}
+
+		}
+	}
+
+}

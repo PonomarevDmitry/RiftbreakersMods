@@ -1,0 +1,148 @@
+EntityBlueprint
+{
+	name  "props/grass/drumsticks_medium_01"
+
+	base_blueprints
+	{
+		props/base/flammable_medium
+		props/base/resistant_small
+	}
+
+	HealthDesc
+	{
+		max_health 				"5"
+		health 					"5"
+		is_manual				"1"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/props/grass/drumsticks_medium_01.mesh"
+
+		material 	"props/grass/drumsticks"
+
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.6"
+						y "2.5"
+						z "1.6"
+
+						position
+						{
+							x "0.0"
+							y "1.25"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.15"		// skalowanie sily wiatru
+		bending_object_scale			"0.07"		// skalowanie sily odginania obiektow
+
+		// funkcja wygaszania: https://www.desmos.com/calculator/ypwp8smepf
+		bending_spring_time				"3.7"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.6"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.1"		// pseudo "sprezystosc"
+
+		breaking_force_threshold		"6000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/grass_medium_gold"
+
+					part_material	 		"props/grass/drumsticks"
+					part_prefix 			"meshes/props/grass/drumsticks_medium_01"
+					part_lifetime			"0.5"
+
+
+
+					//part_effect 			"effects/destructibles/grass_part_trail"
+
+					part_linear_damping		"3"
+				}
+			}
+
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					explosion_effect_scale	"0.5"
+					part_material 			"props/grass/drumsticks"
+					part_prefix 			"meshes/props/grass/drumsticks_medium_01"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+					part_lifetime			"0.5"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/point/crystal_pink_small"
+                    offset "0 1 0"
+                }
+            }
+        }		
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_very_small"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}

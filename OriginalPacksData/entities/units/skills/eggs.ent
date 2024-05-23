@@ -1,0 +1,94 @@
+EntityBlueprint
+{
+	name "units/skills/eggs"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"40"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/eggs"
+		description 	"gui/hud/enemy_skill_description/eggs"
+		icon 			"gui/menu/inventory/stat_icons/eggs_aura_icon"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "-1"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "1"
+				z "1"
+			}	
+		}
+	}
+
+	UnitsSpawnerDesc
+	{
+		blueprint						"units/ground/egg_elite_canoptrix"
+		amount_on_single_spawn			"2"
+		max_spawn						"50"
+		time_to_spawn					"0.3"
+		unit_state_spawn				"1"  // do not touch
+		max_spawn_distance				"20"
+		spawn_type						"egg"
+		can_spawn_when_visible			"1"
+		defend_radius					"40"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/eggs.lua"
+		database
+		{
+
+		}			
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/eggs_lvl_4"
+	base_blueprint "units/skills/eggs"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/eggs_lvl_4"
+		description 	"gui/hud/enemy_skill_description/eggs"
+		icon 			"gui/menu/items_icons/consumables/grenade"
+	}
+	
+	UnitsSpawnerDesc
+	{
+		blueprint						"units/ground/egg_elite_stickrid_ultra"
+		amount_on_single_spawn			"2"
+		max_spawn						"150"
+		time_to_spawn					"0.2"
+		unit_state_spawn				"1"  // do not touch
+		max_spawn_distance				"20"
+		spawn_type						"egg"
+		can_spawn_when_visible			"1"
+		defend_radius					"40"
+	}
+}

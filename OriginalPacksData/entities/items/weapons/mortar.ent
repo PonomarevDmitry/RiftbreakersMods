@@ -1,0 +1,415 @@
+EntityBlueprint
+{
+	name  "items/weapons/mortar"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/mortar.mesh"
+		material 	"items/weapons/mortar"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/mortar"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "5"
+		}
+				
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone   "be_recoil"
+				recoil_time   	"0.1"
+				recoil_offset   "0.4"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/mortar_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_explosive/mortar_muzzle"
+
+		burst_column_angle 			"10"
+		//burst_column_spacing 		"1"
+		burst_rate 					"0.15"
+	}
+
+	ChargeWeaponComponent
+	{
+		ChargeLevels
+		{
+			ChargeLevel
+			{
+				name 						"charge_level_1"
+
+				ammo_blueprint 				"items/weapons/mortar_projectile"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+				charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+				charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+				charge_muzzle_flash_effect  "effects/weapons_explosive/mortar_muzzle"
+
+				charge_time_start           "0.3"
+				charge_time_end             "2"
+				charge_muzzle_idx           "0"
+
+				burst_rate_factor				"1"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/equipped_explosive_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/empty_explosive_weapon"
+				}
+			}
+		}
+
+		//EffectGroup
+		//{
+			//group "laser_pointer"
+			//enabled "1"
+
+			//Effects
+			//{
+				//Effect
+				//{
+				//	blueprint "effects/mech/laser_pointer"
+				//	bone "att_muzzle_1"
+				//}
+			//}
+		//}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/mortar_advanced"
+
+	base_blueprint "items/weapons/mortar"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/mortar.mesh"
+		material 	"items/weapons/mortar_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/mortar_superior"
+
+	base_blueprint "items/weapons/mortar"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/mortar.mesh"
+		material 	"items/weapons/mortar_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons/mortar_extreme"
+
+	base_blueprint "items/weapons/mortar"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/mortar.mesh"
+		material 	"items/weapons/mortar_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/mortar_projectile"
+
+	base_blueprint effects/weapons_explosive/grenade_projectile_blue
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/mortar_sentry_projectile.mesh"
+		material 	"projectiles/mortar_sentry_projectile"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/artillery_shell"
+	}
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapon_hit/cryo_mine_explosion"
+		on_world_hit_effect 		"effects/weapon_hit/cryo_mine_explosion"
+		on_resisted_hit_effect 		"effects/weapon_hit/cryo_mine_explosion"
+		hit_effect_direction 		"up"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
+		diameter					"1"
+
+		artillery_gravity_factor 	"8"
+		artillery_min_angle 		"90"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/smoke_trail_blue_01
+				update_bounds 		1
+				fade_out_time		0.75
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0.4 0"
+					}
+
+					Ribbon
+					{
+						offset "0 -0.4 0"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "items/weapons/mortar_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/mortar"
+		holding_pose "range"
+		item_bp		"items/weapons/mortar"
+		icon		"gui/hud/items_icons/weapons/mortar"
+		bigger_icon "gui/menu/items_icons/weapons/mortar"
+		description "gui/menu/inventory/weapon_charge_description/mortar"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"	
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/mortar_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/mortar"
+		holding_pose "range"
+		item_bp		"items/weapons/mortar_advanced"
+		icon		"gui/hud/items_icons/weapons/mortar_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/mortar_advanced"
+		description "gui/menu/inventory/weapon_charge_description/mortar"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"	
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/mortar_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/mortar"
+		holding_pose "range"
+		item_bp		"items/weapons/mortar_superior"
+		icon		"gui/hud/items_icons/weapons/mortar_superior"
+		bigger_icon "gui/menu/items_icons/weapons/mortar_superior"
+		description "gui/menu/inventory/weapon_charge_description/mortar"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"	
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/mortar_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"explosive"
+		name 		"gui/menu/inventory/weapon_name/mortar"
+		holding_pose "range"
+		item_bp		"items/weapons/mortar_extreme"
+		icon		"gui/hud/items_icons/weapons/mortar_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/mortar_extreme"
+		description "gui/menu/inventory/weapon_charge_description/mortar"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"	
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}

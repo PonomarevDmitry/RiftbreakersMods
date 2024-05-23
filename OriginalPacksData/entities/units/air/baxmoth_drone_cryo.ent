@@ -21,8 +21,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10"
-		health 						"10"
+		max_health 					"15"
+		health 						"15"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -45,5 +45,52 @@ EntityBlueprint
 		mesh 		"meshes/units/air/baxmoth_drone.mesh"
 		material 	"units/air/baxmoth_drone_cryo"
 	}
+	
+	StateMachineDesc
+	{
+		template_name "baxmoth_drone"
+		params
+		{
+			aggressive_speed				float:"30"
+			aggressive_acceleration			float:"60"
+			not_aggressive_speed			float:"30"
+			not_aggressive_acceleration		float:"60"
+			weapon_bp						string:"units/air/baxmoth_boss_drone_weapon_cryo"
+		}		
+	}	
 }
+
+EntityBlueprint
+{
+	name  "units/air/baxmoth_boss_drone_weapon_cryo"
+
+	base_blueprint "units/air/baxmoth_drone_weapon"
+	
+	WeaponItemDesc
+	{
+
+	}	
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "60"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/drone_projectile_cryo"
+
+		muzzle_flash_effect 		"effects/enemies_baxmoth/drone_attack_cryo"
+	}	
+}	
 

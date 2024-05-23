@@ -1,0 +1,92 @@
+EntityBlueprint 
+{	
+	name "weather/firestorm_comet"
+
+	//MeshDesc
+	//{
+	//	mesh "meshes/props/rocks/sandstone/sandstone_medium_01.mesh"
+	//	material "units/ground/gnerot_ultra_burning"
+	//	render_group 29 // no point light cast shadow
+	//}
+
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weather/firestorm_fire_spot"
+		on_world_hit_effect 	"effects/weather/firestorm_fire_spot"
+		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
+		
+		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
+
+		DamagePattern
+		{
+			area_damage_radius 	"5"
+		
+			Damages
+			{
+				Damage
+				{
+					value 	"0.0"
+					type 	"fire"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time    10
+	}
+
+	//SoundDesc
+	//{
+	//	name 		"ambient/meteor"
+	//}
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/lava_gun_projectile"
+	//}	
+
+	//EffectDesc
+	//{
+	//	EffectGroup
+	//	{
+	//		Effects
+	//		{
+	//			Effect
+	//			{
+	//				blueprint "effects/projectiles_and_trails/comet_trail"
+	//			}
+	//		}
+	//	}
+	//}
+}
+
+EntityBlueprint
+{
+	name  "weather/firestorm"
+
+	LuaDesc
+	{
+		script "lua/weather/meteor_shower.lua"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"global"
+		time_of_day 							"scripts/scene_params/firestorm.td"
+		max_health_percentage_damage_threshold	"0"
+	}
+
+	DatabaseDesc
+	{
+		meteor_blueprint		string:"weather/firestorm_comet"
+		spawn_time				float:"0.5"
+		meteors_in_one_spawn	int:"3" 
+		duration				int:"60"
+		radius					int:"60"
+	}
+}
+

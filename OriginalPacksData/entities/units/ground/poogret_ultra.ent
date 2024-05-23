@@ -1,0 +1,46 @@
+EntityBlueprint
+{
+	name "units/ground/poogret_ultra"
+
+	base_blueprint "units/ground/poogret_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/poogret.lua"
+		database
+		{
+			min_scale			float:"1.00"
+			max_scale			float:"1.00"
+			spawn_treasure_bp   string:"props/special/interactive/poogret_poo"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"3000"
+		health 						"3000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/poogret.mesh"
+		material 	"units/ground/poogret_ultra"
+	}
+}

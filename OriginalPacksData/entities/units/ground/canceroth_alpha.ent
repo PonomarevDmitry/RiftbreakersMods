@@ -1,0 +1,93 @@
+EntityBlueprint
+{
+	name "units/ground/canceroth_alpha"
+	base_blueprint "units/ground/canceroth_base"
+	
+	LuaDesc
+	{
+		script "lua/units/ground/canceroth.lua"
+		database
+		{
+			min_scale						float:"1.2"
+			max_scale						float:"1.3"
+			children_count					int:"45"
+			child_bp                        string:"units/ground/canceroth_child_alpha"
+			create_child_timer				float:"0.5"
+			speed_factor    				float:"0.3"
+			idle_speed                      float:"0.25"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version 		int:"1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"6500"
+		health 						"6500"
+		is_manual					"0"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	MeshDesc
+	{
+		material 	"units/ground/canceroth_alpha"
+		mesh 		"meshes/units/ground/canceroth.mesh"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/canceroth"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "canceroth_child"
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/canceroth_base"
+		}	
+		EffectGroup
+		{
+			group 	"energy"
+			enabled "1"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_canceroth/canceroth_energy_blue"
+					bone "rootB"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"light"
+			enabled "1"			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/canceroth_blue"
+				}
+			}
+		}		
+	}		
+}
+

@@ -1,0 +1,141 @@
+EntityBlueprint
+{
+    name "player/character_bot"
+
+	base_blueprint "player/character"
+
+	LuaDesc
+	{
+		script "lua/units/ground/mech_bot.lua"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"500"
+		unit_soft_radius				"2.00"
+		ignore_cost_mask				"path_blocker"
+		dominance_group				    "0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"200"
+		health 						"200"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"0"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health "80"
+				destroy_state_change_effect_group "80_transition"
+				destroy_comp_delay "0.1"
+				destroy_comp_event "80_destroy"
+				destroyed_state_effect_group "80_state"
+				destrucion_level_name "80"
+
+			}
+			DestructionLevel
+			{
+				health "60"
+				destroy_state_change_effect_group "60_transition"
+				destroy_comp_delay "0.2"
+				destroy_comp_event "60_destroy"
+				destroyed_state_effect_group "60_state"
+				destrucion_level_name "60"
+			}
+			DestructionLevel
+			{
+				health "40"
+				destroy_state_change_effect_group "40_transition"
+				destroy_comp_delay "0.2"
+				destroy_comp_event "40_destroy"
+				destroyed_state_effect_group "40_state"
+				destrucion_level_name "40"
+			}
+
+			DestructionLevel
+			{
+				health "20"
+				destroy_state_change_effect_group "20_transition"
+				destroy_comp_delay "0.2"
+				destroy_comp_event "20_destroy"
+				destroyed_state_effect_group "20_state"
+				destrucion_level_name "20"
+			}
+		}
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	StateMachineDesc
+	{
+		template_name "character_bot"
+		params
+		{
+			priority_target_distance		float:"30"
+			priority_target					string:"headquarters|player|energy|tower"
+			ignore_move_to_type				string:"wall|invisible|not_move_to_target"
+		}		
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target			"player|ground_unit|building"
+		target_ignore 	"wall|invisible"
+		speed "200"
+
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "6"
+			range_max "35"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_omni_light"
+		yaw "att_omni_light"
+		check_target_visibility "0"
+		use_IK "0"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "player/character_bot/trigger"
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "6.0"
+			}
+		}
+	}
+}

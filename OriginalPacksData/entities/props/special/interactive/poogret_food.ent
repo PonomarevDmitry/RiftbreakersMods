@@ -1,0 +1,240 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/poogret_food_object"
+
+	base_blueprints 
+	{
+		lights/props/loot_container_small_blue
+		effects/no_lifetime
+	}
+
+	InteractiveComponent 
+	{
+		slot 				"LIFT"
+		item 				"props/special/interactive/poogret_food_item"
+		item_count 			"0"
+		radius 				"8"
+		remove_entity 		"1"
+		remove_component 	"0"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/interactive/lift_object.lua"
+		database
+		{
+			lifetime  					float:"60"
+			lifetime_countdown_start	float:"30"
+		}			
+	}
+
+	TypeDesc
+	{
+		type "food"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/interactive/poogret_plant_big_01_fruit.mesh"
+		material "props/special/interactive/poogret_plant"
+	}
+
+	HealthDesc
+	{ 
+		max_health 				"400"
+		health 					"400"
+	}
+
+	MovementModificatorComponent
+	{
+		max_speed 0.75
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_blue"	
+					explosion_effect_scale 	"0.6"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+				}
+			}
+			Pair
+			{
+				key "interact"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_blue"	
+					explosion_effect_scale 	"0.6"
+					//part_material	 		"props/special/interactive/poogret_plant_leaves"
+					//part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
+					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
+				}
+			}			
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/special/interactive/poogret_plant_leaves"					
+					part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}
+		}	
+	}
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"grenade"
+				physics_material 	"gibs_super_heavy"
+                Shapes
+                {
+                    PhysicsMeshShape
+                    {
+                        mesh "meshes/props/special/interactive/poogret_plant_big_01_fruit_c1.nxs"
+                    }
+                }
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/poogret_plant"
+		visibility 				"discovered"	
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/poogret_fruit_idle_blue"
+					offset "0 0 0"
+				}
+			}
+		}		
+        EffectGroup
+        {
+            enabled "1"
+			group 	"light"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/point/poogret_plant_blue"
+					offset "0 0 0"
+                }
+            }
+        }	
+        EffectGroup
+        {
+            enabled "0"
+			group 	"grenade"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "props/special/interactive/poogret_food_grenade"
+					offset "0 0 0"
+                }
+            }
+        }	
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 2 2"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/interactive/poogret_food_grenade"
+
+	TeamDesc
+	{
+		team "player"
+	}	
+
+	GrenadeAmmoComponent
+	{
+		on_world_hit_effect 		"effects/destructibles/poogret_fruit_ground_hit"
+
+		collision_3d 				"world|world_blocker|world_destructible|building"
+
+		diameter					"2.00"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius	"1"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"0"
+					type			"area"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/interactive/poogret_food_item"
+
+	InventoryItemDesc
+	{
+		type 			"interactive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/interactive_name/poogret_food"
+		item_bp			"props/special/interactive/poogret_food_object"
+		icon			"gui/hud/items_icons/interactive/lift"
+		bigger_icon 	"gui/menu/items_icons/interactive/lift"
+		description 	"gui/menu/inventory/interactive_description/poogret_food"
+		rarity			"STANDARD"	
+	}
+
+	CostDesc
+}

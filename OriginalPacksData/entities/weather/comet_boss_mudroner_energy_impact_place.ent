@@ -1,0 +1,68 @@
+EntityBlueprint 
+{	
+	name "weather/comet_boss_mudroner_energy_impact_place"
+	//base_blueprint "units/volume_mudroner_boss_fire_spawner"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/mudroner_boss_energy"
+		time_to_hatch			"0.1"
+		unit_state_spawn		"state_aggressive" // do not touch
+	}	
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/building_destroyed_blue"
+		visibility		"always"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		effect_intesity_distance				"10"
+		size									"as_radius"
+		radius									"25"
+		local_effects							"effects/world/resource_comet_impact_place"
+		local_effects_random_offset				"2"
+		minimum_distance_per_local_effect		"3"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-2"
+				y "0"
+				z "-2"
+			}
+			max
+			{
+				x "2"
+				y "2"
+				z "2"
+			}	
+		}
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_big_blue_01"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		"60"
+	}
+}
+

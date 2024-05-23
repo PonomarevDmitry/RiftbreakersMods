@@ -14,11 +14,9 @@ EntityBlueprint
 			rotate_speed						float:"350"
 			priority_target						string:"headquarters|wall|energy|tower"
 			priority_target_distance			float:"40"
-			ignore_move_to_type					string:"player|invisible|not_move_to_target"
+			ignore_move_to_type					string:"invisible|not_move_to_target"
 			melee_attack_name					string:"attack_1"
 			life_time							float:"10"
-			evade_from							string:"player"
-			evade_distance						float:"0"
 		}		
 	}
 	
@@ -56,8 +54,14 @@ EntityBlueprint
 	{
 		angle_turn_speed				"360"
 		unit_soft_radius				"0.5"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein"
 		dominance_group				    "10"
+	}
+	
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "2.00"
+		water_offset	     "-1.0"
 	}
 
 	AnimationGraphDesc
@@ -91,9 +95,11 @@ EntityBlueprint
 				physics_material 	"default"
 				Shapes
 				{
-					PhysicsSphereShape
+					PhysicsBoxShape
 					{
-						r "1.0"
+						x "2.0"
+						y "3.0"
+						z "3.0"
 					}			
 				}
 			}
@@ -266,6 +272,11 @@ EntityBlueprint
 		{
 		    name "units/ground/nurglax_drone/attack"
 
+			NetReplicationDisabledComponent
+			{
+
+			}
+
 			AttachmentDesc
 			{
 				attachment "att_attack_trigger"
@@ -323,9 +334,9 @@ EntityBlueprint
 				{
 					PhysicsBoxShape
 					{
-						x "1.0"
-						y "1.0"
-						z "1.0"
+						x "3.0"
+						y "2.0"
+						z "2.0"
 					}	
 				}
 			}
@@ -336,6 +347,11 @@ EntityBlueprint
 EntityBlueprint
 {
 	name  "units/ground/nurglax_drone/trigger"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
 
 	AttachmentDesc
 	{
@@ -352,8 +368,13 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter 
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
 			}
 			InvisibleTriggerFilter
 		}
@@ -362,7 +383,7 @@ EntityBlueprint
 		{
 			PhysicsBoxShape
 			{
-				x "2"
+				x "4"
 				y "2"
 				z "2"
 			}

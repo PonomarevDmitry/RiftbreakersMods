@@ -1,0 +1,106 @@
+EntityBlueprint
+{
+	name "units/skills/aura_damage_energy"
+	
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"building|building_small|ground_unit|shield"
+		tag 		"trigger"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				relation_name     "hostility"
+				check_parent "0"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.0"
+			}
+		}
+	}
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_energy"
+		description 	"gui/hud/enemy_skill_description/aura_damage_energy"
+		icon 			"gui/menu/inventory/stat_icons/energy_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect			string:"time_damage_energy"
+			aura_effect			string:"aura_energy"
+			dmg_type			string:"energy"	
+			dmg_per_sec			float:5
+			radius				float:20
+		}			
+	}	
+	
+	DisplayRadiusComponent
+	{
+		min_radius_blueprint    	"units/skills/aura_damage_energy_area"
+		max_radius_blueprint   		"units/skills/aura_damage_energy_circle"
+
+		max_radius_rotation_speed 	"10"
+		min_radius_rotation_speed 	"0"
+		fade_out_time 				"2.0"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/aura_damage_energy_lvl_4"
+	base_blueprint "units/skills/aura_damage_energy"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_energy_lvl_4"
+		description 	"gui/hud/enemy_skill_description/aura_damage_energy"
+		icon 			"gui/hud/resource_icons/energy_icon_bigger"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_energy"
+			aura_effect			string:"aura_energy"
+			dmg_type			string:"energy"
+			dmg_per_sec			float:25
+			radius				float:25
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name units/skills/aura_damage_energy_area
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/aura_energy"
+	}
+}
+
+EntityBlueprint
+{
+	name units/skills/aura_damage_energy_circle
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/aura_energy_circle"
+	}
+}

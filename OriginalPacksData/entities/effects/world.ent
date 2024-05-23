@@ -53,7 +53,18 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/acid_fissure"
-	}		
+	}	
+
+	//DecalDesc
+	//{	
+	//	blueprint "effects/decals/puddle_water"
+	//	scale
+	//	{
+	//		x		5.0
+	//		y		5.0
+	//		z		5.0	
+	//	}
+	//}	
 }
 
 EntityBlueprint "effects/no_lifetime"
@@ -188,6 +199,33 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/world/spore_comet_impact_place
+
+	base_blueprints
+	{
+		 props/special/great_tree/parasite_bulb_random
+		 effects/no_lifetime
+	}	
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/spawner_canceroth"
+		scale
+		{
+			x		10.0
+			y		10.0
+			z		10.0
+		}
+	}
+	
+	//LifeTimeDesc
+	//{
+	//	time 		"120"
+	//}	
+}
+
+EntityBlueprint
+{
 	name effects/world/alien_comet_impact_place
 
 	base_blueprints
@@ -283,6 +321,22 @@ EntityBlueprint "effects/no_lifetime"
 		SoundDesc
 	{
 		name	"ambient/forest_01"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+		name effects/world/water_drops
+
+
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/tornado_big"
+	//}
+		SoundDesc
+	{
+		name	"ambient/water_drops"
 	}
 }
 
@@ -605,6 +659,20 @@ EntityBlueprint
 	}		
 }
 
+EntityBlueprint
+{
+	name effects/world/swamp_ambient
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+	SoundDesc
+	{
+		name	"ambient/swamp_ambient"
+	}		
+}
+
 EntityBlueprint "effects/no_lifetime"
 {
 		name effects/world/rain
@@ -825,7 +893,7 @@ EntityBlueprint "effects/no_lifetime"
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/world/wind_spot_vent_big
+	name effects/world/wind_spot_vent_big
 
 	ParticleDesc
 	{
@@ -835,7 +903,7 @@ EntityBlueprint "effects/no_lifetime"
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/world/wind_spot_vent_medium
+	name effects/world/wind_spot_vent_medium
 
 	ParticleDesc
 	{
@@ -843,3 +911,67 @@ EntityBlueprint "effects/no_lifetime"
 	}
 }
 
+EntityBlueprint
+{
+	name effects/world/flammable_gas_vent_big
+	
+	base_blueprints
+	{
+		 lights/point/fire_orange_gas_vent
+		 effects/no_lifetime
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/flammable_gas_vent_big"
+	}	
+	
+	SoundDesc
+	{
+		name	"ambient/lava_pool_ambient"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/world/flammable_gas_vent_medium
+	
+	base_blueprints
+	{
+		// lights/point/fire_orange_small
+		 effects/no_lifetime
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/flammable_gas_vent_medium"
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprint effects/no_lifetime
+
+	name effects/world/fog_ambient
+
+	ParticleDesc
+	{
+		name    "rift/fog_ambient"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"effects/world/map_resized"
+	base_blueprint 	"effects/default"
+
+	LuaDesc
+	{
+		script "lua/weather/ion_storm.lua"
+	}
+	
+	LifeTimeDesc
+	{
+		time "3.0"
+	}
+}
