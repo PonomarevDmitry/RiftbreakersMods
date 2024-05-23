@@ -17,6 +17,13 @@ cbuffer FPConstantBuffer : register(b0)
 #endif
     float       cHealthAmount;
     float       cMIPBias;
+#if USE_FLOWFIELD_MAP
+    float       cTime;
+    float       cFlowPower;
+    float       cFlowSpeed;
+    float       cFlowPhaseScale;
+    float       cFlowNoiseTillingFactor;
+#endif
 };
 
 struct VS_OUTPUT
@@ -75,19 +82,81 @@ SamplerState    sEnvBRDF;
 TextureCube     tReflectionTex;
 SamplerState    sReflectionTex;
 #endif
+#if USE_FLOWFIELD_MAP
+Texture2D       tFlowmapTex;
+SamplerState    sFlowmapTex;
+
+inline float4 GetDataWithFlowmap( Texture2D t, SamplerState s, float2 coords1, float2 coords2, float power )
+{
+    float4 x = t.SampleBias( s, coords1, cMIPBias );
+    float4 y = t.SampleBias( s, coords2, cMIPBias );
+    return lerp( x, y, power );
+}
+
+inline float3 GetNormalMapDataWithFlowmap( Texture2D t, SamplerState s, float2 coords1, float2 coords2, float power )
+{
+    float MipBiasNormal = cMIPBias * 0.5;
+
+    float3 x = texNormal2DBias( t, s, coords1, MipBiasNormal ).xyz;
+    float3 y = texNormal2DBias( t, s, coords2, MipBiasNormal ).xyz;
+    return lerp( x, y, power );
+}
+
+inline void GetFlowFieldData( in float2 coords, out float4 albedo, out float3 normal, out float3 material, out float3 emissive )
+{
+    float noise = tDissolveTex.SampleLevel( sDissolveTex, coords * cFlowNoiseTillingFactor, 0.0f ).x;    
+    float2 flowDir = ( tFlowmapTex.SampleLevel( sFlowmapTex, coords, 0.0f ).xy * 2.0f - 1.0f ) * cFlowPower;
+
+    float offsetPhase = cFlowPhaseScale * noise;
+    float time = cTime / ( cFlowSpeed * 2.0 );
+    float2 phase = frac( offsetPhase + float2( time, time + 0.5f ) );
+    float2 coords0 = ( coords - ( flowDir / 2.0f ) ) + ( phase.x * flowDir.xy ) + 0.5f * flowDir.xy;
+    float2 coords1 = ( coords - ( flowDir / 2.0f ) ) + ( phase.y * flowDir.xy ) + 0.5f * flowDir.xy;
+
+    float flowLerp = abs( ( 2.0f * phase.x ) - 1.0f );
+    albedo = GetDataWithFlowmap( tAlbedo1Tex, sAlbedo1Tex, coords0, coords1, flowLerp );
+    normal = GetNormalMapDataWithFlowmap( tNormal1Tex, sNormal1Tex, coords0, coords1, flowLerp );
+    material = GetDataWithFlowmap( tPacked1Tex, sPacked1Tex, coords0, coords1, flowLerp ); 
+    emissive = GetDataWithFlowmap( tEmissive1Tex, sEmissive1Tex, coords0, coords1, flowLerp ); 
+}
+
+inline void GetDamageFlowFieldData( in float2 coords, out float4 albedo, out float3 normal, out float3 material )
+{
+    float noise = tDissolveTex.SampleLevel( sDissolveTex, coords * cFlowNoiseTillingFactor, 0.0f ).x;    
+    float2 flowDir = ( tFlowmapTex.SampleLevel( sFlowmapTex, coords, 0.0f ).xy * 2.0f - 1.0f ) * cFlowPower;
+
+    float offsetPhase = cFlowPhaseScale * noise;
+    float time = cTime / ( cFlowSpeed * 2.0 );
+    float2 phase = frac( offsetPhase + float2( time, time + 0.5f ) );
+    float2 coords0 = ( coords - ( flowDir / 2.0f ) ) + ( phase.x * flowDir.xy ) + 0.5f * flowDir.xy;
+    float2 coords1 = ( coords - ( flowDir / 2.0f ) ) + ( phase.y * flowDir.xy ) + 0.5f * flowDir.xy;
+
+    float flowLerp = abs( ( 2.0f * phase.x ) - 1.0f );
+    albedo = GetDataWithFlowmap( tAlbedo2Tex, sAlbedo2Tex, coords0, coords1, flowLerp );
+    normal = GetNormalMapDataWithFlowmap( tNormal2Tex, sNormal2Tex, coords0, coords1, flowLerp );
+    material = GetDataWithFlowmap( tPacked2Tex, sPacked2Tex, coords0, coords1, flowLerp ); 
+}
+#endif
 
 PS_OUTPUT mainFP( VS_OUTPUT In )
 {
     PS_OUTPUT Out;
 
-
     float MipBiasNormal = cMIPBias * 0.5;
 
     float dissolve = tDissolveTex.SampleBias( sDissolveTex, In.UV0, cMIPBias).x;
+
+#if USE_FLOWFIELD_MAP
+    float4 albedo; float3 material; float3 texNormal; float3 emissive;
+    GetFlowFieldData( In.UV0, albedo, texNormal, material, emissive );
+#else
     float4 albedo = tAlbedo1Tex.SampleBias( sAlbedo1Tex, In.UV0, cMIPBias).xyzw;
     float3 material = tPacked1Tex.SampleBias( sPacked1Tex, In.UV0, cMIPBias ).xyz;
-    float3 emissive = tEmissive1Tex.Sample( sEmissive1Tex, In.UV0 ).xyz * tGradient1Tex.Sample( sGradient1Tex, In.UV0).x  * cGlowFactor  * cGlowAmount;
-	float3 texNormal = texNormal2DBias( tNormal1Tex, sNormal1Tex, In.UV0, MipBiasNormal );
+    float3 texNormal = texNormal2DBias( tNormal1Tex, sNormal1Tex, In.UV0, MipBiasNormal );
+    float3 emissive = tEmissive1Tex.Sample( sEmissive1Tex, In.UV0 ).xyz;
+#endif
+
+    emissive *= tGradient1Tex.Sample( sGradient1Tex, In.UV0).x  * cGlowFactor  * cGlowAmount;
 
 #if USE_ALPHA_TEST
     clip ( albedo.a > 0.5f ? 1:-1 );
@@ -97,16 +166,26 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 
     if ( cHealthAmount != 1.0f )
     {   
+
+#if USE_FLOWFIELD_MAP
+        float4 damageAlbedo; float3 damageMaterial; float3 damageNormal;
+        GetDamageFlowFieldData( In.UV0, damageAlbedo, damageNormal, damageMaterial );
+#else
+        float4 damageAlbedo = tAlbedo2Tex.SampleBias( sAlbedo2Tex, In.UV0, cMIPBias).xyzw;
+        float3 damageMaterial = tPacked2Tex.SampleBias( sPacked2Tex, In.UV0, cMIPBias ).xyz;
+        float3 damageNormal = texNormal2DBias( tNormal2Tex, sNormal2Tex, In.UV0, MipBiasNormal );
+#endif
+
         float albedoDiff =  saturate( 1.0 - cHealthAmount - dissolve );
-        albedo.xyz = lerp( albedo.xyz, tAlbedo2Tex.SampleBias( sAlbedo2Tex, In.UV0, cMIPBias).xyz, albedoDiff );
-        material = lerp( material, tPacked2Tex.SampleBias( sPacked2Tex, In.UV0, cMIPBias).xyz, albedoDiff );
+        albedo.xyz = lerp( albedo.xyz, damageAlbedo.xyz, albedoDiff );
+        material = lerp( material, damageMaterial, albedoDiff );
 #if USE_BUILDINGS
         float emissiveDiff =  saturate( 0.50 - cHealthAmount - dissolve );
         emissive = lerp( emissive, tEmissive2Tex.Sample( sEmissive2Tex, In.UV0 ).xyz * tGradient2Tex.Sample( sGradient2Tex, In.UV0).x * 6, ( emissiveDiff > 0 ) ? 1 : 0 );
 #else
         emissive *= min( cHealthAmount * 2.0f, 1.0f );
 #endif
-		texNormal = lerp( texNormal, texNormal2D( tNormal2Tex, sNormal2Tex, In.UV0).xyz, albedoDiff );
+		texNormal = lerp( texNormal, damageNormal, albedoDiff );
     }
 
     float3 normal = mul( texNormal, normalRotation );

@@ -1,0 +1,57 @@
+material highlight/resistance
+{
+	render_group 62
+	
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			vertex_program_ref unlit_fresnel_bump_vp 
+			{
+			    param_named cBump       		float 0.06
+			}
+
+			fragment_program_ref resistance_fp
+			{
+				param_named cResistanceFresnelBias  	float 	0
+				param_named cResistanceFresnelScale 	float 	1
+				param_named cResistanceFresnelPower 	float 	10
+				
+				param_named cResistanceInnerColor 		float4  1.0 0.5 0.0 0.05
+				param_named cResistanceOuterColor 		float4  30.0 15.0 6 1
+			}
+		}
+	}
+}
+
+material highlight/resistance_skinned
+{
+	render_group 62
+
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+			
+			vertex_program_ref unlit_fresnel_skinned_bump_vp 
+			{
+			    param_named cBump       		float 0.06
+			}
+
+			fragment_program_ref resistance_fp
+			{
+				param_named cResistanceFresnelBias  	float 	0
+				param_named cResistanceFresnelScale 	float 	1
+				param_named cResistanceFresnelPower 	float 	10
+				
+				param_named cResistanceInnerColor 		float4  1.0 0.5 0.0 0.05
+				param_named cResistanceOuterColor 		float4  30.0 15.0 6 1
+			}
+		}
+	}
+}

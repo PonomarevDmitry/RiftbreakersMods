@@ -2,24 +2,32 @@
 
 cbuffer VPConstantBuffer : register(b0)
 {
+    matrix      cViewProj;
+#if USE_VELOCITY
+    matrix      cPrevViewProj;
+#endif
 #if USE_INSTANCING
     float4      cInstanceInfo; // offset, stride
-    matrix      cViewProj;
 #else
-#   if USE_HW_SKINNING
-    matrix      cViewProj;
+#   if USE_HW_SKINNING 
     float3x4    cWorld3x4Array[ MAX_BONE_MATRICES ];
+#       if USE_VELOCITY
+    float3x4    cPrevWorld3x4Array[ MAX_BONE_MATRICES ];
+#       endif
 #   else
     matrix      cWorld;
-    matrix      cViewProj;
+#       if USE_VELOCITY
+    matrix      cPrevWorld;
+#       endif
 #   endif
-#   if USE_TILED_UV || USE_MIPMAP_CHECKER
+#endif
+
+#if USE_TILED_UV || USE_MIPMAP_CHECKER
     float       cTilingFactor;
-#   endif
-#   if USE_TILED_UV_ANIM
+#endif
+#if USE_TILED_UV_ANIM
     float2      cTilingSpeed;
     float       cTime;
-#   endif
 #endif
 };
 
@@ -50,8 +58,12 @@ struct VS_OUTPUT
     float3      Tangent       : TEXCOORD2;
     float3      BiNormal      : TEXCOORD3;
     float3      WorldPos      : TEXCOORD4;
+#if USE_VELOCITY
+    float4      CurrPos       : TEXCOORD5;
+    float4      PrevPos       : TEXCOORD6;
+#endif
 #if USE_LOCAL_POS
-    float3      LocalPos      : TEXCOORD5;
+    float3      LocalPos      : TEXCOORD7;
 #endif
 };
 
@@ -79,67 +91,73 @@ VS_OUTPUT mainVP( VS_INPUT In )
 
 #if USE_HW_SKINNING
 #   if USE_INSTANCING
-    float last = 1.0f;
-    float3x4 world = float3x4( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
-    uint instanceDataAddr = uint(cInstanceInfo.x) + uint(cInstanceInfo.y) * In.InstanceId;
-    for (int i = 0; i < 4; ++i)
-    {        
-        uint idx = instanceDataAddr + uint( In.BlendIndices[ i ] ) * 3;
-        float weight = ( i == 3 ) ? last : In.BlendWeights[ i ];
+            float3x4 cWorld = float3x4( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
+            float3x4 cPrevWorld = float3x4( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
 
-        float3x4 boneWorld;
-        boneWorld[0] = bInstanceData[ idx + 0 ] * weight;
-        boneWorld[1] = bInstanceData[ idx + 1 ] * weight;
-        boneWorld[2] = bInstanceData[ idx + 2 ] * weight;
-        world += boneWorld;
-
-        last -= In.BlendWeights[ i ];
-    }
-#   else
-    float last = 1.0f;
-    float3x4 world = float3x4( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
-
-    for (int i = 0; i < 4; ++i)
-    {
-        float weight = ( i == 3 ) ? last : In.BlendWeights[ i ];
-        world += cWorld3x4Array[ In.BlendIndices[ i ] ] * weight;
-        last -= In.BlendWeights[ i ];
-    }
+            uint instanceDataAddr = uint( cInstanceInfo.x ) + uint( cInstanceInfo.y ) * In.InstanceId;
+#   if USE_VELOCITY
+            uint prevInstanceDataAddr = instanceDataAddr + uint( cInstanceInfo.z );
 #   endif
-    float4 worldPos = float4( mul( world, In.Position ).xyz, 1.0f );
-    Out.WorldPos = worldPos.xyz;
-    Out.Position = mul( cViewProj, worldPos );
-    Out.Normal = normalize( mul( world, float4( In.Normal, 0.0f ) ) );
-    Out.Tangent = normalize( mul( world, float4( In.Tangent.xyz, 0.0f ) ) );
-#elif USE_INSTANCING
-    uint instanceDataAddr = uint(cInstanceInfo.x) + uint(cInstanceInfo.y) * In.InstanceId;
+            for ( int i = 0; i < 4; ++i )
+            {                    
+                float weight = In.BlendWeights[ i ];
+                uint boneIdx = uint( In.BlendIndices[ i ] );
 
-    float3x4 world;
-    world[0] = bInstanceData[ instanceDataAddr + 0 ];
-    world[1] = bInstanceData[ instanceDataAddr + 1 ];
-    world[2] = bInstanceData[ instanceDataAddr + 2 ];
+                uint idx = instanceDataAddr + boneIdx * 3;
+                float3x4 boneWorld;
+                boneWorld[0] = bInstanceData[ idx     ] * weight;
+                boneWorld[1] = bInstanceData[ idx + 1 ] * weight;
+                boneWorld[2] = bInstanceData[ idx + 2 ] * weight;
+                cWorld += boneWorld;
+                
+#       if USE_VELOCITY
+                uint prevIdx = prevInstanceDataAddr + boneIdx * 3;
+                float3x4 prevBoneWorld;
+                prevBoneWorld[0] = bInstanceData[ prevIdx     ] * weight;
+                prevBoneWorld[1] = bInstanceData[ prevIdx + 1 ] * weight;
+                prevBoneWorld[2] = bInstanceData[ prevIdx + 2 ] * weight;
+                cPrevWorld += prevBoneWorld;
+#       endif
+            }
+#   else
+            float3x4 cWorld = In.BlendWeights.x * cWorld3x4Array[ In.BlendIndices.x ];
+            cWorld += In.BlendWeights.y * cWorld3x4Array[ In.BlendIndices.y ];
+            cWorld += In.BlendWeights.z * cWorld3x4Array[ In.BlendIndices.z ];
+            cWorld += In.BlendWeights.w * cWorld3x4Array[ In.BlendIndices.w ];
 
-    float4 worldPos = float4( mul( world, In.Position ).xyz, 1.0f );
-    Out.Position = mul( cViewProj, worldPos );
-    Out.WorldPos = worldPos.xyz;
-    Out.Normal = normalize( mul( world, float4( In.Normal, 0.0f ) ) );
-    Out.Tangent = normalize( mul( world, float4( In.Tangent.xyz, 0.0f ) ) );
+#       if USE_VELOCITY
+            float3x4 cPrevWorld = In.BlendWeights.x * cPrevWorld3x4Array[ In.BlendIndices.x ];
+            cPrevWorld += In.BlendWeights.y * cPrevWorld3x4Array[ In.BlendIndices.y ];
+            cPrevWorld += In.BlendWeights.z * cPrevWorld3x4Array[ In.BlendIndices.z ];
+            cPrevWorld += In.BlendWeights.w * cPrevWorld3x4Array[ In.BlendIndices.w ];
+#       endif
+#   endif
 #else
+#   if USE_INSTANCING
+            uint instanceDataAddr = uint( cInstanceInfo.x ) + uint( cInstanceInfo.y ) * In.InstanceId;
+            float3x4 cWorld = float3x4( bInstanceData[ instanceDataAddr + 0 ], bInstanceData[ instanceDataAddr + 1 ], bInstanceData[ instanceDataAddr + 2 ] );
+#       if USE_VELOCITY
+            float3x4 cPrevWorld = float3x4( bInstanceData[ instanceDataAddr + 3 ], bInstanceData[ instanceDataAddr + 4 ], bInstanceData[ instanceDataAddr + 5 ] );
+#       endif
+#   endif
+#endif
+
     float4 worldPos = float4( mul( cWorld, In.Position ).xyz, 1.0f );
     Out.Position = mul( cViewProj, worldPos );
+#if USE_VELOCITY
+    Out.CurrPos = Out.Position;
+    float4 prevWorldPos = float4( mul( cPrevWorld, In.Position ).xyz, 1.0f );
+    Out.PrevPos = mul( cPrevViewProj, prevWorldPos );
+#endif
     Out.WorldPos = worldPos.xyz;
     Out.Normal = normalize( mul( cWorld, float4( In.Normal, 0.0f ) ).xyz );
 #if USE_MIPMAP_CHECKER
     Out.Tangent = normalize( mul( cWorld, float4( 1.0f, 0.0f, 0.0f, 0.0f ) ).xyz );
-#else
-    Out.Tangent = normalize( mul( cWorld, float4( In.Tangent.xyz, 0.0f ) ).xyz );
-#endif
-#endif
-
-#if USE_MIPMAP_CHECKER
     Out.BiNormal = cross( Out.Tangent, Out.Normal );
 #else
-    Out.BiNormal = cross( Out.Tangent, Out.Normal ) * In.Tangent.w; 
+    float4 tangent = ( In.Tangent.w == 0.0f ) ? float4( 1.0f, 0.0f, 0.0f, 1.0f ) : In.Tangent; // fix for old 3dsMax exports
+    Out.Tangent = normalize( mul( cWorld, float4( tangent.xyz, 0.0f ) ).xyz );
+    Out.BiNormal = cross( Out.Tangent, Out.Normal ) * tangent.w; 
 #endif
 
 #if USE_LOCAL_POS

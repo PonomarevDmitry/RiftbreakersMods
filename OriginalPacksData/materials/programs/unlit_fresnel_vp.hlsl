@@ -4,23 +4,22 @@
 
 cbuffer VPConstantBuffer : register(b0)
 {
-    float3   cWorldEyePosition;
 #if USE_VEGETATION
     float4   cBendingInfo;
 #endif
-#if USE_VEGETATION_TREE
-    float4   cTreeInfo;
-#endif
 #if USE_HW_SKINNING
-    matrix   cViewProj;
     float3x4 cWorld3x4Array[ MAX_BONE_MATRICES ];
 #else
     matrix   cWorld;
-    matrix   cWorldViewProj;
 #endif
+    matrix   cViewProj;
+    float3   cWorldEyePosition;
 #if USE_DEFORM
-    float2   cDeform;
     float    cTime;
+    float2   cDeform;
+#endif
+#if USE_BUMP
+    float    cBump;
 #endif
 };
 
@@ -59,38 +58,37 @@ VS_OUTPUT mainVP( VS_INPUT In )
     VS_OUTPUT Output;
 
 #if USE_HW_SKINNING
-    float last = 1.0f;
-    float3x4 world = float3x4( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
+    float3x4 cWorld = In.BlendWeights.x * cWorld3x4Array[ In.BlendIndices.x ];
+    cWorld += In.BlendWeights.y * cWorld3x4Array[ In.BlendIndices.y ];
+    cWorld += In.BlendWeights.z * cWorld3x4Array[ In.BlendIndices.z ];
+    cWorld += In.BlendWeights.w * cWorld3x4Array[ In.BlendIndices.w ];
 
-    for (int i = 0; i < 4; ++i)
-    {
-        float weight = ( i == 3 ) ? last : In.BlendWeights[ i ];
-        world += cWorld3x4Array[ In.BlendIndices[i] ] * weight;
-        last -= In.BlendWeights[ i ];
-    }
-
-    float4 worldPos = float4( mul( world, In.Position ), 1.0f );
-    float3 worldNormal = mul( world, float4( In.Normal, 0.0f ) );
-#   if USE_NORMAL_MAP
-    float4 worldTangent = float4( mul( world, float4( In.Tangent.xyz, 0.0f ) ), 0.0f );
+    float4 pos = In.Position;
+#   if USE_BUMP
+    VertexBump( pos, In.Normal, cBump );
 #   endif
+    float4 worldPos = float4( mul( cWorld, pos ), 1.0f );
+    float3 worldNormal = mul( cWorld, float4( In.Normal, 0.0f ) );
+#   if USE_NORMAL_MAP
+    float4 worldTangent = float4( mul( cWorld, float4( In.Tangent.xyz, 0.0f ) ), 0.0f );
+#   endif
+
     Output.Position = mul( cViewProj, worldPos );
 #else
     float4 pos = In.Position;
 #   if USE_VEGETATION
-    MainBending( pos, cBendingInfo.xy );
-#       if USE_DEFORM
-    VertexDeform( pos, In.Normal, In.Color.xyz, cDeform.x, cDeform.y, cTime );
-#       endif
+    VertexBending( pos, cBendingInfo );
 #   endif
-#   if USE_VEGETATION_TREE
-    ApplyTrunkBend( pos, cTreeInfo );
-#       if USE_DEFORM
-    VertexDeform( pos, In.Normal, In.Color.xyz, cDeform.x, cDeform.y, cTime );
-#       endif
+#   if USE_BUMP
+    VertexBump( pos, In.Normal, cBump );
 #   endif
-    Output.Position = mul( cWorldViewProj, pos );
-    float3 worldPos = mul( cWorld, pos ).xyz;
+#   if USE_DEFORM
+    VertexDeform( pos, In.Normal, In.Color.xyz, cDeform.x, cDeform.y, cTime );
+#   endif
+
+    float4 worldPos = mul( cWorld, pos );
+    Output.Position = mul( cViewProj, worldPos );
+
     float3 worldNormal = normalize( mul( cWorld, float4( In.Normal, 0 ) ).xyz );
 #   if USE_NORMAL_MAP
     float3 worldTangent = mul( cWorld, float4( In.Tangent.xyz, 0.0f ) ).xyz;

@@ -43,6 +43,7 @@ static const float g_depth_sigma = 0.02f;
     uint g_most_detailed_mip;
     uint g_samples_per_quad;
     uint g_temporal_variance_guided_tracing_enabled;
+    float4 g_skybox_params;
 };
 
 //=== Common functions of the SssrSample ===

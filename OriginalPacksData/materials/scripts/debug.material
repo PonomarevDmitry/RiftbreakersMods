@@ -6,14 +6,18 @@ material debug/physx_lines
 	{
 		pass
 		{
-			color     0.2 0.6 1 1 
-			scene_blend alpha_blend			
-		
-			vertex_program_ref unlit_uniform_VP 
+			scene_blend alpha_blend		
+				
+			texture_unit color 
+			{	
+				texture materials/textures/color_cyan.dds
+			}
+
+			vertex_program_ref forward_object_texture_vp 
 			{
 			}
 
-			fragment_program_ref unlit_no_tex_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}			
 		}
@@ -31,11 +35,12 @@ material debug/no_depth_write
 			scene_blend alpha_blend			
 			depth_check on
 			depth_write off
-			vertex_program_ref unlit_no_tex_VP
+
+			vertex_program_ref forward_object_color_vp
 			{
 			}
 
-			fragment_program_ref unlit_no_tex_FP
+			fragment_program_ref forward_object_color_fp
 			{
 			}			
 		}
@@ -53,16 +58,16 @@ material debug/axes
 		{
 		    depth_check off
 
-			texture_unit diffuse 
+			texture_unit color 
 			{	
 				texture materials/textures/axes.dds
 			}
 
-			vertex_program_ref unlit_VP 
+			vertex_program_ref forward_object_texture_vp 
 			{
 			}
 
-			fragment_program_ref unlit_FP
+			fragment_program_ref forward_object_texture_fp
 			{
 			}
 		}	

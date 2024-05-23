@@ -2,11 +2,11 @@
 
 cbuffer FPConstantBuffer : register(b0)
 {
-    float4  cWorldCameraPos;
-    float4  cLightDirection;
-    float4  cLightColor;
+    float3  cLightDirection;
+    float3  cLightColor;
     float4  cSkyboxParams; // sunSize, sunCovergance, atmosphereThickness
     float4  cSkyboxColor; // skyTine
+    float3  cWorldCameraPos;
 };
 
 struct VS_OUTPUT

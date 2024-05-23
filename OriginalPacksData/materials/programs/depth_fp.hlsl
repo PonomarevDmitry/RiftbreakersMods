@@ -5,7 +5,7 @@
         float  cDissolveAmount;
 #   endif
 #   if BURNING
-        float4 cBurningAmount;
+        float2 cBurningAmount;
 #   endif
     };
 #endif

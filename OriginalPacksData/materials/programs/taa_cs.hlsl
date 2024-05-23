@@ -44,19 +44,35 @@ groupshared float3 Tile[TILE_DIM * TILE_DIM];
 float2 GetClosestVelocity(in float2 uv, in float2 texelSize, out bool isSkyPixel)
 {
     float2 velocity;
+#ifdef INVERTED_DEPTH_RANGE
+    float closestDepth = -9.9f;
+#else
     float closestDepth = 9.9f;
+#endif
     for (int y = -1; y <= 1; ++y)
+    {
         for (int x = -1; x <= 1; ++x)
         {
             const float2 st = uv + float2(x, y) * texelSize;
             const float depth = DepthBuffer.SampleLevel(DepthSampler, st, 0.0f).x;
+#ifdef INVERTED_DEPTH_RANGE
+            if (depth > closestDepth)
+#else
             if (depth < closestDepth)
+#endif
             {
                 velocity = VelocityBuffer.SampleLevel(VelocitySampler, st, 0.0f).xy;
                 closestDepth = depth;
             }
         }
+    }
+
+#ifdef INVERTED_DEPTH_RANGE
+    isSkyPixel = (closestDepth == 0.0f);
+#else
     isSkyPixel = (closestDepth == 1.0f);
+#endif
+    
     return velocity * float2(0.5f, -0.5f);  // from ndc to uv
 }
 

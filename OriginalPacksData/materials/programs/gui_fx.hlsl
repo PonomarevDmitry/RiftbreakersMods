@@ -1,5 +1,3 @@
-#include "materials/programs/compat.hlsl"
-
 /*
 ** Copyright (c) 2012, Romain Dura romain@shazbits.com
 **
@@ -15,6 +13,13 @@
 ** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 ** IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
+
+struct Sampler2D { SamplerState smpl; Texture2D tex; };
+
+float4 Tex2D( Sampler2D tex, float2 uv ) 
+{
+    return tex.tex.Sample( tex.smpl, uv.xy );
+}
 
 /*
 ** Photoshop & misc math

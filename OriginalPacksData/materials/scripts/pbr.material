@@ -1,7 +1,7 @@
 material pbr/default
 { 
 	render_group 50
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 
 	technique
 	{
@@ -75,16 +75,107 @@ material pbr/alpha_test : pbr/default
 	}
 }
 
-material pbr/reflections : pbr/default
+material pbr/subsurface : pbr/default
 { 	
 	technique
 	{
 		pass
 		{
+			fragment_program_ref deferred_gbuffer_subsurface_fp
+			{
 
+			}
+
+			texture_unit subsurface 
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/subsurface_alpha_test : pbr/default
+{ 	
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+
+			fragment_program_ref deferred_gbuffer_subsurface_alpha_test_fp
+			{
+
+			}
+
+			texture_unit subsurface 
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/flowfield : pbr/default
+{ 	
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_gbuffer_flowfield_fp
+			{
+
+			}
+
+			texture_unit flowmap
+			{	
+				texture materials/textures/flowmap/default_flowmap.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/flowfield_alpha_test : pbr/default
+{ 	
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+
+			fragment_program_ref deferred_gbuffer_flowfield_alpha_test_fp
+			{
+
+			}
+
+			texture_unit flowmap
+			{	
+				texture materials/textures/flowmap/default_flowmap.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/reflections : pbr/default
+{ 	
+	reflection 0.5 3.0
+
+	technique
+	{
+		pass
+		{
 			fragment_program_ref deferred_gbuffer_reflection_fp
 			{
-        		param_named      cReflectionParams   float2         0.5 1.0
+
+			}
+
+			texture_unit brdf 
+			{	
+				texture materials/textures/skybox/skybox_brdf.dds
+				filtering bilinear
 			}
 
 			texture_unit reflection 
@@ -96,10 +187,110 @@ material pbr/reflections : pbr/default
 	}
 }
 
+material pbr/reflections_subsurface : pbr/default
+{ 	
+	reflection 0.5 3.0
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_gbuffer_reflection_subsurface_fp
+			{
+
+			}
+
+			texture_unit brdf 
+			{	
+				texture materials/textures/skybox/skybox_brdf.dds
+				filtering bilinear
+			}
+
+			texture_unit reflection 
+			{	
+				texture materials/textures/skybox/skybox_reflection.dds
+				filtering bilinear
+			}
+
+			texture_unit subsurface 
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/reflections_alpha_test : pbr/default
+{
+	reflection 0.5 3.0
+
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+
+			fragment_program_ref deferred_gbuffer_reflection_alpha_test_fp
+			{
+
+			}
+
+			texture_unit brdf 
+			{	
+				texture materials/textures/skybox/skybox_brdf.dds
+				filtering bilinear
+			}
+
+			texture_unit reflection 
+			{	
+				texture materials/textures/skybox/skybox_reflection.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material pbr/reflections_subsurface_alpha_test : pbr/default
+{
+	reflection 0.5 3.0
+
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+
+			fragment_program_ref deferred_gbuffer_reflection_subsurface_alpha_test_fp
+			{
+
+			}
+			
+			texture_unit brdf 
+			{	
+				texture materials/textures/skybox/skybox_brdf.dds
+				filtering bilinear
+			}
+
+			texture_unit reflection 
+			{	
+				texture materials/textures/skybox/skybox_reflection.dds
+				filtering bilinear
+			}
+
+			texture_unit subsurface 
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
 material pbr/vegetation_no_alpha
 { 	
 	render_group 50
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow|vegetation"
 
 	technique
 	{
@@ -107,8 +298,6 @@ material pbr/vegetation_no_alpha
 		{
 			depth_write on
 			depth_check on
-
-			raytracing_feature "vegetation"
 
 			glow 0
 			subsurface 1 0 0 0
@@ -200,47 +389,36 @@ material pbr/vegetation : pbr/vegetation_no_alpha
 	}
 }
 
-material pbr/vegetation_tree : pbr/vegetation
+material pbr/vegetation_reflections : pbr/vegetation
 { 
+	reflection 0.5 3.0
+
 	technique
 	{
 		pass
 		{
-			raytracing_feature "vegetation_tree"
+			alpha_rejection greater_equal 128
 
-			vertex_program_ref deferred_vegetation_tree_vp
+			fragment_program_ref deferred_vegetation_reflection_alpha_test_fp
 			{
 
 			}
-			
-			fragment_program_ref deferred_vegetation_alpha_test_fp
-			{
 
+			texture_unit brdf 
+			{	
+				texture materials/textures/skybox/skybox_brdf.dds
+				filtering bilinear
+			}
+
+			texture_unit reflection 
+			{	
+				texture materials/textures/skybox/skybox_reflection.dds
+				filtering bilinear
 			}
 		}
 	}
 }
 
-material pbr/vegetation_tree_no_alpha : pbr/vegetation_no_alpha
-{ 
-	technique
-	{
-		pass
-		{
-			raytracing_feature "vegetation_tree"
-
-			vertex_program_ref deferred_vegetation_tree_vp
-			{
-
-			}
-			
-			fragment_program_ref deferred_vegetation_fp
-			{
-
-			}
-		}
-	}
-}
 
 material pbr/vegetation_deform : pbr/vegetation
 { 
@@ -256,6 +434,28 @@ material pbr/vegetation_deform : pbr/vegetation
 			}
 			
 			fragment_program_ref deferred_vegetation_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_deform_twosided : pbr/vegetation
+{ 
+	technique
+	{
+		pass
+		{
+			deform 0.2 1.0
+			cull_hardware none
+
+			vertex_program_ref deferred_vegetation_deform_vp
+			{
+
+			}
+
+			fragment_program_ref deferred_vegetation_twosided_alpha_test_fp
 			{
 
 			}
@@ -300,6 +500,38 @@ material pbr/vegetation_twosided : pbr/vegetation
 	}
 }
 
+material pbr/vegetation_reflections_twosided : pbr/vegetation_reflections
+{ 
+	technique
+	{
+		pass
+		{	
+			cull_hardware none
+
+			fragment_program_ref deferred_vegetation_reflection_twosided_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/vegetation_reflections_deform : pbr/vegetation_reflections
+{ 
+	technique
+	{
+		pass
+		{	
+			cull_hardware none
+			deform 0.2 1.0
+			
+			vertex_program_ref deferred_vegetation_deform_vp
+			{
+
+			}
+		}
+	}
+}
 
 material pbr/vegetation_no_alpha_twosided : pbr/vegetation_no_alpha
 { 
@@ -317,26 +549,28 @@ material pbr/vegetation_no_alpha_twosided : pbr/vegetation_no_alpha
 	}
 }
 
-material pbr/vegetation_tree_twosided : pbr/vegetation_tree
+//deprecated
+material pbr/vegetation_tree : pbr/vegetation
 { 
-	technique
-	{
-		pass
-		{	
-			cull_hardware none
 
-			fragment_program_ref deferred_vegetation_twosided_alpha_test_fp
-			{
+}
 
-			}
-		}
-	}
+//deprecated
+material pbr/vegetation_tree_no_alpha : pbr/vegetation_no_alpha
+{ 
+
+}
+
+//deprecated
+material pbr/vegetation_tree_twosided : pbr/vegetation_twosided
+{ 
+
 }
 
 material pbr/vegetation_metalness_no_alpha
 { 
 	render_group 50
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow|vegetation"
 
 	technique
 	{
@@ -344,8 +578,6 @@ material pbr/vegetation_metalness_no_alpha
 		{
 			depth_write on
 			depth_check on
-
-			raytracing_feature "vegetation"
 
 			glow 0
 			subsurface 1 0 0 0
@@ -479,6 +711,11 @@ material pbr/flammable : pbr/vegetation
 	
 }
 
+material pbr/flammable_reflections : pbr/vegetation_reflections
+{ 
+
+}
+
 /////////////////////////////////////////////////////////////////
 
 material pbr/units : pbr/default
@@ -491,7 +728,7 @@ material pbr/units : pbr/default
 material pbr/height_dissolve
 { 
 	render_group 50
-	feature "gbuffer|shadow|velocity"
+	feature "gbuffer|shadow"
 	
 	technique
 	{
@@ -577,45 +814,17 @@ material pbr/skybox
 	}
 }
 
-//material pbr/skybox
-//{
-//	render_group 60
-//
-// 	technique
-//	{
-//		pass
-//		{
-//			depth_write off
-//
-//			vertex_program_ref unlit_environment_VP
-//			{
-//			}
-//
-//			fragment_program_ref unlit_environment_FP
-//			{
-//
-//			}
-//
-//			texture_unit skybox
-//			{	
-//				content_type shared skybox
-//				filtering linear linear none
-//			}
-//		}
-//	}
-//}
-
 //////////////////////////////////////////////////////////////////
 
 material pbr/metal : pbr/default
 {
-	set_texture_alias albedo			materials/textures/gradient_70.png
+	set_texture_alias albedo			materials/textures/gradient_70.dds
 	set_texture_alias packed 			materials/textures/pbr_100_70_packed.dds
 }
 
 material pbr/concrete : pbr/default
 {
-	set_texture_alias albedo			materials/textures/gradient_70.png
+	set_texture_alias albedo			materials/textures/gradient_70.dds
 	set_texture_alias packed 			materials/textures/pbr_0_70_packed.dds
 }
 

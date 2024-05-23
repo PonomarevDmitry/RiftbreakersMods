@@ -1,4 +1,5 @@
 import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/water.material"
 
 material resources/resource_liquid
 {
@@ -86,124 +87,6 @@ material resources/resource_liquid
 			texture_unit flowmap
 			{
 				texture materials/textures/flowmap/sand_01_flowmap.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-		}
-	}
-}
-
-material resources/resource_liquid_vein
-{
-	render_group 2
-	feature "gbuffer|shadow"
-
-	technique
-	{
-		pass
-		{
-			depth_write			on
-			depth_bias 			-1 -2
-			scene_blend 		alpha_blend
-
-			glow 1
-
-			vertex_program_ref ground_resources_vp
-			{
-			    param_named      cTilingFactor  float 2
-			}
-
-			fragment_program_ref deferred_resource_liquid_vein_fp
-			{
-			}
-
-			texture_unit albedo_1
-			{
-				texture materials/textures/error.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit normal_1
-			{
-				texture materials/textures/normalmap_flat_bc5.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit packed_1
-			{
-				texture materials/textures/color_white.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit emissive_1
-			{
-				texture materials/textures/color_black.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit albedo_2
-			{
-				texture materials/textures/error.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit normal_2
-			{
-				texture materials/textures/normalmap_flat_bc5.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit packed_2
-			{
-				texture materials/textures/color_white.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit emissive_2
-			{
-				texture materials/textures/color_black.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit noise
-			{
-				texture materials/textures/noise_tiled.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit gradient
-			{
-				texture materials/textures/noise_tiled.dds
-				filtering bilinear
-			}
-			texture_unit flowmap
-			{
-				texture materials/textures/flowmap/sand_01_flowmap.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-
-			texture_unit albedo_3
-			{
-				texture materials/textures/error.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit normal_3
-			{
-				texture materials/textures/normalmap_flat_bc5.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit packed_3
-			{
-				texture materials/textures/color_white.dds
-				filtering anisotropic
-				max_anisotropy 16
-			}
-			texture_unit emissive_3
-			{
-				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
@@ -739,19 +622,80 @@ material resources/volume_resource_water
 	}
 }
 
-material resources/resource_water : resources/resource_liquid
+material resources/resource_water : water/refract
 {
-	set_texture_alias albedo_1			materials/textures/resources/resource_water_01_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_water_01_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_water_01_packed.dds
-	//set_texture_alias emissive_1		materials/textures/resources/resource_sludge_01_emissive.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_water_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_water_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_water_packed.dds
-	//set_texture_alias emissive_2		materials/textures/resources/resource_sludge_02_emissive.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
+	set_texture_alias wave_normal_1			materials/textures/resources/resource_mud_swamp_01_normal.dds
+	set_texture_alias wave_normal_2			materials/textures/resources/resource_mud_swamp_normal.dds
+	
+	set_texture_alias foam_albedo			materials/textures/resources/foam_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/foam_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/foam_normal.dds
 
-	glow 1
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_edge_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_edge_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_edge_normal.dds
+
+	set_texture_alias flowmap       		materials/textures/flowmap/foam_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
+	set_texture_alias caustics 				materials/textures/resources/resource_mud_swamp_01_caustic.dds
+
+	technique
+	{
+		pass
+		{
+            fragment_program_ref water_refract_fp
+            {
+			    param_named         cTilingFactor               float          30
+
+        		param_named         cWaveScroll            		float4         0.01 0.01 -0.01 -0.01
+			    param_named         cWaveNormalFactor1          float          1
+			    param_named         cWaveNormalFactor2          float          1
+			    param_named         cWaveNormalTillingFactor1   float          0.5
+        		param_named         cWaveNormalTillingFactor2   float          1.0
+			    param_named         cWaveRefractFactor          float          0.03
+
+			    param_named         cFoamScroll              	float4         0.0 0.0 0 0
+			    param_named         cFoamFactor                 float          0.0
+				param_named         cFoamTillingFactor          float          0.75
+				param_named         cFoamRefractFactor          float          0.09
+			    param_named         cFoamFlowPower              float          0
+			    param_named         cFoamFlowSpeed          	float          1
+
+			    param_named         cFoamEdgeFactor             float          0.8
+			    param_named         cFoamEdgePower              float          0.07
+        		param_named         cFoamEdgeRefractFactor      float          0.25
+			    param_named         cFoamEdgeTillingFactor      float          1.5
+			    param_named         cFoamEdgeFlowSpeed          float          3.6
+
+			    param_named         cWaterColor                 float3         0.2 0.4 0.6
+			    param_named         cWaterBottomColor           float3         0.02 0.10 0.20
+			    param_named         cWaterRoughness             float          0.025
+			    param_named         cWaterMetalness             float          0
+			    param_named         cWaterFadeDepth             float          0.30
+			    param_named         cWaterRefractDepth          float          0.9
+			    param_named         cWaterDepth                 float          1.6
+			    param_named 		cWaterDeltaUv               float          1.0
+
+			    param_named         cFresnelPower               float          1.4
+			    param_named         cFresnelScale               float          10
+			    param_named         cFresnelBias                float          0.1
+
+			    param_named         cWaterSimulationFoamEdgeScaler1     float 4.0      
+        		param_named         cWaterSimulationFoamEdgeScaler2     float 1.0
+        		param_named         cWaterSimulationFoamScaler          float 0.25
+
+		        param_named         cCausticsTillingFactor      float          1.5
+		        param_named         cCausticsRefractFactor      float          0.14
+		        param_named         cCausticsPower              float          4.0
+		        param_named         cCausticsDepth              float          1.5
+			}
+		}
+	}
+}
+
+material resources/resource_water_vein : resources/resource_water
+{
+	
 }
 
 material resources/resource_water_storage : resources/resource_liquid
@@ -898,69 +842,46 @@ material resources/volume_resource_magma
 	}
 }
 
-material resources/resource_magma : resources/resource_liquid
+material resources/resource_magma : water/emissive
 {
-	set_texture_alias albedo_1			materials/textures/resources/resource_magma_01_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_magma_01_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_magma_01_packed.dds
-	set_texture_alias emissive_1		materials/textures/resources/resource_magma_01_emissive.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_magma_02_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_magma_02_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_magma_02_packed.dds
-	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
+	set_texture_alias foam_albedo			materials/textures/resources/foam_magma_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/foam_magma_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/foam_magma_normal.dds
+	set_texture_alias foam_emissive			materials/textures/resources/foam_magma_emissive.dds
 
-	glow 3.7
-}
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_magma_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_magma_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_magma_normal.dds
+	set_texture_alias foam_edge_emissive	materials/textures/resources/foam_magma_emissive.dds
 
-material resources/resource_magma_vein : resources/resource_liquid_vein
-{
-	set_texture_alias albedo_1			materials/textures/resources/resource_magma_01_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_magma_01_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_magma_01_packed.dds
-	set_texture_alias emissive_1		materials/textures/resources/resource_magma_01_emissive.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_magma_02_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_magma_02_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_magma_02_packed.dds
-	set_texture_alias emissive_2		materials/textures/resources/resource_magma_02_emissive.dds
-	set_texture_alias flowmap			materials/textures/flowmap/magma_01_flowmap.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
-
-	glow 3.7
+	set_texture_alias flowmap       		materials/textures/flowmap/foam_magma_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
 
 	technique
 	{
 		pass
 		{
-			fragment_program_ref deferred_resource_liquid_vein_fp
-			{
-        		param_named      cFlowSpeed         float          0.2
-        		param_named      cFlowScale         float          0.7
-			}
+            fragment_program_ref water_emissive_fp
+            {	
+                param_named         cTilingFactor               float          15
+
+            	param_named         cFlowNoiseTillingFactor     float          0.25
+		        param_named         cFlowSpeed                  float          2.5
+		        param_named         cFlowPower                  float          0.5
+
+		        param_named         cFoamEdgePower              float          0.75
+        		param_named         cFoamEdgeGlowAmount         float          75
+        		param_named         cFoamGlowAmount             float          10
+
+		        param_named         cWaterFadeDepth             float          0.25
+            }
 		}
 	}
 }
 
-material resources/resource_magma_vein_blend : resources/resource_magma_vein
+material resources/resource_magma_vein : resources/resource_magma
 {
-	set_texture_alias normal_3 			materials/textures/ground/magma/magma_lava_fine_normal.dds
-	set_texture_alias albedo_3 			materials/textures/ground/magma/magma_lava_fine_albedo.dds
-	set_texture_alias packed_3 			materials/textures/ground/magma/magma_lava_fine_packed.dds
-	set_texture_alias emissive_3 		materials/textures/ground/magma/magma_lava_fine_emissive.dds
-
-	glow 3.7
-
-	technique
-	{
-		pass
-		{
-			fragment_program_ref deferred_resource_liquid_vein_blend_fp
-			{
-        		param_named      cFlowSpeed         float          0.0
-        		param_named      cFlowScale         float          0.7
-			}
-		}
-	}
+	
 }
 
 material resources/resource_magma_storage : resources/resource_liquid
@@ -1055,67 +976,66 @@ material resources/resource_magma_fresnel
 	}
 }
 
-material resources/resource_sludge : resources/resource_liquid
+material resources/resource_sludge : water/refract
 {
-	set_texture_alias albedo_1			materials/textures/resources/resource_sludge_01_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_sludge_01_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_sludge_01_packed.dds
-	//set_texture_alias emissive_1		materials/textures/resources/resource_sludge_01_emissive.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_sludge_02_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_sludge_02_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_sludge_02_packed.dds
-	//set_texture_alias emissive_2		materials/textures/resources/resource_sludge_02_emissive.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
+	set_texture_alias wave_normal_1			materials/textures/resources/resource_mud_swamp_01_normal.dds
+	set_texture_alias wave_normal_2			materials/textures/resources/resource_mud_swamp_normal.dds
+	
+	set_texture_alias foam_albedo			materials/textures/resources/foam_acid_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/foam_acid_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/foam_acid_normal.dds
 
-	glow 1
-}
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_acid_edge_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_acid_edge_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_acid_edge_normal.dds
 
-material resources/resource_sludge_vein : resources/resource_liquid_vein
-{
-	set_texture_alias albedo_1			materials/textures/resources/resource_sludge_01_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_sludge_01_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_sludge_01_packed.dds
-	//set_texture_alias emissive_1		materials/textures/resources/resource_sludge_01_emissive.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_sludge_02_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_sludge_02_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_sludge_02_packed.dds
-	//set_texture_alias emissive_2		materials/textures/resources/resource_sludge_02_emissive.dds
-	set_texture_alias flowmap			materials/textures/flowmap/mud_01_flowmap.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
-
-	glow 1
+	set_texture_alias flowmap       		materials/textures/flowmap/foam_acid_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
 
 	technique
 	{
 		pass
 		{
-            fragment_program_ref deferred_resource_liquid_vein_gradient_fp
+            fragment_program_ref water_refract_fp
             {
-                param_named cFlowSpeed float 0.6
-                param_named cFlowScale float 0.1
+		        param_named         cTilingFactor               float          30
+
+		        param_named         cWaveScroll            		float4         -0.0075 -0.0075 0.015 0.015
+		        param_named         cWaveNormalFactor1          float          0.45
+		        param_named         cWaveNormalFactor2          float          0.2
+		        param_named         cWaveRefractFactor          float          0.04
+
+			    param_named         cFoamScroll              	float4         0 0 0 0
+		        param_named         cFoamFactor                 float          1.5
+			    param_named         cFoamTillingFactor          float          1.5
+				param_named         cFoamRefractFactor          float          0.12
+			    param_named         cFoamFlowPower              float          0.5
+			    param_named         cFoamFlowSpeed          	float          1.5
+
+			    param_named         cFoamEdgeFactor             float          0.8
+			    param_named         cFoamEdgePower              float          0.0
+        		param_named         cFoamEdgeRefractFactor      float          0.25
+			    param_named         cFoamEdgeTillingFactor      float          1.5
+			    param_named         cFoamEdgeFlowSpeed          float          3.6
+
+		        param_named         cWaterColor                 float3         0.1 0.18 0.0
+		        param_named         cWaterBottomColor           float3         0.1 0.18 0.0
+		        param_named         cWaterRoughness             float          0.015
+		        param_named         cWaterFadeDepth             float          0.25
+		        param_named         cWaterRefractDepth          float          0.8
+		        param_named         cWaterDepth                 float          5.0
+
+		        param_named         cFresnelPower               float          1.4
+		        param_named         cFresnelScale               float          7
+		        param_named         cFresnelBias                float          0.3
             }
 		}
 	}
 }
 
-material resources/resource_sludge_vein_blend : resources/resource_sludge_vein
+material resources/resource_sludge_vein : resources/resource_sludge
 {
-
-	set_texture_alias albedo_3			materials/textures/ground/mud/mud_resource_06_albedo.dds
-	set_texture_alias normal_3			materials/textures/ground/mud/mud_resource_06_normal.dds
-	set_texture_alias packed_3			materials/textures/ground/mud/mud_resource_06_packed.dds
-
-	technique
-	{
-		pass
-		{
-            fragment_program_ref deferred_resource_liquid_vein_gradient_blend_fp
-            {
-                param_named cFlowSpeed float 0.0
-                param_named cFlowScale float 0.1
-            }
-		}
-	}
+	
 }
 
 material resources/resource_sludge_storage : resources/resource_liquid
@@ -1236,83 +1156,67 @@ material resources/volume_resource_morphium
 	}
 }
 
-material resources/resource_morphium : resources/resource_liquid
+material resources/resource_morphium : water/refract
 {
-	set_texture_alias albedo_1			materials/textures/resources/resource_morphium_02_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_morphium_02_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_morphium_02_packed.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_morphium_02_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_morphium_02_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_morphium_02_packed.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 5
+	set_texture_alias wave_normal_1			materials/textures/resources/resource_mud_swamp_01_normal.dds
+	set_texture_alias wave_normal_2			materials/textures/resources/resource_mud_swamp_normal.dds
+	
+	set_texture_alias foam_albedo			materials/textures/resources/resource_morphium_02_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/resource_morphium_02_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/resource_morphium_02_normal.dds
 
-	glow 0
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_metallic_edge_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_metallic_edge_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_metallic_edge_normal.dds
+
+	set_texture_alias flowmap       		materials/textures/flowmap/mud_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
 
 	technique
 	{
 		pass
 		{
-            fragment_program_ref deferred_resource_morphium_fp
+            fragment_program_ref water_refract_fp
             {
-                param_named 	 cFlowSpeed 			float 			0.15
-                param_named 	 cFlowScale 			float 			0.5
-		        param_named      cFresnelBias      	    float           0.1
-		        param_named      cFresnelOffset      	float           0.70
-		        param_named      cFresnelPower       	float           0.30
+		        param_named         cTilingFactor               float          30
+
+        		param_named         cWaveScroll            		float4         -0.007 -0.007 0.007 0.007
+		        param_named         cWaveNormalFactor1          float          0.4
+		        param_named         cWaveNormalFactor2          float          0.8
+		        param_named         cWaveRefractFactor          float          0.04
+
+		        param_named         cFoamScroll              	float4         -0.015 -0.015 0.015 0.015
+		        param_named         cFoamFactor                 float          2.2
+			    param_named         cFoamTillingFactor          float          1.5
+				param_named         cFoamRefractFactor          float          0.25
+			    param_named         cFoamFlowPower              float          0.4
+			    param_named         cFoamFlowSpeed          	float          3
+
+			    param_named         cFoamEdgeFactor             float          1.0
+			    param_named         cFoamEdgePower              float          0.10
+        		param_named         cFoamEdgeRefractFactor      float          0.25
+			    param_named         cFoamEdgeTillingFactor      float          1.5
+			    param_named         cFoamEdgeFlowSpeed          float          3.6
+
+		        param_named         cWaterColor                 float3         0.3 0.3 0.3
+		        param_named         cWaterBottomColor           float3         0.3 0.3 0.3
+		        param_named         cWaterRoughness             float          0.005
+		        param_named         cWaterMetalness             float          0.72
+		        param_named         cWaterFadeDepth             float          0.20
+		        param_named         cWaterRefractDepth          float          0.6
+		        param_named         cWaterDepth                 float          0.45
+
+		        param_named         cFresnelPower               float          1.4
+		        param_named         cFresnelScale               float          7
+		        param_named         cFresnelBias                float          0.7
             }
 		}
 	}
 }
 
-material resources/resource_morphium_vein : resources/resource_liquid_vein
+material resources/resource_morphium_vein : resources/resource_morphium
 {
-	set_texture_alias albedo_1			materials/textures/resources/resource_morphium_08_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_morphium_02_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_morphium_08_packed.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_morphium_08_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_morphium_03_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_morphium_02_packed.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 5
-
-	glow 0
-
-	technique
-	{
-		pass
-		{
-            fragment_program_ref deferred_resource_morphium_vein_fp
-            {
-                param_named 	 cFlowSpeed 			float 			0.15
-                param_named 	 cFlowScale 			float 			0.5
-		        param_named      cFresnelBias      	    float           0.1
-		        param_named      cFresnelOffset      	float           0.70
-		        param_named      cFresnelPower       	float           0.30
-            }
-		}
-	}
-}
-
-
-material resources/resource_morphium_vein_blend : resources/resource_morphium_vein
-{
-	set_texture_alias albedo_3 materials/textures/ground/metallic/metallic_stones_01_albedo.dds
-	set_texture_alias normal_3 materials/textures/ground/metallic/metallic_stones_01_normal.dds
-	set_texture_alias packed_3 materials/textures/ground/metallic/metallic_stones_01_packed.dds
-
-	technique
-	{
-		pass
-		{
-            fragment_program_ref deferred_resource_morphium_vein_blend_fp
-            {
-                param_named 	 cFlowSpeed 			float 			0.0
-                param_named 	 cFlowScale 			float 			0.5
-		        param_named      cFresnelBias      	    float           0.1
-		        param_named      cFresnelOffset      	float           0.70
-		        param_named      cFresnelPower       	float           0.30
-            }
-		}
-	}
+	
 }
 
 material resources/resource_morphium_storage : resources/resource_liquid
@@ -1339,7 +1243,6 @@ material resources/resource_morphium_storage : resources/resource_liquid
 		}
 	}
 }
-
 
 material resources/resource_morphium_pipe : resources/resource_liquid
 {
@@ -1442,74 +1345,69 @@ material resources/volume_resource_mud
 	}
 }
 
-
-
-material resources/resource_mud : resources/resource_liquid
+material resources/resource_mud : water/refract
 {
-	set_texture_alias albedo_1			materials/textures/resources/resource_mud_01_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_mud_01_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_mud_01_packed.dds
-	//set_texture_alias emissive_1		materials/textures/resources/acid_resource_01_emissive.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_mud_08_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_mud_08_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_mud_08_packed.dds
-	//set_texture_alias emissive_2		materials/textures/resources/acid_resource_02_emissive.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
+	set_texture_alias wave_normal_1			materials/textures/resources/resource_mud_swamp_01_normal.dds
+	set_texture_alias wave_normal_2			materials/textures/resources/resource_mud_swamp_normal.dds
+	
+	set_texture_alias foam_albedo			materials/textures/resources/foam_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/foam_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/foam_normal.dds
 
-	glow 1
-}
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_edge_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_edge_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_edge_normal.dds
 
-material resources/resource_mud_vein : resources/resource_liquid_vein
-{
-	set_texture_alias albedo_1			materials/textures/resources/resource_mud_01_albedo.dds
-	set_texture_alias normal_1			materials/textures/resources/resource_mud_01_normal.dds
-	set_texture_alias packed_1			materials/textures/resources/resource_mud_01_packed.dds
-	//set_texture_alias emissive_1		materials/textures/resources/acid_resource_01_emissive.dds
-	set_texture_alias albedo_2			materials/textures/resources/resource_mud_08_albedo.dds
-	set_texture_alias normal_2			materials/textures/resources/resource_mud_08_normal.dds
-	set_texture_alias packed_2			materials/textures/resources/resource_mud_08_packed.dds
-	//set_texture_alias emissive_2		materials/textures/resources/acid_resource_02_emissive.dds
-	set_texture_alias flowmap			materials/textures/flowmap/mud_02_flowmap.dds
-	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 5
-
-	glow 1
+	set_texture_alias flowmap       		materials/textures/flowmap/foam_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
 
 	technique
 	{
 		pass
 		{
-            fragment_program_ref deferred_resource_liquid_vein_fp
+            fragment_program_ref water_refract_fp
             {
-                param_named cFlowSpeed float 0.4
-                param_named cFlowScale float 1.5
+			    param_named         cTilingFactor               float          30
+
+        		param_named         cWaveScroll            		float4         0.005 0.005 -0.005 -0.005
+			    param_named         cWaveNormalFactor1          float          1
+			    param_named         cWaveNormalFactor2          float          1
+			    param_named         cWaveNormalTillingFactor1   float          0.5
+        		param_named         cWaveNormalTillingFactor2   float          1.0
+			    param_named         cWaveRefractFactor          float          0.05
+
+  				param_named         cFoamScroll              	float4         0.0 0.0 0 0
+			    param_named         cFoamFactor                 float          1.5
+				param_named         cFoamTillingFactor          float          0.75
+				param_named         cFoamRefractFactor          float          0.06
+			    param_named         cFoamFlowPower              float          0
+			    param_named         cFoamFlowSpeed          	float          1
+
+			    param_named         cFoamEdgeFactor             float          1.0
+			    param_named         cFoamEdgePower              float          0.07
+        		param_named         cFoamEdgeRefractFactor      float          0.25
+			    param_named         cFoamEdgeTillingFactor      float          1.5
+			    param_named         cFoamEdgeFlowSpeed          float          3.6
+
+			    param_named         cWaterColor                 float3         0.2 0.15 0.05
+			    param_named         cWaterBottomColor           float3         0.2 0.15 0.05
+			    param_named         cWaterRoughness             float          0.025
+			    param_named         cWaterMetalness             float          0
+			    param_named         cWaterFadeDepth             float          0.35
+			    param_named         cWaterRefractDepth          float          0.2
+			    param_named         cWaterDepth                 float          1.7
+
+			    param_named         cFresnelPower               float          1.4
+			    param_named         cFresnelScale               float          7
+			    param_named         cFresnelBias                float          0.5
             }
 		}
 	}
 }
 
-material resources/resource_mud_vein_blend : resources/resource_mud_vein
+material resources/resource_mud_vein : resources/resource_mud
 {
-	set_texture_alias albedo_3 materials/textures/ground/mud/mud_08_albedo.dds
-	set_texture_alias normal_3 materials/textures/ground/mud/mud_08_normal.dds
-	set_texture_alias packed_3 materials/textures/ground/mud/mud_08_packed.dds
-
-	technique
-	{
-		pass
-		{
-            fragment_program_ref deferred_resource_liquid_vein_blend_fp
-            {
-                param_named cFlowSpeed float 0.0
-                param_named cFlowScale float 1.5
-            }
-		}
-	}
-}
-
-//! DO NOT REMOVE! ALREADY IN SAVE FILES
-material ground/resources/mud_vein : resources/resource_mud_vein
-{
-
+	
 }
 
 material resources/resource_mud_storage : resources/resource_liquid
@@ -1537,7 +1435,6 @@ material resources/resource_mud_storage : resources/resource_liquid
 		}
 	}
 }
-
 
 material resources/resource_mud_pipe : resources/resource_liquid
 {
@@ -1600,6 +1497,146 @@ material resources/resource_mud_fresnel
 				content_type 		shared volumetric_fog
 				tex_address_mode 	clamp
 				filtering 			bilinear
+			}
+		}
+	}
+}
+
+material resources/resource_mud_swamp_clean : water/refract
+{
+	set_texture_alias wave_normal_1			materials/textures/resources/resource_mud_swamp_01_normal.dds
+	set_texture_alias wave_normal_2			materials/textures/resources/resource_mud_swamp_normal.dds
+	
+	set_texture_alias foam_albedo			materials/textures/resources/foam_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/foam_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/foam_normal.dds
+
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_edge_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_edge_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_edge_normal.dds
+
+	set_texture_alias flowmap       		materials/textures/flowmap/foam_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
+	set_texture_alias caustics 				materials/textures/resources/resource_mud_swamp_01_caustic.dds
+
+	technique
+	{
+		pass
+		{
+            fragment_program_ref water_refract_fp
+            {
+			    param_named         cTilingFactor               float          30
+
+        		param_named         cWaveScroll            		float4         0.01 0.01 -0.01 -0.01
+			    param_named         cWaveNormalFactor1          float          1
+			    param_named         cWaveNormalFactor2          float          1
+			    param_named         cWaveNormalTillingFactor1   float          0.5
+        		param_named         cWaveNormalTillingFactor2   float          1.0
+			    param_named         cWaveRefractFactor          float          0.03
+
+			    param_named         cFoamScroll              	float4         0.0 0.0 0 0
+			    param_named         cFoamFactor                 float          0.9
+				param_named         cFoamTillingFactor          float          0.75
+				param_named         cFoamRefractFactor          float          0.09
+			    param_named         cFoamFlowPower              float          0
+			    param_named         cFoamFlowSpeed          	float          1
+
+			    param_named         cFoamEdgeFactor             float          0.8
+			    param_named         cFoamEdgePower              float          0.07
+        		param_named         cFoamEdgeRefractFactor      float          0.25
+			    param_named         cFoamEdgeTillingFactor      float          1.5
+			    param_named         cFoamEdgeFlowSpeed          float          3.6
+
+			    param_named         cWaterColor                 float3         0.2 0.15 0.05
+			    param_named         cWaterBottomColor           float3         0.15 0.10 0.05
+			    param_named         cWaterRoughness             float          0.025
+			    param_named         cWaterMetalness             float          0
+			    param_named         cWaterFadeDepth             float          0.30
+			    param_named         cWaterRefractDepth          float          0.3
+			    param_named         cWaterDepth                 float          1.6
+			    param_named 		cWaterDeltaUv               float          1.0
+
+			    param_named         cFresnelPower               float          1.4
+			    param_named         cFresnelScale               float          10
+			    param_named         cFresnelBias                float          0.1
+
+			    param_named         cWaterSimulationFoamEdgeScaler1     float 4.0      
+        		param_named         cWaterSimulationFoamEdgeScaler2     float 1.0
+        		param_named         cWaterSimulationFoamScaler          float 0.25
+
+		        param_named         cCausticsTillingFactor      float          1.5
+		        param_named         cCausticsRefractFactor      float          0.14
+		        param_named         cCausticsPower              float          4.0
+		        param_named         cCausticsDepth              float          1.5
+			}
+		}
+	}
+}
+
+material resources/resource_mud_swamp : water/refract
+{
+	set_texture_alias wave_normal_1			materials/textures/resources/resource_mud_swamp_01_normal.dds
+	set_texture_alias wave_normal_2			materials/textures/resources/resource_mud_swamp_normal.dds
+	
+	set_texture_alias foam_albedo			materials/textures/resources/foam_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/foam_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/foam_normal.dds
+
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_edge_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_edge_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_edge_normal.dds
+
+	set_texture_alias flowmap       		materials/textures/flowmap/foam_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
+	set_texture_alias caustics 				materials/textures/resources/resource_mud_swamp_01_caustic.dds
+
+	technique
+	{
+		pass
+		{
+            fragment_program_ref water_refract_fp
+            {
+			    param_named         cTilingFactor               float          30
+
+        		param_named         cWaveScroll            		float4         0.0035 0.0035 -0.0055 -0.0055
+			    param_named         cWaveNormalFactor1          float          1
+			    param_named         cWaveNormalFactor2          float          1
+			    param_named         cWaveNormalTillingFactor1   float          0.5
+        		param_named         cWaveNormalTillingFactor2   float          1.0
+			    param_named         cWaveRefractFactor          float          0.05
+
+			    param_named         cFoamScroll              	float4         0.0 0.0 0 0
+			    param_named         cFoamFactor                 float          1.5
+				param_named         cFoamTillingFactor          float          0.75
+				param_named         cFoamRefractFactor          float          0.09
+			    param_named         cFoamFlowPower              float          0.0
+			    param_named         cFoamWaveFlowPower          float          1.5
+			    param_named         cFoamFlowSpeed          	float          1
+
+			    param_named         cFoamEdgeFactor             float          1.0
+			    param_named         cFoamEdgePower              float          0.07
+        		param_named         cFoamEdgeRefractFactor      float          0.25
+			    param_named         cFoamEdgeTillingFactor      float          1.5
+			    param_named         cFoamEdgeFlowSpeed          float          1.6
+
+			    param_named         cWaterColor                 float3         0.2 0.15 0.05
+			    param_named         cWaterBottomColor           float3         0.2 0.15 0.05
+			    param_named         cWaterRoughness             float          0.025
+			    param_named         cWaterMetalness             float          0
+			    param_named         cWaterFadeDepth             float          0.30
+			    param_named         cWaterRefractDepth          float          0.2
+			    param_named         cWaterDepth                 float          1.4
+			    param_named 		cWaterDeltaUv               float          1.0
+
+			    param_named         cFresnelPower               float          1.4
+			    param_named         cFresnelScale               float          7
+			    param_named         cFresnelBias                float          0.5
+
+
+		        param_named         cCausticsTillingFactor      float          1.5
+		        param_named         cCausticsRefractFactor      float          0.28
+		        param_named         cCausticsPower              float          10.0
+		        param_named         cCausticsDepth              float          0.8
 			}
 		}
 	}
@@ -1934,6 +1971,98 @@ material resources/resource_supercoolant_pipe : resources/resource_liquid
 }
 
 material resources/resource_supercoolant_fresnel
+{
+	render_group 109
+
+	fresnel 1.1 0.6 0 0
+	fresnel_color 0 2.5 5 0.2
+
+	technique
+	{
+		pass
+		{
+			check       on
+            comp_func   always_pass
+            ref_value   1
+            pass_op     replace
+            two_sided   on
+
+            scene_blend alpha_blend
+            depth_bias -4 -1
+
+            vertex_program_ref forward_object_fresnel_fog_vp
+			{
+			}
+
+			fragment_program_ref forward_object_fresnel_fog_fp
+			{
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+		}
+	}
+}
+
+material resources/resource_resin_storage : resources/resource_liquid
+{
+	set_texture_alias albedo_1			materials/textures/resources/resource_resin_01_albedo.dds
+	set_texture_alias normal_1			materials/textures/resources/resource_supercoolant_01_normal.dds
+	set_texture_alias packed_1			materials/textures/resources/resource_supercoolant_01_packed.dds
+	set_texture_alias emissive_1		materials/textures/resources/resource_resin_01_albedo.dds
+	set_texture_alias albedo_2			materials/textures/resources/resource_resin_albedo.dds
+	set_texture_alias normal_2			materials/textures/resources/resource_supercoolant_normal.dds
+	set_texture_alias packed_2			materials/textures/resources/resource_supercoolant_packed.dds
+	//set_texture_alias emissive_2		materials/textures/resources/resource_resin_albedo.dds
+	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 1
+
+	glow 1
+
+	technique
+	{
+		pass
+		{
+			vertex_program_ref deferred_gbuffer_vp
+			{
+
+			}
+		}
+	}
+}
+
+material resources/resource_resin_pipe : resources/resource_liquid
+{
+	set_texture_alias albedo_1			materials/textures/resources/resource_resin_01_albedo.dds
+	set_texture_alias normal_1			materials/textures/resources/resource_supercoolant_01_normal.dds
+	set_texture_alias packed_1			materials/textures/resources/resource_supercoolant_01_packed.dds
+	set_texture_alias emissive_1		materials/textures/resources/resource_resin_01_albedo.dds
+	set_texture_alias albedo_2			materials/textures/resources/resource_resin_albedo.dds
+	set_texture_alias normal_2			materials/textures/resources/resource_supercoolant_normal.dds
+	set_texture_alias packed_2			materials/textures/resources/resource_supercoolant_packed.dds
+	//set_texture_alias emissive_2		materials/textures/resources/resource_resin_albedo.dds
+	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 1
+
+	glow 1
+
+	technique
+	{
+		pass
+		{
+			vertex_program_ref deferred_gbuffer_tiled_vp
+			{
+        		param_named      cTilingFactor  float 1
+			}
+		}
+	}
+}
+
+material resources/resource_resin_fresnel
 {
 	render_group 109
 

@@ -1,5 +1,5 @@
 #define __XBOX_DISABLE_SC_UNROLL 1
-#include "materials/programs/pack_ops.hlsl"
+#include "materials/programs/utils_pack.hlsl"
 
 cbuffer FPConstantBuffer : register(b0)
 {    

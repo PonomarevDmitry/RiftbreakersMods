@@ -37,7 +37,7 @@ SamplerState		samLinearClamp : register(s0);
 	AF4 FsrEasuBF(AF2 p) { AF4 res = InputTexture.GatherBlue(samLinearClamp, p, int2(0, 0)); return res; }
 #endif
 
-#include "materials/programs/fsr_utils.hlsl"
+#include "materials/programs/fsr_internal.hlsl"
 
 void CurrFilter(int2 pos, AU4 Const0, AU4 Const1, AU4 Const2, AU4 Const3)
 {

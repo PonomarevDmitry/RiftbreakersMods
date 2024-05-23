@@ -1,13 +1,13 @@
 cbuffer GPConstantBuffer
 {
-    matrix cWorldViewProj;
-
-    float3 cCameraPos;
-    float3 cCameraUp;
-#if BBT_ORIENTED_COMMON || BBT_ORIENTED_SELF
-    float3 cCameraDir;
+    matrix  cWorld;
+    matrix  cViewProj;
+    float3  cCameraPos;
+    float3  cCameraUp;
+#if !ACCURATE_FACING && ( BBT_ORIENTED_COMMON || BBT_ORIENTED_SELF )
+    float3  cCameraDir;
 #endif
-    float3 cCameraRight;
+    float3  cCameraRight;
 };
 
 struct VS_OUTPUT
@@ -24,9 +24,9 @@ struct VS_OUTPUT
 
 struct GS_OUTPUT
 {
-    float4 Position     : SV_POSITION;
-    float2 TexCoord     : TEXCOORD0;
-    float4 Color        : TEXCOORD1;
+    float4  Position    : SV_POSITION;
+    float2  TexCoord    : TEXCOORD0;
+    float4  Color       : TEXCOORD1;
 #if USE_FOG
     float4  ProjPos     : TEXCOORD4;
 #endif
@@ -160,7 +160,10 @@ void mainGP( point VS_OUTPUT In[ 1 ], inout TriangleStream<GS_OUTPUT> stream )
 #else
         Out.Position.xyz += offsets[i];
 #endif
-        Out.Position = mul( cWorldViewProj, Out.Position );
+        float4 worldPos = mul( cWorld, Out.Position );
+
+        Out.Position = mul( cViewProj, worldPos );
+
 #if USE_FOG
         Out.ProjPos = Out.Position;
 #endif

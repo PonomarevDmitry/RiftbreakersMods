@@ -55,6 +55,10 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     clip ( vAlpha > 0.5f ? 1:-1 );
 #endif
 
+#if USE_TEXTURE_ALPHA_TEST == 1
+    clip ( albedo.w > 0.5f ? 1:-1 );
+#endif
+
     float alpha = albedo.w;
     alpha *= vAlpha * vAlpha;
 

@@ -14,11 +14,11 @@ material particles/default
 			depth_write off
 			scene_blend alpha_blend
 			
-			vertex_program_ref unlit_tex_color_fog_VP
+			vertex_program_ref forward_object_texture_color_fog_vp
 			{
 			}
 
-			fragment_program_ref unlit_tex_color_fog_FP
+			fragment_program_ref forward_object_texture_particle_fog_fp
 			{
 
 			}
@@ -28,6 +28,15 @@ material particles/default
 				texture         	materials/textures/error.dds
 				tex_address_mode 	clamp
                 filtering 			anisotropic
+			}
+
+			texture_unit volumetric_fog
+			{
+				//texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
 			}
 		}
 	}
@@ -59,11 +68,11 @@ material particles/emissive
             scene_blend alpha_blend
 			glow 255
 			
-            vertex_program_ref unlit_emissive_color_fog_vp 
+            vertex_program_ref forward_object_texture_color_fog_vp 
             {
             }
             
-            fragment_program_ref unlit_emissive_color_fog_fp
+            fragment_program_ref forward_object_texture_particle_emissive_fog_fp
             {
             }
             
@@ -80,6 +89,15 @@ material particles/emissive
                 tex_address_mode    clamp
                 filtering anisotropic
             }
+
+			texture_unit volumetric_fog
+			{			
+				//texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
         }
     }
 }
@@ -116,7 +134,7 @@ material particles/add : particles/default
 		{
 			scene_blend add
 			
-			fragment_program_ref unlit_tex_color_FP
+			fragment_program_ref forward_object_texture_particle_fp
 			{
 			}
 		}
@@ -132,48 +150,9 @@ material particles/add_no_depth : particles/default
 			scene_blend add
 			depth_check off
 			
-			fragment_program_ref unlit_tex_color_FP
+			fragment_program_ref forward_object_texture_particle_fp
 			{
 			}
-		}
-	}
-}
-
-material particles/ribbon : particles/default
-{
-	technique
-	{
-		pass
-		{
-            texture_unit diffuse
-            {
-                texture             materials/textures/error.dds
-                tex_address_mode    wrap
-                filtering anisotropic
-            }
-		}
-	}
-}
-
-material particles/ribbon_emissive : particles/emissive
-{
-	technique
-	{
-		pass
-		{
-            texture_unit diffuse
-            {
-                texture             materials/textures/error.dds
-                tex_address_mode    wrap
-                filtering anisotropic
-            }
-            
-            texture_unit emissive
-            {
-                texture             materials/textures/error.dds
-                tex_address_mode    wrap
-                filtering anisotropic
-            }
 		}
 	}
 }

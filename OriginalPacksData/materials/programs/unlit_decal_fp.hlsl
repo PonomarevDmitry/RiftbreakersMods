@@ -6,8 +6,15 @@ cbuffer FPConstantBuffer : register(b0)
     matrix      cInvProjMatrix;
     matrix      cInvWorldViewMatrix;
 #endif
+#if USE_GRADIENT_MAP
+    float4      cEmissiveColor;
+#endif
+#if USE_EMISSIVE_MAP
+    float       cGlowAmount;
+    float       cGlowFactor;
+#endif
 #if USE_ALPHA
-    float       cAlpha;
+    float       cDissolveAmount;
 #endif
 };
 
@@ -29,6 +36,16 @@ SamplerState    sColorMap;
 #if USE_PROJECTED_POS
 Texture2D       tDepthTex;
 SamplerState    sDepthTex;
+#endif
+
+#if USE_EMISSIVE_MAP
+Texture2D       tEmissiveTex;
+SamplerState    sEmissiveTex;
+#endif
+
+#if USE_GRADIENT_MAP
+Texture2D       tGradientTex;
+SamplerState    sGradientTex;
 #endif
 
 #if USE_PROJECTED_POS
@@ -62,11 +79,28 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     float2 texCoord = In.TexCoord;
 #endif
     
-    Out.Color = texLinear2D( tColorMap, sColorMap, texCoord );
+    float4 color = texLinear2D( tColorMap, sColorMap, texCoord );
+
+#if USE_EMISSIVE_MAP && USE_GRADIENT_MAP
+    float emissivePower = tEmissiveTex.Sample( sEmissiveTex, texCoord ).x * tGradientTex.Sample( sGradientTex, texCoord ).x;
+    float3 emissiveColor = cEmissiveColor.rgb;
+    emissiveColor += cEmissiveColor.a * emissivePower * emissivePower;
+    emissiveColor *= cGlowAmount * cGlowFactor * emissivePower;
+    color.xyz = lerp( color.xyz, emissiveColor, emissivePower );    
+#elif USE_EMISSIVE_MAP
+    float emissivePower = tEmissiveTex.Sample( sEmissiveTex, texCoord ).x;
+    float3 emissiveColor = color.xyz * ( cGlowAmount * cGlowFactor * emissivePower );
+    color.xyz = lerp( color.xyz, emissiveColor, emissivePower );
+#endif
 
 #if USE_ALPHA
-    Out.Color.a *= cAlpha;
+    color.a *= ( 1.0f - cDissolveAmount );
 #endif
+
+#if USE_PROJECTED_POS && USE_SOFT_BLEND
+    color.a *= saturate( pow( abs( 1.0f - ( 2.0 * localPos.y ) ), 3 ) );
+#endif
+    Out.Color = color;
 
     return Out;
 }

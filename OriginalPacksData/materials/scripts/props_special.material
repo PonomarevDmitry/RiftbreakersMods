@@ -1006,49 +1006,49 @@ material props/special/destructible_rocks/ceil_base
 {
 	feature "gbuffer|shadow"
 	render_group 4
-	
+
 	technique
 	{
 		pass
 		{
 			//scene_blend			alpha_test
 
-			vertex_program_ref ground_resources_vp 
+			vertex_program_ref ground_resources_vp
 			{
 			}
 
 			fragment_program_ref ground_resources_alpha_test_fp
 			{
 			}
-			
-			texture_unit albedo 
+
+			texture_unit albedo
 			{
 				texture materials/textures/error.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 
-			texture_unit normal 
-			{	
+			texture_unit normal
+			{
 				texture materials/textures/normalmap_flat_bc5.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 
 			texture_unit packed
-			{	
+			{
 				texture materials/textures/color_white.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
 
-			texture_unit emissive 
-			{	
+			texture_unit emissive
+			{
 				texture materials/textures/color_black.dds
 				filtering anisotropic
 				max_anisotropy 16
 			}
-		}	
+		}
 	}
 }
 
@@ -1056,19 +1056,40 @@ material props/special/destructible_rocks/ceil_base
 material props/special/destructible_rocks/cavern_ceil : props/special/destructible_rocks/ceil_base
 {
 	feature "gbuffer|shadow"
-	
+
 	set_texture_alias albedo			materials/textures/props/special/volume_plane/destructible_wall_albedo.dds
 	set_texture_alias normal			materials/textures/props/special/volume_plane/destructible_wall_normal.dds
 	set_texture_alias packed			materials/textures/props/special/volume_plane/destructible_wall_packed.dds
 }
 
+material props/special/destructible_rocks/swamp_ceil : props/special/destructible_rocks/ceil_base
+{
+
+	render_group 50
+	feature "gbuffer|shadow"
+
+	set_texture_alias albedo			materials/textures/props/special/volume_plane/swamp_ceil_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/volume_plane/swamp_ceil_normal.dds
+	set_texture_alias packed			materials/textures/props/special/volume_plane/swamp_ceil_packed.dds
+
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref 	ground_resources_texture_alpha_test_fp
+			{
+			}
+		}
+	}
+}
 
 material props/special/caverns/anoryxian_boss_shield : pbr/default
 {
     set_texture_alias albedo           materials/textures/props/special/caverns/anoryxian_boss_shield_albedo.dds
     set_texture_alias normal           materials/textures/props/special/caverns/anoryxian_boss_shield_normal.dds
     set_texture_alias packed           materials/textures/props/special/caverns/anoryxian_boss_shield_packed.dds
-        
+
 }
 
 material props/special/caverns/destructible_pillar : pbr/default
@@ -1076,5 +1097,631 @@ material props/special/caverns/destructible_pillar : pbr/default
     set_texture_alias albedo           materials/textures/props/special/caverns/destructible_pillar_albedo.dds
     set_texture_alias normal           materials/textures/props/special/caverns/destructible_pillar_normal.dds
     set_texture_alias packed           materials/textures/props/special/caverns/destructible_pillar_packed.dds
-        
+
+}
+
+material props/special/loot_containers/loot_container_small_bulb : pbr/vegetation_deform_twosided
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_bulb_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_bulb_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_bulb_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_bulb_emissive.dds
+
+	glow 7
+	deform 0.15 0.25
+}
+
+material props/special/loot_containers/loot_container_small_bulb_advanced : pbr/vegetation_deform_twosided
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_bulb_advanced_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_bulb_advanced_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_bulb_advanced_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_bulb_advanced_emissive.dds
+
+	glow 6
+	deform 0.2 0.3
+}
+
+material props/special/loot_containers/loot_container_small_bulb_superior : pbr/vegetation_deform_twosided
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_bulb_superior_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_bulb_superior_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_bulb_superior_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_bulb_superior_emissive.dds
+
+	glow 8
+	deform 0.25 0.20
+}
+
+material props/special/loot_containers/loot_container_small_bulb_extreme : pbr/vegetation_deform_twosided
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_bulb_extreme_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_bulb_extreme_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_bulb_extreme_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_bulb_extreme_emissive.dds
+
+	glow 5.5
+	deform 0.4 0.15
+}
+
+material props/special/loot_containers/loot_container_small_bulb_membrane
+{
+    render_group 61
+
+    technique
+    {
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware clockwise
+
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
+            {
+            }
+
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 0 2 1 1
+				param_named cFresnelColor 	float4 5 2 1.5 1
+				param_named cFresnelBias    float 0.04
+				param_named cFresnelScale   float 2
+				param_named cFresnelPower   float 4
+			}
+
+            texture_unit diffuse
+            {
+                texture 		materials/textures/props/special/loot_containers/loot_container_small_bulb_membrane_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture 		materials/textures/noise_tiled.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture	materials/textures/gradient/cloudy_gradient.dds 174 2
+								filtering 		bilinear
+								tex_address_mode wrap
+            }
+
+            texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+        }
+    }
+}
+
+material props/special/loot_containers/loot_container_small_bulb_membrane_advanced
+{
+    render_group 61
+
+    technique
+    {
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware clockwise
+
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
+            {
+            }
+
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 0 2 1 1
+				param_named cFresnelColor 	float4 1 2 6 1
+				param_named cFresnelBias    float 0.06
+				param_named cFresnelScale   float 2
+				param_named cFresnelPower   float 4
+			}
+
+            texture_unit diffuse
+            {
+                texture 		materials/textures/props/special/loot_containers/loot_container_small_bulb_membrane_advanced_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture 		materials/textures/noise_tiled.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture	materials/textures/gradient/cloudy_gradient.dds 174 2
+								filtering 		bilinear
+								tex_address_mode wrap
+            }
+
+            texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+        }
+    }
+}
+
+material props/special/loot_containers/loot_container_small_bulb_membrane_superior
+{
+    render_group 61
+
+    technique
+    {
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware clockwise
+
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
+            {
+            }
+
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 0 2 1 1
+				param_named cFresnelColor 	float4 2 0.6 5 1
+				param_named cFresnelBias    float 0.04
+				param_named cFresnelScale   float 2
+				param_named cFresnelPower   float 3
+			}
+
+            texture_unit diffuse
+            {
+                texture 		materials/textures/props/special/loot_containers/loot_container_small_bulb_membrane_superior_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture 		materials/textures/noise_tiled.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture	materials/textures/gradient/cloudy_gradient.dds 174 2
+								filtering 		bilinear
+								tex_address_mode wrap
+            }
+
+            texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+        }
+    }
+}
+
+material props/special/loot_containers/loot_container_small_bulb_membrane_extreme
+{
+    render_group 61
+
+    technique
+    {
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware clockwise
+
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
+            {
+            }
+
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 1 1 1 1
+				param_named cFresnelColor 	float4 6 0.4 0.1			 1
+				param_named cFresnelBias    float 0.04
+				param_named cFresnelScale   float 3
+				param_named cFresnelPower   float 4
+			}
+
+            texture_unit diffusezz
+            {
+                texture 		materials/textures/props/special/loot_containers/loot_container_small_bulb_membrane_extreme_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture 		materials/textures/noise_tiled.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture	materials/textures/gradient/cloudy_gradient.dds 174 5
+								filtering 		bilinear
+								tex_address_mode wrap
+            }
+
+            texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+        }
+    }
+}
+
+material props/special/loot_containers/loot_container_small_pile : pbr/reflections
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_pile_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_pile_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_pile_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_pile_emissive.dds
+	set_texture_alias reflection 		materials/textures/skybox/skybox_reflection_detailed_red.dds
+
+	glow 4
+	reflection 0.6 12
+}
+
+material props/special/loot_containers/loot_container_small_pile_advanced : pbr/reflections
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_pile_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_pile_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_pile_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_pile_advanced_emissive.dds
+	set_texture_alias reflection 		materials/textures/skybox/skybox_reflection_detailed_orange.dds
+
+	glow 4
+	reflection 0.6 12
+}
+
+material props/special/loot_containers/loot_container_small_pile_superior : pbr/reflections
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_pile_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_pile_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_pile_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_pile_superior_emissive.dds
+	set_texture_alias reflection 		materials/textures/skybox/skybox_reflection_detailed_orange.dds
+
+	glow 6
+	reflection 0.6 12
+}
+
+material props/special/loot_containers/loot_container_small_pile_extreme : pbr/reflections
+{
+	set_texture_alias normal materials/textures/props/special/loot_containers/loot_container_small_pile_normal.dds
+	set_texture_alias albedo materials/textures/props/special/loot_containers/loot_container_small_pile_albedo.dds
+	set_texture_alias packed materials/textures/props/special/loot_containers/loot_container_small_pile_packed.dds
+	set_texture_alias emissive materials/textures/props/special/loot_containers/loot_container_small_pile_extreme_emissive.dds
+	set_texture_alias reflection 		materials/textures/skybox/skybox_reflection_detailed_red.dds
+
+	glow 5.5
+	reflection 0.6 12
+}
+
+material props/special/great_tree/evil_roots_set : pbr/default
+{
+    set_texture_alias albedo           materials/textures/props/special/great_tree/evil_roots_set_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/great_tree/evil_roots_set_normal.dds
+    set_texture_alias packed           materials/textures/props/special/great_tree/evil_roots_set_packed.dds
+
+}
+
+material props/special/great_tree/parasite_bulb: pbr/vegetation_deform_no_alpha
+{
+	set_texture_alias albedo materials/textures/props/special/great_tree/parasite_bulb_albedo.dds
+	set_texture_alias normal materials/textures/props/special/great_tree/parasite_bulb_normal.dds
+	set_texture_alias packed materials/textures/props/special/great_tree/parasite_bulb_packed.dds
+
+	deform 0.15 0.4
+}
+
+material props/special/resin_tree/resin_tree_big_01 : pbr/vegetation_deform_no_alpha
+{
+    set_texture_alias albedo           materials/textures/props/special/resin_tree/resin_tree_big_01_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/resin_tree/resin_tree_big_01_normal.dds
+    set_texture_alias packed           materials/textures/props/special/resin_tree/resin_tree_big_01_packed.dds
+    set_texture_alias emissive 			materials/textures/props/special/resin_tree/resin_tree_big_01_emissive.dds
+
+    glow 2.5
+    deform 0.35 0.7
+
+}
+
+material props/special/resin_tree/resin_roots : pbr/flowfield
+{
+    set_texture_alias albedo           materials/textures/props/special/resin_tree/resin_roots_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/resin_tree/resin_roots_normal.dds
+    set_texture_alias packed           materials/textures/props/special/resin_tree/resin_roots_packed.dds
+    set_texture_alias emissive 			materials/textures/props/special/resin_tree/resin_roots_emissive.dds
+    set_texture_alias flowmap			materials/textures/flowmap/resin_flowmap.dds
+
+    glow 3
+
+}
+
+material props/special/resin_tree/resin_tree_dry_big_01 : pbr/default
+{
+    set_texture_alias albedo           materials/textures/props/special/resin_tree/resin_tree_dry_big_01_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/resin_tree/resin_tree_dry_big_01_normal.dds
+    set_texture_alias packed           materials/textures/props/special/resin_tree/resin_tree_dry_big_01_packed.dds
+
+}
+
+material props/special/resin_tree/resin_roots_dry : pbr/default
+{
+    set_texture_alias albedo           materials/textures/props/special/resin_tree/resin_roots_dry_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/resin_tree/resin_roots_dry_normal.dds
+    set_texture_alias packed           materials/textures/props/special/resin_tree/resin_roots_dry_packed.dds
+}
+
+material props/special/destructible_rocks/swamp_wall_set : pbr/default
+{
+    set_texture_alias albedo           materials/textures/props/special/destructible_rocks/swamp_wall_set_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/destructible_rocks/swamp_wall_set_normal.dds
+    set_texture_alias packed           materials/textures/props/special/destructible_rocks/swamp_wall_set_packed.dds
+
+}
+
+material props/special/great_tree/evil_spore : pbr/vegetation_no_alpha
+{
+    set_texture_alias albedo           materials/textures/props/special/great_tree/evil_spore_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/great_tree/evil_spore_normal.dds
+    set_texture_alias packed           materials/textures/props/special/great_tree/evil_spore_packed.dds
+    set_texture_alias emissive         materials/textures/props/special/great_tree/evil_spore_emissive.dds
+
+    glow 5
+}
+
+material props/special/great_tree/evil_spore_dead : pbr/vegetation_deform_no_alpha
+{
+    set_texture_alias albedo           materials/textures/props/special/great_tree/evil_spore_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/great_tree/evil_spore_normal.dds
+    set_texture_alias packed           materials/textures/props/special/great_tree/evil_spore_packed.dds
+    set_texture_alias emissive           materials/textures/props/special/great_tree/evil_spore_emissive.dds
+
+    glow 5
+    deform 0.3 0.7
+}
+
+material props/special/interactive/poogret_plant : pbr/vegetation_twosided
+{
+    set_texture_alias albedo           materials/textures/props/special/interactive/poogret_plant_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/interactive/poogret_plant_normal.dds
+    set_texture_alias packed           materials/textures/props/special/interactive/poogret_plant_packed.dds
+    set_texture_alias emissive         materials/textures/props/special/interactive/poogret_plant_emissive.dds
+    set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 3
+
+	dissolve 0 10 20 1
+    glow 5
+}
+
+material props/special/interactive/poogret_plant_leaves : pbr/vegetation_twosided
+{
+    set_texture_alias albedo           materials/textures/props/special/interactive/poogret_plant_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/interactive/poogret_plant_normal.dds
+    set_texture_alias packed           materials/textures/props/special/interactive/poogret_plant_packed.dds
+    set_texture_alias emissive         materials/textures/props/special/interactive/poogret_plant_emissive.dds
+    set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 3
+
+	dissolve 0 10 20 1
+    glow 10
+}
+
+material props/special/interactive/poogret_plant_leaves_medium : pbr/vegetation_twosided
+{
+    set_texture_alias albedo           materials/textures/props/special/interactive/poogret_plant_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/interactive/poogret_plant_normal.dds
+    set_texture_alias packed           materials/textures/props/special/interactive/poogret_plant_packed.dds
+    set_texture_alias emissive         materials/textures/props/special/interactive/poogret_plant_emissive.dds
+    set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 3
+
+	dissolve 0 10 20 1
+    glow 2
+}
+
+material props/special/interactive/poogret_plant_leaves_small : pbr/vegetation_twosided
+{
+    set_texture_alias albedo           materials/textures/props/special/interactive/poogret_plant_albedo.dds
+    set_texture_alias normal           materials/textures/props/special/interactive/poogret_plant_normal.dds
+    set_texture_alias packed           materials/textures/props/special/interactive/poogret_plant_packed.dds
+    set_texture_alias emissive         materials/textures/props/special/interactive/poogret_plant_emissive.dds
+    set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 3
+
+	dissolve 0 10 20 1
+    glow 1.5
+}
+
+material props/special/loot_container_swamp_standard : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_standard_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_standard_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_standard_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_standard_emissive.dds
+}
+
+material props/special/loot_container_swamp_core_standard : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_standard_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_standard_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_standard_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_standard_emissive.dds
+
+	glow 3
+	render_group 29
+}
+
+material props/special/loot_container_swamp_advanced : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_emissive.dds
+}
+
+material props/special/loot_container_swamp_core_advanced : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_advanced_emissive.dds
+
+	glow 3
+	render_group 29
+
+}
+
+material props/special/loot_container_swamp_superior : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_superior_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_superior_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_superior_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_superior_emissive.dds
+}
+
+material props/special/loot_container_swamp_core_superior : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_superior_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_superior_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_superior_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_superior_emissive.dds
+
+	glow 3
+	render_group 29
+
+}
+
+material props/special/loot_container_swamp_extreme : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_emissive.dds
+}
+
+material props/special/loot_container_swamp_core_extreme : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_normal.dds
+	set_texture_alias packed			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/loot_containers/loot_container_swamp_extreme_emissive.dds
+
+	glow 3
+	render_group 29
+
+}
+
+material props/special/power_wells/power_well : pbr/default
+{
+	set_texture_alias albedo			materials/textures/props/special/power_wells/power_well_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/power_wells/power_well_normal.dds
+	set_texture_alias packed			materials/textures/props/special/power_wells/power_well_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/power_wells/power_well_emissive.dds
+
+	glow 3
+
+}
+
+material props/special/power_wells/power_well_core : pbr/default
+{
+	set_texture_alias albedo			materials/textures/props/special/power_wells/power_well_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/power_wells/power_well_normal.dds
+	set_texture_alias packed			materials/textures/props/special/power_wells/power_well_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/power_wells/power_well_emissive.dds
+
+	glow 3
+	render_group 29
+
+}
+
+material props/special/interactive/poogret_poo : pbr/reflections
+{
+	set_texture_alias albedo			materials/textures/props/special/interactive/poogret_poo_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/interactive/poogret_poo_normal.dds
+	set_texture_alias packed			materials/textures/props/special/interactive/poogret_poo_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/interactive/poogret_poo_emissive.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_colorfull.dds
+
+
+
+	dissolve 0 10 20 1
+
+    glow 1
+    //reflection 0.32 155
+    reflection 0.32 1
+}
+
+material props/special/interactive/poogret_poo_fresnel
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            depth_bias -10 -1
+
+            vertex_program_ref unlit_fresnel_vp
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  	float -0.1
+				param_named cFresnelScale 	float 1.2
+				param_named cFresnelPower 	float 2
+
+				//param_named cBlendColor1 	float4 2 0 1 0
+				//param_named cBlendColor2 	float4 0 0.2 2 0.5
+				param_named cBlendColor1 	float4 0 0.7 2 0
+				param_named cBlendColor2 	float4 2 0 1 0.5
+
+				param_named cFlarePower 	float 0.2
+				param_named cFlareSpeed   	float 6
+			}
+        }
+    }
+}
+
+material props/special/interactive/large_spore_sample : pbr/default
+{
+	set_texture_alias albedo			materials/textures/props/special/interactive/large_spore_sample_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/interactive/large_spore_sample_normal.dds
+	set_texture_alias packed			materials/textures/props/special/interactive/large_spore_sample_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/interactive/large_spore_sample_emissive.dds
+
+	glow 5
+
+}
+
+material props/special/interactive/special_eggs : pbr/vegetation_deform_no_alpha
+{
+	set_texture_alias albedo			materials/textures/props/special/interactive/special_eggs_albedo.dds
+	set_texture_alias normal			materials/textures/props/special/interactive/special_eggs_normal.dds
+	set_texture_alias packed			materials/textures/props/special/interactive/special_eggs_packed.dds
+	set_texture_alias emissive			materials/textures/props/special/interactive/special_eggs_emissive.dds
+
+	glow 0.7
+	deform 0.16 0.6
+	subsurface 0.75 0.4 0.4 0.4
+
 }

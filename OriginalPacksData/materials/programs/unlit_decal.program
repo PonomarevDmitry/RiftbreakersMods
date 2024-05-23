@@ -32,8 +32,7 @@ fragment_program unlit_decal_static_fp hlsl
 
     default_params
     {
-        param_named_auto cInvProjMatrix         inverse_projection_matrix
-        param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+
     }
 }
 
@@ -48,7 +47,42 @@ fragment_program unlit_decal_alpha_fp hlsl
     {
         param_named_auto cInvProjMatrix         inverse_projection_matrix
         param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
-        param_named      cAlpha                 float 1.0
+        param_named      cDissolveAmount        float 0.0
+    }
+}
+
+fragment_program unlit_decal_emissive_gradient_fp hlsl
+{
+    source                          materials/programs/unlit_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_PROJECTED_POS=1,USE_EMISSIVE_MAP=1,USE_GRADIENT_MAP=1,USE_SOFT_BLEND=1
+
+    default_params
+    {
+        param_named_auto cInvProjMatrix         inverse_projection_matrix
+        param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+        param_named_auto cEmissiveColor         surface_emissive_colour
+        param_named_auto cGlowAmount            surface_glow
+        param_named      cGlowFactor            float 1
+    }
+}
+
+fragment_program unlit_decal_emissive_gradient_alpha_fp hlsl
+{
+    source                          materials/programs/unlit_decal_fp.hlsl
+    entry_point                     mainFP
+    target                          ps_5_0
+    preprocessor_defines            USE_PROJECTED_POS=1,USE_EMISSIVE_MAP=1,USE_GRADIENT_MAP=1,USE_SOFT_BLEND=1,USE_ALPHA=1
+
+    default_params
+    {
+        param_named_auto cInvProjMatrix         inverse_projection_matrix
+        param_named_auto cInvWorldViewMatrix    inverse_worldview_matrix
+        param_named_auto cEmissiveColor         surface_emissive_colour
+        param_named_auto cGlowAmount            surface_glow
+        param_named      cGlowFactor            float 1
+        param_named      cDissolveAmount        float 0.0
     }
 }
 

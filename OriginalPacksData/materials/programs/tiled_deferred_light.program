@@ -1,0 +1,891 @@
+compute_program tiled_deferred_compute_frustums_cs hlsl
+{
+	source materials/programs/tiled_deferred_compute_frustums_cs.hlsl
+	entry_point main
+	target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1
+
+    default_params
+    {
+        param_named_auto    cInvProjMatrix     inverse_projection_matrix
+        param_named_auto    cViewportSize      viewport_size_int 0
+    }
+}
+
+compute_program tiled_deferred_cull_lights_cs hlsl
+{
+    source materials/programs/tiled_deferred_cull_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1
+
+    default_params
+    {
+        param_named_auto    cInvProjMatrix     inverse_projection_matrix
+        param_named_auto    cViewportSize      viewport_size_int 0
+        param_named_auto    cNumLights         light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_masked_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+
+compute_program tiled_deferred_compute_lights_masked_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_masked_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_masked_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_masked_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_masked_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_masked_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_masked_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_masked_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_masked_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_clouds_masked_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_masked_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_masked_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_masked_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_masked_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_masked_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_masked_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_masked_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_masked_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0,SHADOW_PCF=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_masked_soft_shadows_16_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_masked_soft_shadows_32_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_masked_soft_shadows_64_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_compute_lights_skybox_clouds_masked_raytraced_shadows_cs hlsl
+{
+    source materials/programs/tiled_deferred_compute_lights_cs.hlsl
+    entry_point main
+    target cs_5_0
+
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=1,SHADOW_MAP=1,SHADOW_PCSS=1
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix             inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                camera_position             0
+        param_named_auto    cSkyboxParams                  skybox_shared_params
+        param_named_auto    cCloudsParams                  clouds_shared_params        0
+        param_named_auto    cTime                          time
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}
+
+compute_program tiled_deferred_debug_lights_cs hlsl
+{
+    source materials/programs/tiled_deferred_debug_lights_cs.hlsl
+    entry_point             main
+    target                  cs_5_0
+    required_capabilities   RSC_DX12
+
+    default_params
+    {
+        param_named_auto    cViewportSize                  viewport_size_int 0
+        param_named_auto    cNumLights                     light_count
+    }
+}

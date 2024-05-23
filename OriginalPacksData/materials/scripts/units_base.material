@@ -181,6 +181,96 @@ material units/ground/base_emissive
 	}
 }
 
+material units/ground/base_flowfield
+{
+	render_group 55
+	feature "gbuffer|shadow"
+
+	technique
+	{
+		pass
+		{
+			depth_write 	on
+			depth_check 	on
+
+			check       	on
+            comp_func   	always_pass
+            ref_value   	200
+            pass_op     	replace
+            two_sided   	on
+
+			glow 6
+
+			vertex_program_ref deferred_gbuffer_vp
+			{
+			}
+
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit albedo_2
+			{
+				texture materials/textures/units/ground/red_blood_albedo.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal
+			{
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal_2
+			{
+				texture materials/textures/units/ground/red_blood_normal.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed_2
+			{
+				texture materials/textures/units/ground/red_blood_packed.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive
+			{
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit dissolve
+			{
+				texture materials/textures/noise_tiled_02.dds
+				filtering bilinear
+			}
+			texture_unit flowmap
+			{	
+				texture materials/textures/flowmap/default_flowmap.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
 material units/ground/base_alpha_test : units/ground/base
 {
 	technique

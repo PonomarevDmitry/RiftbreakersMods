@@ -48,7 +48,7 @@ bool FFX_SSSR_AdvanceRay(float3 origin, float3 direction, float3 inv_direction, 
     float3 t = boundary_planes * inv_direction - origin * inv_direction;
 
     // Prevent using z plane when shooting out of the depth buffer.
-#ifdef FFX_SSSR_INVERTED_DEPTH_RANGE
+#ifdef INVERTED_DEPTH_RANGE
     t.z = direction.z < 0 ? t.z : FFX_SSSR_FLOAT_MAX;
 #else
     t.z = direction.z > 0 ? t.z : FFX_SSSR_FLOAT_MAX;
@@ -57,7 +57,7 @@ bool FFX_SSSR_AdvanceRay(float3 origin, float3 direction, float3 inv_direction, 
     // Choose nearest intersection with a boundary.
     float t_min = min(min(t.x, t.y), t.z);
 
-#ifdef FFX_SSSR_INVERTED_DEPTH_RANGE
+#ifdef INVERTED_DEPTH_RANGE
     // Larger z means closer to the camera.
     bool above_surface = surface_z < position.z;
 #else
@@ -139,7 +139,7 @@ float FFX_SSSR_ValidateHit(float3 hit, float2 uv, float3 world_space_ray_directi
     // Don't lookup radiance from the background.
     int2 texel_coords = int2(screen_size * hit.xy);
     float surface_z = FFX_SSSR_LoadDepth(texel_coords / 2, 1);
-#ifdef FFX_SSSR_INVERTED_DEPTH_RANGE
+#ifdef INVERTED_DEPTH_RANGE
     if (surface_z == 0.0) {
 #else
     if (surface_z == 1.0) {

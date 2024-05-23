@@ -48,18 +48,14 @@ VS_OUTPUT mainVP( VS_INPUT In )
     VS_OUTPUT Out;
 
 #if USE_HW_SKINNING
-    float last = 1.0f;
-    float3x4 world = float3x4( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
-
-    for (int i = 0; i < 4; ++i)
-    {
-        float weight = ( i == 3 ) ? last : In.BlendWeights[ i ];
-        world += cWorld3x4Array[ In.BlendIndices[i] ] * weight;
-        last -= In.BlendWeights[ i ];
-    }
-    float4 worldPos = float4( mul( world, In.Position ), 1.0f );
+    float3x4 cWorld = In.BlendWeights.x * cWorld3x4Array[ In.BlendIndices.x ];
+    cWorld += In.BlendWeights.y * cWorld3x4Array[ In.BlendIndices.y ];
+    cWorld += In.BlendWeights.z * cWorld3x4Array[ In.BlendIndices.z ];
+    cWorld += In.BlendWeights.w * cWorld3x4Array[ In.BlendIndices.w ];
+    
+    float4 worldPos = float4( mul( cWorld, In.Position ), 1.0f );
 #if USE_FRESNEL
-    Out.WorldNormal = normalize( mul( world, float4( In.Normal, 0 ) ).xyz );
+    Out.WorldNormal = normalize( mul( cWorld, float4( In.Normal, 0 ) ).xyz );
     Out.WorldEyeDir = normalize( worldPos.xyz - cWorldEyePosition );
 #endif
     Out.Position = mul( cViewProj, worldPos );

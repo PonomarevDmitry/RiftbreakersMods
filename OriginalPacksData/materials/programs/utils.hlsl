@@ -105,18 +105,6 @@ inline float3 texNormal2DArray( Texture2DArray tex, SamplerState texSampler, flo
     return float3( n.xy, sqrt( 1 - saturate( dot( n.xy, n.xy ) ) ) );
 }
 
-inline void addFog( inout float3 albedo, float3 fogCol, float d, float4 fogParams )
-{
-    if ( fogParams.y == fogParams.z )
-        return;
-
-    // Fog params: density, linear start, linear end, 1/(end-start)
-    float fogFactor = max( ( d - fogParams.y ) * fogParams.w, 0.0 );
-    fogFactor = 1 - exp2( -fogFactor * fogFactor );
-    fogFactor *= fogParams.x;
-    albedo = lerp( albedo.rgb, fogCol.rgb, saturate( fogFactor ) );
-}
-
 inline float calcFresnel( float bias, float scale, float power, float3 eyeVec, float3 normal )
 {
     return bias + scale * pow( 1.0 + clamp( dot( eyeVec, normal ), -1.0f, 1.0f ), power );

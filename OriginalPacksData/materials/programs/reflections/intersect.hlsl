@@ -74,7 +74,7 @@ float3 SampleGGXVNDF(float3 Ve, float alpha_x, float alpha_y, float U1, float U2
     float s = 0.5 * (1.0 + Vh.z);
     t2 = (1.0 - s) * sqrt(1.0 - t1 * t1) + s * t2;
     // Section 4.3: reprojection onto hemisphere
-    float3 Nh = t1 * T1 + t2 * T2 + sqrt(max(0.0, 1.0 - t1 * t1 - t2 * t2)) * Vh;
+    float3 Nh = t1 * T1 + t2 * T2 + sqrt(max(0.000001, 1.0 - t1 * t1 - t2 * t2)) * Vh;
     // Section 3.4: transforming the normal back to the ellipsoid configuration
     float3 Ne = normalize(float3(alpha_x * Nh.x, alpha_y * Nh.y, max(0.0, Nh.z)));
     return Ne;
@@ -129,7 +129,7 @@ float3 SampleReflectionVector(float3 view_direction, float3 normal, float roughn
 }
 
 float3 SampleEnvironmentMap(float3 direction) {
-    return g_environment_map.SampleLevel(g_environment_map_sampler, direction, 0).xyz;
+    return g_environment_map.SampleLevel(g_environment_map_sampler, direction, 0).xyz * g_skybox_params.x;
 }
 
 bool IsMirrorReflection(float roughness) {

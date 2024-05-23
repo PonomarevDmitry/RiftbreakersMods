@@ -10,6 +10,21 @@ vertex_program depth_vp hlsl
     }
 }
 
+vertex_program depth_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_TEXCOORD=1,USE_VIEWPORTARRAYINDEX=1
+
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
+        param_named_auto cWorld         world_matrix 
+    }
+}
+
 vertex_program depth_texcoord_vp hlsl
 {
     source materials/programs/depth_vp.hlsl
@@ -23,18 +38,48 @@ vertex_program depth_texcoord_vp hlsl
     }
 }
 
+vertex_program depth_texcoord_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_TEXCOORD=1,USE_VIEWPORTARRAYINDEX=1
+
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
+        param_named_auto cWorld         world_matrix 
+    }
+}
+
 vertex_program depth_skinned_vp hlsl
 {
     source materials/programs/depth_vp.hlsl
     entry_point mainVP
     target vs_5_0
     column_major_matrices false
-    includes_skeletal_animation true
     preprocessor_defines USE_HW_SKINNING=1
     
     default_params
     {
         param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+    }
+}
+
+vertex_program depth_skinned_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_HW_SKINNING=1,USE_VIEWPORTARRAYINDEX=1
+    
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
         param_named_auto cWorld3x4Array world_matrix_array_3x4 
     }
 }
@@ -45,12 +90,27 @@ vertex_program depth_texcoord_skinned_vp hlsl
     entry_point mainVP
     target vs_5_0
     column_major_matrices false
-    includes_skeletal_animation true
     preprocessor_defines USE_HW_SKINNING=1,USE_TEXCOORD=1
     
     default_params
     {
         param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+    }
+}
+
+vertex_program depth_texcoord_skinned_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_HW_SKINNING=1,USE_TEXCOORD=1,USE_VIEWPORTARRAYINDEX=1
+    
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
         param_named_auto cWorld3x4Array world_matrix_array_3x4 
     }
 }
@@ -71,6 +131,23 @@ vertex_program depth_instanced_vp hlsl
     }
 }
 
+vertex_program depth_instanced_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_instance_data true
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_INSTANCING=1,USE_VIEWPORTARRAYINDEX=1
+    
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
+        param_named_auto cInstanceInfo  instance_info
+    }
+}
+
 vertex_program depth_texcoord_instanced_vp hlsl
 {
     source materials/programs/depth_vp.hlsl
@@ -87,6 +164,23 @@ vertex_program depth_texcoord_instanced_vp hlsl
     }
 }
 
+vertex_program depth_texcoord_instanced_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_instance_data true
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_INSTANCING=1,USE_TEXCOORD=1,USE_VIEWPORTARRAYINDEX=1
+    
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
+        param_named_auto cInstanceInfo  instance_info
+    }
+}
+
 vertex_program depth_skinned_instanced_vp hlsl
 {
     source materials/programs/depth_vp.hlsl
@@ -94,13 +188,28 @@ vertex_program depth_skinned_instanced_vp hlsl
     target vs_5_0
     column_major_matrices false
     includes_instance_data          true
-    includes_skeletal_animation     true
-    uses_vertex_texture_fetch       true
     preprocessor_defines USE_HW_SKINNING=1,USE_INSTANCING=1
     
     default_params
     {
         param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cInstanceInfo  instance_info
+    }
+}
+
+vertex_program depth_skinned_instanced_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_instance_data          true
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_HW_SKINNING=1,USE_INSTANCING=1,USE_VIEWPORTARRAYINDEX=1
+    
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
         param_named_auto cInstanceInfo  instance_info
     }
 }
@@ -112,13 +221,28 @@ vertex_program depth_texcoord_skinned_instanced_vp hlsl
     target vs_5_0
     column_major_matrices false
     includes_instance_data          true
-    includes_skeletal_animation     true
-    uses_vertex_texture_fetch       true
     preprocessor_defines USE_HW_SKINNING=1,USE_INSTANCING=1,USE_TEXCOORD=1
     
     default_params
     {
         param_named_auto cViewProj      viewproj_matrix
+        param_named_auto cInstanceInfo  instance_info
+    }
+}
+
+vertex_program depth_texcoord_skinned_instanced_viewport_vp hlsl
+{
+    source materials/programs/depth_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_instance_data          true
+    required_capabilities RSC_VIEWPORT_ARRAY_INDEX
+    preprocessor_defines USE_HW_SKINNING=1,USE_INSTANCING=1,USE_TEXCOORD=1,USE_VIEWPORTARRAYINDEX=1
+    
+    default_params
+    {
+        param_named_auto cViewProj      viewproj_matrix_array
         param_named_auto cInstanceInfo  instance_info
     }
 }
@@ -178,11 +302,58 @@ vertex_program depth_vegetation_vp hlsl
     default_params
     {
         param_named_auto cViewProj              viewproj_matrix 
-        param_named_auto cView                  view_matrix 
         param_named_auto cWorld                 world_matrix
-        param_named_auto cTime                  time
+        param_named      cBendingInfo           float4  0 0 0 0
+    }
+}
 
-        param_named     cBendingInfo                float4  0 0 0 0
+vertex_program depth_vegetation_skinned_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+        param_named      cBendingInfo           float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_viewport_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_VIEWPORTARRAYINDEX=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cWorld                 world_matrix
+        param_named      cBendingInfo           float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_viewport_skinned_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_VIEWPORTARRAYINDEX=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cWorld3x4Array world_matrix_array_3x4 
+        param_named      cBendingInfo           float4  0 0 0 0
     }
 }
 
@@ -192,15 +363,66 @@ vertex_program depth_vegetation_instanced_vp hlsl
     entry_point mainVP
     target vs_5_0
     includes_instance_data true
+    
     preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1
 
     default_params
     {
         param_named_auto cViewProj              viewproj_matrix 
-        param_named_auto cView                  view_matrix 
-        param_named_auto cTime                  time
         param_named_auto cInstanceInfo          instance_info
+        instanced_param_named     cBendingInfo  float4  0 0 0 0
+    }
+}
 
+vertex_program depth_vegetation_instanced_skinned_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_instance_data true
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cInstanceInfo          instance_info
+        instanced_param_named     cBendingInfo  float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_instanced_viewport_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    includes_instance_data true
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_VIEWPORTARRAYINDEX=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cInstanceInfo          instance_info
+        instanced_param_named     cBendingInfo  float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_instanced_viewport_skinned_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+    includes_instance_data true
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_VIEWPORTARRAYINDEX=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cInstanceInfo          instance_info
         instanced_param_named     cBendingInfo  float4  0 0 0 0
     }
 }
@@ -216,12 +438,70 @@ vertex_program depth_vegetation_deform_vp hlsl
     default_params
     {
         param_named_auto cViewProj              viewproj_matrix 
-        param_named_auto cView                  view_matrix 
         param_named_auto cWorld                 world_matrix
         param_named_auto cTime                  time
         param_named_auto cDeform                surface_deform
 
         param_named     cBendingInfo            float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_deform_skinned_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_DEFORM=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix 
+        param_named_auto cWorld3x4Array         world_matrix_array_3x4 
+        param_named_auto cTime                  time
+        param_named_auto cDeform                surface_deform
+
+        param_named     cBendingInfo            float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_deform_viewport_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_DEFORM=1,USE_VIEWPORTARRAYINDEX=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cWorld                 world_matrix
+        param_named_auto cTime                  time
+        param_named_auto cDeform                surface_deform
+
+        param_named      cBendingInfo           float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_deform_viewport_skinned_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    column_major_matrices false
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_DEFORM=1,USE_VIEWPORTARRAYINDEX=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cWorld3x4Array         world_matrix_array_3x4 
+        param_named_auto cTime                  time
+        param_named_auto cDeform                surface_deform
+
+        param_named      cBendingInfo           float4  0 0 0 0
     }
 }
 
@@ -231,12 +511,12 @@ vertex_program depth_vegetation_deform_instanced_vp hlsl
     entry_point mainVP
     target vs_5_0
     includes_instance_data true
+
     preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_DEFORM=1
 
     default_params
     {
         param_named_auto cViewProj              viewproj_matrix 
-        param_named_auto cView                  view_matrix 
         param_named_auto cTime                  time
         param_named_auto cInstanceInfo          instance_info
         param_named_auto cDeform                surface_deform
@@ -245,37 +525,64 @@ vertex_program depth_vegetation_deform_instanced_vp hlsl
     }
 }
 
-vertex_program depth_vegetation_tree_vp hlsl
+vertex_program depth_vegetation_deform_instanced_skinned_vp hlsl
 {
-    source materials/programs/depth_vegetation_tree_vp.hlsl
+    source materials/programs/depth_vegetation_vp.hlsl
     entry_point mainVP
     target vs_5_0
-    
-    default_params
-    {
-        param_named_auto cWorld                world_matrix
-        param_named_auto cViewProj             viewproj_matrix
-        param_named_auto cTime                 time
-        param_named      cTreeInfo             float4 0 0 0 100
-    }
-}
-
-vertex_program depth_vegetation_tree_instanced_vp hlsl
-{
-    source materials/programs/depth_vegetation_tree_vp.hlsl
-    entry_point mainVP
-    target vs_5_0
+    column_major_matrices false
     includes_instance_data true
-    preprocessor_defines USE_INSTANCING=1
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_DEFORM=1,USE_HW_SKINNING=1
 
     default_params
     {
         param_named_auto cViewProj              viewproj_matrix 
-        param_named_auto cView                  view_matrix 
         param_named_auto cTime                  time
         param_named_auto cInstanceInfo          instance_info
+        param_named_auto cDeform                surface_deform
+        
+        instanced_param_named     cBendingInfo  float4  0 0 0 0
+    }
+}
 
-        instanced_param_named     cTreeInfo     float4  0 0 0 100
+vertex_program depth_vegetation_deform_instanced_viewport_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    includes_instance_data true
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_DEFORM=1,USE_VIEWPORTARRAYINDEX=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cTime                  time
+        param_named_auto cInstanceInfo          instance_info
+        param_named_auto cDeform                surface_deform
+        
+        instanced_param_named     cBendingInfo  float4  0 0 0 0
+    }
+}
+
+vertex_program depth_vegetation_deform_instanced_viewport_skinned_vp hlsl
+{
+    source materials/programs/depth_vegetation_vp.hlsl
+    entry_point mainVP
+    target vs_5_0   
+    column_major_matrices false
+    includes_instance_data true
+
+    preprocessor_defines USE_GRASS_BRANCH=1,USE_INSTANCING=1,USE_DEFORM=1,USE_VIEWPORTARRAYINDEX=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cViewProj              viewproj_matrix_array
+        param_named_auto cTime                  time
+        param_named_auto cInstanceInfo          instance_info
+        param_named_auto cDeform                surface_deform
+        
+        instanced_param_named     cBendingInfo  float4  0 0 0 0
     }
 }
 

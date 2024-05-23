@@ -1,0 +1,401 @@
+vertex_program forward_object_texture_vp hlsl
+{
+    source 			                           materials/programs/forward_object_vp.hlsl
+    entry_point 	                           mainVP
+    target 			                           vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1
+
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix 
+    }
+}
+
+vertex_program forward_object_texture_skinned_vp hlsl
+{
+    source							           materials/programs/forward_object_vp.hlsl
+    entry_point 					           mainVP
+    target 							           vs_5_0
+    column_major_matrices 			           false
+    preprocessor_defines			           USE_TEXTURE=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+		param_named_auto cWorld3x4Array 	   world_matrix_array_3x4 
+		param_named_auto cViewProj 			   viewproj_matrix
+    }
+}
+
+vertex_program forward_object_texture_world_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_WORLD_POS=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix
+    }
+}
+
+vertex_program forward_object_texture_world_skinned_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    column_major_matrices                      false
+    preprocessor_defines                       USE_TEXTURE=1,USE_WORLD_POS=1,USE_PROJ_POS=1,USE_HW_SKINNING=1
+
+    default_params
+    {
+        param_named_auto cWorld3x4Array        world_matrix_array_3x4 
+        param_named_auto cViewProj             viewproj_matrix
+    }
+}
+
+vertex_program forward_object_texture_fresnel_vp hlsl
+{
+    source 			                           materials/programs/forward_object_vp.hlsl
+    entry_point 	                           mainVP
+    target 			                           vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_FRESNEL=1,USE_NORMAL=1
+
+    default_params
+    {
+		param_named_auto cWorld         	   world_matrix
+        param_named_auto cViewProj             viewproj_matrix
+		param_named_auto cCameraWorldPos 	   camera_position
+    }
+}
+
+vertex_program forward_object_texture_fresnel_skinned_vp hlsl
+{
+    source							           materials/programs/forward_object_vp.hlsl
+    entry_point 					           mainVP
+    target 							           vs_5_0
+    column_major_matrices 			           false
+    preprocessor_defines			           USE_TEXTURE=1,USE_HW_SKINNING=1,USE_FRESNEL=1,USE_NORMAL=1
+
+    default_params
+    {
+		param_named_auto cWorld3x4Array 	   world_matrix_array_3x4 
+		param_named_auto cViewProj 			   viewproj_matrix
+		param_named_auto cCameraWorldPos 	   camera_position
+    }
+}
+
+vertex_program forward_object_texture_fresnel_fog_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_FRESNEL=1,USE_NORMAL=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix
+        param_named_auto cCameraWorldPos       camera_position
+    }
+}
+
+vertex_program forward_object_texture_fresnel_fog_world_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_FRESNEL=1,USE_NORMAL=1,USE_WORLD_POS=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix
+        param_named_auto cCameraWorldPos       camera_position
+    }
+}
+
+vertex_program forward_object_texture_fresnel_fog_world_skinned_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_HW_SKINNING=1,USE_FRESNEL=1,USE_NORMAL=1,USE_WORLD_POS=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld3x4Array        world_matrix_array_3x4
+        param_named_auto cViewProj             viewproj_matrix
+        param_named_auto cCameraWorldPos       camera_position
+    }
+}
+
+vertex_program forward_object_texture_color_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_COLOR=1
+    
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix 
+    }
+}
+
+vertex_program forward_object_texture_color_skinned_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_HW_SKINNING=1,USE_COLOR=1
+    
+    default_params
+    {
+        param_named_auto cWorld3x4Array        world_matrix_array_3x4
+        param_named_auto cViewProj             viewproj_matrix 
+    }
+}
+
+vertex_program forward_object_texture_color_fog_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_COLOR=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix
+    }
+}
+
+vertex_program forward_object_texture_color_fog_skinned_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_HW_SKINNING=1,USE_COLOR=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld3x4Array        world_matrix_array_3x4
+        param_named_auto cViewProj             viewproj_matrix
+    }
+}
+
+vertex_program forward_object_color_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_COLOR=1
+    
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix 
+    }
+}
+
+vertex_program forward_object_fresnel_fog_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_FRESNEL=1,USE_NORMAL=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix
+        param_named_auto cCameraWorldPos       camera_position
+    }
+}
+
+vertex_program forward_object_fresnel_fog_skinned_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_HW_SKINNING=1,USE_FRESNEL=1,USE_NORMAL=1,USE_PROJ_POS=1
+
+    default_params
+    {
+        param_named_auto cWorld3x4Array        world_matrix_array_3x4
+        param_named_auto cViewProj             viewproj_matrix
+        param_named_auto cCameraWorldPos       camera_position
+    }
+}
+
+fragment_program forward_object_texture_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_TEXTURE=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program forward_object_texture_color_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_TEXTURE=1,USE_COLOR=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program forward_object_color_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_COLOR=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program forward_object_texture_particle_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_TEXTURE=1,USE_PARTICLE=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program forward_object_texture_particle_upscale_mask_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_TEXTURE=1,USE_PARTICLE=1,USE_UPSCALE_MASK=1
+
+    default_params
+    {
+    }
+}
+
+fragment_program forward_object_texture_particle_fog_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_TEXTURE=1,USE_PARTICLE=1,USE_FOG=1
+
+    default_params
+    {
+        param_named_auto cFogParams             universal_fog_params
+        param_named_auto cFogColor              fog_colour
+    }
+}
+
+fragment_program forward_object_texture_particle_fog_upscale_mask_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_TEXTURE=1,USE_PARTICLE=1,USE_FOG=1,USE_UPSCALE_MASK=1
+
+    default_params
+    {
+        param_named_auto cFogParams             universal_fog_params
+        param_named_auto cFogColor              fog_colour
+    }
+}
+
+fragment_program forward_object_texture_particle_emissive_fog_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+
+    preprocessor_defines                        USE_TEXTURE=1,USE_PARTICLE_EMISSIVE=1,USE_FOG=1
+    
+    default_params
+    {
+        param_named_auto  cFogParams            universal_fog_params
+        param_named_auto  cFogColor             fog_colour
+        param_named_auto  cGlowAmount           surface_glow
+        param_named       cGlowFactor           float 1
+    }
+}
+
+fragment_program forward_object_texture_particle_emissive_fog_upscale_mask_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+
+    preprocessor_defines                        USE_TEXTURE=1,USE_PARTICLE_EMISSIVE=1,USE_FOG=1,USE_UPSCALE_MASK=1
+    
+    default_params
+    {
+        param_named_auto  cFogParams            universal_fog_params
+        param_named_auto  cFogColor             fog_colour
+        param_named_auto  cGlowAmount           surface_glow
+        param_named       cGlowFactor           float 1
+    }
+}
+
+fragment_program forward_object_fresnel_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_FRESNEL=1,USE_NORMAL=1
+
+    default_params
+    {
+        param_named_auto cFresnelParams         surface_fresnel
+        param_named_auto cFresnelColor          surface_fresnel_color
+    }
+}
+
+fragment_program forward_object_fresnel_fog_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_FRESNEL=1,USE_NORMAL=1,USE_FOG=1
+
+    default_params
+    {
+        param_named_auto cFresnelParams         surface_fresnel
+        param_named_auto cFresnelColor          surface_fresnel_color
+        param_named_auto cFogParams             universal_fog_params
+        param_named_auto cFogColor              fog_colour
+    }
+}
+
+fragment_program forward_object_texture_fresnel_fog_fp hlsl
+{
+    source                                      materials/programs/forward_object_fp.hlsl
+    entry_point                                 mainFP
+    target                                      ps_5_0
+    preprocessor_defines                        USE_FRESNEL=1,USE_TEXTURE=1,USE_NORMAL=1,USE_FOG=1
+
+    default_params
+    {
+        param_named_auto cFresnelParams         surface_fresnel
+        param_named_auto cFresnelColor          surface_fresnel_color
+        param_named_auto cFogParams             universal_fog_params
+        param_named_auto cFogColor              fog_colour
+    }
+}

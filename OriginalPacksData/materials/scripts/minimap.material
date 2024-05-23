@@ -5,42 +5,7 @@
 // 8 	- Visible
 // 16 	- RadarOutline
 
-material minimap/fog_of_war_hidden
-{
-	render_group 200
-
-	technique
-	{
-		pass
-		{
-			depth_check 		off
-			depth_write 		off
-
-			cull_hardware 		none
-			
-			vertex_program_ref fog_of_war_vp 
-			{
-			}
-			
-			geometry_program_ref fog_of_war_gp 
-			{
-			}
-			
-			fragment_program_ref fog_of_war_fp
-			{
-			}
-
-			texture_unit grid 
-			{
-				texture materials/textures/gui/hud/minimap_grid_quad.dds
-				filtering point point none
-				tex_address_mode wrap
-			}
-		}
-	}
-}
-
-material minimap/fog_of_war_darken
+material minimap/mark_discovered
 {
 	render_group 201
 
@@ -62,68 +27,96 @@ material minimap/fog_of_war_darken
 			mask				2
             two_sided   		on
 			
-			vertex_program_ref fog_of_war_vp 
+			vertex_program_ref minimap_vp 
 			{
 			}
 			
-			geometry_program_ref fog_of_war_gp 
-			{
-			}
-			
-			fragment_program_ref fog_of_war_fp
+			geometry_program_ref minimap_quad_gp 
 			{
 			}
 
-			texture_unit grid 
+			fragment_program_ref minimap_fp
 			{
-				texture materials/textures/gui/hud/minimap_grid_quad.dds
-				filtering point point none
-				tex_address_mode wrap
 			}
 		}
 	}
 }
 
-material minimap/fog_of_war_radar_outline
+material minimap/mark_visible
 {
-	render_group 202
+	render_group 203
 
 	technique
 	{
 		pass
 		{
 			depth_check 		off
-			depth_write 		off
+			depth_write			off
 			colour_write 		off
 
 			cull_hardware 		none
-			scene_blend			alpha_blend
 
 			// Stencil
 			check       		on
 			comp_func			always_pass
             pass_op     		replace
-			mask				16
-            ref_value   		16
+			mask				8
+            ref_value   		8
             two_sided   		on
-
+			
 			vertex_program_ref minimap_vp 
 			{
 			}
 			
-			geometry_program_ref minimap_circle_gp 
+			geometry_program_ref minimap_quad_gp 
 			{
 			}
 
-			fragment_program_ref minimap_color_fp
+			fragment_program_ref minimap_fp
 			{
-        		param_named	cColor float4 1.0 1.0 1.0 0.4
 			}
 		}
 	}
 }
 
-material minimap/fog_of_war_radar
+material minimap/mark_undiscovered
+{
+	render_group 204
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write			off
+			colour_write 		off
+
+			cull_hardware 		none
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+			mask				255
+            ref_value   		0
+            two_sided   		on
+			
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_quad_gp 
+			{
+			}
+
+			fragment_program_ref minimap_fp
+			{
+			}
+		}
+	}
+}
+
+material minimap/mark_radar
 {
 	render_group 203
 
@@ -162,45 +155,40 @@ material minimap/fog_of_war_radar
 	}
 }
 
-material minimap/fog_of_war_visible
+material minimap/mark_radar_outline
 {
-	render_group 204
+	render_group 202
 
 	technique
 	{
 		pass
 		{
 			depth_check 		off
-			depth_write			off
+			depth_write 		off
 			colour_write 		off
 
 			cull_hardware 		none
+			scene_blend			alpha_blend
 
 			// Stencil
 			check       		on
 			comp_func			always_pass
             pass_op     		replace
-			mask				8
-            ref_value   		8
+			mask				16
+            ref_value   		16
             two_sided   		on
-			
-			vertex_program_ref fog_of_war_vp 
+
+			vertex_program_ref minimap_vp 
 			{
 			}
 			
-			geometry_program_ref fog_of_war_gp 
+			geometry_program_ref minimap_circle_gp 
 			{
 			}
 
-			fragment_program_ref fog_of_war_fp
+			fragment_program_ref minimap_color_fp
 			{
-			}
-
-			texture_unit grid 
-			{
-				texture materials/textures/gui/hud/minimap_grid_quad.dds
-				filtering point point none
-				tex_address_mode wrap
+        		param_named	cColor float4 1.0 1.0 1.0 0.4
 			}
 		}
 	}
@@ -261,6 +249,38 @@ material minimap/blur_y
 				content_type compositor
 				tex_address_mode clamp
 				filtering linear linear none
+			}
+		}
+	}
+}
+
+material minimap/background
+{
+	render_group 200
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write 		off
+
+			cull_hardware 		none
+			
+			vertex_program_ref texture_to_clip_world_vp 
+			{
+			}
+			
+			fragment_program_ref minimap_texture_fp
+			{
+	    		param_named      cTilingFactor  float 64
+			}
+
+			texture_unit grid 
+			{
+				texture materials/textures/gui/hud/minimap_grid_quad.dds
+				filtering point point none
+				tex_address_mode wrap
 			}
 		}
 	}
@@ -334,6 +354,43 @@ material minimap/world_blocker
 	}
 }
 
+material minimap/world_destructible
+{
+	render_group 205
+
+	technique
+	{
+		pass
+		{
+			depth_check 	off
+			depth_write 	off
+
+			cull_hardware 	none
+
+			// Stencil
+            check       	on
+            comp_func   	not_equal
+			mask			10
+            ref_value   	0
+            pass_op     	keep
+            two_sided   	on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_quad_gp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 0.05 0.15 0.25 1.0
+			}
+		}
+	}
+}
+
 material minimap/radar_outline
 {
 	technique
@@ -378,8 +435,9 @@ material minimap/noise
 			scene_blend 	alpha_blend
 			// Stencil
             check       	on
-            comp_func   	not_equal
-            ref_value   	0
+            comp_func   	equal
+            ref_value   	4
+			mask			4
             pass_op     	keep
             two_sided   	on
 
@@ -416,7 +474,7 @@ material minimap/darken
             check       	on
             comp_func   	equal
             ref_value   	2
-			mask			2
+			mask			10
             pass_op     	keep
             two_sided   	on
 
@@ -491,7 +549,6 @@ material minimap/quad_terrain : minimap/quad_base
 		}
 	}
 }
-
 
 material minimap/quad_d : minimap/quad_base
 {
@@ -779,6 +836,209 @@ material minimap/circle_nr : minimap/circle_base
 		{
 			mask 		4
             comp_func	equal
+		}
+	}
+}
+
+//! LEGACY
+
+material minimap/fog_of_war_hidden
+{
+	render_group 200
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write 		off
+
+			cull_hardware 		none
+			
+			vertex_program_ref fog_of_war_vp 
+			{
+			}
+			
+			geometry_program_ref fog_of_war_gp 
+			{
+			}
+			
+			fragment_program_ref fog_of_war_fp
+			{
+			}
+
+			texture_unit grid 
+			{
+				texture materials/textures/gui/hud/minimap_grid_quad.dds
+				filtering point point none
+				tex_address_mode wrap
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_darken
+{
+	render_group 201
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write			off
+			colour_write 		off
+
+			cull_hardware 		none
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+            ref_value   		2
+			mask				2
+            two_sided   		on
+			
+			vertex_program_ref fog_of_war_vp 
+			{
+			}
+			
+			geometry_program_ref fog_of_war_gp 
+			{
+			}
+			
+			fragment_program_ref fog_of_war_fp
+			{
+			}
+
+			texture_unit grid 
+			{
+				texture materials/textures/gui/hud/minimap_grid_quad.dds
+				filtering point point none
+				tex_address_mode wrap
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_radar_outline
+{
+	render_group 202
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write 		off
+			colour_write 		off
+
+			cull_hardware 		none
+			scene_blend			alpha_blend
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+			mask				16
+            ref_value   		16
+            two_sided   		on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_circle_gp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 1.0 1.0 1.0 0.4
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_radar
+{
+	render_group 203
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write 		off
+			colour_write 		off
+
+			cull_hardware 		none
+			scene_blend			alpha_blend
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+			mask				4
+            ref_value   		4
+            two_sided   		on
+
+			vertex_program_ref minimap_vp 
+			{
+			}
+			
+			geometry_program_ref minimap_circle_gp 
+			{
+			}
+
+			fragment_program_ref minimap_color_fp
+			{
+        		param_named	cColor float4 0.1 0.1 0.1 1.0
+			}
+		}
+	}
+}
+
+material minimap/fog_of_war_visible
+{
+	render_group 204
+
+	technique
+	{
+		pass
+		{
+			depth_check 		off
+			depth_write			off
+			colour_write 		off
+
+			cull_hardware 		none
+
+			// Stencil
+			check       		on
+			comp_func			always_pass
+            pass_op     		replace
+			mask				8
+            ref_value   		8
+            two_sided   		on
+			
+			vertex_program_ref fog_of_war_vp 
+			{
+			}
+			
+			geometry_program_ref fog_of_war_gp 
+			{
+			}
+
+			fragment_program_ref fog_of_war_fp
+			{
+			}
+
+			texture_unit grid 
+			{
+				texture materials/textures/gui/hud/minimap_grid_quad.dds
+				filtering point point none
+				tex_address_mode wrap
+			}
 		}
 	}
 }

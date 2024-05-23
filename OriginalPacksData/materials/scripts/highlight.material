@@ -7,7 +7,7 @@ material highlight/damage
 		pass
 		{
 			scene_blend alpha_blend
-			depth_bias -4 0
+			depth_bias -4 -1
 
 			vertex_program_ref unlit_fresnel_vp 
 			{
@@ -26,45 +26,25 @@ material highlight/damage
 	}
 }
 
-material highlight/damage_skinned
+material highlight/damage_skinned : highlight/damage
 {
-	render_group 61
-
 	technique
 	{
 		pass
 		{
-			scene_blend alpha_blend
-			depth_bias -4 0
-
 			vertex_program_ref unlit_fresnel_skinned_vp 
 			{
-			}
-
-			fragment_program_ref unlit_fresnel_fp
-			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 4
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0.0 0.0 0.0 0.0
-				param_named cBlendColor2 float4 1 0 0 0.5
 			}
 		}
 	}
 }
 
-material highlight/damage_vegetation
+material highlight/damage_vegetation : highlight/damage
 {
-	render_group 61
-	
 	technique
 	{
 		pass
 		{
-			scene_blend alpha_blend
-			depth_bias -4 0
-
 			vertex_program_ref unlit_fresnel_vegetation_vp 
 			{
 			}
@@ -94,43 +74,8 @@ material highlight/damage_vegetation
 	}
 }
 
-material highlight/damage_vegetation_tree
+material highlight/damage_vegetation_tree : highlight/damage_vegetation
 {
-	render_group 61
 
-	technique
-	{
-		pass
-		{
-			scene_blend alpha_blend
-			depth_bias -4 0
-
-			vertex_program_ref unlit_fresnel_vegetation_tree_vp 
-			{
-			}
-
-			fragment_program_ref unlit_fresnel_vegetation_fp
-			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 4
-				param_named cFresnelPower float 1
-				
-				param_named cBlendColor1 float4 0.0 0.0 0.0 0.0
-				param_named cBlendColor2 float4 1 0 0 0.5
-			}
-
-			texture_unit albedo
-			{
-				texture materials/textures/error.dds
-				filtering bilinear
-			}
-
-			texture_unit dissolve 
-			{	
-				texture materials/textures/noise_tiled_01.dds
-				filtering bilinear
-			}
-		}
-	}
 }
 

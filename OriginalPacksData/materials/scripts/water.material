@@ -1,109 +1,442 @@
-
 import * from "materials/scripts/pbr.material"
 
-material water/stencil
+material water/simulation
 {
-    render_group 110
-
-    technique
+	technique
 	{
 		pass
 		{
-			depth_check			true
-			depth_write			false
+			depth_write off
+			depth_check off
+			cull_hardware none
 
-			colour_write_r		off
-			colour_write_g		off
-			colour_write_b		on
-			colour_write_a		off
-
-			// Stencil
-			check       		on
-			comp_func			always_pass
-            ref_value   		5
-            pass_op     		replace
-            two_sided   		on
-
-			vertex_program_ref water_stencil_vp
+			vertex_program_ref fullscreen_vp
 			{
 			}
 
-			fragment_program_ref water_stencil_fp
+			fragment_program_ref water_simulation_fp
 			{
+			}
+
+			texture_unit simulation
+			{
+				content_type 		compositor
+				filtering 			linear linear none
+				tex_address_mode 	border border border
+			}	
+
+			texture_unit collision
+			{
+				content_type 		compositor
+				filtering 			linear linear none
+				tex_address_mode 	border border border
+			}
+
+			texture_unit prev_collision
+			{
+				content_type 		compositor
+				filtering 			linear linear none
+				tex_address_mode 	border border border
 			}
 		}
 	}
 }
 
-material water/projected_grid
+material water/simulation_step
 {
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			cull_hardware none
+
+			vertex_program_ref fullscreen_vp
+			{
+			}
+
+			fragment_program_ref water_simulation_step_fp
+			{
+			}
+
+			texture_unit simulation
+			{
+				content_type 		compositor
+				filtering 			linear linear none
+				tex_address_mode 	border border border
+			}	
+		}
+	}
+}
+
+material water/debug
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			
+			vertex_program_ref texture_to_clip_vp
+			{
+			}
+
+			fragment_program_ref texture_to_clip_x_fp
+			{
+			}
+
+			texture_unit water_simulation
+			{
+				content_type shared water_simulation
+				tex_address_mode clamp
+				filtering bilinear
+			}
+		}
+	}
+}
+
+
+material water/debug_foam
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			
+			vertex_program_ref texture_to_clip_vp
+			{
+			}
+
+			fragment_program_ref texture_to_clip_z_fp
+			{
+			}
+
+			texture_unit water_simulation
+			{
+				content_type shared water_simulation
+				tex_address_mode clamp
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material water/collision
+{ 
+	render_group 215
+	
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			cull_hardware none
+
+			vertex_program_ref forward_object_texture_vp 
+			{
+			}
+
+			fragment_program_ref water_collision_fp
+			{
+			}
+		}	
+	}
+
+	technique "skinned"
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			cull_hardware none
+
+			vertex_program_ref forward_object_texture_skinned_vp 
+			{
+			}
+
+			fragment_program_ref water_collision_fp
+			{
+			}
+		}	
+	}
+}
+
+material water/refract
+{ 		
 	render_group 111
 
-    technique
+	technique
 	{
 		pass
 		{
 			depth_write 		off
-			depth_check 		off
+			depth_check 		on
 
-			// Stencil
-            check       		on
-            comp_func   		equal
-            ref_value   		5
-            pass_op     		keep
-            two_sided   		on
+			colour_write_r		on
+			colour_write_g		on
+			colour_write_b		on
+			colour_write_a		off
+            
+			scene_blend 		alpha_blend
 
-			vertex_program_ref water_vp
+			vertex_program_ref deferred_gbuffer_vp
 			{
 			}
-
-			fragment_program_ref water_fp
+			
+			fragment_program_ref water_refract_fp 
 			{
-			}
-
-			texture_unit noise
-            {
-                texture materials/textures/water/water_noise.dds
-            }
-
-			texture_unit illuminance
-			{
-				content_type compositor any illuminance 0
-				tex_address_mode clamp
-				filtering none
 			}
 
 			texture_unit depth
 			{
-				content_type compositor any gbuffer 5
+				content_type compositor any gbuffer 6
 				tex_address_mode clamp
 				filtering none
 			}
+			texture_unit scene
+			{
+				content_type compositor any main 0
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit water_simulation
+			{
+				content_type shared water_simulation
+				tex_address_mode clamp
+				filtering bilinear
+			}
+			texture_unit foam_albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_normal
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_edge_albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_edge_normal
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_edge_packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit wave_normal_1
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit wave_normal_2
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit flowmap
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+			texture_unit noise
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit caustics
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+		}
+	}
+}
 
-			texture_unit skybox_brdf
-            {
-                content_type shared skybox_brdf
-                filtering linear linear none
-            }
+material water/emissive
+{ 		
+	render_group 111
 
-			texture_unit skybox_diffuse
-            {
-                content_type shared skybox_diffuse
-                filtering linear linear none
-                cubic_texture materials/textures/error_cube.dds combinedUVW
-            }
+	technique
+	{
+		pass
+		{
+			depth_write 		off
+			depth_check 		on
 
-			texture_unit skybox_specular
-            {
-                content_type shared skybox_specular
-                filtering linear linear none
-                cubic_texture materials/textures/error_cube.dds combinedUVW
-            }
+			colour_write_r		on
+			colour_write_g		on
+			colour_write_b		on
+			colour_write_a		off
+            
+			scene_blend 		alpha_blend
 
-			texture_unit foam
-            {
-                texture materials/textures/water/water_foam.dds
-            }
+			vertex_program_ref deferred_gbuffer_vp
+			{
+			}
+			
+			fragment_program_ref water_emissive_fp 
+			{
+			}
+
+			texture_unit depth
+			{
+				content_type compositor any gbuffer 6
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit foam_albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_normal
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_emissive
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_edge_albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_edge_normal
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit foam_edge_packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}	
+			texture_unit foam_edge_emissive
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit flowmap
+			{	
+				texture materials/textures/color_black.dds
+				filtering bilinear
+			}
+			texture_unit noise
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material water/lighting
+{ 	
+	feature "forward_lit"
+	render_group 111
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			scene_blend alpha_blend	
+			
+			vertex_program_ref forward_object_texture_world_vp
+			{
+			}
+			
+			fragment_program_ref water_lighting_fp 
+			{
+			}
+
+			texture_unit albedo
+			{
+				content_type 		compositor
+				filtering 			none
+				tex_address_mode 	clamp clamp clamp
+			}
+			texture_unit normal
+			{
+				content_type 		compositor
+				filtering 			none
+				tex_address_mode 	clamp clamp clamp
+			}
+			texture_unit packed
+			{
+				content_type 		compositor
+				filtering none
+				tex_address_mode 	clamp clamp clamp
+			}
+			texture_unit emissive
+			{
+				content_type 		compositor
+				filtering 			none
+				tex_address_mode 	clamp clamp clamp
+			}
+			texture_unit custom
+			{
+				content_type 		compositor
+				filtering 			linear linear none
+				tex_address_mode 	clamp clamp clamp
+			}
+			buffer_unit transparent_light_list
+			{
+				content_type shared transparent_light_list
+			}
+			buffer_unit light_data_list
+			{
+				content_type shared light_data_list
+			}
+			buffer_unit light_shadow_matrix_list
+			{
+				content_type shared light_shadow_matrix_list
+			}
 		}
 	}
 }

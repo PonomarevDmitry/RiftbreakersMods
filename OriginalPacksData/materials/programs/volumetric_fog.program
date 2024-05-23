@@ -1,0 +1,188 @@
+compute_program volumetric_fog_density_estimation_cs hlsl
+{
+	source materials/programs/volumetric_fog_density_estimation_cs.hlsl
+	entry_point main
+	target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cCameraWorldPos                 camera_position 0
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricFogParams2           volumetric_fog_params_2
+        param_named_auto    cVolumetricFogAlbedo            volumetric_fog_albedo
+        param_named_auto    cVolumetricFogEmissive          volumetric_fog_emissive
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+    }
+}
+
+compute_program volumetric_fog_light_scatttering_cs hlsl
+{
+    source materials/programs/volumetric_fog_light_scatttering_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1,USE_TEMPORAL=1,LIGHTING=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricJitterOffset         volumetric_fog_jitter
+        param_named_auto    cTiledDeferredGridSize          tiled_deferred_grid_size
+        param_named_auto    cCameraWorldPos                 camera_position             0
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named_auto    cNumLights                      light_count
+    }
+}
+
+compute_program volumetric_fog_light_scatttering_shadows_cs hlsl
+{
+    source materials/programs/volumetric_fog_light_scatttering_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1,USE_TEMPORAL=1,LIGHTING=1,CLOUDS=0,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricJitterOffset         volumetric_fog_jitter
+        param_named_auto    cTiledDeferredGridSize          tiled_deferred_grid_size
+        param_named_auto    cCameraWorldPos                 camera_position             0
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named_auto    cNumLights                      light_count
+    }
+}
+
+compute_program volumetric_fog_light_scatttering_masked_cs hlsl
+{
+    source materials/programs/volumetric_fog_light_scatttering_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1,USE_TEMPORAL=1,LIGHTING=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricJitterOffset         volumetric_fog_jitter
+        param_named_auto    cTiledDeferredGridSize          tiled_deferred_grid_size
+        param_named_auto    cCameraWorldPos                 camera_position             0
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named_auto    cNumLights                      light_count
+    }
+}
+
+compute_program volumetric_fog_light_scatttering_masked_shadows_cs hlsl
+{
+    source materials/programs/volumetric_fog_light_scatttering_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1,USE_TEMPORAL=1,LIGHTING=1,CLOUDS=0,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricJitterOffset         volumetric_fog_jitter
+        param_named_auto    cTiledDeferredGridSize          tiled_deferred_grid_size
+        param_named_auto    cCameraWorldPos                 camera_position             0
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named_auto    cNumLights                      light_count
+    }
+}
+
+compute_program volumetric_fog_light_scatttering_clouds_cs hlsl
+{
+    source materials/programs/volumetric_fog_light_scatttering_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1,USE_TEMPORAL=1,LIGHTING=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=0,SHADOW_PCSS=0
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricJitterOffset         volumetric_fog_jitter
+        param_named_auto    cTiledDeferredGridSize          tiled_deferred_grid_size
+        param_named_auto    cCameraWorldPos                 camera_position             0
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named_auto    cNumLights                      light_count
+        param_named_auto    cCloudsParams                   clouds_shared_params        0
+        param_named_auto    cTime                           time
+    }
+}
+
+compute_program volumetric_fog_light_scatttering_clouds_shadows_cs hlsl
+{
+    source materials/programs/volumetric_fog_light_scatttering_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1,USE_TEMPORAL=1,LIGHTING=1,CLOUDS=1,LIGHT_MASK=0,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricJitterOffset         volumetric_fog_jitter
+        param_named_auto    cTiledDeferredGridSize          tiled_deferred_grid_size
+        param_named_auto    cCameraWorldPos                 camera_position             0
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named_auto    cNumLights                      light_count
+        param_named_auto    cCloudsParams                   clouds_shared_params        0
+        param_named_auto    cTime                           time
+    }
+}
+
+compute_program volumetric_fog_light_scatttering_clouds_masked_shadows_cs hlsl
+{
+    source materials/programs/volumetric_fog_light_scatttering_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1,USE_EMISSIVE=1,USE_TEMPORAL=1,LIGHTING=1,CLOUDS=1,LIGHT_MASK=1,SHADOW_BUFFER=0,SHADOW_MAP=1,SHADOW_PCSS=0
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricJitterOffset         volumetric_fog_jitter
+        param_named_auto    cTiledDeferredGridSize          tiled_deferred_grid_size
+        param_named_auto    cCameraWorldPos                 camera_position             0
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named_auto    cNumLights                      light_count
+        param_named_auto    cCloudsParams                   clouds_shared_params        0
+        param_named_auto    cTime                           time
+    }
+}
+
+compute_program volumetric_fog_final_integration_cs hlsl
+{
+    source materials/programs/volumetric_fog_final_integration_cs.hlsl
+    entry_point main
+    target cs_5_0
+    preprocessor_defines    INVERTED_DEPTH_RANGE=1
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cNearFarClip                    texture_near_far_clip_distance 0
+        param_named_auto    cVolumetricFogParams1           volumetric_fog_params_1
+        param_named_auto    cVolumetricFogParams2           volumetric_fog_params_2
+        param_named_auto    cCameraWorldPos                 camera_position             0
+    }
+}

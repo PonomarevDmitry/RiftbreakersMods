@@ -1,15 +1,8 @@
 #include "materials/programs/utils.hlsl"
-#include "materials/programs/pack_ops.hlsl"
+#include "materials/programs/utils_pack.hlsl"
 
 cbuffer FPConstantBuffer : register(b0)
 {    
-    float       cGlowAmount;
-    float       cGlowFactor;
-#if USE_DISSOLVE_MAP  
-    float       cDissolveAmount;
-    float       cDissolveSize;
-    float4      cDissolveColor;
-#endif
 #if USE_SUBSURFACE
     float4      cSubSurfaceColor;
 #endif
@@ -17,6 +10,21 @@ cbuffer FPConstantBuffer : register(b0)
     float4      cBurningAmount;
     float4      cBurningColor;
 #endif
+#if USE_VELOCITY
+    float4      cJitterOffset;
+#endif
+#if USE_DISSOLVE_MAP  
+    float4      cDissolveColor;
+    float       cDissolveAmount;
+    float       cDissolveSize;
+#endif
+#if USE_REFLECTION_MAP
+    float2      cReflectionParams;
+    float3      cWorldCameraPos;
+#endif
+    float       cGlowAmount;
+    float       cGlowFactor;
+    float       cGradientUvScale;
 };
 
 struct VS_OUTPUT
@@ -27,6 +35,10 @@ struct VS_OUTPUT
     float3      Tangent       : TEXCOORD2;
     float3      BiNormal      : TEXCOORD3;
     float3      WorldPos      : TEXCOORD4;
+#if USE_VELOCITY
+    float4      CurrPos       : TEXCOORD5;
+    float4      PrevPos       : TEXCOORD6;
+#endif
 #if USE_TWOSIDEDSIGN
     bool        IsFrontFace   : SV_IsFrontFace;
 #endif
@@ -39,6 +51,7 @@ struct PS_OUTPUT
     float4      GBuffer2      : SV_TARGET2; // Occlusion (x), Roughness (y), Metalness (z)
     float4      GBuffer3      : SV_TARGET3; // Emissive (xyz)
     float4      GBuffer4      : SV_TARGET4; // SubsurfaceScattering (xyz)
+    float2      GBuffer5      : SV_TARGET5; // Velocity (xy)
 };
 
 Texture2D       tAlbedoTex;
@@ -70,6 +83,8 @@ Texture2D       tBurnedGradientTex;
 SamplerState    sBurnedGradientTex;
 #endif
 #if USE_REFLECTION_MAP
+Texture2D       tEnvBRDF;
+SamplerState    sEnvBRDF;
 TextureCube     tReflectionTex;
 SamplerState    sReflectionTex;
 #endif
@@ -100,7 +115,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     normal *= float( In.IsFrontFace ? +1 : -1 );
 #endif
 
-    float gradient = tGradientTex.Sample( sGradientTex, In.UV0.xy ).x;
+    float gradient = tGradientTex.Sample( sGradientTex, In.UV0.xy * cGradientUvScale ).x;
     float3 emissive = tEmissiveTex.Sample( sEmissiveTex, In.UV0.xy ).xyz * gradient; 
     emissive *= cGlowAmount * cGlowFactor;
 
@@ -140,6 +155,25 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 
     Out.GBuffer1.xyz = encodeNormal( normal );
 
+#if USE_REFLECTION_MAP  
+    float roughness = Out.GBuffer2.y;
+    if ( roughness < cReflectionParams.x )
+    {    
+        float3 V = normalize( cWorldCameraPos - In.WorldPos.xyz );
+        float NdotV = abs( dot( normal, V ) ) + 0.001;
+        float occlusion = Out.GBuffer2.x;
+        float metalness = Out.GBuffer2.z;
+        float smoothness = 1.0f - ( roughness * roughness * roughness * roughness );
+        float2 specularBRDF = tEnvBRDF.SampleLevel( sEnvBRDF, float2( NdotV, smoothness ), 0.0f ).xy;
+        float3 reflectRay = normalize( reflect( -V, normal ) );
+        float mipLevel = roughness * 8.0f;
+        float3 specularLight = tReflectionTex.SampleLevel( sReflectionTex, reflectRay, mipLevel ).xyz;
+        float3 specularColor = lerp( 0.04f, albedo.xyz, metalness );
+        float3 specular = specularLight * ( specularColor * specularBRDF.x + saturate( 50.0 * specularColor.g ) * specularBRDF.y ) * cReflectionParams.y * occlusion;
+        emissive.xyz += specular;
+    }
+#endif
+
 #if USE_DISSOLVE_MAP
     clip( dissolve >= cDissolveAmount ? 1:-1 );
     float dissolveDiff = dissolve - cDissolveAmount;
@@ -162,6 +196,14 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     Out.GBuffer2.z = 0.0;
 #else
     Out.GBuffer4 = float( 0.0, 0.0, 0.0, 1.0 );
+#endif
+
+#if USE_VELOCITY
+    float2 screenPos = ( In.CurrPos.xy / In.CurrPos.w ) + cJitterOffset.xy;
+    float2 prevScreenPos = ( In.PrevPos.xy / In.PrevPos.w ) + cJitterOffset.zw;
+    Out.GBuffer5 = screenPos - prevScreenPos;
+#else
+    Out.GBuffer5 = 0.0f;
 #endif
 
     return Out;

@@ -107,6 +107,22 @@ material buildings/destructible
 	}
 }
 
+material buildings/destructible_alpha_test : buildings/destructible
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+			cull_hardware none
+
+			fragment_program_ref deferred_damage_buildings_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
 material buildings/foundation : pbr/default
 {
 	set_texture_alias albedo materials/textures/buildings/decorations/foundation_albedo.dds

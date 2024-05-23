@@ -1,5 +1,5 @@
-#include "materials/programs/pack_ops.hlsl"
-#include "materials/programs/pbr_utils.hlsl"
+#include "materials/programs/utils_pack.hlsl"
+#include "materials/programs/utils_pbr.hlsl"
 
 static const float3x3 ACESInputMat =
 {

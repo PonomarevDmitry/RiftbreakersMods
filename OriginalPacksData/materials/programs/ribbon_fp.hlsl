@@ -1,9 +1,7 @@
-#include "materials/programs/utils.hlsl"
-
 cbuffer FPConstantBuffer : register(b0)
 {
     float4  cFogParams;
-    float4  cFogColour;
+    float4  cFogColor;
 #if USE_UNIFORM
 	float4  cUniformColor;
 #endif
@@ -35,6 +33,13 @@ SamplerState    sTex;
 Texture2D       tNoise;
 SamplerState    sNoise;
 #endif
+#if USE_FOG
+Texture3D       tLightScattering;
+SamplerState    sLightScattering;
+#endif
+
+#include "materials/programs/utils.hlsl"
+#include "materials/programs/utils_fog.hlsl"
 
 PS_OUTPUT mainFP( VS_OUTPUT In ) 
 {
@@ -59,11 +64,13 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     Out.Color.xyzw *= sin( In.TexCoord.x * 3.14f );
 #endif
 
-
 #if USE_SOFT_TRIANGLE
     Out.Color.w *= In.TexCoord.x * In.TexCoord.z * In.TexCoord.z;
 #endif
 
-    addFog( Out.Color.xyz, cFogColour.xyz, In.ProjPos.w, cFogParams );
+#if USE_FOG
+    Out.Color.xyz = GetFog( Out.Color.xyz, In.ProjPos );
+#endif
+
     return Out;
 }

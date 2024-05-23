@@ -1,0 +1,28 @@
+material gui/imgui
+{
+	render_group					200
+	technique
+	{
+		pass
+		{
+			scene_blend				alpha_blend
+			depth_check				off
+			cull_hardware			none
+
+			vertex_program_ref		imgui_vp
+			{
+			}
+
+			fragment_program_ref	imgui_fp
+			{
+			}
+
+			texture_unit			diffuse
+			{
+				texture				materials/textures/error_nomips.dds 0
+				filtering			linear linear none
+				tex_address_mode	clamp
+			}
+		}
+	}
+}

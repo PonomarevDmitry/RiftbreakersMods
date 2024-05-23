@@ -231,7 +231,7 @@ material units/ground/canoptrix_crystal_alpha : units/ground/reflections
 	set_texture_alias packed			materials/textures/units/ground/canoptrix_crystal_alpha_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/canoptrix_crystal_alpha_emissive.dds
 	set_texture_alias reflection       materials/textures/skybox/skybox_reflection_yellow.dds
-	
+
 	glow 4
 	reflection 0.15 25
 }
@@ -243,8 +243,8 @@ material units/ground/canoptrix_crystal_ultra : units/ground/reflections
 	set_texture_alias packed			materials/textures/units/ground/canoptrix_crystal_ultra_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/canoptrix_crystal_ultra_emissive.dds
 	set_texture_alias reflection       materials/textures/skybox/skybox_reflection.dds
-	
-	glow 3	
+
+	glow 3
     reflection 0.4 2
 }
 
@@ -508,7 +508,7 @@ material units/ground/gnerot : 		 	units/ground/cracks
 	set_texture_alias emissive			materials/textures/units/ground/gnerot_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 8
 
-	glow 5
+	glow 2
 }
 
 material units/ground/gnerot_alpha : 	units/ground/cracks_alpha
@@ -519,7 +519,7 @@ material units/ground/gnerot_alpha : 	units/ground/cracks_alpha
 	set_texture_alias emissive			materials/textures/units/ground/gnerot_alpha_emissive.dds
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 8
 
-	glow 5
+	glow 3
 }
 
 material units/ground/gnerot_ultra : 	units/ground/cracks_ultra
@@ -580,7 +580,7 @@ material units/ground/krocoon : units/ground/reflections
 	set_texture_alias normal			materials/textures/units/ground/krocoon_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/krocoon_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/krocoon_emissive.dds
-	
+
 	glow 1
 	reflection 0.5 0.6
 }
@@ -591,7 +591,7 @@ material units/ground/krocoon_alpha : units/ground/reflections
 	set_texture_alias normal			materials/textures/units/ground/krocoon_alpha_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/krocoon_alpha_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/krocoon_alpha_emissive.dds
-	
+
 	glow 1
 	reflection 0.5 0.6
 }
@@ -749,7 +749,7 @@ material units/ground/phirian_ultra : 	units/ground/red_blood
 	glow 3
 }
 
-material units/ground/carnicinth : 	units/ground/yellow_blood
+material units/ground/carnicinth : 	units/ground/green_blood_alpha_test
 {
 	set_texture_alias albedo			materials/textures/units/ground/carnicinth_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/carnicinth_normal.dds
@@ -759,7 +759,7 @@ material units/ground/carnicinth : 	units/ground/yellow_blood
 	glow 2
 }
 
-material units/ground/carnicinth_alpha : 	units/ground/yellow_blood
+material units/ground/carnicinth_alpha : 	units/ground/green_blood_alpha_test
 {
 	set_texture_alias albedo			materials/textures/units/ground/carnicinth_alpha_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/carnicinth_alpha_normal.dds
@@ -769,7 +769,7 @@ material units/ground/carnicinth_alpha : 	units/ground/yellow_blood
 	glow 2
 }
 
-material units/ground/carnicinth_ultra : 	units/ground/yellow_blood
+material units/ground/carnicinth_ultra : 	units/ground/green_blood_alpha_test
 {
 	set_texture_alias albedo			materials/textures/units/ground/carnicinth_ultra_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/carnicinth_ultra_normal.dds
@@ -1040,41 +1040,272 @@ material units/ground/drexolian_ultra : units/ground/yellow_blood_alpha_test
 	glow 3
 }
 
-material units/ground/hedroner : 		units/ground/black_blood
+material units/ground/hedroner : 		units/ground/base_flowfield
 {
 	set_texture_alias albedo			materials/textures/units/ground/hedroner_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/hedroner_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/hedroner_packed.dds
+
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+	set_texture_alias flowmap       	materials/textures/units/ground/hedroner_flow.dds
+
+	technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.01
+		        param_named      cFlowSpeed              float          0.6
+		        param_named      cFlowPower              float          0.6
+			}
+        }
+    }
 }
 
-material units/ground/hedroner_alpha : units/ground/black_blood
+material units/ground/hedroner_alpha : units/ground/base_flowfield
 {
 	set_texture_alias albedo			materials/textures/units/ground/hedroner_alpha_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/hedroner_alpha_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/hedroner_alpha_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/hedroner_alpha_emissive.dds
 
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+	set_texture_alias flowmap       	materials/textures/units/ground/hedroner_flow.dds
+
 	glow 1.2
+
+	technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.01
+		        param_named      cFlowSpeed              float          0.6
+		        param_named      cFlowPower              float          0.25
+			}
+        }
+    }
 }
 
-material units/ground/hedroner_ultra : 	units/ground/black_blood
+material units/ground/hedroner_ultra : 	units/ground/base_flowfield
 {
 	set_texture_alias albedo			materials/textures/units/ground/hedroner_ultra_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/hedroner_ultra_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/hedroner_ultra_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/hedroner_ultra_emissive.dds
 
-	glow 2.5
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+	set_texture_alias flowmap       	materials/textures/units/ground/hedroner_flow.dds
+
+	glow 4.5
+
+	technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.01
+		        param_named      cFlowSpeed              float          0.8
+		        param_named      cFlowPower              float          0.8
+			}
+        }
+    }
 }
 
-material units/ground/hedroner_morphium : 	units/ground/black_blood
+material units/ground/hedroner_morphium : units/ground/base_flowfield
 {
 	set_texture_alias albedo			materials/textures/units/ground/hedroner_morphium_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/hedroner_morphium_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/hedroner_morphium_packed.dds
 	set_texture_alias emissive			materials/textures/units/ground/hedroner_morphium_emissive.dds
 
-	glow 2.5
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+ 	set_texture_alias flowmap       	materials/textures/units/ground/hedroner_flow.dds
+
+	glow 3.5
+
+    technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.01
+		        param_named      cFlowSpeed              float          0.8
+		        param_named      cFlowPower              float          0.6
+			}
+        }
+    }
+}
+
+material units/ground/mudroner_boss_acid : units/ground/base_flowfield
+{
+	set_texture_alias albedo			materials/textures/units/ground/mudroner_boss_acid_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/mudroner_boss_acid_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/mudroner_boss_acid_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/mudroner_boss_acid_emissive.dds
+
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+ 	set_texture_alias flowmap       	materials/textures/units/ground/mudroner_flow.dds
+
+	glow 10.5
+
+    technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.051
+		        param_named      cFlowSpeed              float          0.8
+		        param_named      cFlowPower              float          0.45
+			}
+        }
+    }
+}
+
+material units/ground/mudroner_boss_fire : units/ground/base_flowfield
+{
+	set_texture_alias albedo			materials/textures/units/ground/mudroner_boss_fire_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/mudroner_boss_fire_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/mudroner_boss_fire_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/mudroner_boss_fire_emissive.dds
+
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+ 	set_texture_alias flowmap       	materials/textures/units/ground/mudroner_flow.dds
+
+	glow 8
+
+    technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.01
+		        param_named      cFlowSpeed              float          0.8
+		        param_named      cFlowPower              float          0.6
+			}
+        }
+    }
+}
+
+material units/ground/mudroner_boss_cryo : units/ground/base_flowfield
+{
+	set_texture_alias albedo			materials/textures/units/ground/mudroner_boss_cryo_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/mudroner_boss_cryo_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/mudroner_boss_cryo_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/mudroner_boss_cryo_emissive.dds
+
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+ 	set_texture_alias flowmap       	materials/textures/units/ground/mudroner_flow.dds
+
+	glow 2.8
+
+    technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.051
+		        param_named      cFlowSpeed              float          0.8
+		        param_named      cFlowPower              float          0.45
+			}
+        }
+    }
+}
+
+material units/ground/mudroner_boss_energy : units/ground/base_flowfield
+{
+	set_texture_alias albedo			materials/textures/units/ground/mudroner_boss_energy_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/mudroner_boss_energy_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/mudroner_boss_energy_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/mudroner_boss_energy_emissive.dds
+
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+ 	set_texture_alias flowmap       	materials/textures/units/ground/mudroner_flow.dds
+
+	glow 8.0
+
+    technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          4.2
+		        param_named      cFlowNoiseTillingFactor float          0.3
+		        param_named      cFlowSpeed              float          0.75
+		        param_named      cFlowPower              float          0.25
+			}
+        }
+    }
+}
+
+
+material units/ground/mudroner : units/ground/base_flowfield
+{
+	set_texture_alias albedo			materials/textures/units/ground/mudroner_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/mudroner_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/mudroner_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/mudroner_emissive.dds
+
+	set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+ 	set_texture_alias flowmap       	materials/textures/units/ground/mudroner_flow.dds
+
+	glow 12.5
+
+    technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.051
+		        param_named      cFlowSpeed              float          0.8
+		        param_named      cFlowPower              float          0.45
+			}
+        }
+    }
 }
 
 material units/ground/geotrupex : 		units/ground/violet_blood
@@ -1547,7 +1778,7 @@ material units/ground/boss_generic_cryo : units/ground/reflections
 	set_texture_alias normal			materials/textures/units/ground/baxmoth_alpha_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/baxmoth_boss_cryo_packed.dds
 	//set_texture_alias emissive			materials/textures/units/ground/krocoon_ultra_emissive.dds
-	
+
 	glow 20
 	reflection 0.3 0.3
 }
@@ -1717,25 +1948,25 @@ material units/ground/lesigian_boss_fire : units/ground/cracks_ultra
 
 material units/ground/gnerot_boss_acid : units/ground/cracks
 {
-	//set_texture_alias albedo			materials/textures/units/ground/gnerot_boss_acid_albedo.dds
-	//set_texture_alias normal			materials/textures/units/ground/gnerot_boss_acid_normal.dds
-	//set_texture_alias packed			materials/textures/units/ground/gnerot_boss_acid_packed.dds
-	//set_texture_alias emissive			materials/textures/units/ground/gnerot_boss_acid_emissive.dds
+	set_texture_alias albedo			materials/textures/units/ground/gnerot_boss_acid_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gnerot_boss_acid_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gnerot_boss_acid_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/gnerot_boss_acid_emissive.dds
 
 	glow 2.5
 }
 
 material units/ground/gnerot_boss_cryo : units/ground/cracks_alpha
 {
-	//set_texture_alias albedo			materials/textures/units/ground/gnerot_boss_cryo_albedo.dds
-	//set_texture_alias normal			materials/textures/units/ground/gnerot_boss_cryo_normal.dds
-	//set_texture_alias packed			materials/textures/units/ground/gnerot_boss_cryo_packed.dds
-	//set_texture_alias emissive			materials/textures/units/ground/gnerot_boss_cryo_emissive.dds
+	set_texture_alias albedo			materials/textures/units/ground/gnerot_boss_cryo_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/gnerot_boss_cryo_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/gnerot_boss_cryo_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/gnerot_boss_cryo_emissive.dds
 
 	glow 3.5
 }
 
-material units/ground/gnerot_boss_energy : units/ground/cracks_alpha
+material units/ground/gnerot_boss_energy : units/ground/cracks_caverns
 {
 	set_texture_alias albedo			materials/textures/units/ground/gnerot_boss_energy_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/gnerot_boss_energy_normal.dds
@@ -2050,8 +2281,8 @@ material units/ground/spawner_granan_eggs : pbr/vegetation_deform
 	set_texture_alias albedo			materials/textures/units/ground/spawner_granan_eggs_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/spawner_granan_eggs_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/spawner_granan_eggs_packed.dds
-	set_texture_alias subsurface		materials/textures/units/ground/spawner_granan_eggs_subsurface.dds	
-	
+	set_texture_alias subsurface		materials/textures/units/ground/spawner_granan_eggs_subsurface.dds
+
 	subsurface 0.4 1 0 0
 }
 
@@ -2060,7 +2291,7 @@ material units/ground/spawner_mushbit_eggs : pbr/vegetation_deform
 	set_texture_alias albedo			materials/textures/units/ground/spawner_mushbit_eggs_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/spawner_mushbit_eggs_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/spawner_mushbit_eggs_packed.dds
-	
+
 	subsurface 0 0 0 0
 	deform 0.05 0.5
 }
@@ -2070,7 +2301,7 @@ material units/ground/spawner_canoptrix_eggs : pbr/vegetation_deform
 	set_texture_alias albedo			materials/textures/units/ground/spawner_canoptrix_eggs_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/spawner_canoptrix_eggs_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/spawner_canoptrix_eggs_packed.dds
-	
+
 	subsurface 0.5 1 0 0
 }
 
@@ -2213,7 +2444,7 @@ material units/ground/crysder_crystals : units/ground/reflections
 	set_texture_alias packed			materials/textures/units/ground/crysder_crystals_packed.dds
 	//set_texture_alias emissive		materials/textures/units/ground/crysder_crystals_emissive.dds
 	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_blue.dds
-	
+
 	reflection 0.5 25
 }
 
@@ -2256,14 +2487,14 @@ material units/ground/gnerot_caverns : units/ground/cracks_caverns
 	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 8
 
 	glow 5
-	
+
 }
 material units/ground/anoryxian_boss  : units/ground/cracks_alpha
 {
 	set_texture_alias albedo			materials/textures/units/ground/anoryxian_boss_albedo.dds
 	set_texture_alias normal			materials/textures/units/ground/anoryxian_boss_normal.dds
 	set_texture_alias packed			materials/textures/units/ground/anoryxian_boss_packed.dds
-	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_emissive.dds	
+	set_texture_alias emissive			materials/textures/units/ground/anoryxian_boss_emissive.dds
 
 	//glow 5
 
@@ -2356,8 +2587,8 @@ material units/ground/anoryxian_egg : pbr/reflections_subsurface
                 param_named      cGradientUvScale    float          2.0
             }
         }
-    }    
-    
+    }
+
 }
 
 material units/ground/anoryxian_boss_tower_alpha : units/ground/red_blood_reflections
@@ -2370,4 +2601,411 @@ material units/ground/anoryxian_boss_tower_alpha : units/ground/red_blood_reflec
 
 	glow 2
 	reflection 0.35 10
+}
+
+material units/ground/plutrodon : units/ground/red_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/plutrodon_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/plutrodon_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/plutrodon_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/plutrodon_emissive.dds
+
+
+	glow 2
+
+}
+
+material units/ground/plutrodon_alpha : units/ground/red_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/plutrodon_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/plutrodon_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/plutrodon_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/plutrodon_alpha_emissive.dds
+
+
+	glow 2
+
+}
+
+material units/ground/plutrodon_ultra : units/ground/red_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/plutrodon_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/plutrodon_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/plutrodon_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/plutrodon_ultra_emissive.dds
+
+
+	glow 2
+
+}
+
+material units/ground/stickrid : units/ground/green_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/stickrid_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/stickrid_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/stickrid_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/stickrid_emissive.dds
+
+	glow 8
+
+}
+
+material units/ground/stickrid_alpha : units/ground/green_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/stickrid_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/stickrid_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/stickrid_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/stickrid_alpha_emissive.dds
+
+	glow 3
+
+}
+
+material units/ground/stickrid_ultra : units/ground/green_blood_reflections
+{
+	set_texture_alias albedo			materials/textures/units/ground/stickrid_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/stickrid_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/stickrid_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/stickrid_ultra_emissive.dds
+	set_texture_alias reflection        materials/textures/skybox/skybox_reflection_clouds.dds
+
+	glow 4
+	reflection 0.5 12
+
+}
+
+material units/ground/poogret : units/ground/violet_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/poogret_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/poogret_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/poogret_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/poogret_emissive.dds
+
+	glow 1
+}
+
+material units/ground/poogret_alpha : units/ground/violet_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/poogret_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/poogret_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/poogret_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/poogret_alpha_emissive.dds
+
+	glow 1.5
+}
+
+material units/ground/poogret_ultra : units/ground/violet_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/poogret_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/poogret_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/poogret_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/poogret_ultra_emissive.dds
+
+	glow 2.5
+}
+
+material units/ground/fungor : units/ground/yellow_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/fungor_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/fungor_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/fungor_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/fungor_emissive.dds
+
+	glow 4
+}
+
+material units/ground/fungor_alpha : units/ground/yellow_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/fungor_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/fungor_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/fungor_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/fungor_alpha_emissive.dds
+
+	glow 8
+}
+
+material units/ground/fungor_ultra : units/ground/yellow_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/fungor_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/fungor_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/fungor_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/fungor_ultra_emissive.dds
+
+	glow 12
+}
+
+material units/ground/invigor : units/ground/green_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/invigor_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/invigor_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/invigor_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/invigor_emissive.dds
+
+	glow 3
+}
+
+material units/ground/invigor_alpha : units/ground/green_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/invigor_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/invigor_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/invigor_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/invigor_alpha_emissive.dds
+
+	glow 8
+}
+
+material units/ground/invigor_ultra : units/ground/green_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/invigor_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/invigor_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/invigor_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/invigor_ultra_emissive.dds
+
+	glow 6
+}
+
+material units/ground/artigian: units/ground/green_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/artigian_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/artigian_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/artigian_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/artigian_emissive.dds
+
+	glow 1
+}
+
+material units/ground/artigian_alpha: units/ground/green_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/artigian_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/artigian_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/artigian_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/artigian_alpha_emissive.dds
+
+	glow 2
+}
+
+material units/ground/artigian_ultra: units/ground/green_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/artigian_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/artigian_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/artigian_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/artigian_ultra_emissive.dds
+
+	glow 5
+}
+
+material units/ground/canceroth :  pbr/default
+{
+	set_texture_alias albedo			materials/textures/units/ground/canceroth_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/canceroth_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/canceroth_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/canceroth_emissive.dds
+
+	glow 80
+}
+
+
+material units/ground/canceroth_alpha :  pbr/default
+{
+	set_texture_alias albedo			materials/textures/units/ground/canceroth_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/canceroth_alpha_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/canceroth_alpha_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/canceroth_alpha_emissive.dds
+
+	glow 80
+}
+
+material units/ground/canceroth_ultra :  pbr/default
+{
+	set_texture_alias albedo			materials/textures/units/ground/canceroth_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/canceroth_ultra_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/canceroth_ultra_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/canceroth_ultra_emissive.dds
+
+	glow 80
+}
+
+material units/ground/canceroth_child :  pbr/default
+{
+	set_texture_alias albedo			materials/textures/units/ground/canceroth_child_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/canceroth_child_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/canceroth_child_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/canceroth_child_emissive.dds
+
+	glow 80
+}
+
+material units/ground/canceroth_child_alpha :  pbr/default
+{
+	set_texture_alias albedo			materials/textures/units/ground/canceroth_child_alpha_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/canceroth_child_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/canceroth_child_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/canceroth_child_alpha_emissive.dds
+
+	glow 80
+}
+
+material units/ground/canceroth_child_ultra :  pbr/default
+{
+	set_texture_alias albedo			materials/textures/units/ground/canceroth_child_ultra_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/canceroth_child_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/canceroth_child_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/canceroth_child_ultra_emissive.dds
+
+	glow 80
+}
+
+material units/ground/canceroth_roots :  pbr/default
+{
+	set_texture_alias albedo			materials/textures/units/ground/canceroth_roots_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/canceroth_roots_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/canceroth_roots_packed.dds
+
+}
+
+material units/ground/canceroth_energy
+{
+    render_group 62
+
+	fresnel 1 3 -1 1
+	fresnel_color 0.01 0.01 0.01 1
+
+    technique
+    {
+        pass
+        {
+			glow 0
+            emissive 0 0 0 0
+
+            depth_write off
+            scene_blend alpha_blend
+
+            vertex_program_ref forward_object_fresnel_fog_vp
+			{
+			}
+
+			fragment_program_ref forward_object_fresnel_fog_fp
+			{
+
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+        }
+    }
+}
+
+material units/ground/spawrot :  units/ground/green_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/spawrot_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/spawrot_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/spawrot_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/spawrot_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 5
+
+	glow 3
+
+}
+
+material units/ground/egg_spawrot :  pbr/vegetation_deform_no_alpha
+{
+	set_texture_alias albedo			materials/textures/units/ground/spawrot_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/spawrot_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/spawrot_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/spawrot_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 5
+
+	glow 5
+	deform 0.15 1
+
+}
+
+material units/ground/parabian : pbr/alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/parabian_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/parabian_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/parabian_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/parabian_emissive.dds
+
+	glow 6
+
+}
+
+material units/ground/spawner_canceroth : units/ground/base_flowfield
+{
+	set_texture_alias albedo			materials/textures/units/ground/spawner_canceroth_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/spawner_canceroth_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/spawner_canceroth_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/spawner_canceroth_emissive.dds
+
+	//set_texture_alias albedo_2			materials/textures/units/ground/black_blood_albedo.dds
+	//set_texture_alias normal_2			materials/textures/units/ground/black_blood_normal.dds
+	//set_texture_alias packed_2			materials/textures/units/ground/black_blood_packed.dds
+
+ 	set_texture_alias flowmap       	materials/textures/units/ground/spawner_canceroth_flow.dds
+
+	glow 3
+
+    technique
+    {
+        pass
+        {
+			fragment_program_ref deferred_damage_units_flowfield_fp
+			{
+			    param_named      cFlowPhaseScale         float          2.5
+		        param_named      cFlowNoiseTillingFactor float          0.02
+		        param_named      cFlowSpeed              float          1
+		        param_named      cFlowPower              float          0.45
+			}
+        }
+    }
+}
+
+material units/ground/spawner_canceroth_alpha : units/ground/black_blood_alpha_test
+{
+	set_texture_alias albedo			materials/textures/units/ground/spawner_canceroth_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/spawner_canceroth_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/spawner_canceroth_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/spawner_canceroth_emissive.dds
+
+	glow 3
+
+
+}
+
+material units/ground/egg_wingmite : units/ground/red_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/egg_wingmite_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/egg_wingmite_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/egg_wingmite_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/egg_wingmite_emissive.dds
+
+	glow 8
+}
+
+material units/ground/egg_crawlog : units/ground/red_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/egg_crawlog_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/egg_crawlog_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/egg_crawlog_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/egg_crawlog_emissive.dds
+
+	glow 2
+}
+
+material units/ground/egg_phirian : units/ground/red_blood
+{
+	set_texture_alias albedo			materials/textures/units/ground/egg_phirian_albedo.dds
+	set_texture_alias normal			materials/textures/units/ground/egg_phirian_normal.dds
+	set_texture_alias packed			materials/textures/units/ground/egg_phirian_packed.dds
+	set_texture_alias emissive			materials/textures/units/ground/egg_phirian_emissive.dds
+
+	glow 0.5
+
 }

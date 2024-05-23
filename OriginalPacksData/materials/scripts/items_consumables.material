@@ -935,3 +935,271 @@ material items/consumables/cryo_sentry_lvl_4_dissolve : pbr/height_dissolve
 
 	glow 6
 }
+
+material items/consumables/health: pbr/default
+{
+  set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+  set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+  set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+  set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 2.4
+}
+
+material items/consumables/health_dissolve : pbr/height_dissolve
+{
+  set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+  set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+  set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+  set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 6
+}
+
+material items/consumables/shield: pbr/default
+{
+  set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+  set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+  set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+  set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 6
+}
+
+material items/consumables/shield_dissolve : pbr/height_dissolve
+{
+set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 6
+}
+
+material items/consumables/health_base: pbr/default
+{
+	set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+	set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+	set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+	set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 4
+}
+
+material items/consumables/health_base_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+	set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+	set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+	set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 6
+}
+
+material items/consumables/shield_base: pbr/default
+{
+	set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+	set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+	set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+	set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 4
+}
+
+material items/consumables/shield_base_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+	set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+	set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+	set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 6
+}
+
+material items/consumables/weapon_base: pbr/default
+{
+	set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+	set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+	set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+	set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 5
+}
+
+material items/consumables/weapon_base_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo		materials/textures/items/consumables/multiplayer_albedo.dds
+	set_texture_alias normal		materials/textures/items/consumables/multiplayer_normal.dds
+	set_texture_alias packed		materials/textures/items/consumables/multiplayer_packed.dds
+	set_texture_alias emissive		materials/textures/items/consumables/multiplayer_emissive.dds
+
+	glow 6
+}
+
+material items/consumables/defensive_dome
+{
+    render_group 61
+
+    technique
+    {
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware clockwise
+
+			vertex_program_ref forward_object_texture_fresnel_fog_world_vp
+            {
+            }
+
+			fragment_program_ref wall_energy_inverted_fp
+			{
+				param_named cEmissiveColor  float4 1 1 1 1
+				param_named cFresnelColor 	float4 0 3 7			 1
+				param_named cFresnelBias    float 0.2
+				param_named cFresnelScale   float 3
+				param_named cFresnelPower   float 4
+			}
+
+            texture_unit diffusezz
+            {
+                texture 		materials/textures/items/consumables/defensive_dome_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture 		materials/textures/noise_tiled.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture	materials/textures/gradient/waves.dds 179 1
+								filtering 		bilinear
+								tex_address_mode wrap
+            }
+
+            texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+        }
+    }
+}
+
+
+material items/consumables/mortar_sentry_lvl_1 : pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_1_emissive.dds
+	
+
+glow 2
+	
+
+}
+
+material items/consumables/mortar_sentry_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_1_emissive.dds
+	
+
+glow 2
+	
+
+}
+
+material items/consumables/mortar_sentry_lvl_2 : pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_2_emissive.dds
+	
+
+glow 2
+	
+
+}
+
+material items/consumables/mortar_sentry_lvl_2_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_2_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_2_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_2_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_2_emissive.dds
+	
+
+glow 2
+	
+
+}
+
+material items/consumables/mortar_sentry_lvl_3 : pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_3_emissive.dds
+	
+
+glow 4
+	
+
+}
+
+material items/consumables/mortar_sentry_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_3_emissive.dds
+	
+
+glow 4
+	
+
+}
+
+material items/consumables/mortar_sentry_lvl_4 : pbr/default
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_4_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_4_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_4_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_4_emissive.dds
+	
+
+glow 7
+}
+
+material items/consumables/mortar_sentry_lvl_4_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/items/consumables/mortar_sentry_lvl_4_albedo.dds
+	set_texture_alias normal			materials/textures/items/consumables/mortar_sentry_lvl_4_normal.dds
+	set_texture_alias packed			materials/textures/items/consumables/mortar_sentry_lvl_4_packed.dds
+	set_texture_alias emissive			materials/textures/items/consumables/mortar_sentry_lvl_4_emissive.dds
+	
+
+glow 7
+}
+
+material items/consumables/grenade_gas : pbr/default
+{
+	set_texture_alias albedo		materials/textures/items/consumables/grenade_gas_albedo.dds
+	set_texture_alias normal		materials/textures/items/consumables/grenade_gas_normal.dds
+	set_texture_alias packed		materials/textures/items/consumables/grenade_gas_packed.dds
+	set_texture_alias emissive		materials/textures/items/consumables/grenade_gas_emissive.dds
+
+	glow 8
+}
+

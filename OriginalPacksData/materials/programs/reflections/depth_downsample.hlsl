@@ -45,7 +45,13 @@ AF4 SpdLoadIntermediate(AU1 x, AU1 y) {
 	return f.xxxx; 
 }
 void SpdStoreIntermediate(AU1 x, AU1 y, AF4 value) { g_group_shared_depth_values[x][y] = value.x; }
-AF4 SpdReduce4(AF4 v0, AF4 v1, AF4 v2, AF4 v3) { return min(min(v0, v1), min(v2,v3)); }
+AF4 SpdReduce4(AF4 v0, AF4 v1, AF4 v2, AF4 v3) { 
+#ifdef INVERTED_DEPTH_RANGE
+	return max(max(v0, v1), max(v2,v3));
+#else
+	return min(min(v0, v1), min(v2,v3));
+#endif
+}
 
 #include "ffx_spd.h"
 

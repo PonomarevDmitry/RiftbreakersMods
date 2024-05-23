@@ -2,10 +2,15 @@ cbuffer VPConstantBuffer : register(b0)
 {
 #if USE_INSTANCING
     float4  cInstanceInfo; // offset, stride
-    matrix  cViewProj;
 #else
     matrix  cWorld;
+#   if USE_VELOCITY
+    matrix  cPrevWorld;
+#   endif
+#endif
     matrix  cViewProj;
+#if USE_VELOCITY
+    matrix  cPrevViewProj;
 #endif
 };
 
@@ -26,6 +31,12 @@ struct VS_OUTPUT
     float3  Tangent       : TEXCOORD2;
     float3  BiNormal      : TEXCOORD3;
     float2  TexCoord      : TEXCOORD4;
+#if USE_VELOCITY
+    float4  PrevPos       : TEXCOORD5;
+#endif
+#if USE_WORLD_POS
+    float3  WorldPos      : TEXCOORD6;
+#endif
 };
 
 #if USE_INSTANCING
@@ -37,24 +48,26 @@ VS_OUTPUT mainVP( VS_INPUT In )
     VS_OUTPUT Out;
 
 #if USE_INSTANCING
-    uint instanceDataAddr = uint(cInstanceInfo.x) + uint(cInstanceInfo.y) * In.InstanceId;
-
-    float3x4 world;
-    world[0] = bInstanceData[ instanceDataAddr + 0 ];
-    world[1] = bInstanceData[ instanceDataAddr + 1 ];
-    world[2] = bInstanceData[ instanceDataAddr + 2 ];
-
-    float4 worldPos = float4( mul( world, In.Position.xyz ), 1.0f );
-    Out.Position = mul( cViewProj, worldPos );
-    Out.Normal = normalize( mul( world, float3( 0, 1, 0 ) ) );
-    Out.Tangent = normalize( mul( world, float3( 1, 0, 0 ) ) );
-#else
-    float4 worldPos = mul( cWorld, float4( In.Position.xyz, 1.0f ) );
-    Out.Position = mul( cViewProj, worldPos );
-    Out.Normal = normalize( mul( cWorld, float4( 0, 1, 0, 0 ) ).xyz );
-    Out.Tangent = normalize( mul( cWorld, float4( 1, 0, 0, 0 ) ).xyz );
+    uint instanceDataAddr = uint( cInstanceInfo.x ) + uint( cInstanceInfo.y ) * In.InstanceId;
+    float3x4 cWorld = { bInstanceData[ instanceDataAddr + 0 ], bInstanceData[ instanceDataAddr + 1 ], bInstanceData[ instanceDataAddr + 2 ] };
+#   if USE_VELOCITY
+    float3x4 cPrevWorld = { bInstanceData[ instanceDataAddr + 3 ], bInstanceData[ instanceDataAddr + 4 ], bInstanceData[ instanceDataAddr + 5 ] };
+#   endif
 #endif
 
+    float4 worldPos = float4( mul( cWorld, In.Position ).xyz, 1.0f );
+    Out.Position = mul( cViewProj, worldPos );
+#if USE_WORLD_POS
+    Out.WorldPos = worldPos;
+#endif
+
+    Out.Normal = normalize( mul( cWorld, float4( 0, 1, 0, 0 ) ).xyz );
+    Out.Tangent = normalize( mul( cWorld, float4( 1, 0, 0, 0 ) ).xyz );
+
+#if USE_VELOCITY
+    float4 prevWorldPos = float4( mul( cPrevWorld, In.Position ).xyz, 1.0f );
+    Out.PrevPos = mul( cPrevViewProj, prevWorldPos );
+#endif
     Out.ProjPos = Out.Position;
     Out.BiNormal = cross( Out.Normal, Out.Tangent );
     Out.TexCoord = In.TexCoord;

@@ -56,8 +56,13 @@ void StoreDenoiserTile(int index, uint2 tile_coord) {
 
 bool IsReflectiveSurface(int2 pixel_coordinate, float roughness)
 {
-    const float far_plane = 1.0f; // g_depth_buffer is NDC, and Cauldron does not use reverse Z. Thus the far plane is at 1 in NDC.
+#if INVERTED_DEPTH_RANGE
+    const float far_plane = 0.0f;
+    return g_depth_buffer[pixel_coordinate] > far_plane;
+#else 
+    const float far_plane = 1.0f;
     return g_depth_buffer[pixel_coordinate] < far_plane;
+#endif
 }
 
 bool IsBaseRay(uint2 dispatch_thread_id, uint samples_per_quad) {
@@ -84,7 +89,7 @@ float3 SampleEnvironmentMap(uint2 dispatch_thread_id, float roughness) {
     float3 view_space_reflected_direction = reflect(view_space_ray_direction, view_space_surface_normal);
     float3 world_space_reflected_direction = mul(g_inv_view, float4(view_space_reflected_direction, 0)).xyz;
 
-    return g_environment_map.SampleLevel(g_environment_map_sampler, world_space_reflected_direction, roughness * 8).xyz;
+    return g_environment_map.SampleLevel(g_environment_map_sampler, world_space_reflected_direction, roughness * 8).rgb * g_skybox_params.x;
 }
 
 void ClassifyTiles(uint2 dispatch_thread_id, uint2 group_thread_id, float roughness) {

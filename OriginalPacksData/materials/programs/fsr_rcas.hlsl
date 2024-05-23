@@ -32,7 +32,7 @@ cbuffer FPConstantBuffer
 	AF4 FsrRcasLoadF(ASU2 p) { return InputTexture.Load(int3(p, 0)); }
 #endif
 
-#include "materials/programs/fsr_utils.hlsl"
+#include "materials/programs/fsr_internal.hlsl"
 
 void CurrFilter(int2 pos, AU4 Const0)
 {

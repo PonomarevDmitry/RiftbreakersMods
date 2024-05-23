@@ -29,68 +29,6 @@ material raytracing_resolve_soft_shadows_directional
 	}
 }
 
-material raytracing_resolve_soft_shadows_point
-{
-	technique
-	{
-		pass
-		{
-			compute_program_ref raytracing_resolve_soft_shadows_point_dxr_rp
-			{
-			}
-
-			texture_unit depth
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit normal
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit scattering
-			{
-				content_type compositor
-				filtering bilinear
-			}
-		}
-	}
-}
-
-material raytracing_resolve_soft_shadows_spotlight
-{
-	technique
-	{
-		pass
-		{
-			compute_program_ref raytracing_resolve_soft_shadows_spotlight_dxr_rp
-			{
-			}
-
-			texture_unit depth
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit normal
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit scattering
-			{
-				content_type compositor
-				filtering bilinear
-			}
-		}
-	}
-}
-
 material raytracing_resolve_ambient
 {
 	technique
@@ -123,68 +61,6 @@ material raytracing_resolve_soft_shadows_directional_psr
 		pass
 		{
 			compute_program_ref raytracing_resolve_soft_shadows_directional_psr_cp
-			{
-			}
-
-			texture_unit depth
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit normal
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit scattering
-			{
-				content_type compositor
-				filtering bilinear
-			}
-		}
-	}
-}
-
-material raytracing_resolve_soft_shadows_point_psr
-{
-	technique
-	{
-		pass
-		{
-			compute_program_ref raytracing_resolve_soft_shadows_point_psr_cp
-			{
-			}
-
-			texture_unit depth
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit normal
-			{
-				content_type compositor
-				filtering bilinear
-			}
-
-			texture_unit scattering
-			{
-				content_type compositor
-				filtering bilinear
-			}
-		}
-	}
-}
-
-material raytracing_resolve_soft_shadows_spotlight_psr
-{
-	technique
-	{
-		pass
-		{
-			compute_program_ref raytracing_resolve_soft_shadows_spotlight_psr_cp
 			{
 			}
 
@@ -274,13 +150,13 @@ material upscale_shadow_mask
 	}
 }
 
-material raytracing_tile_classification
+material raytracing_tile_classification_disocclusion
 {
 	technique
 	{
 		pass
 		{
-			compute_program_ref raytracing_tile_classification_cs
+			compute_program_ref raytracing_tile_classification_disocclusion_cs
 			{
 			}
 
@@ -324,6 +200,47 @@ material raytracing_tile_classification
 				content_type compositor
 				tex_address_mode clamp
 				filtering point point point
+			}
+		}
+	}
+}
+
+material raytracing_tile_classification
+{
+	technique
+	{
+		pass
+		{
+			compute_program_ref raytracing_tile_classification_cs
+			{
+			}
+
+			texture_unit depth
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear linear
+			}
+
+			texture_unit velocity
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering point point point
+			}
+
+			texture_unit prev_shadow
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear linear
+			}
+
+			texture_unit prev_moments
+			{
+				content_type compositor
+				tex_address_mode clamp
+				filtering linear linear linear
 			}
 		}
 	}

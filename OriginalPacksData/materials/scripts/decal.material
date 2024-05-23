@@ -58,12 +58,29 @@ material decal/default
 
 			texture_unit depth
 			{
-				content_type compositor any gbuffer 5
+				content_type compositor any gbuffer 6
 				tex_address_mode clamp
 				filtering none
 			}
 		}
 	}
+}
+
+material decal/static : decal/default 
+{
+	feature ""
+
+	render_group 184
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_decal_static_fp 
+			{
+			}
+		}
+	}			
 }
 
 material decal/unlit
@@ -98,7 +115,7 @@ material decal/unlit
 
 			texture_unit depth
 			{
-				content_type compositor any gbuffer 5
+				content_type compositor any gbuffer 6
 				tex_address_mode clamp
 				filtering none
 			}

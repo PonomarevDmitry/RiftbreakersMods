@@ -1,5 +1,5 @@
 #include "materials/programs/utils.hlsl"
-#include "materials/programs/pack_ops.hlsl"
+#include "materials/programs/utils_pack.hlsl"
 
 struct VS_OUTPUT
 {
@@ -15,9 +15,9 @@ struct PS_OUTPUT
 cbuffer FPConstantBuffer : register(b0)
 {
     float4    cOutlineColor;
-    float4    cCameraWorldPos;
     matrix    cInvView;
     matrix    cInvProj;
+    float3    cCameraWorldPos;
 #if USE_FRESNEL
     float     cFresnelBias;
     float     cFresnelScale;

@@ -44,20 +44,26 @@ bool ThreadGroupAllTrue(bool val)
 cbuffer PassData : register(b0)
 {
     float4x4    ProjectionInverse;
+#if DISOCCLUSION
     float4x4    ReprojectionMatrix;
     float4x4    ViewProjectionInverse;
     float3      Eye;
+#endif
     int2        BufferDimensions;
     int         FrameIndex;
 }
 
-Texture2D<float>            DepthBuffer                 : register(t0);
-Texture2D<float2>           VelocityBuffer              : register(t1);
-Texture2D<float3>           NormalBuffer                : register(t2);
-Texture2D<float>            HistoryBuffer               : register(t3);
-Texture2D<float3>           PreviousMomentsBuffer       : register(t4);
-Texture2D<float>            PreviousDepthBuffer         : register(t5);
-StructuredBuffer<uint>      RaytracerResult             : register(t6);
+Texture2D<float>            DepthBuffer;
+Texture2D<float2>           VelocityBuffer;
+#if DISOCCLUSION
+Texture2D<float3>           NormalBuffer;
+#endif
+Texture2D<float>            HistoryBuffer;
+Texture2D<float3>           PreviousMomentsBuffer;
+#if DISOCCLUSION
+Texture2D<float>            PreviousDepthBuffer;
+#endif
+StructuredBuffer<uint>      RaytracerResult;
 
 RWTexture2D<float3>         MomentsBuffer               : register(u0); // Result of the reprojection
 RWTexture2D<float2>         ReprojectionResults         : register(u1); // Same target that the reprojection pass writes into
@@ -118,6 +124,7 @@ float GetLinearDepth(in uint2 did, in float depth)
     return abs(projected.z / projected.w);
 }
 
+#if DISOCCLUSION
 bool IsDisoccluded(uint2 did, float depth, float2 velocity)
 {
     const int2 dims = BufferDimensions.xy;
@@ -129,9 +136,6 @@ bool IsDisoccluded(uint2 did, float depth, float2 velocity)
     bool is_disoccluded = true;
     if (all(previous_uv > 0.0) && all(previous_uv < 1.0))
     {
-        if (all(uv >= 0.0) && all(uv <= 1.0))
-            return false; // TODO EXOR HACK, DISOCCLUSION IS NOT WORKING WELL
-
         // Read the center values
         float3 normal = NormalBuffer.Load(int3(did, 0)).xyz;
         normal = normalize(2.0f * normal - 1.0f);   // recover world-space normal
@@ -160,6 +164,7 @@ bool IsDisoccluded(uint2 did, float depth, float2 velocity)
 
     return is_disoccluded;
 }
+#endif
 
 float2 GetClosestVelocity(int2 did, float depth)
 {
@@ -402,10 +407,13 @@ void main(uint group_index : SV_GroupIndex, uint2 gid : SV_GroupID)
 
         // Perform moments and variance calculations
         {
+#if DISOCCLUSION
             bool is_disoccluded = IsDisoccluded(did, depth, velocity);
             const float3 previous_moments = is_disoccluded ? float3(0.0f, 0.0f, 0.0f) // Can't trust previous moments on disocclusion
                 : PreviousMomentsBuffer.Load(int3(history_pos, 0));
-
+#else
+            const float3 previous_moments = PreviousMomentsBuffer.Load(int3(history_pos, 0));
+#endif
             const float old_m = previous_moments.x;
             const float old_s = previous_moments.y;
             const float sample_count = previous_moments.z + 1.0f;

@@ -3,6 +3,7 @@
 cbuffer PassData : register(b0)
 {    
     int                               FrameIndex;
+    int                               InstanceInclusionMask;
     float                             RayPushoffAmount;
     float                             AORadius;
     float4                            BufferDimensions;
@@ -148,7 +149,7 @@ void main( int2 did : S_DISPATCH_THREAD_ID, TraceRaySrt srt : S_SRT_DATA0 )
         occluded = sce::Psr::Occluded< sce::Psr::TraversalFlags::kUseSharedStack >(
             srt.SceneBuffer,
             sce::Psr::RayFlags::kNone,
-            0xffffff,
+            InstanceInclusionMask,
             rayDesc,
             alphaTestLambda,
             noIntersection,

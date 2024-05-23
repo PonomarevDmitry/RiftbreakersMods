@@ -23,6 +23,7 @@ THE SOFTWARE.
 cbuffer PassData : register(b0)
 {
     int      FrameIndex;
+    int      InstanceInclusionMask;
     float    RayPushoffAmount;
     float    AORadius;
     float4   BufferDimensions;
@@ -120,7 +121,7 @@ void raygeneration()
     {
         TraceRay(SceneBuffer,
                  RAY_FLAG_SKIP_CLOSEST_HIT_SHADER | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH,
-                 0xFFu,
+                 InstanceInclusionMask,
                  0u,
                  0u,
                  0u,

@@ -9,7 +9,7 @@
     #define FXAA_LINEAR 0
 #endif
 
-#include "materials/programs/fxaa_311.hlsl"
+#include "materials/programs/fxaa_internal.hlsl"
 
 cbuffer FPConstantBuffer
 {
@@ -85,21 +85,6 @@ struct PS_OUTPUT
 
 SamplerState sSamplerTex : register(s0);
 Texture2D	 tSamplerTex : register(t0);
-
-PS_OUTPUT luma_fp(VS_OUTPUT In)
-{
-	PS_OUTPUT Out;
-
-    Out.Color = tSamplerTex.Sample( sSamplerTex, In.TexCoord.xy );
-    
- #ifdef IN_GAMMA_CORRECT_MODE
-    Out.Color.a = dot( sqrt(Out.Color.rgb), float3(0.299, 0.587, 0.114) ); // compute luma
- #else
-    Out.Color.a = dot(Out.Color.rgb, float3(0.299, 0.587, 0.114)); // compute luma
- #endif
-
-    return Out;
-}
 
 PS_OUTPUT main_fp(VS_OUTPUT In)
 {

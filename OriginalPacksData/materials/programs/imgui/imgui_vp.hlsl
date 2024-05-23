@@ -20,7 +20,7 @@ struct VS_OUTPUT
 VS_OUTPUT mainVP(VS_INPUT In)
 {
     VS_OUTPUT Out;
-    Out.Position = mul( cProjMatrix, float4(In.Position.xy, 0.f, 1.f));
+    Out.Position = mul( cProjMatrix, float4( In.Position.xy, -1.f, 1.f ) );
     Out.Color = In.Color;
     Out.TexCoord  = In.TexCoord;
     return Out;

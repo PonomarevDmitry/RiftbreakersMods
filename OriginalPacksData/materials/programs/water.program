@@ -1,85 +1,412 @@
-fragment_program water_fp hlsl
+fragment_program water_simulation_fp hlsl
 {
-    source materials/programs/water_fp.hlsl
-    entry_point water_fp
-
+    source materials/programs/water_simulation_fp.hlsl
+    entry_point mainFP
     target ps_5_0
 
-    preprocessor_defines USE_DXT5NM=1
+    preprocessor_defines USE_COLLISION=1,USE_REPROJECTION=1,USE_RAIN=1
 
     default_params
     {
-        param_named_auto    cSkyboxParams          skybox_shared_params
+        param_named_auto    cInvViewProjMatrix              inverse_viewproj_matrix
+        param_named_auto    cPrevViewProjMatrix             prev_viewproj_matrix
+        param_named_auto    cTime                           time
+        //param_named_auto    cFrameTime                      frame_time
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named         cRainIntensity                  float 0.0
 
-        param_named_auto    cLightDirection        light_direction_view_space  0
-        param_named_auto    cPBRLightParams	       pbrlight_params             0
-
-        param_named_auto    cInvView               inverse_view_matrix
-        param_named_auto    cViewProj              viewproj_matrix
-        param_named_auto    cInvProj               inverse_projection_matrix
-
-        param_named_auto    cFogParams             fog_params
-        param_named_auto    cFogColour             fog_colour
-
-        param_named_auto    cShadowViewProj        texture_viewproj_matrix     0
-        param_named         cPcfTexelOffset        float                       0.0005
-
-        param_named         cFresnelBias        float    0.1
-        param_named         cFresnelScale       float    2.0
-        param_named         cFresnelPower       float    1.6
-    
-        param_named         cWaterColor         float4   0.1 0.2 0.1 0.1
-        param_named         cWaterDepth         float    20
-        param_named         cWaterDepthBias     float    0.2
-        param_named         cWaterLevel            float    0.0
+        param_named         cWaterPhase                     float 0.5
+        param_named         cWaterAttenuation               float 0.2
+        param_named         cWaterDeltaUv                   float 1
+        param_named         cWaterFoamAttenuation           float 0.99999
     }
 }
 
-fragment_program water_stencil_fp hlsl
+fragment_program water_simulation_step_fp hlsl
 {
-    source materials/programs/water_stencil_fp.hlsl
-    entry_point water_stencil_fp
-
+    source materials/programs/water_simulation_fp.hlsl
+    entry_point mainFP
     target ps_5_0
-}
 
-vertex_program water_stencil_vp hlsl
-{
-    source materials/programs/water_stencil_vp.hlsl
-    entry_point water_stencil_vp
-
-    target vs_5_0
+    preprocessor_defines USE_COLLISION=0,USE_REPROJECTION=0,USE_RAIN=0
 
     default_params
     {
-        param_named_auto cWorldViewProj         worldviewproj_matrix
+        param_named_auto    cViewportSize                   viewport_size_int 0
+        param_named         cWaterPhase                     float 0.5
+        param_named         cWaterAttenuation               float 0.2
+        param_named         cWaterDeltaUv                   float 1
     }
 }
 
-vertex_program water_vp hlsl
+fragment_program water_collision_fp hlsl
 {
-    source materials/programs/water_vp.hlsl
-    entry_point water_vp
+    source materials/programs/water_collision_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+}
 
-    target vs_5_0
-
-    //preprocessor_defines WATER_SIMULATION_ENABLED=1
+fragment_program water_refract_fp hlsl
+{
+    source materials/programs/water_gbuffer_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_VELOCITY=1,USE_FLOWFIELD=1
 
     default_params
     {
-        param_named      cNoiseParams           float4   1.0 0.125 0.25 12.0
-        param_named      cGridStep              float2   0.0 0.0
-        param_named      cWaterFlowDirection    float2   0.3 0.7
-        param_named      cWaterLevel            float    0.0
+        param_named_auto    cInvViewProjMatrix          inverse_viewproj_matrix
+        param_named_auto    cJitterOffset               jitter_offset
+        param_named_auto    cMIPBias                    mip_bias
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cTime                       time
+        param_named_auto    cWaterTextureSize           texture_size 2
+        param_named_auto    cWaterViewProjMatrix        texture_viewproj_matrix 4
+        param_named         cWaterDeltaUv               float          1
+        param_named         cTilingFactor               float          30
 
-        param_named_auto cNoiseChange           time 1
-        param_named_auto cWorld                 world_matrix
-        param_named_auto cWorldView             worldview_matrix 
-        param_named_auto cWorldEyePosition      camera_position
-        param_named_auto cWorldViewProj         worldviewproj_matrix
-        param_named_auto cView                  view_matrix
-        param_named_auto cViewProj              viewproj_matrix
+        param_named         cWaveScroll                 float4         -0.0025 -0.0025 0.005 0.005
+        param_named         cWaveNormalFactor1          float          1.0
+        param_named         cWaveNormalFactor2          float          0.75
+        param_named         cWaveNormalTillingFactor1   float          1.0
+        param_named         cWaveNormalTillingFactor2   float          1.0
+        param_named         cWaveRefractFactor          float          0.05
 
-        param_named_auto cInvViewProj           inverse_viewproj_matrix
+        param_named         cFlowPhaseScale             float          2.5
+        param_named         cFlowNoiseTillingFactor     float          0.5
+
+        param_named         cFoamScroll                 float4         0 0 0 0
+        param_named         cFoamTillingFactor          float          1.5
+        param_named         cFoamFactor                 float          3.0
+        param_named         cFoamRefractFactor          float          0.0
+        param_named         cFoamFlowSpeed              float          1
+        param_named         cFoamFlowPower              float          0.4
+        param_named         cFoamWaveFlowPower          float          1.5
+
+        param_named         cFoamEdgeFactor             float          6.0
+        param_named         cFoamEdgePower              float          0.065
+        param_named         cFoamEdgeRefractFactor      float          0.2
+        param_named         cFoamEdgeTillingFactor      float          1.5
+        param_named         cFoamEdgeFlowSpeed          float          1
+
+        param_named         cWaterColor                 float3         0.31 0.25 0.196
+        param_named         cWaterBottomColor           float3         1.31 0.25 0.196
+        param_named         cWaterRoughness             float          0.025
+        param_named         cWaterMetalness             float          0
+        param_named         cWaterFadeDepth             float          0.15
+        param_named         cWaterRefractDepth          float          0.6
+        param_named         cWaterDepth                 float          5.0
+
+        param_named         cFresnelPower               float          1.4
+        param_named         cFresnelScale               float          7
+        param_named         cFresnelBias                float          0.2
+
+        param_named         cCausticsPower              float          0.0
+        param_named         cCausticsTillingFactor      float          1.0
+        param_named         cCausticsRefractFactor      float          0.3
+        param_named         cCausticsDepth              float          1.0
+
+        param_named         cWaterSimulationFoamEdgeScaler1     float 4.0      
+        param_named         cWaterSimulationFoamEdgeScaler2     float 1.0
+        param_named         cWaterSimulationFoamEdgeScaler3     float 0.25  
+        param_named         cWaterSimulationFoamEdgeScaler4     float 1.0   
+        param_named         cWaterSimulationFoamScaler          float 0.25
+    }
+}
+
+fragment_program water_emissive_fp hlsl
+{
+    source materials/programs/water_emissive_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DXT5NM=1,USE_VELOCITY=1,USE_EMISSIVE=1
+
+    default_params
+    {
+        param_named_auto    cInvViewProjMatrix          inverse_viewproj_matrix
+        param_named_auto    cJitterOffset               jitter_offset
+        param_named_auto    cMIPBias                    mip_bias
+        param_named_auto    cTime                       time
+
+        param_named         cTilingFactor               float          15
+        param_named         cFlowSpeed                  float          2.5
+        param_named         cFlowPower                  float          0.5
+        param_named         cFlowPhaseScale             float          2.5
+        param_named         cFlowNoiseTillingFactor     float          0.25
+        param_named         cFoamEdgePower              float          0.75
+        param_named         cFoamEdgeGlowAmount         float          100
+        param_named         cFoamGlowAmount             float          6
+        param_named         cWaterFadeDepth             float          0.35
+    }
+}
+
+fragment_program water_lighting_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=0,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=0
+
+    default_params
+    {
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_s_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCF=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_s16_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_16=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_s32_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_s64_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_s_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCF=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_s16_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_16=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_s32_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_s64_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_lm_s_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCF=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_lm_s16_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_16=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_lm_s32_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_lm_s64_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_lm_s_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCF=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_lm_s16_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_16=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_lm_s32_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program water_lighting_r_lm_s64_fp hlsl
+{
+    source materials/programs/water_lighting_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines INVERTED_DEPTH_RANGE=1,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+
+    default_params
+    {
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
     }
 }

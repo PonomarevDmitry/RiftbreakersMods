@@ -8,7 +8,7 @@
 //  2-59        - DEFERRED GBUFFER
 //  60-109      - FORWARD UNLITS
 //  107-109     - SELECTOR GRID
-//  111-111     - WATER
+//  111-112     - WATER
 //  150-179     - DISTORTION
 //  180         - FOG_OF_WAR
 //  181-184     - DEFERRED DYNAMIC DECALS
@@ -16,37 +16,8 @@
 //  190-199     - FORWARD DECALS
 //  200-210     - MINIMAP
 //  211-212     - LIGHT_MASK
-
-CompositorNode pbr_velocity
-{
-    rt velocity
-    {
-        width 1.0
-        height 1.0
-        resolution "render"
-        texture PF_FLOAT16_GR velocity
-        depth_buffer pool 10
-    }
-
-    target velocity
-    {
-        pass clear
-        {
-            clear_color 0.0 0.0 0.0 0.0
-            clear_mask DEPTH|STENCIL|COLOR
-        }
-
-        pass render_velocity
-        {
-            camera camera_0
-            rg_start 0
-            rg_end 59
-            custom_visitor velocity_visitor
-        }
-    }
-
-    out velocity
-}
+//  213-214     - CAMERA_CULLER
+//  215-216     - WATER COLLISION
 
 CompositorNodeSelector pbr_gbuffer
 {
@@ -68,7 +39,8 @@ CompositorNodeSelector pbr_gbuffer
             texture PF_R8G8B8A8 OcclusionRoughnessMetalness
             texture PF_R11G11B10_FLOAT Emissive
             texture PF_R8G8B8A8 SubsurfaceScattering
-            texture PF_DEPTH_D24_S8 depth
+            texture PF_FLOAT16_GR Velocity
+            texture PF_DEPTH_D24_S8 Depth
             depth_buffer pool 9
         }
 
@@ -76,11 +48,11 @@ CompositorNodeSelector pbr_gbuffer
         {
             pass clear
             {
-                clear_color 1.0 1.0 1.0 1.0
+                clear_color 0.0 0.0 0.0 0.0
                 clear_mask DEPTH|STENCIL|COLOR
             }
 
-            pass render_scene // TERRAIN
+            pass render_scene // DEFERRED GBUFFER TERRAIN
             {
                 camera camera_0
                 rg_start 1
@@ -89,17 +61,17 @@ CompositorNodeSelector pbr_gbuffer
                 sort_mode rg_then_descending
             }
 
-            pass render_scene // TERRAIN DECALS
+            pass render_scene // DEFERRED GBUFFER TERRAIN DECALS
             {
                 camera camera_0
                 rg_start 185
                 rg_end 189
-                input 4 gbuffer 5
+                input 4 gbuffer 6
                 custom_visitor decal_visitor
                 depth_mode read_only
             }
 
-            pass render_scene // TERRAIN LIQUID
+            pass render_scene // DEFERRED GBUFFER TERRAIN LIQUID
             {
                 camera camera_0
                 rg_start 2
@@ -108,21 +80,55 @@ CompositorNodeSelector pbr_gbuffer
                 sort_mode rg_then_descending
             }
 
-            pass render_scene // TERRAIN
+            pass render_scene // DEFERRED GBUFFER PROPS
             {
                 camera camera_0
                 rg_start 4
+                rg_end 53
+                exclude_renderable_flag gbuffer_stencil
+                custom_visitor gbuffer_visitor
+                sort_mode instancing
+            }
+
+            pass render_scene // DEFERRED GBUFFER NON CULLABLE PROPS
+            {
+                camera camera_0
+                rg_start 54
                 rg_end 54
                 custom_visitor gbuffer_visitor
                 sort_mode instancing
             }
 
-            pass render_scene // DEFERRED DECALS
+            pass render_scene // CAMERA CULLER (STENCIL START)
+            {
+                camera camera_0
+                rg_start 213
+                rg_end 214 
+                sort_mode instancing
+            }
+
+            pass render_scene // DEFERRED GBUFFER CULLED PROPS
+            {
+                camera camera_0
+                rg_start 4
+                rg_end 53
+                include_renderable_flag gbuffer_stencil
+                override_stencil_ref 0
+                custom_visitor gbuffer_stencil_visitor
+                sort_mode instancing
+            }
+
+            pass clear // CAMERA CULLER CLEAR (STENCIL END)
+            {
+                clear_mask STENCIL
+            }
+
+            pass render_scene // DEFERRED GBUFFER (DECALS)
             {
                 camera camera_0
                 rg_start 180
-                rg_end 184
-                input 4 gbuffer 5
+                rg_end 183
+                input 4 gbuffer 6
                 custom_visitor decal_visitor
                 depth_mode read_only
             }
@@ -145,6 +151,16 @@ CompositorNodeSelector pbr_gbuffer
                 sort_mode instancing
             }
 
+            pass render_scene // DEFERRED GBUFFER (DECALS AFTER BUILDINGS)
+            {
+                camera camera_0
+                rg_start 184
+                rg_end 184
+                input 4 gbuffer 6
+                custom_visitor decal_visitor
+                depth_mode read_only
+            }
+
             pass render_scene // DEFERRED GBUFFER (DEBRIS)
             {
                 camera camera_0
@@ -154,23 +170,14 @@ CompositorNodeSelector pbr_gbuffer
                 sort_mode instancing
             }
 
-            pass render_scene
-            {
-                bind_rt_index 1
-                camera camera_0
-                rg_start 110
-                rg_end 110
-                //material water/stencil
-            }
-
-            pass quad
+            pass quad // OUTLINES
             {                
                 bind_rt_index 3
                 material outline
-                texture_camera camera_0
+                override_camera camera_0
                 depth_mode read_only
 
-                input 0 gbuffer 5
+                input 0 gbuffer 6
                 input 1 gbuffer 1
             }
         }
@@ -184,10 +191,11 @@ CompositorNodeSelector pbr_gbuffer
             height 1.0
             resolution "render"
             texture PF_R8G8B8A8 Albedo
-            texture PF_R11G11B10_FLOAT Normal
+            texture PF_FLOAT16_RGBA Normal
             texture PF_R8G8B8A8 OcclusionRoughnessMetalness
             texture PF_R11G11B10_FLOAT Emissive
             texture PF_R8G8B8A8 SubsurfaceScattering
+            texture PF_FLOAT16_GR velocity
             texture PF_DEPTH_D24_S8 depth
             depth_buffer pool 9
         }
@@ -204,19 +212,9 @@ CompositorNodeSelector pbr_gbuffer
             {
                 camera camera_0
                 rg_start 0
-                rg_end 54
-                custom_visitor "mipmap_visitor"
-                material "mipmap/checker"
-            }
-
-            pass render_scene // DEFERRED GBUFFER (UNITS)
-            {
-                camera camera_0
-                rg_start 55
                 rg_end 59
                 custom_visitor "mipmap_visitor"
                 material "mipmap/checker"
-                sort_mode instancing
             }
         }
     }
@@ -254,34 +252,125 @@ CompositorNode pbr_light_mask
     out light_mask
 }
 
-CompositorNode pbr_shadow
+CompositorNodeSelector pbr_shadow
 {
     in gbuffer
 
-    rt_pool shadows
+    ConfigOption r_shadows
     {
-        texture PF_DEPTH_D32 shadows
-        depth_buffer pool 2 stencil 0
+        dir_spot            shadows_dir_spot
+        dir_spot_point      shadows_dir_spot_point
     }
 
-    target shadows
+    CompositorNode shadows_dir_spot
     {
-        pass render_shadow
+        rt shadows
         {
-            rg_start 0
-            rg_end 59
-            camera shadow_camera_0
-            parent_camera camera_0
-            sort_mode instancing
+            resolution "shadow"
+            texture PF_DEPTH_D32 shadows
+            depth_buffer pool 2 stencil 0
         }
 
-        pass render_shadow
+        target shadows
         {
-            rg_start 31
-            rg_end 59
-            camera shadow_spotlight_camera_0
-            parent_camera camera_0
-            sort_mode rg_then_ascending
+            pass clear
+            {
+                clear_color 0.0 0.0 0.0 1.0
+                clear_mask DEPTH
+            }
+
+            pass render_shadow
+            {
+                rg_start 0
+                rg_end 59
+                camera shadow_directional_camera_0
+                parent_camera camera_0
+                sort_mode instancing
+            }
+
+            pass render_shadow
+            {
+                rg_start 1
+                rg_end 1
+                camera shadow_spotlight_camera_0
+                parent_camera camera_0
+                sort_mode rg_then_ascending
+            }
+
+            pass render_shadow
+            {
+                rg_start 31
+                rg_end 59
+                camera shadow_spotlight_camera_0
+                parent_camera camera_0
+                sort_mode rg_then_ascending
+            }
+        }
+    }
+
+    CompositorNode shadows_dir_spot_point
+    {
+        rt shadows
+        {
+            resolution "shadow"
+            texture PF_DEPTH_D32 shadows
+            depth_buffer pool 2 stencil 0
+        }
+
+        target shadows
+        {
+            pass clear
+            {
+                clear_color 0.0 0.0 0.0 1.0
+                clear_mask DEPTH
+            }
+
+            pass render_shadow
+            {
+                rg_start 0
+                rg_end 59
+                camera shadow_directional_camera_0
+                parent_camera camera_0
+                sort_mode instancing
+            }
+
+            pass render_shadow
+            {
+                rg_start 1
+                rg_end 1
+                camera shadow_spotlight_camera_0
+                parent_camera camera_0
+                sort_mode rg_then_ascending
+            }
+
+            pass render_shadow
+            {
+                rg_start 31
+                rg_end 59
+                camera shadow_spotlight_camera_0
+                parent_camera camera_0
+                sort_mode rg_then_ascending
+            }
+
+            pass render_shadow
+            {
+                rg_start 1
+                rg_end 1
+                camera shadow_pointlight_camera_0
+                parent_camera camera_0
+                sort_mode rg_then_ascending
+                multiple_viewport 1
+            }
+
+            pass render_shadow
+            {
+                rg_start 31
+                rg_end 59
+                camera shadow_pointlight_camera_0
+                parent_camera camera_0
+                sort_mode rg_then_ascending
+                multiple_viewport 1
+            }
         }
     }
 
@@ -290,11 +379,8 @@ CompositorNode pbr_shadow
 
 CompositorNodeSelector pbr_raytracing
 {
-    in velocity
     in shadows
-    in gbuffer 1 //normal
-    in gbuffer 4 //scatter
-    in gbuffer 5 //depth
+    in gbuffer
 
     ConfigOption r_raytracing
     {
@@ -304,7 +390,7 @@ CompositorNodeSelector pbr_raytracing
 
     CompositorNode pbr_raytracing_null
     {
-        rt shadow
+        rt raytraced_shadows
         {
             width 16
             height 16
@@ -312,7 +398,7 @@ CompositorNodeSelector pbr_raytracing
             depth_buffer pool 0
         }
 
-        target shadow
+        target raytraced_shadows
         {
             pass clear
             {
@@ -324,12 +410,12 @@ CompositorNodeSelector pbr_raytracing
 
     CompositorNode pbr_raytracing_full
     {
-        rt shadow
+        rt raytraced_shadows
         {
             width 1.0
             height 1.0
             resolution "render"
-            texture PF_R8G8B8A8 shadow
+            texture PF_R8G8B8A8 raytraced_shadows
             depth_buffer pool 0
             unordered_access
         }
@@ -343,7 +429,7 @@ CompositorNodeSelector pbr_raytracing
             depth_buffer pool 0
         }
 
-        target shadow
+        target raytraced_shadows
         {
             pass raytracing
             {
@@ -355,13 +441,13 @@ CompositorNodeSelector pbr_raytracing
         {
             pass quad
             {
-                input 0 gbuffer 5
+                input 0 gbuffer 6
                 material blit_texture
             }
         }
     }
 
-    out shadow
+    out raytraced_shadows
 }
 
 CompositorNode pbr_skybox
@@ -384,131 +470,29 @@ CompositorNode pbr_skybox
     }
 }
 
-CompositorNode pbr_linear_depth
+CompositorNodeSelector pbr_occlusion
 {
-    in gbuffer 5
-    in shadow
-
-    rt linear_depth
-    {
-        width 1
-        height 1
-        resolution "render"
-        texture PF_FLOAT16_R linear_depth
-        depth_buffer pool 0
-    }
-
-    target linear_depth
-    {
-        pass quad
-        {
-            material linear_depth
-            texture_camera camera_0
-            input 0 gbuffer 5
-        }
-    }
-
-    out linear_depth
-}
-
-CompositorNodeSelector pbr_lights
-{
-    in shadow
-    in shadows
-    in light_mask
-    in linear_depth
-    in velocity
-    in gbuffer 0
-    in gbuffer 1
-    in gbuffer 2
-    in gbuffer 3
-    in gbuffer 4
-
-    ConfigOption r_reflections
-    {
-        none       reflections_none
-        sssr       reflections_sssr
-        low        reflections_sssr
-        medium     reflections_sssr
-        high       reflections_sssr
-        ultra      reflections_sssr
-    }
-
-    CompositorNode reflections_none
-    {
-        rt illuminance
-        {
-            width 1.0
-            height 1.0
-            resolution "render"
-            texture PF_R11G11B10_FLOAT deferred
-            depth_buffer pool 9
-        }
-
-        target illuminance
-        {
-            pass clear
-            {
-                clear_color 0.0 0.0 0.0 0.0
-                clear_mask COLOR|STENCIL
-            }
-
-            pass deferred_lights
-            {
-                camera camera_0
-            }
-        }
-    }
-
-    CompositorNode reflections_sssr
-    {
-        rt illuminance
-        {
-            width 1.0
-            height 1.0
-            resolution "render"
-            texture PF_R11G11B10_FLOAT deferred
-            depth_buffer pool 9
-        }
-
-        target illuminance
-        {
-            pass clear
-            {
-                clear_color 0.0 0.0 0.0 0.0
-                clear_mask COLOR|STENCIL
-            }
-
-            pass deferred_lights
-            {
-                camera camera_0
-            }
-
-            pass reflections
-            {
-                camera camera_0
-            }
-        }
-    }
-
-    out illuminance
-}
-
-CompositorNodeSelector pbr_ssao
-{
-    in gbuffer 1
-    in linear_depth
-    in shadow
+    in gbuffer
+    in raytraced_shadows
 
     ConfigOption r_ambient_occlusion
     {
         none       ssao_null
+        ray        ssao_null
         hbao       ssao_hbao
-        ray        ssao_ray
     }
 
     CompositorNode ssao_hbao
     {
+        rt linear_depth
+        {
+            width 1.0
+            height 1.0
+            resolution "render"
+            texture PF_FLOAT16_R linear_depth
+            depth_buffer pool 0
+        }
+
         rt occlusion
         {
             width 1.0
@@ -525,6 +509,16 @@ CompositorNodeSelector pbr_ssao
             resolution "occlusion"
             texture PF_FLOAT16_GR bilateral_occlusion
             depth_buffer pool 0
+        }
+
+        target linear_depth
+        {
+            pass quad
+            {
+                material linear_depth
+                texture_camera camera_0
+                input 0 gbuffer 6
+            }
         }
 
         target occlusion
@@ -577,46 +571,25 @@ CompositorNodeSelector pbr_ssao
         }
     }
 
-    CompositorNode ssao_ray
-    {
-        rt occlusion
-        {
-            width 1.0
-            height 1.0
-            resolution "render"
-            texture PF_FLOAT16_R occlusion
-            depth_buffer pool 0
-        }
-
-        target occlusion
-        {
-            pass quad
-            {
-                input 0 shadow
-                material ssao_raytracing
-            }
-        }
-    }
-
     out occlusion
 }
 
-CompositorNodeSelector pbr_forward
+CompositorNodeSelector pbr_lighting
 {
-    in illuminance
+    in shadows
+    in raytraced_shadows
+    in light_mask
+    in gbuffer
     in occlusion
-    in gbuffer 1
-    in gbuffer 5
-    in velocity
 
     ConfigOption r_upscaler
     {
-        none              native
-        fsr               fsr
-        xess              xess
+        none      light_normal
+        xess      light_normal
+        fsr       light_reactivity
     }
 
-    CompositorNode native
+    CompositorNode light_normal
     {
         rt main
         {
@@ -625,158 +598,38 @@ CompositorNodeSelector pbr_forward
             resolution "render"
             texture PF_R11G11B10_FLOAT main
             depth_buffer pool 9
+            unordered_access
         }
 
         target main
         {
-            pass quad
+            pass clear
             {
-                material post_final
-                input 0 illuminance 0
-                input 1 occlusion 0
-                input 2 gbuffer 5
-                texture_camera camera_0
-                depth_mode read_only
+                clear_color 0.0 0.0 0.0 0.0
+                clear_mask COLOR
             }
 
-            pass render_scene // FORWARD WATER
+            pass tiled_deferred_lights
             {
                 camera camera_0
-                rg_start 111
-                rg_end 111
-                input 1 illuminance 0
-                input 2 gbuffer 5
-                depth_mode read_only
-            }
-
-            pass render_scene // FORWARD SELECTOR GRID
-            {
-                camera camera_0
-                sort_mode rg_then_ascending
-                rg_start 107
-                rg_end 109
-            }
-
-            pass render_scene // FORWARD GENERAL
-            {
-                camera camera_0
-                sort_mode rg_then_ascending
-                rg_start 60
-                rg_end 106
-            }
-
-            pass render_scene // FORWARD DECALS
-            {
-                camera camera_0
-                rg_start 190
-                rg_end 199
-                input 1 gbuffer 5
-                custom_visitor decal_visitor
             }
         }
     }
 
-    CompositorNode xess
+    CompositorNode light_reactivity
     {
         rt main
         {
             width 1.0
             height 1.0
-            texture PF_R11G11B10_FLOAT main
-            depth_buffer pool 0
-            unordered_access
-        }
-
-        rt forward
-        {
-            width 1.0
-            height 1.0
             resolution "render"
-            texture PF_R11G11B10_FLOAT forward
-            depth_buffer pool 9
-        }
-
-        target forward
-        {
-            pass quad
-            {
-                material post_final
-                input 0 illuminance 0
-                input 1 occlusion 0
-                input 2 gbuffer 5
-                texture_camera camera_0
-                depth_mode read_only
-            }
-
-            pass render_scene // FORWARD WATER
-            {
-                camera camera_0
-                rg_start 111
-                rg_end 111
-                input 1 illuminance 0
-                input 2 gbuffer 5
-                depth_mode read_only
-            }
-
-            pass render_scene // FORWARD SELECTOR GRID
-            {
-                camera camera_0
-                sort_mode rg_then_ascending
-                rg_start 107
-                rg_end 109
-            }
-
-            pass render_scene // FORWARD GENERAL
-            {
-                camera camera_0
-                sort_mode rg_then_ascending
-                rg_start 60
-                rg_end 106
-            }
-
-            pass render_scene // FORWARD DECALS
-            {
-                camera camera_0
-                rg_start 190
-                rg_end 199
-                input 1 gbuffer 5
-                custom_visitor decal_visitor
-            }
-        }
-
-        target main
-        {
-            pass xess
-            {
-                input 0 forward
-                input 1 velocity
-                input 2 gbuffer 5 
-            }
-        }
-    }
-
-    CompositorNode fsr
-    {
-        rt main
-        {
-            width 1.0
-            height 1.0
             texture PF_R11G11B10_FLOAT main
-            depth_buffer pool 0
-            unordered_access
-        }
-
-        rt forward
-        {
-            width 1.0
-            height 1.0
-            resolution "render"
-            texture PF_R11G11B10_FLOAT forward
             texture PF_L8 reactivity
             depth_buffer pool 9
+            unordered_access
         }
         
-        target forward
+        target main
         {   
             pass clear
             {
@@ -784,27 +637,529 @@ CompositorNodeSelector pbr_forward
                 clear_mask COLOR
             }
 
-            pass quad
+            pass tiled_deferred_lights
             {
-                material post_final
-                input 0 illuminance 0
-                input 1 occlusion 0
-                input 2 gbuffer 5
-                texture_camera camera_0
-                depth_mode read_only
+                camera camera_0
+            }
+        }
+    }
+
+    out main
+}
+
+CompositorNodeSelector pbr_water
+{
+    in gbuffer
+    in main
+    in light_mask
+    in shadows
+
+    ConfigOption r_water_simulation
+    {
+        none      water_none
+        full      water_simulation
+    }
+
+    CompositorNode water_simulation
+    {
+        rt_double water_collision
+        {
+            width 1024
+            height 1024
+            texture PF_L8 water_collision
+            depth_buffer pool 0
+        }
+
+        target water_collision
+        {
+            pass clear
+            {
+                clear_color 0.0 0.0 0.0 0.0
+                clear_mask COLOR
             }
 
-            pass render_scene // FORWARD WATER
+            pass render_scene
             {
-                bind_rt_index 0
+                camera camera_water
+                rg_start 55
+                rg_end 59
+                sort_mode rg_then_descending
+                material water/collision
+            } 
+
+            pass render_scene
+            {
+                camera camera_water
+                rg_start 215
+                rg_end 216
+                sort_mode rg_then_descending
+                material water/collision
+            }
+
+            pass water_simulation
+            {
+                camera camera_water
+            }
+        }
+
+        target gbuffer
+        {
+            pass render_scene // WATER LIQUID
+            {
                 camera camera_0
+                texture_camera camera_0
+                sort_mode rg_then_ascending
+                depth_mode read_only
+                rg_start 111
+                rg_end 111  
+                input 0 gbuffer 6
+                input 1 main 0
+            }
+        }
+
+        target main
+        {
+            pass render_scene // WATER LIGHTING
+            {
+                camera camera_0
+                texture_camera camera_0
+                sort_mode rg_then_ascending
                 rg_start 111
                 rg_end 111
-                input 1 illuminance 0
-                input 2 gbuffer 5
+                material water/lighting
+                custom_visitor forward_lit_visitor
+                input 0 gbuffer 0
+                input 1 gbuffer 1
+                input 2 gbuffer 2
+                input 3 gbuffer 3
+                input 4 gbuffer 4
+            }
+        }
+    }
+
+
+    CompositorNode water_none
+    {
+        rt water_collision
+        {
+            width 16
+            height 16
+            texture PF_L8 water_collision
+            depth_buffer pool 0
+        }
+
+        target water_collision
+        {
+            pass clear
+            {
+                clear_color 0.0 0.0 0.0 0.0
+                clear_mask COLOR
+            }
+        }
+
+        target gbuffer
+        {
+            pass render_scene // WATER LIQUID
+            {
+                camera camera_0
+                texture_camera camera_0
+                sort_mode rg_then_ascending
                 depth_mode read_only
+                rg_start 111
+                rg_end 111  
+                input 0 gbuffer 6
+                input 1 main 0
+            }
+        }
+
+        target main
+        {
+            pass render_scene // WATER LIGHTING
+            {
+                camera camera_0
+                texture_camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 111
+                rg_end 111
+                material water/lighting
+                custom_visitor forward_lit_visitor
+                input 0 gbuffer 0
+                input 1 gbuffer 1
+                input 2 gbuffer 2
+                input 3 gbuffer 3
+                input 4 gbuffer 4
+            }
+        }
+    }
+
+    out gbuffer
+    out main
+}
+
+CompositorNodeSelector pbr_reflection
+{
+    in main
+    in gbuffer
+
+    ConfigOption r_reflections
+    {
+        none       reflections_none
+        low        reflections_sssr
+        medium     reflections_sssr
+        high       reflections_sssr
+    }
+
+    CompositorNode reflections_none
+    {
+        target main
+        {
+            pass dummy
+            {
+
+            }
+        }
+    }
+
+    CompositorNode reflections_sssr
+    {        
+        target main
+        {
+            pass reflections
+            {
+                camera camera_0
+            }
+        }
+    }
+
+    out main
+}
+
+CompositorNodeSelector pbr_volumetric_fog
+{
+    in main
+    in shadows
+    in raytraced_shadows
+    in light_mask
+    
+    ConfigOption r_volumetric_fog
+    {
+        none       volumetric_fog_none
+        medium     volumetric_fog
+        high       volumetric_fog
+        ultra      volumetric_fog
+    }
+
+    CompositorNode volumetric_fog_none
+    {
+        target main
+        {
+            pass dummy
+            {
+
+            }
+        }
+    }
+
+    CompositorNode volumetric_fog
+    {
+        target main
+        {
+            pass volumetric_fog
+            {
+                camera camera_0
+            }
+        }
+    }
+
+    out main
+}
+
+CompositorNodeSelector pbr_combine
+{
+    in main
+    in gbuffer
+
+    ConfigOption r_combine
+    {
+        combine        combine
+        combine_r      combine_reflections
+        combine_e      combine_fog_exponential
+        combine_e_r    combine_fog_exponential_reflections
+        combine_v      combine_fog_volumetric
+        combine_v_r    combine_fog_volumetric_reflections
+    }
+
+    CompositorNode combine
+    {
+        rt main_copy
+        {
+            width 1.0
+            height 1.0
+            resolution "render"
+            texture PF_R11G11B10_FLOAT main_copy
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target main_copy
+        {
+            pass compute
+            {
+                input 0 main 0
+                tile_size 16 16
+                material blit_texture_cs
+            }
+        }
+
+        target main
+        {
+            pass compute
+            {
+                camera camera_0
+                texture_camera camera_0
+                material combine
+                input 0 main_copy 0
+            }
+        }
+    }
+
+    CompositorNode combine_reflections
+    {        
+        rt main_copy
+        {
+            width 1.0
+            height 1.0
+            resolution "render"
+            texture PF_R11G11B10_FLOAT main_copy
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target main_copy
+        {
+            pass compute
+            {
+                input 0 main 0
+                tile_size 16 16
+                material blit_texture_cs
+            }
+        }
+
+        target main
+        {
+            pass compute
+            {
+                camera camera_0
+                texture_camera camera_0
+                material combine_reflections
+                input 2 gbuffer 0
+                input 3 gbuffer 1
+                input 4 gbuffer 2
+                input 5 main_copy 0
+                input 6 gbuffer 6
+            }
+        }
+    }
+
+    CompositorNode combine_fog_exponential
+    {
+        rt main_copy
+        {
+            width 1.0
+            height 1.0
+            resolution "render"
+            texture PF_R11G11B10_FLOAT main_copy
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target main_copy
+        {
+            pass compute
+            {
+                input 0 main 0
+                tile_size 16 16
+                material blit_texture_cs
+            }
+        }
+
+        target main
+        {
+            pass compute
+            {
+                camera camera_0
+                texture_camera camera_0
+                material combine_fog_exponential
+                input 0 main_copy 0
+                input 1 gbuffer 6
+            }
+        }
+    }
+
+    CompositorNode combine_fog_exponential_reflections
+    {
+        rt main_copy
+        {
+            width 1.0
+            height 1.0
+            resolution "render"
+            texture PF_R11G11B10_FLOAT main_copy
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target main_copy
+        {
+            pass compute
+            {
+                input 0 main 0
+                tile_size 16 16
+                material blit_texture_cs
+            }
+        }
+
+        target main
+        {
+            pass compute
+            {
+                camera camera_0
+                texture_camera camera_0
+                material combine_fog_exponential_reflections
+                input 2 gbuffer 0
+                input 3 gbuffer 1
+                input 4 gbuffer 2
+                input 5 main_copy 0
+                input 6 gbuffer 6
+            }
+        }
+    }
+
+    CompositorNode combine_fog_volumetric
+    {
+        rt main_copy
+        {
+            width 1.0
+            height 1.0
+            resolution "render"
+            texture PF_R11G11B10_FLOAT main_copy
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target main_copy
+        {
+            pass compute
+            {
+                input 0 main 0
+                tile_size 16 16
+                material blit_texture_cs
+            }
+        }
+
+        target main
+        {
+            pass compute
+            {
+                camera camera_0
+                texture_camera camera_0
+                material combine_fog_volumetric
+                input 1 main_copy 0
+                input 2 gbuffer 6
+            }
+        }
+    }
+
+    CompositorNode combine_fog_volumetric_reflections
+    {
+        rt main_copy
+        {
+            width 1.0
+            height 1.0
+            resolution "render"
+            texture PF_R11G11B10_FLOAT main_copy
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target main_copy
+        {
+            pass compute
+            {
+                input 0 main 0
+                tile_size 16 16
+                material blit_texture_cs
+            }
+        }
+
+        target main
+        {
+            pass compute
+            {
+                camera camera_0
+                texture_camera camera_0
+                material combine_fog_volumetric_reflections
+                input 3 gbuffer 0
+                input 4 gbuffer 1
+                input 5 gbuffer 2
+                input 6 main_copy 0
+                input 7 gbuffer 6
+            }
+        }
+    }
+
+    out main
+}
+
+CompositorNodeSelector pbr_forward
+{
+    in main
+    in shadows
+    in light_mask
+    in gbuffer
+
+    ConfigOption r_upscaler
+    {
+        none    forward_normal
+        xess    forward_normal
+        fsr     forward_reactivity
+    }
+
+    CompositorNode forward_normal
+    {
+        target main
+        {
+            pass render_scene // FORWARD SELECTOR GRID
+            {
+                camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 107
+                rg_end 109
             }
 
+            pass render_scene // FORWARD GENERAL
+            {
+                camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 60
+                rg_end 106
+            }
+
+            pass render_scene // FORWARD DECALS
+            {
+                camera camera_0
+                rg_start 190
+                rg_end 199
+                input 1 gbuffer 6
+                custom_visitor decal_visitor
+                depth_mode read_only
+            }
+        }
+    }
+
+    CompositorNode forward_reactivity
+    {
+        target main
+        {   
             pass render_scene // FORWARD SELECTOR GRID
             {
                 bind_rt_index 0
@@ -829,26 +1184,90 @@ CompositorNodeSelector pbr_forward
                 camera camera_0
                 rg_start 190
                 rg_end 199
-                input 1 gbuffer 5
+                input 1 gbuffer 6
                 custom_visitor decal_visitor
-            }
-        }
-
-        target main
-        {
-            pass fsr
-            {
-                camera camera_0
-                input 0 forward 0
-                input 1 velocity
-                input 2 gbuffer 5
-                input 3 forward 1
-                //input 4 forward 1
+                depth_mode read_only
             }
         }
     }
 
     out main
+}
+
+CompositorNodeSelector pbr_upscaler
+{
+    in main
+    in gbuffer
+
+    ConfigOption r_upscaler
+    {
+        none    upscaler_none
+        fsr     upscaler_fsr
+        xess    upscaler_xess
+    }
+
+    CompositorNode upscaler_none
+    {
+        target main
+        {
+            pass dummy
+            {
+
+            }
+        }
+
+        out main
+    }
+
+    CompositorNode upscaler_xess
+    {
+        rt upscaled
+        {
+            width 1.0
+            height 1.0
+            texture PF_R11G11B10_FLOAT upscaled
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target upscaled
+        {
+            pass xess
+            {
+                input 0 main
+                input 1 gbuffer 5
+                input 2 gbuffer 6
+            }
+        }
+
+        out upscaled
+    }
+
+    CompositorNode upscaler_fsr
+    {
+        rt upscaled
+        {
+            width 1.0
+            height 1.0
+            texture PF_R11G11B10_FLOAT upscaled
+            depth_buffer pool 0
+            unordered_access
+        }
+
+        target upscaled
+        {
+            pass fsr
+            {
+                camera camera_0
+                input 0 main 0
+                input 1 gbuffer 5
+                input 2 gbuffer 6
+                input 3 main 1
+            }
+        }
+
+        out upscaled
+    }
 }
 
 CompositorNode pbr_bloom
@@ -1099,9 +1518,8 @@ CompositorNodeSelector pbr_antialiasing
 {
     in main
     in distortion
-    in gbuffer 5
-    in velocity
-
+    in gbuffer
+    
     ConfigOption r_anti_aliasing
     {
         none       aa_null
@@ -1211,9 +1629,9 @@ CompositorNodeSelector pbr_antialiasing
             pass compute
             {
                 input 0 tonemap 0
-                input 1 gbuffer 5
+                input 1 gbuffer 6
                 input 2 ldr 0
-                input 3 velocity 0
+                input 3 gbuffer 5
                 tile_size 16 16
                 material taa
             }
@@ -1281,12 +1699,18 @@ CompositorNodeSelector pbr_minimap
                 clear_mask STENCIL|COLOR|DEPTH
             }
 
+            pass quad
+            {
+                override_camera camera_minimap
+                material        minimap/background
+            }
+
             pass render_scene
             {
                 camera camera_minimap
-                rg_start 200
-                rg_end 204
-                sort_mode rg_then_ascending
+                rg_start    200
+                rg_end      204
+                sort_mode   rg_then_ascending
             }
 
             pass quad
@@ -1299,7 +1723,6 @@ CompositorNodeSelector pbr_minimap
                 camera camera_minimap
                 rg_start 205
                 rg_end 205
-                material minimap/world_blocker
             }
 
             pass quad
@@ -1660,6 +2083,14 @@ CompositorNodeSelector pbr_final
     out final
 }
 
+CompositorSync pbr_jitter
+{    
+    syncpoint camera_jitter
+    {
+        camera camera_0
+    }
+}
+
 CompositorSync pbr_cursor
 {    
     syncpoint cursor
@@ -1678,50 +2109,63 @@ CompositorSync pbr_present
 
 CompositorGraph pbr_compositor
 {
-    connect pbr_velocity        velocity        pbr_raytracing      velocity
-    connect pbr_velocity        velocity        pbr_antialiasing    velocity
-    connect pbr_velocity        velocity        pbr_lights          velocity
-    connect pbr_velocity        velocity        pbr_forward         velocity
-    connect pbr_gbuffer         gbuffer         pbr_shadow          gbuffer
-    connect pbr_gbuffer         gbuffer         pbr_raytracing      gbuffer
-    connect pbr_gbuffer         gbuffer         pbr_linear_depth    gbuffer
-    connect pbr_gbuffer         gbuffer         pbr_ssao            gbuffer
-    connect pbr_gbuffer         gbuffer         pbr_lights          gbuffer
-    connect pbr_gbuffer         gbuffer         pbr_forward         gbuffer
-    connect pbr_gbuffer         gbuffer         pbr_antialiasing    gbuffer
-    connect pbr_light_mask      light_mask      pbr_lights          light_mask    
-    connect pbr_shadow          shadows         pbr_lights          shadows
-    connect pbr_shadow          shadows         pbr_raytracing      shadows
-    connect pbr_raytracing      shadow          pbr_lights          shadow
-    connect pbr_raytracing      shadow          pbr_linear_depth    shadow
-    connect pbr_raytracing      shadow          pbr_ssao            shadow
-    connect pbr_linear_depth    linear_depth    pbr_ssao            linear_depth
-    connect pbr_linear_depth    linear_depth    pbr_lights          linear_depth
-    connect pbr_ssao            occlusion       pbr_forward         occlusion
-    connect pbr_lights          illuminance     pbr_forward         illuminance
-    connect pbr_forward         main            pbr_bloom           main
-    connect pbr_bloom           main            pbr_antialiasing    main
-    connect pbr_bloom           main            pbr_distortion      main
-    connect pbr_distortion      distortion      pbr_antialiasing    distortion
-    connect pbr_antialiasing    antialiased     pbr_final           main
-    connect pbr_antialiasing    antialiased     pbr_minimap         main
-    connect pbr_minimap         minimap         pbr_final           minimap
+    connect pbr_gbuffer         gbuffer             pbr_shadow          gbuffer
+    connect pbr_gbuffer         gbuffer             pbr_raytracing      gbuffer
+    connect pbr_gbuffer         gbuffer             pbr_lighting        gbuffer    
+    connect pbr_gbuffer         gbuffer             pbr_occlusion       gbuffer
+    connect pbr_gbuffer         gbuffer             pbr_water           gbuffer
+    connect pbr_light_mask      light_mask          pbr_lighting        light_mask
+    connect pbr_light_mask      light_mask          pbr_volumetric_fog  light_mask
+    connect pbr_light_mask      light_mask          pbr_forward         light_mask
+    connect pbr_light_mask      light_mask          pbr_water           light_mask
+    connect pbr_shadow          shadows             pbr_raytracing      shadows
+    connect pbr_shadow          shadows             pbr_lighting        shadows
+    connect pbr_shadow          shadows             pbr_volumetric_fog  shadows    
+    connect pbr_shadow          shadows             pbr_forward         shadows
+    connect pbr_shadow          shadows             pbr_water           shadows
+    connect pbr_raytracing      raytraced_shadows   pbr_occlusion       raytraced_shadows
+    connect pbr_raytracing      raytraced_shadows   pbr_lighting        raytraced_shadows
+    connect pbr_raytracing      raytraced_shadows   pbr_volumetric_fog  raytraced_shadows
+    connect pbr_occlusion       occlusion           pbr_lighting        occlusion
+    connect pbr_lighting        main                pbr_water           main
+    connect pbr_water           main                pbr_reflection      main
+    connect pbr_water           gbuffer             pbr_reflection      gbuffer
+    connect pbr_water           gbuffer             pbr_combine         gbuffer
+    connect pbr_water           gbuffer             pbr_forward         gbuffer
+    connect pbr_water           gbuffer             pbr_upscaler        gbuffer
+    connect pbr_water           gbuffer             pbr_antialiasing    gbuffer
+    connect pbr_reflection      main                pbr_volumetric_fog  main
+    connect pbr_volumetric_fog  main                pbr_combine         main
+    connect pbr_combine         main                pbr_forward         main
+    connect pbr_forward         main                pbr_upscaler        main
+    connect pbr_upscaler        main                pbr_bloom           main
+    connect pbr_upscaler        upscaled            pbr_bloom           main
+    connect pbr_bloom           main                pbr_antialiasing    main
+    connect pbr_bloom           main                pbr_distortion      main
+    connect pbr_distortion      distortion          pbr_antialiasing    distortion
+    connect pbr_antialiasing    antialiased         pbr_final           main
+    connect pbr_antialiasing    antialiased         pbr_minimap         main
+    connect pbr_minimap         minimap             pbr_final           minimap
 
-    pre_commit  final_context   pbr_cursor
-    post_commit final_context   pbr_present
+    pre_commit  gbuffer_context pbr_jitter
+    pre_commit  general_context pbr_cursor
+    post_commit general_context pbr_present
 
-    context velocity_context    pbr_velocity
     context gbuffer_context     pbr_gbuffer
     context shadow_context      pbr_light_mask
     context shadow_context      pbr_shadow
     context shadow_context      pbr_raytracing
-    context general_context     pbr_linear_depth
-    context general_context     pbr_ssao
-    context general_context     pbr_lights
+    context general_context     pbr_occlusion
+    context general_context     pbr_lighting
+    context general_context     pbr_water
+    context general_context     pbr_reflection
+    context general_context     pbr_volumetric_fog
+    context general_context     pbr_combine
     context general_context     pbr_forward
+    context general_context     pbr_upscaler
     context general_context     pbr_bloom
     context general_context     pbr_distortion
     context general_context     pbr_antialiasing
-    context final_context       pbr_minimap
-    context final_context       pbr_final
+    context general_context     pbr_minimap
+    context general_context     pbr_final
 }

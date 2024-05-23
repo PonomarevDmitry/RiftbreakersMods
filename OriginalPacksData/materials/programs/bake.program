@@ -1,0 +1,45 @@
+compute_program bake_skinned_cs hlsl
+{
+	source materials/programs/bake_cs.hlsl
+	column_major_matrices false
+	entry_point main
+	target cs_5_0
+
+    preprocessor_defines MAX_BONE_MATRICES=48,USE_HW_SKINNING=1
+
+    default_params
+    {
+    	param_named      cVertexStrideInfo 			float4 0 0 0 0
+        param_named_auto cWorld3x4Array 			world_matrix_array_3x4
+    }
+}
+
+compute_program bake_vegetation_cs hlsl
+{
+	source materials/programs/bake_cs.hlsl
+	entry_point main
+	target cs_5_0
+    preprocessor_defines USE_VEGETATION=1
+    default_params
+    {
+    	param_named      cVertexStrideInfo 			float4 0 0 0 0
+        param_named      cBendingInfo               float4 0 0 0 0
+        param_named_auto cWorld                 	world_matrix
+    }
+}
+
+compute_program bake_vegetation_skinned_cs hlsl
+{
+	source materials/programs/bake_cs.hlsl
+	column_major_matrices false
+	entry_point main
+	target cs_5_0
+    preprocessor_defines MAX_BONE_MATRICES=48,USE_HW_SKINNING=1,USE_VEGETATION=1
+
+    default_params
+    {
+    	param_named      cVertexStrideInfo 			float4 0 0 0 0
+        param_named      cBendingInfo               float4 0 0 0 0
+        param_named_auto cWorld3x4Array 			world_matrix_array_3x4
+    }
+}

@@ -81,3 +81,18 @@ fragment_program texture_to_clip_velocity_fp hlsl
     target ps_5_0
     preprocessor_defines VELOCITY=1
 }
+
+
+vertex_program texture_to_clip_world_vp hlsl
+{
+    source materials/programs/texture_to_clip_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+
+    preprocessor_defines WORLD_POS=1
+
+    default_params
+    {
+        param_named_auto cInvViewProjMatrix     inverse_viewproj_matrix
+    }
+}

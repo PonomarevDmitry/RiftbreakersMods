@@ -1,0 +1,345 @@
+material markers/progress
+{
+	render_group 192
+	technique
+	{
+		pass
+		{
+			depth_write 	off
+			depth_check 	off
+			scene_blend 	alpha_blend
+
+			glow 			3.5
+			emissive 		0.5 0.01 0.01 0.1
+			
+            vertex_program_ref unlit_decal_vp 
+            {
+            }
+            
+            fragment_program_ref danger_marker_fp
+            {
+            }
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+            texture_unit depth
+			{
+				content_type compositor any gbuffer 6
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material markers/circle
+{
+	render_group 190
+	technique
+	{
+		pass
+		{
+			depth_write 	off
+			depth_check 	off
+			scene_blend 	alpha_blend
+
+			glow 			100
+			emissive 		0.5 0.01 0.01 1
+			
+            vertex_program_ref unlit_decal_vp 
+            {
+            }
+            
+            fragment_program_ref unlit_decal_emissive_gradient_alpha_fp
+            {
+            }
+			
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit depth
+			{
+				content_type compositor any gbuffer 6
+				tex_address_mode clamp
+				filtering none
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_black.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+			
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material markers/danger_marker_progress_red : markers/progress
+{
+	glow 			4.0
+	emissive 		0.5 0.01 0.01 0.125
+}
+
+material markers/danger_marker_outer_red : markers/circle
+{
+	render_group 191
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_outer_red.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_outer_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+	glow 			6666
+}
+
+material markers/danger_marker_inner_red : markers/circle
+{
+	render_group 190
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_inner_red.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_inner_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/animated_grad.dds 190 8
+
+	glow 			368
+}
+
+material markers/danger_marker_progress_blue : markers/progress
+{
+	glow 			4.0
+	emissive 		0.0 0.25 0.5 0.125
+}
+
+material markers/danger_marker_outer_blue : markers/circle
+{
+	render_group 191
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_outer_blue.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_outer_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+	
+	glow 			6666
+	emissive 		0.0 0.25 0.50 1
+}
+
+material markers/danger_marker_inner_blue : markers/circle
+{
+	render_group 190
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_inner_blue.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_inner_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/animated_grad.dds 190 8
+
+	glow 			368
+	emissive 		0.0 0.25 0.50 1
+}
+
+material markers/warning_generic_progress_red : markers/progress
+{
+	glow 			3.5
+	emissive 		0.5 0.01 0.01 0.04
+}
+
+material markers/warning_generic_inner_red : markers/circle
+{
+	render_group 190
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_inner_red.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_inner_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/animated_grad.dds 190 8
+
+	glow 			368
+	emissive 		0.1 0.01 0.01 0.1
+}
+
+material markers/aura
+{	
+	render_group 180
+
+	technique
+	{
+		pass
+		{
+			glow 4
+            
+			depth_write 		off
+			//depth_check 		off
+			depth_bias 			-30 0
+
+			colour_write_r		on
+			colour_write_g		on
+			colour_write_b		on
+			colour_write_a		off
+            
+			scene_blend 		alpha_blend
+			
+			vertex_program_ref deferred_decal_vp
+			{
+			}
+			
+			fragment_program_ref deferred_decal_tiled_fp 
+			{
+			        param_named      cTilingFactor          float 16
+			}
+			
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/pbr_100_70_packed.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+
+			texture_unit depth
+			{
+				content_type compositor any gbuffer 6
+				tex_address_mode clamp
+				filtering none
+			}
+
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+
+			texture_unit noise 
+			{	
+				texture materials/textures/noise_tiled.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material markers/aura_acid : markers/aura
+{
+	set_texture_alias albedo 			materials/textures/units/skills/aura_damage_acid_area_albedo.dds
+	set_texture_alias normal 			materials/textures/units/skills/aura_damage_acid_area_normal.dds
+	set_texture_alias packed 			materials/textures/units/skills/aura_damage_acid_area_packed.dds
+	set_texture_alias emissive 			materials/textures/units/skills/aura_damage_acid_area_emissive.dds
+	//set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 12
+	//set_texture_alias noise 			materials/textures/color_white.dds
+//
+	//technique
+	//{
+	//	pass
+	//	{
+	//		fragment_program_ref deferred_decal_tiled_fp 
+	//		{
+	//		        param_named      cGradientUvScale  float 0.5
+	//		}
+	//	}
+	//}
+//
+	glow 1.5
+}
+
+material markers/aura_acid_circle : markers/circle
+{
+	render_group 191
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_acid.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_acid_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 5
+
+	emissive 		0.01 0.8 0.01 1
+	glow 			355
+}
+
+material markers/aura_energy : markers/aura
+{
+	set_texture_alias albedo 			materials/textures/units/skills/aura_damage_energy_area_albedo.dds
+	set_texture_alias normal 			materials/textures/units/skills/aura_damage_energy_area_normal.dds
+	set_texture_alias packed 			materials/textures/units/skills/aura_damage_energy_area_packed.dds
+	set_texture_alias emissive 			materials/textures/units/skills/aura_damage_energy_area_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 5.4
+	glow 4
+}
+
+material markers/aura_energy_circle : markers/circle
+{
+	render_group 191
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_energy.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_energy_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 2.4
+
+	emissive 		0.01 0.01 0.5 1
+	glow 			13
+ }
+
+material markers/aura_fire : markers/aura
+{
+	set_texture_alias albedo 			materials/textures/units/skills/aura_damage_fire_area_albedo.dds
+	set_texture_alias normal 			materials/textures/units/skills/aura_damage_fire_area_normal.dds
+	set_texture_alias packed 			materials/textures/units/skills/aura_damage_fire_area_packed.dds
+	set_texture_alias emissive 			materials/textures/units/skills/aura_damage_fire_area_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 174 6
+	glow 7
+}
+
+material markers/aura_fire_circle : markers/circle
+{
+	render_group 191
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_fire.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_fire_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 5
+
+	emissive 		1 0.56 0.0 1
+	glow 			26
+}
+
+material markers/aura_cryo : markers/aura
+{
+	set_texture_alias albedo 			materials/textures/units/skills/aura_damage_cryo_area_albedo.dds
+	set_texture_alias normal 			materials/textures/units/skills/aura_damage_cryo_area_normal.dds
+	set_texture_alias packed 			materials/textures/units/skills/aura_damage_cryo_area_packed.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 2.4
+
+	//glow 10
+}
+
+material markers/aura_cryo_circle : markers/circle
+{
+	render_group 191
+
+	set_texture_alias diffuse			materials/textures/particles/danger_marker_cryo.dds
+	set_texture_alias emissive			materials/textures/particles/danger_marker_cryo_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 8
+
+	emissive 		0.01 0.01 0.01 1
+	glow 			4
+}
