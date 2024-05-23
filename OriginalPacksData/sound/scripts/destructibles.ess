@@ -44,15 +44,15 @@ sound destructibles/destructible_wall
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/rock_big_shatter_01.wav
-	audio_file			sound/samples/destructibles/rock_big_shatter_02.wav
-	audio_file			sound/samples/destructibles/rock_big_shatter_03.wav
-	audio_file			sound/samples/destructibles/rock_big_shatter_04.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_01.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_02.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_03.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_04.wav
 	}
 	streaming			0
 
-	gain				0.25
-	instance_limit		10
+	gain				0.5
+	instance_limit		6
 	looping				0
 	rolloffFactor		6
 	referenceDistance	30
@@ -64,14 +64,83 @@ sound destructibles/destructible_wall
 	status				"beta"
 }
 
+sound destructibles/destructible_wall_swamp
+{
+	random_file
+	{
+		audio_file			sound/samples/destructibles/destructible_wall_swamp_01.wav
+		audio_file			sound/samples/destructibles/destructible_wall_swamp_02.wav
+		audio_file			sound/samples/destructibles/destructible_wall_swamp_03.wav
+	}
+	streaming			0
+
+	gain				0.4
+	instance_limit		6
+	looping				0
+	rolloffFactor		6
+	referenceDistance	30
+
+	group				"destructibles"
+
+	description			""
+	notes				""
+	status				"beta"
+}
+
+sound destructibles/destructible_wall_swamp_grow_back
+{
+	random_file
+	{
+		audio_file			sound/samples/destructibles/destructible_wall_swamp_grow_back_01.wav
+		audio_file			sound/samples/destructibles/destructible_wall_swamp_grow_back_02.wav
+        audio_file			sound/samples/destructibles/destructible_wall_swamp_grow_back_03.wav
+	}
+	streaming			0
+
+	gain				0.5
+	instance_limit		6
+	looping				0
+	rolloffFactor		6
+	referenceDistance	30
+
+	group				"destructibles"
+
+	description			""
+	notes				""
+	status				"beta"
+}
+
+sound destructibles/destructible_wall_swamp_damaged
+{
+	random_file
+	{
+		audio_file          sound/samples/destructibles/destructible_wall_swamp_01.wav
+        audio_file          sound/samples/destructibles/destructible_wall_swamp_02.wav
+        audio_file          sound/samples/destructibles/destructible_wall_swamp_03.wav
+	}
+	
+	gain                0.4
+	instance_limit		6	
+	looping             0
+	streaming			0
+
+	group				"enemy_attack"
+	rolloffFactor		6
+	referenceDistance	30
+	
+	description			"wooden creature/structure physically hit by something"
+	notes				""
+	status				"beta"
+}
+
 sound destructibles/destructible_rock_big
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/rock_big_shatter_01.wav
-	audio_file			sound/samples/destructibles/rock_big_shatter_02.wav
-	audio_file			sound/samples/destructibles/rock_big_shatter_03.wav
-	audio_file			sound/samples/destructibles/rock_big_shatter_04.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_01.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_02.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_03.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_04.wav
 	}
 	streaming			0
 
@@ -92,8 +161,8 @@ sound destructibles/destructible_rock_small
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/rock_big_shatter_03.wav
-	audio_file			sound/samples/destructibles/rock_big_shatter_04.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_03.wav
+		audio_file			sound/samples/destructibles/rock_big_shatter_04.wav
 	}
 	streaming			0
 
@@ -114,9 +183,9 @@ sound destructibles/birds_short
 {
 	random_file
 	{
-	audio_file			sound/samples/ambient/birds_short_01.wav
-	audio_file			sound/samples/ambient/birds_short_02.wav
-	audio_file			sound/samples/ambient/birds_short_03.wav
+		audio_file			sound/samples/ambient/birds_short_01.wav
+		audio_file			sound/samples/ambient/birds_short_02.wav
+		audio_file			sound/samples/ambient/birds_short_03.wav
 	}
 	gain				0.1
 	streaming			1
@@ -134,15 +203,15 @@ sound destructibles/destructible_wood
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/wood_large_shatter_01.wav
-	audio_file			sound/samples/destructibles/wood_large_shatter_02.wav
-	audio_file			sound/samples/destructibles/wood_large_shatter_03.wav
-	audio_file			sound/samples/destructibles/wood_medium_shatter_01.wav
-	audio_file			sound/samples/destructibles/wood_medium_shatter_02.wav
-	audio_file			sound/samples/destructibles/wood_medium_shatter_03.wav
-	//audio_file			sound/samples/destructibles/wood_small_shatter_01.wav
-	//audio_file			sound/samples/destructibles/wood_small_shatter_02.wav
-	//audio_file			sound/samples/destructibles/wood_small_shatter_03.wav
+		audio_file			sound/samples/destructibles/wood_large_shatter_01.wav
+		audio_file			sound/samples/destructibles/wood_large_shatter_02.wav
+		audio_file			sound/samples/destructibles/wood_large_shatter_03.wav
+		audio_file			sound/samples/destructibles/wood_medium_shatter_01.wav
+		audio_file			sound/samples/destructibles/wood_medium_shatter_02.wav
+		audio_file			sound/samples/destructibles/wood_medium_shatter_03.wav
+		//audio_file			sound/samples/destructibles/wood_small_shatter_01.wav
+		//audio_file			sound/samples/destructibles/wood_small_shatter_02.wav
+		//audio_file			sound/samples/destructibles/wood_small_shatter_03.wav
 	}
 	streaming			0
 
@@ -161,15 +230,21 @@ sound destructibles/destructible_wood
 
 sound destructibles/fire
 {
-	audio_file			sound/samples/destructibles/fire_loop_01.wav
-	gain				0
-	streaming			0
+	random_file
+	{
+		audio_file			sound/samples/destructibles/fire_loop_01.wav
+		audio_file			sound/samples/destructibles/fire_loop_02.wav
+		audio_file			sound/samples/destructibles/fire_loop_03.wav
+		audio_file			sound/samples/destructibles/fire_loop_04.wav
+	}	
+	gain				0.4
+	streaming			1
 
-	instance_limit   	8
+	instance_limit   	5
 
 	looping				1
 	rolloffFactor		6
-	referenceDistance	10
+	referenceDistance	30
 	group				"destructibles"
 
 	description			"zapętlone dźwięk palącego się ognia podpiety do palacych się pozostałosci po propach"
@@ -181,9 +256,9 @@ sound destructibles/destructible_grass
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/grass_hit_1.wav
-	audio_file			sound/samples/destructibles/grass_hit_2.wav
-	audio_file			sound/samples/destructibles/grass_hit_3.wav
+		audio_file			sound/samples/destructibles/grass_hit_1.wav
+		audio_file			sound/samples/destructibles/grass_hit_2.wav
+		audio_file			sound/samples/destructibles/grass_hit_3.wav
 	}
 	streaming			0
 
@@ -207,9 +282,9 @@ sound destructibles/destructible_crystal
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/glass_small_shatter_01.wav
-	audio_file			sound/samples/destructibles/glass_small_shatter_02.wav
-	audio_file			sound/samples/destructibles/glass_small_shatter_03.wav
+		audio_file			sound/samples/destructibles/glass_small_shatter_01.wav
+		audio_file			sound/samples/destructibles/glass_small_shatter_02.wav
+		audio_file			sound/samples/destructibles/glass_small_shatter_03.wav
 	}
 	streaming			0
 
@@ -279,10 +354,10 @@ sound destructibles/destructible_mushroom_medium
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/mushroom_medium_shatter_01.wav
-	audio_file			sound/samples/destructibles/mushroom_medium_shatter_02.wav
-	audio_file			sound/samples/destructibles/mushroom_medium_shatter_03.wav
-	audio_file			sound/samples/destructibles/mushroom_medium_shatter_04.wav
+		audio_file			sound/samples/destructibles/mushroom_medium_shatter_01.wav
+		audio_file			sound/samples/destructibles/mushroom_medium_shatter_02.wav
+		audio_file			sound/samples/destructibles/mushroom_medium_shatter_03.wav
+		audio_file			sound/samples/destructibles/mushroom_medium_shatter_04.wav
 	}
 	streaming			0
 
@@ -303,14 +378,37 @@ sound destructibles/crystal_stalactite_explosion
 {
 	random_file
 	{
-	audio_file			sound/samples/destructibles/crystal_stalactite_explosion_01.wav
-	audio_file			sound/samples/destructibles/crystal_stalactite_explosion_02.wav
-	audio_file			sound/samples/destructibles/crystal_stalactite_explosion_03.wav
+		audio_file			sound/samples/destructibles/crystal_stalactite_explosion_01.wav
+		audio_file			sound/samples/destructibles/crystal_stalactite_explosion_02.wav
+		audio_file			sound/samples/destructibles/crystal_stalactite_explosion_03.wav
 	}
 	streaming			0
 
 	gain				0.9
 	
+	looping				0
+	rolloffFactor		6
+	referenceDistance	30
+
+	group				"destructibles"
+
+	description			""
+	notes				""
+	status				"beta"
+}
+
+sound destructibles/anemone_hide_unhide
+{
+	random_file
+	{
+		audio_file			sound/samples/destructibles/anemone_hide_unhide_01.wav
+		audio_file			sound/samples/destructibles/anemone_hide_unhide_02.wav
+		audio_file			sound/samples/destructibles/anemone_hide_unhide_03.wav
+	}
+	streaming			0
+
+	gain				0.4
+	instance_limit		8
 	looping				0
 	rolloffFactor		6
 	referenceDistance	30
