@@ -162,7 +162,16 @@ TypeValueHelper.mt = {
             return nil
         end
 
-        field:SetValue(tostring(value))
+        if type(value) == 'boolean' then
+            if value == false then
+                value = "0"
+            else 
+                value = "1"
+            end  
+        end
+        
+        local res = field:SetValue(tostring(value))
+        Assert( res, "ERROR: failed to set value on field '" .. key .. "'" )
     end,
     __tostring = function( self )
 
