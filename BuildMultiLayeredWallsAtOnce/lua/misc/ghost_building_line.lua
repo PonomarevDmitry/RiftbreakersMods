@@ -14,18 +14,6 @@ function ghost_building_line:OnInit()
 
     self.linesEntities = {}
 
-    --if ( self.data:GetInt("activated") == 1 ) then
-    --    self.activated = true
-    --    self.buildStartPosition = EntityService:GetWorldTransform( self.entity )
-    --    self.buildStartPosition.position.x = self.data:GetFloat("activation_position_x")
-    --    self.buildStartPosition.position.y = self.data:GetFloat("activation_position_y")
-    --    self.buildStartPosition.position.z = self.data:GetFloat("activation_position_z")
-    --    EntityService:SetVisible( self.entity, false )
-    --
-    --    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
-    --    self.positionPlayer = EntityService:GetPosition( player )
-    --end
-
     self.positionPlayerMarker = nil
 
     self:CreateInfoChild()
@@ -972,6 +960,16 @@ function ghost_building_line:FinishLineBuild()
         step = math.ceil( count / additionalCubesCount)
     end
 
+    local database = EntityService:GetBlueprintDatabase( self.blueprint )
+    local randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+    local vector = { x=0, y=1, z=0 }
+    local randomOrientation = {
+        CreateQuaternion( vector, 0 ),
+        CreateQuaternion( vector, 90 ),
+        CreateQuaternion( vector, 180 ),
+        CreateQuaternion( vector, 270 )
+    }
+
     for i=1,count do
 
         local ghostEntity = self.linesEntities[i]
@@ -980,6 +978,9 @@ function ghost_building_line:FinishLineBuild()
 
         --LogService:Log(tostring(i) .. ":" .. tostring(step) .. ":" .. tostring(createCube))
         local transform = EntityService:GetWorldTransform( ghostEntity )
+        if ( randomRotation == 1 ) then
+            transform.orientation = randomOrientation[RandInt(1,4)]
+        end
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghostEntity, "BuildingComponent"))
 
         local testBuildable = self:CheckEntityBuildable( ghostEntity, transform, false, i )
