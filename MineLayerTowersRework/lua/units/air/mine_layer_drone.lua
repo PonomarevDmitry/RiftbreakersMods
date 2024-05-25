@@ -45,7 +45,7 @@ function mine_layer_drone:OnAttachEffectGroupRequest(evt)
 end
 
 function mine_layer_drone:OnDroneLifting()
-    QueueEvent( "FadeEntityInRequest", self.entity, 0.2 )
+    EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.2 )
 end
 
 function mine_layer_drone:FindActionTarget()
