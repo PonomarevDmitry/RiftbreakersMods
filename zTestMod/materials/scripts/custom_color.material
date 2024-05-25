@@ -1,0 +1,24 @@
+import * from "materials/scripts/pbr.material"
+
+material custom/color
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            vertex_program_ref unlit_fresnel_vp
+            {
+            }
+
+            fragment_program_ref unlit_fresnel_fp
+            {
+              param_named cBlendColor1 float4 0 0.5 0 1
+            }
+        }
+    }
+}
