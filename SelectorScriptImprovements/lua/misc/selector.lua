@@ -283,7 +283,7 @@ function selector:FindEntitiesToSelect( selectorComponent)
 
     local selectedEntities = {}
     for entity in Iter(possibleSelectedEnts ) do
-        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
         if ( selectableComponent == nil ) then goto continue end
 
         local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
@@ -489,7 +489,7 @@ function selector:OnActivateSelect()
     for entity in Iter(self.selectedEntities ) do
         if( IndexOf( self.activatedEntities, entity ) ~= nil ) then goto continue end
 
-        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
         Assert(selectableComponent ~= nil, "ERROR: No selectable component in selected entity!")
         self:ActivateEntity( entity )
         ::continue::
