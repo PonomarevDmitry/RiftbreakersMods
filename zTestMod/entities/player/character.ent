@@ -1,6 +1,6 @@
 EntityBlueprint
 {
-	name  "player/character"
+	name  "player/character_base"
 
 	LuaDesc
 	{
@@ -16,6 +16,11 @@ EntityBlueprint
 		update_frequency				"16"
 	}
 
+	ShadowExcludeComponent
+	{
+
+	}
+	
 	HealthDesc
 	{
 		max_health 					"200"
@@ -86,6 +91,7 @@ EntityBlueprint
 	{
 		stagger_long_time				"0.8"
 		stagger_long_health_threshold	"0.50"
+		stagger_long_cooldown			"5"
 	}
 
 	MeshDesc
@@ -93,6 +99,9 @@ EntityBlueprint
 		mesh "meshes/player/mech.mesh"
 		material "player/mech"
 	}
+
+	PlayerPawnComponent
+	{}
 
 	TypeDesc
 	{
@@ -1145,8 +1154,33 @@ EntityBlueprint
 					blueprint "effects/projectiles_and_trails/mech_dash_trail"
 					bone "att_foot_left"
 				}
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/mech_dash_ribbon"
+					bone "be_body_lower"
+				}
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/mech_dash_ribbon_horizontal"
+					bone "be_body_lower"
+				}
 			}
 		}
+		
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}	
 		
 		EffectGroup
 		{
@@ -1261,6 +1295,32 @@ EntityBlueprint
 					//bone "att_jump_light"
 				}
 			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemy_skills/cryo_aura_damage"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy_strong"
+					scale "2 2 2"
+				}
+			}
 		}		
 		EffectGroup
 		{
@@ -1335,51 +1395,6 @@ EntityBlueprint
 		{
 			IdDesc
 			{
-				name "player_trigger"
-			}
-			
-			TriggerDesc
-			{
-				owner 		"parent"
-
-				collision 	"interactive"
-				Shapes
-				{
-					PhysicsSphereShape
-					{
-						r "8.5"
-					}
-				}
-			}
-		}
-
-		EntityBlueprint
-		{
-			IdDesc
-			{
-				name "player_resource_trigger"
-			}
-			
-			TriggerDesc
-			{
-				owner 		"parent"
-				collision 	"resource"
-
-				Shapes
-				{
-					PhysicsSphereShape
-					{
-						r "0.5"
-					}
-				}
-			}
-
-		}
-
-		EntityBlueprint
-		{
-			IdDesc
-			{
 				name "player_damage_trigger"
 			}
 			
@@ -1391,11 +1406,9 @@ EntityBlueprint
 				type			"quelver"
 				Shapes
 				{
-					PhysicsBoxShape
+					PhysicsSphereShape
 					{
-						x "3.2"
-						y "3.75"
-						z "3.0"
+						r "1.0"
 					}	
 				}
 			}
@@ -1534,7 +1547,13 @@ EntityBlueprint
 				visibility		"always"
 			}
 
-			NetAlwaysRevelantComponent
+			RiftPointDesc
+			{
+				name 	"player"
+				type 	"main"
+				active 	"1"
+			}
+
 		}
 		//////////////////// MECH PARTS///////////
 		//EntityBlueprint
@@ -1738,6 +1757,12 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name  "player/character"
+	base_blueprint "player/character_base"
+}	
+
+EntityBlueprint
+{
 	name  "test_collision"
 
 	TriggerDesc
@@ -1753,3 +1778,14 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name  "player/water_collision"
+
+	MeshDesc
+	{
+		mesh "meshes/sphere.mesh"
+		material "water/collision"
+		render_group	215
+	}
+}
