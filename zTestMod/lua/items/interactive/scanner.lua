@@ -20,7 +20,7 @@ end
 
 function scanner:OnEquipped()
 	item.OnEquipped( self ) 
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
 function scanner:OnUnequipped()
@@ -33,10 +33,10 @@ function scanner:OnActivate()
 
 	QueueEvent("ShowScannableRequest", event_sink, true )	
 	local ownerData = EntityService:GetDatabase( self.owner );
-	if ( self.data:GetInt( "activated" ) == 0  ) then
+	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		QueueEvent("FadeEntityOutRequest", self.lastItemEnt, 0.5)
-		QueueEvent("FadeEntityInRequest", self.item, 0.5)
+		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.5 )
 		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 		self.poseType = ownerData:GetStringOrDefault( "RIGHT_HAND_pose_type", "" )
 	end
@@ -63,7 +63,7 @@ function scanner:OnDeactivate( forced )
 	end
 
 	if ( forced == false and  self.lastItemEnt ~= nil and EntityService:IsAlive( self.lastItemEnt ) ) then
-		QueueEvent("FadeEntityInRequest", self.lastItemEnt, 0.5)
+		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.5 )
 	end
 	QueueEvent("FadeEntityOutRequest", self.item, 0.5)
 
@@ -155,7 +155,7 @@ function scanner:OnExecuteScaning()
 end
 
 function scanner:DissolveShow()
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
 return scanner
