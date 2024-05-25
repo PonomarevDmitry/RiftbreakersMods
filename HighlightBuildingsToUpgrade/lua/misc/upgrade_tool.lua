@@ -31,6 +31,28 @@ function upgrade_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
 end
 
+function upgrade_tool:FilterSelectedEntities( selectedEntities ) 
+
+    local entities = {}
+
+    for entity in Iter( selectedEntities ) do
+
+        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode == BM_COMPLETED ) then 
+            Insert(entities, entity)
+        end
+
+        ::continue::
+    end
+
+    return entities
+end
+
 function upgrade_tool:OnUpdate()
 
     self:HighlightBuildingsToUpgrade()
