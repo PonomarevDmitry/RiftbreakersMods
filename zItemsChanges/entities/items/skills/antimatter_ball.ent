@@ -148,7 +148,7 @@ EntityBlueprint
 EntityBlueprint
 { 
 	name "items/skills/antimatter_ball_base"
-	base_blueprint	"lights/point/fire_red_medium"
+	base_blueprint	"lights/point/antimatter_ball"
 		
 	MeshDesc
 	{
@@ -184,6 +184,38 @@ EntityBlueprint
 	{
 		name    "rift/antimatter_ball"
 	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{	
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/antimatter_ball"					
+				}
+				Effect
+				{
+					blueprint "effects/items/antimatter_ball_muzzle"					
+				}				
+			}
+		}	
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "6 6 6"
+				}
+			}
+		}		
+	}		
 }
 
 EntityBlueprint
