@@ -139,7 +139,7 @@ function mini_miner:GetResourceChilds(resourceVolume)
             goto continue
         end
 
-        resourceValueHash[childResource] = math.floor( resourceValue.second )
+        resourceValueHash[childResource] = resourceValue.second
 
         distancesHash[childResource] = EntityService:GetDistanceBetween( childResource, self.owner )
 
