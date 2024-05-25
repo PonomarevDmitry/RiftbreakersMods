@@ -30,6 +30,7 @@ function mini_miner:OnActivate()
 
     local tower = PlayerService:BuildBuildingAtSpot( self.bp, pointToSpawn )
     ItemService:SetItemCreator( tower, self.entity_blueprint )
+    EntityService:PropagateEntityOwner( tower, self.owner )
 
     EntityService:DissolveEntity( tower, 1.0, self.data:GetFloatOrDefault("timeout", 20.0) )
 end
