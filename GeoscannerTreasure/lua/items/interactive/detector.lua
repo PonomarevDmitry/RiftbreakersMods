@@ -25,7 +25,7 @@ function detector:OnInit()
 end
 
 function detector:OnEquipped()
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 	self.effectScanner =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.item, "att_detector", "" )
 	EntityService:SetScale( self.effectScanner, 15.0, 15.0, 15.0 )
 	EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
@@ -38,10 +38,10 @@ function detector:OnActivate()
 	self:OnExecuteDetecting()
 
 	local ownerData = EntityService:GetDatabase( self.owner );
-	if ( self.data:GetInt( "activated" ) == 0  ) then
+	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		QueueEvent("FadeEntityOutRequest", self.lastItemEnt, 0.5)
-		QueueEvent("FadeEntityInRequest", self.item, 0.5)
+		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.5 )
 		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 		self.poseType = ownerData:GetStringOrDefault( "RIGHT_HAND_pose_type", "" )
 	end
@@ -66,7 +66,7 @@ function detector:OnDeactivate( forced )
 	end
 
 	if (forced == false and  self.lastItemEnt ~= nil and EntityService:IsAlive( self.lastItemEnt ) ) then
-		QueueEvent("FadeEntityInRequest", self.lastItemEnt, 0.5)
+		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.5 )
 	end
 
 	QueueEvent("FadeEntityOutRequest", self.item, 0.5)
@@ -249,7 +249,7 @@ function detector:OnExecuteDetecting()
 end
 
 function detector:DissolveShow()
-	EntityService:SetGraphicsUniform( self.item, "cDissolveAmount", 1 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
 function detector:spawnReplacement()
