@@ -14,62 +14,62 @@ EntityBlueprint
 			Storage
 			{
 				resource	 "carbonium"
-				max 	 	"30000"
+				max 	 	"1200"
 			}
 			Storage
 			{
 				resource	 "steel"
-				max 	 	"30000"
+				max 	 	"1200"
 			}
 			Storage
 			{
 				resource	 "uranium_ore"
-				max 	 	"30000"
+				max 	 	"1200"
 			}	
 			Storage
 			{
 				resource	 "uranium"
-				max 	 	"30000"
+				max 	 	"1200"
 			}				
 			Storage
 			{
 				resource	 "palladium"
-				max 	 	"30000"
+				max 	 	"1200"
 			}	
 			Storage
 			{
 				resource	 "titanium"
-				max 	 	"30000"
+				max 	 	"1200"
 			}		
 			Storage
 			{
 				resource	 "cobalt"
-				max 	 	"30000"
+				max 	 	"1200"
 			}			
 			Storage
 			{
 				resource	 "ammo_mech_low_caliber"
-				max 	 "400"
+				max 	 "16"
 			}
 			Storage
 			{
 				resource	 "ammo_mech_high_caliber"
-				max 	 "400"
+				max 	 "16"
 			}			
 			Storage
 			{
 				resource	 "ammo_mech_liquid"
-				max 	 "400"
+				max 	 "16"
 			}
 			Storage
 			{
 				resource	 "ammo_mech_explosive"
-				max 	 "400"
+				max 	 "16"
 			}
 			Storage
 			{
 				resource	 "ammo_mech_energy_cell"
-				max 	 "400"
+				max 	 "16"
 			}			
 		}
 	}
@@ -101,16 +101,16 @@ EntityBlueprint
 
 					EquipmentSlot
 					{
-						name			"DRILL"
-						allow_types		"interactive"
+						name			"EXCAVATOR"
+						allow_types		"equipment"
 						bone			"att_r_hand_item"
 						subslots_count	"1"
 					}
 
 					EquipmentSlot
 					{
-						name			"EXCAVATOR"
-						allow_types		"equipment"
+						name			"DRILL"
+						allow_types		"interactive"
 						bone			"att_r_hand_item"
 						subslots_count	"1"
 					}
@@ -133,12 +133,20 @@ EntityBlueprint
 			
 					EquipmentSlot
 					{
+						name			"LIFT"
+						allow_types		"interactive|equipment|lift"
+						bone			"att_r_hand_item"
+						subslots_count	"1"
+					}
+
+					EquipmentSlot
+					{
 						name			"ACTIVATOR"
 						allow_types		"interactive"
 						bone			"att_r_hand_item"
 						subslots_count	"1"
 					}
-					
+
 					EquipmentSlot
 					{
 						name			"FIST_LEFT"
@@ -389,3 +397,114 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name  "player/player_respawner"
+
+	LuaDesc
+	{
+		script "lua/props/special/player_respawner.lua"
+	}
+
+	InteractiveComponent 
+	{
+		slot 			 "ACTIVATOR"
+		radius 			 "4"
+		remove_component "1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/player/mech.mesh"
+		material "selector/hologram_skinned_blue"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/player/mech"
+	}
+	
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "inventor_ranged_melee"
+				animTime "0.0"
+			}
+		}
+	}	
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/menu/buttons/journal/journal_death_selected"
+		size
+		{
+			x "0.6"
+			y "0.6"
+		}
+		visibility 		"always"		
+	}		
+
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/items/consumables/holo_decoy.mesh"
+				material 	"items/consumables/holo_decoy"
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "interact"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/enemies_alien_tower/influence_pylon_dissolve"	
+				}
+			}	
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "player/player_label"
+
+	GuiDesc
+	{
+		def_name 				"gui/template/text_label_center"
+		alignment 				"center"
+		use_database_component 	"1"
+	}
+
+	DatabaseComponent
+	{
+		tooltip_content string:"error"
+	}
+}
+
+EntityBlueprint
+{
+	name  "player/player_marker"
+
+	GuiDesc
+	{
+		type 				"image"
+		material 			"gui/hud/player_border_marker"
+		mode				"clamp"
+		clamp_in_frustum 	"0"
+	}
+}
