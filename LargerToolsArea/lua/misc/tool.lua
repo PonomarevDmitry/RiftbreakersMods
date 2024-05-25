@@ -10,13 +10,13 @@ local SM_INVALID = 3
 local BUILD_MODE_ACTION_MAPPER_NAME = "buildModeActionMapv2"
 
 function tool:__init()
-    LuaEntityObject.__init(self,self)
+	LuaEntityObject.__init(self,self)
 end
 
 function tool:init()
-
-    self.stateMachine = self:CreateStateMachine()
-    self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
+    
+	self.stateMachine = self:CreateStateMachine()
+	self.stateMachine:AddState( "working", {enter="OnWorkEnter", execute="OnWorkExecute", exit="OnWorkExit" } )
 
     self.stateMachine:ChangeState("working")
     self.childPos = {}
@@ -52,9 +52,9 @@ function tool:InitializeValues()
     self.selectedEntities = {}
     self.selector = EntityService:GetParent( self.entity )
 
-    self:RegisterHandler( self.selector, "ActivateSelectorRequest", "OnActivateSelectorRequest" )
-    self:RegisterHandler( self.selector, "DeactivateSelectorRequest", "OnDeactivateSelectorRequest" )
-    self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
+	self:RegisterHandler( self.selector, "ActivateSelectorRequest", "OnActivateSelectorRequest" )
+	self:RegisterHandler( self.selector, "DeactivateSelectorRequest", "OnDeactivateSelectorRequest" )
+	self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
 
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent(self.selector, "PlayerReferenceComponent") )
     self.playerId = playerReferenceComponent.player_id
@@ -78,13 +78,13 @@ function tool:InitializeValues()
     self.currentScale = scale.x
     self.activated = false
     self:SetChildrenPosition()
-
+    
     local children = EntityService:GetChildren( self.corners, true )
     for child in Iter(children ) do
         if ( EntityService:GetComponent(child, "GuiComponent") ~= nil ) then
             self.infoChild = child
         end
-    end
+    end 
 
     self.scaleMap = {
         1,
@@ -109,14 +109,14 @@ function tool:OnWorkExit()
 end
 
 function tool:FindEntitiesToSelect( selectorComponent )
-    local position = selectorComponent.position
+    local position = selectorComponent.position 
     local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale))
     local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale))
     local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
 
     local distances = {}
     for entity in Iter( possibleSelectedEnts) do
-        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity );
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity );    
     end
 
     local sorter = function( lh, rh )
@@ -127,24 +127,24 @@ function tool:FindEntitiesToSelect( selectorComponent )
 
     local selectedEntities = {}
     for entity in Iter(possibleSelectedEnts ) do
-        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
         if ( selectableComponent == nil ) then goto continue end
-
+    
         local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
-
+        
         if ( buildingComponent ~= nil ) then
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode <= 2 ) then goto continue end
+            if ( mode <= 2 ) then goto continue end 
         end
-
+    
         Insert(selectedEntities, entity )
         ::continue::
     end
-
+    
     if ( self.FilterSelectedEntities ) then
         selectedEntities = self:FilterSelectedEntities( selectedEntities )
     end
-
+    
     return selectedEntities
 end
 
@@ -162,19 +162,19 @@ end
 
 function tool:OnWorkExecute()
     self:RescaleChild()
-    local selectorComponent = EntityService:GetComponent(self.selector, "BuildingSelectorComponent")
+    local selectorComponent = EntityService:GetComponent(self.selector, "BuildingSelectorComponent") 
     local previousSelection = self.selectedEntities
     self.selectedEntities =  self:FindEntitiesToSelect( reflection_helper(selectorComponent) )
     if ( self.RemovedFromSelection) then
-        for ent in Iter( previousSelection ) do
+        for ent in Iter( previousSelection ) do 
             if ( IndexOf( self.selectedEntities, ent ) == nil ) then
                 self:RemovedFromSelection( ent )
             end
         end
     end
-
+    
     if ( self.AddedToSelection) then
-        for ent in Iter( self.selectedEntities ) do
+        for ent in Iter( self.selectedEntities ) do 
             if ( IndexOf( previousSelection, ent ) == nil ) then
                 self:AddedToSelection( ent )
                 if ( self.activated )  then
@@ -183,7 +183,7 @@ function tool:OnWorkExecute()
             end
         end
     end
-
+    
     if ( self.OnUpdate ) then
         self:OnUpdate()
     end
@@ -255,7 +255,7 @@ function  tool:OnRelease()
             self:RemovedFromSelection( ent )
         end
     end
-    EntityService:RemoveEntity(self.corners)
+    EntityService:RemoveEntity(self.corners)    
 end
 
 function tool:OnActivateEntity( entity )
