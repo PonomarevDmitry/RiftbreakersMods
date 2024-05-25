@@ -7,6 +7,11 @@ EntityBlueprint
 		mesh 		"meshes/items/weapons/floating_mines.mesh"
 		material 	"items/weapons/floating_mines"
 	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
 
 	SkeletonDesc
 	{
@@ -23,7 +28,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor "5"
 		}
 
 		WeaponMuzzles
@@ -129,7 +134,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor "5"
 		}
 
 		WeaponMuzzles
@@ -157,6 +162,11 @@ EntityBlueprint
 	{
 		mesh 		"meshes/items/weapons/floating_mines.mesh"
 		material 	"items/weapons/floating_mines_advanced"
+	}		
+	
+ 	ShadowExcludeComponent
+	{
+
 	}
 }
 
@@ -203,7 +213,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor "5"
 		}
 
 		WeaponMuzzles
@@ -239,6 +249,11 @@ EntityBlueprint
 	{
 		mesh 		"meshes/items/weapons/floating_mines.mesh"
 		material 	"items/weapons/floating_mines_extreme"
+	}		
+	
+ 	ShadowExcludeComponent
+	{
+
 	}
 }
 
@@ -317,7 +332,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor "5"
 		}
 
 		WeaponMuzzles
@@ -430,7 +445,7 @@ EntityBlueprint
 		{
 			TeamRelationTriggerFilter
 			{
-				team		"hostility"
+				relation_name     "hostility"
 				check_parent "0"
 			}
 		}
@@ -456,8 +471,14 @@ EntityBlueprint
 		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
 		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_medium"		
 		hit_effect_direction	"up"
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"
+		}		
 	}
 	
 	EffectDesc
@@ -496,6 +517,20 @@ EntityBlueprint
 				}
 			}
 		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 4 2"
+				}
+			}
+		}		
 	}
 	SimpleMovementComponent
 	{
