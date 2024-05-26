@@ -180,7 +180,7 @@ function artificial_spawner_slots_replacer_all_map_tool:FindEntitiesToSelect( se
 
     for entity in Iter( possibleSelectedEnts ) do
 
-        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
         if ( selectableComponent == nil ) then goto continue end
 
         local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
