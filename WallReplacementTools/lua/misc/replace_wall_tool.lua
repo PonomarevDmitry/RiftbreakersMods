@@ -177,9 +177,9 @@ function replace_wall_tool:OnUpdate()
         end
 
         local connectType = self:GetConnectType( blueprintName, buildingRef )
-        if ( connectType == -1 ) then
-            goto continue
-        end
+        --if ( connectType == -1 ) then
+        --    goto continue
+        --end
 
         local level = BuildingService:GetBuildingLevel( entity )
 
@@ -290,6 +290,8 @@ function replace_wall_tool:GetWallBlueprintAndLevel( level, connectType )
                     return connectBlueprintName, buildingRef.level
                 end
             end
+
+            return blueprintName, buildingRef.level
         end
     end
 
@@ -381,10 +383,10 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local connectType = self:GetConnectType( blueprintName, buildingRef )
-        if ( connectType == -1 ) then
-            goto continue
-        end
+        --local connectType = self:GetConnectType( blueprintName, buildingRef )
+        --if ( connectType == -1 ) then
+        --    goto continue
+        --end
 
         Insert(entities, entity)
 
@@ -422,9 +424,9 @@ function replace_wall_tool:OnActivateEntity( entity )
     end
 
     local connectType = self:GetConnectType( blueprintName, buildingRef )
-    if ( connectType == -1 ) then
-        return
-    end
+    --if ( connectType == -1 ) then
+    --    return
+    --end
 
     local level = BuildingService:GetBuildingLevel( entity )
 
@@ -434,6 +436,19 @@ function replace_wall_tool:OnActivateEntity( entity )
     end
 
     local transform = EntityService:GetWorldTransform( entity )
+
+    local database = EntityService:GetBlueprintDatabase( wallBlueprintName )
+
+    if ( database and database:HasInt("random_rotation") ) then
+
+        local randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+        if ( randomRotation == 1 ) then
+            local angle = {0, 90, 180, 270}
+            local randomAngle = angle[RandInt(1,4)]
+
+            transform.orientation = CreateQuaternion( { x=0, y=1, z=0 }, randomAngle )
+        end
+    end
 
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
 end

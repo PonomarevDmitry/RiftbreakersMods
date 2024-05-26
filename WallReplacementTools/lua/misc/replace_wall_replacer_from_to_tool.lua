@@ -226,9 +226,9 @@ function replace_wall_replacer_from_to_tool:IsEntityApproved( entity )
     end
 
     local connectType = self:GetConnectType( blueprintName, buildingRef )
-    if ( connectType == -1 ) then
-        return false
-    end
+    --if ( connectType == -1 ) then
+    --    return false
+    --end
 
     local level = buildingRef.level
 
@@ -411,9 +411,9 @@ function replace_wall_replacer_from_to_tool:OnActivateEntity( entity )
     local buildingRef = reflection_helper(buildingDesc)
 
     local connectType = self:GetConnectType( blueprintName, buildingRef )
-    if ( connectType == -1 ) then
-        return
-    end
+    --if ( connectType == -1 ) then
+    --    return
+    --end
 
     local wallBlueprintName, wallBlueprintLevel = self:GetWallBlueprintAndLevel( buildingRef.level, connectType )
     if ( wallBlueprintName == "" ) then
