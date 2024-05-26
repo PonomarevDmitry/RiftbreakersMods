@@ -592,7 +592,7 @@ end
 
 function EquipmentQuickConfigurationsUtils:GetItemRarity( subSlotEntityId )
 
-    local entityModComponent = EntityService:GetComponent(subSlotEntityId, "EntityModComponent")
+    local entityModComponent = EntityService:GetConstComponent(subSlotEntityId, "EntityModComponent")
     if ( entityModComponent ~= nil ) then
         return reflection_helper( entityModComponent ).rarity
     end
