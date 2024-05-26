@@ -127,7 +127,7 @@ function energy_connector_trail:FillConnectorsList()
 
     for entity in Iter( entitiesBuildings ) do
 
-        local selectableComponent = EntityService:GetComponent( entity, "SelectableComponent")
+        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
         if ( selectableComponent == nil ) then
             goto continue
         end
