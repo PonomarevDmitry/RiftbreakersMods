@@ -158,6 +158,7 @@ function floating_hunt_mine:OnExplodeEnd()
     if itemCreator ~= "" then
         ItemService:SetItemCreator( entity, EntityService:GetBlueprintName(self.entity) );
     end
+    EntityService:PropagateEntityOwner( entity, self.entity )
     EntityService:DissolveEntity( self.entity, 0.2 )
 end
 
