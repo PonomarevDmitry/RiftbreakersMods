@@ -93,6 +93,7 @@ function turrets_cluster:OnActivate()
 
             local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
             ItemService:SetItemCreator( tower, self.entity_blueprint )
+            EntityService:PropagateEntityOwner( tower, self.owner )
             EntityService:DissolveEntity( tower, 1.0, timeout )
 
             if ( unlimitedMoney == false and unlimitedAmmo == false ) then
