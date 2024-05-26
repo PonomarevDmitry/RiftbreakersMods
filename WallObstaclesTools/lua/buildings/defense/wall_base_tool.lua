@@ -389,7 +389,7 @@ function wall_base_tool:GetBlueprintByConnectType( connectType )
         end
     end
 
-    return ""
+    return self.buildingDesc.ghost_bp
 end
 
 function wall_base_tool:FindSingleDiagonalLine( buildStartPosition, buildEndPosition, positionPlayer )
