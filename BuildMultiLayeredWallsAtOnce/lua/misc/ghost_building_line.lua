@@ -962,13 +962,18 @@ function ghost_building_line:FinishLineBuild()
 
     local database = EntityService:GetBlueprintDatabase( self.blueprint )
     local randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
-    local vector = { x=0, y=1, z=0 }
-    local randomOrientation = {
-        CreateQuaternion( vector, 0 ),
-        CreateQuaternion( vector, 90 ),
-        CreateQuaternion( vector, 180 ),
-        CreateQuaternion( vector, 270 )
-    }
+
+    local randomOrientation = nil
+    if ( randomRotation == 1 ) then
+        local vector = { x=0, y=1, z=0 }
+
+        randomOrientation = {
+            CreateQuaternion( vector, 0 ),
+            CreateQuaternion( vector, 90 ),
+            CreateQuaternion( vector, 180 ),
+            CreateQuaternion( vector, 270 )
+        }
+    end
 
     for i=1,count do
 
