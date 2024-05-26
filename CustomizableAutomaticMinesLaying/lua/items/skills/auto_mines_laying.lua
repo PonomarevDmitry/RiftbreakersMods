@@ -59,6 +59,7 @@ function auto_mines_laying:OnActivate()
         self.skillWorking = EntityService:SpawnAndAttachEntity( "effects/items/mech_mine_beacon_activated", self.owner, "att_grenade", EntityService:GetTeam( self.owner ) )
 
         ItemService:SetItemCreator( self.skillWorking, "effects/items/mech_mine_beacon_activated" )
+        EntityService:PropagateEntityOwner( self.skillWorking, self.owner )
 
         ItemService:SetItemReference( self.skillWorking, self.entity, EntityService:GetBlueprintName( self.entity ))
     end
@@ -331,6 +332,7 @@ function auto_mines_laying:SpawnMine(mineBlueprintName)
     EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
 
     ItemService:SetItemCreator( spawned, mineBlueprintName )
+    EntityService:PropagateEntityOwner( spawned, self.owner )
 
     
     EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", spawned, "" )
