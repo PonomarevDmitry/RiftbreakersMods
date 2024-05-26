@@ -47,6 +47,7 @@ function dash_explosion:SpawnExplosion()
 
     EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
     ItemService:SetItemCreator( spawned, EntityService:GetBlueprintName(self.entity) )
+    EntityService:PropagateEntityOwner( spawned, self.owner )
 
     QueueEvent( "FadeEntityInRequest", spawned, 0.5 )
 end

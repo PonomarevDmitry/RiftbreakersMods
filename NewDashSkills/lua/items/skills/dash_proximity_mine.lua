@@ -80,6 +80,7 @@ function dash_proximity_mine:SpawnMine()
     EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
 
     ItemService:SetItemCreator( spawned, self.bp)
+    EntityService:PropagateEntityOwner( spawned, self.owner )
 
     QueueEvent( "FadeEntityInRequest", spawned, self.dissolveTime )
 end
