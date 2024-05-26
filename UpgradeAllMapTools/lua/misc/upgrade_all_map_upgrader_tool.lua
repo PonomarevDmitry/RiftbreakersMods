@@ -356,6 +356,11 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
         return false
     end
 
+    local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+    if ( mode ~= BM_COMPLETED ) then 
+        return false
+    end
+
     if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
         return false
     end
