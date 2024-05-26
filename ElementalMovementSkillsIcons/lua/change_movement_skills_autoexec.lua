@@ -12,7 +12,7 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
         return
     end
 
-    local inventoryItemComponent = EntityService:GetComponent( entity, "InventoryItemComponent" )
+    local inventoryItemComponent = EntityService:GetConstComponent( entity, "InventoryItemComponent" )
     if ( inventoryItemComponent ~= nil ) then
 
         local itemName = ItemService:GetItemName(entity)
