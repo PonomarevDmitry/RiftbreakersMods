@@ -422,6 +422,19 @@ function replace_wall_replacer_from_to_tool:OnActivateEntity( entity )
 
     local transform = EntityService:GetWorldTransform( entity )
 
+    local database = EntityService:GetBlueprintDatabase( wallBlueprintName )
+
+    if ( database and database:HasInt("random_rotation") ) then
+
+        local randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+        if ( randomRotation == 1 ) then
+            local angle = {0, 90, 180, 270}
+            local randomAngle = angle[RandInt(1,4)]
+
+            transform.orientation = CreateQuaternion( { x=0, y=1, z=0 }, randomAngle )
+        end
+    end
+
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
 end
 
@@ -467,6 +480,8 @@ function replace_wall_replacer_from_to_tool:GetWallBlueprintAndLevel( level, con
                     return connectBlueprintName, buildingRef.level
                 end
             end
+
+            return blueprintName, buildingRef.level
         end
     end
 
