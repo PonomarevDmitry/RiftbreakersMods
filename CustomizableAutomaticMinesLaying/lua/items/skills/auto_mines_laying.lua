@@ -145,9 +145,9 @@ function auto_mines_laying:CanActivate()
             local playerItem = ItemService:GetFirstItemForBlueprint( self.owner, itemBlueprintName )
             if ( playerItem ~= INVALID_ID ) then
 
-                local inventoryItemComponentRef = reflection_helper(EntityService:GetComponent( playerItem, "InventoryItemComponent" ))
+                local inventoryItemRuntimeDataComponentRef = reflection_helper(EntityService:GetComponent( playerItem, "InventoryItemRuntimeDataComponent" ))
 
-                if ( inventoryItemComponentRef.use_count > 0 ) then
+                if ( inventoryItemRuntimeDataComponentRef.use_count > 0 ) then
 
                     return true
                 end
@@ -266,13 +266,13 @@ function auto_mines_laying:OnPlaceMineExecute( state )
                 goto continueBlueprintList
             end
 
-            local inventoryItemComponent = EntityService:GetComponent( playerItem, "InventoryItemComponent" )
-            if ( inventoryItemComponent == INVALID_ID ) then
+            local inventoryItemRuntimeDataComponent = EntityService:GetComponent( playerItem, "InventoryItemRuntimeDataComponent" )
+            if ( inventoryItemRuntimeDataComponent == INVALID_ID ) then
                 goto continueBlueprintList
             end
 
-            local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
-            if ( inventoryItemComponentRef.use_count <= 0 ) then
+            local inventoryItemRuntimeDataComponentRef = reflection_helper(inventoryItemRuntimeDataComponent)
+            if ( inventoryItemRuntimeDataComponentRef.use_count <= 0 ) then
                 goto continueBlueprintList
             end
 
@@ -289,7 +289,7 @@ function auto_mines_laying:OnPlaceMineExecute( state )
             local mineBlueprintName = itemBlueprintDatabase:GetString("bp")
 
             if ( unlimitedMoney == false and unlimitedAmmo == false ) then
-                inventoryItemComponentRef.use_count = inventoryItemComponentRef.use_count - 1
+                inventoryItemRuntimeDataComponentRef.use_count = inventoryItemRuntimeDataComponentRef.use_count - 1
             end
             
 
