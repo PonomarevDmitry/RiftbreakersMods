@@ -173,7 +173,7 @@ function EquipmentQuickConfigurationsUtils:UpdateSubSlotConfig(subSlotConfig, su
         subSlotConfig.itemUnique = reflection_helper( costComponent ).is_unique
     end
 
-    local inventoryItemComponent = EntityService:GetComponent( subSlotEntityId, "InventoryItemComponent" )
+    local inventoryItemComponent = EntityService:GetConstComponent( subSlotEntityId, "InventoryItemComponent" )
     if ( inventoryItemComponent ~= nil ) then
         subSlotConfig.replaceLowerQuality = reflection_helper( inventoryItemComponent ).replace_lower_quality
     end
@@ -578,7 +578,7 @@ function EquipmentQuickConfigurationsUtils:GetSlotDesc( blueprintName, subSlotEn
     slotDesc.blueprintName = blueprintName
     slotDesc.entityId = subSlotEntityId
 
-    local inventoryItemComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemComponent")
+    local inventoryItemComponent = EntityService:GetConstComponent(subSlotEntityId, "InventoryItemComponent")
     if ( inventoryItemComponent ~= nil ) then
 
         local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
@@ -597,7 +597,7 @@ function EquipmentQuickConfigurationsUtils:GetItemRarity( subSlotEntityId )
         return reflection_helper( entityModComponent ).rarity
     end
 
-    local inventoryItemComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemComponent")
+    local inventoryItemComponent = EntityService:GetConstComponent(subSlotEntityId, "InventoryItemComponent")
     if ( inventoryItemComponent ~= nil ) then
         return reflection_helper( inventoryItemComponent ).rarity
     end
