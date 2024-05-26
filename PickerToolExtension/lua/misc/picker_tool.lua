@@ -36,14 +36,18 @@ function picker_tool:FillSelectedBlueprints()
         "steel_factory",
         "rare_element_mine",
 
+        "bio_condenser",
+
         "liquid_pump",
 
         "geothermal_powerplant",
+        "gas_extractor",
     }
 
     self.resourceVolumeBluprintsNames = {
 
         "geothermal_powerplant",
+        "gas_extractor",
     }
 
     local isCampaignBiome = MissionService:IsCampaignBiome()
@@ -80,6 +84,10 @@ function picker_tool:FillSelectedBlueprints()
         ["liquid_pump"] = "buildings/resources/liquid_pump",
 
         ["geothermal_powerplant"] = "buildings/energy/geothermal_powerplant",
+
+        ["gas_extractor"] = "buildings/resources/gas_extractor",
+
+        ["bio_condenser"] = "buildings/resources/bio_condenser",
 
         -- Expaned Arsenal Entities
         ["acid_refinery"] = "buildings/resources/acid_refinery",
