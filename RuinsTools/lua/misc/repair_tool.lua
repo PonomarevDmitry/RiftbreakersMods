@@ -189,9 +189,9 @@ function repair_tool:OnActivateEntity( entity )
             QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
         end
     else
-        local child = EntityService:GetChildByName(entity, "##repair##")
+        local childRepair = EntityService:GetChildByName(entity, "##repair##")
 
-        if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(child) ) then
+        if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(childRepair) ) then
 
             local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
             if ( buildingComponent ~= nil ) then
