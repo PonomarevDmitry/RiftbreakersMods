@@ -67,7 +67,7 @@ function activate_all_bioanomalies:OnActivate()
                     goto continue
                 end
 
-                local interactiveComponent = EntityService:GetComponent( entity, "InteractiveComponent" )
+                local interactiveComponent = EntityService:GetConstComponent( entity, "InteractiveComponent" )
                 if ( interactiveComponent == nil ) then
                     goto continue
                 end
