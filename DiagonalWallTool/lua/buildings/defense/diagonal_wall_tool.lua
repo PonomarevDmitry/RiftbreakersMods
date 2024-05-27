@@ -2,6 +2,7 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
+require("lua/utils/numeric_utils.lua")
 
 class 'diagonal_wall_tool' ( LuaEntityObject )
 
@@ -202,42 +203,34 @@ function diagonal_wall_tool:GetGhostBlueprintByPosition(hashPositions, newPositi
 
     local blueprintName = ""
     local ghostBlueprintName = ""
-    local orientation = {}
-    orientation.x = 0
-    orientation.z = 0
+    local angle = 0
 
     if ( neiborsCount == 4 ) then
         blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeX)
-        orientation.y = 0
-        orientation.w = 1
 
-        return blueprintName, ghostBlueprintName, orientation
+        return blueprintName, ghostBlueprintName, angle
     end
 
     if ( neiborsCount == 3 ) then
         blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeT)
 
         if ( not hasBottom ) then
-            orientation.y = 0
-            orientation.w = 1
+            angle = 0
         end
 
         if ( not hasTop ) then
-            orientation.y = -1
-            orientation.w = 0
+            angle = 180
         end
 
         if ( not hasLeft ) then
-            orientation.y = -0.70710682868958
-            orientation.w = 0.70710676908493
+            angle = 270
         end
 
         if ( not hasRight ) then
-            orientation.y = -0.70710682868958
-            orientation.w = -0.70710676908493
+            angle = 90
         end
 
-        return blueprintName, ghostBlueprintName, orientation
+        return blueprintName, ghostBlueprintName, angle
     end
 
     if ( neiborsCount == 2 ) then
@@ -246,16 +239,14 @@ function diagonal_wall_tool:GetGhostBlueprintByPosition(hashPositions, newPositi
 
             blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeStraight)
 
-            orientation.y = 0
-            orientation.w = 1
+            angle = 0
         end
 
         if ( hasLeft and hasRight ) then
 
             blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeStraight)
 
-            orientation.y = -0.70710682868958
-            orientation.w = 0.70710676908493
+            angle = 90
         end
 
 
@@ -266,35 +257,31 @@ function diagonal_wall_tool:GetGhostBlueprintByPosition(hashPositions, newPositi
 
             blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
 
-            orientation.y = -0.70710682868958
-            orientation.w = -0.70710676908493
+            angle = 90
         end
 
         if ( hasTop and hasRight ) then
 
             blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
 
-            orientation.y = 0
-            orientation.w = 1
+            angle = 0
         end
 
         if ( hasBottom and hasLeft ) then
 
             blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
 
-            orientation.y = -1
-            orientation.w = 0
+            angle = 180
         end
 
         if ( hasBottom and hasRight ) then
 
             blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeCorner)
 
-            orientation.y = 0.70710682868958
-            orientation.w = -0.70710676908493
+            angle = 270
         end
 
-        return blueprintName, ghostBlueprintName, orientation
+        return blueprintName, ghostBlueprintName, angle
     end
 
     blueprintName, ghostBlueprintName = self:GetGhostBlueprintByConnectType(connectTypeStraight)
@@ -302,32 +289,25 @@ function diagonal_wall_tool:GetGhostBlueprintByPosition(hashPositions, newPositi
     if ( neiborsCount == 1 ) then
 
         if ( hasBottom) then
-            orientation.y = 0
-            orientation.w = 1
+            angle = 0
         end
 
         if ( hasTop) then
-            orientation.y = 1
-            orientation.w = 0
+            angle = 0
         end
 
         if ( hasLeft) then
-            orientation.y = -0.70710682868958
-            orientation.w = 0.70710676908493
+            angle = 90
         end
 
         if ( hasRight) then
-            orientation.y = -0.70710682868958
-            orientation.w = -0.70710676908493
+            angle = 90
         end
 
-        return blueprintName, ghostBlueprintName, orientation
+        return blueprintName, ghostBlueprintName, angle
     end
 
-    orientation.y = 0
-    orientation.w = 1
-
-    return blueprintName, ghostBlueprintName, orientation
+    return blueprintName, ghostBlueprintName, angle
 end
 
 function diagonal_wall_tool:OnWorkExecute()
@@ -376,11 +356,17 @@ function diagonal_wall_tool:OnWorkExecute()
         local newLinesEntityInfo = {}
         local newGridEntities = {}
 
-        --local isLogNeeded = (#oldLinesEntities ~= #newPositionsArray)
+        if ( self.orientationArray == nil ) then
 
-        --if ( isLogNeeded ) then
-        --    LogService:Log("OnWorkExecute Start")
-        --end
+            local vector = { x=0, y=1, z=0 }
+
+            self.orientationArray = {}
+
+            self.orientationArray[0] = CreateQuaternion( vector, 0 )
+            self.orientationArray[90] = CreateQuaternion( vector, 90 )
+            self.orientationArray[180] = CreateQuaternion( vector, 180 )
+            self.orientationArray[270] = CreateQuaternion( vector, 270 )
+        end
 
         for i=1,#newPositionsArray do
 
@@ -388,7 +374,9 @@ function diagonal_wall_tool:OnWorkExecute()
 
             local lineEnt = self:GetEntityFromGrid( oldGridEntities, newPosition.x, newPosition.z )
 
-            local blueprintName, ghostBlueprintName, orientation = self:GetGhostBlueprintByPosition(hashPositions, newPosition.x, newPosition.z)
+            local blueprintName, ghostBlueprintName, angle = self:GetGhostBlueprintByPosition(hashPositions, newPosition.x, newPosition.z)
+
+            local orientation = self.orientationArray[angle]
 
             if ( lineEnt == nil ) then
 
@@ -405,21 +393,10 @@ function diagonal_wall_tool:OnWorkExecute()
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
 
                 EntityService:SetPosition( lineEnt, newPosition)
-
-                --if ( isLogNeeded ) then
-                --    LogService:Log("OnWorkExecute Spawn position.x " .. tostring(newPosition.x) .. " position.z " .. tostring(newPosition.z) .. " lineEnt " .. tostring(lineEnt) )
-                --end
-            --else
-            --
-            --    if ( isLogNeeded ) then
-            --        LogService:Log("OnWorkExecute Exists position.x " .. tostring(newPosition.x) .. " position.z " .. tostring(newPosition.z) .. " lineEnt " .. tostring(lineEnt) )
-            --    end
-            else
-
             end
 
-            local buildingComponent = reflection_helper(EntityService:GetComponent( lineEnt, "BuildingComponent" ))
-            buildingComponent.bp = blueprintName
+            --local buildingComponent = reflection_helper(EntityService:GetComponent( lineEnt, "BuildingComponent" ))
+            --buildingComponent.bp = blueprintName
 
             EntityService:SetOrientation( lineEnt, orientation )
 
@@ -435,19 +412,15 @@ function diagonal_wall_tool:OnWorkExecute()
         end
 
         for i=#oldLinesEntityInfo,1,-1 do
-
+        
             local entityInfo = oldLinesEntityInfo[i]
-
+        
             local lineEnt = entityInfo.entity
-
+        
             local lineEntPosition = entityInfo.position
-
+        
             if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
-
-                --if ( isLogNeeded ) then
-                --    LogService:Log("OnWorkExecute Destroy position.x " .. tostring(lineEntPosition.x) .. " position.z " .. tostring(lineEntPosition.z) .. " lineEnt " .. tostring(lineEnt) )
-                --end
-
+        
                 EntityService:RemoveEntity( lineEnt )
                 oldLinesEntityInfo[i] = nil
             end
@@ -460,16 +433,12 @@ function diagonal_wall_tool:OnWorkExecute()
             local transform = EntityService:GetWorldTransform( lineEnt )
 
             self:CheckEntityBuildable( lineEnt, transform, i )
-            --BuildingService:CheckAndFixBuildingConnection( lineEnt )
+            BuildingService:CheckAndFixBuildingConnection( lineEnt )
         end
 
         self.linesEntities = newLinesEntities
         self.linesEntityInfo = newLinesEntityInfo
         self.gridEntities = newGridEntities
-
-        --if ( isLogNeeded ) then
-        --    LogService:Log("OnWorkExecute End")
-        --end
 
         local list = BuildingService:GetBuildCosts( self.wallBlueprint, self.playerId )
         for resourceCost in Iter(list) do
