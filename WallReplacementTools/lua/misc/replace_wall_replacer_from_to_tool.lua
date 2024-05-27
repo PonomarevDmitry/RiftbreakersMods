@@ -428,10 +428,20 @@ function replace_wall_replacer_from_to_tool:OnActivateEntity( entity )
 
         local randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
         if ( randomRotation == 1 ) then
-            local angle = {0, 90, 180, 270}
-            local randomAngle = angle[RandInt(1,4)]
 
-            transform.orientation = CreateQuaternion( { x=0, y=1, z=0 }, randomAngle )
+            if ( self.randomOrientationArray == nil ) then
+
+                local vector = { x=0, y=1, z=0 }
+
+                self.randomOrientationArray = {
+                    CreateQuaternion( vector, 0 ),
+                    CreateQuaternion( vector, 90 ),
+                    CreateQuaternion( vector, 180 ),
+                    CreateQuaternion( vector, 270 )
+                }
+            end
+
+            transform.orientation = self.randomOrientationArray[RandInt(1,4)]
         end
     end
 
