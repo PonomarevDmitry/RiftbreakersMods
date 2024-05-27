@@ -80,7 +80,7 @@ function activate_all_bioanomalies:OnActivate()
                 local minimapItemComponent = EntityService:GetComponent( entity, "MinimapItemComponent" )
                 if ( minimapItemComponent ~= nil ) then
                     local minimapItemComponentRef = reflection_helper( minimapItemComponent )
-                    minimapItemComponentRef.unknown_until_visible = 0
+                    minimapItemComponentRef.unknown_until_visible = false
                 end
 
                 local databaseEntity = EntityService:GetDatabase( entity )
