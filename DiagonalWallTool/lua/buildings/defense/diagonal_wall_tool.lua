@@ -962,12 +962,35 @@ function diagonal_wall_tool:FinishLineBuild()
         step = math.ceil( count / additionalCubesCount)
     end
 
+    local randomRotation = 0
+
+    local database = EntityService:GetBlueprintDatabase( self.wallBlueprint )
+    if ( database and database:HasInt("random_rotation") ) then
+
+        randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+
+        if ( randomRotation == 1 and self.randomOrientationArray == nil ) then
+
+            local vector = { x=0, y=1, z=0 }
+
+            self.randomOrientationArray = {
+                CreateQuaternion( vector, 0 ),
+                CreateQuaternion( vector, 90 ),
+                CreateQuaternion( vector, 180 ),
+                CreateQuaternion( vector, 270 )
+            }
+        end
+    end
+
     for i=1,count do
 
         local ghost = self.linesEntities[i]
         local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
         local transform = EntityService:GetWorldTransform( ghost )
+        if ( randomRotation == 1 ) then
+            transform.orientation = self.randomOrientationArray[RandInt(1,4)]
+        end
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
 
         local testBuildable = self:CheckEntityBuildable( ghost, transform, i )
