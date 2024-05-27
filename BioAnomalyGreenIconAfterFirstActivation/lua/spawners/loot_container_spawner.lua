@@ -36,18 +36,10 @@ function loot_container_spawner:OnLoad()
 
 	if (self.activated == true) then
 
-		local minimapItemComponent = EntityService:GetComponent( self.entity, "MinimapItemComponent" )
-		if ( minimapItemComponent ~= nil ) then
-			local minimapItemComponentRef = reflection_helper( minimapItemComponent )
+		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" ) or ""
+		if ( forcedGroup == "" ) then
 
-			if ( minimapItemComponentRef.icon_material ~= "gui/hud/minimap_icons/minimap_treasure_opened" ) then
-				minimapItemComponentRef.icon_material = "gui/hud/minimap_icons/minimap_treasure_opened"
-				minimapItemComponentRef.type = 2
-
-				self:RegisterHandler( self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
-				EntityService:CreateComponent( self.entity, "TimerComponent")
-				QueueEvent( "SetTimerRequest", self.entity, "ChangeMinimapItemType", 0.3 )
-			end
+			self:CreateMinimapIconEntity()
 		end
 	end
 end
@@ -82,16 +74,9 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 	if ( self.activated == false ) then
 		self.activated = true
 
-		local minimapItemComponent = EntityService:GetComponent( self.entity, "MinimapItemComponent" )
-		if ( minimapItemComponent ~= nil ) then
-			local minimapItemComponentRef = reflection_helper( minimapItemComponent )
-
-			minimapItemComponentRef.icon_material = "gui/hud/minimap_icons/minimap_treasure_opened"
-			minimapItemComponentRef.type = 2
-
-			self:RegisterHandler( self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
-			EntityService:CreateComponent( self.entity, "TimerComponent")
-			QueueEvent( "SetTimerRequest", self.entity, "ChangeMinimapItemType", 0.2 )
+		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" ) or ""
+		if ( forcedGroup == "" ) then
+			self:CreateMinimapIconEntity()
 		end
 
 		local waveLogic			= self.data:GetStringOrDefault( "wave_logic_file",  "error" )
@@ -150,20 +135,24 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 	end
 end
 
+function loot_container_spawner:CreateMinimapIconEntity()
+
+	local markerBlueprintName = "misc/loot_container_spawner_opened_marker"
+
+	local children = EntityService:GetChildren( self.entity, true )
+	for child in Iter(children) do
+		local blueprintName = EntityService:GetBlueprintName( child )
+		if ( blueprintName == markerBlueprintName and EntityService:GetParent( child ) == self.entity ) then
+
+			return
+		end
+	end
+
+	local team = EntityService:GetTeam( self.entity )
+	EntityService:SpawnAndAttachEntity( markerBlueprintName, self.entity, team )
+end
+
 function loot_container_spawner:OnTimerElapsedEvent(evt)
-
-	if (evt:GetName() ~= "ChangeMinimapItemType") then
-		return
-	end
-
-	self:UnregisterHandler(self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
-
-	local minimapItemComponent = EntityService:GetComponent( self.entity, "MinimapItemComponent" )
-	if ( minimapItemComponent ~= nil ) then
-		local minimapItemComponentRef = reflection_helper( minimapItemComponent )
-
-		minimapItemComponentRef.type = 1
-	end
 end
 
 return loot_container_spawner
