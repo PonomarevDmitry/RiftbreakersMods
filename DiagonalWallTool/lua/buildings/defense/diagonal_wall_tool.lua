@@ -168,7 +168,7 @@ function diagonal_wall_tool:GetGhostBlueprintByConnectType( connectType )
         end
     end
 
-    return ""
+    return self.buildingDesc.bp, self.buildingDesc.ghost_bp
 end
 
 function diagonal_wall_tool:GetGhostBlueprintByPosition(hashPositions, newPositionX, newPositionZ)
