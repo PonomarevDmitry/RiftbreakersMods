@@ -23,10 +23,30 @@ function replace_wall_tool:OnInit()
 
     local wallBlueprint = self.data:GetStringOrDefault("wallBlueprint", "") or ""
 
-    if ( wallBlueprint ~= "" ) then
+    self.randomRotation = 0
+
+    if ( wallBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", wallBlueprint ) ) then
 
         self:FillAllBlueprints( wallBlueprint )
         self:FillResearches()
+
+        local database = EntityService:GetBlueprintDatabase( wallBlueprint )
+        if ( database and database:HasInt("random_rotation") ) then
+
+            self.randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+
+            if ( self.randomRotation == 1 ) then
+
+                local vector = { x=0, y=1, z=0 }
+
+                self.randomOrientationArray = {
+                    CreateQuaternion( vector, 0 ),
+                    CreateQuaternion( vector, 90 ),
+                    CreateQuaternion( vector, 180 ),
+                    CreateQuaternion( vector, 270 )
+                }
+            end
+        end
     end
 
     self:SetWallIcon()
@@ -437,27 +457,8 @@ function replace_wall_tool:OnActivateEntity( entity )
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    local database = EntityService:GetBlueprintDatabase( wallBlueprintName )
-
-    if ( database and database:HasInt("random_rotation") ) then
-
-        local randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
-        if ( randomRotation == 1 ) then
-
-            if ( self.randomOrientationArray == nil ) then
-
-                local vector = { x=0, y=1, z=0 }
-
-                self.randomOrientationArray = {
-                    CreateQuaternion( vector, 0 ),
-                    CreateQuaternion( vector, 90 ),
-                    CreateQuaternion( vector, 180 ),
-                    CreateQuaternion( vector, 270 )
-                }
-            end
-
-            transform.orientation = self.randomOrientationArray[RandInt(1,4)]
-        end
+    if ( self.randomRotation == 1 ) then
+        transform.orientation = self.randomOrientationArray[RandInt(1,4)]
     end
 
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
