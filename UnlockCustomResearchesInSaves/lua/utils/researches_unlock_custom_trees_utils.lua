@@ -7,7 +7,13 @@ local Research = {}
 function Research:FindResearchNodesWithBlueprintAward( blueprint_name )
     local nodes = {}
 
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+    local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if ( researchComponent == nil ) then
+        return nodes
+    end
+
+    local researchComponentRef = reflection_helper( researchComponent )
+
     local categories = researchComponent.research
     for i=1,categories.count do
         local category = categories[i]
@@ -43,7 +49,13 @@ function Research:FindChildNodesWithFlag(research_name, flag)
         return false
     end
 
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+    local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if ( researchComponent == nil ) then
+        return nodes
+    end
+
+    local researchComponentRef = reflection_helper( researchComponent )
+
     local categories = researchComponent.research
     for i=1,categories.count do
         local category = categories[i]
@@ -124,6 +136,9 @@ end
 function Research:AddToCanBeTestedForResearchArray( researchNameArray )
 
     local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if ( researchComponent == nil ) then
+        return
+    end
 
     local researchComponentRef = reflection_helper( researchComponent )
 
@@ -138,6 +153,9 @@ end
 function Research:AddToCanBeTestedForResearch( researchName )
 
     local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if ( researchComponent == nil ) then
+        return
+    end
 
     local researchComponentRef = reflection_helper( researchComponent )
 
@@ -176,6 +194,10 @@ end
 function Research:CheckResearches()
 
     local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if ( researchComponent == nil ) then
+        return
+    end
+
     local researchComponentRef = reflection_helper( researchComponent )
 
     local hashResearching = {}

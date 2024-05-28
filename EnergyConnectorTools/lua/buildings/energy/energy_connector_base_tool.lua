@@ -206,6 +206,8 @@ function energy_connector_base_tool:BuildEntity(entity, transform, createCube)
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
 
+        self:BuildDesertFloor(transform)
+
         QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
 
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
