@@ -34,11 +34,16 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
         filter = function(entity)
 
-            if ( EntityService:CompareType( entity, "flora" ) ) then
-                return true
+            if ( not EntityService:CompareType( entity, "flora" ) ) then
+                return false
             end
 
-            return false
+            local blueprintName = EntityService:GetBlueprintName(entity)
+            if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
+                return false
+            end
+
+            return true
         end
     }
 
@@ -57,6 +62,11 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         if ( not EntityService:CompareType( entity, "flora" ) ) then
+            goto continue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+        if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
             goto continue
         end
 
@@ -79,6 +89,11 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue2
+        end
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+        if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
             goto continue2
         end
 
