@@ -50,6 +50,26 @@ function ghost_building_line:OnInit()
     if ( EntityService:HasComponent( self.entity, "GhostLineCreatorComponent" ) ) then
         EntityService:RemoveComponent( self.entity, "GhostLineCreatorComponent" )
     end
+
+    self.randomRotation = 0
+
+    local database = EntityService:GetBlueprintDatabase( self.blueprint )
+    if ( database and database:HasInt("random_rotation") ) then
+
+        self.randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+
+        if ( self.randomRotation == 1 ) then
+
+            local vector = { x=0, y=1, z=0 }
+
+            self.randomOrientationArray = {
+                CreateQuaternion( vector, 0 ),
+                CreateQuaternion( vector, 90 ),
+                CreateQuaternion( vector, 180 ),
+                CreateQuaternion( vector, 270 )
+            }
+        end
+    end
 end
 
 function ghost_building_line:CreateInfoChild()
@@ -960,26 +980,6 @@ function ghost_building_line:FinishLineBuild()
         step = math.ceil( count / additionalCubesCount)
     end
 
-    local randomRotation = 0
-
-    local database = EntityService:GetBlueprintDatabase( self.blueprint )
-    if ( database and database:HasInt("random_rotation") ) then
-
-        randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
-
-        if ( randomRotation == 1 and self.randomOrientationArray == nil ) then
-
-            local vector = { x=0, y=1, z=0 }
-
-            self.randomOrientationArray = {
-                CreateQuaternion( vector, 0 ),
-                CreateQuaternion( vector, 90 ),
-                CreateQuaternion( vector, 180 ),
-                CreateQuaternion( vector, 270 )
-            }
-        end
-    end
-
     for i=1,count do
 
         local ghostEntity = self.linesEntities[i]
@@ -988,7 +988,7 @@ function ghost_building_line:FinishLineBuild()
 
         --LogService:Log(tostring(i) .. ":" .. tostring(step) .. ":" .. tostring(createCube))
         local transform = EntityService:GetWorldTransform( ghostEntity )
-        if ( randomRotation == 1 ) then
+        if ( self.randomRotation == 1 ) then
             transform.orientation = self.randomOrientationArray[RandInt(1,4)]
         end
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghostEntity, "BuildingComponent"))
