@@ -67,6 +67,26 @@ function wall_base_tool:InitializeValues()
 
     self.ghostBlueprintName = buildingDesc.ghost_bp
     self.buildingDesc = buildingDesc
+
+    self.randomRotation = 0
+
+    local database = EntityService:GetBlueprintDatabase( self.wallBlueprintName )
+    if ( database and database:HasInt("random_rotation") ) then
+
+        self.randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+
+        if ( self.randomRotation == 1 ) then
+
+            local vector = { x=0, y=1, z=0 }
+
+            self.randomOrientationArray = {
+                CreateQuaternion( vector, 0 ),
+                CreateQuaternion( vector, 90 ),
+                CreateQuaternion( vector, 180 ),
+                CreateQuaternion( vector, 270 )
+            }
+        end
+    end
 end
 
 function wall_base_tool:CreateInfoChild()
@@ -272,9 +292,10 @@ function wall_base_tool:CheckEntityBuildable( entity, transform, id )
     return testBuildable
 end
 
-function wall_base_tool:BuildEntity(entity, createCube)
+function wall_base_tool:BuildEntity(entity, createCube, ignoreRandomRotation)
 
     createCube = createCube or false
+    ignoreRandomRotation = ignoreRandomRotation or false
 
     local transform = EntityService:GetWorldTransform( entity )
 
@@ -303,6 +324,10 @@ function wall_base_tool:BuildEntity(entity, createCube)
         QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.playerEntity, false )
 
         return testBuildable.flag
+    end
+
+    if ( self.randomRotation == 1 and ignoreRandomRotation == false ) then
+        transform.orientation = self.randomOrientationArray[RandInt(1,4)]
     end
 
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )

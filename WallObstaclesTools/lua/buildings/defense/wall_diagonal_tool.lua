@@ -530,6 +530,9 @@ function wall_diagonal_tool:FinishLineBuild()
         local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
         local transform = EntityService:GetWorldTransform( ghostEntity )
+        if ( self.randomRotation == 1 ) then
+            transform.orientation = self.randomOrientationArray[RandInt(1,4)]
+        end
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghostEntity, "BuildingComponent"))
 
         local testBuildable = self:CheckEntityBuildable( ghostEntity, transform, i )

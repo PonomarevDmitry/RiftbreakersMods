@@ -90,7 +90,7 @@ end
 function wall_obstacles_stairs_tool:FillStairsTemplates(stairsBlueprintName)
 
     local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( stairsBlueprintName ) )
-
+    
     self.stairsGhostBlueprintName = buildingDesc.ghost_bp
     self.stairsBuildingDesc = buildingDesc
 end
@@ -528,7 +528,11 @@ function wall_obstacles_stairs_tool:FinishLineBuild()
 
             local ghostEntity = allEntities[i]
 
-            self:BuildEntity(ghostEntity, createCube)
+            local buildingComponent = reflection_helper( EntityService:GetComponent( ghostEntity, "BuildingComponent" ) )
+
+            local ignoreRandomRotation = (buildingComponent.bp == self.stairsBlueprintName or buildingComponent.bp == self.stairsGhostBlueprintName)
+
+            self:BuildEntity(ghostEntity, createCube, ignoreRandomRotation)
 
             EntityService:RemoveEntity(ghostEntity)
         end
