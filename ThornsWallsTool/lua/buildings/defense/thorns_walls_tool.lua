@@ -69,6 +69,26 @@ function thorns_walls_tool:InitializeValues()
     -- Wall layers config
     self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsCount, 2)
     self.wallLinesCount = self:CheckConfigExists(self.wallLinesCount)
+
+    self.randomRotation = 0
+
+    local database = EntityService:GetBlueprintDatabase( self.wallBlueprint )
+    if ( database and database:HasInt("random_rotation") ) then
+
+        self.randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+
+        if ( self.randomRotation == 1 ) then
+
+            local vector = { x=0, y=1, z=0 }
+
+            self.randomOrientationArray = {
+                CreateQuaternion( vector, 0 ),
+                CreateQuaternion( vector, 90 ),
+                CreateQuaternion( vector, 180 ),
+                CreateQuaternion( vector, 270 )
+            }
+        end
+    end
 end
 
 function thorns_walls_tool:GetWallBlueprint( selectorDB )
@@ -1253,6 +1273,9 @@ function thorns_walls_tool:FinishLineBuild()
         local createCube = ((i == 1) or (i == count) or (i % step == 0))
 
         local transform = EntityService:GetWorldTransform( ghost )
+        if ( self.randomRotation == 1 ) then
+            transform.orientation = self.randomOrientationArray[RandInt(1,4)]
+        end
         local buildingComponent = reflection_helper(EntityService:GetComponent( ghost, "BuildingComponent"))
 
         local testBuildable = self:CheckEntityBuildable( ghost, transform, i )
