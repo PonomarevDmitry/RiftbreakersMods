@@ -247,6 +247,41 @@ GuiRootGroupDef
 										stretch_proportional "1"
 										alignment "left"
 										anchor "left"
+										animations
+										{
+											items
+											{
+												GuiAnimationDef
+												{
+													frames
+													{
+														GuiAnimationFrame
+														GuiAnimationFrame
+														{
+															frame_number "15"
+															mask "12"
+															scale
+															{
+																x "0.960"
+																y "0.960"
+															}
+
+														}
+
+														GuiAnimationFrame
+														{
+															frame_number "30"
+														}
+
+													}
+
+													name "pulsing"
+												}
+
+											}
+
+										}
+
 										id "icon"
 										margin
 										{
@@ -300,6 +335,48 @@ GuiRootGroupDef
 				alignment "top_right"
 				anchor "top_right"
 				id "frame"
+				item_scripts
+				{
+					scripts
+					{
+						Pair_IdString_GuiScriptDef2
+						{
+							key "OnShow"
+							value
+							{
+								script
+								{
+									children
+									{
+										GuiScriptNodeDef
+										{
+											cmd "GuiScriptCommandAnimStartDef"
+											{
+												animations
+												{
+													pulsing
+													{
+														String "wishlist_container.icon"
+													}
+
+												}
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
 				margin
 				{
 					z "60.000"
