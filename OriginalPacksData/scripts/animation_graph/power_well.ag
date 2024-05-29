@@ -1,0 +1,270 @@
+AnimationGraph
+{
+	name "power_well"
+	layer_vec
+	{
+		AnimationGraphLayer
+		{
+			name "default"
+			blend_type "0"
+			bone_group
+			emit_marker_events "1"
+			animation_node_vec
+			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationGetAnimKeyFrameNode"
+						{
+							default_key_frame "0"
+							anim_name "power_on"
+							dependency_vec
+							id "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "502.667"
+									y "414.000"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "0"
+								}
+
+							}
+
+							id "1"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "1103.333"
+									y "386.667"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					id "65535"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "idle"
+						position
+						{
+							x "-494.667"
+							y "-210.667"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "1"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "working"
+					speed "1.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "working"
+						position
+						{
+							x "-42.667"
+							y "-112.000"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "3.000"
+					anim_name "power_on"
+					speed "2.000"
+					start_time "0.000"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "power_on"
+						position
+						{
+							x "-44.000"
+							y "-226.667"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationMotionNode"
+				{
+					mirror "0"
+					blend_function_holder
+					{
+						funtion_type "0"
+					}
+
+					loop "0"
+					end_time "2.700"
+					anim_name "power_off"
+					speed "2.000"
+					start_time "0.700"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "power_off"
+						position
+						{
+							x "-100.000"
+							y "76.667"
+						}
+
+					}
+
+				}
+
+			}
+
+			start_node_idx "0"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "working"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "3"
+					blend_function_type "0"
+					duration "0.500"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "2"
+					condition "AnimationStateTransitionCondition"
+					{
+						max_time "999.000"
+						condition "1"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "working"
+						cmp "4"
+					}
+
+					authoritative "0"
+					dst_idx "2"
+					blend_function_type "0"
+					duration "0.500"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "3"
+					condition "AnimationStateTransitionCondition"
+					{
+						max_time "999.000"
+						condition "1"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+			}
+
+			metadata
+			{
+				name
+				position
+				{
+					x "0.000"
+					y "0.000"
+				}
+
+			}
+
+			emit_progress_event "0"
+		}
+
+	}
+
+	param_decl
+	{
+		ParamDecl "BoolParamDecl"
+		{
+			default "1"
+			param_name "working"
+			data_type "0"
+			is_const "0"
+		}
+
+	}
+
+}
+

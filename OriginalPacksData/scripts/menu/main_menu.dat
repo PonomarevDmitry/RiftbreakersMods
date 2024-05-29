@@ -79,16 +79,17 @@ MainMenuScreen
 
                 MainMenuButtonInfo
                 {
-                    label   "BUTTON_survival"
-                    icon    "gui/menu/buttons/main_menu/survival_selected" 
-                    action  "change_state:survival"
+                    label           "BUTTON_survival"
+                    icon            "gui/menu/buttons/main_menu/survival_selected" 
+                    action          "change_state:survival"
+                    requirement     "has_campaign_type:survival"
                 }
 
                 MainMenuButtonInfo
                 {
-                    label   "BUTTON_prologue_mission"
-                    icon    "gui/menu/buttons/main_menu/prolog_selected" 
-                    action  "start_campaign:campaigns/prologue/prologue.campaign"
+                    label           "BUTTON_prologue_mission"
+                    icon            "gui/menu/buttons/main_menu/prolog_selected" 
+                    action          "start_campaign:campaigns/prologue/prologue.campaign"
                     action_database
                     {
                         streaming   int:"0"
@@ -97,9 +98,10 @@ MainMenuScreen
 
                 MainMenuButtonInfo
                 {
-                    label   "BUTTON_custom_game"
-                    icon    "gui/menu/buttons/main_menu/custom_selected" 
-                    action  "change_screen:gui/menu/new_custom_game"
+                    label           "BUTTON_custom_game"
+                    icon            "gui/menu/buttons/main_menu/custom_selected" 
+                    action          "change_screen:gui/menu/new_custom_game"
+                    requirement     "has_campaign_type:custom"
                 }
 
                 MainMenuButtonInfo
@@ -109,7 +111,6 @@ MainMenuScreen
                     action  "change_screen:gui/menu/load_menu"
                 }
             }
-
         }
         
         MainMenuState
@@ -159,10 +160,10 @@ MainMenuScreen
 
                 MainMenuButtonInfo
                 {
-                    label   "BUTTON_continue_story"
-                    icon    "gui/menu/buttons/main_menu/continue_selected" 
-                    requirement "has_save:story"
-                    action  "launch_activity:continue;story"
+                    label           "BUTTON_continue_story"
+                    icon            "gui/menu/buttons/main_menu/continue_selected" 
+                    requirement     "has_save:story"
+                    action          "launch_activity:continue;story"
                 }
     
                 MainMenuButtonInfo
@@ -182,7 +183,6 @@ MainMenuScreen
 
         }
 
-        
         MainMenuState
         {
             name    "multiplayer"
@@ -219,7 +219,6 @@ MainMenuScreen
                 }
     
             }
-
         }
     }
 }

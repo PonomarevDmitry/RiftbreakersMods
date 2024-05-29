@@ -195,7 +195,7 @@ system rift/tower_water_big_hit
     }
     technique sparks
     {
-        visual_particle_quota                   40
+        visual_particle_quota                   200
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -209,7 +209,7 @@ system rift/tower_water_big_hit
         }
         emitter                                 Point DebrisEmitter
         {
-            emission_rate                       100
+            emission_rate                       200
             angle                               85
             time_to_live                        dyn_random
             {
@@ -218,7 +218,7 @@ system rift/tower_water_big_hit
             }
             velocity                            dyn_random
             {
-                min                             500
+                min                             100
                 max                             750
             }
             particle_width                      5
@@ -249,12 +249,12 @@ system rift/tower_water_big_hit
     }
     technique debris
     {
-        visual_particle_quota                   30
+        visual_particle_quota                   100
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/metal_scrap_anim
+        material                                particles/metal_scrap_blue_anim
         renderer                                Billboard
         {
             render_queue_group                  62
@@ -273,7 +273,7 @@ system rift/tower_water_big_hit
             }
             velocity                            dyn_random
             {
-                min                             500
+                min                             100
                 max                             750
             }
             all_particle_dimensions             dyn_random
@@ -312,42 +312,8 @@ system rift/tower_water_big_hit
         {
             time_colour                         0    1 1 1 1
             time_colour                         0.502174  1 1 1 1
-            time_colour                         1    1 1 1 0
-            colour_operation                    multiply
-        }
-    }
-    technique ring
-    {
-        visual_particle_quota                   1
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/flare_add_01
-        renderer                                Billboard
-        {
-            billboard_type                      perpendicular_common
-            billboard_rotation_type             vertex
-            common_direction                    0 1 0
-            common_up_vector                    0 0 1
-        }
-        emitter                                 Point ring
-        {
-            time_to_live                        0.7
-            velocity                            0
-            all_particle_dimensions             1
-            position                            0 10 0
-            force_emission                      true
-        }
-        affector                                Scale Affector20
-        {
-            xyz_scale                           1500
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0 0.501961 1 1
-            time_colour                         0.502174  0 0.501961 1 1
             time_colour                         1    0 0 0 0
+            colour_operation                    multiply
         }
     }
     technique refract_shockwave
@@ -381,7 +347,8 @@ system rift/tower_water_big_hit
         affector                                Colour 
         {
             time_colour                         0    1 1 1 0
-            time_colour                         0.252174  1 1 1 1
+            time_colour                         0.090935  1 1 1 1
+            time_colour                         0.806086  1 1 1 1
             time_colour                         1    1 1 1 0
         }
     }
