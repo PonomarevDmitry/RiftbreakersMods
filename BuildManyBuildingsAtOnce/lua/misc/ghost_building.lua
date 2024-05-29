@@ -35,10 +35,8 @@ function ghost_building:OnInit()
     EntityService:SetPosition( self.infoChild, -1, 0, 1)
 
     local typeName = ""
-    local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
-    if( buildingDesc ~= nil ) then
-        local buildingDescHelper = reflection_helper(buildingDesc)
-        typeName = buildingDescHelper.type
+    if( self.desc ~= nil ) then
+        typeName = self.desc.type
     end
 
     self.isBuildingWithGaps = false
@@ -125,6 +123,11 @@ function ghost_building:OnUpdate()
         end
     end
 
+
+    if ( self.desc ~= nil and self.desc.min_radius ~= nil and self.desc.min_radius ~= 0 ) then
+    
+        cellGapsCount = cellGapsCount + math.ceil( self.desc.min_radius / 2 )
+    end
 
 
     self:RemoveMaterialFromOldBuildingsToSell()
