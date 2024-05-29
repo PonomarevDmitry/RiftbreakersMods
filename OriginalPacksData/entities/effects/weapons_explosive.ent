@@ -953,7 +953,7 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.1"
-		power   		"5.2"
+		power   		"0.3"
 		falloff_radius 	"20"
 		radius   		"40"
 		frequency 		"20"
@@ -1307,7 +1307,7 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "items/weapons/explosive/grenade_launcher_fire"
+		name "items/weapons/explosive/mortar_muzzle"
 	}	
 
 	CameraShakeDesc
@@ -1319,6 +1319,73 @@ EntityBlueprint
 		frequency 		"20"
 		group			"explosion_small"
 	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/mortar_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_blue_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cryo_explosion_big"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/mortar_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/cryo_stain"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+			
+		}
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "10 10 10"
+				}
+			}
+		}			
+	}		
 }
 
 EntityBlueprint
@@ -1538,9 +1605,7 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/weapons/explosive/rocket_projectile_small"
-	}
-
-		
+	}	
 }
 
 EntityBlueprint
@@ -1696,7 +1761,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/explosion_big"
+		name "items/weapons/explosive/charged_bomb_explosion"
 	}
 
 	DecalDesc
@@ -1725,6 +1790,100 @@ EntityBlueprint
 				}
 			}
 		}			
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/charged_bomb_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"100"
+		radius 	"5"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_missile_launch"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.2"
+		falloff_radius 	"3"
+		radius   		"25"
+		frequency 		"10"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/charged_bomb_muzzle"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/charged_bomb_equipped
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/charged_bomb_equipped"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/charged_bomb_projectile
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/fire_blue_medium
+		effects/default
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/charged_bomb_projectile"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/charged_bomb_projectile"
 	}		
 }
 
@@ -1794,7 +1953,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/explosion_small"
+		name "items/weapons/explosive/insect_gun_hit"
 	}
 
 	DecalDesc
@@ -1843,7 +2002,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name 		"enemies/arachnoid/acid_spit"
+		name 		"items/weapons/explosive/insect_gun_muzzle"
 	}
 }
 
@@ -1883,7 +2042,128 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/rocket_projectile_big"
+		name "items/weapons/explosive/hcm_projectile_big_launch"
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/hcm_projectile_small
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/orange_very_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/hcm_projectile"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/hcm_projectile_small"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapon_hit/hcm_projectile_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/hcm_projectile_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/hcm_projectile_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_fire_random"
+		scale
+		{
+			x		3
+			y		3
+			z		3	
+		}
+	}	
+	BurningComponent
+	{
+		spread_radius 			"10.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"6"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}		
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "10 10 10"
+				}
+			}
+		}			
 	}		
 }
 
@@ -2101,3 +2381,4 @@ EntityBlueprint
 		}			
 	}		
 }
+

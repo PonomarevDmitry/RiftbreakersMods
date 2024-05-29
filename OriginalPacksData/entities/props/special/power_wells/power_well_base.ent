@@ -11,6 +11,16 @@ EntityBlueprint
 	{
 		group 		"power_well"
 	}
+
+	GuiDesc
+	{
+		type 			"image"
+		material		"gui/hud/minimap_icons/power_well_buff"
+
+		anchor			"top"
+		anchor_target 	"parent"
+		alignment		"bottom"
+	}
 }
 
 EntityBlueprint
@@ -45,41 +55,43 @@ EntityBlueprint
 	{
 		name "meshes/props/special/power_wells/power_well"
 	}
-	
-	//AnimationGraphDesc
-	//{
-	//	animation_graph_name "working"
-	//}	
-	
-	AnimationDesc
+
+	TriggerDesc
 	{
-		animations
+		owner 		"self"
+		collision 	"character"
+		type 		"GRID"
+
+		Shapes
 		{
-			Anim
+			PhysicsSphereShape
 			{
-				animName "working"
-				animTime "0.0"
+				r	32
 			}
 		}
-	}		
+	}			
 	
+	AnimationGraphDesc
+	{
+		animation_graph_name "power_well"
+	}	
+
 	InteractiveComponent 
 	{
 		slot 			    "ACTIVATOR"
 		radius 			    "8"
-		remove_entity 	    "1"
+		remove_entity 	    "0"
 	}
 
     LuaDesc
 	{
-		script "lua/misc/player_modificator_source.lua"
+		script "lua/props/special/power_well.lua"
 		
 		database
 		{
 			blueprint string:"props/special/power_wells/power_well_all"
 		}	
 	}	
-
 
 	PhysicsDesc
  	{
@@ -116,12 +128,6 @@ EntityBlueprint
 			}
 		}
 	}
-	//InfluenceComponent
-	//{
-	//	radius "14"		
-	//	energy_radius "0"
-	//	emissive_radius "9"		
-	//}
 
 	DestroyDesc
 	{
@@ -138,9 +144,21 @@ EntityBlueprint
 					explosion_effect 		"effects/power_well_drained"	
 					
 					//part_material	 		"props/crystals/pure_set"
-					//part_prefix 			"meshes/props/crystals/pure_medium_01"
-					//part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_prefix 			"meshes/units/ground/lesigian"
+					part_material	 		"props/special/power_wells/power_well"
 					//part_physics_material   "debris_heavy"
+				}
+			}
+			Pair
+			{
+				key "lifetime"
+				value
+				{
+					dissolve_time			"1.0"
+					explosion_type 			"none"
+					
+					//part_prefix 			"meshes/units/ground/lesigian"
+					//part_material	 		"props/special/power_wells/power_well"
 				}
 			}
 			Pair
@@ -154,8 +172,8 @@ EntityBlueprint
 					explosion_effect 		"effects/power_well_drained"	
 					
 					//part_material	 		"props/crystals/pure_set"
-					//part_prefix 			"meshes/props/crystals/pure_medium_01"
-					//part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_prefix 			"meshes/units/ground/lesigian"
+					part_material	 		"props/special/power_wells/power_well"
 					//part_physics_material   "debris_heavy"
 				}
 			}	
@@ -175,29 +193,56 @@ EntityBlueprint
 		explosion_max_power 	"8000"
 		explosion_min_power 	"5000"	
 	}
+	
+	SoundDesc
+	{
+		name "ambient/power_well_idle"
+	}	
 
 	EffectDesc
     {
-      EffectGroup
+      	EffectGroup
 		{
 			group "container"
-			enabled "1"	
+			enabled "0"	
 			
 			Effects
 			{
-				
-                Effect
-                {
-                    blueprint "lights/props/power_well"
-					bone "att_light"	
-                }	
                 Effect
                 {
                     blueprint "effects/loot/power_well_energy"
 					bone "att_light"	
                 }				
 			}
-		} 
+		} 	
+      	EffectGroup
+		{
+			group "power_on"
+			enabled "0"	
+			
+			Effects
+			{
+                Effect
+                {
+                    blueprint "effects/loot/power_well_power_on"
+					//bone "att_light"	
+                }				
+			}
+		} 	
+      	EffectGroup
+		{
+			group "power_off"
+			enabled "0"	
+			
+			Effects
+			{
+                Effect
+                {
+                    blueprint "effects/loot/power_well_power_off"
+					bone "att_light"	
+                }				
+			}
+		}		
 	}	
 }
 

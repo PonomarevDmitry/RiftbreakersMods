@@ -92,33 +92,92 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/weapons_melee_spear/trident_shockwave
+	name effects/weapons_melee_spear/trident_attack
 
 	base_blueprints
 	{
-		effects/no_lifetime
+		 effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/melee_spear/trident_attack"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_spear/trident_swing
+
+	base_blueprints
+	{
+		 effects/default
+	}
+	
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.85"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/melee_spear/trident_swing"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_spear/trident_hit_object
+
+	base_blueprints
+	{
+		lights/point/muzzle_white_very_small
+		effects/default
 	}
 
 	ParticleDesc
 	{
-		name    "rift/trident_shockwave"
+		name    "rift/mech_sword_world_hit"
 	}
 	
-	EffectDesc
+	CameraFeedbackShakeDesc
 	{
-		EffectGroup
-		{
-			group "water_collision"
-			enabled "1"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "player/water_collision"
-					scale "1 6 1"
-				}
-			}
-		}			
-	}		
+		duration 		"0.066"
+		power   		"0.4"
+		group			"weapon_hit"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/melee_sharp/sword_hit_world"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_spear/trident_hit_enemy
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_plasma_gun_projectile_hit"
+	}
+	
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.4"
+		group			"weapon_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/melee_spear/spear_hit_enemy"
+	}
 }

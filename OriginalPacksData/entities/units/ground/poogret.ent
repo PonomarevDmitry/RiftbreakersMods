@@ -12,12 +12,13 @@ EntityBlueprint
 			min_scale			float:"0.90"
 			max_scale			float:"0.90"
 			spawn_treasure_bp   string:"props/special/interactive/poogret_poo"
+			fear_time			float:"5"
 		}
 	}
 
 	DatabaseComponent
 	{
-		version int:"1"
+		version int:"2"
 	}
 
 	HealthDesc
@@ -590,7 +591,19 @@ EntityBlueprint
 					bone "att_back_6"					
 				}				
 			}
-		}				
+		}	
+		EffectGroup
+		{
+			group "fear"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_neutral/poogret_fear"
+				}
+			}
+		}		
 	}
 
 	FxComponent

@@ -1002,22 +1002,22 @@ EntityBlueprint
 	
 	ParticleDesc
 	{
-		name    "rift/generator_overcharge"
+		name    "rift/power_rod_shockwave"
 	}
 
 	CameraShakeDesc
 	{
-		duration 		"0.6"
-		power   		"1.5"
-		falloff_radius 	"40"
-		radius   		"60"
+		duration 		"0.4"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"50"
 		frequency 		"20"
 		group			"explosion_big"
 	}
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/explosion_medium"
+		name "items/weapons/energy/power_rod_shockwave"
 	}
 	
 	DecalDesc
@@ -1025,9 +1025,66 @@ EntityBlueprint
 		blueprint "effects/decals/explosion_hole_big_blue_01_timeout"
 		scale
 		{
-			x		1.6
-			y		1.6
-			z		1.6
+			x		2
+			y		2
+			z		2
 		}
 	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/power_rod_engine
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/fire_blue_medium
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/power_rod_engine"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/power_rod_launch"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/power_rod_energy
+
+	base_blueprints
+	{
+		effects/weapons_elemental/projectile
+		lights/point/fire_blue_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/power_rod_energy"
+	}
 }

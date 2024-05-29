@@ -258,7 +258,7 @@ EntityBlueprint
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "25"
+			range_min "20"
 			range_max "160"
 			aiming_range "170"
 		}
@@ -293,7 +293,7 @@ EntityBlueprint
 		}
 
 		ammo_blueprint 			"buildings/defense/tower_power_rod_projectile"
-		muzzle_flash_effect 	"effects/weapons_energy/heavy_artillery_muzzle"
+		//muzzle_flash_effect 	"effects/weapons_energy/heavy_artillery_muzzle"
 
 		burst_column_spacing 	"0"
 		burst_rate 				"0"
@@ -317,7 +317,7 @@ EntityBlueprint
 					part_physics_material   "debris_heavy"					
 					part_material 			"misc/building_parts_generic"
 					part_prefix 			"meshes/misc/building_medium_parts_generic"
-					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"					
 					part_lifetime "3"
 				}	
 			}
@@ -456,9 +456,13 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/weapons_explosive/rocket_projectile_very_big"
+					blueprint "effects/weapons_energy/power_rod_engine"
 					bone "att_exhaust"
 				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/power_rod_energy"
+				}				
 			}
 		}
 	}
@@ -515,7 +519,7 @@ EntityBlueprint
 
 		database
 		{
-			shockwave_count			int:"2"
+			shockwave_count			int:"7"
 		}
 	}
 
@@ -551,7 +555,7 @@ EntityBlueprint
 	EffectDesc
 	{
 		EffectGroup
-		{
+		{			
 			group "exhaust"
 			enabled "1"
 			
@@ -559,9 +563,13 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/projectiles_and_trails/tower_heavy_artillery_projectile"
+					blueprint "effects/weapons_energy/power_rod_engine"
 					bone "att_exhaust"
 				}
+				Effect
+				{
+					blueprint "effects/weapons_energy/power_rod_energy"
+				}				
 			}
 		}
 	}
@@ -580,6 +588,31 @@ EntityBlueprint
 			area_damage_speed	"30"
 		}
 	}
+	
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_energy/explosion_building_energy_medium"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_lifetime "3"
+				}
+
+				key "default"
+			}				
+		}
+	}	
 
 	children
 	{

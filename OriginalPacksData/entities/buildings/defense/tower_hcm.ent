@@ -170,17 +170,24 @@ EntityBlueprint
 				physics_material 	"default"
 				Shapes
 				{
-					PhysicsBoxShape
+					PhysicsCapsuleShape
 					{
-						x "6"
-						y "4"
-						z "6"
+						r "2.45"
+						half_height "2"
 
 						position
 						{
 							x "0.0"
 							y "2"
 							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
 						}
 					}
 				}
@@ -258,7 +265,7 @@ EntityBlueprint
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "10"
+			range_min "20"
 			range_max "160"
 			aiming_range "170"
 		}
@@ -311,7 +318,7 @@ EntityBlueprint
 		}
 
 		ammo_blueprint 			"buildings/defense/tower_hcm_projectile"
-		muzzle_flash_effect 	"effects/weapons_energy/heavy_artillery_muzzle"
+		//muzzle_flash_effect 	"effects/weapons_energy/heavy_artillery_muzzle"
 		muzzles_per_fire 		"6"
 		burst_column_angle 			"0"
 		//burst_column_spacing 		"10"
@@ -567,11 +574,6 @@ EntityBlueprint
 		bending_radius	"5.0"
 	}
 
-	SoundDesc
-	{
-		name 		"items/weapons/explosive/rocket_projectile_medium"
-	}
-
 	EffectDesc
 	{
 		EffectGroup
@@ -580,7 +582,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/weapons_explosive/rocket_projectile_small"
+					blueprint "effects/weapons_explosive/hcm_projectile_small"
 					bone "att_exhaust"
 				}
 			}
@@ -589,9 +591,9 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapon_hit/incendiary_mine_explosion"
-		on_world_hit_effect 	"effects/weapon_hit/incendiary_mine_explosion"
-		on_resisted_hit_effect 	"effects/weapon_hit/incendiary_mine_explosion"
+		on_enemy_hit_effect 	"effects/weapon_hit/hcm_projectile_explosion"
+		on_world_hit_effect 	"effects/weapon_hit/hcm_projectile_explosion"
+		on_resisted_hit_effect 	"effects/weapon_hit/hcm_projectile_explosion"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 	}
 

@@ -35,7 +35,7 @@ EntityBlueprint
 		slot 				"LIFT"
 		item 				"props/special/interactive/special_eggs_item"
 		item_count 			"0" // must be 0!
-		radius 				"6"
+		radius 				"8"
 		remove_entity 		"0" // (optional) remove entity after lift (0/1)
 		remove_component 	"0" // (optional) remove interactive feature after lift (0/1)
 	}
@@ -105,7 +105,6 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		lights/props/loot_container_small_violet
 		effects/no_lifetime
 	}
 
@@ -114,7 +113,7 @@ EntityBlueprint
 		slot 				"LIFT"
 		item 				"props/special/interactive/special_eggs_item"
 		item_count 			"0" // must be 0!
-		radius 				"6"
+		radius 				"8"
 		remove_entity 		"1" // must be 1!
 		remove_component 	"0"
 	}
@@ -131,13 +130,19 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/props/special/interactive/poogret_plant_big_01_fruit.mesh"
-		material "props/special/interactive/poogret_plant"
+		mesh "meshes/units/ground/egg_phirian.mesh"
+		material "units/ground/egg_phirian"
 	}
+	
+	HealthDesc
+	{ 
+		max_health 				"400"
+		health 					"400"
+	}	
 
 	MovementModificatorComponent
 	{
-		max_speed 0.7
+		max_speed 0.75
 	}
 
 	DestroyDesc
@@ -154,8 +159,8 @@ EntityBlueprint
 					explosion_min_power 	"2000"
 					explosion_effect 		"effects/destructibles/mushroom_big_violet"
 					explosion_effect_scale 	"0.6"
-					part_material	 		"props/special/interactive/poogret_plant_leaves"
-					part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
+					part_material	 		"units/ground/egg_phirian"
+					part_prefix 			"meshes/units/ground/egg_phirian"
 					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
 				}
 			}
@@ -174,20 +179,6 @@ EntityBlueprint
 					//part_effect 			"effects/destructibles/tree_leafs_part_trail"
 				}
 			}
-			Pair
-			{
-				key "burned"
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"6000"
-					explosion_min_power 	"2000"
-					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
-					part_material	 		"props/special/interactive/poogret_plant_leaves"
-					part_prefix 			"meshes/props/special/interactive/poogret_plant_big_01_fruit"
-					//part_effect 			"effects/destructibles/tree_burned_part_trail"
-				}
-			}
 		}
 	}
 
@@ -200,53 +191,106 @@ EntityBlueprint
 				type 				"kinematic"
 				group_id 			"grenade"
 				physics_material 	"gibs_super_heavy"
-                Shapes
-                {
-                    PhysicsMeshShape
-                    {
-                        mesh "meshes/props/special/interactive/poogret_plant_big_01_fruit_c1.nxs"
-                    }
-                }
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.5"
+						y "3.5"
+						z "1.5"
+
+						position
+						{
+							x "0.0"
+							y "1.75"
+							z "0.0"
+						}
+					}
+				}
 			}
 		}
 	}
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility		"discovered"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/poogret_food"
-	}
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/phirian_egg"
+		visibility 				"discovered"	
+	}	
 
 	EffectDesc
 	{
 		EffectGroup
 		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/phirian_egg_idle"
+					offset "0 2 0"
+				}
+			}
+		}			
+        EffectGroup
+        {
+            enabled "0"
+			group 	"grenade"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "props/special/interactive/phirian_egg_grenade"
+					offset "0 0 0"
+                }
+            }
+        }	
+		EffectGroup
+		{
 			group "water_collision"
-			enabled "1"
-
+			enabled "1"				
+			
 			Effects
 			{
 				Effect
 				{
 					blueprint "player/water_collision"
 					scale "2 2 2"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/interactive/phirian_egg_grenade"
+
+	TeamDesc
+	{
+		team "player"
+	}	
+
+	GrenadeAmmoComponent
+	{
+		on_world_hit_effect 		"effects/destructibles/phirian_egg_ground_hit"
+
+		collision_3d 				"world|world_blocker|world_destructible|building"
+
+		diameter					"2.00"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius	"1"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"0"
+					type			"area"
 				}
 			}
 		}
