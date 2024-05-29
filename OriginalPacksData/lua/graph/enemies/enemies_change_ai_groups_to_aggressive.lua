@@ -34,7 +34,7 @@ function enemies_change_ai_groups_to_aggressive:Activated()
 		return
 	end
 	for entity in Iter(self.entities) do
-		EntityService:ChangeAIGroupsToAggressive( entity, self.aggressiveRadius, true )
+		EntityService:ChangeAIGroupsToAggressive( entity, self.aggressiveRadius, self.disbandGroup )
 	end	
 	self:SetFinished()
 end

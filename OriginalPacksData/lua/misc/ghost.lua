@@ -94,6 +94,10 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
     --LogService:Log("Free grids: " .. tostring(testReflection.free_grids ))
 
     local canBuild = testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES
+    
+    local buildingSelectorComponent = reflection_helper( EntityService:GetComponent(self.selector, "BuildingSelectorComponent") )
+    buildingSelectorComponent.can_build = canBuild
+    
     if ( testReflection.flag == CBF_REPAIR  ) then
         local skinned = EntityService:IsSkinned(entity)
         if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then

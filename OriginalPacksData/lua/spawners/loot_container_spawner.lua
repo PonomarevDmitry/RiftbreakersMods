@@ -42,6 +42,8 @@ function loot_container_spawner:OnInteractWithEntityRequest( evt )
 		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1)
 	elseif string.find(blueprintName, "caverns" ) ~= nil then
 		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1)
+	elseif string.find(blueprintName, "poogret_poo" ) ~= nil then
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_COLLECT_RESOURCES_FROM_POO, 1)
 	end
 
 	local owner = evt:GetOwner()

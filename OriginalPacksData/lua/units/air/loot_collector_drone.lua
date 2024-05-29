@@ -111,12 +111,14 @@ function loot_collector_drone:OnUpdate()
             self:CollectLootEntity(loot_target)
         end
     else
+	    self:UnlockAllTargets()
         loot_target = self:FindActionTarget()
         UnitService:SetCurrentTarget( self.entity, "action", loot_target );
     end
 
     if not self:ValidateTarget( loot_target ) then
         self:SetTargetActionFinished()
+	    self:UnlockAllTargets()
         self:DisableEffect()
     end
 end

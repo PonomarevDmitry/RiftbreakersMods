@@ -76,6 +76,14 @@ function  VectorMul( vector1, vector2 )
 	return vector
 end
 
+function  VectorDiv( vector1, vector2 )
+	local vector = {}
+	vector.x = (vector1.x / vector2.x)
+	vector.y = (vector1.y / vector2.y)
+	vector.z = (vector1.z / vector2.z)
+	return vector
+end
+
 function  VectorAdd( vector1, vector2 )
 	local vector = {}
 	vector.x = (vector2.x + vector1.x)

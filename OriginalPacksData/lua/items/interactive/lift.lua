@@ -9,7 +9,6 @@ function lift:__init()
 end
 
 function lift:OnInit()
-	LogService:Log( "OnInit" )
 	self.recreateObject = false
 	self.forceHolding = false
 	self.backupObjectBlueprint = ""
@@ -162,7 +161,7 @@ function lift:OnHoldingExecute( state )
 	if self.objectEnt ~= INVALID_ID then
 		if EntityService:IsAlive( self.objectEnt ) then
 			local currentTime = state:GetDuration()
-			EntityService:Rotate( self.objectEnt, self.randomDir.x, self.randomDir.y, self.randomDir.z, 7 )
+			EntityService:Rotate( self.objectEnt, 0, 1, 0, 5 )
 			EntityService:SetPosition( self.objectEnt, 0, 1+0.5 * math.cos( 3.14 * currentTime ), 0 )
 		else 
 			self.sm:ChangeState("deactivation")
@@ -219,7 +218,7 @@ end
 
 function lift:OnDeactivate( forced )
 	local currentState = self.sm:GetCurrentState()
-	if currentState == "lifting" then
+	if currentState == "lifting" or currentState == "holding" then
 		self.sm:Deactivate()
 		self:HideHolderItems()
 	end

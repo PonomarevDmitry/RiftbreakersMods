@@ -7,7 +7,7 @@ function mech:UpdateChildrenDissolveAmount( entity, type, time )
 	local children =  EntityService:GetChildren( entity, false )
 	for child in Iter(children) do
 		local itemType = ItemService:GetItemType(child);
-		if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" ) then			
+		if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" and itemType ~= "lift" ) then			
 			EntityService:FadeEntity( child, type, time)
 			self:UpdateChildrenDissolveAmount( child, type, time )
 		end
@@ -24,9 +24,6 @@ function mech:init()
 	self:RegisterHandler( self.entity, "DestroyRequest",  "OnDestroyRequest" )
 	self:RegisterHandler( self.entity, "DamageEvent",  "OnDamageEvent" )
 	self:RegisterHandler( event_sink, "RevealHiddenEntityEvent",  "OnRevealHiddenEntityEvent" )
-	self:RegisterHandler( self.entity, "EnterInvisiblityEvent",  "OnEnterInvisiblityEvent" )
-	self:RegisterHandler( self.entity, "ExitInvisiblityEvent",  "OnExitInvisiblityEvent" )
-	self:RegisterHandler( self.entity, "ItemEquippedEvent",  "OnItemEquippedEvent" )
 	self:RegisterHandler( self.entity, "RiftTeleportStartEvent",  "OnRiftTeleportStartEvent" )
 	self:RegisterHandler( self.entity, "EnterShadowEvent",  "OnEnterShadowEvent" )
 	self:RegisterHandler( self.entity, "LeaveShadowEvent",  "OnLeaveShadowEvent" )
@@ -49,10 +46,8 @@ function mech:init()
 		self.fsm:ChangeState("dissolve")
 	end
 
-	self.invisibilityFsm = self:CreateStateMachine()
-	self.invisibilityFsm:AddState( "invisibility", {enter="OnInvisibilityEnter", exit="OnInvisibilityExit"} )
 	self.version = 1
-	
+
 	if self._OnInit then
 		self:_OnInit()
 	end
@@ -128,11 +123,6 @@ function mech:OnRevealHiddenEntityEvent( evt )
 
 end
 
-function mech:OnEnterInvisiblityEvent( evt )
-	self.invisibility = true;
-	self.invisibilityFsm:ChangeState( "invisibility" )
-end
-
 function mech:OnLoad()
 	day_cycle_machine.OnLoad( self )
 
@@ -142,96 +132,28 @@ function mech:OnLoad()
 
 	if ( self.version == nil or self.version < 1 ) then
 		EntityService:RemoveGraphicsUniform( self.entity, 0,  "cDissolveAmount")
-	end
-
-end
-
-function mech:OnExitInvisiblityEvent( evt )
-	self.invisibility = false;
-	local invisibilityStateName = self.invisibilityFsm:GetCurrentState()
-	if invisibilityStateName ~= "" then
-		local invisibilityState = self.invisibilityFsm:GetState( invisibilityStateName )
-		invisibilityState:SetDurationLimit( 0.5 )
-
-		EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.5 )
-		EffectService:DestroyEffectsByGroup( self.entity, "invisiblity" )
-
-		local children =  EntityService:GetChildren( self.entity, false )
-		for child in Iter(children) do
-			local itemType =ItemService:GetItemType(child);
-			if ( itemType ~= "interactive" and itemType ~= "equipment" ) then
-				local meshChildren =  EntityService:GetChildren( child, false )
-				for meshChild in Iter(meshChildren) do
-					EntityService:FadeEntity( meshChild, DD_FADE_IN, 0.5 )
-				end
-			end
-		end
+		self.version = 1
 	end
 end
 
-function mech:OnItemEquippedEvent( evt )
-	if ( self.invisibility == true ) then
-		local children =  EntityService:GetChildren( self.entity, false )
-		for child in Iter(children) do
-			local itemType =ItemService:GetItemType(child);
-			if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" ) then
-				local meshChildren =  EntityService:GetChildren( child, false )
-				for meshChild in Iter(meshChildren) do
-					QueueEvent( "FadeEntityOutRequest", meshChild, 0.5 )
-					if ( EntityService:IsSkinned( meshChild )) then
-						EntityService:SetMaterial( meshChild, "player/item_distortion_skinned", "1_invisiblity" )
-					else
-						EntityService:SetMaterial( meshChild, "player/item_distortion", "1_invisiblity" )
-					end
-				end
-			end
-		end
-	end
-end
-
+-- deprecated
 function mech:OnInvisibilityEnter( state )
-	QueueEvent( "FadeEntityOutRequest", self.entity, 0.5 )
-	EntityService:SetMaterial( self.entity, "player/mech_distortion", "1_invisiblity" )
-	EffectService:AttachEffects( self.entity, "invisiblity" )
-	
-	local children = EntityService:GetChildren( self.entity, false )
-	for child in Iter(children) do
-		local itemType =ItemService:GetItemType(child);
-		if ( itemType ~= "interactive" and itemType ~= "equipment" ) then
-			local meshChildren =  EntityService:GetChildren( child, false )
-			for meshChild in Iter(meshChildren) do
-				QueueEvent( "FadeEntityOutRequest", meshChild, 0.5 )
-				if ( EntityService:IsSkinned( meshChild )) then
-					EntityService:SetMaterial( meshChild, "player/item_distortion_skinned", "1_invisiblity" )
-				else
-					EntityService:SetMaterial( meshChild, "player/item_distortion", "1_invisiblity" )
-				end
-			end
-		end
-	end
 end
-
 function mech:OnInvisibilityExit( state )
-	EntityService:RemoveMaterial( self.entity, "1_invisiblity" )
-	local children =  EntityService:GetChildren( self.entity, false )
-	for child in Iter(children) do
-		local itemType =ItemService:GetItemType(child);
-		if ( itemType ~= "interactive" and itemType ~= "equipment" ) then
-			local meshChildren =  EntityService:GetChildren( child, false )
-			for meshChild in Iter(meshChildren) do
-				EntityService:RemoveMaterial( meshChild, "1_invisiblity" )
-			end
-		end
-	end
 end
+function mech:OnItemEquippedEvent( evt )
+end
+function mech:OnEnterInvisiblityEvent( evt )
+end
+function mech:OnExitInvisiblityEvent( evt )
+end
+--- 
 
 function mech:OnPortalOpenEnter( state )
 	EntityService:SetVisible( self.entity, false )
 	EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.0)
 	self:UpdateChildrenDissolveAmount( self.entity,DD_FADE_OUT, 0 )
 
-	--EffectService:SpawnEffect( self.entity, "effects/mech/jump_portal_start", "att_jump" )
-	--EffectService:SpawnEffect( self.entity, "effects/mech/jump_portal_light", "att_jump_light" )
 	EffectService:SpawnEffects( self.entity, "jump_portal" )
 	state:SetDurationLimit( 2 )
 end

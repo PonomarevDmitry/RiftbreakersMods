@@ -47,6 +47,16 @@ end
 function drone_spawner:SpawnDroneBlueprint( blueprint, count )
     local team = EntityService:GetTeam(self.owner)
 
+    local droneLifeTime = nil
+    if self.data:HasFloat("drone_lifetime") then
+        local timeElapsed = GetLogicTime() - self.trigger_time
+        droneLifeTime = self.data:GetFloat("drone_lifetime") - timeElapsed
+
+        if droneLifeTime <= 0 then
+            return
+        end
+    end
+
     for i=1,count do
         local position = EntityService:GetPosition(self.owner)
         position.x = position.x + RandFloat( 1.0, 5.0 )
@@ -63,8 +73,8 @@ function drone_spawner:SpawnDroneBlueprint( blueprint, count )
 	    EffectService:AttachEffects(drone, "fly")
         ItemService:SetItemReference( drone, self.entity, EntityService:GetBlueprintName( self.entity ))
         EntityService:PropagateEntityOwner( drone, self.entity )
-        if self.data:HasFloat("drone_lifetime") then
-            EntityService:CreateOrSetLifetime(drone, self.data:GetFloat("drone_lifetime"), "normal")
+        if droneLifeTime then
+            EntityService:CreateOrSetLifetime(drone, droneLifeTime, "normal")
         end
 
         Insert(self.spawned_drones,drone)
@@ -100,6 +110,7 @@ end
 function drone_spawner:OnLoad()
     item.OnLoad(self)
 
+    self.trigger_time = self.trigger_time or 0
     if self.data:GetIntOrDefault( "equipped", 0 ) == 0 then
         return
     end
@@ -111,8 +122,12 @@ function drone_spawner:OnLoad()
     end
 end
 
-function drone_spawner:SpawnDrones()
+function drone_spawner:SpawnDrones(respawn)
     self:DespawnDrones()
+
+    if not respawn then
+        self.trigger_time = GetLogicTime()
+    end
 
     if not self.data:HasString("drone_blueprint") then
         local drone_rarity = WR_EXTREME;
@@ -143,6 +158,10 @@ function drone_spawner:SpawnDrones()
     else
         self:SpawnDroneBlueprint(self.data:GetString("drone_blueprint"), self.data:GetIntOrDefault("drone_count", 1))
     end
+
+    if not respawn and #self.spawned_drones > 0 then
+        EffectService:SpawnEffects(self.entity, self.data:GetStringOrDefault("drone_spawn_trigger", "item_equipped") )
+    end
 end
 
 function drone_spawner:DespawnDrones()
@@ -166,6 +185,8 @@ function drone_spawner:OnActivate()
     if not self:IsTriggeredOn("item_activated") then
         return
     end
+
+    self.trigger_time = GetLogicTime()
 
     self:UnregisterHandlers( "RiftTeleportStartEvent" )
     self:UnregisterHandlers( "RiftTeleportEndEvent" )
@@ -202,7 +223,7 @@ function drone_spawner:OnRiftTeleportStartEvent()
 end
 
 function drone_spawner:OnRiftTeleportEndEvent()
-    self:SpawnDrones()
+    self:SpawnDrones(true)
 end
 
 function drone_spawner:OnRelease()

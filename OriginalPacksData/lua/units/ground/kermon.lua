@@ -104,6 +104,8 @@ function kermon:OnUniformExecute( state, dt )
 	--LogService:Log( "kermon 2 OnUniformExecute - self.currentUniformValue : "  .. tostring( self.currentUniformValue ) .. " self.newUniformValue : " .. tostring( self.newUniformValue ) ) 
 	
 	EntityService:SetGraphicsUniform( self.entity, "cDissolveAmount", self.currentUniformValue )
+	EntityService:SetGraphicsUniform( self.entity, "cDistortionFactor", self.currentUniformValue )
+
 end
 
 function kermon:OnExitInvisiblityEvent( evt )

@@ -11,7 +11,7 @@ function player_modificator:EnsureUniqueModificator()
         return
     end
 
-    local children = EntityService:GetChildren( self.parent, false )
+    local children = EntityService:GetChildren( self.parent, true )
     for child in Iter( children ) do
         local child_group = EntityService:GetGroup(self.entity)
         if child_group == mod_group and child ~= self.entity then
@@ -25,10 +25,14 @@ function player_modificator:init()
 
     self.parent = EntityService:GetParent(self.entity)
     while EntityService:HasComponent(self.parent, "ParentComponent") do
-        self.parent = EntityService:GetParent(self.entity)
+        self.parent = EntityService:GetParent(self.parent)
     end
 
     self.mods = {}
+    if not EntityService:HasComponent(self.parent, "EntityStatComponent") then
+        return
+    end
+
     if not Assert( self.parent ~= INVALID_ID, "ERROR: player_modificator script of: " .. EntityService:GetBlueprintName(self.entity) .. " must be used as a child entity!") then
         return
     end
@@ -39,6 +43,12 @@ function player_modificator:init()
             EntityService:AddEntityMod(self.parent, tostring(self.entity), mod_type, self.data:GetString(mod_type))
         end
     end
+end
+
+function player_modificator:OnLoad()
+    self.mods = self.mods or {}
+
+    drone_spawner.OnLoad(self)
 end
 
 function player_modificator:OnRelease()

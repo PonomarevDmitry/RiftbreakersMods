@@ -8,18 +8,24 @@ function poogret:__init()
 end
 
 function poogret:OnInit()
+
+	self:RegisterHandler( self.entity, "StartLeechEvent",  "OnStartLeechEvent" )
+	self:RegisterHandler( self.entity, "FearStartEvent",  "OnFearStartEvent" )
+	self:RegisterHandler( self.entity, "FearEndEvent",  "OnFearEndEvent" )
+
+    self.fearFSM = self:CreateStateMachine()
+    self.fearFSM:AddState( "fear", { enter="OnEnterFear", execute="OnExecuteFear" } )
+
 	self.wreck_type = "wreck_small";
 	self.wreckMinSpeed = 8
 	self.currentFood = INVALID_ID
+	self.fearTime = self.data:GetFloat( "fear_time" )
+	self.fearTimer = self.fearTime
 
 	UnitService:SetStateMachineParam( self.entity, "can_spawn_treasure", 0 )
-
-	self:RegisterHandler( self.entity, "StartLeechEvent",  "OnStartLeechEvent" )
 end
 
 function poogret:OnStartLeechEvent( evt )
-
-	LogService:Log( "poogret:OnStartLeechEvent()" )
 	self.food = UnitService:GetCurrentTarget( self.entity, "food" )
 	if ( self.food ~= INVALID_ID ) then
 		LogService:Log( "self.food ~= INVALID_ID" )
@@ -30,6 +36,37 @@ function poogret:OnStartLeechEvent( evt )
 			helper.radius = -1
 		end
 		HealthService:SetImmortality( self.food, true )
+	end
+end
+
+function poogret:OnFearStartEvent( evt )
+	if ( EffectService:HasEffectByGroup( self.entity, "fear" ) == false ) then
+		EffectService:AttachEffects( self.entity, "fear" )
+	end	
+end
+
+function poogret:OnFearEndEvent( evt )	
+	if ( EffectService:HasEffectByGroup( self.entity, "fear" ) == true ) then
+		EffectService:DestroyEffectsByGroup( self.entity, "fear" )
+	end	
+end
+
+function poogret:OnDamageEvent( evt )
+	self.fearFSM:ChangeState( "fear" )
+end
+
+function poogret:OnEnterFear( state )
+	self.fearTimer = self.fearTime
+	UnitService:EmitStateMachineParam( self.entity, "fear_not_ready" )
+	UnitService:SetUnitState( self.entity, UNIT_FEAR );
+end
+
+function poogret:OnExecuteFear( state, dt )
+	self.fearTimer = self.fearTimer - dt
+
+	if ( self.fearTimer <= 0.0 ) then
+		UnitService:EmitStateMachineParam( self.entity, "fear_ready" )
+		state:Exit();
 	end
 end
 

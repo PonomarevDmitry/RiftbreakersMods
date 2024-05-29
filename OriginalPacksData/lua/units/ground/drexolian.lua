@@ -63,9 +63,17 @@ end
 
 function drexolian:OnShootEvent( evt )
 
+	local targetEntity = UnitService:GetCurrentTarget( evt:GetEntity(), "range" )
 	local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), "range_attack_origin" )
-	WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot" )	
-	--WeaponService:ShootOnce( self.entity )
+
+	local extraHeight = 0.5
+
+	if ( targetEntity ~= INVALID_ID ) then
+		local size = EntityService:GetBoundsSize( targetEntity )
+		extraHeight = size.y / 2
+	end
+
+	WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + extraHeight, targetOrigin.z, "att_shoot" )
 end
 
 return drexolian

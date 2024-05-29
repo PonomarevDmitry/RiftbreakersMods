@@ -10,33 +10,64 @@ end
 function tower_power_rod:OnInit()
     tower.OnInit(self)
 
+    self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
+
     self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "working", { enter="OnWorkingEnter", execute="OnWorkingExecute" } )
 	self.fsm:AddState( "cooldown", { enter="OnCooldownEnter", exit="OnCooldownExit" } )
-	self.fsm:AddState( "disabled", { enter="OnDisabledEnter" } )
 
 	self.crosshairBp = self.data:GetStringOrDefault( "crosshair_bp", "" )
 	self.rocketBp = self.data:GetStringOrDefault( "rocket_bp", "" )
     self.areaRadius = self.data:GetFloatOrDefault( "rocket_radius", 10.0 )
     self.areaHeight = self.data:GetFloatOrDefault( "rocket_height", 100.0 )
     self.rocketInitialHeight = self.data:GetFloatOrDefault( "rocket_initial_height", 10.0 )
+
+    self.readyRocker = nil
+    self.pendingRocket = nil
 end
 
 function tower_power_rod:OnActivate()
 	tower.OnActivate(self)
 
 	self.fsm:ChangeState( "working" )
+
+	if self.readyRocker ~= nil then
+		EntityService:SetGraphicsUniform( self.readyRocker, "cGlowFactor", 1 )
+	end
+
+	if self.pendingRocket ~= nil then
+		EntityService:SetGraphicsUniform( self.pendingRocket, "cGlowFactor", 1 )
+	end
 end
 
 function tower_power_rod:OnDeactivate()
 	tower.OnDeactivate(self)
 
-	self.fsm:ChangeState( "disabled" )
+	if self.readyRocker ~= nil then
+		EntityService:SetGraphicsUniform( self.readyRocker, "cGlowFactor", 0 )
+	end
+
+	if self.pendingRocket ~= nil then
+		EntityService:SetGraphicsUniform( self.pendingRocket, "cGlowFactor", 0 )
+	end
+end
+
+function tower:OnTurretEvent( evt )
+   self:UpdateMuzzles()
 end
 
 function tower_power_rod:OnWorkingEnter( state )
 	self.pendingRocket = EntityService:SpawnAndAttachEntity( self.rocketBp, self.entity, "att_rocket", "" )
     self.readyRocker = nil
+end
+
+function tower_power_rod:UpdateMuzzles()
+	local targetEnt = WeaponService:GetTurretTarget( self.entity )
+	if targetEnt ~= INVALID_ID then 
+		local targetPos = EntityService:GetPosition( targetEnt )
+		local muzzlePos = { x = targetPos.x, y = self.areaHeight - ( 0.1 * self.areaHeight ), z = targetPos.z }
+		EntityService:SetBonePosition( self.entity, "att_muzzle_1", muzzlePos )
+	end
 end
 
 function tower_power_rod:OnWorkingExecute( state )
@@ -71,12 +102,7 @@ function tower_power_rod:OnWorkingExecute( state )
 		end
 	end
 
-	local targetEnt = WeaponService:GetTurretTarget( self.entity )
-	if targetEnt ~= INVALID_ID then 
-		local targetPos = EntityService:GetPosition( targetEnt )
-		local muzzlePos = { x = targetPos.x, y = self.areaHeight - ( 0.1 * self.areaHeight ), z = targetPos.z }
-		EntityService:SetBonePosition( self.entity, "att_muzzle_1", muzzlePos )
-	end
+   self:UpdateMuzzles()
 end
 
 function tower_power_rod:OnCooldownEnter( state )
@@ -86,20 +112,6 @@ end
 function tower_power_rod:OnCooldownExit( state )
 	self.data:SetInt("is_ready", 0 )
 	self.fsm:ChangeState( "working" )
-end
-
-function tower_power_rod:OnDisabledEnter( state )
-	if self.readyRocker ~= nil then
-		EntityService:DissolveEntity( self.readyRocker, 0.2 )
-		self.readyRocker = nil 
-	end
-
-	if self.pendingRocket ~= nil then
-		EntityService:DissolveEntity( self.pendingRocket, 0.2 )
-		self.pendingRocket = nil 
-	end
-
-	self.data:SetInt("is_ready", 0 )
 end
 
 function tower_power_rod:DetachAndFireRocket( rocketEnt )

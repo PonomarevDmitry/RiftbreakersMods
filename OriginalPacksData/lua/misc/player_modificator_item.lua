@@ -1,3 +1,5 @@
+require("lua/utils/numeric_utils.lua")
+
 local item = require("lua/items/item.lua")
 class 'player_modificator_item' ( item )
 
@@ -11,15 +13,12 @@ end
 
 function player_modificator_item:AttachModificator( entity )
     local target = EntityService:SpawnAndAttachEntity( self.data:GetStringOrDefault("blueprint", "error"), entity )
-    EntityService:CreateBoundsComponent(target, { x=-0.1, y=-0.1, z=-0.1 }, { x=0.1, y=0.1, z=0.1 } )
+
+    --local bounds_size = VectorDiv( EntityService:GetBoundsSize( entity ), EntityService:GetScale( entity ) )
+    --EntityService:SetScale( target, bounds_size.x, bounds_size.y, bounds_size.z )
 
     ItemService:SetItemReference( target, self.entity, EntityService:GetBlueprintName( self.entity ))
     EntityService:PropagateEntityOwner( target, self.entity )
-
-    local lifetime = EntityService:GetLifeTime( target )
-    if lifetime > 0 then
-        BuildingService:AttachGuiTimerWithMaterial( target, lifetime, true, "gui/hud/bars/upgrade_timer" )
-    end
 
     return target
 end
