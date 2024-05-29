@@ -110,6 +110,22 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
         Out.Color.xyz = totalLuminance * float3( 755.0/255.0, 150.0/255.0, 0.0/255.0 );   
         Out.Color.w *= 1.0f;
     }
+    else if ( In.TexCoord.z < 10.5f )
+    {
+        uv = In.TexCoord.xy / float2( 4.0, 2.0 );
+        Out.Color = tex2D( tAlbedo, sAlbedo, uv );
+        float totalLuminance = saturate( dot( Out.Color.xyz, float3( 0.3, 0.59, 0.11 ) ) );
+        Out.Color.xyz = totalLuminance * float3( 150.0/255.0, 555.0/255.0, 0.0/255.0 );   
+        Out.Color.w *= 1.0f;
+    }
+    else if ( In.TexCoord.z < 11.5f )
+    {
+        uv = In.TexCoord.xy / float2( 4.0, 2.0 );
+        Out.Color = tex2D( tAlbedo, sAlbedo, uv );
+        float totalLuminance = saturate( dot( Out.Color.xyz, float3( 0.3, 0.59, 0.11 ) ) );
+        Out.Color.xyz = totalLuminance * float3( 555.0/255.0, 0.0/255.0, 0.0/255.0 );   
+        Out.Color.w *= 1.0f;
+    }
 
     if ( In.IconTexCoord.z > 0 )
     {

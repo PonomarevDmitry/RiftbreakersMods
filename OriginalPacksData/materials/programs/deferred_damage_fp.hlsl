@@ -64,13 +64,13 @@ Texture2D       tPacked2Tex;
 SamplerState    sPacked2Tex;
 Texture2D       tEmissive1Tex;
 SamplerState    sEmissive1Tex;
-#if USE_BUILDINGS
+#if USE_BUILDINGS || USE_EMISSIVE_MAP
 Texture2D       tEmissive2Tex;
 SamplerState    sEmissive2Tex;
 #endif
 Texture2D       tGradient1Tex;
 SamplerState    sGradient1Tex;
-#if USE_BUILDINGS
+#if USE_BUILDINGS || USE_EMISSIVE_MAP
 Texture2D       tGradient2Tex;
 SamplerState    sGradient2Tex;
 #endif
@@ -176,12 +176,27 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
         float3 damageNormal = texNormal2DBias( tNormal2Tex, sNormal2Tex, In.UV0, MipBiasNormal );
 #endif
 
+#if USE_BUILDINGS || USE_EMISSIVE_MAP
+        float damageGlowFactor = 6.0f;
+        float3 damageEmissive = tEmissive2Tex.Sample( sEmissive2Tex, In.UV0 ).xyz * tGradient2Tex.Sample( sGradient2Tex, In.UV0 ).x * damageGlowFactor;
+#endif
+
+#if USE_REFLECTION_MAP
+        float albedoDiff = ( cHealthAmount > 0.0f ) ? saturate( 1.0 - cHealthAmount - dissolve ) : saturate( 0.5 - dissolve );
+#else 
         float albedoDiff =  saturate( 1.0 - cHealthAmount - dissolve );
+#endif
         albedo.xyz = lerp( albedo.xyz, damageAlbedo.xyz, albedoDiff );
         material = lerp( material, damageMaterial, albedoDiff );
 #if USE_BUILDINGS
-        float emissiveDiff =  saturate( 0.50 - cHealthAmount - dissolve );
-        emissive = lerp( emissive, tEmissive2Tex.Sample( sEmissive2Tex, In.UV0 ).xyz * tGradient2Tex.Sample( sGradient2Tex, In.UV0).x * 6, ( emissiveDiff > 0 ) ? 1 : 0 );
+        float emissiveDiff = saturate( 0.50 - cHealthAmount - dissolve );
+        emissive = lerp( emissive, damageEmissive, ( emissiveDiff > 0 ) ? 1 : 0 );
+#elif USE_EMISSIVE_MAP
+        float emissiveDiff = saturate( 1.0f - cHealthAmount - dissolve );
+        emissive = lerp( emissive, damageEmissive, emissiveDiff );
+        emissive *= ( cHealthAmount > 0.0f ) ? 1.0f : 0.0f;
+#elif USE_REFLECTION_MAP
+        emissive *= ( cHealthAmount > 0.0f ) ? 1.0f : 0.25f;
 #else
         emissive *= min( cHealthAmount * 2.0f, 1.0f );
 #endif
@@ -206,9 +221,11 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
         float3 specularLight = tReflectionTex.SampleLevel( sReflectionTex, reflectRay, mipLevel ).xyz;
         float3 specularColor = lerp( 0.04f, albedo.xyz, metalness );
         float3 specular = specularLight * ( specularColor * specularBRDF.x + saturate( 50.0 * specularColor.g ) * specularBRDF.y ) * cReflectionParams.y * occlusion;
+        specular *= ( cHealthAmount > 0.0f ) ? 1.0f : 0.25f;
         emissive.xyz += specular;
     }
 #endif
+
     Out.GBuffer1.xyz = encodeNormal( normal );
     Out.GBuffer0 = float4( albedo.xyz, 1.0f );
     Out.GBuffer2 = float4( material, 1.0f );

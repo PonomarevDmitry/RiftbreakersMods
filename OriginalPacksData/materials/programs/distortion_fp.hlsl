@@ -3,6 +3,7 @@
 cbuffer FPConstantBuffer : register(b0)
 {       
 	float  	cDistortionPower;
+    float   cDistortionFactor;
 	float 	cViewportWidth;
 	float 	cViewportHeight;
 #if USE_TIMER
@@ -55,7 +56,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 #endif
 
     distortion.xy = ( distortion.xy - 0.5 ) * 2.0;
-    distortion.xy *= cDistortionPower;
+    distortion.xy *= cDistortionPower * cDistortionFactor;
     distortion.x *= cViewportHeight / cViewportWidth;
 #if USE_FRESNEL
     distortion.xy *= fresnel;
