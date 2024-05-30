@@ -64,7 +64,7 @@ end
 
 function ghost:GetBuildInfo( entity  )
     local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent")
-    if ( not Assert( buildInfoComponent ~= nil ,"ERROR: missing build info component!") ) then return nil end
+    if ( not Assert( buildInfoComponent ~= nil,"ERROR: missing build info component!") ) then return nil end
     if (buildInfoComponent == nil ) then
         return
     end
@@ -76,8 +76,9 @@ function ghost:BuildBuilding( transform )
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
 end
 
-function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive )
+function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive, ignoreSelectorSettingCanBuild )
     checkActive = checkActive or ( checkActive == nil and true )
+    ignoreSelectorSettingCanBuild = ignoreSelectorSettingCanBuild or false
     id = id or 1
     local test = nil
     if floor  then
@@ -100,6 +101,11 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
 
     local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
     local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
+
+    if ( ignoreSelectorSettingCanBuild == false ) then
+        local buildingSelectorComponent = reflection_helper( EntityService:GetComponent(self.selector, "BuildingSelectorComponent") )
+        buildingSelectorComponent.can_build = canBuild
+    end
 
     local skinned = EntityService:IsSkinned(entity)
 

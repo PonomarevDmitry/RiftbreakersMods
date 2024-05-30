@@ -19,7 +19,7 @@ function ghost_building:OnInit()
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
     local transform = EntityService:GetWorldTransform( self.entity )
-    self:CheckEntityBuildable( self.entity , transform )
+    self:CheckEntityBuildable( self.entity, transform )
     self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
 
     self.originalGhostBlueprint = self.ghostBlueprint
@@ -178,7 +178,7 @@ function ghost_building:OnUpdate()
 
         elseif ( #self.gridEntities < #arrayX ) then
 
-            for xNumber=#self.gridEntities + 1 ,#arrayX do
+            for xNumber=#self.gridEntities + 1,#arrayX do
 
                 positionX = arrayX[xNumber]
 
@@ -218,7 +218,7 @@ function ghost_building:OnUpdate()
 
             elseif ( #gridEntitiesZ < #arrayZ ) then
 
-                for zNumber=#gridEntitiesZ + 1 ,#arrayZ do
+                for zNumber=#gridEntitiesZ + 1,#arrayZ do
 
                     positionZ = arrayZ[zNumber]
 
@@ -262,7 +262,7 @@ function ghost_building:OnUpdate()
                 EntityService:SetPosition( lineEnt, newPosition)
                 EntityService:SetOrientation( lineEnt, entityOrientation )
 
-                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, idCheckBuildable, false )
+                local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, idCheckBuildable, false, true )
 
                 idCheckBuildable = idCheckBuildable + 1
 
@@ -286,7 +286,7 @@ function ghost_building:OnUpdate()
     else
 
         local currentTransform = EntityService:GetWorldTransform( self.entity )
-        local testBuildable = self:CheckEntityBuildable( self.entity , currentTransform, false )
+        local testBuildable = self:CheckEntityBuildable( self.entity, currentTransform, false )
 
         if ( testBuildable ~= nil) then
             self:AddToEntitiesToSellList(testBuildable)
@@ -320,6 +320,16 @@ function ghost_building:CreateNewEntity(newPosition, orientation, team)
         result = EntityService:SpawnEntity( self.originalGhostBlueprint, newPosition, team )
     else
         result = EntityService:SpawnEntity( self.blueprint, newPosition, team )
+    end
+
+    if ( EntityService:HasComponent( result, "DisplayRadiusComponent" ) ) then
+
+        EntityService:RemoveComponent( result, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( result, "GhostLineCreatorComponent" ) ) then
+
+        EntityService:RemoveComponent( result, "GhostLineCreatorComponent" )
     end
 
     EntityService:RemoveComponent( result, "LuaComponent" )
@@ -423,11 +433,11 @@ function ghost_building:AddToEntitiesToSellList(testBuildable)
     end
 end
 
-function ghost_building:BuildEntity(entity)
+function ghost_building:BuildEntity(entity, idCheckBuildable)
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    local testBuildable = self:CheckEntityBuildable( entity , transform, false )
+    local testBuildable = self:CheckEntityBuildable( entity, transform, false, idCheckBuildable, false, true )
 
     if ( testBuildable == nil ) then
 
@@ -501,7 +511,7 @@ function ghost_building:OnActivate()
 
         local transform = EntityService:GetWorldTransform( self.entity )
         self.buildStartPosition = transform
-        EntityService:SetVisible( self.entity , false )
+        EntityService:SetVisible( self.entity, false )
 
         self:OnUpdate()
     else
@@ -558,14 +568,14 @@ function ghost_building:FinishLineBuild()
 
                 local ghostEntity = allEntities[i]
 
-                self:BuildEntity(ghostEntity)
+                self:BuildEntity(ghostEntity, i)
 
                 EntityService:RemoveEntity(ghostEntity)
             end
         end
     end
 
-    EntityService:SetVisible( self.entity , true )
+    EntityService:SetVisible( self.entity, true )
 
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
 
