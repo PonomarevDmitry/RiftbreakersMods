@@ -9,6 +9,10 @@ end
 
 function eraser_flora_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser_flora_tool", self.entity)
+
+    self.poogretPlantSmall = CalcHash("props/special/interactive/poogret_plant_small_01")
+    self.poogretPlantMedium = CalcHash("props/special/interactive/poogret_plant_medium_01")
+    self.poogretPlantBig = CalcHash("props/special/interactive/poogret_plant_big_01")
 end
 
 function eraser_flora_tool:SpawnCornerBlueprint()
@@ -82,10 +86,6 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
     tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
 
-    local poogretPlantSmall = CalcHash("props/special/interactive/poogret_plant_small_01")
-    local poogretPlantMedium = CalcHash("props/special/interactive/poogret_plant_medium_01")
-    local poogretPlantBig = CalcHash("props/special/interactive/poogret_plant_big_01")
-
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
@@ -107,7 +107,7 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
         end
             
         local enablerComponentRef = reflection_helper(vegetationLifecycleEnablerComponent)
-        if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == poogretPlantSmall or enablerComponentRef.chain_destination.hash == poogretPlantMedium or enablerComponentRef.chain_destination.hash == poogretPlantBig)) then
+        if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
             goto continue2
         end
 
