@@ -82,6 +82,10 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
     tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
 
+    local poogretPlantSmall = CalcHash("props/special/interactive/poogret_plant_small_01")
+    local poogretPlantMedium = CalcHash("props/special/interactive/poogret_plant_medium_01")
+    local poogretPlantBig = CalcHash("props/special/interactive/poogret_plant_big_01")
+
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
@@ -94,6 +98,16 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
         local blueprintName = EntityService:GetBlueprintName(entity)
         if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
+            goto continue2
+        end
+
+        local vegetationLifecycleEnablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
+        if ( component == nil ) then
+            goto continue2
+        end
+            
+        local enablerComponentRef = reflection_helper(vegetationLifecycleEnablerComponent)
+        if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == poogretPlantSmall or enablerComponentRef.chain_destination.hash == poogretPlantMedium or enablerComponentRef.chain_destination.hash == poogretPlantBig)) then
             goto continue2
         end
 
