@@ -325,7 +325,7 @@ function energy_connector_tool:UpdateMarker(currentSize)
             self.currentMarkerBlueprint = markerBlueprint
 
             self.currentMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
-            EntityService:SetPosition( self.currentMarker, -2, 0, 0 )
+            EntityService:SetPosition( self.currentMarker, 0, 0, -2 )
         end
     end
 end

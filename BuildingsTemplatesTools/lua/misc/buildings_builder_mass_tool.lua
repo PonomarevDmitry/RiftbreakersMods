@@ -418,7 +418,7 @@ function buildings_builder_mass_tool:OnUpdate()
         local markerBlueprint = "misc/marker_selector_gaps_count_" .. tostring( cellGapsCount )
 
         self.currentMarkerGaps = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
-        EntityService:SetPosition( self.currentMarkerGaps, -2, 0, 0 )
+        EntityService:SetPosition( self.currentMarkerGaps, 0, 0, -2 )
 
         self.markerGapsConfig = cellGapsCount
     end

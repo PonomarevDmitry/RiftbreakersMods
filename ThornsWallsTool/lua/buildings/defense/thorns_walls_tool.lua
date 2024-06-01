@@ -178,6 +178,7 @@ function thorns_walls_tool:OnWorkExecute()
 
         -- Create new marker
         self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
+        EntityService:SetPosition( self.currentMarkerLines, 0, 0, -2 )
 
         -- Save number of wall layers
         self.markerLinesConfig = wallLinesCount
