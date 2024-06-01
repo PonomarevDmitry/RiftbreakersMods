@@ -116,7 +116,7 @@ function ghost_building:OnUpdate()
             -- Create new marker
             self.currentMarkerGaps = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
-            EntityService:SetPosition( self.currentMarkerGaps, -2, 0, 0 )
+            EntityService:SetPosition( self.currentMarkerGaps, 0, 0, -2 )
 
             -- Save number of wall layers
             self.markerGapsConfig = cellGapsCount
