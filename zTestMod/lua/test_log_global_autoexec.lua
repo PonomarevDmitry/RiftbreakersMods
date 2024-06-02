@@ -8,22 +8,39 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
     local maxLenType = 0
 
     for key,value in pairs(_G) do
-        Insert(keysNames, key)
 
         maxLenKey = math.max(maxLenKey, string.len( tostring(key) ))
 
-        maxLenType = math.max(maxLenType, string.len( tostring(type( value )) ))
+        local typeString  = tostring(type( value ))
+
+        maxLenType = math.max(maxLenType, string.len( typeString ))
+
+        local keyObj = {
+            name = key,
+            type = typeString
+        }
+
+        Insert(keysNames, keyObj)
     end
 
-    table.sort( keysNames )
+    local sorter = function(a, b)
 
-    LogService:Log("Start Global Description maxLenKey " .. tostring(maxLenKey) .. " maxLenType " .. tostring(maxLenType))
+        if ( a.type == b.type ) then
+            return a.name:upper() < b.name:upper()
+        end
 
-    for key in Iter(keysNames) do
+        return a.type < b.type
+    end
 
-        local value = _G[key]
+    table.sort( keysNames, sorter )
 
-        local keyString = tostring(key)
+    LogService:Log("Start Global Description")
+
+    for keyObj in Iter(keysNames) do
+
+        local value = _G[keyObj.name]
+
+        local keyString = tostring(keyObj.name)
 
         local typeString = tostring(type( value ))
 
