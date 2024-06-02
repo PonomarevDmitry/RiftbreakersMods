@@ -10,7 +10,8 @@ SetTargetFinderThrottler(LOCK_TYPE_REPAIR, 3)
 function FindMostDestroyedEntity( source, entities )
     local find = {
         entity = INVALID_ID,
-        healthPct = nil
+        healthPct = nil,
+        distance = nil
     };
 
     for entity in Iter( entities ) do
@@ -33,9 +34,22 @@ function FindMostDestroyedEntity( source, entities )
             end
         end
 
-        if healthPct < 1.0 and (find.entity == INVALID_ID or healthPct < find.healthPct) then
-            find.entity = entity;
-            find.healthPct = healthPct;
+        if ( healthPct < 1.0 ) then
+
+            local distance = EntityService:GetDistanceBetween( source, entity )
+
+            if (find.entity == INVALID_ID or healthPct < find.healthPct) then
+
+                find.entity = entity
+                find.healthPct = healthPct
+                find.distance = distance
+
+            elseif ( healthPct == find.healthPct and distance < find.distance ) then
+
+                find.entity = entity
+                find.healthPct = healthPct
+                find.distance = distance
+            end
         end
     end
 
@@ -170,7 +184,7 @@ function repair_drone:FindActionTarget()
 
     local entities = FindService:FindEntitiesByPredicateInRadius( pointEntity, self.search_radius, self.predicate );
 
-    local target = FindMostDestroyedEntity( pointEntity, entities );
+    local target = FindMostDestroyedEntity( self.entity, entities );
     if target ~= INVALID_ID then
         self:LockTarget( target, LOCK_TYPE_REPAIR);
         self.target_last_position = EntityService:GetPosition(target)
