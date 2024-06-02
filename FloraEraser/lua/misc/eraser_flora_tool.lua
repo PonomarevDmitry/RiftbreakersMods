@@ -101,12 +101,12 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
             goto continue2
         end
 
-        local vegetationLifecycleEnablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
-        if ( component == nil ) then
+        local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
+        if ( enablerComponent == nil ) then
             goto continue2
         end
-            
-        local enablerComponentRef = reflection_helper(vegetationLifecycleEnablerComponent)
+
+        local enablerComponentRef = reflection_helper(enablerComponent)
         if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
             goto continue2
         end
