@@ -713,6 +713,16 @@ function picker_tool:GetMineBlueprintName( entity, selectedBluprintsNames )
                 goto continue
             end
 
+            if ( resourceId == "mud_vein" ) then
+
+                local lastLowName = self:GetLastMudVeinExtractor()
+
+                if ( lastLowName == lowName ) then
+
+                    goto continue
+                end
+            end
+
             do
                 return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
             end
@@ -721,13 +731,13 @@ function picker_tool:GetMineBlueprintName( entity, selectedBluprintsNames )
         end
     end
 
-    if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) and EntityService:CompareType( entity, "water" ) ) then
-
-        local lowName = "liquid_pump"
-        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
-
-        return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-    end
+    --if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) and EntityService:CompareType( entity, "water" ) ) then
+    --
+    --    local lowName = "liquid_pump"
+    --    local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+    --
+    --    return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+    --end
 
     return ""
 end
@@ -965,6 +975,29 @@ function picker_tool:OnRelease()
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
     end
+end
+
+function picker_tool:GetLastMudVeinExtractor()
+
+    local parameterName = "$last_mud_vein_extractor_blueprint"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    local lowName = ""
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        lowName = selectorDB:GetStringOrDefault(parameterName, "") or ""
+    end
+
+    if ( lowName == "" ) then
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+            lowName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
+        end
+    end
+
+    return lowName
 end
 
 return picker_tool
