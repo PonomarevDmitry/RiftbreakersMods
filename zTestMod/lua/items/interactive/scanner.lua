@@ -48,7 +48,7 @@ function scanner:OnDeactivate( forced )
 	PlayerService:StopPadHapticFeedback( 0 )
 
 	--QueueEvent("ShowScannableRequest", event_sink, false )
-    
+	
 	if ( self.effect ~= INVALID_ID )  then
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
@@ -77,21 +77,21 @@ function scanner:OnDeactivate( forced )
 end
 
 function scanner:SpawnSpecifcEffect( currentTarget )
-		local effect
-		local size = EntityService:GetBoundsSize( currentTarget )
+	local effect
+	local size = EntityService:GetBoundsSize( currentTarget )
 		
-		--LogService:Log( tostring( size.x ) ) 
-		if ( size.x <= 2.5 ) then
-			effect = "effects/mech/scanner_small"
-		elseif ( size.x <= 4.5 ) then
-			effect = "effects/mech/scanner"		
-		elseif ( size.x <= 9.5 ) then
-			effect = "effects/mech/scanner_big"		
-		else
-			effect = "effects/mech/scanner_very_big"		
-		end
+	--LogService:Log( tostring( size.x ) ) 
+	if ( size.x <= 2.5 ) then
+		effect = "effects/mech/scanner_small"
+	elseif ( size.x <= 4.5 ) then
+		effect = "effects/mech/scanner"		
+	elseif ( size.x <= 9.5 ) then
+		effect = "effects/mech/scanner_big"		
+	else
+		effect = "effects/mech/scanner_very_big"		
+	end
 	
-		self.effect = EntityService:SpawnAndAttachEntity( effect, currentTarget )		
+	self.effect = EntityService:SpawnAndAttachEntity( effect, currentTarget )
 end
 
 function scanner:OnExecuteScaning()
@@ -137,7 +137,16 @@ function scanner:OnExecuteScaning()
 				factor = math.min(factor, 1.0 )
 				EffectService:SetParticleEmmissionUniform( self.effect, factor )
 				if ( self.scanningTime >= self.maxScanTime ) then
-					ItemService:ScanEntity( currentTarget, self.owner )
+
+					local scansCount = 1
+					if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
+						scansCount = self:GetScansCount(currentTarget)
+					end
+
+					for i=1,scansCount do
+						ItemService:ScanEntity( currentTarget, self.owner )
+					end
+
 					EntityService:RemoveComponent( currentTarget, "ScannableComponent" ) 
 					EntityService:RemoveEntity( self.effect )
 					EffectService:DestroyEffectsByGroup( currentTarget, "scannable" )
@@ -152,6 +161,25 @@ function scanner:OnExecuteScaning()
 		
 		self.lastTarget = currentTarget;
 	end
+end
+
+function scanner:GetScansCount( entity )
+
+    local scansCount = 1
+
+    local size = EntityService:GetBoundsSize( entity )
+
+    if ( size.x <= 2.5 ) then
+        scansCount = 2
+    elseif ( size.x <= 4.5 ) then
+        scansCount = 4
+    elseif ( size.x <= 9.5 ) then
+        scansCount = 8
+    else
+        scansCount = 20
+    end
+
+    return scansCount
 end
 
 function scanner:DissolveShow()
