@@ -80,6 +80,11 @@ function sell_all_map_cat_seller_tool:GetBaseEntitiesList()
             goto continue
         end
 
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode >= BM_SELLING ) then 
+            goto continue
+        end
+
         local buildingComponentRef = reflection_helper(buildingComponent)
         if ( buildingComponentRef.m_isSellable == false ) then
             goto continue

@@ -128,6 +128,11 @@ function sell_by_type_seller_tool:IsEntityApproved( entity )
         return false
     end
 
+    local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+    if ( mode >= BM_SELLING ) then 
+        return false
+    end
+
     local buildingComponentRef = reflection_helper(buildingComponent)
     if ( buildingComponentRef.m_isSellable == false ) then
         return false

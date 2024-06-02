@@ -128,7 +128,13 @@ function sell_depleted:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
-        if ( not EntityService:HasComponent( entity, "BuildingComponent" ) ) then
+        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode >= BM_SELLING ) then 
             goto continue
         end
 

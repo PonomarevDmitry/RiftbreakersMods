@@ -93,6 +93,30 @@ function sell_tool:FindEntitiesToSelect( selectorComponent )
     return selectedItems
 end
 
+function sell_tool:FilterSelectedEntities( selectedEntities ) 
+
+    local entities = {}
+
+    for entity in Iter( selectedEntities ) do
+
+        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode >= BM_SELLING ) then 
+            goto continue
+        end
+
+        Insert(entities, entity)
+
+        ::continue::
+    end
+
+    return entities
+end
+
 function sell_tool:OnUpdate()
 
     self:HighlightRuins()
