@@ -9,6 +9,7 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_to_1_energy")
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_to_2_crystal")
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_to_3_small")
+    BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_to_4_vine")
 
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_all_picker")
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_all_replacer")

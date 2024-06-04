@@ -185,3 +185,82 @@ EntityBlueprint
 		flags				"2"
 	}
 }
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_gate_to_4_vine"
+
+	BuildingDesc
+	{
+		name				"replace_wall_gate_to_4_vine"
+		bp					"buildings/tools/replace_wall_gate_to_4_vine"
+		ghost_bp			"buildings/tools/replace_wall_gate_to_4_vine_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/replace_wall_gate_to_vine_tool"
+		description			"gui/hud/building_description/replace_wall_gate_to_vine_tool"
+		menu_icon			"gui/hud/tools_icons/replace_wall_gate_to_vine_tool"
+
+		require				"headquarters"
+		order				"61"
+		type				"replace_wall_gate_to_vine"
+
+		building_group		"replace_wall_gate_to_1_energy"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_wall_gate_to_4_vine_ghost"
+
+	BuildingDesc
+	{
+		name				"replace_wall_gate_to_4_vine_ghost"
+		buildable			"0"
+		type				"replace_wall_gate_to_vine"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/replace_wall_gate_to_vine_tool.lua"
+		database
+		{
+			action			string:"replace_wall_gate_to_vine"
+			wallBlueprint	string:"buildings/defense/wall_vine_straight_01"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name			"buildings/tools/replace_wall_gate_to_vine/script"
+
+	LuaDesc
+	{
+		script		"lua/misc/replace_wall_gate_to_vine_tool_script.lua"
+
+		database
+		{
+		}
+	}
+}

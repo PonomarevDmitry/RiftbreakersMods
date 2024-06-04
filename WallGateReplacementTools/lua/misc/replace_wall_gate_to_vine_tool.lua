@@ -1,17 +1,18 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/numeric_utils.lua")
 
-class 'replace_wall_gate_tool' ( tool )
+class 'replace_wall_gate_to_vine_tool' ( tool )
 
-function replace_wall_gate_tool:__init()
+function replace_wall_gate_to_vine_tool:__init()
     tool.__init(self,self)
 end
 
-function replace_wall_gate_tool:OnPreInit()
+function replace_wall_gate_to_vine_tool:OnPreInit()
     self.initialScale = { x=8, y=1, z=8 }
 end
 
-function replace_wall_gate_tool:OnInit()
+function replace_wall_gate_to_vine_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_replace_wall_gate_tool", self.entity)
     self.popupShown = false
 
@@ -31,7 +32,7 @@ function replace_wall_gate_tool:OnInit()
     self:SetWallGateIcon()
 end
 
-function replace_wall_gate_tool:FillAllBlueprints( blueprintName )
+function replace_wall_gate_to_vine_tool:FillAllBlueprints( blueprintName )
 
     if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
         return
@@ -56,7 +57,7 @@ function replace_wall_gate_tool:FillAllBlueprints( blueprintName )
     end
 end
 
-function replace_wall_gate_tool:FillResearches()
+function replace_wall_gate_to_vine_tool:FillResearches()
 
     local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
 
@@ -70,7 +71,7 @@ function replace_wall_gate_tool:FillResearches()
     end
 end
 
-function replace_wall_gate_tool:GetResearchForUpgrade( researchComponent, blueprintName )
+function replace_wall_gate_to_vine_tool:GetResearchForUpgrade( researchComponent, blueprintName )
 
     local categories = researchComponent.research
 
@@ -97,7 +98,7 @@ function replace_wall_gate_tool:GetResearchForUpgrade( researchComponent, bluepr
     return ""
 end
 
-function replace_wall_gate_tool:SetWallGateIcon()
+function replace_wall_gate_to_vine_tool:SetWallGateIcon()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
@@ -121,21 +122,21 @@ function replace_wall_gate_tool:SetWallGateIcon()
 
     local buildingDescRef = self.buildingDescHash[blueprintName]
 
-    local markerText = "${" .. buildingDescRef.localization_id .. "} ${gui/hud/messages/replace_wall_gate_tool/gates_not_available}"
+    local markerText = "${" .. buildingDescRef.localization_id .. "} ${gui/hud/messages/replace_wall_gate_to_vine_tool/gates_not_available}"
 
     markerDB:SetString("wall_gate_name", markerText)
     markerDB:SetString("wall_gate_icon", "")
     markerDB:SetInt("wall_gate_icon_visible", 0)
 end
 
-function replace_wall_gate_tool:AddedToSelection( entity )
+function replace_wall_gate_to_vine_tool:AddedToSelection( entity )
 end
 
-function replace_wall_gate_tool:RemovedFromSelection( entity )
+function replace_wall_gate_to_vine_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
 end
 
-function replace_wall_gate_tool:OnUpdate()
+function replace_wall_gate_to_vine_tool:OnUpdate()
 
     local costResourceList = {}
     local costValues = {}
@@ -225,7 +226,7 @@ function replace_wall_gate_tool:OnUpdate()
     end
 end
 
-function replace_wall_gate_tool:GetWallGateBlueprint( level )
+function replace_wall_gate_to_vine_tool:GetWallGateBlueprint( level )
 
     local minNumber = math.min( level, #self.wallBluprintsArray )
 
@@ -242,7 +243,7 @@ function replace_wall_gate_tool:GetWallGateBlueprint( level )
     return "", 0
 end
 
-function replace_wall_gate_tool:IsWallBlueprintAvailable( blueprintName )
+function replace_wall_gate_to_vine_tool:IsWallBlueprintAvailable( blueprintName )
 
     if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
@@ -259,7 +260,7 @@ function replace_wall_gate_tool:IsWallBlueprintAvailable( blueprintName )
     return false
 end
 
-function replace_wall_gate_tool:GetBuildCosts( blueprintName )
+function replace_wall_gate_to_vine_tool:GetBuildCosts( blueprintName )
 
     self.cacheBuildCosts = self.cacheBuildCosts or {}
 
@@ -275,7 +276,7 @@ function replace_wall_gate_tool:GetBuildCosts( blueprintName )
     return result
 end
 
-function replace_wall_gate_tool:CalculateBuildCosts( blueprintName )
+function replace_wall_gate_to_vine_tool:CalculateBuildCosts( blueprintName )
 
     local costValues = {}
 
@@ -292,7 +293,7 @@ function replace_wall_gate_tool:CalculateBuildCosts( blueprintName )
     return costValues
 end
 
-function replace_wall_gate_tool:FilterSelectedEntities( selectedEntities )
+function replace_wall_gate_to_vine_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
 
@@ -340,7 +341,7 @@ function replace_wall_gate_tool:FilterSelectedEntities( selectedEntities )
     return entities
 end
 
-function replace_wall_gate_tool:OnActivateEntity( entity )
+function replace_wall_gate_to_vine_tool:OnActivateEntity( entity )
 
     if ( #self.wallBluprintsArray == 0 ) then
         return
@@ -371,8 +372,22 @@ function replace_wall_gate_tool:OnActivateEntity( entity )
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
+    local position = transform.position
+    local orientation = transform.orientation
+
+    local team = EntityService:GetTeam( entity )
+
+    local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_wall_gate_to_vine/script", position, team )
+
+    local database = EntityService:GetDatabase( buildAfterSellScript )
+
+    database:SetInt( "target_entity", entity )
+    database:SetInt( "player_id", self.playerId )
+
+    database:SetString( "building_blueprintname", wallBlueprintName )
+
+    QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
 end
 
-return replace_wall_gate_tool
+return replace_wall_gate_to_vine_tool
  
