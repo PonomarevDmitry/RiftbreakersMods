@@ -198,6 +198,7 @@ function pipe_area_tool:CreateNewEntity(newPosition, orientation, team)
     end
 
     EntityService:RemoveComponent( result, "LuaComponent" )
+    EntityService:RemoveComponent( result, "GhostLineCreatorComponent" )
     EntityService:SetOrientation( result, orientation )
 
     EntityService:ChangeMaterial( result, "selector/hologram_blue" )

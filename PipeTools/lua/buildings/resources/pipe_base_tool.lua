@@ -89,6 +89,7 @@ function pipe_base_tool:SpawnGhostPipeEntity()
     local buildingEntity = EntityService:SpawnAndAttachEntity( self.ghostBlueprintName, self.selector )
 
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
+    EntityService:RemoveComponent( buildingEntity, "GhostLineCreatorComponent" )
     EntityService:SetOrientation( buildingEntity, orientation )
     EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
 

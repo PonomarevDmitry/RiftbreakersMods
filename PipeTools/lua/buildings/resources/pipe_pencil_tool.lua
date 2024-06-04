@@ -223,6 +223,7 @@ function pipe_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
             local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
+            EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
             EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
@@ -262,6 +263,7 @@ function pipe_pencil_tool:AdjustList(list, newPositions)
             local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.selector )
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
+            EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
             EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
