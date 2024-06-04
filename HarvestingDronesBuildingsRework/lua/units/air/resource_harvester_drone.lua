@@ -67,20 +67,14 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
                 return false
             end
 
-            local isAlive = HealthService:IsAlive( entity )
-
-            if ( EntityService:CompareType( entity, "ground_unit" ) or EntityService:CompareType( entity, "ground_unit_large" ) or EntityService:CompareType( entity, "ground_unit_medium" ) or EntityService:CompareType( entity, "ground_unit_small" ) ) then
-
-                if ( isAlive ) then
-                    return false
-                end
+            if ( EntityService:HasComponent( entity, "VegetationComponent" ) ) then
+                return true
             end
 
-            if ( EntityService:CompareType( entity, "air_unit" ) and isAlive ) then
+            local isAlive = HealthService:IsAlive( entity )
 
-                if ( isAlive ) then
-                    return false
-                end
+            if ( isAlive ) then
+                return false
             end
 
             return true
