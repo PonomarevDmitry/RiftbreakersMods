@@ -91,7 +91,14 @@ function artificial_spawner:SpawnWaves()
 
         local waveLogic			= blueprintDatabase:GetStringOrDefault( "wave_logic_file", "error" )
         local waveLogicMul		= blueprintDatabase:GetIntOrDefault( "wave_logic_file_mul", 1 )
+        local waterOverride		= self.data:GetIntOrDefault( "water_override", 0 )
         local waveSpawnDistance = blueprintDatabase:GetIntOrDefault( "wave_spawn_distance", 40 )
+
+        local ignoreWater = false
+
+        if ( waterOverride == 1 ) then
+            ignoreWater = true
+        end
 
         if ( blueprintDatabase:HasFloat("aggressive_radius") ) then
 
@@ -107,7 +114,7 @@ function artificial_spawner:SpawnWaves()
 
         if ( ResourceManager:ResourceExists( "FlowGraphTemplate", waveLogic ) ) then
 
-            local spawnPointArray = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul )
+            local spawnPointArray = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul, ignoreWater )
 
             for i = 1, #spawnPointArray do
 
