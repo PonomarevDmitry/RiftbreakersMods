@@ -382,6 +382,16 @@ function replace_wall_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
+        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode >= BM_SELLING ) then 
+            goto continue
+        end
+
         local blueprintName = EntityService:GetBlueprintName( entity )
 
         if ( IndexOf( self.allWallBluprintsArray, blueprintName ) ~= nil ) then

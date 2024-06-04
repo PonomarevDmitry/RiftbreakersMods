@@ -199,6 +199,11 @@ function replace_wall_replacer_all_tool:IsEntityApproved( entity )
         return false
     end
 
+    local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+    if ( mode >= BM_SELLING ) then 
+        return false
+    end
+
     local blueprintName = EntityService:GetBlueprintName(entity)
 
     if ( self:IsBlueprintInList( self.toBlueprintsList, self.toCacheBlueprintsLowNames, blueprintName) ) then
