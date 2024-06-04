@@ -43,13 +43,7 @@ function ghost_building_line:OnInit()
         self.wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)
     end
 
-    if ( EntityService:HasComponent( self.entity, "DisplayRadiusComponent" ) ) then
-        EntityService:RemoveComponent( self.entity, "DisplayRadiusComponent" )
-    end
-
-    if ( EntityService:HasComponent( self.entity, "GhostLineCreatorComponent" ) ) then
-        EntityService:RemoveComponent( self.entity, "GhostLineCreatorComponent" )
-    end
+    self:RemoveComponents(self.entity)
 
     self.randomRotation = 0
 
@@ -69,6 +63,17 @@ function ghost_building_line:OnInit()
                 CreateQuaternion( vector, 270 )
             }
         end
+    end
+end
+
+function ghost_building_line:RemoveComponents(entity)
+
+    if ( EntityService:HasComponent( entity, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( entity, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( entity, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( entity, "GhostLineCreatorComponent" )
     end
 end
 
@@ -133,13 +138,9 @@ function ghost_building_line:OnUpdate()
             for i=#self.linesEntities + 1 ,#newPositions do
 
                 local lineEnt = EntityService:SpawnEntity(self.ghostBlueprint, newPositions[i], team )
-                if ( EntityService:HasComponent( lineEnt, "DisplayRadiusComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "DisplayRadiusComponent" )
-                end
 
-                if ( EntityService:HasComponent( lineEnt, "GhostLineCreatorComponent" ) ) then
-                    EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-                end
+                self:RemoveComponents(lineEnt)
+
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
                 Insert(self.linesEntities, lineEnt)
             end
@@ -154,13 +155,8 @@ function ghost_building_line:OnUpdate()
             transform.position = newPositions[i]
 
             local entity = self.linesEntities[i]
-            if ( EntityService:HasComponent( entity, "DisplayRadiusComponent" ) ) then
-                EntityService:RemoveComponent( entity, "DisplayRadiusComponent" )
-            end
 
-            if ( EntityService:HasComponent( entity, "GhostLineCreatorComponent" ) ) then
-                EntityService:RemoveComponent( entity, "GhostLineCreatorComponent" )
-            end
+            self:RemoveComponents(entity)
 
             self:CheckEntityBuildable(entity, transform, false, i, false)
             EntityService:SetPosition( entity, newPositions[i])
