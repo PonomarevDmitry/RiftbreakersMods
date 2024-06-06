@@ -174,7 +174,7 @@ function  invisible:OnItemEquippedEvent( evt)
 		local item = evt:GetItem()
 		local itemType =ItemService:GetItemType(item);
 			if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" and itemType ~= "lift" ) then
-				local meshChildren =  EntityService:GetChildren( child, false )
+				local meshChildren =  EntityService:GetChildren( item, true )
 				for meshChild in Iter(meshChildren) do
 					if ( EntityService:IsSkinned( meshChild )) then
 						EntityService:SetMaterial( meshChild, "player/item_distortion_skinned", "1_invisiblity" )

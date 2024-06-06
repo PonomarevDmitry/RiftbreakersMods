@@ -12,6 +12,7 @@ function vegetation:init()
 	self:RegisterHandler( self.entity, "AttachEffectGroupRequest", "OnAttachEffectGroupRequest" )
 
 	self.isBurned = false;
+	self.currDir = { x=1, y=0, z=0 }
 	self:UpdateState( INVALID_ID )
 end
 
@@ -19,7 +20,6 @@ function vegetation:UpdateState( target )
 	if self.isBurned then 
 		return
 	end
-
 	self.target = target
 	local db = EntityService:GetDatabase( self.entity )
 	local isInverted = db:GetIntOrDefault( "inverted", 0 ) == 1
@@ -48,34 +48,28 @@ function vegetation:UpdateState( target )
 			self.fsm:AddState( "aiming", { from="*", execute="OnAimingExecute" } )
 			self.fsm:ChangeState( "aiming" )
 			db:SetInt( "is_aiming", 1 )
-			self.currDir = { x=1, y=0, z=0 }
-			self:OnAimingExecute( nil, 0.0 )
 		else
-			self:SetBurningState()
+			self:DisableStateMachine()
 		end
 	end
 end
 
-function vegetation:SetBurningState()
-	local db = EntityService:GetDatabase( self.entity )
+function vegetation:DisableStateMachine()
 	if ( self.fsm ~= nil ) then
-		db:SetInt( "is_aiming", 0 )
 		self:DestroyStateMachine( self.fsm )
 		self.fsm = nil
 	end
-	db:SetInt( "is_burned", 1 )
+end
+
+function vegetation:SetBurningState()
+	self:DisableStateMachine()
+	EntityService:RemoveComponent( self.entity, "AnimationGraphComponent" );
+	self.isBurned = true
 end
 
 function vegetation:OnAimingExecute( state, dt )
 	if self.target ~= INVALID_ID and self.target ~= self.entity  then
 		local db = EntityService:GetDatabase( self.entity )
-		local burningComponent = EntityService:GetComponent(self.entity, "BurningComponent")
-		if burningComponent then
-			db:SetInt( "is_aiming", 0 )
-			self.isBurned = true
-			return
-		end
-
 		local dir = EntityService:GetLocalDirTo( self.entity, self.target )
 		self.currDir = EntityService:LerpTwoDirections( self.currDir, dir, 90.0, dt )
 		db:SetVector( "target_pos", self.currDir )
@@ -94,8 +88,7 @@ end
 
 function vegetation:OnDestroyRequest( evt )
 	local db = EntityService:GetDatabase( self.entity )
-	local burningComponent = EntityService:GetComponent(self.entity, "BurningComponent")
-	if ( burningComponent ~= nil ) then
+	if ( self.isBurned ) then
 		if ( db:GetIntOrDefault( "is_visible", 1 ) == 1 ) then
 			EntityService:RequestDestroyPattern( self.entity, "burned" )
 		else

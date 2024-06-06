@@ -127,6 +127,7 @@ function lift:OnLiftingExit( state )
 		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
 		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0 );
 	end
+	EffectService:DestroyEffectsByGroup( self.item, "on_lift" )
 end
 
 function lift:OnForceHoldingEnter( state )
