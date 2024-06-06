@@ -39,6 +39,20 @@ function ghost_building:OnInit()
         typeName = self.desc.type
     end
 
+    self.cellsMinRadius = 0
+
+    if ( self.desc ~= nil and self.desc.min_radius ~= nil and self.desc.min_radius ~= 0 ) then
+
+        local gridSize = BuildingService:GetBuildingGridSize(self.entity)
+
+        local cellsSize = math.max(gridSize.x, gridSize.z)
+
+        while ((cellsSize + self.cellsMinRadius) * 2 <= self.desc.min_radius) do
+
+            self.cellsMinRadius = self.cellsMinRadius + 1
+        end
+    end
+
     self.isBuildingWithGaps = false
 
     if ( mod_build_with_gaps ~= nil and mod_build_with_gaps == 1 ) then
@@ -123,12 +137,7 @@ function ghost_building:OnUpdate()
         end
     end
 
-
-    if ( self.desc ~= nil and self.desc.min_radius ~= nil and self.desc.min_radius ~= 0 ) then
-    
-        cellGapsCount = cellGapsCount + math.ceil( self.desc.min_radius / 2 )
-    end
-
+    cellGapsCount = cellGapsCount + self.cellsMinRadius
 
     self:RemoveMaterialFromOldBuildingsToSell()
 
