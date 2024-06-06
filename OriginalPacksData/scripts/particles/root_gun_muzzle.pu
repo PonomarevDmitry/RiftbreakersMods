@@ -1,6 +1,6 @@
 system rift/root_gun_muzzle
 {
-    fixed_timeout                               1.5
+    fixed_timeout                               2
     nonvisible_update_timeout                   1
     scale_velocity                              0.02
     scale                                       0.02 0.02 0.02
@@ -28,8 +28,8 @@ system rift/root_gun_muzzle
             angle                               30
             time_to_live                        dyn_random
             {
-                min                             1
-                max                             1.5
+                min                             1.5
+                max                             2
             }
             velocity                            dyn_random
             {
@@ -64,7 +64,7 @@ system rift/root_gun_muzzle
         }
         affector                                LinearForce Affector30
         {
-            force_vector                        0 -300 0
+            force_vector                        0 -200 0
         }
         affector                                Colour Affector79
         {
@@ -76,6 +76,10 @@ system rift/root_gun_muzzle
         {
             end_texture_coords_range            63
             texture_start_random                false
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           100
         }
     }
     technique debris_blood
@@ -161,7 +165,7 @@ system rift/root_gun_muzzle
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             1.5
+                max                             2
             }
             velocity                            dyn_random
             {
@@ -190,6 +194,10 @@ system rift/root_gun_muzzle
         {
             end_texture_coords_range            63
             texture_start_random                false
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           100
         }
     }
     technique lines
@@ -230,7 +238,7 @@ system rift/root_gun_muzzle
             particle_height                     dyn_random
             {
                 min                             150
-                max                             200
+                max                             300
             }
             direction                           1 0 0
             end_texture_coords_range            7
@@ -248,43 +256,81 @@ system rift/root_gun_muzzle
             texture_start_random                false
         }
     }
-    technique blood
+    technique 3
     {
-        visual_particle_quota                   50
+        visual_particle_quota                   1
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles_noatlas/water_foam_01
+        material                                particles/glow_add_02
         renderer                                Billboard
         {
-            texture_coords_rows                 8
-            texture_coords_columns              8
+            render_queue_group                  65
             billboard_rotation_type             vertex
         }
-        emitter                                 Box 
+        emitter                                 Point Emitter1
         {
-            emission_rate                       50
-            angle                               90
-            time_to_live                        1
+            angle                               0
+            time_to_live                        0.2
+            velocity                            1
+            all_particle_dimensions             700
+            direction                           1 0 0
+            colour                              1 0.533808 0 1
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 0.491103 0 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box debris_blood
+        {
+            emission_rate                       100
+            angle                               15
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
             velocity                            dyn_random
             {
-                min                             200
-                max                             300
+                min                             100
+                max                             800
             }
             all_particle_dimensions             dyn_random
             {
-                min                             60
-                max                             120
+                min                             2
+                max                             4
             }
             direction                           1 0 0
-            end_texture_coords_range            15
             force_emission                      true
-            box_width                           10
-            box_height                          10
-            box_depth                           10
         }
-        affector                                TextureRotator Affector6
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.470667  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector50
+        {
+            force_vector                        0 -400 0
+        }
+        affector                                TextureRotator Affector192
         {
             use_own_rotation                    true
             rotation                            dyn_random
@@ -294,24 +340,9 @@ system rift/root_gun_muzzle
             }
             rotation_speed                      dyn_random
             {
-                min                             -0.5
-                max                             0.5
+                min                             -10
+                max                             10
             }
-        }
-        affector                                LinearForce Affector30
-        {
-            force_vector                        0 -300 0
-        }
-        affector                                Colour Affector79
-        {
-            time_colour                         0    0.552542 0.441145 0.280954 0.94902
-            time_colour                         0.9  0.542373 0.435812 0.237173 0.94902
-            time_colour                         1    0.522034 0.404448 0.235358 0
-        }
-        affector                                TextureAnimator Affector81
-        {
-            end_texture_coords_range            63
-            texture_start_random                false
         }
     }
 }

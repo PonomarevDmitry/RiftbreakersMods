@@ -23,14 +23,10 @@ system rift/flame_blade_shockwave
         }
         emitter                                 Box Emitter1
         {
-            emission_rate                       30
+            emission_rate                       6
             angle                               1
             time_to_live                        0.5
-            velocity                            dyn_random
-            {
-                min                             300
-                max                             400
-            }
+            velocity                            700
             all_particle_dimensions             250
             direction                           1 1 0
             colour                              1 0.501961 0 1
@@ -45,6 +41,7 @@ system rift/flame_blade_shockwave
     }
     technique smoke_dirt
     {
+        enabled                                 false
         visual_particle_quota                   100
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
@@ -59,8 +56,8 @@ system rift/flame_blade_shockwave
         }
         emitter                                 Box Emitter1
         {
-            emission_rate                       50
-            angle                               45
+            emission_rate                       200
+            angle                               30
             time_to_live                        0.5
             velocity                            dyn_random
             {
@@ -69,8 +66,8 @@ system rift/flame_blade_shockwave
             }
             all_particle_dimensions             dyn_random
             {
-                min                             150
-                max                             200
+                min                             25
+                max                             100
             }
             direction                           1 1 0
             colour                              1 0.501961 0 1
@@ -79,12 +76,135 @@ system rift/flame_blade_shockwave
         }
         affector                                Colour Affector35
         {
-            time_colour                         0    0.752941 0.752941 0.752941 0.4
+            time_colour                         0    1 1 1 0
+            time_colour                         0.45947  1 1 1 0.54053
+            time_colour                         1    1 1 1 0
+        }
+        affector                                LinearForce Affector22
+        {
+            force_vector                        0 -500 0
+        }
+        affector                                TextureRotator 
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      1
+        }
+        affector                                TextureAnimator 
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+    }
+    technique smoke_dirt_1
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter1
+        {
+            emission_rate                       200
+            angle                               45
+            time_to_live                        0.5
+            velocity                            dyn_random
+            {
+                min                             400
+                max                             500
+            }
+            particle_width                      dyn_random
+            {
+                min                             1
+                max                             5
+            }
+            particle_height                     dyn_random
+            {
+                min                             5
+                max                             50
+            }
+            direction                           1 1 0
+            colour                              1 0.501961 0 1
+            box_width                           50
+            box_height                          50
+        }
+        affector                                Colour Affector35
+        {
+            time_colour                         0    1 1 1 0.4
             time_colour                         1    0 0 0 0
         }
         affector                                LinearForce Affector22
         {
             force_vector                        0 -500 0
+        }
+    }
+    technique smoke_dirt_2
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/camp_fire_16x16
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter1
+        {
+            emission_rate                       200
+            angle                               30
+            time_to_live                        0.5
+            velocity                            dyn_random
+            {
+                min                             300
+                max                             400
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             25
+                max                             100
+            }
+            direction                           1 1 0
+            colour                              1 0.501961 0 1
+            box_width                           50
+            box_height                          50
+        }
+        affector                                Colour Affector35
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.45947  1 1 1 0.54053
+            time_colour                         1    1 1 1 0
+        }
+        affector                                LinearForce Affector22
+        {
+            force_vector                        0 -500 0
+        }
+        affector                                TextureRotator 
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      1
+        }
+        affector                                TextureAnimator 
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
         }
     }
 }

@@ -136,8 +136,8 @@ GameplayResourceDef
 	type 			"ammo_tower"
 	icon			"gui/hud/resource_icons/ammo_tower_high_caliber_icon"
 	bigger_icon		"gui/hud/resource_icons/ammo_tower_high_caliber_icon_bigger"
-	base_storage	"500"
-	production		"100"
+	base_storage	"300"
+	production		"60"
 	hud_visible 	"build_menu"
 	order			"12"
 		
