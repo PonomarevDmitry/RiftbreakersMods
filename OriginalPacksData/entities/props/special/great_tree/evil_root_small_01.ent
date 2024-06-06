@@ -2,12 +2,31 @@ EntityBlueprint
 {
 	name  "props/special/great_tree/evil_root_small_01"
 
+	base_blueprints
+	{
+		props/base/flammable_medium
+		//props/base/resistant_medium
+	}
+	
 	MeshDesc
 	{
 		mesh "meshes/props/special/great_tree/evil_root_small_01.mesh"
 		material "props/special/great_tree/evil_roots_set"
 	}
+	
+	HealthDesc
+	{ 
+		max_health 				"100"
+		health 					"100"
+		//is_manual				"1"
+		
+	}
 
+	TypeDesc
+	{
+		type "flora|prop"
+	}
+	
 	PhysicsDesc
 	{
 		objects
@@ -15,7 +34,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type     			"static"
-				group_id    		"world_blocker"
+				group_id    		"vegetation"
 				physics_material  	"default"
 
 				Shapes
@@ -28,5 +47,119 @@ EntityBlueprint
 			}
 		}
 	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_leafs_destruction_big_brown"	
+					explosion_effect_scale 	"0.7"	
+					part_material	 		"props/special/great_tree/evil_roots_set"
+					part_prefix 			"meshes/props/special/great_tree/evil_root_small_01"
+					part_effect 			"effects/destructibles/tree_leafs_part_trail_brown"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+					part_material	 		"props/special/great_tree/evil_roots_set"					
+					part_prefix 			"meshes/props/special/great_tree/evil_root_small_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}				
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+
+
+    DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_violet_and_orange"
+					explosion_effect_scale 	"0.5"					
+					part_material	 		"props/special/great_tree/evil_roots_set"
+					part_prefix 			"meshes/props/special/great_tree/evil_root_small_01"
+					part_effect 			"effects/destructibles/mushroom_part_trail"
+
+					//part_linear_damping		"1"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+
+					part_material 			"props/special/great_tree/evil_roots_set"
+					part_prefix 			"meshes/props/special/great_tree/evil_root_small_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+
+					//part_linear_damping		"1"
+				}
+			}
+		}
+	}
+
+			EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_small"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+
+
 }
 

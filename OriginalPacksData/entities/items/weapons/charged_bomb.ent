@@ -66,7 +66,7 @@ EntityBlueprint
 			{
 				name 						"charge_level_1"
 
-				ammo_blueprint 				"items/weapons/charged_bomb_projectile"
+				ammo_blueprint 				"items/weapons/charged_bomb_projectile_charged"
 
 				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
 				charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
@@ -80,7 +80,7 @@ EntityBlueprint
 
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
-				burst_column_angle_factor		"1"
+				burst_column_angle_factor		"1"			
 			}
 		}
 	}
@@ -269,7 +269,74 @@ EntityBlueprint
 
 		DamagePattern
 		{
-			area_damage_speed	"30"
+			area_damage_speed	"50"
+		}
+	}
+	
+	LuaDesc
+	{
+		script "lua/items/misc/bomb.lua"
+
+		database
+		{
+
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/charged_bomb_projectile_charged"
+	base_blueprint "items/weapons/charged_bomb_projectile_base"
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+
+		visibility			"radar"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/charged_bomb_projectile"
+					delay     "0.3"
+				}
+			}
+		}
+	}
+
+	FlakAmmoComponent
+	{
+		explosion_effect 		"effects/weapons_explosive/charged_bomb_explosion"
+		explosion_delay 		"1.9"
+
+		DamagePattern
+		{
+			area_damage_speed	"50"
 		}
 	}
 	

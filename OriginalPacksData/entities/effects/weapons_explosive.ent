@@ -1111,6 +1111,21 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/weapons_explosive/insect_gun_equipped
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/insect_gun_equipped"
+	}
+}
+
+EntityBlueprint
+{
 	name effects/weapons_explosive/grenade_projectile
 
 	base_blueprints 
@@ -1740,7 +1755,74 @@ EntityBlueprint
 	ShockWaveDesc
 	{
 		power 	"15000"
-		speed 	"30"
+		speed 	"50"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/charged_bomb_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/charged_bomb_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+		}
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "10 10 10"
+				}
+			}
+		}			
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/charged_bomb_explosion_charged
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_blue_big
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"15000"
+		speed 	"50"
 		radius 	"20"
 	}
 
@@ -1944,7 +2026,7 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.05"
-		power   		"0.7"
+		power   		"0.1"
 		falloff_radius 	"20"
 		radius   		"40"
 		frequency 		"20"
@@ -2144,9 +2226,16 @@ EntityBlueprint
 		}
 
 		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
-		burning_time			"6"	// how long it will burn in seconds
+		burning_time			"5"	// how long it will burn in seconds
 		disable_light_fade_out "1"
-	}		
+	}	
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"mech_fire_trail"	
+		extend  		"5"
+	}	
 	
 	EffectDesc
 	{

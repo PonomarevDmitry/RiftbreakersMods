@@ -68,13 +68,28 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/tower_alien_influence_lvl_3.mesh"
-		material "buildings/defense/tower_alien_influence_lvl_3_destroyed"	
+		mesh "meshes/props/special/interactive/great_tree_resin_intake.mesh"
+		material "props/special/resin_tree/resin_tree_big_01"
+
+			SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/resin_tree/resin_tree_big_01"
+			}
+			SubMesh
+			{
+				id "1"
+				material "props/special/resin_tree/resin_roots"
+			}
+		}	
 	}
 	
 	SkeletonDesc
 	{
-		name "meshes/buildings/defense/tower_alien_influence_lvl_3"
+		name "meshes/props/special/interactive/great_tree_resin_intake"
 	}
 
 	PhysicsDesc
@@ -88,19 +103,24 @@ EntityBlueprint
 				physics_material 	"default"
 				Shapes
 				{
-					PhysicsBoxShape
-					{
-						x "2"
-						y "4"
-						z "2"
+				    PhysicsMeshShape
+							{	
+								mesh "meshes/props/special/interactive/great_tree_resin_intake_c1.nxs"
+							}
 
-						position
-						{
-							x "0.0"
-							y "2"
-							z "0.0"
-						}
-					}
+					//PhysicsBoxShape
+					//{
+					//	x "2"
+					//	y "4"
+					//	z "2"
+
+					//	position
+					//	{
+					//		x "0.0"
+					//		y "2"
+					//		z "0.0"
+					//	}
+					//}
 				}
 			}
 		}
@@ -207,5 +227,35 @@ EntityBlueprint
 				}
 			}
 		}	
-	}	
+		EffectGroup
+		{
+			group "light"
+			enabled "1"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_1"
+				}
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_2"
+				}
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_3"
+				}
+				Effect
+				{
+					blueprint "lights/point/violet_small"
+					bone "att_light_4"
+				}				
+			}
+		}		
+	}
 }

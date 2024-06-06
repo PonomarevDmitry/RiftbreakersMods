@@ -2065,7 +2065,6 @@ EntityBlueprint
 	{
 		type "0"
 		scattering_intensity "0.82"
-		shadow_intensity "1"
 		light_color
 		{
 			x "0.65"
@@ -2198,4 +2197,50 @@ EntityBlueprint
 	//{
 	//	instant 0
 	//}
+}
+
+//// ----------------- SPORE COMET ------------------------- /////////
+
+EntityBlueprint
+{
+	name lights/props/spore_comet_shadow_caster_violet
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.22"
+		light_color
+		{
+			x "0.65"
+			y "0.05"
+			z "1"
+			w "20" 				// "500"
+		}
+		light_size 0.3
+		light_range "45" 			// "150"
+	}
+
+	//ShadowComponent
+	//{
+	//	shadow_intensity "1"
+	//}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+	
+	//LightDayAndNightAffector
+	//{
+	//	instant 0
+	//}
+	
 }

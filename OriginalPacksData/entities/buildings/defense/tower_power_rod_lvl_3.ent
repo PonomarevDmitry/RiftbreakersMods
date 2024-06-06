@@ -176,7 +176,7 @@ EntityBlueprint
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "20"
+			range_min "25"
 			range_max "200"
 			aiming_range "210"
 		}
@@ -186,7 +186,7 @@ EntityBlueprint
 		aiming_idle_angle "20"
 		pitch "att_muzzle"
 		yaw "att_muzzle"
-		check_target_visibility "1"
+		check_target_visibility "0"
 		fog_of_war_filtering "1"
 	}
 
@@ -203,7 +203,7 @@ EntityBlueprint
 			rocket_height 			float:"100"
 			rocket_initial_height	float:"15"
 			rocket_bp				string:"buildings/defense/tower_power_rod_lvl_3_rocket"
-			//crosshair_bp			string:"effects/messages_and_markers/danger_marker_blue"
+			crosshair_bp			string:"effects/messages_and_markers/target_laser_marker"
 		}
 	}
 
@@ -264,11 +264,7 @@ EntityBlueprint
 				{
 					blueprint "effects/weapons_energy/power_rod_engine"
 					bone "att_exhaust"
-				}
-				Effect
-				{
-					blueprint "effects/weapons_energy/power_rod_energy"
-				}				
+				}			
 			}
 		}
 	}
@@ -279,7 +275,7 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			"ribbon/drone_trail_gold"
+				material 			"ribbon/smoke_trail_blue_01"
 				update_bounds 		1
 				fade_out_time		1.9
 				tesselation_step 	0.1
@@ -362,19 +358,17 @@ EntityBlueprint
 	{
 		EffectGroup
 		{			
-			group "exhaust"
-			enabled "0"
-			
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/weapons_energy/power_rod_engine"
+					blueprint "effects/weapons_energy/power_rod_engine_flare"
 					bone "att_exhaust"
 				}
 				Effect
 				{
 					blueprint "effects/weapons_energy/power_rod_energy"
+					bone "att_exhaust"
 				}				
 			}
 		}

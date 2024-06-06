@@ -1,5 +1,64 @@
 EntityBlueprint "effects/no_lifetime"
 {
+	name effects/messages_and_markers/target_laser_marker
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+	}
+
+	//MeshDesc
+	//{
+	//	mesh 		"meshes/cube.mesh"
+	//	material 	"markers/danger_marker_progress_blue"
+	//}
+
+	children
+	{
+		//EntityBlueprint
+		//{
+		//	MeshDesc
+		//	{
+		//		mesh 		"meshes/cube.mesh"
+		//		material 	"markers/danger_marker_inner_blue"
+		//	}
+		//
+		//	AffectorDesc
+		//	{
+		//		AffectorLambdaDesc
+		//		{
+		//			affector_lambda TransformRotateAffector
+		//			{
+		//				angle_speed 	"30"
+		//			}
+		//		}
+		//	}
+		//}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/cube.mesh"
+				material 	"markers/danger_marker_outer_blue"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-30"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
 	name effects/messages_and_markers/danger_marker_red
 
 	LuaDesc
