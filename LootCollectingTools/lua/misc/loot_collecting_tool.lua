@@ -13,6 +13,10 @@ function loot_collecting_tool:OnInit()
     self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
 end
 
+function loot_collecting_tool:OnPreInit()
+    self.initialScale = { x=8, y=1, z=8 }
+end
+
 function loot_collecting_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
