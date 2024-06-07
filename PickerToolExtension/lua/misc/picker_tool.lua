@@ -139,25 +139,28 @@ function picker_tool:MarkEntity( entity )
 
         self.selectedResourceComponents = self.selectedResourceComponents or {}
 
-        local childrenList = EntityService:GetChildren( entity, false )
+        if ( not EntityService:HasComponent( entity, "WaterVolumeComponent" ) ) then
 
-        for childResource in Iter( childrenList ) do
+            local childrenList = EntityService:GetChildren( entity, false )
 
-            if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
-                goto continue
+            for childResource in Iter( childrenList ) do
+
+                if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
+                    goto continue
+                end
+
+                if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
+                    goto continue
+                end
+
+                if ( IndexOf( self.selectedResourceComponents, childResource ) == nil ) then
+                    Insert( self.selectedResourceComponents, childResource )
+                end
+
+                QueueEvent( "SelectEntityRequest", childResource )
+
+                ::continue::
             end
-
-            if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
-                goto continue
-            end
-
-            if ( IndexOf( self.selectedResourceComponents, childResource ) == nil ) then
-                Insert( self.selectedResourceComponents, childResource )
-            end
-
-            QueueEvent( "SelectEntityRequest", childResource )
-
-            ::continue::
         end
 
     elseif ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
@@ -182,25 +185,28 @@ function picker_tool:RemovedFromSelection( entity )
 
         self.selectedResourceComponents = self.selectedResourceComponents or {}
 
-        local childrenList = EntityService:GetChildren( entity, false )
+        if ( not EntityService:HasComponent( entity, "WaterVolumeComponent" ) ) then
 
-        for childResource in Iter( childrenList ) do
+            local childrenList = EntityService:GetChildren( entity, false )
 
-            if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
-                goto continue
+            for childResource in Iter( childrenList ) do
+
+                if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
+                    goto continue
+                end
+
+                if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
+                    goto continue
+                end
+
+                if ( IndexOf( self.selectedResourceComponents, childResource ) ~= nil ) then
+                    Remove( self.selectedResourceComponents, childResource )
+                end
+
+                QueueEvent( "DeselectEntityRequest", childResource )
+
+                ::continue::
             end
-
-            if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
-                goto continue
-            end
-
-            if ( IndexOf( self.selectedResourceComponents, childResource ) ~= nil ) then
-                Remove( self.selectedResourceComponents, childResource )
-            end
-
-            QueueEvent( "DeselectEntityRequest", childResource )
-
-            ::continue::
         end
 
     elseif ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
