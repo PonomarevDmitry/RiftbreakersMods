@@ -59,6 +59,16 @@ function sell_place_ruins_tool:FilterSelectedEntities( selectedEntities )
 
     for entity in Iter( selectedEntities ) do
 
+        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode >= BM_SELLING ) then 
+            goto continue
+        end
+
         local blueprintName = EntityService:GetBlueprintName( entity )
 
         local ruinsBlueprint = blueprintName .. "_ruins"
