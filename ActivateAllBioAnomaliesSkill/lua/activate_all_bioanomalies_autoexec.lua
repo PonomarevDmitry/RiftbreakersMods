@@ -17,6 +17,12 @@ local activate_all_bioanomalies_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", activate_all_bioanomalies_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", activate_all_bioanomalies_autoexec)
+    activate_all_bioanomalies_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    activate_all_bioanomalies_autoexec(evt)
+end)

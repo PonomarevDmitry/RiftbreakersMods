@@ -17,6 +17,12 @@ local mech_lamps_switcher_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", mech_lamps_switcher_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", mech_lamps_switcher_autoexec)
+    mech_lamps_switcher_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    mech_lamps_switcher_autoexec(evt)
+end)
