@@ -23,9 +23,15 @@ local sell_all_map_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/sell_all_map_3")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", sell_all_map_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", sell_all_map_tools_autoexec)
+    sell_all_map_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    sell_all_map_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

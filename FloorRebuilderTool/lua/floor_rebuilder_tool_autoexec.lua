@@ -11,6 +11,12 @@ local floor_rebuilder_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/floor_rebuilder")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", floor_rebuilder_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", floor_rebuilder_tool_autoexec)
+    floor_rebuilder_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    floor_rebuilder_tool_autoexec(evt)
+end)

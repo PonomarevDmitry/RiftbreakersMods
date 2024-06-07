@@ -14,6 +14,12 @@ local mass_disassembly_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/main/mass_disassembly_equal_and_lower")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", mass_disassembly_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", mass_disassembly_autoexec)
+    mass_disassembly_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    mass_disassembly_autoexec(evt)
+end)

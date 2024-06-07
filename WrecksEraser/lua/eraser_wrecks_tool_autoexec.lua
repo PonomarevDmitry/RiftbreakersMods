@@ -11,6 +11,12 @@ local eraser_wrecks_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/eraser_wrecks")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", eraser_wrecks_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", eraser_wrecks_tool_autoexec)
+    eraser_wrecks_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    eraser_wrecks_tool_autoexec(evt)
+end)

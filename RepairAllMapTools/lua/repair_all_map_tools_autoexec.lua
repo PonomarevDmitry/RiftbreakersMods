@@ -23,9 +23,15 @@ local repair_all_map_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/repair_all_map_3")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", repair_all_map_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", repair_all_map_tools_autoexec)
+    repair_all_map_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    repair_all_map_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

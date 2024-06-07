@@ -39,9 +39,15 @@ local drone_mine_drone_point_picker_tools_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", drone_mine_drone_point_picker_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", drone_mine_drone_point_picker_tools_autoexec)
+    drone_mine_drone_point_picker_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    drone_mine_drone_point_picker_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

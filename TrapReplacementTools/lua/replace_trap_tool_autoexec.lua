@@ -24,9 +24,15 @@ local replace_trap_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/replace_trap_replacer_from_2_to_1")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", replace_trap_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", replace_trap_tool_autoexec)
+    replace_trap_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    replace_trap_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

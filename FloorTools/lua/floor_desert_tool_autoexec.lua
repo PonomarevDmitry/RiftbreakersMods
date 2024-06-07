@@ -62,9 +62,15 @@ local floor_desert_tool_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", floor_desert_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", floor_desert_tool_autoexec)
+    floor_desert_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    floor_desert_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

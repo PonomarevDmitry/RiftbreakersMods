@@ -12,6 +12,12 @@ local unlock_turn_on_off_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/turn_2_off")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", unlock_turn_on_off_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", unlock_turn_on_off_tools_autoexec)
+    unlock_turn_on_off_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    unlock_turn_on_off_tools_autoexec(evt)
+end)

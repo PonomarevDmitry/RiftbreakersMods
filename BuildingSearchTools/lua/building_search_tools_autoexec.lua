@@ -19,9 +19,15 @@ local building_search_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/building_search_2_clear")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", building_search_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", building_search_tools_autoexec)
+    building_search_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    building_search_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

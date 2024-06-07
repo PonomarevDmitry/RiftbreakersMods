@@ -11,6 +11,12 @@ local free_roam_camera_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/free_roam_camera")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", free_roam_camera_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", free_roam_camera_tool_autoexec)
+    free_roam_camera_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    free_roam_camera_tool_autoexec(evt)
+end)

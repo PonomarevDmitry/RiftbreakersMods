@@ -39,9 +39,15 @@ local shield_generator_center_point_picker_tools_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", shield_generator_center_point_picker_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", shield_generator_center_point_picker_tools_autoexec)
+    shield_generator_center_point_picker_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    shield_generator_center_point_picker_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

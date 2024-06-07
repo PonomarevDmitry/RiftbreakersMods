@@ -104,6 +104,12 @@ local buildings_templates_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/buildings_upgrader")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", buildings_templates_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", buildings_templates_autoexec)
+    buildings_templates_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    buildings_templates_autoexec(evt)
+end)

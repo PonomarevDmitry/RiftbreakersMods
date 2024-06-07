@@ -23,9 +23,15 @@ local upgrade_all_map_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/upgrade_all_map_3")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", upgrade_all_map_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", upgrade_all_map_tools_autoexec)
+    upgrade_all_map_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    upgrade_all_map_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

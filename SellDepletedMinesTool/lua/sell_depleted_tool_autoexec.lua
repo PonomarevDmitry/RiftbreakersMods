@@ -11,6 +11,12 @@ local sell_depleted_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/sell_depleted")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", sell_depleted_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", sell_depleted_tool_autoexec)
+    sell_depleted_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    sell_depleted_tool_autoexec(evt)
+end)

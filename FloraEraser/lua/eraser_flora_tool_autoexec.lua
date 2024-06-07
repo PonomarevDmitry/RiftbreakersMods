@@ -11,6 +11,12 @@ local eraser_flora_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/eraser_flora")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", eraser_flora_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", eraser_flora_tool_autoexec)
+    eraser_flora_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    eraser_flora_tool_autoexec(evt)
+end)

@@ -11,6 +11,12 @@ local eraser_mines_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/eraser_mines")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", eraser_mines_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", eraser_mines_tool_autoexec)
+    eraser_mines_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    eraser_mines_tool_autoexec(evt)
+end)

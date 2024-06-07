@@ -23,9 +23,15 @@ local sell_by_type_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/sell_by_type_seller_ruin_group")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", sell_by_type_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", sell_by_type_tools_autoexec)
+    sell_by_type_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    sell_by_type_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

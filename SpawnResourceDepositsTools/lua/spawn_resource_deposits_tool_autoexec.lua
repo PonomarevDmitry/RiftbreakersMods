@@ -19,6 +19,12 @@ local spawn_resource_deposits_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/spawn_resource_deposits_7_uranium")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", spawn_resource_deposits_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", spawn_resource_deposits_tool_autoexec)
+    spawn_resource_deposits_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    spawn_resource_deposits_tool_autoexec(evt)
+end)

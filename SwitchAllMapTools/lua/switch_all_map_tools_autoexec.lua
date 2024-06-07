@@ -24,9 +24,15 @@ local switch_all_map_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/switch_all_map_3")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", switch_all_map_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", switch_all_map_tools_autoexec)
+    switch_all_map_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    switch_all_map_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

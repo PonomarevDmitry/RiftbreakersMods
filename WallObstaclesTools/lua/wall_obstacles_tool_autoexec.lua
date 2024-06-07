@@ -17,6 +17,12 @@ local wall_obstacles_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/defense/wall_pencil_tool")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", wall_obstacles_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", wall_obstacles_tool_autoexec)
+    wall_obstacles_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    wall_obstacles_tool_autoexec(evt)
+end)

@@ -39,9 +39,15 @@ local repair_facility_drone_point_picker_tools_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", repair_facility_drone_point_picker_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", repair_facility_drone_point_picker_tools_autoexec)
+    repair_facility_drone_point_picker_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    repair_facility_drone_point_picker_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

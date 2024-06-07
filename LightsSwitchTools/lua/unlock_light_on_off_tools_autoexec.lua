@@ -15,6 +15,12 @@ local unlock_light_on_off_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/light_switcher_mech")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", unlock_light_on_off_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", unlock_light_on_off_tools_autoexec)
+    unlock_light_on_off_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    unlock_light_on_off_tools_autoexec(evt)
+end)

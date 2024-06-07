@@ -13,6 +13,12 @@ local researches_unlock_custom_trees_autoexec = function(evt)
     Research:CheckResearches()
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", researches_unlock_custom_trees_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", researches_unlock_custom_trees_autoexec)
+    researches_unlock_custom_trees_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    researches_unlock_custom_trees_autoexec(evt)
+end)

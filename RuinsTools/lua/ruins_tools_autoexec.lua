@@ -12,6 +12,12 @@ local ruins_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/sell_2_ruins_eraser")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", ruins_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", ruins_tools_autoexec)
+    ruins_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    ruins_tools_autoexec(evt)
+end)

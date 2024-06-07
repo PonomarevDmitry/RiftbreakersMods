@@ -11,6 +11,12 @@ local damage_buildings_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/damage_buildings")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", damage_buildings_tool_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", damage_buildings_tool_autoexec)
+    damage_buildings_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    damage_buildings_tool_autoexec(evt)
+end)

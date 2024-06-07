@@ -13,6 +13,12 @@ local loot_collecting_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/loot_collecting_all_map")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", loot_collecting_tools_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", loot_collecting_tools_autoexec)
+    loot_collecting_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    loot_collecting_tools_autoexec(evt)
+end)
