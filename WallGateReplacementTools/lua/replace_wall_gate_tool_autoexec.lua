@@ -4,7 +4,15 @@ require("lua/utils/reflection.lua")
 
 local LastSelectedBlueprintsListUtils = require("lua/utils/replace_wall_gate_tool_last_selected_blueprints_utils.lua")
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local replace_wall_gate_tool_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_to_1_energy")
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_to_2_crystal")
@@ -19,7 +27,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_replacer_from_1_to_2")
     BuildingService:UnlockBuilding("buildings/tools/replace_wall_gate_replacer_from_2_to_1")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", replace_wall_gate_tool_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", replace_wall_gate_tool_autoexec)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

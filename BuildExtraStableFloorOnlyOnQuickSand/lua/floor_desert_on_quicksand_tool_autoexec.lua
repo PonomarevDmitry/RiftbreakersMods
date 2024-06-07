@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local floor_desert_on_quicksand_tool_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
 
@@ -29,7 +37,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
         BuildingService:UnlockBuilding("buildings/decorations/floor_desert_on_quicksand_tool")
     end
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", floor_desert_on_quicksand_tool_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", floor_desert_on_quicksand_tool_autoexec)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

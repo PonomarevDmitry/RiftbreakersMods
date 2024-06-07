@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local flora_cultivator_drone_point_picker_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
 
@@ -29,7 +37,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
         BuildingService:UnlockBuilding("buildings/tools/flora_cultivator_drone_point_picker")
     end
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", flora_cultivator_drone_point_picker_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", flora_cultivator_drone_point_picker_tools_autoexec)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

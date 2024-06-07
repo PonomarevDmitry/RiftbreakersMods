@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local wall_obstacles_tool_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/defense/wall_area_tool")
     BuildingService:UnlockBuilding("buildings/defense/wall_borders_tool")
@@ -7,5 +15,8 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     BuildingService:UnlockBuilding("buildings/defense/wall_obstacles_stairs_tool")
     BuildingService:UnlockBuilding("buildings/defense/wall_thorns_tool")
     BuildingService:UnlockBuilding("buildings/defense/wall_pencil_tool")
+end
 
-end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", wall_obstacles_tool_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", wall_obstacles_tool_autoexec)

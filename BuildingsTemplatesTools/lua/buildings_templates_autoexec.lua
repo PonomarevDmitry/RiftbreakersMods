@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local buildings_templates_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/buildings_picker_01")
     BuildingService:UnlockBuilding("buildings/tools/buildings_picker_02")
@@ -94,4 +102,8 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
 
     BuildingService:UnlockBuilding("buildings/tools/buildings_upgrader")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", buildings_templates_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", buildings_templates_autoexec)

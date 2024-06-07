@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local shield_generator_center_point_picker_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
 
@@ -29,7 +37,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
         BuildingService:UnlockBuilding("buildings/tools/shield_generator_center_point_picker")
     end
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", shield_generator_center_point_picker_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", shield_generator_center_point_picker_tools_autoexec)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

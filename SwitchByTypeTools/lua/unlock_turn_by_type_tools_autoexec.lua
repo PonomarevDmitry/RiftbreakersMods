@@ -5,7 +5,15 @@ require("lua/utils/reflection.lua")
 local LastSelectedBlueprintsListUtils = require("lua/utils/turn_by_type_tools_last_selected_blueprints_utils.lua")
 local PowerUtils = require("lua/utils/power_utils.lua")
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local unlock_turn_by_type_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/turn_by_type_1_picker")
 
@@ -14,7 +22,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/turn_by_type_4_on_group")
     BuildingService:UnlockBuilding("buildings/tools/turn_by_type_5_off_group")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", unlock_turn_by_type_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", unlock_turn_by_type_tools_autoexec)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

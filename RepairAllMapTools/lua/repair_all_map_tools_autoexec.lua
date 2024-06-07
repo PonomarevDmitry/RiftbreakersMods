@@ -4,7 +4,15 @@ require("lua/utils/reflection.lua")
 
 local LastSelectedBlueprintsListUtils = require("lua/utils/repair_all_map_tools_last_selected_blueprints_utils.lua")
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local repair_all_map_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/repair_all_map_1_picker")
     BuildingService:UnlockBuilding("buildings/tools/repair_all_map_1_repairer")
@@ -13,7 +21,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     BuildingService:UnlockBuilding("buildings/tools/repair_all_map_2_cat_repairer")
 
     BuildingService:UnlockBuilding("buildings/tools/repair_all_map_3")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", repair_all_map_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", repair_all_map_tools_autoexec)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

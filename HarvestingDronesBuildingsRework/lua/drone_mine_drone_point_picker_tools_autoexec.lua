@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local drone_mine_drone_point_picker_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
 
@@ -29,7 +37,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
         BuildingService:UnlockBuilding("buildings/tools/drone_mine_drone_point_picker")
     end
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", drone_mine_drone_point_picker_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", drone_mine_drone_point_picker_tools_autoexec)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

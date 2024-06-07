@@ -4,7 +4,15 @@ require("lua/utils/reflection.lua")
 
 local LastSelectedBlueprintsListUtils = require("lua/utils/replace_trap_tool_last_selected_blueprints_utils.lua")
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local replace_trap_tool_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/replace_trap_all_picker")
     BuildingService:UnlockBuilding("buildings/tools/replace_trap_all_replacer")
@@ -14,7 +22,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/replace_trap_replacer_from_1_to_2")
     BuildingService:UnlockBuilding("buildings/tools/replace_trap_replacer_from_2_to_1")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", replace_trap_tool_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", replace_trap_tool_autoexec)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

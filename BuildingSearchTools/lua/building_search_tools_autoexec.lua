@@ -4,12 +4,24 @@ require("lua/utils/reflection.lua")
 
 local LastSelectedBlueprintsListUtils = require("lua/utils/building_search_tools_last_selected_blueprints_utils.lua")
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local building_search_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/building_search_1_select")
 
     BuildingService:UnlockBuilding("buildings/tools/building_search_2_clear")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", building_search_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", building_search_tools_autoexec)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

@@ -1,6 +1,18 @@
 local Research = require("lua/utils/researches_unlock_custom_trees_utils.lua")
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local researches_unlock_custom_trees_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     Research:CheckResearches()
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", researches_unlock_custom_trees_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", researches_unlock_custom_trees_autoexec)

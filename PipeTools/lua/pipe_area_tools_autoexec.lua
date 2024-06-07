@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local pipe_area_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
 
@@ -49,7 +57,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
             BuildingService:UnlockBuilding("buildings/resources/pipe_pencil_tool")
         end
     end
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", pipe_area_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", pipe_area_tools_autoexec)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

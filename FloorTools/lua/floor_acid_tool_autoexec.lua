@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local floor_acid_tool_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
 
@@ -52,7 +60,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_3")
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_4")
     end
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", floor_acid_tool_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", floor_acid_tool_autoexec)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
 

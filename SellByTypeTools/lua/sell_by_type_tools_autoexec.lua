@@ -4,7 +4,15 @@ require("lua/utils/reflection.lua")
 
 local LastSelectedBlueprintsListUtils = require("lua/utils/sell_by_type_tools_last_selected_blueprints_utils.lua")
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local sell_by_type_tools_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/sell_by_type_picker")
 
@@ -13,7 +21,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/sell_by_type_seller_ruin")
     BuildingService:UnlockBuilding("buildings/tools/sell_by_type_seller_ruin_group")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", sell_by_type_tools_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", sell_by_type_tools_autoexec)
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

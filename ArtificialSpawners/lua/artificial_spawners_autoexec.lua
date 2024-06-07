@@ -1,4 +1,12 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+local artificial_spawners_autoexec = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
 
     BuildingService:UnlockBuilding("buildings/tools/artificial_spawner_slots_picker")
     BuildingService:UnlockBuilding("buildings/tools/artificial_spawner_slots_replacer")
@@ -6,4 +14,8 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/artificial_spawner_activate")
     BuildingService:UnlockBuilding("buildings/tools/artificial_spawner_activate_all_map")
-end)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", artificial_spawners_autoexec)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", artificial_spawners_autoexec)
