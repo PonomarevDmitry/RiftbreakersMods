@@ -17,6 +17,12 @@ local energy_connector_trail_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", energy_connector_trail_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", energy_connector_trail_autoexec)
+    energy_connector_trail_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    energy_connector_trail_autoexec(evt)
+end)

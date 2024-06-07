@@ -25,6 +25,12 @@ local turrets_cluster_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", turrets_cluster_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", turrets_cluster_autoexec)
+    turrets_cluster_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    turrets_cluster_autoexec(evt)
+end)

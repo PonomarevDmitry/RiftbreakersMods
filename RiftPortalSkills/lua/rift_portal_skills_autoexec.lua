@@ -29,6 +29,12 @@ local rift_portal_skills_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", rift_portal_skills_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", rift_portal_skills_autoexec)
+    rift_portal_skills_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    rift_portal_skills_autoexec(evt)
+end)

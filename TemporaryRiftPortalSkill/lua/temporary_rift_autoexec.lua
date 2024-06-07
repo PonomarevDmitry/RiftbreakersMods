@@ -17,6 +17,12 @@ local temporary_rift_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", temporary_rift_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", temporary_rift_autoexec)
+    temporary_rift_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    temporary_rift_autoexec(evt)
+end)

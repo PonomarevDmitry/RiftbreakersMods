@@ -25,6 +25,12 @@ local auto_mines_laying_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", auto_mines_laying_autoexec)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", auto_mines_laying_autoexec)
+    auto_mines_laying_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    auto_mines_laying_autoexec(evt)
+end)
