@@ -871,7 +871,35 @@ function floor_rebuilder_tool:OnRelease()
     end
 end
 
-function floor_rebuilder_tool:OnRotate()
+function floor_rebuilder_tool:OnRotateSelectorRequest( evt )
+
+    local degree = evt:GetDegree()
+    local currentScale = EntityService:GetScale(self.entity).x
+
+    local maxIndex = #self.scaleMap
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local index = IndexOf(self.scaleMap, currentScale )
+    if ( index == nil ) then index = 1 end
+
+    local newValue = index + change
+    if ( newValue > maxIndex ) then
+        newValue = maxIndex
+    elseif( newValue == 0 ) then
+        newValue = 1
+    end
+    self.currentScale = self.scaleMap[newValue]
+    EntityService:SetScale( self.entity, self.currentScale, 1.0, self.currentScale)
+    if ( self.OnRotate ) then
+        self:OnRotate(degree)
+    end
+
+    self:SetChildrenPosition()
+    self:RescaleChild()
+
 end
 
 return floor_rebuilder_tool
