@@ -8,6 +8,11 @@ EntityBlueprint
 		material	"items/weapons/shotgun"
 	}
 
+	ShadowExcludeComponent
+	{
+
+	}
+
 	SkeletonDesc
 	{
 		name	"meshes/items/weapons/shotgun"
@@ -23,7 +28,7 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time	"0.35"
-			emissive_factor	"4"
+			emissive_factor	"6"
 		}
 		WeaponMuzzles
 		{
@@ -122,21 +127,35 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name	"items/weapons/auto_shotgun_item"
+	name	"items/weapons/auto_shotgun_advanced"
+
+	base_blueprint	"items/weapons/auto_shotgun"
+
+	MeshDesc
+	{
+		mesh		"meshes/items/weapons/shotgun.mesh"
+		material	"items/weapons/shotgun_advanced"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_shotgun_advanced_item"
 
 	InventoryItemDesc
 	{
 		type			"range_weapon"
 		subtype			"high_caliber"
-
 		name			"gui/menu/inventory/weapon_name/auto_shotgun"
-
 		holding_pose	"range"
-
-		item_bp			"items/weapons/auto_shotgun"
-
-		icon			"gui/hud/items_icons/weapons/auto_shotgun"
-		bigger_icon		"gui/menu/items_icons/weapons/auto_shotgun"
+		item_bp			"items/weapons/auto_shotgun_advanced"
+		icon			"gui/hud/items_icons/weapons/auto_shotgun_advanced"
+		bigger_icon		"gui/menu/items_icons/weapons/auto_shotgun_advanced"
 	}
 
 	LuaDesc
@@ -158,34 +177,67 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name	"items/weapons/auto_shotgun_advanced"
+	name	"items/weapons/auto_shotgun_extreme"
 
 	base_blueprint	"items/weapons/auto_shotgun"
 
 	MeshDesc
 	{
 		mesh		"meshes/items/weapons/shotgun.mesh"
-		material	"items/weapons/shotgun_advanced"
+		material	"items/weapons/shotgun_extreme"
+	}
+
+	ShadowExcludeComponent
+	{
+
 	}
 }
 
 EntityBlueprint
 {
-	name	"items/weapons/auto_shotgun_advanced_item"
+	name	"items/weapons/auto_shotgun_extreme_item"
 
 	InventoryItemDesc
 	{
 		type			"range_weapon"
 		subtype			"high_caliber"
-
-		name			"gui/menu/inventory/weapon_name/auto_shotgun"
-
+		name				"gui/menu/inventory/weapon_name/auto_shotgun"
 		holding_pose	"range"
+		item_bp			"items/weapons/auto_shotgun_extreme"
+		icon			"gui/hud/items_icons/weapons/auto_shotgun_extreme"
+		bigger_icon		"gui/menu/items_icons/weapons/auto_shotgun_extreme"
+	}
 
-		item_bp			"items/weapons/auto_shotgun_advanced"
+	LuaDesc
+	{
+		script	"lua/items/weapons/autofire_weapon.lua"
 
-		icon			"gui/hud/items_icons/weapons/auto_shotgun_advanced"
-		bigger_icon		"gui/menu/items_icons/weapons/auto_shotgun_advanced"
+		database
+		{
+			pad_equipped_feedback					string:"weapon,2,3,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_shotgun_item"
+
+	InventoryItemDesc
+	{
+		type			"range_weapon"
+		subtype			"high_caliber"
+		name			"gui/menu/inventory/weapon_name/auto_shotgun"
+		holding_pose	"range"
+		item_bp			"items/weapons/auto_shotgun"
+		icon			"gui/hud/items_icons/weapons/auto_shotgun"
+		bigger_icon		"gui/menu/items_icons/weapons/auto_shotgun"
 	}
 
 	LuaDesc
@@ -216,6 +268,11 @@ EntityBlueprint
 		mesh		"meshes/items/weapons/shotgun.mesh"
 		material	"items/weapons/shotgun_superior"
 	}
+
+	ShadowExcludeComponent
+	{
+
+	}
 }
 
 EntityBlueprint
@@ -226,13 +283,9 @@ EntityBlueprint
 	{
 		type			"range_weapon"
 		subtype			"high_caliber"
-
 		name			"gui/menu/inventory/weapon_name/auto_shotgun"
-
 		holding_pose	"range"
-
 		item_bp			"items/weapons/auto_shotgun_superior"
-
 		icon			"gui/hud/items_icons/weapons/auto_shotgun_superior"
 		bigger_icon		"gui/menu/items_icons/weapons/auto_shotgun_superior"
 	}
@@ -244,55 +297,6 @@ EntityBlueprint
 		database
 		{
 			pad_equipped_feedback						string:"weapon,2,3,1"
-		}
-	}
-
-	WeaponItemDesc
-	{
-	}
-
-	CostDesc
-}
-
-EntityBlueprint
-{
-	name	"items/weapons/auto_shotgun_extreme"
-
-	base_blueprint	"items/weapons/auto_shotgun"
-
-	MeshDesc
-	{
-		mesh		"meshes/items/weapons/shotgun.mesh"
-		material	"items/weapons/shotgun_extreme"
-	}
-}
-
-EntityBlueprint
-{
-	name	"items/weapons/auto_shotgun_extreme_item"
-
-	InventoryItemDesc
-	{
-		type			"range_weapon"
-		subtype			"high_caliber"
-
-		name				"gui/menu/inventory/weapon_name/auto_shotgun"
-
-		holding_pose	"range"
-
-		item_bp			"items/weapons/auto_shotgun_extreme"
-
-		icon			"gui/hud/items_icons/weapons/auto_shotgun_extreme"
-		bigger_icon		"gui/menu/items_icons/weapons/auto_shotgun_extreme"
-	}
-
-	LuaDesc
-	{
-		script	"lua/items/weapons/autofire_weapon.lua"
-
-		database
-		{
-			pad_equipped_feedback					string:"weapon,2,3,1"
 		}
 	}
 
