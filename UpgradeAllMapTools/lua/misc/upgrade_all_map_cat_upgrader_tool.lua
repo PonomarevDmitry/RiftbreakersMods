@@ -47,7 +47,7 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
     self:UpdateMarker()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+    EntityService:SetPosition( self.infoChild, -2, 0, 2 )
 end
 
 function upgrade_all_map_cat_upgrader_tool:UpdateMarker()

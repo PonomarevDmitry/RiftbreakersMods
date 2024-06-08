@@ -19,7 +19,7 @@ function sell_depleted:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_sell", self.entity)
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+    EntityService:SetPosition( self.infoChild, -2, 0, 2 )
 
     self.scaleMap = {
         1,

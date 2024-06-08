@@ -214,6 +214,8 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
         EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z )
 
+        EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z )
+
         markerDB:SetString("message_text", "")
         markerDB:SetInt("message_visible", 0)
     else
@@ -414,11 +416,6 @@ function buildings_builder_tool:OnUpdate()
     self.oldBuildingsToSell = buildingsToSell
 
 
-
-    if ( self.infoChild == nil ) then
-        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1 )
-    end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
@@ -865,12 +862,23 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
 
         buildingTemplate.orientation = transform.orientation
     end
+
+    if ( #self.templateEntities > 0 ) then
+
+        local firstBuildingTemplate = self.templateEntities[1]
+        local firstEntity = firstBuildingTemplate.entity
+
+        local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
+
+        EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z )
+    end
 end
 
 function buildings_builder_tool:OnRelease()
 
     if ( self.infoChild ~= nil ) then
         EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
     end
 
     if ( self.markerEntity ~= nil ) then

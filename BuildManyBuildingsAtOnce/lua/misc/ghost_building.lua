@@ -33,10 +33,8 @@ function ghost_building:OnInit()
 
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
 
-    local maxSize = math.max(gridSize.x, gridSize.z)
-
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -maxSize, 0, maxSize )
+    EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z )
 
     local typeName = ""
     if( self.desc ~= nil ) then
@@ -308,13 +306,12 @@ function ghost_building:OnUpdate()
 
     if ( self.infoChild == nil ) then
 
-        local gridSize = BuildingService:GetBuildingGridSize(self.entity)
-
-        local maxSize = math.max(gridSize.x, gridSize.z)
-
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -maxSize, 0, maxSize)
     end
+
+    local gridSize = BuildingService:GetBuildingGridSize(self.entity)
+
+    EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z)
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 

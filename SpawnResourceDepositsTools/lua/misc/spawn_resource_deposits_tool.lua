@@ -27,7 +27,7 @@ function spawn_resource_deposits_tool:OnInit()
     end
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    EntityService:SetPosition( self.infoChild, -2, 0, 2)
 
     self.annoucement = self.data:GetString("annoucement")
 
@@ -56,7 +56,7 @@ function spawn_resource_deposits_tool:UpdateMarker()
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+        EntityService:SetPosition( self.infoChild, -2, 0, 2)
     end
 
     self:OnUpdate()
