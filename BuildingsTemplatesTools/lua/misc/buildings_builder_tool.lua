@@ -74,10 +74,10 @@ function buildings_builder_tool:InitializeValues()
     local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. self.marker
     self.markerEntity = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
-    self:SpawnBuildinsTemplates()
-
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+
+    self:SpawnBuildinsTemplates()
 end
 
 function buildings_builder_tool:SpawnBuildinsTemplates()
