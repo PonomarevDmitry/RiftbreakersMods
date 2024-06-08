@@ -1,0 +1,318 @@
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb"
+
+	MeshDesc
+	{
+		mesh		"meshes/items/weapons/charged_bomb.mesh"
+		material	"items/weapons/charged_bomb"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+
+	SkeletonDesc
+	{
+		name	"meshes/items/weapons/charged_bomb"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName	"working"
+				animTime	"0.0"
+			}
+		}
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time	"0.35"
+			emissive_factor	"5"
+		}
+
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment	"att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint				"items/weapons/charged_bomb_projectile"
+		muzzles_per_fire			"1"
+		muzzle_flash_effect			"effects/weapons_explosive/charged_bomb_muzzle"
+		burst_column_spacing		"0.5"
+		burst_rate					"0.3"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group	"loot"
+			enabled	"0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/loot/mech_lost_weapon_marker"
+					offset	"1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group	"loot_collect"
+			enabled	"0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group	"item_equipped"
+			enabled	"0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_explosive/charged_bomb_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group	"shooting_empty"
+			enabled	"0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint	"effects/weapons_fluid/empty_fluid_weapon_no_loop"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb_advanced"
+
+	base_blueprint	"items/weapons/auto_charged_bomb"
+
+	MeshDesc
+	{
+		mesh		"meshes/items/weapons/charged_bomb.mesh"
+		material	"items/weapons/charged_bomb_advanced"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb_superior"
+
+	base_blueprint	"items/weapons/auto_charged_bomb"
+
+	MeshDesc
+	{
+		mesh		"meshes/items/weapons/charged_bomb.mesh"
+		material	"items/weapons/charged_bomb_superior"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb_extreme"
+
+	base_blueprint	"items/weapons/auto_charged_bomb"
+
+	MeshDesc
+	{
+		mesh		"meshes/items/weapons/charged_bomb.mesh"
+		material	"items/weapons/charged_bomb_extreme"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb_item"
+
+	InventoryItemDesc
+	{
+		type		"range_weapon"
+		subtype		"explosive"
+		name		"gui/menu/inventory/weapon_name/auto_charged_bomb"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_charged_bomb"
+		icon		"gui/hud/items_icons/weapons/auto_charged_bomb"
+		bigger_icon	"gui/menu/items_icons/weapons/auto_charged_bomb"
+		description	"gui/menu/inventory/weapon_charge_description/charged_bomb"
+	}
+
+	LuaDesc
+	{
+		script	"lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			ammo_bp					string:"items/weapons/charged_bomb_projectile_base"
+			ammo_att				string:"att_muzzle_1"
+			pad_equipped_feedback	string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb_advanced_item"
+
+	InventoryItemDesc
+	{
+		type		"range_weapon"
+		subtype		"explosive"
+		name		"gui/menu/inventory/weapon_name/auto_charged_bomb"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_charged_bomb_advanced"
+		icon		"gui/hud/items_icons/weapons/auto_charged_bomb_advanced"
+		bigger_icon	"gui/menu/items_icons/weapons/auto_charged_bomb_advanced"
+		description	"gui/menu/inventory/weapon_charge_description/charged_bomb"
+	}
+
+	LuaDesc
+	{
+		script	"lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			ammo_bp					string:"items/weapons/charged_bomb_projectile_base"
+			ammo_att				string:"att_muzzle_1"
+			pad_equipped_feedback	string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb_superior_item"
+
+	InventoryItemDesc
+	{
+		type		"range_weapon"
+		subtype		"explosive"
+		name		"gui/menu/inventory/weapon_name/auto_charged_bomb"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_charged_bomb_superior"
+		icon		"gui/hud/items_icons/weapons/auto_charged_bomb_superior"
+		bigger_icon	"gui/menu/items_icons/weapons/auto_charged_bomb_superior"
+		description	"gui/menu/inventory/weapon_charge_description/charged_bomb"
+	}
+
+	LuaDesc
+	{
+		script	"lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			ammo_bp					string:"items/weapons/charged_bomb_projectile_base"
+			ammo_att				string:"att_muzzle_1"
+			pad_equipped_feedback	string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name	"items/weapons/auto_charged_bomb_extreme_item"
+
+	InventoryItemDesc
+	{
+		type		"range_weapon"
+		subtype		"explosive"
+		name		"gui/menu/inventory/weapon_name/auto_charged_bomb"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_charged_bomb_extreme"
+		icon		"gui/hud/items_icons/weapons/auto_charged_bomb_extreme"
+		bigger_icon	"gui/menu/items_icons/weapons/auto_charged_bomb_extreme"
+		description	"gui/menu/inventory/weapon_charge_description/charged_bomb"
+	}
+
+	LuaDesc
+	{
+		script	"lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_target_marker"
+			ammo_bp					string:"items/weapons/charged_bomb_projectile_base"
+			ammo_att				string:"att_muzzle_1"
+			pad_equipped_feedback	string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
