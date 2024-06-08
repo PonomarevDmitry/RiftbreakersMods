@@ -408,10 +408,14 @@ function tower_mine_layer_with_slots:UpdateDisplayRadiusVisibility( show, entity
         if count == 1 then
             EntityService:RemoveComponent( self.pointEntity, "DisplayRadiusComponent" )
 
-            local component = reflection_helper( EntityService:CreateComponent(self.pointEntity,"DisplayRadiusComponent") )
-            component.min_radius = self.display_radius_size.min
-            component.max_radius = self.display_radius_size.max
-            component.max_radius_blueprint = self.display_effect_blueprint
+            local displayRadiusComponent = EntityService:CreateComponent(self.pointEntity, "DisplayRadiusComponent")
+            if ( displayRadiusComponent ~= nil ) then
+
+                local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
+                displayRadiusComponentRef.min_radius = self.display_radius_size.min
+                displayRadiusComponentRef.max_radius = self.display_radius_size.max
+                displayRadiusComponentRef.max_radius_blueprint = self.display_effect_blueprint
+            end
 
             self:SetPointEntitySelectedSkin()
 
