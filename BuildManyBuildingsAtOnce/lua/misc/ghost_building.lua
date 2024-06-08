@@ -31,8 +31,12 @@ function ghost_building:OnInit()
     self.gridEntities = {}
     self.oldBuildingsToSell = {}
 
-    self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    local gridSize = BuildingService:GetBuildingGridSize(self.entity)
+
+    local maxSize = math.max(gridSize.x, gridSize.z)
+
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -maxSize, 0, maxSize )
 
     local typeName = ""
     local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
@@ -289,8 +293,13 @@ function ghost_building:OnUpdate()
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
 
     if ( self.infoChild == nil ) then
+
+        local gridSize = BuildingService:GetBuildingGridSize(self.entity)
+
+        local maxSize = math.max(gridSize.x, gridSize.z)
+
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+        EntityService:SetPosition( self.infoChild, -maxSize, 0, maxSize)
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )

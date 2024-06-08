@@ -73,7 +73,7 @@ function ghost_building_gateconstruction:InitializeValues()
     self.oldBuildingsToSell = {}
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+    EntityService:SetPosition( self.infoChild, -2, 0, 2 )
 end
 
 function  ghost_building_gateconstruction:CheckEntityBuildable( entity, transform, id )
@@ -321,7 +321,7 @@ function ghost_building_gateconstruction:OnUpdate()
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+        EntityService:SetPosition( self.infoChild, -2, 0, 2)
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
