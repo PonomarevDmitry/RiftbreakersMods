@@ -47,11 +47,7 @@ function ghost_building:OnInit()
 
     if ( self.desc ~= nil and self.desc.min_radius ~= nil and self.desc.min_radius ~= 0 ) then
 
-        local gridSize = BuildingService:GetBuildingGridSize(self.entity)
-
-        local cellsSize = math.max(gridSize.x, gridSize.z)
-
-        while ((cellsSize + self.cellsMinRadius) * 2 <= self.desc.min_radius) do
+        while ((maxSize + self.cellsMinRadius) * 2 <= self.desc.min_radius) do
 
             self.cellsMinRadius = self.cellsMinRadius + 1
         end
