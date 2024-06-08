@@ -55,7 +55,7 @@ function sell_all_map_cat_seller_tool:OnInit()
     self:UpdateMarker()
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+    EntityService:SetPosition( self.infoChild, -2, 0, 2 )
 end
 
 function sell_all_map_cat_seller_tool:GetBaseEntitiesList()
