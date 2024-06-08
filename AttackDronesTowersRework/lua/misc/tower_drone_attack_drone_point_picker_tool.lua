@@ -357,6 +357,9 @@ end
 function tower_drone_attack_drone_point_picker_tool:CreateDisplayRadiusComponent(min, max)
 
     local displayRadiusComponent = EntityService:CreateComponent(self.childEntity, "DisplayRadiusComponent")
+    if ( displayRadiusComponent == nil ) then
+        return
+    end
 
     local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
     displayRadiusComponentRef.min_radius = min
