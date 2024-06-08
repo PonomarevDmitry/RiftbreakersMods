@@ -58,8 +58,10 @@ function hq_move_tool:InitializeValues()
 
     self:SpawnBuildinsTemplates()
 
+    local currentScale = EntityService:GetScale(self.entity).x
+
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    EntityService:SetPosition( self.infoChild, -currentScale, 0, currentScale)
 end
 
 function hq_move_tool:SpawnBuildinsTemplates()
@@ -158,8 +160,11 @@ function hq_move_tool:SpawnBuildinsTemplates()
 
     self.buildCost = self:GetFullBuildCosts( self.buildingDesc.bp )
 
-
     local gridSize = BuildingService:GetBuildingGridSize( self.hq )
+
+    local maxSize = math.max(gridSize.x, gridSize.z)
+
+    EntityService:SetPosition( self.infoChild, -maxSize, 0, maxSize)
 
     EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z)
 
