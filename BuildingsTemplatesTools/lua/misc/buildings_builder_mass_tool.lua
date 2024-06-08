@@ -74,14 +74,14 @@ function buildings_builder_mass_tool:InitializeValues()
     local markerBlueprint = "misc/marker_selector_buildings_builder_mass_tool_" .. self.marker
     self.markerEntity = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+
     self.blockGridSize = {}
     self.blockGridSize.x = 0
     self.blockGridSize.z = 0
 
     self:SpawnBuildinsTemplates()
-
-    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
 
     self.nowBuildingLine = false
     self.gridEntities = {}
