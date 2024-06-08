@@ -394,7 +394,7 @@ function flora_collector:CreateLinkEntity()
         local children = EntityService:GetChildren( self.entity, true )
         for child in Iter(children) do
             local blueprintName = EntityService:GetBlueprintName( child )
-            if ( blueprintName == linkEntityBlueprintName ) then
+            if ( blueprintName == linkEntityBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
                 self.linkEntity = child
                 ItemService:SetInvisible(self.linkEntity, true)
@@ -445,7 +445,15 @@ function flora_collector:RepositionLinkEntity()
     local direction = VectorMulByNumber( Normalize( VectorSub( pointPosition, selfPosition ) ), 2.0 )
     selfPosition = VectorAdd(selfPosition, direction)
 
-    local lightningComponentRef = reflection_helper(EntityService:GetComponent(self.linkEntity, "LightningComponent"))
+    local lightningComponent = EntityService:GetComponent(self.linkEntity, "LightningComponent")
+    if ( lightningComponent == nil ) then
+        return
+    end
+
+    local lightningComponentRef = reflection_helper(lightningComponent)
+    if ( lightningComponentRef == nil or lightningComponentRef.lighning_vec == nil ) then
+        return
+    end
 
     local container = rawget(lightningComponentRef.lighning_vec, "__ptr");
 
