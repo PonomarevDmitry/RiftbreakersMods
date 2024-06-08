@@ -125,7 +125,7 @@ function floor_tool:CreateInfoChild()
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+        EntityService:SetPosition( self.infoChild, -self.currentSize, 0, self.currentSize)
     end
 end
 

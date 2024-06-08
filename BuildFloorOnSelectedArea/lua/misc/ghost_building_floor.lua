@@ -25,8 +25,10 @@ function ghost_building_floor:OnInit()
     local scale_z = self.data:GetFloatOrDefault("resize_scale_z", 4)
     EntityService:SetScale( self.entity, scale_x, scale_y, scale_z )
 
+    local infoChildSize = math.min(scale_x, 4)
+
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-    EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+    EntityService:SetPosition( self.infoChild, -infoChildSize, 0, infoChildSize )
 
     self.nowBuildingLine = false
     self.gridEntities = {}
@@ -440,8 +442,11 @@ function ghost_building_floor:OnUpdate()
 
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1 )
     end
+
+    local infoChildSize = math.min(currentScale, 4)
+
+    EntityService:SetPosition( self.infoChild, -infoChildSize, 0, infoChildSize )
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
