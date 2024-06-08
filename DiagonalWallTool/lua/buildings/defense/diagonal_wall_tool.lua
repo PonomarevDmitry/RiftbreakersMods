@@ -137,10 +137,6 @@ end
 
 function diagonal_wall_tool:SpawnWallTemplates()
 
-    --local markerDB = EntityService:GetDatabase( self.markerEntity )
-    --markerDB:SetString("message_text", "")
-    --markerDB:SetInt("message_visible", 0)
-
     local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.wallBlueprint ) )
 
     local transform = EntityService:GetWorldTransform( self.entity )
