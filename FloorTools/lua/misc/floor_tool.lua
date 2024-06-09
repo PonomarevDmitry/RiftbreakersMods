@@ -29,8 +29,6 @@ function floor_tool:InitializeValues()
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
 
-    self:CreateInfoChild()
-
     self.announcements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
 
@@ -61,6 +59,8 @@ function floor_tool:InitializeValues()
     self.linesEntities = {}
 
     self.currentSize = self.data:GetInt("size")
+
+    self:CreateInfoChild()
 
     self.configNameCellCount = "$floor_tool_cell_count_" .. tostring(self.currentSize)
 
