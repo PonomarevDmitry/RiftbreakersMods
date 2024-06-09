@@ -45,6 +45,8 @@ function ghost_building:OnInit()
 
     if ( self.desc ~= nil and self.desc.min_radius ~= nil and self.desc.min_radius ~= 0 ) then
 
+        local maxSize = math.max(gridSize.x, gridSize.z)
+
         while ((maxSize + self.cellsMinRadius) * 2 <= self.desc.min_radius) do
 
             self.cellsMinRadius = self.cellsMinRadius + 1
