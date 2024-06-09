@@ -224,7 +224,12 @@ function floor_desert_on_quicksand_tool:GetAllFreeGrids(floorEntities)
 
                 local idx = testBuildable.free_grids[i]
 
-                hashAllFreeGrids[idx] = true
+                local terrainType = self:GetTerrainType( idx )
+
+                if ( terrainType == "quicksand" ) then
+
+                    hashAllFreeGrids[idx] = true
+                end
             end
         end
     end
@@ -294,6 +299,7 @@ function floor_desert_on_quicksand_tool:BuildFloor(testBuildable, hashAllFreeGri
 
         local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
 
+        local hasCellsToBuildFloor = false
         local freeGrids = {}
 
         local indexes = gridCullerComponentHelper.terrain_cell_entities
@@ -304,7 +310,13 @@ function floor_desert_on_quicksand_tool:BuildFloor(testBuildable, hashAllFreeGri
             if ( hashAllFreeGrids[idx] == nil ) then
 
                 Insert( freeGrids, idx )
+            else
+                hasCellsToBuildFloor = true
             end
+        end
+
+        if ( not hasCellsToBuildFloor ) then
+            goto continue
         end
 
         if ( #freeGrids > 0 ) then
@@ -323,9 +335,9 @@ function floor_desert_on_quicksand_tool:BuildFloor(testBuildable, hashAllFreeGri
         ::continue::
     end
 
-    Assert( removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
+    --Assert( removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
 
-    local cellsToBuild = self:GetCellsToRebuild(testBuildable)
+    local cellsToBuild = self:GetCellsToRebuild(testBuildable, hashAllFreeGrids)
 
     if ( #cellsToBuild > 0 ) then
 
@@ -337,7 +349,7 @@ function floor_desert_on_quicksand_tool:BuildFloor(testBuildable, hashAllFreeGri
     end
 end
 
-function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable)
+function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable, hashAllFreeGrids)
 
     local result = {}
 
@@ -358,14 +370,10 @@ function floor_desert_on_quicksand_tool:GetCellsToRebuild(testBuildable)
             goto continue
         end
 
-        local terrainType = self:GetTerrainType( idx )
+        if ( hashAllFreeGrids[idx] == true ) then
 
-        if ( terrainType ~= "quicksand" ) then
-
-            goto continue
+            Insert( result, idx )
         end
-
-        Insert( result, idx )
 
         ::continue::
     end
