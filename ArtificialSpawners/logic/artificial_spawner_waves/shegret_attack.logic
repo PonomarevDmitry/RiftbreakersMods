@@ -1,0 +1,101 @@
+//editor "scroll(-207.63,-103.39)|zoom(1.00)"
+FlowGraphTemplate
+{
+	version "4"
+	editor "5682"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(240,520)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1004,514)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(enemies_spawn_near_less_defended_outpost.xml)|pos(562,438)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "25"
+					}
+
+					IntData
+					{
+						key "distance"
+						value "30"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "enemy_blueprint"
+						value "units/ground/shegret"
+					}
+
+					StringData
+					{
+						key "seek"
+						value "resource"
+					}
+
+					StringData
+					{
+						key "avoid"
+						value "light"
+					}
+
+					StringData
+					{
+						key "unit_state"
+						value "state_aggressive"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/enemies/enemies_spawn_near_less_defended_outpost.lua"
+			self_id "enemies_spawn_near_less_defended_outpost_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "enemies_spawn_near_less_defended_outpost_1"
+		enemies_spawn_near_less_defended_outpost_1 "event_end_0"
+	}
+
+	GraphComments
+}
+
