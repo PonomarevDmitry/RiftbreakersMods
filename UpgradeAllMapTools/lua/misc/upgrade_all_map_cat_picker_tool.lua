@@ -365,12 +365,16 @@ function upgrade_all_map_cat_picker_tool:HighlightBuildingsToUpgrade()
 
     for entity in Iter( buildings ) do
 
-        -- Highlight building if it can be upgraded
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+        -- Skip buildins from self.selectedEntities
+        if ( IndexOf( self.selectedEntities, entity ) == nil ) then
+
+            -- Highlight building if it can be upgraded
+            local skinned = EntityService:IsSkinned(entity)
+            if ( skinned ) then
+                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+            else
+                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+            end
         end
     end
 
@@ -385,16 +389,22 @@ function upgrade_all_map_cat_picker_tool:FindUpgradableBuildings()
     local buildings = FindService:FindEntitiesByTypeInRadius( player, "building", self.radiusShowBuildingsToUpgrade )
 
     local result = {}
+    local hashResult = {}
 
     for entity in Iter( buildings ) do
 
         -- Skip buildins from result
-        if ( IndexOf( result, entity ) ~= nil ) then
+        if ( hashResult[entity] == true ) then
             goto continue
         end
 
-        -- Skip buildins from self.selectedEntities
-        if ( IndexOf( self.selectedEntities, entity ) ~= nil ) then
+        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode ~= BM_COMPLETED ) then 
             goto continue
         end
 
@@ -404,6 +414,7 @@ function upgrade_all_map_cat_picker_tool:FindUpgradableBuildings()
         end
 
         Insert( result, entity )
+        hashResult[entity] = true
 
         ::continue::
     end
