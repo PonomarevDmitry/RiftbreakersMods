@@ -231,9 +231,9 @@ function sell_depleted:OnActivateSelectorRequest()
         QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
     end
 
-    QueueEvent( "LeaveBuildModeRequest", self.selector, false )
+    --QueueEvent( "LeaveBuildModeRequest", self.selector, false )
 
-    EntityService:RemoveEntity( self.entity )
+    --EntityService:RemoveEntity( self.entity )
 end
 
 function sell_depleted:OnRotateSelectorRequest(evt)

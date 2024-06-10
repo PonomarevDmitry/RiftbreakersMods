@@ -51,7 +51,13 @@ function rift_portal_tool:SpawnPortal(blueprintName)
 
     local position = EntityService:GetPosition( self.entity )
 
-    if ( BuildingService:IsSpaceOccupied( position, "", "" ) ) then
+    if ( FindService:IsGridMarkedWithLayer(position, "TeleportBlockerLayerComponent") ) then
+
+        SoundService:Play( "gui/cannot_use_item" )
+        return
+    end
+
+    if ( FindService:IsGridMarkedWithLayer(position, "WorldBlockerLayerComponent") ) then
 
         SoundService:Play( "gui/cannot_use_item" )
         return
