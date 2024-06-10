@@ -383,6 +383,16 @@ function sell_all_map_seller_tool:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
+        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        if ( buildingComponent == nil ) then
+            goto continue
+        end
+
+        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+        if ( mode >= BM_SELLING ) then 
+            goto continue
+        end
+
         Insert( result, entity )
         hashResult[entity] = true
 
