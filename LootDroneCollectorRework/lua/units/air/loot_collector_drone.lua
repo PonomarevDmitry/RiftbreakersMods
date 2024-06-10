@@ -115,10 +115,11 @@ function loot_collector_drone:OnUpdate()
     if EntityService:IsAlive(loot_target) and self.is_enabled then
         self:EnableEffect()
 
-        if EntityService:GetDistance2DBetween(self.entity, loot_target) < 2.0 then
+        if EntityService:GetDistance2DBetween(self.entity, loot_target) < self.pickup_radius then
             self:CollectLootEntity(loot_target)
         end
     else
+	    self:UnlockAllTargets()
         loot_target = self:FindActionTarget()
         UnitService:SetCurrentTarget( self.entity, "action", loot_target );
     end
@@ -261,6 +262,7 @@ function loot_collector_drone:OnOwnerDistanceCheckExecute()
 end
 
 function loot_collector_drone:TryFindNewTarget()
+    self:UnlockAllTargets()
     local target = self:FindActionTarget();
     if target ~= INVALID_ID then
         UnitService:SetCurrentTarget( self.entity, "action", target );
