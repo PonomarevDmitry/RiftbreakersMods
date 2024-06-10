@@ -480,6 +480,10 @@ function upgrade_all_map_upgrader_tool:OnActivateSelectorRequest()
             goto continue
         end
 
+        if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
+            goto continue
+        end
+
         QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
 
         ::continue::
