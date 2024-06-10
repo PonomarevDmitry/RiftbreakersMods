@@ -32,6 +32,7 @@ function sell_all_map_cat_seller_tool:OnInit()
 
     self.modeSelect = 0
     self.modeSelectRuins = 1
+    self.modeBuildingConnectors = 2
 
     self.modeSelectLast = 100
 
@@ -41,11 +42,11 @@ function sell_all_map_cat_seller_tool:OnInit()
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
-        self.defaultModesArray = { self.modeSelect, self.modeSelectRuins }
+        self.defaultModesArray = { self.modeSelect, self.modeSelectRuins, self.modeBuildingConnectors }
 
         self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
     else
-        self.modeValuesArray = { self.modeSelect, self.modeSelectRuins }
+        self.modeValuesArray = { self.modeSelect, self.modeSelectRuins, self.modeBuildingConnectors }
     end
 
     self.selectedMode = self.modeSelect
@@ -197,6 +198,18 @@ function sell_all_map_cat_seller_tool:UpdateMarker()
         else
 
             messageText = "${gui/hud/sell_all_map/place_ruins}"
+        end
+
+    elseif ( self.selectedMode == self.modeBuildingConnectors ) then
+
+        markerBlueprint = self.data:GetString("marker_place_connectors")
+
+        if (string.len(messageText) > 0) then
+
+            messageText = "${gui/hud/sell_all_map/place_connectors}: " .. messageText
+        else
+
+            messageText = "${gui/hud/sell_all_map/place_connectors}"
         end
     end
 
@@ -518,6 +531,8 @@ function sell_all_map_cat_seller_tool:OnActivateSelectorRequest()
 
     local placeRuins = ( self.selectedMode == self.modeSelectRuins )
 
+    local placeConnectors = ( self.selectedMode == self.modeBuildingConnectors )
+
     for entity in Iter( self.selectedEntities ) do
 
         if ( placeRuins ) then
@@ -548,6 +563,25 @@ function sell_all_map_cat_seller_tool:OnActivateSelectorRequest()
                     database:SetString( "ruins_blueprint", ruinsBlueprintName )
                 end
             end
+        end
+
+        if ( placeConnectors ) then
+
+            local team = EntityService:GetTeam( entity )
+
+            local transform = EntityService:GetWorldTransform( entity )
+
+            local position = transform.position
+            local orientation = transform.orientation
+
+            local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/sell_all_map_seller_tool/script", position, team )
+
+            local database = EntityService:GetDatabase( buildAfterSellScript )
+
+            database:SetInt( "target_entity", entity )
+            database:SetInt( "player_id", self.playerId )
+
+            database:SetString( "building_blueprintname", "buildings/energy/energy_connector" )
         end
 
         QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
