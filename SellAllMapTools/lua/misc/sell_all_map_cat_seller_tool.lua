@@ -106,6 +106,11 @@ function sell_all_map_cat_seller_tool:GetBaseEntitiesList()
             goto continue
         end
 
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName == "energy_connector" ) then
+            goto continue
+        end
+
         if ( self.categoryTemplate ~= "" ) then
 
             if ( buildingDescRef.category ~= self.selectedCategory ) then
