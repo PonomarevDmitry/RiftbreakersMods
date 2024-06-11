@@ -498,7 +498,7 @@ function harvester_drone:OnHarvestExit()
 
                 if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
 
-                    scansCount = self:GetScansCount(self.selectedEntity)
+                    scansCount = self:GetScansCount(target)
                 end
 
                 local owner = self.data:GetIntOrDefault( "owner", 0 )
