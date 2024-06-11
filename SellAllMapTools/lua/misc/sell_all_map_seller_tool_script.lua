@@ -56,6 +56,8 @@ function sell_all_map_seller_tool_script:OnLoad()
         return
     end
 
+    self.transformArray = self.transformArray or {}
+
     self:RegisterHandler( self.targetEntity, "BuildingSellEndEvent", "OnBuildingSellEndEvent" )
 end
 
@@ -77,6 +79,8 @@ function sell_all_map_seller_tool_script:OnBuildingSellEndEvent()
     local deltas = { -1, 1 }
 
     local hashPositions = {}
+    
+    self.transformArray = {}
 
     for deltaX in Iter( deltas ) do
         for deltaZ in Iter( deltas ) do
@@ -93,12 +97,60 @@ function sell_all_map_seller_tool_script:OnBuildingSellEndEvent()
 
             if ( self:AddToHash(hashPositions, newTransform.position.x, newTransform.position.z) ) then
 
-                QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+                Insert(self.transformArray, newTransform)
             end
         end
     end
 
+    if ( #self.transformArray > 0 ) then
+
+        local newTransform = self.transformArray[1]
+
+        table.remove( self.transformArray, 1 )
+
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+
+        if ( #self.transformArray > 0 ) then
+
+            self.machine = self:CreateStateMachine()
+            self.machine:AddState( "build", { execute="OnBuildExecute", interval=0.3 } )
+
+            self.machine:ChangeState("build")
+
+            return
+        end
+    end
+
     self:DestroySelf()
+end
+
+function sell_all_map_seller_tool_script:OnBuildExecute( state )
+
+    self.transformArray = self.transformArray or {}
+
+    if ( #self.transformArray == 0 ) then
+
+        state:Exit()
+
+        self:DestroySelf()
+
+        return
+    end
+
+    local newTransform = self.transformArray[1]
+
+    table.remove( self.transformArray, 1 )
+
+    QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+
+    if ( #self.transformArray == 0 ) then
+
+        state:Exit()
+
+        self:DestroySelf()
+
+        return
+    end
 end
 
 function sell_all_map_seller_tool_script:AddToHash(hashPositions, newPositionX, newPositionZ)
