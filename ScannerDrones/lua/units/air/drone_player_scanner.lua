@@ -179,6 +179,8 @@ function drone_player_scanner:ExecuteScanning()
 
             if ( scanningTime >= maxScanTime ) then
 
+                EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" )
+
                 local scansCount = 1
 
                 if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
@@ -186,13 +188,11 @@ function drone_player_scanner:ExecuteScanning()
                     scansCount = self:GetScansCount(self.selectedEntity)
                 end
 
-                local owner = self.data:GetIntOrDefault( "owner", 0 )
+                local owner = self:GetDroneOwnerTarget()
 
                 for i=1,scansCount do
-                    ItemService:ScanEntityByPlayer( self.selectedEntity, owner )
+                    ItemService:ScanEntity( self.selectedEntity, owner )
                 end
-
-                EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" )
 
                 EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
 
