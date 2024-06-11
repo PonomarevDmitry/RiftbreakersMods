@@ -132,12 +132,56 @@ function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
-    local change = self.stepValue
+    local change = 1
     if ( degree > 0 ) then
         change = -change
     end
 
-    local newValue = self.currentValue + change
+    local delta = change * self.stepValue
+
+    local trimValue = nil
+
+    self.countToSpeedUp = self.countToSpeedUp or 0
+    self.lastRotateTime = self.lastRotateTime or 0
+
+    local currentTime = GetLogicTime()
+
+    local deltaFromLast = currentTime - self.lastRotateTime
+
+    if ( self.oldChange == change and deltaFromLast < 1 ) then
+
+        self.countToSpeedUp = self.countToSpeedUp + 1
+
+        if ( self.countToSpeedUp > 44 ) then
+
+            delta = delta * 100
+            trimValue = 2000
+
+        elseif ( self.countToSpeedUp > 24 ) then
+
+            delta = delta * 20
+            trimValue = 2000
+
+        elseif ( self.countToSpeedUp > 14 ) then
+
+            delta = delta * 10
+            trimValue = 1000
+        end
+    else
+
+        self.countToSpeedUp = 0
+    end
+
+    self.lastRotateTime = currentTime
+
+    self.oldChange = change
+
+    local newValue = self.currentValue + delta
+
+    if ( trimValue ~= nil ) then
+
+        newValue = newValue - ( newValue % trimValue)
+    end
 
     if( newValue <= self.stepValue ) then
         newValue = self.stepValue
