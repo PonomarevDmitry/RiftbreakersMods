@@ -494,9 +494,24 @@ function harvester_drone:OnHarvestExit()
             local scannableComponent = EntityService:GetComponent( target, "ScannableComponent" )
             if ( scannableComponent ~= nil ) then
 
-                ItemService:ScanEntityByPlayer( target, self.data:GetIntOrDefault( "owner", 0) )
-
                 EntityService:RemoveComponent( target, "ScannableComponent" )
+
+                local owner = self:GetDroneOwnerTarget()
+                local playerId = self:GetPlayerForEntity(owner)
+
+                local scansCount = 1
+
+                if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
+
+                    scansCount = self:GetScansCount(self.selectedEntity)
+                end
+
+                local owner = self.data:GetIntOrDefault( "owner", 0 )
+
+                for i=1,scansCount do
+                    ItemService:ScanEntityByPlayer( target, playerId )
+                end
+                
                 EffectService:SpawnEffect( target, "effects/loot/specimen_extracted")
             end
 
@@ -510,6 +525,33 @@ function harvester_drone:OnHarvestExit()
     self:SetTargetActionFinished();
 
     self:TryFindNewTarget()
+end
+
+function harvester_drone:GetPlayerForEntity( entity )
+    if PlayerService.GetPlayerForEntity then
+        return PlayerService:GetPlayerForEntity( entity )
+    end
+
+    return 0
+end
+
+function harvester_drone:GetScansCount( entity )
+
+    local scansCount = 1
+
+    local size = EntityService:GetBoundsSize( entity )
+
+    if ( size.x <= 2.5 ) then
+        scansCount = 2
+    elseif ( size.x <= 4.5 ) then
+        scansCount = 4
+    elseif ( size.x <= 9.5 ) then
+        scansCount = 8
+    else
+        scansCount = 20
+    end
+
+    return scansCount
 end
 
 function harvester_drone:TryFindNewTarget()
