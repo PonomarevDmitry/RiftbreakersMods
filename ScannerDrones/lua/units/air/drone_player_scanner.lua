@@ -189,9 +189,10 @@ function drone_player_scanner:ExecuteScanning()
                 end
 
                 local owner = self:GetDroneOwnerTarget()
+                local playerId = self:GetPlayerForEntity(owner)
 
                 for i=1,scansCount do
-                    ItemService:ScanEntity( self.selectedEntity, owner )
+                    ItemService:ScanEntityByPlayer( self.selectedEntity, playerId )
                 end
 
                 EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
@@ -216,6 +217,14 @@ function drone_player_scanner:ExecuteScanning()
     end
 
     self.lastTarget = self.selectedEntity;
+end
+
+function drone_player_scanner:GetPlayerForEntity( entity )
+    if PlayerService.GetPlayerForEntity then
+        return PlayerService:GetPlayerForEntity( entity )
+    end
+
+    return 0
 end
 
 function drone_player_scanner:GetScansCount( entity )
