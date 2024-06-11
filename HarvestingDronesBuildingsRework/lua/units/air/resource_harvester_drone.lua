@@ -494,8 +494,6 @@ function harvester_drone:OnHarvestExit()
             local scannableComponent = EntityService:GetComponent( target, "ScannableComponent" )
             if ( scannableComponent ~= nil ) then
 
-                EntityService:RemoveComponent( target, "ScannableComponent" )
-
                 local owner = self:GetDroneOwnerTarget()
                 local playerId = self:GetPlayerForEntity(owner)
 
@@ -509,6 +507,8 @@ function harvester_drone:OnHarvestExit()
                 for i=1,scansCount do
                     ItemService:ScanEntityByPlayer( target, playerId )
                 end
+
+                EntityService:RemoveComponent( target, "ScannableComponent" )
                 
                 EffectService:SpawnEffect( target, "effects/loot/specimen_extracted")
             end
