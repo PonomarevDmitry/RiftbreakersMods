@@ -109,7 +109,12 @@ function base_unit:CreateVulnerabilitiesMenu(blueprintName, vulnerabilities, men
 	local menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
 
 	local sizeSelf = EntityService:GetBoundsSize( self.entity )
-	EntityService:SetPosition( menuEntity, 0, sizeSelf.y, 0 )
+
+	local height = sizeSelf.y
+
+	height = math.min(height, 12)
+
+	EntityService:SetPosition( menuEntity, 0, height, 0 )
 
 	self:SetMenuValues(menuEntity, vulnerabilities)
 
