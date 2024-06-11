@@ -506,8 +506,6 @@ function harvester_drone:OnHarvestExit()
                     scansCount = self:GetScansCount(target)
                 end
 
-                local owner = self.data:GetIntOrDefault( "owner", 0 )
-
                 for i=1,scansCount do
                     ItemService:ScanEntityByPlayer( target, playerId )
                 end
