@@ -727,6 +727,8 @@ function picker_tool:GetMineBlueprintName( entity, selectedBluprintsNames )
 
                     goto continue
                 end
+
+                self:SetLastMudVeinExtractor(lowName)
             end
 
             do
@@ -1004,6 +1006,23 @@ function picker_tool:GetLastMudVeinExtractor()
     end
 
     return lowName
+end
+
+function picker_tool:SetLastMudVeinExtractor(lowName)
+
+    local parameterName = "$last_mud_vein_extractor_blueprint"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    if ( selectorDB ) then
+
+        selectorDB:SetString(parameterName, lowName)
+    end
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( parameterName, lowName )
+    end
 end
 
 return picker_tool
