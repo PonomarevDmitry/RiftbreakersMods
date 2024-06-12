@@ -56,12 +56,12 @@ function hq_move_tool:InitializeValues()
         ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
 
-    self:SpawnBuildinsTemplates()
-
     local currentScale = EntityService:GetScale(self.entity).x
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -currentScale, 0, currentScale)
+
+    self:SpawnBuildinsTemplates()
 end
 
 function hq_move_tool:SpawnBuildinsTemplates()
