@@ -36,6 +36,10 @@ function drone_player_detector:FillInitialParams()
 	self.enemyRadius = self.data:GetFloat( "enemy_radius" )
 	self.level = self.data:GetInt( "lvl" )
 
+	if ( self.effectScanner ~= nil and self.effectScanner ~= INVALID_ID ) then
+		EntityService:RemoveEntity( self.effectScanner )
+	end
+
 	self.effect = INVALID_ID
 	self.effectScanner = INVALID_ID
 
