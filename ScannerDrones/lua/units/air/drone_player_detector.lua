@@ -355,33 +355,33 @@ function drone_player_detector:OnHarvestEnter()
 		duration =  database:GetFloatOrDefault("harvest_duration", 2.0 )
 	end
 
-    local lightning_effect = self.data:GetStringOrDefault("lightning_effect", "effects/buildings_and_machines/drone_defensive_lightning")
-    local lightning_hit_effect = self.data:GetStringOrDefault("lightning_hit_effect", "effects/buildings_and_machines/drone_defensive_lightning_hit")
+	local lightning_effect = self.data:GetStringOrDefault("lightning_effect", "effects/buildings_and_machines/drone_defensive_lightning")
+	local lightning_hit_effect = self.data:GetStringOrDefault("lightning_hit_effect", "effects/buildings_and_machines/drone_defensive_lightning_hit")
 
 	self:DestroyLightningEntity()
 
-    self.lightningEntity = EntityService:SpawnEntity( lightning_effect, self.entity, "")
+	self.lightningEntity = EntityService:SpawnEntity( lightning_effect, self.entity, "")
 
 	EntityService:CreateOrSetLifetime( self.lightningEntity, duration, "normal" )
 
-    local component = reflection_helper(EntityService:GetComponent(self.lightningEntity, "LightningComponent"))
+	local component = reflection_helper(EntityService:GetComponent(self.lightningEntity, "LightningComponent"))
 
-    local container = rawget(component.lighning_vec, "__ptr");
-    local instance =  reflection_helper(container:CreateItem())
+	local container = rawget(component.lighning_vec, "__ptr");
+	local instance =  reflection_helper(container:CreateItem())
 
-    local drone_position = EntityService:GetPosition(self.entity)
-    local target_position = EntityService:GetPosition(target)
+	local drone_position = EntityService:GetPosition(self.entity)
+	local target_position = EntityService:GetPosition(target)
 
-    local direction = VectorMulByNumber( Normalize( VectorSub( target_position, drone_position ) ), 2.0 )
-    drone_position = VectorAdd(drone_position, direction)
+	local direction = VectorMulByNumber( Normalize( VectorSub( target_position, drone_position ) ), 2.0 )
+	drone_position = VectorAdd(drone_position, direction)
 
-    instance.start_point.x = drone_position.x
-    instance.start_point.y = drone_position.y
-    instance.start_point.z = drone_position.z
+	instance.start_point.x = drone_position.x
+	instance.start_point.y = drone_position.y
+	instance.start_point.z = drone_position.z
 
-    instance.end_point.x = target_position.x
-    instance.end_point.y = target_position.y
-    instance.end_point.z = target_position.z
+	instance.end_point.x = target_position.x
+	instance.end_point.y = target_position.y
+	instance.end_point.z = target_position.z
 
 	EntityService:SpawnEntity( lightning_hit_effect, drone_position.x, drone_position.y, drone_position.z, "")
 end
@@ -413,8 +413,6 @@ function drone_player_detector:OnHarvestExecute(state, dt)
 		self:DestroyLightningEntity()
 		return state:Exit()
 	end
-
-	LogService:Log("OnHarvestExecute " .. tostring(state:GetDuration()))
 
 	if ( state:GetDuration() >= duration ) then
 
