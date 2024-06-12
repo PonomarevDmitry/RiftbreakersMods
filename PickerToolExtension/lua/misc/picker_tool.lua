@@ -369,15 +369,12 @@ function picker_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local buildingDescHelper = reflection_helper(buildingDesc)
-
         if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) == false ) then
             goto continue
         end
 
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-
-        if ( #list == 0 ) then
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
             goto continue
         end
 
@@ -664,12 +661,11 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
         buildingDesc = baseDesc
     end
 
-    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    if ( #list == 0 ) then
+    local buildingDescHelper = reflection_helper(buildingDesc)
+
+    if ( buildingDescHelper.build_cost == nil or buildingDescHelper.build_cost.resource == nil or buildingDescHelper.build_cost.resource.count == nil or buildingDescHelper.build_cost.resource.count <= 0 ) then
         return false
     end
-
-    local buildingDescHelper = reflection_helper(buildingDesc)
 
     blueprintName = buildingDescHelper.bp
 

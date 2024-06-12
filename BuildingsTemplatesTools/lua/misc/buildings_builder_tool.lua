@@ -168,8 +168,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-        if ( #list == 0 ) then
+        if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
             goto continue
         end
 

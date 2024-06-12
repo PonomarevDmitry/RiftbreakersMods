@@ -258,11 +258,8 @@ function buildings_picker_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        --local buildingDescHelper = reflection_helper( buildingDesc )
-
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-
-        if ( #list == 0 ) then
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
             goto continue
         end
 

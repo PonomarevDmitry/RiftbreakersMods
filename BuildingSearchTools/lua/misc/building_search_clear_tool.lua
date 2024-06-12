@@ -141,20 +141,20 @@ function building_search_clear_tool:FilterSelectedEntities( selectedEntities )
 
     for entity in Iter( selectedEntities ) do
 
-        local blueprintName = EntityService:GetBlueprintName(entity)
-
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
         if ( buildingComponent == nil ) then
             goto continue
         end
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
 
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto continue
         end
 
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-        if ( #list == 0 ) then
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
             goto continue
         end
 
