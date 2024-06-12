@@ -56,12 +56,12 @@ function hq_move_tool:InitializeValues()
         ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
 
-    self:SpawnBuildinsTemplates()
-
     local currentScale = EntityService:GetScale(self.entity).x
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -currentScale, 0, currentScale)
+
+    self:SpawnBuildinsTemplates()
 end
 
 function hq_move_tool:SpawnBuildinsTemplates()
@@ -160,11 +160,9 @@ function hq_move_tool:SpawnBuildinsTemplates()
 
     self.buildCost = self:GetFullBuildCosts( self.buildingDesc.bp )
 
-    local gridSize = BuildingService:GetBuildingGridSize( self.hq )
+    local gridSize = BuildingService:GetBuildingGridSize( self.ghostHQ )
 
-    local maxSize = math.max(gridSize.x, gridSize.z)
-
-    EntityService:SetPosition( self.infoChild, -maxSize, 0, maxSize)
+    EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z)
 
     EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z)
 
@@ -251,11 +249,6 @@ function hq_move_tool:OnWorkExecute()
         local testBuildable = self:CheckEntityBuildable( self.ghostHQ, currentTransform, self.hqBlueprint )
 
         BuildingService:CheckAndFixBuildingConnection( self.ghostHQ )
-    end
-
-    if ( self.infoChild == nil ) then
-        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
     end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
@@ -440,6 +433,10 @@ function hq_move_tool:OnRotateSelectorRequest(evt)
 
     if ( self.ghostHQ ~= nil ) then
         EntityService:Rotate( self.ghostHQ, 0.0, 1.0, 0.0, degree )
+
+        local gridSize = BuildingService:GetBuildingGridSize( self.ghostHQ )
+
+        EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z)
     end
 
     self:OnWorkExecute()
