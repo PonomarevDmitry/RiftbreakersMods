@@ -30,11 +30,23 @@ function place_ruin_after_sell_script:init()
 
     local targetEntityBlueprintName = EntityService:GetBlueprintName(self.targetEntity)
 
-    local list = BuildingService:GetBuildCosts( targetEntityBlueprintName, self.playerId )
-    if ( #list == 0 ) then
+    local buildingDesc = BuildingService:GetBuildingDesc( targetEntityBlueprintName )
+    if ( buildingDesc == nil ) then
         self:DestroySelf()
         return
     end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
+        self:DestroySelf()
+        return
+    end
+
+    --local list = BuildingService:GetBuildCosts( targetEntityBlueprintName, self.playerId )
+    --if ( #list == 0 ) then
+    --    self:DestroySelf()
+    --    return
+    --end
 
     self:RegisterHandler( self.targetEntity, "BuildingSellEndEvent", "OnBuildingSellEndEvent" )
 

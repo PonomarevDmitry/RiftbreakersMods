@@ -84,15 +84,19 @@ function base_lamp_trail:GetLampBlueprint()
         return defaultBlueprint
     end
 
-    local buildingRef = reflection_helper( buildingDesc )
-    if ( buildingRef == nil ) then
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
         return defaultBlueprint
     end
 
-    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    if ( #list == 0 ) then
+    if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
         return defaultBlueprint
     end
+
+    --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    --if ( #list == 0 ) then
+    --    return defaultBlueprint
+    --end
 
     return blueprintName
 end

@@ -114,15 +114,20 @@ function wall_base_tool:GetWallBlueprintName( selectorDB )
         return defaultWall
     end
 
-    local buildingRef = reflection_helper( buildingDesc )
-    if ( buildingRef == nil ) then
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
         return defaultWall
     end
 
-    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    if ( #list == 0 ) then
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
         return defaultWall
     end
+
+    --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    --if ( #list == 0 ) then
+    --    return defaultWall
+    --end
 
     return blueprintName
 end

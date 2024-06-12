@@ -74,15 +74,19 @@ function wall_obstacles_stairs_tool:GetStairsBlueprintName( selectorDB )
         return defaultStairs
     end
 
-    local buildingRef = reflection_helper( buildingDesc )
-    if ( buildingRef == nil ) then
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
         return defaultStairs
     end
 
-    local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    if ( #list == 0 ) then
+    if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
         return defaultStairs
     end
+
+    --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+    --if ( #list == 0 ) then
+    --    return defaultStairs
+    --end
 
     return blueprintName
 end

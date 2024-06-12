@@ -63,10 +63,15 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    local list = BuildingService:GetBuildCosts( blueprintName, playerId )
-    if ( #list == 0 ) then
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
         return
     end
+
+    --local list = BuildingService:GetBuildCosts( blueprintName, playerId )
+    --if ( #list == 0 ) then
+    --    return
+    --end
 
     local parameterName = "$sell_all_map_picker_tool.last_selected_buildings"
 
