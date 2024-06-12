@@ -369,11 +369,11 @@ function drone_player_detector:OnHarvestEnter()
 	local container = rawget(component.lighning_vec, "__ptr");
 	local instance =  reflection_helper(container:CreateItem())
 
-	local drone_position = EntityService:GetPosition(self.entity)
+	local drone_position = EntityService:GetPosition(self.entity, "att_detector")
 	local target_position = EntityService:GetPosition(target)
 
-	local direction = VectorMulByNumber( Normalize( VectorSub( target_position, drone_position ) ), 2.0 )
-	drone_position = VectorAdd(drone_position, direction)
+	--local direction = VectorMulByNumber( Normalize( VectorSub( target_position, drone_position ) ), 2.0 )
+	--drone_position = VectorAdd(drone_position, direction)
 
 	instance.start_point.x = drone_position.x
 	instance.start_point.y = drone_position.y
