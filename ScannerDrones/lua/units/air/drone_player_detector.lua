@@ -95,7 +95,7 @@ function drone_player_detector:OnWorkInProgress()
 	local ent = foundNormal.first
 	local distance = foundNormal.second
 
-	local foundEnemy = FindClosestEntityWithDistance( owner, enemyEntities )
+	local foundEnemy = FindClosestEntityWithDistance( self.entity, enemyEntities )
 	local entEnemy = foundEnemy.entity
 	local distanceEnemy = foundEnemy.distance
 
@@ -170,7 +170,7 @@ function drone_player_detector:OnWorkInProgress()
 
 			for eEnt in Iter( enemyEntities ) do
 
-				local eDistance = EntityService:GetDistanceBetween( eEnt, owner )
+				local eDistance = EntityService:GetDistanceBetween( eEnt, self.entity )
 
 				local discoverDistance = self:GetDiscoveryDistance( eEnt )
 
@@ -257,7 +257,7 @@ function drone_player_detector:FindNearestTreaure()
 	local ent = foundNormal.first
 	local distance = foundNormal.second
 
-	local foundEnemy = FindClosestEntityWithDistance( owner, enemyEntities )
+	local foundEnemy = FindClosestEntityWithDistance( self.entity, enemyEntities )
 	local entEnemy = foundEnemy.entity
 	local distanceEnemy = foundEnemy.distance
 
@@ -293,7 +293,7 @@ function drone_player_detector:OnDroneTargetAction( target )
 
 		self.fsmFollow:Deactivate()
 		self:SetTargetActionFinished()
-		self.fsmFollow:ChangeState("follow")
+		self:TryFindNewTarget()
 
 		return
 	end
@@ -302,12 +302,36 @@ function drone_player_detector:OnDroneTargetAction( target )
 
 		self.fsmFollow:Deactivate()
 		self:SetTargetActionFinished()
-		self.fsmFollow:ChangeState("follow")
+		self:TryFindNewTarget()
 
 		return
 	end
 
+	local db = EntityService:GetDatabase( target )
+	if ( db ~= nil ) then
+
+		local type = db:GetStringOrDefault("type","")
+
+		if ( type == "enemy") then
+
+			local owner = self:GetDroneOwnerTarget()
+			
+			ItemService:InteractWithEntity( target, owner )
+		end
+	end
+
 	self.fsmFollow:ChangeState("follow")
+end
+
+function drone_player_detector:TryFindNewTarget()
+	local target = self:FindActionTarget();
+	if target ~= INVALID_ID then
+		UnitService:SetCurrentTarget( self.entity, "action", target );
+		UnitService:EmitStateMachineParam(self.entity, "action_target_found")
+		UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
+
+		self.fsmFollow:ChangeState("follow")
+	end
 end
 
 function drone_player_detector:OnFollowExecute(state)
@@ -315,32 +339,53 @@ function drone_player_detector:OnFollowExecute(state)
 	local target = self:GetDroneActionTarget()
 
 	if ( target == INVALID_ID ) then
+
+		local exitValue = state:Exit()
+
 		self:SetTargetActionFinished()
-		return state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	if ( not EntityService:IsAlive(target) ) then
+		local exitValue = state:Exit()
+
 		self:SetTargetActionFinished()
-		return state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	local owner = self:GetDroneOwnerTarget()
 
 	if ( EntityService:GetDistance2DBetween( owner, target ) > ( self.search_radius * 1.1 ) ) then
+		local exitValue = state:Exit()
+
 		self:SetTargetActionFinished()
-		return state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	if ( self:IsDiscovered( target ) ) then
+		local exitValue = state:Exit()
+
 		self:SetTargetActionFinished()
-		state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	local nearestTreaure = self:FindNearestTreaure()
 
 	if	( nearestTreaure ~= target ) then
+		local exitValue = state:Exit()
+
 		self:SetTargetActionFinished()
-		state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 end
 
