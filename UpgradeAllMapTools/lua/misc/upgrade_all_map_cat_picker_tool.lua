@@ -151,6 +151,10 @@ function upgrade_all_map_cat_picker_tool:FilterSelectedEntities( selectedEntitie
             goto continue
         end
 
+        if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
+            goto continue
+        end
+
         if ( self.selectedCategory ~= "" ) then
             if ( buildingDescRef.category == self.selectedCategory ) then
                 goto continue
