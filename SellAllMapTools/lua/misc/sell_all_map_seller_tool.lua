@@ -525,28 +525,32 @@ function sell_all_map_seller_tool:OnActivateSelectorRequest()
 
             local blueprintName = EntityService:GetBlueprintName( entity )
 
-            local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-            if ( #list > 0 ) then
+            local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+            if ( buildingDesc ~= nil ) then
 
-                local ruinsBlueprintName = blueprintName .. "_ruins"
+                local buildingDescRef = reflection_helper( buildingDesc )
+                if ( buildingDescRef ~= nil and buildingDescRef.build_cost ~= nil and buildingDescRef.build_cost.resource ~= nil and buildingDescRef.build_cost.resource.count ~= nil and buildingDescRef.build_cost.resource.count > 0 ) then
 
-                if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
+                    local ruinsBlueprintName = blueprintName .. "_ruins"
 
-                    local team = EntityService:GetTeam( entity )
+                    if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
 
-                    local transform = EntityService:GetWorldTransform( entity )
+                        local team = EntityService:GetTeam( entity )
 
-                    local position = transform.position
-                    local orientation = transform.orientation
+                        local transform = EntityService:GetWorldTransform( entity )
+
+                        local position = transform.position
+                        local orientation = transform.orientation
 
 
-                    local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
+                        local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                    local database = EntityService:GetDatabase( placeRuinScript )
+                        local database = EntityService:GetDatabase( placeRuinScript )
 
-                    database:SetInt( "player_id", self.playerId )
-                    database:SetInt( "target_entity", entity )
-                    database:SetString( "ruins_blueprint", ruinsBlueprintName )
+                        database:SetInt( "player_id", self.playerId )
+                        database:SetInt( "target_entity", entity )
+                        database:SetString( "ruins_blueprint", ruinsBlueprintName )
+                    end
                 end
             end
         end
