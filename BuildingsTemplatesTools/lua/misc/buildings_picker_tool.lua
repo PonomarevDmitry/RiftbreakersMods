@@ -263,11 +263,6 @@ function buildings_picker_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-        --if ( #list == 0 ) then
-        --    goto continue
-        --end
-
         if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
             goto continue
         end

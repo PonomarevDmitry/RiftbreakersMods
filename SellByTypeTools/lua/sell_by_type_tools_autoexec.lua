@@ -60,11 +60,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, playerId )
-    --if ( #list == 0 ) then
-    --    return
-    --end
-
     local parameterName = "$sell_by_type_picker_tool.last_selected_buildings"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)

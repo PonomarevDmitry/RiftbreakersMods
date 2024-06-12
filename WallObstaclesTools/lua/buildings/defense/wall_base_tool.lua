@@ -123,11 +123,6 @@ function wall_base_tool:GetWallBlueprintName( selectorDB )
         return defaultWall
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    --if ( #list == 0 ) then
-    --    return defaultWall
-    --end
-
     return blueprintName
 end
 

@@ -171,11 +171,6 @@ function floor_tool:GetFloorBlueprintName( selectorDB, parameterName, defaultFlo
         return defaultFloor
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    --if ( #list == 0 ) then
-    --    return defaultFloor
-    --end
-
     return blueprintName
 end
 

@@ -83,11 +83,6 @@ function wall_obstacles_stairs_tool:GetStairsBlueprintName( selectorDB )
         return defaultStairs
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    --if ( #list == 0 ) then
-    --    return defaultStairs
-    --end
-
     return blueprintName
 end
 

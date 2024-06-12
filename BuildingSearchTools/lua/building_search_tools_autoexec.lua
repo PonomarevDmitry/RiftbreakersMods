@@ -52,11 +52,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, playerId )
-    --if ( #list == 0 ) then
-    --    return
-    --end
-
     local parameterName = "$last_selected_blueprint"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)

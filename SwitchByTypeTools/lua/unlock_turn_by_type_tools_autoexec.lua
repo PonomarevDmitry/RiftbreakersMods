@@ -57,11 +57,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, playerId )
-    --if ( #list == 0 ) then
-    --    return
-    --end
-
     if ( not PowerUtils:BlueprintCanChangePower(blueprintName)) then
         return
     end

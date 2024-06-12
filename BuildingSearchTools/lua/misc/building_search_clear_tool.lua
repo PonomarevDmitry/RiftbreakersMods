@@ -158,11 +158,6 @@ function building_search_clear_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-        --if ( #list == 0 ) then
-        --    goto continue
-        --end
-
         Insert(result, entity)
 
         ::continue::

@@ -93,11 +93,6 @@ function base_lamp_trail:GetLampBlueprint()
         return defaultBlueprint
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-    --if ( #list == 0 ) then
-    --    return defaultBlueprint
-    --end
-
     return blueprintName
 end
 

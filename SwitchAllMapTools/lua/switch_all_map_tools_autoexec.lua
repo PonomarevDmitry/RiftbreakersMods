@@ -68,11 +68,6 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    --local list = BuildingService:GetBuildCosts( blueprintName, playerId )
-    --if ( #list == 0 ) then
-    --    return
-    --end
-
     if ( PowerUtils:BlueprintCanChangePower(blueprintName)) then
 
         local parameterName = "$switch_all_map_picker_tool.last_selected_buildings"
