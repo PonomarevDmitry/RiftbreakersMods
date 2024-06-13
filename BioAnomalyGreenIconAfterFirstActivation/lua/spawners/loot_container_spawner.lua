@@ -42,6 +42,31 @@ function loot_container_spawner:OnLoad()
 			self:CreateMinimapIconEntity()
 		end
 	end
+
+	local minimapItemComponent = EntityService:GetComponent( self.entity, "MinimapItemComponent" )
+	if ( minimapItemComponent ~= nil ) then
+
+		local minimapItemComponentRef = reflection_helper( minimapItemComponent )
+
+		local blueprintName = EntityService:GetBlueprintName(self.entity)
+
+		local blueprint = ResourceManager:GetBlueprint( blueprintName )
+		if ( blueprint ~= nil ) then
+
+			local blueprintMinimapItemComponent = blueprint:GetComponent("MinimapItemComponent")
+			if ( blueprintMinimapItemComponent ~= nil ) then
+
+				local blueprintMinimapItemComponentRef = reflection_helper(blueprintMinimapItemComponent)
+
+				if ( minimapItemComponentRef.icon_material ~= blueprintMinimapItemComponentRef.icon_material ) then
+
+					minimapItemComponentRef.icon_material = blueprintMinimapItemComponentRef.icon_material
+
+					EntityService:RemoveComponent( self.entity, "MinimapGuiComponent" )
+				end
+			end
+		end
+	end
 end
 
 function loot_container_spawner:OnInteractWithEntityRequest( evt )
