@@ -11,6 +11,78 @@ AnimationGraph
 			emit_marker_events "1"
 			animation_node_vec
 			{
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "1"
+								}
+
+							}
+
+							id "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "876.667"
+									y "516.667"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetNeutralPoseNode"
+						{
+							dependency_vec
+							id "1"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "444.000"
+									y "460.667"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					id "65535"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "start"
+						position
+						{
+							x "1040.000"
+							y "626.000"
+						}
+
+					}
+
+				}
+
 				AnimationStateNode "AnimationMotionNode"
 				{
 					mirror "0"
@@ -28,11 +100,11 @@ AnimationGraph
 					evaluate_blend_threshold "1.000"
 					metadata
 					{
-						name "default"
+						name "working"
 						position
 						{
-							x "1066.000"
-							y "974.000"
+							x "1030.667"
+							y "896.667"
 						}
 
 					}
@@ -41,7 +113,41 @@ AnimationGraph
 
 			}
 
-			start_node_idx "0"
+			start_node_idx "1"
+			transition_vec
+			{
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationStateTransitionCondition"
+					{
+						max_time "999.000"
+						condition "1"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "0"
+					condition "AnimationStateTransitionCondition"
+					{
+						max_time "0.000"
+						condition "0"
+					}
+
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+			}
+
 			metadata
 			{
 				name

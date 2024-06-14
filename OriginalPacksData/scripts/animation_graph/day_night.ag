@@ -13,25 +13,26 @@ AnimationGraph
 			{
 				AnimationStateNode "AnimationMotionNode"
 				{
-					anim_name "day_mode"
 					mirror "0"
-					start_time "0.0"
 					blend_function_holder
 					{
 						funtion_type "0"
 					}
 
 					loop "0"
-					end_time "3.4028235e+38"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "day_mode"
+					speed "1.000"
+					start_time "0.000"
 					emit_progress_event "0"
-					evaluate_blend_threshold "1.0"
+					evaluate_blend_threshold "1.000"
 					metadata
 					{
 						name "enabling"
 						position
 						{
-							y "593.0"
-							x "399.0"
+							x "398.667"
+							y "592.667"
 						}
 
 					}
@@ -40,25 +41,26 @@ AnimationGraph
 
 				AnimationStateNode "AnimationMotionNode"
 				{
-					anim_name "night_mode"
 					mirror "0"
-					start_time "0.0"
 					blend_function_holder
 					{
 						funtion_type "0"
 					}
 
 					loop "0"
-					end_time "3.4028235e+38"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name "night_mode"
+					speed "1.000"
+					start_time "0.000"
 					emit_progress_event "0"
-					evaluate_blend_threshold "1.0"
+					evaluate_blend_threshold "1.000"
 					metadata
 					{
-						name "diabling"
+						name "disabling"
 						position
 						{
-							y "593.0"
-							x "1330.0"
+							x "1330.000"
+							y "592.667"
 						}
 
 					}
@@ -67,25 +69,26 @@ AnimationGraph
 
 				AnimationStateNode "AnimationMotionNode"
 				{
-					anim_name
 					mirror "0"
-					start_time "0.0"
 					blend_function_holder
 					{
 						funtion_type "0"
 					}
 
 					loop "0"
-					end_time "3.4028235e+38"
+					end_time "340282346638528859811704183484516925440.000"
+					anim_name
+					speed "1.000"
+					start_time "0.000"
 					emit_progress_event "0"
-					evaluate_blend_threshold "1.0"
+					evaluate_blend_threshold "1.000"
 					metadata
 					{
 						name "enabled"
 						position
 						{
-							y "305.0"
-							x "879.0"
+							x "878.667"
+							y "304.667"
 						}
 
 					}
@@ -103,22 +106,23 @@ AnimationGraph
 							{
 								EvalNodeDependency
 								{
-									src_node_idx "1"
 									dst_slot "0"
 									src_slot "0"
+									src_node_idx "1"
 								}
 
 							}
 
+							id "0"
 							emit_progress_event "0"
-							evaluate_blend_threshold "1.0"
+							evaluate_blend_threshold "1.000"
 							metadata
 							{
 								name
 								position
 								{
-									y "768.0"
-									x "1512.0"
+									x "1512.000"
+									y "768.000"
 								}
 
 							}
@@ -127,18 +131,19 @@ AnimationGraph
 
 						AnimationEvalNode "AnimationGetAnimKeyFrameNode"
 						{
-							anim_name "day_mode"
 							default_key_frame "0"
+							anim_name "day_mode"
 							dependency_vec
+							id "1"
 							emit_progress_event "0"
-							evaluate_blend_threshold "1.0"
+							evaluate_blend_threshold "1.000"
 							metadata
 							{
 								name
 								position
 								{
-									y "833.0"
-									x "731.0"
+									x "731.000"
+									y "833.000"
 								}
 
 							}
@@ -148,15 +153,88 @@ AnimationGraph
 					}
 
 					dependency_vec
+					id "65535"
 					emit_progress_event "0"
-					evaluate_blend_threshold "1.0"
+					evaluate_blend_threshold "1.000"
 					metadata
 					{
 						name "disabled"
 						position
 						{
-							y "1057.0"
-							x "930.0"
+							x "930.000"
+							y "1056.667"
+						}
+
+					}
+
+				}
+
+				AnimationStateNode "AnimationBlendTreeNode"
+				{
+					end_node_idx "1"
+					eval_node_vec
+					{
+						AnimationEvalNode "AnimationEndNode"
+						{
+							dependency_vec
+							{
+								EvalNodeDependency
+								{
+									dst_slot "0"
+									src_slot "0"
+									src_node_idx "1"
+								}
+
+							}
+
+							id "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "876.667"
+									y "516.667"
+								}
+
+							}
+
+						}
+
+						AnimationEvalNode "AnimationGetNeutralPoseNode"
+						{
+							dependency_vec
+							id "1"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name
+								position
+								{
+									x "510.000"
+									y "502.667"
+								}
+
+							}
+
+						}
+
+					}
+
+					dependency_vec
+					id "65535"
+					emit_progress_event "0"
+					evaluate_blend_threshold "1.000"
+					metadata
+					{
+						name "start"
+						position
+						{
+							x "146.000"
+							y "210.667"
 						}
 
 					}
@@ -165,65 +243,101 @@ AnimationGraph
 
 			}
 
-			start_node_idx "2"
+			start_node_idx "4"
 			transition_vec
 			{
 				AnimationStateTransitionDef
 				{
-					duration "0.1"
-					dst_idx "0"
-					blend_function_type "0"
-					src_idx "3"
-					condition "AnimationBoolParamTransitionCondition"
+					src_idx "2"
+					condition "AnimationFloatParamTransitionCondition"
 					{
-						compare_value "1"
-						cmp "4"
+						compare_value "0.000"
 						param "is_working"
+						cmp "4"
 					}
 
+					authoritative "0"
+					dst_idx "1"
+					blend_function_type "2"
+					duration "2.000"
 				}
 
 				AnimationStateTransitionDef
 				{
-					duration "0.0"
-					dst_idx "3"
-					blend_function_type "0"
-					src_idx "1"
-					condition "AnimationStateTransitionCondition"
-					{
-						condition "1"
-						max_time "999.0"
-					}
-
-				}
-
-				AnimationStateTransitionDef
-				{
-					duration "0.0"
-					dst_idx "2"
-					blend_function_type "0"
 					src_idx "0"
 					condition "AnimationStateTransitionCondition"
 					{
+						max_time "999.000"
 						condition "1"
-						max_time "999.0"
 					}
 
+					authoritative "0"
+					dst_idx "2"
+					blend_function_type "0"
+					duration "0.000"
 				}
 
 				AnimationStateTransitionDef
 				{
-					duration "0.1"
-					dst_idx "1"
-					blend_function_type "0"
-					src_idx "2"
-					condition "AnimationBoolParamTransitionCondition"
+					src_idx "1"
+					condition "AnimationStateTransitionCondition"
 					{
-						compare_value "0"
-						cmp "4"
-						param "is_working"
+						max_time "999.000"
+						condition "1"
 					}
 
+					authoritative "0"
+					dst_idx "3"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "3"
+					condition "AnimationFloatParamTransitionCondition"
+					{
+						compare_value "0.000"
+						param "is_working"
+						cmp "2"
+					}
+
+					authoritative "0"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "4"
+					condition "AnimationFloatParamTransitionCondition"
+					{
+						compare_value "0.100"
+						param "is_working"
+						cmp "2"
+					}
+
+					authoritative "0"
+					dst_idx "2"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "4"
+					condition "AnimationFloatParamTransitionCondition"
+					{
+						compare_value "0.100"
+						param "is_working"
+						cmp "1"
+					}
+
+					authoritative "0"
+					dst_idx "3"
+					blend_function_type "0"
+					duration "0.000"
 				}
 
 			}
@@ -233,8 +347,8 @@ AnimationGraph
 				name
 				position
 				{
-					y "0.0"
-					x "0.0"
+					x "0.000"
+					y "0.000"
 				}
 
 			}
@@ -246,12 +360,14 @@ AnimationGraph
 
 	param_decl
 	{
-		ParamDecl "BoolParamDecl"
+		ParamDecl "FloatParamDecl"
 		{
-			default "1"
-			is_const "0"
-			data_type "0"
+			max "10.000"
+			min "0.000"
+			default "0.000"
 			param_name "is_working"
+			data_type "2"
+			is_const "0"
 		}
 
 	}
