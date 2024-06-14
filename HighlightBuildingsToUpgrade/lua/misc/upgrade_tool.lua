@@ -25,10 +25,7 @@ function upgrade_tool:OnPreInit()
 end
 
 function upgrade_tool:AddedToSelection( entity )
-end
 
-function upgrade_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function upgrade_tool:FilterSelectedEntities( selectedEntities ) 
@@ -51,6 +48,10 @@ function upgrade_tool:FilterSelectedEntities( selectedEntities )
     end
 
     return entities
+end
+
+function upgrade_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function upgrade_tool:OnUpdate()
@@ -218,9 +219,8 @@ function upgrade_tool:OnActivateEntity( entity )
 
         if( self.popupShown == false ) then
 
-            self.popupShown = true
-
             GuiService:OpenPopup(entity, "gui/popup/popup_ingame_2buttons", "gui/hud/tutorial/hq_upgrade_confirm")
+            self.popupShown = true
             self:RegisterHandler(entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
         end
     else
