@@ -2,22 +2,22 @@ EntityBlueprint
 {
 	name  "props/special/interactive/dead_tree_resin_intake"
 
-	ResourceConverterDesc 
-	{
-		in
-		{			
-			GameplayResource
-			{
-				resource 	"resin"
-				value 		"100"
-				attachment		"att_in_1"
-			}		
-		}
-	
-		out
-		{
-		}
-	}
+	//ResourceConverterDesc 
+	//{
+	//	in
+	//	{			
+	//		GameplayResource
+	//		{
+	//			resource 	"resin"
+	//			value 		"100"
+	//			attachment		"att_in_1"
+	//		}		
+	//	}
+	//
+	//	out
+	//	{
+	//	}
+	//}
 	
 	ResourceStorageDesc
 	{
@@ -26,7 +26,7 @@ EntityBlueprint
 			Storage
 			{
 				resource	 	"resin"
-				max 	 		"5000"
+				max 	 		"10000"
 				attachment		"att_in_1"
 			}
 		}
@@ -68,13 +68,28 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/tower_alien_influence_lvl_3.mesh"
-		material "buildings/defense/tower_alien_influence_lvl_3_destroyed"	
+		mesh "meshes/props/special/interactive/great_tree_resin_intake.mesh"
+		material "props/special/resin_tree/resin_tree_dry_big_01"
+
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/resin_tree/resin_tree_dry_big_01"
+			}
+			SubMesh
+			{
+				id "1"
+				material "props/special/resin_tree/resin_roots_dry"
+			}
+		}	
 	}
 	
 	SkeletonDesc
 	{
-		name "meshes/buildings/defense/tower_alien_influence_lvl_3"
+		name "meshes/props/special/interactive/great_tree_resin_intake"
 	}
 
 	PhysicsDesc
@@ -88,18 +103,9 @@ EntityBlueprint
 				physics_material 	"default"
 				Shapes
 				{
-					PhysicsBoxShape
-					{
-						x "2"
-						y "4"
-						z "2"
-
-						position
-						{
-							x "0.0"
-							y "2"
-							z "0.0"
-						}
+				    PhysicsMeshShape
+					{	
+						mesh "meshes/props/special/interactive/great_tree_resin_intake_c1.nxs"
 					}
 				}
 			}
@@ -119,9 +125,9 @@ EntityBlueprint
 		{
    			PhysicsBoxShape
    			{
-    				x	2
-    				y	2
-    				z	2
+    				x	19
+    				y	19
+    				z	19
    			}			
 		}
 	}
@@ -162,50 +168,5 @@ EntityBlueprint
 				}
 			}
 		}
-		EffectGroup
-		{
-			group "att_in_2"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"
-					bone "att_in_2_arrow"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "att_in_3"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"
-					bone "att_in_3_arrow"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "att_in_4"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"
-					bone "att_in_4_arrow"
-				}
-			}
-		}	
 	}	
 }

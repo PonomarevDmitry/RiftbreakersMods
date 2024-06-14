@@ -2,22 +2,22 @@ EntityBlueprint
 {
 	name  "props/special/interactive/great_tree_resin_intake"
 
-	ResourceConverterDesc 
-	{
-		in
-		{			
-			GameplayResource
-			{
-				resource 	"resin"
-				value 		"200"
-				attachment		"att_in_1"
-			}		
-		}
-	
-		out
-		{
-		}
-	}
+	//ResourceConverterDesc 
+	//{
+	//	in
+	//	{			
+	//		GameplayResource
+	//		{
+	//			resource 	"resin"
+	//			value 		"200"
+	//			attachment		"att_in_1"
+	//		}		
+	//	}
+	//
+	//	out
+	//	{
+	//	}
+	//}
 	
 	ResourceStorageDesc
 	{
@@ -41,8 +41,6 @@ EntityBlueprint
 		localization_id		"gui/hud/building_name/great_tree_resin_intake"
 		description			"gui/hud/building_description/great_tree_resin_intake"
 		menu_icon			"gui/hud/building_icons/great_tree_resin_intake"
-		
-		building_functionality	"PIPE_MODE"
 
 		buildable			"0"
 		sellable			"0"
@@ -104,23 +102,9 @@ EntityBlueprint
 				Shapes
 				{
 				    PhysicsMeshShape
-							{	
-								mesh "meshes/props/special/interactive/great_tree_resin_intake_c1.nxs"
-							}
-
-					//PhysicsBoxShape
-					//{
-					//	x "2"
-					//	y "4"
-					//	z "2"
-
-					//	position
-					//	{
-					//		x "0.0"
-					//		y "2"
-					//		z "0.0"
-					//	}
-					//}
+					{	
+						mesh "meshes/props/special/interactive/great_tree_resin_intake_c1.nxs"
+					}
 				}
 			}
 		}
@@ -139,32 +123,13 @@ EntityBlueprint
 		{
    			PhysicsBoxShape
    			{
-    				x	2
-    				y	2
-    				z	2
+    				x	19
+    				y	19
+    				z	19
    			}			
 		}
 	}
 
-	//MinimapItemDesc
-	//{
-	//	type	"quad"
-	//	color
-	//	{
-	//		x "0.82"
-	//		y "0.39"
-	//		z "0.89"
-	//		w "1"
-	//	}
-	//	size
-	//	{
-	//		x "5"
-	//		y "5"
-	//	}
-	//
-	//	visibility			"discovered"
-	//}
-	
 	EffectDesc
 	{	
 		EffectGroup
@@ -182,51 +147,7 @@ EntityBlueprint
 				}
 			}
 		}
-		EffectGroup
-		{
-			group "att_in_2"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"
-					bone "att_in_2_arrow"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "att_in_3"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"
-					bone "att_in_3_arrow"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "att_in_4"
-			enabled "0"
-			delay "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/building_arrow"
-					bone "att_in_4_arrow"
-				}
-			}
-		}	
+	
 		EffectGroup
 		{
 			group "light"
@@ -258,4 +179,109 @@ EntityBlueprint
 			}
 		}		
 	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/interactive/great_tree_resin_intake_static"
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/interactive/great_tree_resin_intake.mesh"
+		material "props/special/resin_tree/resin_tree_big_01"
+
+			SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/resin_tree/resin_tree_big_01"
+			}
+			SubMesh
+			{
+				id "1"
+				material "props/special/resin_tree/resin_roots"
+			}
+		}	
+	}	
+	
+	SkeletonDesc
+	{
+		name "meshes/props/special/interactive/great_tree_resin_intake"
+	}
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+				    PhysicsMeshShape
+					{	
+						mesh "meshes/props/special/interactive/great_tree_resin_intake_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	19
+    				y	19
+    				z	19
+   			}			
+		}
+	}
+
+	//EffectDesc
+	//{
+	//	EffectGroup
+	//	{
+	//		group "light"
+	//		enabled "1"
+	//		delay "0"
+	//
+	//		Effects
+	//		{
+	//			Effect
+	//			{
+	//				blueprint "lights/point/violet_small"
+	//				bone "att_light_1"
+	//			}
+	//			Effect
+	//			{
+	//				blueprint "lights/point/violet_small"
+	//				bone "att_light_2"
+	//			}
+	//			Effect
+	//			{
+	//				blueprint "lights/point/violet_small"
+	//				bone "att_light_3"
+	//			}
+	//			Effect
+	//			{
+	//				blueprint "lights/point/violet_small"
+	//				bone "att_light_4"
+	//			}				
+	//		}
+	//	}		
+	//}
 }

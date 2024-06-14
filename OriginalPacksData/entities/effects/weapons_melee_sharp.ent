@@ -196,7 +196,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/fluid/fire_spitter_muzzle"
+		name "items/weapons/melee_sharp/flame_blade_hit"
 	}	
 }
 
@@ -224,7 +224,7 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name "items/weapons/fluid/fire_spitter_muzzle"
+		name "items/weapons/melee_sharp/flame_blade_hit"
 	}	
 }
 
@@ -303,7 +303,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		lights/point/orange_very_small
+		//lights/point/orange_very_small
 		effects/no_lifetime
 	}
 	
@@ -318,13 +318,51 @@ EntityBlueprint
 		}
 
 		burning_effect_group    ""			// effect group to be enabled on entity
-		burning_time			"0.3"	// how long it will burn in seconds
+		burning_time			"0.6"	// how long it will burn in seconds
 		disable_light_fade_out "1"
 	}	
 
+	//ParticleDesc
+	//{
+	//	name    "rift/flame_blade_shockwave"
+	//}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/flame_blade_shockwave_slash
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	LuaDesc
+	{
+		script "lua/items/misc/slash.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_slash.mesh"
+		material 	"slash/fire"	
+	}
+	
 	ParticleDesc
 	{
-		name    "rift/flame_blade_shockwave"
+		name    "rift/flame_blade_shockwave_slash"
+	}	
+
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/items/weapons/flame_blade_slash.mesh"
+				material 	"slash/fire_bg"	
+			}
+		}
 	}
 }
 
@@ -334,7 +372,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		//lights/point/orange_very_small
+		lights/point/orange_very_small
 		effects/no_lifetime
 	}
 

@@ -1,0 +1,413 @@
+EntityBlueprint
+{
+	name "items/skills/tornado_acid_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_acid"	
+		cooldown					"90"
+		cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_acid"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
+		description 				"gui/menu/inventory/skill_description/tornado_acid"	
+		rarity						"STANDARD"	
+		replace_lower_quality		"1"		
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_acid_standard"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_acid_standard"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/skills/tornado_acid_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_acid"	
+		cooldown					"90"
+		cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_acid"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
+		description 				"gui/menu/inventory/skill_description/tornado_acid_upgraded"	
+		rarity						"ADVANCED"	
+		replace_lower_quality		"1"		
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_acid_advanced"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_acid_advanced"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/skills/tornado_acid_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_acid"	
+		cooldown					"90"
+		cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_acid"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
+		description 				"gui/menu/inventory/skill_description/tornado_acid_upgraded"	
+		rarity						"SUPERIOR"	
+		replace_lower_quality		"1"		
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_acid_superior"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_acid_superior"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/skills/tornado_acid_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_acid"	
+		cooldown					"90"
+		cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_acid"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
+		description 				"gui/menu/inventory/skill_description/tornado_acid_upgraded"	
+		rarity						"EXTREME"	
+		replace_lower_quality		"1"		
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_acid_extreme"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_acid_extreme"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_acid_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/tornado"
+		visibility		"visible|radar"		
+	}
+
+	TornadoDesc
+	{
+		radius			          "15"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "600" 
+		//type                      "target_player"		
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"10"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"acid"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		8
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big_acid"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_green"
+					offset "0 10 0"
+				}	
+				Effect
+				{
+					blueprint "effects/items/tornado_muzzle"					
+				}					
+			}
+		}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name "weather/tornado_big_local_wind"
+			
+			PointWindDesc
+			{
+				power_max   "-15000"
+				power_min   "-15000"
+				radius      "25"
+			}    
+
+			AttachmentDesc
+			{
+				attachment "att_wind"
+			}
+		}
+
+		EntityBlueprint
+		{
+			name "logic/tornado_big_global_wind"
+
+			DirectionalWindDesc
+			{		
+				power_frequency "0.2"
+				power_max "5000"
+				power_min "1000"
+				rotation_frequency "0.1"
+				rotation_max "10.0"
+				random_power_time_deviation "0"
+				random_rotation_time_deviation "0.04"
+				position_frequency_factor "0.001"
+			}
+			
+			SceneEditorDesc
+			{
+				mesh 		"meshes/wind.mesh"
+			}
+		}
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_acid_advanced"
+	base_blueprint "items/skills/tornado_acid_standard"	
+	
+	WeaponItemDesc
+	{
+	}		
+
+	TornadoDesc
+	{
+		radius			          "15"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "900" 
+		//type                      "target_player"		
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"10"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"150"
+					type			"acid"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		9
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_acid_superior"
+	base_blueprint "items/skills/tornado_acid_standard"
+	
+	WeaponItemDesc
+	{
+	}		
+
+	TornadoDesc
+	{
+		radius			          "15"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "1200" 
+		//type                      "target_player"		
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"10"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"200"
+					type			"acid"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		10
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_acid_extreme"
+	base_blueprint "items/skills/tornado_acid_standard"
+	
+	WeaponItemDesc
+	{
+	}		
+
+	TornadoDesc
+	{
+		radius			          "15"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "1500" 
+		//type                      "target_player"		
+	}
+
+	LifeTimeDesc
+	{
+		time 		11
+	}
+	
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"10"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"250"
+					type			"acid"
+				}
+			}
+		}
+	}	
+}	

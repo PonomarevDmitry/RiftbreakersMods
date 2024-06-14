@@ -21,8 +21,8 @@ EntityBlueprint
 		building_functionality	"BUILD_ON_WATER|NO_FOUNDATION"
 		resource_requirement "water_vein|sludge_vein|mud_vein|magma_vein|morphium_vein"
 		radius_name				"water_tower"
-		min_radius				"9"
-		min_radius_effect   	"voice_over/announcement/tower_too_close"		
+		min_radius				"15"
+		min_radius_effect   	"voice_over/announcement/building_too_close"		
 
 		costs
 		{
@@ -54,20 +54,49 @@ EntityBlueprint
 		{
 			DestructionLevel
 			{
-				health 								"66"
-				destroy_comp_delay 					"0"
-				destroy_comp_event 					"66_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
-				destroyed_state_effect_group 		"66_state"
+				health 								"80"
+				destroy_state_change_effect_group 	"80_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"80_destroy"
+				destroyed_state_effect_group 		"80_state"
+				destrucion_level_name 				"80"
+
 			}
 			DestructionLevel
 			{
-				health 								"33"
-				destroy_comp_delay 					"0"
-				destroy_comp_event 					"33_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
-				destroyed_state_effect_group 		"33_state"
+				health 								"60"
+				destroy_state_change_effect_group 	"60_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"60_destroy"
+				destroyed_state_effect_group 		"60_state"
+				destrucion_level_name 				"60"
 			}
+			DestructionLevel
+			{
+				health 								"40"
+				destroy_state_change_effect_group 	"40_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"40_destroy"
+				destroyed_state_effect_group 		"40_state"
+				destrucion_level_name 				"40"
+			}
+			DestructionLevel
+			{
+				health 								"20"
+				destroy_state_change_effect_group 	"20_transition"
+				destroy_comp_delay 					"0.5"
+				destroy_comp_event 					"20_destroy"
+				destroyed_state_effect_group 		"20_state"
+				destrucion_level_name 				"20"
+			}
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_state_change_effect_group 	"0_transition"
+				destroy_comp_delay 					"0.6"
+				destroy_comp_event 					"default"
+				//destroyed_state_effect_group 		"0_state"
+			}	
 		}
 	}
 

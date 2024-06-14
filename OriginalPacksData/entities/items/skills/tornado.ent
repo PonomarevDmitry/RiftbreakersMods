@@ -7,6 +7,7 @@ EntityBlueprint
 		type 						"skill"
 		name 						"gui/menu/inventory/skill_name/tornado"	
 		cooldown					"90"
+		cooldown_category			"tornado"
 		icon						"gui/hud/items_icons/skills/tornado"
 		bigger_icon 				"gui/menu/items_icons/skills/tornado"	
 		description 				"gui/menu/inventory/skill_description/tornado"	
@@ -43,6 +44,7 @@ EntityBlueprint
 		type 						"skill"
 		name 						"gui/menu/inventory/skill_name/tornado"	
 		cooldown					"90"
+		cooldown_category			"tornado"
 		icon						"gui/hud/items_icons/skills/tornado"
 		bigger_icon 				"gui/menu/items_icons/skills/tornado"	
 		description 				"gui/menu/inventory/skill_description/tornado_upgraded"	
@@ -79,6 +81,7 @@ EntityBlueprint
 		type 						"skill"
 		name 						"gui/menu/inventory/skill_name/tornado"	
 		cooldown					"90"
+		cooldown_category			"tornado"
 		icon						"gui/hud/items_icons/skills/tornado"
 		bigger_icon 				"gui/menu/items_icons/skills/tornado"	
 		description 				"gui/menu/inventory/skill_description/tornado_upgraded"	
@@ -115,6 +118,7 @@ EntityBlueprint
 		type 						"skill"
 		name 						"gui/menu/inventory/skill_name/tornado"	
 		cooldown					"90"
+		cooldown_category			"tornado"
 		icon						"gui/hud/items_icons/skills/tornado"
 		bigger_icon 				"gui/menu/items_icons/skills/tornado"	
 		description 				"gui/menu/inventory/skill_description/tornado_upgraded"	
@@ -186,7 +190,7 @@ EntityBlueprint
 				Damage
 				{
 					value 			"100"
-					type			"physical"
+					type			"fire"
 				}
 			}
 		}
@@ -209,13 +213,18 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/world/tornado_big"
+					blueprint "effects/world/tornado_big_fire"
 					bone "att_tornado"
 				}
 				Effect
 				{
 					blueprint "effects/world/tornado_big_stones"
 					bone "att_tornado"
+				}	
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_orange"
+					offset "0 10 0"
 				}
 				Effect
 				{
@@ -266,6 +275,19 @@ EntityBlueprint
 			}
 		}
 	}
+	BurningComponent
+	{
+		spread_radius 			"10"			// radius to spread fire
+		spread_chance_override 	"1.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_timer
+		{
+			limit "200000" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    ""			// effect group to be enabled on entity
+		burning_time			"10000000000"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}		
 }	
 
 EntityBlueprint
@@ -301,7 +323,7 @@ EntityBlueprint
 				Damage
 				{
 					value 			"150"
-					type			"physical"
+					type			"fire"
 				}
 			}
 		}
@@ -346,7 +368,7 @@ EntityBlueprint
 				Damage
 				{
 					value 			"200"
-					type			"physical"
+					type			"fire"
 				}
 			}
 		}
@@ -396,7 +418,7 @@ EntityBlueprint
 				Damage
 				{
 					value 			"250"
-					type			"physical"
+					type			"fire"
 				}
 			}
 		}
