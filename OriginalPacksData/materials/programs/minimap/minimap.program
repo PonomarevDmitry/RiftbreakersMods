@@ -6,6 +6,20 @@ vertex_program minimap_vp hlsl
     export_shader true
 }
 
+vertex_program minimap_grid_instanced_vp hlsl
+{
+    source materials/programs/minimap/minimap_grid_instanced_vp.hlsl
+    entry_point mainVP
+    target vs_5_0
+    export_shader true
+
+    default_params
+    {
+        param_named      cGridOrigin float3 0 0 0
+        param_named      cGridSize int 0
+    }
+}
+
 geometry_program minimap_quad_gp hlsl
 {
     source materials/programs/minimap/minimap_quad_gp.hlsl
@@ -16,6 +30,20 @@ geometry_program minimap_quad_gp hlsl
     default_params
     {
         param_named_auto cViewProj viewproj_matrix
+    }
+}
+
+geometry_program minimap_grid_instanced_gp hlsl
+{
+    source materials/programs/minimap/minimap_grid_instanced_gp.hlsl
+    entry_point mainGP
+
+    target gs_5_0
+
+    default_params
+    {
+        param_named_auto cViewProj viewproj_matrix
+        param_named      cExpandFlag int 0
     }
 }
 

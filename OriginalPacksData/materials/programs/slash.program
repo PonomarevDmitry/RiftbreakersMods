@@ -1,0 +1,19 @@
+fragment_program slash_fp hlsl
+{
+    source                  materials/programs/slash_fp.hlsl
+    entry_point             mainFP
+    target                  ps_5_0
+    preprocessor_defines    USE_FOG=1
+
+    default_params
+    {
+        param_named         cEmissiveColor1  float4 70 35 0 1
+        param_named         cEmissiveColor2  float4 35 10 0 1
+        param_named_auto    cGlowAmount      surface_glow
+        param_named         cGlowFactor      float 1
+        param_named         cTime            float 0.0
+
+        param_named_auto    cFogParams       universal_fog_params
+        param_named_auto    cFogColor        fog_colour
+    }
+}
