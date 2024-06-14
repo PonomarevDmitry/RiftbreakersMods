@@ -1,13 +1,13 @@
-//editor "scroll(-327.35,-207.09)|zoom(0.67)"
+//editor "scroll(-881.51,-352.40)|zoom(0.40)"
 FlowGraphTemplate
 {
-	version "4"
-	editor "5928"
+	version "5"
+	editor "6180"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(-259,509)"
+			//editor "layout(event_start.xml)|pos(-1348,499)"
 			database
 			{
 				Integers
@@ -97,7 +97,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_difficulty.xml)|pos(17,577)"
+			//editor "layout(condition_difficulty.xml)|pos(17,573)"
 			key "easy"
 			self_id "logic_if_difficulty_wave_1###easy"
 			value
@@ -105,7 +105,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_difficulty.xml)|pos(17,607)"
+			//editor "layout(condition_difficulty.xml)|pos(17,601)"
 			key "normal"
 			self_id "logic_if_difficulty_wave_1###normal"
 			value
@@ -113,7 +113,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_difficulty.xml)|pos(17,636)"
+			//editor "layout(condition_difficulty.xml)|pos(17,629)"
 			key "hard"
 			self_id "logic_if_difficulty_wave_1###hard"
 			value
@@ -121,7 +121,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_difficulty.xml)|pos(17,665)"
+			//editor "layout(condition_difficulty.xml)|pos(17,657)"
 			key "brutal"
 			self_id "logic_if_difficulty_wave_1###brutal"
 			value
@@ -129,7 +129,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_difficulty.xml)|pos(17,695)"
+			//editor "layout(condition_difficulty.xml)|pos(17,685)"
 			key "sandbox"
 			self_id "logic_if_difficulty_wave_1###sandbox"
 			value
@@ -313,11 +313,211 @@ FlowGraphTemplate
 			self_id "enemies_spawn_near_less_defended_outpost_6"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(-551,239)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "5.00"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "-1.00"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/mech_phirian_attack_start_01"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_9"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(-548,-13)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "5.00"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "-1.00"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/ashley"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/ashley_phirian_attack_start_01"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_10"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_random_output.xml)|pos(-1073,23)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "outputs"
+						value "2"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "0"
+						value "1.00"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "1"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_random_output.lua"
+			self_id "logic_random_output_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(-1073,196)"
+			key "0"
+			self_id "logic_random_output_1###0"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(-1073,224)"
+			key "1"
+			self_id "logic_random_output_1###1"
+			value
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "logic_if_difficulty_wave_1"
+		default "logic_if_difficulty_wave_1|logic_random_output_1"
 		enemies_spawn_near_less_defended_outpost_0 "logic_or_1"
 		enemies_spawn_near_less_defended_outpost_4 "logic_or_1"
 		enemies_spawn_near_less_defended_outpost_5 "logic_or_1"
@@ -330,6 +530,9 @@ FlowGraphTemplate
 		logic_if_difficulty_wave_1###normal "enemies_spawn_near_less_defended_outpost_4"
 		logic_if_difficulty_wave_1###sandbox "logic_and_1"
 		logic_or_1 "event_end_0"
+		logic_random_output_1 "logic_random_output_1###0|logic_random_output_1###1"
+		logic_random_output_1###0 "interface_dialogue_show_10"
+		logic_random_output_1###1 "interface_dialogue_show_9"
 	}
 
 	GraphComments
