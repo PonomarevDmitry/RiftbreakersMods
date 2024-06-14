@@ -34,6 +34,16 @@ end
 
 function PowerUtils:CalcCanChangePower( blueprintName )
 
+    local blueprintBuildingDesc = EntityService:GetBlueprintComponent(blueprintName, "BuildingDesc")
+    if ( blueprintBuildingDesc == nil ) then
+        return false
+    end
+
+    local disableableValue = tonumber( blueprintBuildingDesc:GetField( "disableable" ):GetValue() )
+    if ( disableableValue ~= 1 ) then
+        return false
+    end
+
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
         return false
