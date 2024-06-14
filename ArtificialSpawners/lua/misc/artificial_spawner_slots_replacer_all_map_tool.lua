@@ -187,7 +187,7 @@ function artificial_spawner_slots_replacer_all_map_tool:FindEntitiesToSelect( se
 
         if ( buildingComponent ~= nil ) then
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode <= 2 ) then goto continue end 
+            if ( mode <= BM_COMPLETED ) then goto continue end
         end
 
         Insert(selectedEntities, entity )

@@ -347,7 +347,7 @@ function repair_all_map_cat_repairer_tool:IsEntityApproved( entity )
     end
 
     local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-    if ( mode ~= 2 ) then
+    if ( mode ~= BM_COMPLETED ) then
         return false
     end
 
@@ -430,7 +430,7 @@ function repair_all_map_cat_repairer_tool:OnActivateSelectorRequest()
                 if ( buildingComponent ~= nil ) then
 
                     local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-                    if ( mode ~= 2 ) then
+                    if ( mode ~= BM_COMPLETED ) then
                         return
                     end
                 end

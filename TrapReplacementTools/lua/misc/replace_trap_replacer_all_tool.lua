@@ -197,7 +197,7 @@ function replace_trap_replacer_all_tool:IsEntityApproved( entity )
     end
 
     local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-    if ( mode >= BM_SELLING ) then 
+    if ( mode >= BM_SELLING ) then
         return false
     end
 

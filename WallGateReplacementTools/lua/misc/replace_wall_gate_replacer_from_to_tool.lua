@@ -208,7 +208,7 @@ function replace_wall_gate_replacer_from_to_tool:IsEntityApproved( entity )
     end
 
     local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-    if ( mode >= BM_SELLING ) then 
+    if ( mode >= BM_SELLING ) then
         return false
     end
 

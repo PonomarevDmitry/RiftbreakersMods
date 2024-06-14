@@ -357,7 +357,7 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
     end
 
     local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-    if ( mode ~= BM_COMPLETED ) then 
+    if ( mode ~= BM_COMPLETED ) then
         return false
     end
 

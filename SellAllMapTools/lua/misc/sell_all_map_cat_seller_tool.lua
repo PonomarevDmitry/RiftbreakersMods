@@ -82,7 +82,7 @@ function sell_all_map_cat_seller_tool:GetBaseEntitiesList()
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode >= BM_SELLING ) then 
+        if ( mode >= BM_SELLING ) then
             goto continue
         end
 
@@ -489,7 +489,7 @@ function sell_all_map_cat_seller_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode >= BM_SELLING ) then 
+        if ( mode >= BM_SELLING ) then
             goto continue
         end
 

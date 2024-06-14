@@ -134,7 +134,7 @@ function sell_depleted:FindEntitiesToSelect( selectorComponent )
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode >= BM_SELLING ) then 
+        if ( mode >= BM_SELLING ) then
             goto continue
         end
 

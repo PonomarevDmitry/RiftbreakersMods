@@ -421,7 +421,7 @@ function upgrade_all_map_picker_tool:FindUpgradableBuildings()
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode ~= BM_COMPLETED ) then 
+        if ( mode ~= BM_COMPLETED ) then
             goto continue
         end
 

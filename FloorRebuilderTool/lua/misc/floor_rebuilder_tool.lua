@@ -204,7 +204,7 @@ function floor_rebuilder_tool:RebuildFloor()
 
         if ( buildingComponent ~= nil ) then
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode >= 3 ) then
+            if ( mode >= BM_SELLING ) then
                 goto continue
             end
         end
@@ -433,7 +433,7 @@ function floor_rebuilder_tool:GetFreequentBlueptint()
 
         if ( buildingComponent ~= nil ) then
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode >= 3 ) then
+            if ( mode >= BM_SELLING ) then
                 goto continue
             end
         end
@@ -536,7 +536,7 @@ function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode >= 3 ) then
+        if ( mode >= BM_SELLING ) then
             goto continue
         end
 

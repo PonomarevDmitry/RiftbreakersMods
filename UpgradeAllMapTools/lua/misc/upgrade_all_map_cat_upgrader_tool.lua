@@ -395,7 +395,7 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode ~= BM_COMPLETED ) then 
+        if ( mode ~= BM_COMPLETED ) then
             goto continue
         end
 

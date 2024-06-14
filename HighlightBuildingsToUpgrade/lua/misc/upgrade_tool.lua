@@ -40,7 +40,7 @@ function upgrade_tool:FilterSelectedEntities( selectedEntities )
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode == BM_COMPLETED ) then 
+        if ( mode == BM_COMPLETED ) then
             Insert(entities, entity)
         end
 
@@ -185,7 +185,7 @@ function upgrade_tool:FindUpgradableBuildings()
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode ~= BM_COMPLETED ) then 
+        if ( mode ~= BM_COMPLETED ) then
             goto continue
         end
 
