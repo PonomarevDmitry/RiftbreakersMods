@@ -49,10 +49,6 @@ function sell_tool:AddedToSelection( entity )
     end
 end
 
-function sell_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial( entity, "selected" )
-end
-
 function sell_tool:FindEntitiesToSelect( selectorComponent )
     local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
 
@@ -117,6 +113,10 @@ function sell_tool:FilterSelectedEntities( selectedEntities )
     return entities
 end
 
+function sell_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial( entity, "selected" )
+end
+
 function sell_tool:OnUpdate()
 
     self:HighlightRuins()
@@ -149,6 +149,7 @@ function sell_tool:OnUpdate()
 end
 
 function sell_tool:OnRotate()
+
 end
 
 function sell_tool:OnActivateEntity( entity )

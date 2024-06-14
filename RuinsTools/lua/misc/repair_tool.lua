@@ -14,11 +14,12 @@ function repair_tool:OnPreInit()
     self.initialScale = { x=8, y=1, z=8 }
 end
 
-function repair_tool:AddedToSelection( entity )
-end
+--function repair_tool:OnUpdate()
 
-function repair_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial(entity, "selected" )
+--end
+
+function repair_tool:AddedToSelection( entity )
+
 end
 
 function repair_tool:FindEntitiesToSelect( selectorComponent )
@@ -45,6 +46,10 @@ function repair_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_green", self.entity )
     end
+end
+
+function repair_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial(entity, "selected" )
 end
 
 function repair_tool:FilterSelectedEntities( selectedEntities )
@@ -75,6 +80,7 @@ function repair_tool:FilterSelectedEntities( selectedEntities )
 
             if ( maxNumberOfActivations > currentNumberOfActivations ) then
                 Insert(entities, ent)
+                goto continue
             end
         end
 
@@ -106,7 +112,7 @@ function repair_tool:OnUpdate()
         if ( buildingComponent ~= nil ) then
 
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode ~= 2 ) then
+            if ( mode ~= BM_COMPLETED ) then
                 canRepair = false
             end
 
@@ -189,15 +195,15 @@ function repair_tool:OnActivateEntity( entity )
             QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
         end
     else
-        local childRepair = EntityService:GetChildByName(entity, "##repair##")
+        local child = EntityService:GetChildByName(entity, "##repair##")
 
-        if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(childRepair) ) then
+        if ( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) and not EntityService:IsAlive(child) ) then
 
             local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
             if ( buildingComponent ~= nil ) then
 
                 local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-                if ( mode ~= 2 ) then
+                if ( mode ~= BM_COMPLETED ) then
                     return
                 end
             end
