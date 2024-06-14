@@ -1,11 +1,39 @@
 require("lua/utils/table_utils.lua")
 require("lua/utils/rules_utils.lua")
+require("lua/utils/enumerables.lua")
 
 local mission_base = require("lua/missions/mission_base.lua")
 class 'mission_metallic_outpost' ( mission_base )
 
 function mission_metallic_outpost:__init()
     mission_base.__init(self,self)
+end
+
+function mission_metallic_outpost:EnsureInfluencePylonsObjective()
+    local objective_id = ObjectiveService:FindMatchingObjectiveIdsFromUniqueName("influence_pylon.activate")[1] or INVALID_OBJECTIVE_ID
+    if objective_id == INVALID_OBJECTIVE_ID then
+        return
+    end
+
+    local objective_status = ObjectiveService:GetObjectiveStatus( objective_id )
+    if objective_status ~= OBJECTIVE_IN_PROGRESS then
+        return
+    end
+
+    local objective_data = ObjectiveService:GetObjectiveDatabase( objective_id )
+    if objective_data == nil then
+        return
+    end
+
+    local progress = objective_data:GetIntOrDefault( "progress_current", 0 )
+    local progress_max = objective_data:GetIntOrDefault( "progress_max", 0 )
+
+    local pylons = FindService:FindEntitiesByName( "influence_pylon" )
+    local missing_count = (progress_max - progress) - #pylons
+    for i=1,missing_count do
+        local entity = MissionService:SpawnMissionObjective("props/special/alien_structures/influence_pylon", true)
+        EntityService:SetName( entity, "influence_pylon")
+    end
 end
 
 function mission_metallic_outpost:UpdateMissionProgress()
@@ -34,6 +62,7 @@ end
 
 function mission_metallic_outpost:OnLoad()
     self:UpdateMissionProgress()
+    self:EnsureInfluencePylonsObjective()
 end
 
 function mission_metallic_outpost:init()

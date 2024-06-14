@@ -8,7 +8,7 @@ end
 
 function build_stabilizators_nearby:init()
 	self.fsm = self:CreateStateMachine()
-	self.fsm:AddState( "update", { from="*", execute="onUpdate" } )
+	self.fsm:AddState( "update", { from="*", execute="onUpdate", interval=2.0 } )
 	self.fsm:ChangeState( "update" )
 		
 	

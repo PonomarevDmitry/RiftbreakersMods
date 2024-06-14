@@ -33,6 +33,7 @@ function lift_interactive:OnDamageEvent( event )
 	if event:GetDamageType() == "fire" then
 		EntityService:RemoveComponent( self.entity, "TypeComponent" )
 		EntityService:RemoveComponent( self.entity, "InteractiveComponent" )
+		QueueEvent( "DestroyRequest", self.entity, "fire", 100 )
 	end
 end
 

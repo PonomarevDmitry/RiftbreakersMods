@@ -43,6 +43,10 @@ function poogret:OnFearStartEvent( evt )
 	if ( EffectService:HasEffectByGroup( self.entity, "fear" ) == false ) then
 		EffectService:AttachEffects( self.entity, "fear" )
 	end	
+	
+	if ( EffectService:HasEffectByGroup( self.entity, "noticed_food_start" ) == true ) then
+		EffectService:DestroyEffectsByGroup( self.entity, "noticed_food_start" )
+	end			
 end
 
 function poogret:OnFearEndEvent( evt )	

@@ -24,7 +24,11 @@ function prefab_spawner:OnSpawnExit()
 
     local randomize_orientation = self.data:GetIntOrDefault("randomize_orientation", 0) == 1
     local randomize_position = self.data:GetIntOrDefault("randomize_position", 0) == 1
+    local remove_units = self.data:GetIntOrDefault("remove_units", 0) == 1
 
+    if remove_units then
+    end
+    
     EntityService:SpawnPrefabEntitiesInRadius( self.entity, prefab, prefab_variant, randomize_position, randomize_orientation, radius )
 end
 

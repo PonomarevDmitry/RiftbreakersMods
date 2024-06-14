@@ -12,7 +12,11 @@ function vegetation:init()
 	self:RegisterHandler( self.entity, "AttachEffectGroupRequest", "OnAttachEffectGroupRequest" )
 
 	self.isBurned = false;
+	
 	self.currDir = { x=1, y=0, z=0 }
+	local db = EntityService:GetDatabase( self.entity )
+	db:SetVector( "target_pos", self.currDir )
+
 	self:UpdateState( INVALID_ID )
 end
 

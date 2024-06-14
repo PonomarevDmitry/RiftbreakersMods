@@ -40,11 +40,11 @@ function mech:init()
 		self.fsm:AddState( "initial_spawn", {enter="OnInitialSpawnEnter", execute="OnInitialSpawnExecute", exit="OnInitialSpawnExit"} )
 		self.fsm:AddState( "shockwave", {enter="OnShockwaveEnter", exit="OnShockwaveExit"} )
 		self.fsm:ChangeState("portal_open")
-	elseif ( isSkipPortal == true ) then
+	else
 		self.fsm = self:CreateStateMachine()
 		self.fsm:AddState( "dissolve", {enter="OnDissolveStart", exit="OnDissolveEnd"} )
 		self.fsm:ChangeState("dissolve")
-	end
+	end 
 
 	self.version = 1
 

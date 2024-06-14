@@ -37,8 +37,14 @@ function switch_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
     for  ent in Iter(selectedEntities ) do
-        if ( EntityService:GetComponent(ent, "ResourceConverterComponent") ~= nil ) then
-            Insert(entities, ent)
+        local component = EntityService:GetComponent(ent, "ResourceConverterComponent")
+        if ( component ~= nil ) then
+            local blueprintName = EntityService:GetBlueprintName(ent)
+            local buildingComponent = EntityService:GetBlueprintComponent(blueprintName, "BuildingDesc")
+            if ( buildingComponent ~= nil and buildingComponent:GetField( "disableable" ):GetValue() == "1" ) then
+                LogService:Log( blueprintName .. " " .. buildingComponent:GetField( "disableable" ):GetValue())
+                Insert(entities, ent)
+            end
         end
     end
 
