@@ -106,11 +106,6 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 	if ( self.activated == false ) then
 		self.activated = true
 
-		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" ) or ""
-		if ( forcedGroup == "" ) then
-			self:CreateMinimapIconEntity()
-		end
-
 		local waveLogic			= self.data:GetStringOrDefault( "wave_logic_file",  "error" )
 		local waveLogicMul		= self.data:GetIntOrDefault( "wave_logic_file_mul",  1 )
 		local waterOverride		= self.data:GetIntOrDefault( "water_override", 0 )
@@ -128,6 +123,11 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 			local waveEffect	= self.data:GetStringOrDefault( "wave_started_effect", "" )
 			if waveEffect ~= "" then
 				EffectService:SpawnEffect(self.entity,waveEffect);
+			end
+
+			local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" ) or ""
+			if ( forcedGroup == "" ) then
+				self:CreateMinimapIconEntity()
 			end
 
 			EntityService:SpawnEntity( "items/consumables/radar_pulse", self.entity, "" )
