@@ -178,25 +178,22 @@ function floor_eraser:SellFloor()
 
         if ( buildingComponent ~= nil ) then
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode >= 3 ) then
+            if ( mode >= BM_SELLING ) then
                 goto continue
             end
         end
 
-        local gridCullerComponent = EntityService:GetComponent( entityToSell, "GridCullerComponent")
+        local indexes = EntityService:GetEntityCellIndexes( entityToSell )
         local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
-        if( gridCullerComponent == nil or entityBlueprint == "" ) then
+        if( indexes == nil or #indexes == 0 or entityBlueprint == "" ) then
             goto continue
         end
 
-        local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-
         local freeGrids = {}
 
-        local indexes = gridCullerComponentHelper.terrain_cell_entities
-        for i=indexes.count,1,-1 do
+        for i=#indexes,1,-1 do
 
-            local idx = indexes[i].id
+            local idx = indexes[i]
 
             if ( hashGridsToErase[idx] == nil ) then
 
@@ -244,7 +241,7 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
             local min = VectorSub(position, scaleVector)
             local max = VectorAdd(position, scaleVector)
 
-            local tempSelected = FindService:FindGridMiscByBox( min, max )
+            local tempSelected = FindService:FindFloorsByBox( min, max )
 
             for tempEntity in Iter( tempSelected ) do
 
@@ -283,7 +280,7 @@ function floor_eraser:FindEntitiesToSelect( selectorComponent )
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-        if ( mode >= 3 ) then
+        if ( mode >= BM_SELLING ) then
             goto continue
         end
 
