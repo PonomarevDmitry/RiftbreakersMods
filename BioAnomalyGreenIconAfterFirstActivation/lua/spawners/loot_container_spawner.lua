@@ -20,19 +20,24 @@ function loot_container_spawner:init()
 	EntityService:SetGroup( self.entity, "loot_container");
 
 	self.activated = false
+	self.spawner_version = 1
 end
 
 function loot_container_spawner:OnLoad()
 	
-	--LogService:Log( "loot_container_spawner:OnLoad" )	
+	--LogService:Log( "loot_container_spawner:OnLoad" )
 
 	if ( self.activated == nil ) then
 		self.activated = false
+	elseif ( self.activated and not self.spawner_version ) then
+		EntityService:SpawnAndAttachEntity( "spawners/loot_container_spawner_disarmed", self.entity );
 	end
 
 	if ( self.aggressiveRadius == nil ) then
 		self.aggressiveRadius = self.data:GetFloatOrDefault( "aggressive_radius", 20 )
 	end
+
+	self.spawner_version = 1
 
 	if (self.activated == true) then
 
@@ -126,6 +131,8 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 			end
 
 			EntityService:SpawnEntity( "items/consumables/radar_pulse", self.entity, "" )
+
+			EntityService:SpawnAndAttachEntity( "spawners/loot_container_spawner_disarmed", self.entity );
 
 			local spawnPoint = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul, ignoreWater )
 			local params = { target = tostring( EntityService:GetName( self.entity ) ) }
