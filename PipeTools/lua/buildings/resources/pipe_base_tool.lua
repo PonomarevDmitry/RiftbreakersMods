@@ -256,15 +256,7 @@ function pipe_base_tool:BuildEntity(entity, createCube)
 
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
-        local healthComponent = EntityService:GetComponent(testBuildable.entity_to_repair, "HealthComponent")
-        if ( healthComponent ~= nil ) then
-
-            local healthComponentRef = reflection_helper(healthComponent)
-
-            if ( healthComponentRef.health < healthComponentRef.max_health ) then
-                QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
-            end
-        end
+        QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
     end
 
     return testBuildable.flag
