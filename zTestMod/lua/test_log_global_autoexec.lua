@@ -1,5 +1,6 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
+local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 ConsoleService:RegisterCommand( "test_log_global", function( args )
 
@@ -49,6 +50,29 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
         local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. string.rep(" ", maxLenType - string.len(typeString)) .. "        value " .. valueString
 
         LogService:Log(message)
+    end
+
+    for keyObj in Iter(keysNames) do
+
+        local value = _G[keyObj.name]
+
+        local keyString = tostring(keyObj.name)
+
+        if ( keyString == "_G" or keyString == "package" ) then
+            goto continue
+        end
+
+        local typeString = tostring(type( value ))
+
+        if ( typeString ~= "table" ) then
+            goto continue
+        end
+
+        local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. string.rep(" ", maxLenType - string.len(typeString)) .. "        value\r\n" .. debug_serialize_utils:SerializeObject(value)
+
+        LogService:Log(message)
+
+        ::continue::
     end
 
     LogService:Log("End Global Description")
