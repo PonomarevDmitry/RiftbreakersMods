@@ -313,27 +313,39 @@ end
 
 function EquipmentQuickConfigurationsUtils:LoadItemToSlot( player, subSlotConfig )
 
+    --LogService:Log("LoadItemToSlot player " .. tostring(player) .. " subSlotConfig " .. debug_serialize_utils:SerializeObject(configContent))
+
     local subSlotEntityId, itemUpdated = EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig )
 
     if ( subSlotEntityId == nil or subSlotEntityId == INVALID_ID ) then
+
+        --LogService:Log("LoadItemToSlot subSlotEntityId == nil or subSlotEntityId == INVALID_ID")
         return false
     end
 
     if ( not EntityService:IsAlive( subSlotEntityId ) ) then
+
+        --LogService:Log("LoadItemToSlot not EntityService:IsAlive( subSlotEntityId )")
         return false
     end
 
-    local inventoryItemComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemComponent")
-    if ( inventoryItemComponent == nil ) then
+    local inventoryItemRuntimeDataComponent = EntityService:GetComponent(subSlotEntityId, "InventoryItemRuntimeDataComponent")
+    if ( inventoryItemRuntimeDataComponent == nil ) then
+
+        --LogService:Log("LoadItemToSlot inventoryItemRuntimeDataComponent == nil")
         return false
     end
 
-    local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
-    if ( inventoryItemComponentRef.owner == nil or inventoryItemComponentRef.owner.id == nil or inventoryItemComponentRef.owner.id == INVALID_ID ) then
+    local inventoryItemRuntimeDataComponentRef = reflection_helper( inventoryItemRuntimeDataComponent )
+    if ( inventoryItemRuntimeDataComponentRef.owner == nil or inventoryItemRuntimeDataComponentRef.owner.id == nil or inventoryItemRuntimeDataComponentRef.owner.id == INVALID_ID ) then
+
+        --LogService:Log("LoadItemToSlot inventoryItemRuntimeDataComponentRef.owner == nil or inventoryItemRuntimeDataComponentRef.owner.id == nil or inventoryItemRuntimeDataComponentRef.owner.id == INVALID_ID")
         return false
     end
 
-    if ( inventoryItemComponentRef.owner.id ~= player ) then
+    if ( inventoryItemRuntimeDataComponentRef.owner.id ~= player ) then
+
+        --LogService:Log("inventoryItemRuntimeDataComponentRef.owner.id ~= player")
         return false
     end
 
