@@ -189,6 +189,11 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
+        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+        if ( #list == 0 ) then
+            goto continue
+        end
+
         -- Do not create cubes for building_mode "line"
         local createCube = not ( buildingDescRef.building_mode == "line" )
 
