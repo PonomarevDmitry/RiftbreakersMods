@@ -68,7 +68,7 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
             goto continue
         end
 
-        local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. string.rep(" ", maxLenType - string.len(typeString)) .. "        value\r\n" .. debug_serialize_utils:SerializeObject(value)
+        local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. "\r\n" .. debug_serialize_utils:SerializeObject(value)
 
         LogService:Log(message)
 
