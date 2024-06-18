@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name					"buildings/defense/wall_small_floor_on_liquid_tool"
+
+	BuildingDesc
+	{
+		name				"wall_small_floor_on_liquid_tool"
+		bp					"buildings/defense/wall_small_floor_on_liquid_tool"
+		ghost_bp			"buildings/defense/wall_small_floor_on_liquid_tool_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/wall_small_floor_on_liquid_tool"
+		description			"gui/hud/building_description/wall_small_floor_on_liquid_tool"
+		menu_icon			"gui/hud/tools_icons/wall_small_floor_on_liquid_tool"
+
+		order				"2"
+		type				"wall_small_floor_on_liquid_tool"
+		require				"headquarters"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/defense/wall_small_floor_on_liquid_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"wall_small_floor_on_liquid_tool_ghost"
+		buildable			"0"
+		type				"wall_small_floor_on_liquid_tool"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/buildings/defense/wall_small_floor_on_liquid_tool.lua"
+		database
+		{
+			action			string:"wall_small_floor_on_liquid_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
