@@ -35,6 +35,8 @@ function equipment_quick_configurations_save_entity:init()
 
         GuiService:OpenPopup(INVALID_ID, "gui/popup/popup_template_1button", message)
 
+        self:DestroySelf()
+
         return
     end
 
@@ -42,7 +44,7 @@ function equipment_quick_configurations_save_entity:init()
 
     local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo()
 
-    local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\r\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>'
+    local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\r\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>\r\n'
 
     for slotConfig in Iter( playerSlotsArrayEquipment ) do
 
@@ -91,7 +93,9 @@ function equipment_quick_configurations_save_entity:OnGuiPopupResultEventSaveRes
 
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
 
-    if ( evt:GetResult() == "button_yes" ) then
+    local eventResult = evt:GetResult()
+
+    if ( eventResult == "button_yes" ) then
 
         EquipmentQuickConfigurationsUtils:SaveSettingKeyName( self.slotLocalizationName, self.configName, self.configContent )
 
@@ -112,6 +116,7 @@ end
 
 function equipment_quick_configurations_save_entity:DestroySelf()
     EntityService:RemoveEntity( self.entity )
+    globalEquipmentQuickConfigurationsUtilsPopupEntity = nil
 end
 
 return equipment_quick_configurations_save_entity

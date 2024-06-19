@@ -11,18 +11,29 @@ local LOAD_RESULT_SUCCESS = 4
 
 local EquipmentQuickConfigurationsUtils = {}
 
+globalEquipmentQuickConfigurationsUtilsPopupEntity = nil
+
 function EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, slotLocalizationName, configName )
+
+    if ( globalEquipmentQuickConfigurationsUtilsPopupEntity ~= nil and EntityService:IsAlive( globalEquipmentQuickConfigurationsUtilsPopupEntity ) ) then
+        return
+    end
 
     local entity = EntityService:SpawnEntity( "misc/equipment_quick_configurations_save_entity", 0, 0, 0, "" )
 
     local database = EntityService:GetDatabase( entity )
     if ( database == nil ) then
+        EntityService:RemoveEntity( entity )
         return
     end
 
     database:SetString("slotNamePrefixArray", slotNamePrefixArray)
     database:SetString("slotLocalizationName", slotLocalizationName)
     database:SetString("configName", configName)
+
+    globalEquipmentQuickConfigurationsUtilsPopupEntity = entity
+
+    --LogService:Log("ShowPopupToSaveConfig entity " .. tostring(entity))
 end
 
 function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( slotNamePrefixArray, configName )
