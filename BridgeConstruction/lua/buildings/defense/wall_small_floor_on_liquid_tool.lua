@@ -164,6 +164,8 @@ function wall_small_floor_on_liquid_tool:OnUpdate()
             end
         end
 
+        local count = 0
+
         for xIndex=1,#arrayX do
 
             positionX = arrayX[xIndex]
@@ -177,6 +179,8 @@ function wall_small_floor_on_liquid_tool:OnUpdate()
                 if ( lineEnt == "nil" ) then
                     goto continue
                 end
+
+                count = count + 1
 
                 positionZ = arrayZ[zIndex]
 
@@ -204,20 +208,23 @@ function wall_small_floor_on_liquid_tool:OnUpdate()
                     self:AddToEntitiesToSellList(testBuildable)
                 end
 
-                BuildingService:CheckAndFixBuildingConnection(lineEnt)
+                --BuildingService:CheckAndFixBuildingConnection(lineEnt)
 
                 ::continue::
             end
         end
 
-        local list = BuildingService:GetBuildCosts( self.wallBlueprintName, self.playerId )
-        for resourceCost in Iter(list) do
+        if ( count > 0 ) then
 
-            if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0
+            local list = BuildingService:GetBuildCosts( self.wallBlueprintName, self.playerId )
+            for resourceCost in Iter(list) do
+
+                if ( self.buildCost[resourceCost.first] == nil ) then
+                   self.buildCost[resourceCost.first] = 0
+                end
+
+                self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * count )
             end
-
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ )
         end
     else
 
