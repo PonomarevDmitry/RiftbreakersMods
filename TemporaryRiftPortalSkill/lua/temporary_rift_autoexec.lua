@@ -10,6 +10,34 @@ local temporary_rift_autoexec = function(evt)
 
     local skillName = "items/skills/temporary_rift_portal"
 
+    local inventorySystemDataComponent = EntityService:GetSingletonComponent("InventorySystemDataComponent")
+    if ( inventorySystemDataComponent ~= nil ) then
+
+        local isItemUnlocked = false
+
+        local inventorySystemDataComponentRef = reflection_helper( inventorySystemDataComponent )
+
+        local unlockedArray = inventorySystemDataComponentRef.unlocked
+
+        for i=1,unlockedArray.count do
+
+            local unlockedItem = unlockedArray[i]
+
+            if ( unlockedItem == skillName ) then
+
+                isItemUnlocked = true
+                break
+            end
+        end
+
+        if (isItemUnlocked == false) then
+
+            local team = EntityService:GetTeam( player )
+
+            QueueEvent( "NewAwardEvent", INVALID_ID, skillName, true, team )
+        end
+    end
+
     local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
     if ( inventoryComponent ~= nil ) then
 
