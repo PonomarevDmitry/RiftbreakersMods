@@ -8,11 +8,6 @@ local auto_mines_laying_autoexec = function(evt)
         return
     end
 
-    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
-    if ( inventoryComponent == nil ) then
-        return
-    end
-
     local skillList = {
 
         "items/skills/auto_mines_laying_1_item",
@@ -20,12 +15,16 @@ local auto_mines_laying_autoexec = function(evt)
         "items/skills/auto_mines_laying_3_item"
     }
 
-    for skillName in Iter( skillList ) do
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent ~= nil ) then
 
-        local itemCount = ItemService:GetItemCount( player, skillName )
+        for skillName in Iter( skillList ) do
 
-        if ( itemCount == 0 ) then
-            PlayerService:AddItemToInventory( playerId, skillName )
+            local itemCount = ItemService:GetItemCount( player, skillName )
+
+            if ( itemCount == 0 ) then
+                PlayerService:AddItemToInventory( playerId, skillName )
+            end
         end
     end
 end

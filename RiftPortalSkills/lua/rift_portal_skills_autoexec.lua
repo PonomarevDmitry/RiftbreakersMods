@@ -11,11 +11,6 @@ local rift_portal_skills_autoexec = function(evt)
         return
     end
 
-    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
-    if ( inventoryComponent == nil ) then
-        return
-    end
-
     local skillList = {
 
         "items/skills/rift_portal_temporary",
@@ -24,12 +19,16 @@ local rift_portal_skills_autoexec = function(evt)
         "items/skills/rift_jump_to_nearest_portal"
     }
 
-    for skillName in Iter( skillList ) do
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent ~= nil ) then
 
-        local itemCount = ItemService:GetItemCount( player, skillName )
+        for skillName in Iter( skillList ) do
 
-        if ( itemCount == 0 ) then
-            PlayerService:AddItemToInventory( playerId, skillName )
+            local itemCount = ItemService:GetItemCount( player, skillName )
+
+            if ( itemCount == 0 ) then
+                PlayerService:AddItemToInventory( playerId, skillName )
+            end
         end
     end
 end

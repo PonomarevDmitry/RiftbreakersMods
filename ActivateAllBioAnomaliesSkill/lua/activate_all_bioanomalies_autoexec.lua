@@ -8,17 +8,16 @@ local activate_all_bioanomalies_autoexec = function(evt)
         return
     end
 
-    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
-    if ( inventoryComponent == nil ) then
-        return
-    end
-
     local skillName = "items/skills/activate_all_bioanomalies_item"
 
-    local itemCount = ItemService:GetItemCount( player, skillName )
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent ~= nil ) then
 
-    if ( itemCount == 0 ) then
-        PlayerService:AddItemToInventory( playerId, skillName )
+        local itemCount = ItemService:GetItemCount( player, skillName )
+
+        if ( itemCount == 0 ) then
+            PlayerService:AddItemToInventory( playerId, skillName )
+        end
     end
 end
 
