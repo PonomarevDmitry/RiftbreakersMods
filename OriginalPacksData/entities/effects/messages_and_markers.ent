@@ -671,7 +671,7 @@ EntityBlueprint "effects/no_lifetime"
 
 	ParticleDesc
 	{
-		name    "rift/objective_marker_green"
+		name    "rift/objective_marker_yellow"
 	}
 	
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -745,6 +745,60 @@ EntityBlueprint "effects/no_lifetime"
 	ParticleDesc
 	{
 		name    "rift/objective_marker_spawner_red"
+	}
+
+	GuiDesc
+	{
+		type 			"image"
+		material		"gui/hud/objective_red"
+		mode			"clamp"
+		clamp_in_frustum "0"
+		order 			"1"
+		//scale
+		//{
+		//	x  "1.35"
+		//	y  "1.35"		
+		//}
+	}
+	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_red_big
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/minimap_objective_red"
+		clamp_mode		"1"
+		visibility		"always"	
+		additional_z_order	"15"	
+	}
+
+	// BOUNDS HACK FOR SPATIAL SEARCH
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "-1"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "1"
+				z "1"
+			}	
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_red_big"
 	}
 
 	GuiDesc
@@ -881,6 +935,40 @@ EntityBlueprint "effects/no_lifetime"
 	}
 
 		
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+		name effects/messages_and_markers/wave_marker_nest
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/minimap_nest_wave_marker"
+		clamp_mode		"1"
+		visibility		"always"		
+		additional_z_order	"15"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_red"
+	}
+
+	GuiDesc
+	{
+		def_name 		"gui/hud/icons/marker_nest"
+		mode			"clamp"
+		clamp_in_frustum "0"
+		order 			"1"
+		//scale
+		//{
+		//	x  "1.35"
+		//	y  "1.35"		
+		//}
+	}
+
+	NetAlwaysRevelantComponent
 }
 
 EntityBlueprint "effects/no_lifetime"

@@ -67,6 +67,53 @@ EntityBlueprint
 			}
 		}
 	}
+	
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/special_eggs"
+                    offset "0 4 0"
+                }
+            }
+        }
+    }
+}
+
+EntityBlueprint
+{
+	name  "props/special/interactive/special_eggs_static"
+
+	MeshDesc
+	{
+		mesh 		"meshes/props/special/interactive/special_eggs.mesh"
+		material 	"props/special/interactive/special_eggs"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"world_blocker"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/interactive/special_eggs_c1.nxs"
+					}
+				}
+			}
+		}
+	}
 }
 
 EntityBlueprint
@@ -284,4 +331,46 @@ EntityBlueprint
 			}
 		}
 	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/interactive/special_eggs_object_static"
+
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/egg_phirian.mesh"
+		material "units/ground/egg_phirian"
+	}
+	
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"world_blocker"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.5"
+						y "3.5"
+						z "1.5"
+
+						position
+						{
+							x "0.0"
+							y "1.75"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
 }
