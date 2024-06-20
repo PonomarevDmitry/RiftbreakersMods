@@ -85,6 +85,49 @@ GuiRootGroupDef
 
 				}
 
+				animations
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								{
+									mask "35"
+									offset
+									{
+										y "0.100"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "-1.000"
+									}
+
+									frame_number "30"
+									mask "35"
+									offset
+									{
+										y "-1000.000"
+									}
+
+								}
+
+							}
+
+							name "Hide"
+						}
+
+					}
+
+				}
+
 				id "menu_overlay"
 				size_mode_x "2"
 				size_mode_y "2"
@@ -809,7 +852,6 @@ GuiRootGroupDef
 																					multiplier "3.000"
 																				}
 
-																				type "gui_play_anim"
 																			}
 
 																		}
@@ -823,7 +865,6 @@ GuiRootGroupDef
 																			loop "1"
 																		}
 
-																		type "gui_play_anim"
 																	}
 
 																}
@@ -831,10 +872,6 @@ GuiRootGroupDef
 															}
 
 															cmd
-															{
-																type "unsupported"
-															}
-
 														}
 
 													}
@@ -4582,6 +4619,44 @@ GuiRootGroupDef
 				container_type "1"
 				alignment "top"
 				anchor "top"
+				animations
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								{
+									mask "34"
+								}
+
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "-1.000"
+									}
+
+									frame_number "30"
+									mask "34"
+									offset
+									{
+										y "-1000.000"
+									}
+
+								}
+
+							}
+
+							name "Hide"
+						}
+
+					}
+
+				}
+
 				hitbox_visible "0"
 				id "up_menu"
 				size
@@ -4701,6 +4776,51 @@ GuiRootGroupDef
 	}
 
 	id "gui/menu/overlay"
+	item_scripts
+	{
+		scripts
+		{
+			Pair_IdString_GuiScriptDef2
+			{
+				key "Hide"
+				value
+				{
+					script
+					{
+						children
+						{
+							GuiScriptNodeDef
+							{
+								cmd "GuiScriptCommandAnimStartDef"
+								{
+									animations
+									{
+										Hide
+										{
+											String "top_menu"
+											String "version"
+											String "menu_overlay"
+											String "up_menu"
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
 	size
 	{
 		x "1920.000"
