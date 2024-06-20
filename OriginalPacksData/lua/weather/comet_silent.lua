@@ -49,6 +49,12 @@ function comet_silent:UpdateSpawnHeightForDamage( entity )
 	self.spawnHeight = math.max( EnvironmentService:GetTerrainHeight( position ) + 1, position.y )
 end
 
+local function RandPositionInRadius( position, radius )
+	position.x = position.x + RandFloat( -radius, radius )
+	position.z = position.z + RandFloat( -radius, radius )
+	return position
+end
+
 function comet_silent:OnEnterSpawn( state )
 	if ( self.findMode == "resource") then
 		self.spaceEnt = ResourceService:FindEmptySpace( 100, 500 );
@@ -59,7 +65,20 @@ function comet_silent:OnEnterSpawn( state )
 	end
 	
 	if Assert(self.spaceEnt ~= INVALID_ID, "ERROR: failed to find spawn position for blueprint: '" .. self.cometFlyingBp .. "'") then
-    	self.cometEnt = MeteorService:SpawnComet( self:SelectFlyoverCandidate(), self.spaceEnt, self.cometFlyingBp, 35, 20 )
+
+		local candidate = self:SelectFlyoverCandidate()
+    	self.cometEnt = MeteorService:SpawnComet( candidate, self.spaceEnt, self.cometFlyingBp, 35, 20 )
+
+		local extra_count = self.data:GetIntOrDefault("comet_extra_flying_entities", 0)
+
+		local spread_radius = self.data:GetFloatOrDefault("comet_extra_flying_spread_radius", 10.0)
+		for i=1,extra_count do
+			local entity = MeteorService:SpawnComet( candidate, self.spaceEnt, self.cometFlyingBp, RandFloat(25,35), 20 )
+			local position = EntityService:GetPosition( entity )
+			EntityService:SetPosition(entity, RandPositionInRadius(position, spread_radius))
+			EntityService:CreateOrSetLifetime(entity, EntityService:GetLifeTime(entity) + 20, "normal" )
+		end
+
 		self:UpdateSpawnHeightForDamage( self.cometEnt )
 	else
 		EntityService:RemoveEntity( self.entity )

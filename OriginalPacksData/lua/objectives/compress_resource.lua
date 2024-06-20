@@ -12,9 +12,12 @@ function compress_resource:init()
 	self:FindMaxResource()
     
     self.resourceName = self.data:GetStringOrDefault("resource_name", "")
+    self.compressTime = self.data:GetIntOrDefault("compress_time", 3)
+    self.currentCompressTime = 0.0
+    self.version = 1
 end
 
-function compress_resource:onUpdate()
+function compress_resource:onUpdate( state, dt)
 	self:FindMaxResource()
     local blueprints =
     {
@@ -42,20 +45,41 @@ function compress_resource:onUpdate()
     end
 
 
-    if ( progressCurrent >= self.maxProgress ) then
-	   if ( self.data:GetIntOrDefault( "finish_objective", 1) == 1) then
-		   ObjectiveService:FinishObjectiveByObjectiveId( self.objective_id, OBJECTIVE_SUCCESS )
-	   	   self.fsm:ChangeState( "idle" )
-		else
-	       ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_SUCCESS )
-	   end
-	   progressCurrent = self.maxProgress
-	else
-		ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_IN_PROGRESS )
+    if (self.compressTime > 0 and self.currentCompressTime < self.compressTime ) then
+        if ( progressCurrent >= self.maxProgress ) then
+            self.currentCompressTime = self.currentCompressTime + dt
+            ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_IN_PROGRESS )
+        else
+            self.currentCompressTime = 0
+        end
+    else
+        if ( progressCurrent >= self.maxProgress ) then
+	       if ( self.data:GetIntOrDefault( "finish_objective", 1) == 1) then
+	    	   ObjectiveService:FinishObjectiveByObjectiveId( self.objective_id, OBJECTIVE_SUCCESS )
+	       	   self.fsm:ChangeState( "idle" )
+	    	else
+	           ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_SUCCESS )
+	       end
+	       progressCurrent = self.maxProgress
+	    else
+               self.currentCompressTime = 0
+               ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_IN_PROGRESS )
+        end
     end
 
 	self.data:SetInt( "progress_current", progressCurrent )
 
+end
+
+function compress_resource:OnLoad()
+    if ( LuaObjectiveScript.OnLoad ) then
+        LuaObjectiveScript.OnLoad(self)
+    end
+
+    if (self.version == nil or self.version < 1 )  then
+        self.compressTime = self.data:GetIntOrDefault("compress_time", 3)
+        self.version = 1
+    end
 end
 
 function compress_resource:FindMaxResource() 

@@ -21,6 +21,7 @@ function rift_station:OnInit()
 	
 	self:RegisterHandler( self.entity , "SpecialBuildingActionRequest", "OnSpecialAction" )
 	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
+    self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "working", 	{ execute="OnWorking" } )
@@ -48,6 +49,8 @@ function rift_station:OnInit()
 	self.portalEffect = false
 	self.chargingSpeed = self.data:GetFloatOrDefault("charging_work_speed",  1.0)
 	self.chargingEndSpeed = self.data:GetFloatOrDefault("charging_end_speed", 0.5)
+
+	self.riftVersion = 1
 end
 
 function rift_station:OnBuildingEnd()
@@ -247,6 +250,9 @@ function rift_station:OnLoad()
 		BuildingService:DisableBuilding( self.entity )
 	elseif (self.charging == 1 and self.workingProtectionTimer < 10 )  then
 		self.workingProtectionTimer = 10
+	end
+	if  (self.riftVersion == nil or self.riftVersion < 1) then
+		self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 	end
 end
 

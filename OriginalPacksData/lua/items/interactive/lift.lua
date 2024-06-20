@@ -124,7 +124,7 @@ function lift:OnLiftingExit( state )
 
 	local ownerData = EntityService:GetDatabase( self.owner );
 	if ownerData ~= nil then
-		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
+		ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
 		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0 );
 	end
 	EffectService:DestroyEffectsByGroup( self.item, "on_lift" )
@@ -191,6 +191,12 @@ function lift:OnHoldingExit( state )
 
 	EffectService:AttachEffects( self.item, "on_throw" ) 
 	EffectService:DestroyEffectsByGroup( self.item, "holding" )
+
+	local ownerData = EntityService:GetDatabase( self.owner );
+	if ownerData ~= nil then
+		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
+		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0 );
+	end
 end
 
 function lift:OnDeactivationEnter( state )

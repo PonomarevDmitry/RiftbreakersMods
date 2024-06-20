@@ -61,6 +61,8 @@ function loot_container_spawner:OnInteractWithEntityRequest( evt )
 
 		local helper = reflection_helper(playerReferenceComponent)
 		QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity, helper.player_id )
+		
+		EntityService:RemoveComponent(self.entity, "LootComponent")
 	end
 	QueueEvent("DestroyRequest", self.entity, "default", 100 )
 	
