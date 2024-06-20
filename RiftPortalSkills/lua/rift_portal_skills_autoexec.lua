@@ -11,6 +11,11 @@ local rift_portal_skills_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillList = {
 
         "items/skills/rift_portal_temporary",

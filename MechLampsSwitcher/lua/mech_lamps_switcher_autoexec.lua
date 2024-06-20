@@ -8,6 +8,11 @@ local mech_lamps_switcher_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillName = "items/skills/mech_lamps_switcher_item"
 
     local itemCount = ItemService:GetItemCount( player, skillName )

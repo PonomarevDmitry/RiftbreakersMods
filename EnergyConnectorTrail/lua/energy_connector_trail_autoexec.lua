@@ -8,6 +8,11 @@ local energy_connector_trail_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillName = "items/skills/energy_connector_trail"
 
     local itemCount = ItemService:GetItemCount( player, skillName )

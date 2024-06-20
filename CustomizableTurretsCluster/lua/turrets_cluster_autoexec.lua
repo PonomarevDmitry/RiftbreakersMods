@@ -8,6 +8,11 @@ local turrets_cluster_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillList = {
 
         "items/skills/turrets_cluster_1_item",

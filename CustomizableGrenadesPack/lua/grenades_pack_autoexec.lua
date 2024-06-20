@@ -8,6 +8,11 @@ local grenades_pack_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillList = {
 
         "items/skills/grenades_pack_1_item",

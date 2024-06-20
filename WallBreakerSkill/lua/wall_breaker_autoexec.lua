@@ -8,6 +8,11 @@ local wall_breaker_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillName = "items/skills/wall_breaker_item"
 
     local itemCount = ItemService:GetItemCount( player, skillName )

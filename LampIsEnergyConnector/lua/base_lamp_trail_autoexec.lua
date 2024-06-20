@@ -8,6 +8,11 @@ local base_lamp_trail_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillList = {
 
         "items/skills/base_lamp_trail",

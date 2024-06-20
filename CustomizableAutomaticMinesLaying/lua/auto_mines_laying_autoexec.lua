@@ -8,6 +8,11 @@ local auto_mines_laying_autoexec = function(evt)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent == nil ) then
+        return
+    end
+
     local skillList = {
 
         "items/skills/auto_mines_laying_1_item",
