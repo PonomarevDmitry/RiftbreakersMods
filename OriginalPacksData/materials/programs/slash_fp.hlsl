@@ -6,8 +6,7 @@ cbuffer FPConstantBuffer : register(b0)
     float     cGlowFactor;
     float     cTime;
 #if USE_FOG
-    float4    cFogParams;
-    float4    cFogColor;
+    float     cFogMaxDistance;
 #endif
 };
 

@@ -1,8 +1,6 @@
 cbuffer FPConstantBuffer : register(b0)
 {
     float4    cEmissiveColor;
-    float4    cFogParams;
-    float4    cFogColor;
     float4    cFresnelColor;
     float     cFresnelBias;
     float     cFresnelScale;
@@ -10,6 +8,9 @@ cbuffer FPConstantBuffer : register(b0)
     float     cGlowAmount;
     float     cGlowFactor;
     float     cTime;
+#if USE_FOG
+    float     cFogMaxDistance;
+#endif
 };
 
 struct VS_OUTPUT

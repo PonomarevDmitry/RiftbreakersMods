@@ -2,18 +2,16 @@ cbuffer FPConstantBuffer : register(b0)
 {
     matrix      cWorld;
     float4      cEmissiveColor;
-#if USE_FOG
-    float4      cFogParams;
-    float4      cFogColor;
-#endif
     float       cGlowAmount;
     float       cGlowFactor;
     float       cAlpha;
-
     float       cTime; 
     float3      cTargetPos;
     float       cRadius;
     float       cIsEnemy;
+#if USE_FOG
+    float      cFogMaxDistance;
+#endif
 };
 
 struct VS_OUTPUT
