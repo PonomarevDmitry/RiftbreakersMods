@@ -38,8 +38,8 @@ end
 function base_lamp:SetWorking()
 	local timeOfDay = EnvironmentService:GetTimeOfDay()
 	if ( timeOfDay == "day" or timeOfDay == "sunrise" ) then
-		self.data:SetInt("is_working", 0 )
 		BuildingService:DisableBuilding( self.entity )
+		self.data:SetInt("is_working", 0 )
 	else
 		self.data:SetInt("is_working", 1 )
 		BuildingService:EnableBuilding( self.entity )
