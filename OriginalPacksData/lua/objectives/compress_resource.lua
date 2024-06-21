@@ -14,7 +14,8 @@ function compress_resource:init()
     self.resourceName = self.data:GetStringOrDefault("resource_name", "")
     self.compressTime = self.data:GetIntOrDefault("compress_time", 3)
     self.currentCompressTime = 0.0
-    self.version = 1
+    self.lastProgress = 0.0
+    self.version = 3
 end
 
 function compress_resource:onUpdate( state, dt)
@@ -45,11 +46,13 @@ function compress_resource:onUpdate( state, dt)
     end
 
 
+    --LogService:Log(tostring(self.compressTime) .. ":" ..tostring(self.currentCompressTime) .. ":" ..tostring(progressCurrent) .. ":" ..tostring(self.lastProgress) )
     if (self.compressTime > 0 and self.currentCompressTime < self.compressTime ) then
-        if ( progressCurrent >= self.maxProgress ) then
+        if ( progressCurrent == self.lastProgress and self.lastProgress ~= 0.0 ) then
             self.currentCompressTime = self.currentCompressTime + dt
             ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_IN_PROGRESS )
         else
+            self.data:SetInt( "progress_current", progressCurrent )
             self.currentCompressTime = 0
         end
     else
@@ -65,10 +68,10 @@ function compress_resource:onUpdate( state, dt)
                self.currentCompressTime = 0
                ObjectiveService:SetObjectiveStatusByObjectiveId( self.objective_id, OBJECTIVE_IN_PROGRESS )
         end
+
+        self.data:SetInt( "progress_current", progressCurrent )
     end
-
-	self.data:SetInt( "progress_current", progressCurrent )
-
+    self.lastProgress = progressCurrent
 end
 
 function compress_resource:OnLoad()
@@ -76,9 +79,11 @@ function compress_resource:OnLoad()
         LuaObjectiveScript.OnLoad(self)
     end
 
-    if (self.version == nil or self.version < 1 )  then
+    if (self.version == nil or self.version < 2 )  then
         self.compressTime = self.data:GetIntOrDefault("compress_time", 3)
-        self.version = 1
+        self.currentCompressTime = 0.0
+        self.lastProgress = 0
+        self.version = 3
     end
 end
 

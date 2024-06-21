@@ -125,7 +125,7 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
         if ( BuildingService:BlinkBuildingSelector(self.selector, entity ) ) then 
             if ( testReflection.flag == CBF_TO_CLOSE ) then
 				if ( self.toCloseAnnoucement ~= "" ) then
-					QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
+					QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 10.0, self.toCloseAnnoucement, entity, false)
 				end
             elseif( testReflection.flag == CBF_LIMITS ) then
                 QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )

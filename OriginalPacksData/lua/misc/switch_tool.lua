@@ -42,7 +42,7 @@ function switch_tool:FilterSelectedEntities( selectedEntities )
             local blueprintName = EntityService:GetBlueprintName(ent)
             local buildingComponent = EntityService:GetBlueprintComponent(blueprintName, "BuildingDesc")
             if ( buildingComponent ~= nil and buildingComponent:GetField( "disableable" ):GetValue() == "1" ) then
-                LogService:Log( blueprintName .. " " .. buildingComponent:GetField( "disableable" ):GetValue())
+                --LogService:Log( blueprintName .. " " .. buildingComponent:GetField( "disableable" ):GetValue())
                 Insert(entities, ent)
             end
         end
