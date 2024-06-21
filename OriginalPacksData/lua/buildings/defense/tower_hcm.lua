@@ -52,7 +52,7 @@ function tower_hcm:OnDeactivate()
 	end
 end
 
-function tower:OnTurretEvent( evt )
+function tower_hcm:OnTurretEvent( evt )
    self:UpdateMuzzles()
 end
 

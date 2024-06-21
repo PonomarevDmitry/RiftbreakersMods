@@ -1,6 +1,7 @@
 local ghost = require("lua/misc/ghost.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/numeric_utils.lua")
+require("lua/utils/building_utils.lua")
 
 class 'ghost_building_radius' ( ghost )
 

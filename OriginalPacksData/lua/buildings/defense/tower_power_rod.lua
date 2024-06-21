@@ -52,7 +52,7 @@ function tower_power_rod:OnDeactivate()
 	end
 end
 
-function tower:OnTurretEvent( evt )
+function tower_power_rod:OnTurretEvent( evt )
    self:UpdateMuzzles()
 end
 
