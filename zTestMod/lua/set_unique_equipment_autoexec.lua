@@ -1,63 +1,63 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    do
-        return
-    end
-
-    local playerId = evt:GetPlayerId()
-    
-    local player = PlayerService:GetPlayerControlledEnt(playerId)
-    if player == INVALID_ID then
-        return
-    end
-
-    local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
-    if equipment.id then
-        equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
-    end
-
-    --LogService:Log( "set_unique_equipment equipment " .. tostring(equipment) )
-
-    local slots = equipment.slots
-
-    for i=1,slots.count do
-
-        local slot = slots[i]
-
-        for j=1,slot.subslots.count do
-
-            local entities = slot.subslots[j]
-
-            for k=1,entities.count do
-
-                local entity = entities[k]
-
-                if (entity) then
-
-                    if entity.id then
-                        entity = entity.id
-                    end
-
-                    local entityBlueprintName = EntityService:GetBlueprintName( entity )
-
-                    local costComponent = EntityService:GetComponent( entity, "CostComponent" )
-                    if ( costComponent ~= nil ) then
-
-                        local costComponentRef = reflection_helper( costComponent )
-
-                        local field = costComponent:GetField("is_unique")
-
-                        local fieldValue = field:GetValueAsBool()
-
-                        if ( fieldValue == true ) then
-                            --LogService:Log( "set_unique_equipment slot.name " .. tostring(slot.name) .. " subslots " .. tostring(j) .. " entity index " .. tostring(k) .. " entity " .. tostring(entity) .. " entityBlueprintName " .. tostring(entityBlueprintName) .. " costComponentRef " .. tostring(costComponentRef) )
-
-                            field:SetValue("0")
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    do
+--        return
+--    end
+--
+--    local playerId = evt:GetPlayerId()
+--    
+--    local player = PlayerService:GetPlayerControlledEnt(playerId)
+--    if player == INVALID_ID then
+--        return
+--    end
+--
+--    local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+--    if equipment.id then
+--        equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
+--    end
+--
+--    --LogService:Log( "set_unique_equipment equipment " .. tostring(equipment) )
+--
+--    local slots = equipment.slots
+--
+--    for i=1,slots.count do
+--
+--        local slot = slots[i]
+--
+--        for j=1,slot.subslots.count do
+--
+--            local entities = slot.subslots[j]
+--
+--            for k=1,entities.count do
+--
+--                local entity = entities[k]
+--
+--                if (entity) then
+--
+--                    if entity.id then
+--                        entity = entity.id
+--                    end
+--
+--                    local entityBlueprintName = EntityService:GetBlueprintName( entity )
+--
+--                    local costComponent = EntityService:GetComponent( entity, "CostComponent" )
+--                    if ( costComponent ~= nil ) then
+--
+--                        local costComponentRef = reflection_helper( costComponent )
+--
+--                        local field = costComponent:GetField("is_unique")
+--
+--                        local fieldValue = field:GetValueAsBool()
+--
+--                        if ( fieldValue == true ) then
+--                            --LogService:Log( "set_unique_equipment slot.name " .. tostring(slot.name) .. " subslots " .. tostring(j) .. " entity index " .. tostring(k) .. " entity " .. tostring(entity) .. " entityBlueprintName " .. tostring(entityBlueprintName) .. " costComponentRef " .. tostring(costComponentRef) )
+--
+--                            field:SetValue("0")
+--                        end
+--                    end
+--                end
+--            end
+--        end
+--    end
+--
+--end)
