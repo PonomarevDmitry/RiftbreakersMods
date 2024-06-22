@@ -49,16 +49,12 @@ local rift_portal_skills_autoexec = function(evt)
         end
     end
 
-    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
-    if ( inventoryComponent ~= nil ) then
+    for skillName in Iter( skillList ) do
 
-        for skillName in Iter( skillList ) do
+        local itemCount = PlayerService:GetItemNumber( playerId, skillName )
 
-            local itemCount = ItemService:GetItemCount( player, skillName )
-
-            if ( itemCount == 0 ) then
-                PlayerService:AddItemToInventory( playerId, skillName )
-            end
+        if ( itemCount == 0 ) then
+            PlayerService:AddItemToInventory( playerId, skillName )
         end
     end
 end

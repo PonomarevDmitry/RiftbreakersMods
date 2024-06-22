@@ -1,6 +1,6 @@
 require("lua/utils/table_utils.lua")
 
-local base_lamp_trail_autoexec = function(evt)
+local turrets_cluster_autoexec = function(evt)
 
     local playerId = evt:GetPlayerId()
 
@@ -12,8 +12,9 @@ local base_lamp_trail_autoexec = function(evt)
 
     local skillList = {
 
-        "items/skills/base_lamp_trail",
-        "items/skills/crystal_lamp_trail"
+        "items/skills/turrets_cluster_1_item",
+        "items/skills/turrets_cluster_2_item",
+        "items/skills/turrets_cluster_3_item"
     }
 
     local inventorySystemDataComponent = EntityService:GetSingletonComponent("InventorySystemDataComponent")
@@ -58,40 +59,10 @@ end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 
-    base_lamp_trail_autoexec(evt)
+    turrets_cluster_autoexec(evt)
 end)
 
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    base_lamp_trail_autoexec(evt)
-end)
-
-RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
-
-    local blueprintName = evt:GetBlueprint() or ""
-    if ( blueprintName == "" or blueprintName == nil ) then
-        return
-    end
-
-    local lowName = BuildingService:FindLowUpgrade( blueprintName )
-
-    if ( lowName ~= "base_lamp" and lowName ~= "crystal_lamp" ) then
-        return
-    end
-
-    local parameterName = "$" .. lowName .. "_trail_blueprint"
-
-    local selector = evt:GetEntity()
-    if ( selector ) then
-
-        local selectorDB = EntityService:GetDatabase( selector )
-        if ( selectorDB ) then
-            selectorDB:SetString(parameterName, blueprintName)
-        end
-    end
-
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( parameterName, blueprintName )
-    end
+    turrets_cluster_autoexec(evt)
 end)
