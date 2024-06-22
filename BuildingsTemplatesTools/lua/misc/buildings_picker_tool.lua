@@ -296,11 +296,54 @@ end
 
 function buildings_picker_tool:OnActivateSelectorRequest()
 
+    local maxDeltaTime = 0.5
+    local maxClicksToClear = 5
+
     self.activated = true
 
+    self.clickCount = self.clickCount or 0
+    self.clickLastTime = self.clickLastTime or 0
+
     if ( #self.selectedEntities == 0 ) then
+
+        local currentTime = GetLogicTime()
+
+        if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
+
+            local deltaFromLast = currentTime - self.clickLastTime
+
+            if ( deltaFromLast < maxDeltaTime ) then
+
+                self.clickCount = self.clickCount + 1
+            else
+
+                self.clickCount = 0
+                self.clickLastTime = 0
+            end
+
+            if ( self.clickCount >= maxClicksToClear ) then
+
+                if( self.popupShown == false ) then
+
+                    self.popupShown = true
+
+                    self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+
+                    GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/buildings_picker_tool/clear_template_confirm")
+
+                    self.clickCount = 0
+                    self.clickLastTime = 0
+                end
+            end
+        end
+
+        self.clickLastTime = currentTime
+
         return
     end
+
+    self.clickCount = 0
+    self.clickLastTime = 0
 
     for entity in Iter( self.selectedEntities ) do
         self:OnActivateEntity( entity, true, true )
@@ -308,6 +351,26 @@ function buildings_picker_tool:OnActivateSelectorRequest()
 
     self:SaveEntitiesToDatabase()
     self:HideMarkerMessage()
+end
+
+function buildings_picker_tool:OnGuiPopupResultEvent( evt )
+
+    self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent" )
+
+    self.clickCount = 0
+    self.clickLastTime = 0
+
+    self.popupShown = false
+
+    if ( evt:GetResult() == "button_yes" ) then
+
+        self:HideMarkerMessage()
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase ~= nil ) then
+            campaignDatabase:SetString( self.template_name, "" )
+        end
+    end
 end
 
 function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreSaveToDatabase )
