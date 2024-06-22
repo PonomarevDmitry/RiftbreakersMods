@@ -74,10 +74,10 @@ function buildings_builder_tool:InitializeValues()
     local markerBlueprint = "misc/marker_selector_buildings_builder_tool_" .. self.marker
     self.markerEntity = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
-    self:SpawnBuildinsTemplates()
-
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
+
+    self:SpawnBuildinsTemplates()
 end
 
 function buildings_builder_tool:SpawnBuildinsTemplates()
@@ -168,6 +168,10 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
+        if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
+            goto continue
+        end
+
         local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
         if ( #list == 0 ) then
             goto continue
@@ -213,6 +217,8 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
         local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
 
         EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z )
+
+        EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z )
 
         markerDB:SetString("message_text", "")
         markerDB:SetInt("message_visible", 0)
@@ -414,11 +420,6 @@ function buildings_builder_tool:OnUpdate()
     self.oldBuildingsToSell = buildingsToSell
 
 
-
-    if ( self.infoChild == nil ) then
-        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1 )
-    end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
@@ -659,15 +660,8 @@ function buildings_builder_tool:BuildEntity(buildingTemplate)
 
         QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
-        local healthComponent = EntityService:GetComponent(testBuildable.entity_to_repair, "HealthComponent")
-        if ( healthComponent ~= nil ) then
 
-            local healthComponentRef = reflection_helper(healthComponent)
-
-            if ( healthComponentRef.health < healthComponentRef.max_health ) then
-                QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
-            end
-        end
+        QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
     end
 
     return testBuildable.flag
@@ -865,12 +859,23 @@ function buildings_builder_tool:OnRotateSelectorRequest(evt)
 
         buildingTemplate.orientation = transform.orientation
     end
+
+    if ( #self.templateEntities > 0 ) then
+
+        local firstBuildingTemplate = self.templateEntities[1]
+        local firstEntity = firstBuildingTemplate.entity
+
+        local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
+
+        EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z )
+    end
 end
 
 function buildings_builder_tool:OnRelease()
 
     if ( self.infoChild ~= nil ) then
         EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
     end
 
     if ( self.markerEntity ~= nil ) then
