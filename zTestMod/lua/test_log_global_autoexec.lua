@@ -75,5 +75,34 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
         ::continue::
     end
 
+    --for keyObj in Iter(keysNames) do
+    --
+    --    local value = _G[keyObj.name]
+    --
+    --    local keyString = tostring(keyObj.name)
+    --
+    --    if ( keyString == "_G" or keyString == "package" ) then
+    --        goto continue
+    --    end
+    --
+    --    local typeString = tostring(type( value ))
+    --
+    --    if ( typeString ~= "userdata" ) then
+    --        goto continue
+    --    end
+    --
+    --    if ( value.ToTypeInstance == nil ) then
+    --        goto continue
+    --    end
+    --
+    --    local valueRef = reflection_helper(value:ToTypeInstance(), value )
+    --
+    --    local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. "\r\n" .. tostring(valueRef)
+    --
+    --    LogService:Log(message)
+    --
+    --    ::continue::
+    --end
+
     LogService:Log("End Global Description")
 end)
