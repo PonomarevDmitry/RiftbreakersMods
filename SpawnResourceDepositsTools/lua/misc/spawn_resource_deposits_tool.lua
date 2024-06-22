@@ -130,6 +130,13 @@ end
 
 function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
 
+    local maxDeltaTime = 1
+    local maxCountToSwithTo1k = 14
+    local maxCountToSwithTo2k = 24
+    local maxCountToSwithTo10k = 49
+
+
+
     local degree = evt:GetDegree()
 
     local change = 1
@@ -148,21 +155,21 @@ function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
 
     local deltaFromLast = currentTime - self.lastRotateTime
 
-    if ( self.oldChange == change and deltaFromLast < 1 ) then
+    if ( self.oldChange == change and deltaFromLast < maxDeltaTime ) then
 
         self.countToSpeedUp = self.countToSpeedUp + 1
 
-        if ( self.countToSpeedUp > 44 ) then
+        if ( self.countToSpeedUp > maxCountToSwithTo10k ) then
 
             delta = delta * 100
             trimValue = 2000
 
-        elseif ( self.countToSpeedUp > 24 ) then
+        elseif ( self.countToSpeedUp > maxCountToSwithTo2k ) then
 
             delta = delta * 20
             trimValue = 2000
 
-        elseif ( self.countToSpeedUp > 14 ) then
+        elseif ( self.countToSpeedUp > maxCountToSwithTo1k ) then
 
             delta = delta * 10
             trimValue = 1000
