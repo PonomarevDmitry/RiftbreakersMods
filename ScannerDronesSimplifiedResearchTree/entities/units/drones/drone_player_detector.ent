@@ -13,40 +13,67 @@ EntityBlueprint
 			hover_min_height					float:"7"
 
 			owner_movement						string:"follow"
-			owner_movement_speed_near			float:"0.75"
-			owner_movement_speed_far			float:"1.5"
+			owner_movement_speed_near			float:"2"
+			owner_movement_speed_far			float:"5"
 			owner_movement_trigger_distance		float:"10.0"
 
 			target_movement						string:"hover"
 			target_manual_rotation				int:"1"
 			target_search_mode					string:"always"
+
+			target_movement_speed_near			float:"5"
+			target_movement_speed_far			float:"5"
+			target_movement_trigger_distance	float:"1.0"
 		}
+	}
+
+	MovementDataComponent
+	{
+		acceleration
+		{
+			base	"50"
+		}
+		
+		deacceleration
+		{
+			base	"50"
+		}
+		
+		max_speed
+		{
+			base	"250"
+		}
+	}
+
+	AirNavigationComponent
+	{
+		keep_height_speed	"3.0"
 	}
 
 	MeshDesc
 	{
-		mesh "meshes/units/drones/drone_crystal_collector.mesh"
-		material "units/drones/drone_player_detector"
+		mesh		"meshes/units/drones/drone_crystal_collector.mesh"
+		material	"units/drones/drone_player_detector"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/units/drones/drone_player_detector"
+		name	"meshes/units/drones/drone_player_detector"
 	}
 
 	EffectDesc
 	{
 		EffectGroup
 		{
-			group "fly"
+			group	"fly"
 
-			enabled "0"
+			enabled	"0"
 
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/drone_trail_repair"
+					blueprint	"effects/buildings_and_machines/drone_trail_repair"
 				}
 			}
 		}

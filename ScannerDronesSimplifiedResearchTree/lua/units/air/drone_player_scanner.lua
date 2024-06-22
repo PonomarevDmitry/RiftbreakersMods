@@ -186,10 +186,11 @@ function drone_player_scanner:ExecuteScanning()
                     scansCount = self:GetScansCount(self.selectedEntity)
                 end
 
-                local owner = self.data:GetIntOrDefault( "owner", 0 )
+                local owner = self:GetDroneOwnerTarget()
+                --local playerId = self:GetPlayerForEntity(owner)
 
                 for i=1,scansCount do
-                    ItemService:ScanEntityByPlayer( self.selectedEntity, owner )
+                    ItemService:ScanEntity( self.selectedEntity, owner )
                 end
 
                 EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" )
@@ -216,6 +217,14 @@ function drone_player_scanner:ExecuteScanning()
     end
 
     self.lastTarget = self.selectedEntity;
+end
+
+function drone_player_scanner:GetPlayerForEntity( entity )
+    if PlayerService.GetPlayerForEntity then
+        return PlayerService:GetPlayerForEntity( entity )
+    end
+
+    return 0
 end
 
 function drone_player_scanner:GetScansCount( entity )

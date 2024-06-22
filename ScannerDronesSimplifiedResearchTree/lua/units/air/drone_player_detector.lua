@@ -19,7 +19,9 @@ function drone_player_detector:OnLoad()
 
 	self:FillInitialParams()
 
-	base_drone.OnLoad( self )
+	if ( base_drone.OnLoad ) then
+		base_drone.OnLoad( self )
+	end
 end
 
 function drone_player_detector:FillInitialParams()
@@ -34,6 +36,10 @@ function drone_player_detector:FillInitialParams()
 	self.enemyRadius = self.data:GetFloat( "enemy_radius" )
 	self.level = self.data:GetInt( "lvl" )
 
+	if ( self.effectScanner ~= nil and self.effectScanner ~= INVALID_ID ) then
+		EntityService:RemoveEntity( self.effectScanner )
+	end
+
 	self.effect = INVALID_ID
 	self.effectScanner = INVALID_ID
 
@@ -47,11 +53,20 @@ function drone_player_detector:FillInitialParams()
 
 	EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
 
-	self.fsmFollow = self:CreateStateMachine();
-	self.fsmFollow:AddState("follow", { execute="OnFollowExecute" } )
+	if ( self.fsmFollow == nil ) then
+		self.fsmFollow = self:CreateStateMachine();
+		self.fsmFollow:AddState("follow", { execute="OnFollowExecute" } )
+	end
 
-	self.fsmDetect = self:CreateStateMachine()
-	self.fsmDetect:AddState( "working", { execute="OnWorkInProgress" } )
+	if ( self.fsmDetect == nil ) then
+		self.fsmDetect = self:CreateStateMachine()
+		self.fsmDetect:AddState( "working", { execute="OnWorkInProgress" } )
+	end
+
+	if ( self.fsmHarvest == nil ) then
+		self.fsmHarvest = self:CreateStateMachine()
+		self.fsmHarvest:AddState( "harvest", { enter="OnHarvestEnter", execute="OnHarvestExecute", interval=0.1 } )
+	end
 
 	self.fsmDetect:ChangeState("working")
 end
@@ -95,7 +110,7 @@ function drone_player_detector:OnWorkInProgress()
 	local ent = foundNormal.first
 	local distance = foundNormal.second
 
-	local foundEnemy = FindClosestEntityWithDistance( owner, enemyEntities )
+	local foundEnemy = FindClosestEntityWithDistance( self.entity, enemyEntities )
 	local entEnemy = foundEnemy.entity
 	local distanceEnemy = foundEnemy.distance
 
@@ -170,7 +185,7 @@ function drone_player_detector:OnWorkInProgress()
 
 			for eEnt in Iter( enemyEntities ) do
 
-				local eDistance = EntityService:GetDistanceBetween( eEnt, owner )
+				local eDistance = EntityService:GetDistanceBetween( eEnt, self.entity )
 
 				local discoverDistance = self:GetDiscoveryDistance( eEnt )
 
@@ -209,6 +224,8 @@ end
 
 function drone_player_detector:FindActionTarget()
 
+	self:DestroyLightningEntity()
+	self.fsmHarvest:Deactivate()
 	self.fsmFollow:Deactivate()
 
 	local result = self:FindNearestTreaure()
@@ -257,7 +274,7 @@ function drone_player_detector:FindNearestTreaure()
 	local ent = foundNormal.first
 	local distance = foundNormal.second
 
-	local foundEnemy = FindClosestEntityWithDistance( owner, enemyEntities )
+	local foundEnemy = FindClosestEntityWithDistance( self.entity, enemyEntities )
 	local entEnemy = foundEnemy.entity
 	local distanceEnemy = foundEnemy.distance
 
@@ -291,23 +308,142 @@ function drone_player_detector:OnDroneTargetAction( target )
 
 	if ( not EntityService:IsAlive(target) ) then
 
+		self:DestroyLightningEntity()
+		self.fsmHarvest:Deactivate()
 		self.fsmFollow:Deactivate()
 		self:SetTargetActionFinished()
-		self.fsmFollow:ChangeState("follow")
+		self:TryFindNewTarget()
 
 		return
 	end
 
-	if ( self:IsDiscovered( target ) ) then
+	local type = ""
 
-		self.fsmFollow:Deactivate()
-		self:SetTargetActionFinished()
-		self.fsmFollow:ChangeState("follow")
+	local db = EntityService:GetDatabase( target )
+	if ( db ~= nil ) then
+		type = db:GetStringOrDefault("type","")
+	end
 
-		return
+	if ( type == "enemy") then
+
+		self.fsmHarvest:ChangeState("harvest")
+	else
+
+		if ( self:IsDiscovered( target ) ) then
+
+			self:DestroyLightningEntity()
+			self.fsmHarvest:Deactivate()
+			self.fsmFollow:Deactivate()
+			self:SetTargetActionFinished()
+			self:TryFindNewTarget()
+
+			return
+		end
 	end
 
 	self.fsmFollow:ChangeState("follow")
+end
+
+function drone_player_detector:OnHarvestEnter()
+
+	local target = self:GetDroneActionTarget()
+
+	local database = EntityService:GetDatabase( target )
+
+	local duration = 2.0
+	if ( database ~= nil ) then
+		duration =  database:GetFloatOrDefault("harvest_duration", 2.0 )
+	end
+
+	local lightning_effect = self.data:GetStringOrDefault("lightning_effect", "effects/buildings_and_machines/drone_defensive_lightning")
+	local lightning_hit_effect = self.data:GetStringOrDefault("lightning_hit_effect", "effects/buildings_and_machines/drone_defensive_lightning_hit")
+
+	self:DestroyLightningEntity()
+
+	self.lightningEntity = EntityService:SpawnEntity( lightning_effect, self.entity, "")
+
+	EntityService:CreateOrSetLifetime( self.lightningEntity, duration, "normal" )
+
+	local component = reflection_helper(EntityService:GetComponent(self.lightningEntity, "LightningComponent"))
+
+	local container = rawget(component.lighning_vec, "__ptr");
+	local instance =  reflection_helper(container:CreateItem())
+
+	local drone_position = EntityService:GetPosition(self.entity, "att_detector")
+	local target_position = EntityService:GetPosition(target)
+
+	--local direction = VectorMulByNumber( Normalize( VectorSub( target_position, drone_position ) ), 2.0 )
+	--drone_position = VectorAdd(drone_position, direction)
+
+	instance.start_point.x = drone_position.x
+	instance.start_point.y = drone_position.y
+	instance.start_point.z = drone_position.z
+
+	instance.end_point.x = target_position.x
+	instance.end_point.y = target_position.y
+	instance.end_point.z = target_position.z
+
+	EntityService:SpawnEntity( lightning_hit_effect, drone_position.x, drone_position.y, drone_position.z, "")
+end
+
+function drone_player_detector:OnHarvestExecute(state, dt)
+
+	local target = self:GetDroneActionTarget()
+
+	if ( target == INVALID_ID ) then
+		self:DestroyLightningEntity()
+		return state:Exit()
+	end
+
+	if ( not EntityService:IsAlive(target) ) then
+		self:DestroyLightningEntity()
+		return state:Exit()
+	end
+
+	local database = EntityService:GetDatabase( target )
+	local type = ""
+
+	local duration = 2.0
+	if ( database ~= nil ) then
+		duration =  database:GetFloatOrDefault("harvest_duration", 2.0 )
+		type = database:GetStringOrDefault("type","")
+	end
+
+	if ( type ~= "enemy") then
+		self:DestroyLightningEntity()
+		return state:Exit()
+	end
+
+	if ( state:GetDuration() >= duration ) then
+
+		local owner = self:GetDroneOwnerTarget()
+			
+		ItemService:InteractWithEntity( target, owner )
+
+		EffectService:AttachEffects( target, "treasure" )
+
+		self:DestroyLightningEntity()
+		return state:Exit()
+	end
+end
+
+function drone_player_detector:DestroyLightningEntity()
+
+	if ( self.lightningEntity ~= nil ) then
+		EntityService:RemoveEntity(self.lightningEntity)
+		self.lightningEntity = nil
+	end
+end
+
+function drone_player_detector:TryFindNewTarget()
+	local target = self:FindActionTarget();
+	if target ~= INVALID_ID then
+		UnitService:SetCurrentTarget( self.entity, "action", target );
+		UnitService:EmitStateMachineParam(self.entity, "action_target_found")
+		UnitService:SetStateMachineParam( self.entity, "action_target_valid", 1)
+
+		self.fsmFollow:ChangeState("follow")
+	end
 end
 
 function drone_player_detector:OnFollowExecute(state)
@@ -315,32 +451,63 @@ function drone_player_detector:OnFollowExecute(state)
 	local target = self:GetDroneActionTarget()
 
 	if ( target == INVALID_ID ) then
+
+		local exitValue = state:Exit()
+		
+		self:DestroyLightningEntity()
+		self.fsmHarvest:Deactivate()
 		self:SetTargetActionFinished()
-		return state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	if ( not EntityService:IsAlive(target) ) then
+		local exitValue = state:Exit()
+		
+		self:DestroyLightningEntity()
+		self.fsmHarvest:Deactivate()
 		self:SetTargetActionFinished()
-		return state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	local owner = self:GetDroneOwnerTarget()
 
 	if ( EntityService:GetDistance2DBetween( owner, target ) > ( self.search_radius * 1.1 ) ) then
+		local exitValue = state:Exit()
+		
+		self:DestroyLightningEntity()
+		self.fsmHarvest:Deactivate()
 		self:SetTargetActionFinished()
-		return state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	if ( self:IsDiscovered( target ) ) then
+		local exitValue = state:Exit()
+		
+		self:DestroyLightningEntity()
+		self.fsmHarvest:Deactivate()
 		self:SetTargetActionFinished()
-		state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 
 	local nearestTreaure = self:FindNearestTreaure()
 
 	if	( nearestTreaure ~= target ) then
+		local exitValue = state:Exit()
+		
+		self:DestroyLightningEntity()
+		self.fsmHarvest:Deactivate()
 		self:SetTargetActionFinished()
-		state:Exit()
+		self:TryFindNewTarget()
+
+		return exitValue
 	end
 end
 
@@ -426,6 +593,11 @@ function drone_player_detector:OnRelease()
 		EntityService:RemoveEntity( self.effectScanner )
 	end
 	self.effectScanner = INVALID_ID
+
+	if ( self.lightningEntity ~= nil ) then
+		EntityService:RemoveEntity(self.lightningEntity)
+		self.lightningEntity = nil
+	end
 
 	if ( base_drone.OnRelease ) then
 		base_drone.OnRelease(self)
