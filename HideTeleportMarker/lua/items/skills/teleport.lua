@@ -42,14 +42,14 @@ function teleport:OnMarkerExecute( state )
 
 	self.foundPos = PlayerService:FindPositionForTeleport( self.owner, pos, self.maxDistance )
 
-	if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
+	if ( self.marker ~= nil and self.marker ~= INVALID_ID and ItemService:IsItemReference( self.marker, self.entity ) ) then
 		EntityService:RemoveEntity( self.marker )
 	end
 	self.marker = INVALID_ID
 end
 
 function teleport:OnMarkerExit()
-	if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
+	if ( self.marker ~= nil and self.marker ~= INVALID_ID and ItemService:IsItemReference( self.marker, self.entity ) ) then
 		EntityService:RemoveEntity( self.marker )
 	end
 	self.marker = INVALID_ID
