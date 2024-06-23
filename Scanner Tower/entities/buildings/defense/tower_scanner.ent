@@ -1,62 +1,62 @@
 EntityBlueprint
 {
-    name  "buildings/defense/tower_scanner"
+	name "buildings/defense/tower_scanner"
 
-    BuildingDesc
-    {
-        name 				"tower_scanner"
-        bp   				"buildings/defense/tower_scanner"
-        category 			"defense"
-        localization_id		"gui/hud/building_name/tower_scanner"
-        description			"gui/hud/building_description/tower_scanner"
-        menu_icon			"gui/hud/building_icons/tower_scanner"
-        require 			"headquarters"
-        order				"2.1"
-        type				"tower"
-        overrides			"tower,wall"
-        // upgrade				"buildings/defense/tower_laser_lvl_2"
-        exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
-        
-        costs
-        {
-            BuildingCostInfo
-            {
-                name "default"
-                building_time 2.5
-                building_cost
-                {
-                    carbonium 	"75"
-                    steel 		"150"
-                    ai			"1"
-                }
-            }		
-        }			
-    }
+	BuildingDesc
+	{
+		name 				"tower_scanner"
+		bp   				"buildings/defense/tower_scanner"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/tower_scanner"
+		description			"gui/hud/building_description/tower_scanner"
+		menu_icon			"gui/hud/building_icons/tower_scanner"
+		require 			"headquarters"
+		order				"2.1"
+		type				"tower"
+		overrides			"tower,wall"
+		// upgrade				"buildings/defense/tower_laser_lvl_2"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"75"
+					steel 		"150"
+					ai			"1"
+				}
+			}		
+		}			
+	}
 
-    ResourceConverterDesc // must be here for AI
-    {
-        in
-        {
-            GameplayResource
-            {
-                resource 	"energy"
-                value 		"50"
-            }
-        }
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"50"
+			}
+		}
 
-        out
-        {
-        }
+		out
+		{
+		}
 
-        priority 6
-    }
+		priority 6
+	}
 
-    LuaDesc
-    {
-        script "lua/buildings/defense/scanner_tower.lua"
+	LuaDesc
+	{
+		script "lua/buildings/defense/scanner_tower.lua"
 
-        database
-        {
+		database
+		{
             cone_effect			        string:"build_cone_1x1"
             cone_effect_sell	        string:"sell_small"
             time_machine		        int:"0"
@@ -64,342 +64,342 @@ EntityBlueprint
             range					    float:"200"
             display_radius_blueprint    string:"effects/decals/range_circle_repair"
             display_radius_group	    string:"tower_scanner"
-        }
+		}
 
-    }
+	}
 
-    HealthDesc
-    {
-        max_health 					"500"
-        health 						"500"
-        regeneration 				"0"
-        regeneration_cooldown 		"0"
-         is_manual 1
-        update_health_uniform 		"1"
+	HealthDesc
+	{
+		max_health 					"500"
+		health 						"500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
 
 
-        DestructionLevels
-        {
-            DestructionLevel
-            {
-                health 								"66"
-                destroy_comp_delay 					"0"
-                destroy_comp_event 					"66_destroy"
-                //destroyed_state_material 			"buildings/main/headquarters_dest_25"
-                destroyed_state_effect_group 		"66_state"
-            }
-            DestructionLevel
-            {
-                health 								"33"
-                destroy_comp_delay 					"0"
-                destroy_comp_event 					"33_destroy"
-                //destroyed_state_material 			"buildings/main/headquarters_dest_0"
-                destroyed_state_effect_group 		"33_state"
-            }
-        }
-    }
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
 
-    MeshDesc
-    {
-        mesh "meshes/buildings/defense/tower_laser_lvl_1.mesh"
-        material "buildings/defense/tower_scanner"
-    }
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_laser_lvl_1.mesh"
+		material "buildings/defense/tower_scanner"
+	}
 
-    TypeDesc
-    {
-        type "building|defense|tower"
-    }
+	TypeDesc
+	{
+		type "building|defense|tower"
+	}
 
-    SkeletonDesc
-    {
-        name "meshes/buildings/defense/tower_laser_lvl_1"
-    }
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_laser_lvl_1"
+	}
 
-    PhysicsDesc
-    {
-        objects
-        {
-            PhysicsObjectDesc
-            {
-                type 				"static"
-                group_id 			"building"
-                physics_material 	"default"
-                Shapes
-                {
-                    PhysicsBoxShape
-                    {
-                        x "2"
-                        y "4"
-                        z "2"
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "4"
+						z "2"
 
-                        position
-                        {
-                            x "0.0"
-                            y "2"
-                            z "0.0"
-                        }
-                    }
-                }
-            }
-        }
-    }
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
 
-    NodeCullerDesc
-    {
-        nav_mesh_cull_type "1"
-        cost_type "building"
-        flow_field_size "0.7"
-    }
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
 
-    GridCullerDesc
-    {
-        Shapes
-        {
-            PhysicsBoxShape
-            {
-                    x	2
-                    y	2
-                    z	2
-            }
-        }
-    }
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}
+		}
+	}
 
-    MinimapItemDesc
-    {
-        type	"quad"
-        color
-        {
-            x "1"
-            y "0.5"
-            z "0"
-            w "1"
-        }
-        size
-        {
-            x "1"
-            y "1"
-        }
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0.5"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
 
-        visibility			"always"
-    }
+		visibility			"always"
+	}
 
-    FogOfWarRevealerComponentDesc
-    {
-        radius "40"
-    }
+	FogOfWarRevealerComponentDesc
+	{
+		radius "40"
+	}
 
-    HealthBarDesc
-    {
-        type "2"
-        mode "1"
-    }
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
 
-    LootDesc
-    {
-        explosion_max_power 	"2000"
-        explosion_min_power 	"1000"
-    }
+	LootDesc
+	{
+		explosion_max_power 	"2000"
+		explosion_min_power 	"1000"
+	}
 
-    WeaponItemDesc
-    {
-    }
+	WeaponItemDesc
+	{
+	}
 
-    TowerDesc
-    {
-    }
+	TowerDesc
+	{
+	}
 
-    TurretDesc
-    {
-        target ""
-        target_ignore ""
-        speed "300"
-        aim_volume "SphericalAimVolume"
-        {
-            range_min "0"
+	TurretDesc
+	{
+		target "ground_unit|air_unit"
+		target_ignore ""
+		speed "300"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
             range_max "200"
             aiming_range "210"
-        }
+		}
 
-        aiming_cooldown "1"
-        aiming_target_time "2"
-        aiming_idle_angle "20"
-        pitch "be_barrel"
-        yaw "be_turret"
-        check_target_visibility "1"
-        fog_of_war_filtering "1"
-    }
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
 
-    BeamWeaponComponent
-    {
-        WeaponMuzzles
-        {
-            WeaponMuzzle
-            {
-                attachment "att_muzzle"
-            }
-        }
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
 
         ammo_blueprint 				"buildings/defense/tower_scanner_projectile"
-        fire_effect 				"effects/mech/bioscanner_muzzle"
-        autoaim_type				"scannable"
+		fire_effect 				"effects/mech/bioscanner_muzzle"
+		autoaim_type				"scannable"
 
-        burst_column_spacing 		"0.5"
-        burst_rate 					"0"
-        burst_column_angle 			"0"
-    }
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
 
-    DestroyDesc
-    {
+	DestroyDesc
+	{
 
-        DestroyPatterns
-        {
-            Pair
-            {
-                key "66_destroy"
-                value
-                {
-                    explosion_type 			"centered"
-                    explosion_max_power 	"6000"
-                    explosion_min_power 	"2000"
-                    explosion_effect 		"effects/buildings_generic/explosion_medium_random"
-                    part_physics_material   "debris_heavy"
-                    part_material 			"misc/building_parts_generic"
-                    part_prefix 			"meshes/misc/building_medium_parts_generic"
-                    part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-                    part_lifetime "3"
-                }
-            }
-            Pair
-            {
-                key "33_destroy"
-                value
-                {
-                    explosion_type 			"centered"
-                    explosion_max_power 	"6000"
-                    explosion_min_power 	"2000"
-                    explosion_effect 		"effects/buildings_generic/explosion_medium_random"
-                    part_physics_material   "debris_heavy"
-                    part_material 			"misc/building_parts_generic"
-                    part_prefix 			"meshes/misc/building_medium_parts_generic"
-                    part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-                    part_lifetime "3"
-                }
-            }
-            Pair
-            {
-                value
-                {
-                    explosion_type 			"centered"
-                    explosion_max_power 	"6000"
-                    explosion_min_power 	"2000"
-                    explosion_effect 		"effects/buildings_generic/explosion_big_random"
-                    part_physics_material   "debris_heavy"
-                    part_material 			"misc/building_parts_generic"
-                    part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-                    part_prefix 			"meshes/misc/building_large_parts_generic"
-                    part_lifetime "3"
-                }
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_lifetime "3"
+				}
 
-                key "default"
-            }
-            Pair
-            {
-                value
-                {
-                    explosion_type 			"centered"
-                    explosion_max_power 	"6000"
-                    explosion_min_power 	"2000"
-                    explosion_effect 		"effects/buildings_generic/building_sand_collapse"
-                    part_physics_material   "debris_heavy"
-                    part_material 			"misc/building_parts_generic"
-                    //part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
-                    part_prefix 			"meshes/misc/building_large_parts_generic"
-                    part_lifetime "3"
-                }
+				key "default"
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_lifetime "3"
+				}
 
-                key "quicksand"
-            }
-        }
-    }
+				key "quicksand"
+			}
+		}
+	}
 
-    EffectDesc
-    {		
-        EffectBaseBlueprints
-        {
-            "buildings/effects_small_base"
-        }	
-        ////////////////////////MISC/////////////////////////
-        EffectGroup
-        {
-            group "lamp"
-            enabled "0"
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
 
-            Effects
-            {
-                Effect
-                {
-                    blueprint "effects/buildings_and_machines/tower_white_searchlight"
-                    bone "att_muzzle"
-                    random_delay "3"
-                }
-            }
-        }
-    }
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+	}
 }
 
 EntityBlueprint
 {
     name  "buildings/defense/tower_scanner_projectile"
 
-    IdDesc
-    {
-        name "##ammo##"
-    }
+	IdDesc
+	{
+		name "##ammo##"
+	}
 
-    MeshDesc
-    {
-        mesh 		"meshes/projectiles/bioscanner_beam.mesh"
-        material 	"projectiles/bioscanner_idle"
-    }
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/bioscanner_beam.mesh"
+		material 	"projectiles/bioscanner_idle"
+	}
 
-    LaserBeamComponent
-    {
+	LaserBeamComponent
+	{
         range 						"200"
-    
+	
         ring_bp 					"buildings/defense/tower_scanner_ring"
-    
-        on_enemy_hit_effect 		"effects/mech/bioscanner_hit"
-        on_world_hit_effect 		"effects/mech/bioscanner_hit"
-    
-        collision_3d 				"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|vegetation"
-        collision_block 			"world_blocker|world|building"
-        collision_user_mask			"scannable"
-        
-        is_visible_only 			"1"
-        only_blocking_effect		"1"
+	
+		on_enemy_hit_effect 		"effects/mech/bioscanner_hit"
+		on_world_hit_effect 		"effects/mech/bioscanner_hit"
+	
+		collision_3d 				"world_blocker|world|ground_unit|air_unit|hitbox|building|destructible|vegetation"
+		collision_block 			"world_blocker|world|building"
+		collision_user_mask			"scannable"
+		
+		is_visible_only 			"1"
+		only_blocking_effect		"1"
 
         diameter			        "1.5"
-        damage_factor_max       	"9.0"
+	    damage_factor_max       	"9.0"
         damage_factor_increase  	"5"
-        damage_factor_decrease  	"10.0"
-        damage_max_beam_scale 		"1.5"
-        damage_max_beam_glow 		"1.0"
-    }
+	    damage_factor_decrease  	"10.0"
+	    damage_max_beam_scale 		"1.5"
+		damage_max_beam_glow 		"1.0"
+	}
 }
 
 EntityBlueprint
 {
     name  "buildings/defense/tower_scanner_ring"
 
-    base_blueprints
-    {
-        lights/point/bioscanner
-        effects/no_lifetime
-    }
+	base_blueprints
+	{
+		lights/point/bioscanner
+		effects/no_lifetime
+	}
 
-    MeshDesc
-    {
-        mesh 		"meshes/projectiles/bioscanner_ring.mesh"
-        material 	"projectiles/bioscanner_ring"
-    }
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/bioscanner_ring.mesh"
+		material 	"projectiles/bioscanner_ring"
+	}
 }
