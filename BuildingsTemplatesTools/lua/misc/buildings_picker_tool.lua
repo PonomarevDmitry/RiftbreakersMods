@@ -76,7 +76,9 @@ function buildings_picker_tool:OnUpdate()
 
     self:HighlightRuins()
 
+    
 
+    self:ChangeFirstBuilding()
 
     local firstEntity = nil
 
@@ -132,6 +134,65 @@ function buildings_picker_tool:OnUpdate()
                 EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
             end
         end
+    end
+end
+
+function buildings_picker_tool:ChangeFirstBuilding()
+
+    local maxDeltaTime = 2
+
+    self.activated = self.activated or false
+
+    if ( self.activated == false ) then
+        return
+    end
+
+    self.changeFirstTime = self.changeFirstTime or 0
+
+    if ( #self.selectedEntities ~= 1 or #self.templateEntities == 0 ) then
+        self.changeFirstTime = 0
+        self.changeFirstEntity = nil
+        return
+    end
+
+    local entity = self.selectedEntities[1]
+
+    if ( IndexOf( self.templateEntities, entity ) == nil ) then
+        self.changeFirstTime = 0
+        self.changeFirstEntity = nil
+        return
+    end
+
+    local firstEntity = self.templateEntities[1]
+
+    if ( entity == firstEntity ) then
+        self.changeFirstTime = 0
+        self.changeFirstEntity = nil
+        return
+    end
+
+    local currentTime = GetLogicTime()
+
+    if ( self.changeFirstEntity == entity ) then
+        
+        local deltaTime = currentTime - self.changeFirstTime
+
+        if ( deltaTime >= maxDeltaTime ) then
+
+            self.changeFirstTime = 0
+            self.changeFirstEntity = nil
+
+            local indexEntity = IndexOf( self.templateEntities, entity )
+
+            self.templateEntities[1] = entity
+            self.templateEntities[indexEntity] = firstEntity
+
+            self:SaveEntitiesToDatabase()
+        end
+    else
+        
+        self.changeFirstTime = currentTime
+        self.changeFirstEntity = entity
     end
 end
 
