@@ -38,9 +38,9 @@ function buildings_picker_tool:FillMarkerMessage()
         return
     end
 
-    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
+    self.currentTemplateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
 
-    if ( templateString == "" ) then
+    if ( self.currentTemplateString == "" ) then
 
         markerDB:SetString("message_text", "")
         markerDB:SetInt("message_visible", 0)
@@ -51,7 +51,7 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local markerText = "${" .. templateCaption .. "}: "
 
-    local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
+    local buildingsIcons = self:GetTemplateBuildingsIcons(self.currentTemplateString)
 
     if ( string.len(buildingsIcons) > 0 ) then
 
@@ -73,6 +73,8 @@ function buildings_picker_tool:RemovedFromSelection( entity )
 end
 
 function buildings_picker_tool:OnUpdate()
+
+    self.activated = self.activated or false
 
     self:HighlightRuins()
 
@@ -119,11 +121,14 @@ function buildings_picker_tool:OnUpdate()
 
             if ( firstEntity ~= nil and entity ~= firstEntity ) then
 
-                -- Mark candidate to remove from template
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+                if ( self.activated == false ) then
+
+                    -- Mark candidate to remove from template
+                    if ( skinned ) then
+                        EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
+                    else
+                        EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+                    end
                 end
             end
         else
@@ -357,54 +362,13 @@ end
 
 function buildings_picker_tool:OnActivateSelectorRequest()
 
-    local maxDeltaTime = 0.5
-    local maxClicksToClear = 5
-
     self.activated = true
 
-    self.clickCount = self.clickCount or 0
-    self.clickLastTime = self.clickLastTime or 0
+    self:ClearTemplate()
 
     if ( #self.selectedEntities == 0 ) then
-
-        local currentTime = GetLogicTime()
-
-        if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
-
-            local deltaFromLast = currentTime - self.clickLastTime
-
-            if ( deltaFromLast < maxDeltaTime ) then
-
-                self.clickCount = self.clickCount + 1
-            else
-
-                self.clickCount = 0
-                self.clickLastTime = 0
-            end
-
-            if ( self.clickCount >= maxClicksToClear ) then
-
-                if( self.popupShown == false ) then
-
-                    self.popupShown = true
-
-                    self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
-
-                    GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/buildings_picker_tool/clear_template_confirm")
-
-                    self.clickCount = 0
-                    self.clickLastTime = 0
-                end
-            end
-        end
-
-        self.clickLastTime = currentTime
-
         return
     end
-
-    self.clickCount = 0
-    self.clickLastTime = 0
 
     for entity in Iter( self.selectedEntities ) do
         self:OnActivateEntity( entity, true, true )
@@ -412,6 +376,62 @@ function buildings_picker_tool:OnActivateSelectorRequest()
 
     self:SaveEntitiesToDatabase()
     self:HideMarkerMessage()
+end
+
+function buildings_picker_tool:ClearTemplate()
+
+    if ( self.currentTemplateString == "" ) then
+
+        self.clickCount = 0
+        self.clickLastTime = 0
+        return
+    end
+
+    self.clickCount = self.clickCount or 0
+    self.clickLastTime = self.clickLastTime or 0
+
+    if ( #self.selectedEntities ~= 0 ) then
+
+        self.clickCount = 0
+        self.clickLastTime = 0
+        return
+    end
+
+    local maxDeltaTime = 0.5
+    local maxClicksToClear = 5
+
+    local currentTime = GetLogicTime()
+
+    if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
+
+        local deltaFromLast = currentTime - self.clickLastTime
+
+        if ( deltaFromLast < maxDeltaTime ) then
+
+            self.clickCount = self.clickCount + 1
+        else
+
+            self.clickCount = 0
+            self.clickLastTime = 0
+        end
+
+        if ( self.clickCount >= maxClicksToClear ) then
+
+            if( self.popupShown == false ) then
+
+                self.popupShown = true
+
+                self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+
+                GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/buildings_picker_tool/clear_template_confirm")
+
+                self.clickCount = 0
+                self.clickLastTime = 0
+            end
+        end
+    end
+
+    self.clickLastTime = currentTime
 end
 
 function buildings_picker_tool:OnGuiPopupResultEvent( evt )
@@ -426,6 +446,8 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
     if ( evt:GetResult() == "button_yes" ) then
 
         self:HideMarkerMessage()
+
+        self.currentTemplateString = ""
 
         local campaignDatabase = CampaignService:GetCampaignData()
         if ( campaignDatabase ~= nil ) then
@@ -574,6 +596,8 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
     local templateString = table.concat( templateStringArray )
 
     campaignDatabase:SetString( self.template_name, templateString )
+
+    self.currentTemplateString = templateString
 
     --LogService:Log("templateString " .. templateString)
 end
