@@ -49,7 +49,7 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local templateCaption = "gui/hud/building_templates/template_" .. self.marker
 
-    local markerText = "${" .. templateCaption .. "}: "
+    local markerText = "${" .. templateCaption .. "}:\n"
 
     local buildingsIcons = self:GetTemplateBuildingsIcons(self.currentTemplateString)
 
