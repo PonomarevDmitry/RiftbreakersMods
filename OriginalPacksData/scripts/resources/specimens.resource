@@ -1655,6 +1655,34 @@ GameplayResourceDef
 	allow_overflow 	"1"
 }
 
+//////////////////////////////////// SWAMP SPAWNERS ///////////////////////////
+
+GameplayResourceDef
+{
+	id				"specimen_spawner_swamp"
+	localization_id "resource_name/specimen_spawner_swamp"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_spawner_swamp_canceroth"
+	localization_id "resource_name/specimen_spawner_swamp_canceroth"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
 //////////////////////////////////// FAUNA NEUTRAL ////////////////////////////////////////////////
 
 GameplayResourceDef
@@ -1914,6 +1942,19 @@ GameplayResourceDef
 {
 	id				"specimen_darnot"
 	localization_id "resource_name/specimen_darnot"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_lurkid"
+	localization_id "resource_name/specimen_lurkid"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
