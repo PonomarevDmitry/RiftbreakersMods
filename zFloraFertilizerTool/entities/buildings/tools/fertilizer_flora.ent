@@ -1,0 +1,57 @@
+EntityBlueprint
+{
+	name					"buildings/tools/fertilizer_flora"
+
+	BuildingDesc
+	{
+		name				"fertilizer_flora"
+		bp					"buildings/tools/fertilizer_flora"
+		ghost_bp			"buildings/tools/fertilizer_flora_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/fertilizer_flora"
+		description			"gui/hud/building_description/fertilizer_flora"
+		menu_icon			"gui/hud/tools_icons/fertilizer_flora_tool"
+
+		order				"81"
+		type				"fertilizer_flora"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/fertilizer_flora_ghost"
+
+	BuildingDesc
+	{
+		name				"fertilizer_flora_ghost"
+		buildable			"0"
+		type				"fertilizer_flora"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/fertilizer_flora_tool.lua"
+
+		database
+		{
+			action				string:"fertilizer_flora"
+			fertilize_effect	string:"effects/buildings_generic/building_repair_big"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
