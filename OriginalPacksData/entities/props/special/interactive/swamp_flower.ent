@@ -1,0 +1,78 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/swamp_flower"
+
+	MeshDesc
+	{
+		material "props/special/great_tree/flower"
+		mesh "meshes/props/special/great_tree/flower_big.mesh"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"vegetation"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "6"
+						y "3"
+						z "6"
+
+						position
+						{
+							x "0.0"
+							y "1.5"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+			bending_wind_scale				"0.25"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+			bending_object_scale			"0.25"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+
+			bending_spring_time				"2.0"		// czas wygaszania
+			bending_spring_damping			"20.0"		// wygluszanie oscylacji
+			bending_spring_phases			"1.0"		// ilosc oscylacji
+			bending_spring_slope_factor		"4.0"		// pseudo "sprezystosc"
+
+			breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+			bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+	}
+
+	EffectDesc
+	{
+        EffectGroup
+        {           
+            enabled "1"
+			group 	"light"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/destructibles/swamp_flower_idle"
+                    offset "0 3 0"
+                }				
+            }
+        }		
+	}
+
+	InteractiveComponent 
+	{
+		slot 			    "ACTIVATOR"
+		radius 			    "6"
+		remove_entity 	    "0"
+	}
+}
+
