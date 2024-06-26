@@ -21,21 +21,19 @@ function poogret:OnInit()
 	self.currentFood = INVALID_ID
 	self.fearTime = self.data:GetFloat( "fear_time" )
 	self.fearTimer = self.fearTime
-
 	UnitService:SetStateMachineParam( self.entity, "can_spawn_treasure", 0 )
 end
 
 function poogret:OnStartLeechEvent( evt )
-	self.food = UnitService:GetCurrentTarget( self.entity, "food" )
-	if ( self.food ~= INVALID_ID ) then
-		LogService:Log( "self.food ~= INVALID_ID" )
-		local interactiveComponent = EntityService:GetComponent( self.food, "InteractiveComponent" )
+	self.currentFood = UnitService:GetCurrentTarget( self.entity, "food" )
+	if ( self.currentFood ~= INVALID_ID ) then
+		local interactiveComponent = EntityService:GetComponent( self.currentFood, "InteractiveComponent" )
 		if interactiveComponent ~= nil then
 			local helper = reflection_helper( interactiveComponent )
 			helper.enabled = false
 			helper.radius = -1
 		end
-		HealthService:SetImmortality( self.food, true )
+		HealthService:SetImmortality( self.currentFood, true )
 	end
 end
 
@@ -57,6 +55,17 @@ end
 
 function poogret:OnDamageEvent( evt )
 	self.fearFSM:ChangeState( "fear" )
+
+	if ( self.currentFood ~= INVALID_ID ) then
+		HealthService:SetImmortality( self.currentFood, false )
+
+		local interactiveComponent = EntityService:GetComponent( self.currentFood, "InteractiveComponent" )
+		if interactiveComponent ~= nil then
+			local helper = reflection_helper( interactiveComponent )
+			helper.enabled = true
+			helper.radius = 8
+		end
+	end
 end
 
 function poogret:OnEnterFear( state )

@@ -6,7 +6,6 @@ function teleport_machine:__init()
 end
 
 function teleport_machine:init()
-
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "disappear", { enter="OnDisappearEnter", exit="OnDisappearExit" } )
 	self.fsm:AddState( "wait", {enter="OnWaitEnter", execute="OnWaitExecute", exit="OnWaitExit" } )
@@ -40,6 +39,10 @@ function teleport_machine:init()
     self.teleported = false
     self.hiddenChildren = {}
     self.fsm:ChangeState("disappear")
+end
+
+function teleport_machine:OnLoad()
+    self.hiddenChildren = self.hiddenChildren or {}
 end
 
 function teleport_machine:OnDisappearEnter( state)

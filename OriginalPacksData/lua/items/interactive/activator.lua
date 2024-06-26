@@ -98,6 +98,8 @@ function activator:OnDeactivate()
 	self:UnregisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )
 	self.extractoring = false;
 	self.sm:ChangeState("stop")
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
+	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
 	if ( self.timer ~= nil ) then
 		EntityService:RemoveEntity( self.timer )
 		self.timer = nil
@@ -139,6 +141,10 @@ function activator:OnExecuteHarvesting()
 end
 
 function activator:OnAnimationStateChangedEvent( evt )
+	if( not self:IsActivated()) then
+		return
+	end
+
 	local newStateName = evt:GetNewStateName()
 	if ( newStateName == "middle_front_drill" ) then
 		EffectService:AttachEffects(self.item, "dig")
