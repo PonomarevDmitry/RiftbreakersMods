@@ -1,0 +1,2894 @@
+GuiRootGroupDef
+{
+	full_screen "0"
+	navigation
+	{
+		nodes
+		{
+			GuiNavNodeDef "GuiScrollListDef"
+			{
+				alignment "buttons"
+				navigation
+				{
+					nodes
+					{
+						GuiNavNodeDef "GuiExitNodeDef"
+						{
+							path "##exit##"
+						}
+
+					}
+
+				}
+
+				path "popup_container.container.scroll_wrapper"
+			}
+
+		}
+
+	}
+
+	priority "990.000"
+	shortcuts
+	{
+		Pair_GuiInputCode_String
+		{
+			key "5"
+			value "button_no"
+		}
+
+		Pair_GuiInputCode_String
+		{
+			key "6"
+		}
+
+		Pair_GuiInputCode_String
+		{
+			key "7"
+			value "button_yes"
+		}
+
+	}
+
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "bg_fade_0"
+			value "GuiQuadDef"
+			{
+				color
+				{
+					w "0.900"
+					x "0.000"
+					y "0.000"
+					z "0.000"
+				}
+
+				id "bg_fade_0"
+				size
+				{
+					x "1920.000"
+					y "1080.000"
+				}
+
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "popup_container"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "background_bottom"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/pop_up_bottom"
+							alignment "bottom_left"
+							anchor "bottom_left"
+							id "background_bottom"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "background_fill"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/pop_up_center"
+							id "background_fill"
+							margin
+							{
+								w "176.000"
+								y "152.000"
+							}
+
+							size_mode_y "2"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "background_top"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/pop_up_top"
+							id "background_top"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "button_continue"
+						value "GuiReferenceDef"
+						{
+							path "templates.popup_button"
+							ref_gui_id "gui/popup/popup_incompatible_mods"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "content"
+											value "BUTTON_continue"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							alignment "top_right"
+							anchor "bottom_right"
+							bindings
+							{
+								visible
+								{
+									model_field "any_incompatible_items_enabled"
+									converter "GuiButtonNodeEnablingConverter"
+									{
+										invert "1"
+									}
+
+								}
+
+							}
+
+							id "button_continue"
+							margin
+							{
+								x "5.000"
+								z "20.000"
+							}
+
+							offset
+							{
+								y "10.000"
+							}
+
+							size
+							{
+								x "4.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "button_dont_show_again"
+						value "GuiToggleButtonItemDef"
+						{
+							on_click_action "toggle_dont_show_again"
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "icon_container"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon_background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/checkbox_neutral"
+													hitbox_visible "0"
+													id "icon_background"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon_selected"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/checkbox_active"
+													bindings
+													{
+														visible
+														{
+															model_field "dont_show_again"
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon_selected"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+										}
+
+										alignment "left"
+										anchor "left"
+										hitbox_visible "0"
+										id "icon_container"
+										size
+										{
+											x "32.000"
+											y "32.000"
+										}
+
+										z_order "10000000000.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													content "BUTTON_dont_show_again"
+													style_name "neutral_25"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													hitbox_visible "0"
+													id "content"
+													margin
+													{
+														x "35.000"
+													}
+
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											x "200.000"
+											y "20.000"
+										}
+
+										size_mode_x "1"
+										size_mode_y "2"
+										z_order "10000000000.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													content "BUTTON_dont_show_again"
+													style_name "selected_25"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													id "content"
+													margin
+													{
+														x "35.000"
+													}
+
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon_container"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "icon_selected"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/checkbox_selected"
+																hitbox_visible "0"
+																id "icon_selected"
+																size_mode_x "2"
+																size_mode_y "2"
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													hitbox_visible "0"
+													id "icon_container"
+													size
+													{
+														x "32.000"
+														y "32.000"
+													}
+
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "200.000"
+										}
+
+										size_mode_x "1"
+										size_mode_y "2"
+										z_order "10000000000.000"
+									}
+
+								}
+
+							}
+
+							alignment "bottom_right"
+							anchor "bottom_right"
+							id "button_dont_show_again"
+							margin
+							{
+								w "15.000"
+								z "20.000"
+							}
+
+							size
+							{
+								x "200.000"
+								y "30.000"
+							}
+
+							size_mode_x "1"
+							z_order "10000000000.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "button_force_load"
+						value "GuiReferenceDef"
+						{
+							path "templates.popup_button"
+							ref_gui_id "gui/popup/popup_incompatible_mods"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "content"
+											value "BUTTON_load_with_mods"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							anchor "bottom_left"
+							bindings
+							{
+								visible
+								{
+									model_field "any_incompatible_items_enabled"
+									converter "GuiButtonNodeEnablingConverter"
+								}
+
+							}
+
+							id "button_force_load"
+							margin
+							{
+								x "20.000"
+								z "5.000"
+							}
+
+							offset
+							{
+								y "10.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "container"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "message"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "0.110"
+														y "0.360"
+														z "0.690"
+													}
+
+													border_width "1.000"
+													color
+													{
+														w "0.500"
+														x "0.000"
+														y "0.000"
+														z "0.000"
+													}
+
+													id "background"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "image"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/warning_icon"
+																stretch_proportional "1"
+																alignment "left"
+																anchor "left"
+																id "image"
+																margin
+																{
+																	w "10.000"
+																	x "10.000"
+																	y "10.000"
+																	z "10.000"
+																}
+
+																scale
+																{
+																	x "0.700"
+																	y "0.700"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													id "icon"
+													size
+													{
+														x "128.000"
+														y "128.000"
+													}
+
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "text"
+												value "GuiTextDef"
+												{
+													content "gui/popup/incompatible_mods"
+													style_name "popups_content_small"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													id "text"
+													margin
+													{
+														w "20.000"
+														x "100.000"
+														y "10.000"
+														z "20.000"
+													}
+
+													size_mode_x "2"
+													z_order "2.000"
+												}
+
+											}
+
+										}
+
+										id "message"
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "scroll_wrapper"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "0.110"
+														y "0.360"
+														z "0.690"
+													}
+
+													border_width "1.000"
+													color
+													{
+														w "0.500"
+														x "0.000"
+														y "0.000"
+														z "0.000"
+													}
+
+													id "background"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "header"
+												value "GuiReferenceDef"
+												{
+													path "templates.items_list_row"
+													ref_gui_id "gui/popup/popup_incompatible_mods"
+													ref_model
+													{
+														bindings_proxy
+														{
+															is_checked
+															{
+																model_field "all_items_enabled"
+															}
+
+														}
+
+														database
+														{
+															Strings
+															{
+																StringData
+																{
+																	key "mod_title"
+																	value "${gui/menu/mod_management/table_header/name}:"
+																}
+
+																StringData
+																{
+																	key "mod_game_version"
+																	value "${gui/menu/mod_management/mod_details/game_version}:"
+																}
+
+																StringData
+																{
+																	key "label_style_name"
+																	value "mod_table_header"
+																}
+
+																StringData
+																{
+																	key "version_style_name"
+																	value "mod_table_header"
+																}
+
+															}
+
+															Floats
+															Vectors
+															Integers
+														}
+
+													}
+
+													id "header"
+													margin
+													{
+														x "2.000"
+														y "4.000"
+														z "2.000"
+													}
+
+													size
+													{
+														y "32.000"
+													}
+
+													size_mode_x "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "mask"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "content_group"
+															value "GuiGroupDef"
+															{
+																allow_overflow "0"
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "stackpanel"
+																		value "GuiStackPanelDef"
+																		{
+																			stack_type "1"
+																			template_reference
+																			{
+																				path "templates.items_list_row"
+																				ref_gui_id "gui/popup/popup_incompatible_mods"
+																				ref_model
+																				{
+																					bindings_proxy
+																					{
+																						is_checked
+																						{
+																							model_field "is_enabled"
+																						}
+
+																						is_compatible
+																						{
+																							model_field "is_compatible"
+																						}
+
+																						mod_game_version
+																						{
+																							model_field "mod_game_version"
+																						}
+
+																						version_style_name
+																						{
+																							model_field "is_compatible"
+																							converter "GuiModelMapConverter"
+																							{
+																								fallback_value "mod_row_label_red"
+																								map
+																								{
+																									1 "mod_row_label_green"
+																								}
+
+																							}
+
+																						}
+
+																					}
+
+																					database
+																					{
+																						Strings
+																						Floats
+																						Vectors
+																						Integers
+																					}
+
+																				}
+
+																				margin
+																				{
+																					w "2.000"
+																					x "2.000"
+																					y "2.000"
+																					z "2.000"
+																				}
+
+																				size_mode_x "2"
+																				size_mode_y "1"
+																			}
+
+																			id "stackpanel"
+																			model_source "items"
+																			size_mode_x "2"
+																			size_mode_y "1"
+																		}
+
+																	}
+
+																}
+
+																hitbox_visible "0"
+																id "content_group"
+																size
+																{
+																	x "919.999"
+																	y "2514.984"
+																}
+
+																size_mode_x "2"
+																size_mode_y "1"
+															}
+
+														}
+
+													}
+
+													id "mask"
+													margin
+													{
+														w "2.000"
+														y "36.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "neutral"
+												value "GuiGroupDef"
+												{
+													id "neutral"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "neutral_selected"
+												value "GuiGroupDef"
+												{
+													id "neutral_selected"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "vertical_scroll_bar"
+												value "GuiReferenceDef"
+												{
+													path "legacy_vertical"
+													ref_gui_id "gui/template/scroll_bars"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "bar"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.627"
+																}
+
+																id "bar"
+																size
+																{
+																	x "10.000"
+																	y "21.616"
+																}
+
+																size_mode_x "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "1.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "bg"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "bg"
+																size
+																{
+																	x "10.000"
+																	y "1077.895"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "border_bottom"
+															value "GuiQuadDef"
+															{
+																alignment "bottom_left"
+																anchor "bottom_left"
+																color
+																{
+																	x "0.118"
+																	y "0.365"
+																	z "0.698"
+																}
+
+																id "border_bottom"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode_x "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "2.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "border_left"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.118"
+																	y "0.365"
+																	z "0.698"
+																}
+
+																id "border_left"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "2.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "border_right"
+															value "GuiQuadDef"
+															{
+																alignment "top_right"
+																anchor "top_right"
+																color
+																{
+																	x "0.118"
+																	y "0.365"
+																	z "0.698"
+																}
+
+																id "border_right"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "2.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "border_top"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.118"
+																	y "0.365"
+																	z "0.698"
+																}
+
+																id "border_top"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode_x "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "2.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "slider"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "slider"
+																offset
+																{
+																	x "1.000"
+																	y "1.000"
+																}
+
+																size
+																{
+																	x "3.000"
+																	y "402.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																visible "0"
+																z_order "152.000"
+															}
+
+														}
+
+													}
+
+													alignment "top_right"
+													anchor "top_right"
+													id "vertical_scroll_bar"
+													offset
+													{
+														x "10.000"
+													}
+
+													size
+													{
+														x "12.000"
+														y "425.000"
+													}
+
+													tooltip_def
+													z_order "150.000"
+												}
+
+											}
+
+										}
+
+										id "scroll_wrapper"
+										margin
+										{
+											w "40.000"
+											y "5.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+							}
+
+							container_type "2"
+							id "container"
+							margin
+							{
+								w "10.000"
+								x "20.000"
+								y "40.000"
+								z "20.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+						}
+
+					}
+
+				}
+
+				alignment "center"
+				anchor "center"
+				id "popup_container"
+				size
+				{
+					x "972.000"
+					y "650.000"
+				}
+
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "templates"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "items_list_row"
+						value "GuiInteractiveItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiQuadDef"
+									{
+										alignment "left"
+										anchor "left"
+										color
+										{
+											w "0.472"
+											x "0.000"
+											y "0.000"
+											z "0.000"
+										}
+
+										hitbox_visible "0"
+										id "background"
+										size
+										{
+											x "1236.000"
+											y "30.000"
+										}
+
+										size_mode_x "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										id "neutral"
+										size
+										{
+											y "32.000"
+										}
+
+										size_mode_x "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										id "neutral_selected"
+										size
+										{
+											y "32.000"
+										}
+
+										size_mode_x "2"
+										visible "0"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "row_container"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "mod_game_version"
+												value "GuiTextDef"
+												{
+													line_breaking "0"
+													trimming_mode "0"
+													style_name "mod_row_label"
+													alignment "right"
+													anchor "right"
+													bindings
+													{
+														content
+														{
+															model_field "mod_game_version"
+														}
+
+														style_name
+														{
+															model_field "version_style_name"
+														}
+
+													}
+
+													id "mod_game_version"
+													max_size
+													{
+														x "300.000"
+													}
+
+													size
+													{
+														x "300.000"
+														y "32.000"
+													}
+
+													size_mode_x "0"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "toggle_enable_mod"
+												value "GuiToggleButtonItemDef"
+												{
+													on_click_action "toggle_item_enabled"
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "icon_container"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "icon_active"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/checkbox_active"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "is_checked"
+																				}
+
+																			}
+
+																			hitbox_visible "0"
+																			id "icon_active"
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			z_order "1.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "icon_background"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/checkbox_neutral"
+																			hitbox_visible "0"
+																			id "icon_background"
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																}
+
+																alignment "left"
+																anchor "left"
+																hitbox_visible "0"
+																id "icon_container"
+																size
+																{
+																	x "24.000"
+																	y "24.000"
+																}
+
+																z_order "10000000000.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral"
+															value "GuiGroupDef"
+															{
+																allow_overflow "0"
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "content"
+																		value "GuiTextDef"
+																		{
+																			plain_text "1"
+																			style_name "mod_row_title"
+																			translate "1"
+																			alignment "left"
+																			anchor "left"
+																			bindings
+																			{
+																				content
+																				{
+																					model_field "mod_title"
+																				}
+
+																				style_name
+																				{
+																					model_field "label_style_name"
+																				}
+
+																			}
+
+																			hitbox_visible "0"
+																			id "content"
+																			margin
+																			{
+																				x "40.000"
+																			}
+
+																			z_order "1.000"
+																		}
+
+																	}
+
+																}
+
+																id "neutral"
+																size
+																{
+																	x "200.000"
+																	y "32.000"
+																}
+
+																size_mode_x "1"
+																z_order "10000000000.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral_selected"
+															value "GuiGroupDef"
+															{
+																allow_overflow "0"
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "content"
+																		value "GuiTextDef"
+																		{
+																			plain_text "1"
+																			style_name "mod_row_title"
+																			translate "1"
+																			alignment "left"
+																			anchor "left"
+																			bindings
+																			{
+																				content
+																				{
+																					model_field "mod_title"
+																				}
+
+																				style_name
+																				{
+																					model_field "label_style_name"
+																				}
+
+																			}
+
+																			id "content"
+																			margin
+																			{
+																				x "40.000"
+																			}
+
+																			z_order "1.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "icon_container"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "icon_selected"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/checkbox_selected"
+																						hitbox_visible "0"
+																						id "icon_selected"
+																						size_mode_x "2"
+																						size_mode_y "2"
+																					}
+
+																				}
+
+																			}
+
+																			alignment "left"
+																			anchor "left"
+																			hitbox_visible "0"
+																			id "icon_container"
+																			size
+																			{
+																				x "24.000"
+																				y "24.000"
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "neutral_selected"
+																size
+																{
+																	x "200.000"
+																	y "32.000"
+																}
+
+																size_mode_x "1"
+																z_order "10000000000.000"
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													id "toggle_enable_mod"
+													size
+													{
+														x "600.000"
+														y "32.000"
+													}
+
+													size_mode_y "1"
+													z_order "10000000000.000"
+												}
+
+											}
+
+										}
+
+										alignment "left"
+										anchor "left"
+										id "row_container"
+										margin
+										{
+											x "10.000"
+										}
+
+										size
+										{
+											y "32.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+							}
+
+							id "items_list_row"
+							size_mode_x "2"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "popup_button"
+						value "GuiButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "central"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_active"
+													hitbox_visible "0"
+													id "central"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													style_name "active"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+													}
+
+													id "content"
+													margin
+													{
+														x "40.000"
+														z "40.000"
+													}
+
+													max_size
+													{
+														y "35.000"
+													}
+
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_active"
+													hitbox_visible "0"
+													id "left"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_active"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "active"
+										size
+										{
+											x "140.000"
+											y "49.000"
+										}
+
+										size_mode_x "1"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "central"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_active"
+													hitbox_visible "0"
+													id "central"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "central_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_neutral_selected"
+													hitbox_visible "0"
+													id "central_1"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													style_name "active"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+													}
+
+													id "content"
+													margin
+													{
+														x "40.000"
+														z "40.000"
+													}
+
+													max_size
+													{
+														y "35.000"
+													}
+
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_active"
+													hitbox_visible "0"
+													id "left"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_neutral_selected"
+													hitbox_visible "0"
+													id "left_1"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_active"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_neutral_selected"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right_1"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "active_selected"
+										size
+										{
+											x "140.000"
+											y "49.000"
+										}
+
+										size_mode_x "1"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "central"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_disabled"
+													hitbox_visible "0"
+													id "central"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													style_name "disabled"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+													}
+
+													id "content"
+													margin
+													{
+														x "40.000"
+														z "40.000"
+													}
+
+													max_size
+													{
+														y "35.000"
+													}
+
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_disabled"
+													hitbox_visible "0"
+													id "left"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_disabled"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "disabled"
+										size
+										{
+											x "140.000"
+											y "49.000"
+										}
+
+										size_mode_x "1"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "central"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_disabled"
+													hitbox_visible "0"
+													id "central"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "central_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_neutral_selected"
+													hitbox_visible "0"
+													id "central_1"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													style_name "disabled"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+													}
+
+													id "content"
+													margin
+													{
+														x "40.000"
+														z "40.000"
+													}
+
+													max_size
+													{
+														y "35.000"
+													}
+
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_disabled"
+													hitbox_visible "0"
+													id "left"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_neutral_selected"
+													hitbox_visible "0"
+													id "left_1"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_disabled"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_neutral_selected"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right_1"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "disabled_selected"
+										size
+										{
+											x "140.000"
+											y "49.000"
+										}
+
+										size_mode_x "1"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "central"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_neutral"
+													hitbox_visible "0"
+													id "central"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													style_name "neutral"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+													}
+
+													id "content"
+													margin
+													{
+														x "40.000"
+														z "40.000"
+													}
+
+													max_size
+													{
+														y "35.000"
+													}
+
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_neutral"
+													hitbox_visible "0"
+													id "left"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_neutral"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											x "140.000"
+											y "49.000"
+										}
+
+										size_mode_x "1"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "central"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_neutral"
+													hitbox_visible "0"
+													id "central"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "central_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_center_neutral_selected"
+													hitbox_visible "0"
+													id "central_1"
+													margin
+													{
+														w "-26.000"
+														x "171.000"
+														y "-26.000"
+														z "7.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiTextDef"
+												{
+													style_name "selected"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+													}
+
+													id "content"
+													margin
+													{
+														x "40.000"
+														z "40.000"
+													}
+
+													max_size
+													{
+														y "35.000"
+													}
+
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_neutral"
+													hitbox_visible "0"
+													id "left"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_left_neutral_selected"
+													hitbox_visible "0"
+													id "left_1"
+													margin
+													{
+														x "-9.000"
+														y "-26.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_neutral"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right_1"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_btn_right_neutral_selected"
+													alignment "top_right"
+													anchor "top_right"
+													hitbox_visible "0"
+													id "right_1"
+													margin
+													{
+														y "-26.000"
+														z "-3.000"
+													}
+
+													offset
+													{
+														x "6.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "140.000"
+											y "49.000"
+										}
+
+										size_mode_x "1"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+							}
+
+							id "popup_button"
+							size
+							{
+								x "500.000"
+								y "48.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+							tooltip_def
+						}
+
+					}
+
+				}
+
+				id "templates"
+			}
+
+		}
+
+	}
+
+	id "gui/popup/popup_incompatible_mods"
+	size
+	{
+		x "1920.000"
+		y "1080.000"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "all_items_enabled"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "any_incompatible_items_enabled"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "dont_show_again"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent4"
+					default_value
+					{
+						typehash "2659680634"
+						Vector_[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent4
+						{
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod titleSuper long mod titleSuper long mod titleSuper long mod titleSuper long mod titleSuper long mod titleSuper long mod title"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "1"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "1"
+								mod_game_version "EXE: 123 DATA: 944"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "1"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "1"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "1"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+							[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]/ExternalContent
+							{
+								mod_title "Super long mod title tralalallala alal al lalasfa assa"
+								is_compatible "0"
+								mod_game_version "EXE: 123 DATA: 922"
+								is_enabled "0"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "items"
+			}
+
+		}
+
+		handle "[E0749D73-1111-4664-83BD-0A93C6EE2815]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "ExternalContent"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_compatible"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "is_enabled"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "EXE: 123 DATA: 922"
+					}
+
+				}
+
+				key "mod_game_version"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Super long mod title tralalallala alal al lalasfa assa"
+					}
+
+				}
+
+				key "mod_title"
+			}
+
+		}
+
+		handle "[97BB3038-BCF8-4FD3-BB22-99AF72DD4AE8]"
+	}
+
+}
+
