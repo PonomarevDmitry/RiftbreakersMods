@@ -145,6 +145,24 @@ fragment_program unlit_fresnel_alpha_fp hlsl
     }
 }
 
+fragment_program unlit_fresnel_alpha_test_fp hlsl
+{
+    source                  materials/programs/unlit_fresnel_fp.hlsl
+    entry_point             mainFP
+    target                  ps_5_0
+    preprocessor_defines    USE_ALPHA_TEST=1
+    
+    default_params
+    {
+        param_named         cFresnelBias        float 0
+        param_named         cFresnelScale       float 0
+        param_named         cFresnelPower       float 0
+        
+        param_named         cBlendColor1        float4 0 0 0 0
+        param_named         cBlendColor2        float4 0 0 0 0
+    }
+}
+
 fragment_program unlit_fresnel_vegetation_fp hlsl
 {
     source                  materials/programs/unlit_fresnel_fp.hlsl
@@ -287,6 +305,34 @@ fragment_program unlit_fresnel_flare_noise_fp hlsl
     target          ps_5_0
 
     preprocessor_defines USE_NOISE_MAP=1,USE_FLARE=1,USE_ALPHA=1
+
+    default_params
+    {
+        param_named         cFresnelBias        float   0
+        param_named         cFresnelScale       float   0
+        param_named         cFresnelPower       float   0
+        
+        param_named         cBlendColor1        float4  0 0 0 0
+        param_named         cBlendColor2        float4  0 0 0 0
+
+        param_named         cNoisePower         float   0.5
+        param_named         cNoiseTileScale     float   1.0
+
+        param_named         cAlpha              float   0.0
+
+        param_named_auto    cTime               time
+        param_named         cFlarePower         float 0.1
+        param_named         cFlareSpeed         float 1
+    }
+}
+
+fragment_program unlit_fresnel_flare_noise_alpha_test_fp hlsl
+{
+    source          materials/programs/unlit_fresnel_fp.hlsl
+    entry_point     mainFP
+    target          ps_5_0
+
+    preprocessor_defines USE_NOISE_MAP=1,USE_FLARE=1,USE_ALPHA=1,USE_ALPHA_TEST=1
 
     default_params
     {

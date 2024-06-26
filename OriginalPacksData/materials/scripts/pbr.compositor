@@ -740,7 +740,7 @@ CompositorNodeSelector pbr_water
 
     CompositorNode water_none
     {
-        rt water_collision
+        rt_double water_collision
         {
             width 16
             height 16
@@ -754,6 +754,11 @@ CompositorNodeSelector pbr_water
             {
                 clear_color 0.0 0.0 0.0 0.0
                 clear_mask COLOR
+            }
+
+            pass water_simulation
+            {
+                camera camera_water
             }
         }
 
@@ -834,40 +839,18 @@ CompositorNodeSelector pbr_reflection
     out main
 }
 
-CompositorNodeSelector pbr_volumetric_fog
+CompositorNode pbr_volumetric_fog
 {
     in main
     in shadows
     in raytraced_shadows
     in light_mask
-    
-    ConfigOption r_volumetric_fog
-    {
-        none       volumetric_fog_none
-        medium     volumetric_fog
-        high       volumetric_fog
-        ultra      volumetric_fog
-    }
 
-    CompositorNode volumetric_fog_none
+    target main
     {
-        target main
+        pass volumetric_fog
         {
-            pass dummy
-            {
-
-            }
-        }
-    }
-
-    CompositorNode volumetric_fog
-    {
-        target main
-        {
-            pass volumetric_fog
-            {
-                camera camera_0
-            }
+            camera camera_0
         }
     }
 
@@ -883,8 +866,6 @@ CompositorNodeSelector pbr_combine
     {
         combine        combine
         combine_r      combine_reflections
-        combine_e      combine_fog_exponential
-        combine_e_r    combine_fog_exponential_reflections
         combine_v      combine_fog_volumetric
         combine_v_r    combine_fog_volumetric_reflections
     }
@@ -952,79 +933,6 @@ CompositorNodeSelector pbr_combine
                 camera camera_0
                 texture_camera camera_0
                 material combine_reflections
-                input 2 gbuffer 0
-                input 3 gbuffer 1
-                input 4 gbuffer 2
-                input 5 main_copy 0
-                input 6 gbuffer 6
-            }
-        }
-    }
-
-    CompositorNode combine_fog_exponential
-    {
-        rt main_copy
-        {
-            width 1.0
-            height 1.0
-            resolution "render"
-            texture PF_R11G11B10_FLOAT main_copy
-            depth_buffer pool 0
-            unordered_access
-        }
-
-        target main_copy
-        {
-            pass compute
-            {
-                input 0 main 0
-                tile_size 16 16
-                material blit_texture_cs
-            }
-        }
-
-        target main
-        {
-            pass compute
-            {
-                camera camera_0
-                texture_camera camera_0
-                material combine_fog_exponential
-                input 0 main_copy 0
-                input 1 gbuffer 6
-            }
-        }
-    }
-
-    CompositorNode combine_fog_exponential_reflections
-    {
-        rt main_copy
-        {
-            width 1.0
-            height 1.0
-            resolution "render"
-            texture PF_R11G11B10_FLOAT main_copy
-            depth_buffer pool 0
-            unordered_access
-        }
-
-        target main_copy
-        {
-            pass compute
-            {
-                input 0 main 0
-                tile_size 16 16
-                material blit_texture_cs
-            }
-        }
-
-        target main
-        {
-            pass compute
-            {
-                camera camera_0
-                texture_camera camera_0
-                material combine_fog_exponential_reflections
                 input 2 gbuffer 0
                 input 3 gbuffer 1
                 input 4 gbuffer 2
@@ -1144,6 +1052,16 @@ CompositorNodeSelector pbr_forward
                 rg_end 106
             }
 
+            pass render_scene // FORWARD HIGHLIGHTS
+            {
+                camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 4
+                rg_end 59
+                include_renderable_flag highlight_damage|highlight_discoverable|highlight_scannable
+                custom_visitor QueueHighlightRenderableVisitor
+            }
+
             pass render_scene // FORWARD DECALS
             {
                 camera camera_0
@@ -1178,6 +1096,16 @@ CompositorNodeSelector pbr_forward
                 rg_end 106
             }
 
+            pass render_scene // FORWARD HIGHLIGHTS
+            {
+                camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 4
+                rg_end 59
+                include_renderable_flag highlight_damage|highlight_discoverable|highlight_scannable
+                custom_visitor QueueHighlightRenderableVisitor
+            }
+            
             pass render_scene // FORWARD DECALS
             {
                 bind_rt_index 0
@@ -2154,7 +2082,7 @@ CompositorGraph pbr_compositor
     context gbuffer_context     pbr_gbuffer
     context shadow_context      pbr_light_mask
     context shadow_context      pbr_shadow
-    context shadow_context      pbr_raytracing
+    context raytracing_context  pbr_raytracing
     context general_context     pbr_occlusion
     context general_context     pbr_lighting
     context general_context     pbr_water

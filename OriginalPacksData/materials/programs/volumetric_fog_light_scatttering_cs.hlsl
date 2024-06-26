@@ -176,20 +176,22 @@ void main( uint3 groupID : SV_GroupID, uint3 dispatchThreadID : SV_DispatchThrea
     uint2 tileIndex = cTiledDeferredGridSize.xy * screenUV;
     const uint linearTileIndex = ( tileIndex.y * cTiledDeferredGridSize.x ) + tileIndex.x;
     const uint lightIndexListAddress = linearTileIndex * TILED_DEFERRED_MAX_LIGHT_BUCKET_COUNT;
-    const uint lastMaxLightIndex = cNumLights - 1;
+    const uint lastMaxLightIndex = max( 0, cNumLights - 1 );
     const uint lastLightBucket = min( lastMaxLightIndex / 32u, max( 0u, ( uint ) TILED_DEFERRED_MAX_LIGHT_BUCKET_COUNT - 1 ) );
 
+    uint lightCount = 0;
     float3 worldPos = GetVolumeWorldPos( did, dims, cVolumetricJitterOffset.xyz );
     [loop]
     for ( uint lightBucket = 0; lightBucket <= lastLightBucket; ++lightBucket )
     {    
         uint lightBits = LightIndexList[ lightIndexListAddress + lightBucket ];
         [loop]
-        while ( lightBits != 0 )
+        while ( lightBits != 0 && lightCount < cNumLights )
         {
             const uint lightBitIndex = firstbitlow( lightBits );
             const uint lightIndex = lightBucket * 32 + lightBitIndex;
             lightBits ^= 1u << lightBitIndex;
+            lightCount++;
 
             Light light = Lights[ lightIndex ];
             switch ( light.Type )

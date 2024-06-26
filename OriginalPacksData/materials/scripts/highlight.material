@@ -39,6 +39,50 @@ material highlight/damage_skinned : highlight/damage
 	}
 }
 
+material highlight/damage_alpha_test : highlight/damage
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+			cull_hardware none
+
+			fragment_program_ref unlit_fresnel_alpha_test_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 4
+				param_named cFresnelPower float 1
+				
+				param_named cBlendColor1 float4 0.0 0.0 0.0 0.0
+				param_named cBlendColor2 float4 1 0 0 0.5
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
+material highlight/damage_alpha_test_skinned : highlight/damage_alpha_test
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+			cull_hardware none
+
+			vertex_program_ref unlit_fresnel_skinned_vp 
+			{
+			}
+		}
+	}
+}
+
 material highlight/damage_vegetation : highlight/damage
 {
 	technique
@@ -74,8 +118,468 @@ material highlight/damage_vegetation : highlight/damage
 	}
 }
 
+material highlight/damage_vegetation_deform : highlight/damage
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref unlit_fresnel_vegetation_deform_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_vegetation_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 4
+				param_named cFresnelPower float 1
+				
+				param_named cBlendColor1 float4 0.0 0.0 0.0 0.0
+				param_named cBlendColor2 float4 1 0 0 0.5
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering bilinear
+			}
+
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise_tiled_01.dds
+				filtering bilinear
+			}
+		}
+	}
+}
+
 material highlight/damage_vegetation_tree : highlight/damage_vegetation
 {
 
 }
 
+material highlight/scannable
+{
+	render_group 61
+	
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_bias -10 -1
+
+			vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.2 1.0 0 2.0
+
+				param_named cNoiseColor 		float4  0.2 1.0 0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.0
+        		param_named cFlareSpeed         float 16
+			}
+
+			texture_unit noise
+            {
+                anim_texture materials/textures/gradient/hologram_gradient.dds 15 0.75
+                filtering bilinear
+            }
+		}
+	}
+}
+
+material highlight/scannable_skinned
+{
+	render_group 61
+
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_bias -4 -1
+
+			vertex_program_ref unlit_fresnel_skinned_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.2 1.0 0 2.0
+
+				param_named cNoiseColor 		float4  0.2 1.0 0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.0
+        		param_named cFlareSpeed         float 16
+			}
+
+			texture_unit noise
+            {
+                anim_texture materials/textures/gradient/hologram_gradient.dds 15 0.75
+                filtering bilinear
+            }
+		}
+	}
+}
+
+material highlight/scannable_alpha_test : highlight/scannable
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_noise_alpha_test_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.2 1.0 0 2.0
+
+				param_named cNoiseColor 		float4  0.2 1.0 0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.0
+        		param_named cFlareSpeed         float 16
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering bilinear
+			}
+
+			texture_unit noise
+            {
+                anim_texture materials/textures/gradient/hologram_gradient.dds 15 0.75
+                filtering bilinear
+            }
+		}
+	}
+}
+
+material highlight/scannable_alpha_test_skinned : highlight/scannable_alpha_test
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref unlit_fresnel_skinned_vp 
+			{
+			}
+		}
+	}
+}
+
+material highlight/scannable_vegetation
+{
+	render_group 61
+	
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_bias -40 -1
+
+			vertex_program_ref unlit_fresnel_vegetation_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_vegetation_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.2 1.0 0 2.0
+
+				param_named cNoiseColor 		float4  0.2 1.0 0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.0
+        		param_named cFlareSpeed         float 16
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering bilinear
+			}
+
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise_tiled_01.dds
+				filtering bilinear
+			}
+
+			texture_unit noise
+            {
+                anim_texture materials/textures/gradient/hologram_gradient.dds 15 0.75
+                filtering bilinear
+            }
+		}
+	}
+}
+
+material highlight/scannable_vegetation_deform
+{
+	render_group 61
+	
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_bias -40 -1
+
+			vertex_program_ref unlit_fresnel_vegetation_deform_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_vegetation_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.2 1.0 0 2.0
+
+				param_named cNoiseColor 		float4  0.2 1.0 0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.0
+        		param_named cFlareSpeed         float 16
+			}
+
+			texture_unit albedo
+			{
+				texture materials/textures/error.dds
+				filtering bilinear
+			}
+
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise_tiled_01.dds
+				filtering bilinear
+			}
+
+			texture_unit noise
+            {
+                anim_texture materials/textures/gradient/hologram_gradient.dds 15 0.75
+                filtering bilinear
+            }
+		}
+	}
+}
+
+material highlight/scannable_vegetation_tree : highlight/scannable_vegetation
+{
+	
+}
+
+material highlight/discovered : highlight/scannable
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.0 0.5 1.0 2.0
+
+				param_named cNoiseColor 		float4  0.0 0.5 1.0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.5
+        		param_named cFlareSpeed         float 16
+			}
+		}
+	}
+}
+
+material highlight/discovered_skinned : highlight/scannable_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.0 0.5 1.0 2.0
+
+				param_named cNoiseColor 		float4  0.0 0.5 1.0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.5
+        		param_named cFlareSpeed         float 16
+			}
+		}
+	}
+}
+
+material highlight/discovered_alpha_test : highlight/scannable_alpha_test
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_noise_alpha_test_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.0 0.5 1.0 2.0
+
+				param_named cNoiseColor 		float4  0.0 0.5 1.0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.5
+        		param_named cFlareSpeed         float 16
+			}
+		}
+	}
+}
+
+material highlight/discovered_alpha_test_skinned : highlight/scannable_alpha_test_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_noise_alpha_test_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.0 0.5 1.0 2.0
+
+				param_named cNoiseColor 		float4  0.0 0.5 1.0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.5
+        		param_named cFlareSpeed         float 16
+			}
+		}
+	}
+}
+
+material highlight/discovered_vegetation : highlight/scannable_vegetation
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_vegetation_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.0 0.5 1.0 2.0
+
+				param_named cNoiseColor 		float4  0.0 0.5 1.0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.5
+        		param_named cFlareSpeed         float 16
+			}
+		}
+	}
+}
+
+material highlight/discovered_vegetation_deform : highlight/scannable_vegetation_deform
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_vegetation_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.0 0.5 1.0 2.0
+
+				param_named cNoiseColor 		float4  0.0 0.5 1.0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.5
+        		param_named cFlareSpeed         float 16
+			}
+		}
+	}
+}
+
+material highlight/discovered_vegetation_tree : highlight/scannable_vegetation_tree
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_vegetation_flare_noise_fp
+			{
+				param_named cFresnelBias  		float 0
+				param_named cFresnelScale 		float 1
+				param_named cFresnelPower 		float 4
+				
+				param_named cBlendColor1 		float4  0.0 0.0 0.0 0.0
+				param_named cBlendColor2 		float4  0.0 0.5 1.0 2.0
+
+				param_named cNoiseColor 		float4  0.0 0.5 1.0 1.0
+				param_named cNoisePower         float   3.0
+        		param_named cNoiseTileScale     float   7.0
+
+        		param_named cFlarePower         float 0.5
+        		param_named cFlareSpeed         float 16
+			}
+		}
+	}
+}
