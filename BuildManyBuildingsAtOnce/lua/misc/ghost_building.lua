@@ -55,26 +55,25 @@ function ghost_building:OnInit()
 
     self.isBuildingWithGaps = false
 
-    if ( mod_build_with_gaps ~= nil and mod_build_with_gaps == 1 ) then
+    local buildWithGaps = ( typeName == "tower" and mod_build_towers_with_gaps ~= nil and mod_build_towers_with_gaps == 1 ) or ( typeName == "trap" and mod_build_traps_with_gaps ~= nil and mod_build_traps_with_gaps == 1 )
 
-        if ( typeName == "tower" or typeName == "trap" ) then
+    if ( buildWithGaps ) then
 
-            self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
+        self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
 
-            self.isBuildingWithGaps = true
+        self.isBuildingWithGaps = true
 
-            local lowName = BuildingService:FindLowUpgrade( self.blueprint )
+        local lowName = BuildingService:FindLowUpgrade( self.blueprint )
 
-            self.configNameCellGaps = "$" .. typeName .. "s_" .. lowName .. "_construction_cell_count"
+        self.configNameCellGaps = "$" .. typeName .. "s_" .. lowName .. "_construction_cell_count"
 
-            local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetDatabase( self.selector )
 
-            self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
-            self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
+        self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
+        self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
 
-            self.markerGapsConfig = -1
-            self.currentMarkerGaps = nil
-        end
+        self.markerGapsConfig = -1
+        self.currentMarkerGaps = nil
     end
 end
 
