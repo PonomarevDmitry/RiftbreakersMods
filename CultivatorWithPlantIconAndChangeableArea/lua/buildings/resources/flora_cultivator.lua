@@ -307,6 +307,9 @@ function flora_cultivator:OnBuildingEnd()
 
         if ( modItem ~= INVALID_ID ) then
             if ( IsEquippedItemBlueprintValid( modItem, default_blueprint ) ) then
+
+                self.item = modItem
+
                 ItemService:EquipItemInSlot( self.entity, modItem, "MOD_1" )
                 self:PopulateSpecialActionInfo()
                 return
