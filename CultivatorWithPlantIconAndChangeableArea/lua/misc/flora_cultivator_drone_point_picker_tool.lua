@@ -140,9 +140,22 @@ function flora_cultivator_drone_point_picker_tool:FindTowerDronePointsParents(po
 
     local result = {}
 
-    local entities = FindService:FindEntitiesByBlueprintInBox( "misc/area_center_point", min, max )
+    self:FindAreaCenterPointEntitiesByBlueprintInBox( "misc/area_center_point", min, max, result )
+
+    self:FindAreaCenterPointEntitiesByBlueprintInBox( "misc/flora_cultivator_area_center_point", min, max, result )
+
+    return result
+end
+
+function flora_cultivator_drone_point_picker_tool:FindAreaCenterPointEntitiesByBlueprintInBox(blueprintName, min, max, result)
+
+    local entities = FindService:FindEntitiesByBlueprintInBox( blueprintName, min, max )
 
     for entity in Iter( entities ) do
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue
+        end
 
         local parentEntity = EntityService:GetParent(entity)
         if ( parentEntity == nil or parentEntity == INVALID_ID ) then
@@ -166,7 +179,6 @@ function flora_cultivator_drone_point_picker_tool:FindTowerDronePointsParents(po
         ::continue::
     end
 
-    return result
 end
 
 function flora_cultivator_drone_point_picker_tool:FilterSelectedEntities( selectedEntities )
