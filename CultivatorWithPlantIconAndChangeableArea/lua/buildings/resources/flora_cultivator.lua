@@ -828,7 +828,7 @@ function flora_cultivator:CreateCenterPoint()
 
     local selfLowName = BuildingService:FindLowUpgrade( selfBlueprintName )
 
-    local pointEntityBlueprintName = "misc/area_center_point"
+    local pointEntityBlueprintName = "misc/flora_cultivator_area_center_point"
 
     if ( self.pointEntity ~= nil and not EntityService:IsAlive(self.pointEntity) ) then
         self.pointEntity = nil
@@ -836,9 +836,26 @@ function flora_cultivator:CreateCenterPoint()
 
     if ( self.pointEntity ~= nil ) then
 
+        local blueprintName = EntityService:GetBlueprintName( self.pointEntity )
+
+        if ( pointEntityBlueprintName ~= blueprintName ) then
+
+            if ( self.pointEntity ~= nil and self.pointEntity ~= INVALID_ID ) then
+                EntityService:RemoveEntity( self.pointEntity )
+            end
+            self.pointEntity = nil
+        end
+    end
+
+    if ( self.pointEntity ~= nil ) then
+
         local pointEntityParent = EntityService:GetParent( self.pointEntity )
 
         if ( pointEntityParent == nil or pointEntityParent == INVALID_ID or pointEntityParent ~= self.entity ) then
+
+            if ( self.pointEntity ~= nil and self.pointEntity ~= INVALID_ID ) then
+                EntityService:RemoveEntity( self.pointEntity )
+            end
             self.pointEntity = nil
         end
     end
