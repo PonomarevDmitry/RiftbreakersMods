@@ -7,8 +7,8 @@ function laboratory:__init()
 end
 
 function laboratory:OnInit()	
-    --self.laboratoryVersion = 1
-    --self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
+    self.laboratoryVersion = 1
+    self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 end
 
 function laboratory:OnBuildingStart()
