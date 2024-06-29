@@ -10,7 +10,7 @@ function mini_miner:__init()
 end
 
 function mini_miner:OnInit()
-    self.bp  = self.data:GetStringOrDefault("blueprint", "items/consumables/mini_miner" )
+    self.bp = self.data:GetStringOrDefault("blueprint", "items/consumables/mini_miner" )
 end
 
 function mini_miner:OnEquipped()
@@ -35,7 +35,7 @@ function mini_miner:OnActivate()
     EntityService:DissolveEntity( tower, 1.0, self.data:GetFloatOrDefault("timeout", 20.0) )
 end
 
-function  mini_miner:GetPointToSpawnForMiniMiner(originalPosition)
+function mini_miner:GetPointToSpawnForMiniMiner(originalPosition)
 
     local resourceVolume = self:GetResourceVolume(originalPosition)
     if ( resourceVolume == nil ) then
