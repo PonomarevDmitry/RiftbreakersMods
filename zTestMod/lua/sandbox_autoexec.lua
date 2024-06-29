@@ -41,15 +41,15 @@ if not cheat_init then --Make all one-time
 
         RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-            for i=1,3 do --give player 3 of every extreme weapon mod
+            for i=1,5 do
 
                 local playerId = evt:GetPlayerId()
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_extreme_item")
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_extreme_item")
 
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_burst_extreme_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_shot_extreme_item")
@@ -58,24 +58,31 @@ if not cheat_init then --Make all one-time
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_cost_extreme_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_extreme_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_extreme_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_extreme_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_extreme_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_range_extreme_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_extreme_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_extreme_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_extreme_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_extreme_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_extreme_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_extreme_item")
                     
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_add_extreme_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_sub_extreme_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_add_extreme_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_sub_extreme_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_critical_chance_extreme_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_extreme_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_extreme_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_enable_extreme_item")
 
 
 
@@ -89,11 +96,11 @@ if not cheat_init then --Make all one-time
 
 
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_superior_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_superior_item")
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_superior_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_superior_item")
 
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_burst_superior_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_shot_superior_item")
@@ -102,24 +109,31 @@ if not cheat_init then --Make all one-time
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_cost_superior_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_superior_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_superior_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_superior_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_superior_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_range_superior_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_superior_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_superior_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_superior_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_superior_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_superior_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_superior_item")
                     
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_add_superior_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_sub_superior_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_add_superior_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_sub_superior_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_critical_chance_superior_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_superior_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_superior_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_enable_superior_item")
 
 
 
@@ -129,11 +143,11 @@ if not cheat_init then --Make all one-time
 
         
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_advanced_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_advanced_item")
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_advanced_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_advanced_item")
 
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_burst_advanced_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_shot_advanced_item")
@@ -142,24 +156,31 @@ if not cheat_init then --Make all one-time
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_cost_advanced_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_advanced_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_advanced_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_advanced_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_advanced_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_range_advanced_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_advanced_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_advanced_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_advanced_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_advanced_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_advanced_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_advanced_item")
                     
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_add_advanced_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_sub_advanced_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_add_advanced_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_sub_advanced_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_critical_chance_advanced_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_advanced_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_advanced_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_enable_advanced_item")
 
 
 
@@ -167,11 +188,11 @@ if not cheat_init then --Make all one-time
 
         
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_standard_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_standard_item")
 
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_standard_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_penetration_enable_standard_item")
 
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_burst_standard_item")
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_fire_per_shot_standard_item")
@@ -180,24 +201,31 @@ if not cheat_init then --Make all one-time
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_cost_standard_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_standard_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_homing_enable_standard_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_standard_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_lifesteal_enable_standard_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_range_standard_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_standard_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_splash_damage_enable_standard_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_standard_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_stun_chance_enable_standard_item")
                     
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_standard_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_autoaim_enable_standard_item")
                     
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_add_standard_item")
-                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_spread_sub_standard_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_add_standard_item")
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_ammo_spread_sub_standard_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_critical_chance_standard_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_standard_item")
+                    
+                PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_standard_item")
+                --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_enable_standard_item")
             end
         end)
     end
