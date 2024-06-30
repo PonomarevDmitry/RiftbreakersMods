@@ -24,7 +24,7 @@ function eraser_rocks_tool:FindEntitiesToSelect( selectorComponent )
         filter = function( entity )
 
             local blueprintName = EntityService:GetBlueprintName( entity )
-            if ( blueprintName == "" ) then
+            if ( blueprintName == "" or blueprintName == nil ) then
                 return false
             end
         
@@ -112,16 +112,20 @@ function eraser_rocks_tool:OnActivateEntity( entity )
 
     --ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
 
-    EntityService:DisableCollisions( entity )
+    if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
 
-    BuildingService:DisablePhysics( entity )
+        EntityService:DisableCollisions( entity )
 
-    EntityService:RemoveComponent( entity, "PhysicsComponent" )
+        BuildingService:DisablePhysics( entity )
 
-    EntityService:RequestDestroyPattern( entity, "default" )
+        EntityService:RequestDestroyPattern( entity, "default" )
 
-    local dissolveTime = RandFloat( 1.0, 2.0 )
-    EntityService:DissolveEntity( entity, dissolveTime )
+        local dissolveTime = RandFloat( 1.0, 2.0 )
+        EntityService:DissolveEntity( entity, dissolveTime )
+    else
+        
+        EntityService:RemoveEntity(entity)
+    end
 
     --EntityService:ChangePhysicsGroupId( entity, "destructible" )
 
