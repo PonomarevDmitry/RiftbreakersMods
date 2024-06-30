@@ -25,7 +25,7 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+    local boundsSize = { x=1.0, y=1000.0, z=1.0 }
 
     local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
 
