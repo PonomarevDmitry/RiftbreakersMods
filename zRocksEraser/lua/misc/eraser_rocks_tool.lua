@@ -21,12 +21,22 @@ function eraser_rocks_tool:FindEntitiesToSelect( selectorComponent )
 
     local predicate = {
 
-        signature = "PhysicsComponent"
+        signature = "PhysicsComponent",
+
+        filter = function( entity )
+
+            local groupId = EntityService:GetPhysicsGroupId( entity )
+            if ( groupId == "destructible" ) then
+                return true
+            end
+
+            return false
+        end
     };
 
     local position = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+    local boundsSize = { x=1.0, y=1000.0, z=1.0 }
 
     local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
 
@@ -48,13 +58,16 @@ function eraser_rocks_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         local blueprintName = EntityService:GetBlueprintName( entity )
-
+        if ( blueprintName == "" ) then
+            goto continue
+        end
+        
         local stringIndex = string.find( blueprintName, "props/rocks/" )
-
+        
         if ( stringIndex == nil ) then
             goto continue
         end
-
+        
         if ( stringIndex ~= 1 ) then
             goto continue
         end
@@ -92,40 +105,40 @@ end
 
 function eraser_rocks_tool:OnActivateEntity( entity )
 
-    local cellIndexes = FindService:GetEntityCellIndexes(entity)
+    --ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
 
     EntityService:DisableCollisions( entity )
 
-    EntityService:ChangePhysicsGroupId( entity, "destructible" )
-
     BuildingService:DisablePhysics( entity )
 
-    EntityService:RemoveComponent( entity, "PhysicsComponent" )
-    EntityService:RemoveComponent( entity, "WorldBlockerLayerComponent" )
-    EntityService:RemoveComponent( entity, "BuildingBlockerLayerComponent" )
-
-    ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
-
-    EntityService:SetNavMeshScale( entity, 0.1, 0.1, 0.1 )
-
-    for cellId in Iter( cellIndexes ) do
-
-        EntityService:DisableCollisions( cellId )
-        BuildingService:DisablePhysics( cellId )
-        
-        EntityService:RemoveComponent( cellId, "PhysicsComponent" )
-        EntityService:RemoveComponent( cellId, "WorldBlockerLayerComponent" )
-        EntityService:RemoveComponent( cellId, "BuildingBlockerLayerComponent" )
-
-        ConsoleService:ExecuteCommand("dump_entity " .. tostring(cellId))
-    end
-
-    --QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+    EntityService:RequestDestroyPattern( entity, "default" )
 
     local dissolveTime = RandFloat( 1.0, 2.0 )
     EntityService:DissolveEntity( entity, dissolveTime )
 
-    EntityService:RequestDestroyPattern( entity, "default" )
+    --EntityService:ChangePhysicsGroupId( entity, "destructible" )
+
+    --local cellIndexes = FindService:GetEntityCellIndexes(entity)
+    --
+    --EntityService:RemoveComponent( entity, "PhysicsComponent" )
+    --EntityService:RemoveComponent( entity, "WorldBlockerLayerComponent" )
+    --EntityService:RemoveComponent( entity, "BuildingBlockerLayerComponent" )
+    --
+    --EntityService:SetNavMeshScale( entity, 0.1, 0.1, 0.1 )
+    --
+    --for cellId in Iter( cellIndexes ) do
+    --
+    --    EntityService:DisableCollisions( cellId )
+    --    BuildingService:DisablePhysics( cellId )
+    --    
+    --    EntityService:RemoveComponent( cellId, "PhysicsComponent" )
+    --    EntityService:RemoveComponent( cellId, "WorldBlockerLayerComponent" )
+    --    EntityService:RemoveComponent( cellId, "BuildingBlockerLayerComponent" )
+    --
+    --    ConsoleService:ExecuteCommand("dump_entity " .. tostring(cellId))
+    --end
+    --
+    ----QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 end
 
 return eraser_rocks_tool
