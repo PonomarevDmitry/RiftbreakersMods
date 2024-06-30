@@ -206,6 +206,43 @@ local supported_item_blueprints = {
     ["items/consumables/tesla_turret_advanced_item"] = "0.05",
     ["items/consumables/tesla_turret_superior_item"] = "0.05",
     ["items/consumables/tesla_turret_extreme_item"] = "0.05",
+     
+    ["items/skills/radar_pulse_item"] = "0.05",
+    ["items/skills/radar_pulse_advanced_item"] = "0.05",
+    ["items/skills/radar_pulse_superior_item"] = "0.05",
+    ["items/skills/radar_pulse_extreme_item"] = "0.05",
+     
+    ["items/interactive/drill_item"] = "0.02",
+
+    ["items/skills/generator_overcharge_standard_item"] = "1",
+    ["items/skills/generator_overcharge_advanced_item"] = "1",
+    ["items/skills/generator_overcharge_superior_item"] = "1",
+    ["items/skills/generator_overcharge_extreme_item"] = "1",
+
+    ["items/skills/flamewave_standard_item"] = "1",
+    ["items/skills/flamewave_advanced_item"] = "1",
+    ["items/skills/flamewave_superior_item"] = "1",
+    ["items/skills/flamewave_extreme_item"] = "1",
+
+    ["items/skills/emergency_explosion_standard_item"] = "1",
+    ["items/skills/emergency_explosion_advanced_item"] = "1",
+    ["items/skills/emergency_explosion_superior_item"] = "1",
+    ["items/skills/emergency_explosion_extreme_item"] = "1",
+
+    ["items/skills/antimatter_ball_standard_item"] = "1",
+    ["items/skills/antimatter_ball_advanced_item"] = "1",
+    ["items/skills/antimatter_ball_superior_item"] = "1",
+    ["items/skills/antimatter_ball_extreme_item"] = "1",
+
+    ["items/skills/orbital_bombardment_standard_item"] = "10",
+    ["items/skills/orbital_bombardment_advanced_item"] = "10",
+    ["items/skills/orbital_bombardment_superior_item"] = "10",
+    ["items/skills/orbital_bombardment_extreme_item"] = "10",
+
+    ["items/skills/orbital_laser_standard_item"] = "10",
+    ["items/skills/orbital_laser_advanced_item"] = "10",
+    ["items/skills/orbital_laser_superior_item"] = "10",
+    ["items/skills/orbital_laser_extreme_item"] = "10",
 }
 
 InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprints)
