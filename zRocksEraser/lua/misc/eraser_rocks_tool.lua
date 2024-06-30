@@ -21,16 +21,36 @@ function eraser_rocks_tool:FindEntitiesToSelect( selectorComponent )
 
     local predicate = {
 
-        signature = "PhysicsComponent",
-
         filter = function( entity )
 
-            local groupId = EntityService:GetPhysicsGroupId( entity )
-            if ( groupId == "destructible" ) then
-                return true
+            local blueprintName = EntityService:GetBlueprintName( entity )
+            if ( blueprintName == "" ) then
+                return false
+            end
+        
+            local stringIndex = string.find( blueprintName, "props/rocks/" )
+        
+            if ( stringIndex == nil ) then
+                return false
+            end
+        
+            if ( stringIndex ~= 1 ) then
+                return false
             end
 
-            return false
+            if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
+
+                local groupId = EntityService:GetPhysicsGroupId( entity )
+
+                if ( groupId == "destructible" ) then
+
+                    return true
+                else
+                    return false
+                end
+            end
+
+            return true
         end
     };
 
@@ -54,21 +74,6 @@ function eraser_rocks_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         if ( IndexOf( possibleSelectedEnts, entity ) ~= nil ) then
-            goto continue
-        end
-
-        local blueprintName = EntityService:GetBlueprintName( entity )
-        if ( blueprintName == "" ) then
-            goto continue
-        end
-        
-        local stringIndex = string.find( blueprintName, "props/rocks/" )
-        
-        if ( stringIndex == nil ) then
-            goto continue
-        end
-        
-        if ( stringIndex ~= 1 ) then
             goto continue
         end
 
@@ -110,6 +115,8 @@ function eraser_rocks_tool:OnActivateEntity( entity )
     EntityService:DisableCollisions( entity )
 
     BuildingService:DisablePhysics( entity )
+
+    EntityService:RemoveComponent( entity, "PhysicsComponent" )
 
     EntityService:RequestDestroyPattern( entity, "default" )
 
