@@ -96,7 +96,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
             if ( string.len(templatesStr) > 0 ) then
 
-                local markerText = "${gui/hud/building_templates/templates_can_be_upgraded}: " .. templatesStr
+                local markerText = "${gui/hud/building_templates/templates_can_be_upgraded}:\n" .. templatesStr
 
                 markerDB:SetString("message_text", markerText)
             else
@@ -134,13 +134,13 @@ function buildings_upgrader_tool:FillMarkerMessage()
                 local markerText = ""
 
                 if ( string.len(upgradedList) > 0 ) then
-                    markerText = "${" .. templateCaption .. "}: " .. upgradedList
+                    markerText = "${" .. templateCaption .. "}:\n" .. upgradedList
 
                     if ( string.len(toUpgradeList) > 0 ) then
-                        markerText = markerText .. " ${gui/hud/building_templates/can_be_upgraded}: " .. toUpgradeList
+                        markerText = markerText .. "\n${gui/hud/building_templates/can_be_upgraded}:\n" .. toUpgradeList
                     end
                 else
-                    markerText = "${" .. templateUpgradeCaption .. "}: " .. toUpgradeList
+                    markerText = "${" .. templateUpgradeCaption .. "}:\n" .. toUpgradeList
                 end
 
                 markerDB:SetString("message_text", markerText)

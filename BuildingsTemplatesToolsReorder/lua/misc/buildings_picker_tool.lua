@@ -38,9 +38,9 @@ function buildings_picker_tool:FillMarkerMessage()
         return
     end
 
-    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
+    self.currentTemplateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
 
-    if ( templateString == "" ) then
+    if ( self.currentTemplateString == "" ) then
 
         markerDB:SetString("message_text", "")
         markerDB:SetInt("message_visible", 0)
@@ -49,9 +49,9 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local templateCaption = "gui/hud/building_templates/template_" .. self.marker
 
-    local markerText = "${" .. templateCaption .. "}: "
+    local markerText = "${" .. templateCaption .. "}:\n"
 
-    local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
+    local buildingsIcons = self:GetTemplateBuildingsIcons(self.currentTemplateString)
 
     if ( string.len(buildingsIcons) > 0 ) then
 
@@ -74,9 +74,13 @@ end
 
 function buildings_picker_tool:OnUpdate()
 
+    self.activated = self.activated or false
+
     self:HighlightRuins()
 
+    
 
+    self:ChangeFirstBuilding()
 
     local firstEntity = nil
 
@@ -117,11 +121,14 @@ function buildings_picker_tool:OnUpdate()
 
             if ( firstEntity ~= nil and entity ~= firstEntity ) then
 
-                -- Mark candidate to remove from template
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+                if ( self.activated == false ) then
+
+                    -- Mark candidate to remove from template
+                    if ( skinned ) then
+                        EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
+                    else
+                        EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+                    end
                 end
             end
         else
@@ -132,6 +139,65 @@ function buildings_picker_tool:OnUpdate()
                 EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
             end
         end
+    end
+end
+
+function buildings_picker_tool:ChangeFirstBuilding()
+
+    local maxDeltaTime = 2
+
+    self.activated = self.activated or false
+
+    if ( self.activated == false ) then
+        return
+    end
+
+    self.changeFirstTime = self.changeFirstTime or 0
+
+    if ( #self.selectedEntities ~= 1 or #self.templateEntities == 0 ) then
+        self.changeFirstTime = 0
+        self.changeFirstEntity = nil
+        return
+    end
+
+    local entity = self.selectedEntities[1]
+
+    if ( IndexOf( self.templateEntities, entity ) == nil ) then
+        self.changeFirstTime = 0
+        self.changeFirstEntity = nil
+        return
+    end
+
+    local firstEntity = self.templateEntities[1]
+
+    if ( entity == firstEntity ) then
+        self.changeFirstTime = 0
+        self.changeFirstEntity = nil
+        return
+    end
+
+    local currentTime = GetLogicTime()
+
+    if ( self.changeFirstEntity == entity ) then
+        
+        local deltaTime = currentTime - self.changeFirstTime
+
+        if ( deltaTime >= maxDeltaTime ) then
+
+            self.changeFirstTime = 0
+            self.changeFirstEntity = nil
+
+            local indexEntity = IndexOf( self.templateEntities, entity )
+
+            self.templateEntities[1] = entity
+            self.templateEntities[indexEntity] = firstEntity
+
+            self:SaveEntitiesToDatabase()
+        end
+    else
+        
+        self.changeFirstTime = currentTime
+        self.changeFirstEntity = entity
     end
 end
 
@@ -298,6 +364,8 @@ function buildings_picker_tool:OnActivateSelectorRequest()
 
     self.activated = true
 
+    self:ClearTemplate()
+
     if ( #self.selectedEntities == 0 ) then
         return
     end
@@ -308,6 +376,84 @@ function buildings_picker_tool:OnActivateSelectorRequest()
 
     self:SaveEntitiesToDatabase()
     self:HideMarkerMessage()
+end
+
+function buildings_picker_tool:ClearTemplate()
+
+    if ( self.currentTemplateString == "" ) then
+
+        self.clickCount = 0
+        self.clickLastTime = 0
+        return
+    end
+
+    self.clickCount = self.clickCount or 0
+    self.clickLastTime = self.clickLastTime or 0
+
+    if ( #self.selectedEntities ~= 0 ) then
+
+        self.clickCount = 0
+        self.clickLastTime = 0
+        return
+    end
+
+    local maxDeltaTime = 0.5
+    local maxClicksToClear = 5
+
+    local currentTime = GetLogicTime()
+
+    if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
+
+        local deltaFromLast = currentTime - self.clickLastTime
+
+        if ( deltaFromLast < maxDeltaTime ) then
+
+            self.clickCount = self.clickCount + 1
+        else
+
+            self.clickCount = 0
+            self.clickLastTime = 0
+        end
+
+        if ( self.clickCount >= maxClicksToClear ) then
+
+            if( self.popupShown == false ) then
+
+                self.popupShown = true
+
+                self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+
+                GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/buildings_picker_tool/clear_template_confirm")
+
+                self.clickCount = 0
+                self.clickLastTime = 0
+            end
+        end
+    end
+
+    self.clickLastTime = currentTime
+end
+
+function buildings_picker_tool:OnGuiPopupResultEvent( evt )
+
+    self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent" )
+
+    self.clickCount = 0
+    self.clickLastTime = 0
+
+    self.popupShown = false
+
+    if ( evt:GetResult() == "button_yes" ) then
+
+        self:HideMarkerMessage()
+
+        self.currentTemplateString = ""
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase ~= nil ) then
+            campaignDatabase:SetString( self.template_name, "" )
+        end
+    end
 end
 
 function buildings_picker_tool:OnActivateEntity( entity, removalEnabled, ignoreSaveToDatabase )
@@ -450,6 +596,8 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
     local templateString = table.concat( templateStringArray )
 
     campaignDatabase:SetString( self.template_name, templateString )
+
+    self.currentTemplateString = templateString
 
     --LogService:Log("templateString " .. templateString)
 end

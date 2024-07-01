@@ -96,18 +96,36 @@ function buildings_tool_base:GetTemplateBuildingsIcons(templateString)
 
     local markerText = ""
 
+    local lineLength = 0
+    local maxLineLength = 40
+
     for menuIcon in Iter( listIconsNames ) do
 
         local count = hashIconsCount[menuIcon]
 
         if ( count > 0 ) then
 
-            if ( string.len(markerText) > 0 ) then
+            if ( lineLength > 0 ) then
 
-                markerText = markerText .. ", "
+                lineLength = lineLength + 1
+                markerText = markerText .. ","
             end
 
-            markerText = markerText .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+            local countString = tostring(count)
+            local countStringLen = string.len(countString) + 2
+
+            if ( lineLength + countStringLen + 1 > maxLineLength ) then
+
+                markerText = markerText .. "\n"
+                lineLength = 0
+
+            else
+                markerText = markerText .. " "
+                lineLength = lineLength + 1
+            end
+
+            markerText = markerText .. '<img="' .. menuIcon .. '">x' .. countString
+            lineLength = lineLength + countStringLen
         end
     end
 
@@ -196,7 +214,10 @@ function buildings_tool_base:GetTemplateBuildingsIconsToUpgrade(templateString)
         ::continue::
     end
 
+    local maxLineLength = 40
+
     local markerText = ""
+    local lineLength = 0
 
     for menuIcon in Iter( listIconsNames ) do
 
@@ -204,16 +225,32 @@ function buildings_tool_base:GetTemplateBuildingsIconsToUpgrade(templateString)
 
         if ( count > 0 ) then
 
-            if ( string.len(markerText) > 0 ) then
+            if ( lineLength > 0 ) then
 
-                markerText = markerText .. ", "
+                lineLength = lineLength + 1
+                markerText = markerText .. ","
             end
 
-            markerText = markerText .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+            local countString = tostring(count)
+            local countStringLen = string.len(countString) + 2
+
+            if ( lineLength + countStringLen + 1 > maxLineLength ) then
+
+                markerText = markerText .. "\n"
+                lineLength = 0
+
+            else
+                markerText = markerText .. " "
+                lineLength = lineLength + 1
+            end
+
+            markerText = markerText .. '<img="' .. menuIcon .. '">x' .. countString
+            lineLength = lineLength + countStringLen
         end
     end
 
     local markerTextToUpgrade = ""
+    local lineLength = 0
 
     for menuIcon in Iter( listIconsNamesToUpgrade ) do
 
@@ -221,12 +258,27 @@ function buildings_tool_base:GetTemplateBuildingsIconsToUpgrade(templateString)
 
         if ( count > 0 ) then
 
-            if ( string.len(markerTextToUpgrade) > 0 ) then
+            if ( lineLength > 0 ) then
 
-                markerTextToUpgrade = markerTextToUpgrade .. ", "
+                lineLength = lineLength + 1
+                markerTextToUpgrade = markerTextToUpgrade .. ","
             end
 
-            markerTextToUpgrade = markerTextToUpgrade .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+            local countString = tostring(count)
+            local countStringLen = string.len(countString) + 2
+
+            if ( lineLength + countStringLen + 1 > maxLineLength ) then
+
+                markerTextToUpgrade = markerTextToUpgrade .. "\n"
+                lineLength = 0
+
+            else
+                markerTextToUpgrade = markerTextToUpgrade .. " "
+                lineLength = lineLength + 1
+            end
+
+            markerTextToUpgrade = markerTextToUpgrade .. '<img="' .. menuIcon .. '">x' .. countString
+            lineLength = lineLength + countStringLen
         end
     end
 
