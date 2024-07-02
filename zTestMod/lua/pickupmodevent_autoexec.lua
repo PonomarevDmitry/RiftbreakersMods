@@ -4,113 +4,113 @@
         -- Stop stealing my ideas Pawel! --
 ---------------------------------------------------
 
-RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
-
-    local itemEntity = evt:GetEntity()
-
-    local itemBlueprint = EntityService:GetBlueprintName( itemEntity )
-
-    if ( itemBlueprint == nil or itemBlueprint == "" ) then
-        return;
-    end
-
-    if string.find(itemBlueprint, "items/loot/weapon_mods") == nil then
-        return
-    end
-
-    local maxCountStandard = 32
-    local maxCountAdvanced = 32
-    local maxCountSuperior = 160
-    local maxCountExtreme = 160
-
-    local itemName = ItemService:GetItemName( itemEntity )
-    local itemLevel = ItemService:GetItemLevel( itemEntity )
-
-    local playerEntity = evt:GetInventory()
-
-    local numItemsInInv = ItemService:GetItemCount( playerEntity, itemBlueprint )
-
-    --LogService:Log( "PickedUpItemEvent itemBlueprint " .. tostring(itemBlueprint) .. " numItemsInInv " .. tostring(numItemsInInv) .. " itemName " .. tostring(itemName) .. " itemLevel " .. tostring(itemLevel) )
-
-    --local costComponent = EntityService:GetComponent( itemEntity, "CostComponent" )
-    --if ( costComponent ~= nil ) then
-    --    local costComponentRef = reflection_helper( costComponent )
-    --    LogService:Log( "PickedUpItemEvent itemEntity " .. tostring(itemEntity) .. " costComponentRef " .. tostring(costComponentRef) )
-    --end
-
-    local disassemblyEntity = false
-
-    if string.find(itemBlueprint, "standard") then
-
-        if numItemsInInv > maxCountStandard then
-
-            disassemblyEntity = true
-        end
-
-    elseif string.find(itemBlueprint, "advanced") then
-
-        if numItemsInInv > maxCountAdvanced then
-
-            disassemblyEntity = true
-        end
-
-    elseif string.find(itemBlueprint, "superior") then
-
-        if numItemsInInv > maxCountSuperior then
-
-            disassemblyEntity = true
-        end
-
-    elseif string.find(itemBlueprint, "extreme") then
-
-        if numItemsInInv > maxCountExtreme then
-
-            disassemblyEntity = true
-        end
-    end
-
-    if ( not disassemblyEntity ) then
-        return
-    end
-
-    --local playerReferenceComponent = reflection_helper( EntityService:GetComponent( playerEntity, "PlayerReferenceComponent" ) )
-    --local playerId = playerReferenceComponent.player_id
-    --LogService:Log( "PickedUpItemEvent playerId " .. tostring(playerId) )
-
-    --LogService:Log( "Mod destroyed DissassemblyItemRequest" )
-
-    --QueueEvent("DissassemblyItemRequest", event_sink, itemEntity, playerId, playerEntity )
-
-    --LogService:Log( "Mod destroyed by DissassemblyItemRequest" )
-
-    local blueprint = ResourceManager:GetBlueprint( itemBlueprint )
-    if ( blueprint ~= nil ) then
-
-        local costDesc = blueprint:GetComponent("CostDesc")
-        if ( costDesc ~= nil ) then
-
-            local costDescRef = reflection_helper(costDesc)
-            if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
-
-                local account = costDescRef.account
-
-                if ( account.count > 0 ) then
-                    for i = 1,account.count do
-
-                        local researchCost = account[i]
-
-                        if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
-
-                            --LogService:Log( " PickedUpItemEvent Mod destroyed resource "  .. tostring(researchCost.resource) .. " count " .. tostring(researchCost.count) )
-
-                            PlayerService:AddResourceAmount( researchCost.resource, researchCost.count / 2 )
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    EntityService:RemoveEntity( itemEntity )
-
-end)
+--RegisterGlobalEventHandler("PickedUpItemEvent", function(evt)
+--
+--    local itemEntity = evt:GetEntity()
+--
+--    local itemBlueprint = EntityService:GetBlueprintName( itemEntity )
+--
+--    if ( itemBlueprint == nil or itemBlueprint == "" ) then
+--        return;
+--    end
+--
+--    if string.find(itemBlueprint, "items/loot/weapon_mods") == nil then
+--        return
+--    end
+--
+--    local maxCountStandard = 32
+--    local maxCountAdvanced = 32
+--    local maxCountSuperior = 160
+--    local maxCountExtreme = 160
+--
+--    local itemName = ItemService:GetItemName( itemEntity )
+--    local itemLevel = ItemService:GetItemLevel( itemEntity )
+--
+--    local playerEntity = evt:GetInventory()
+--
+--    local numItemsInInv = ItemService:GetItemCount( playerEntity, itemBlueprint )
+--
+--    --LogService:Log( "PickedUpItemEvent itemBlueprint " .. tostring(itemBlueprint) .. " numItemsInInv " .. tostring(numItemsInInv) .. " itemName " .. tostring(itemName) .. " itemLevel " .. tostring(itemLevel) )
+--
+--    --local costComponent = EntityService:GetComponent( itemEntity, "CostComponent" )
+--    --if ( costComponent ~= nil ) then
+--    --    local costComponentRef = reflection_helper( costComponent )
+--    --    LogService:Log( "PickedUpItemEvent itemEntity " .. tostring(itemEntity) .. " costComponentRef " .. tostring(costComponentRef) )
+--    --end
+--
+--    local disassemblyEntity = false
+--
+--    if string.find(itemBlueprint, "standard") then
+--
+--        if numItemsInInv > maxCountStandard then
+--
+--            disassemblyEntity = true
+--        end
+--
+--    elseif string.find(itemBlueprint, "advanced") then
+--
+--        if numItemsInInv > maxCountAdvanced then
+--
+--            disassemblyEntity = true
+--        end
+--
+--    elseif string.find(itemBlueprint, "superior") then
+--
+--        if numItemsInInv > maxCountSuperior then
+--
+--            disassemblyEntity = true
+--        end
+--
+--    elseif string.find(itemBlueprint, "extreme") then
+--
+--        if numItemsInInv > maxCountExtreme then
+--
+--            disassemblyEntity = true
+--        end
+--    end
+--
+--    if ( not disassemblyEntity ) then
+--        return
+--    end
+--
+--    --local playerReferenceComponent = reflection_helper( EntityService:GetComponent( playerEntity, "PlayerReferenceComponent" ) )
+--    --local playerId = playerReferenceComponent.player_id
+--    --LogService:Log( "PickedUpItemEvent playerId " .. tostring(playerId) )
+--
+--    --LogService:Log( "Mod destroyed DissassemblyItemRequest" )
+--
+--    --QueueEvent("DissassemblyItemRequest", event_sink, itemEntity, playerId, playerEntity )
+--
+--    --LogService:Log( "Mod destroyed by DissassemblyItemRequest" )
+--
+--    local blueprint = ResourceManager:GetBlueprint( itemBlueprint )
+--    if ( blueprint ~= nil ) then
+--
+--        local costDesc = blueprint:GetComponent("CostDesc")
+--        if ( costDesc ~= nil ) then
+--
+--            local costDescRef = reflection_helper(costDesc)
+--            if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+--
+--                local account = costDescRef.account
+--
+--                if ( account.count > 0 ) then
+--                    for i = 1,account.count do
+--
+--                        local researchCost = account[i]
+--
+--                        if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+--
+--                            --LogService:Log( " PickedUpItemEvent Mod destroyed resource "  .. tostring(researchCost.resource) .. " count " .. tostring(researchCost.count) )
+--
+--                            PlayerService:AddResourceAmount( researchCost.resource, researchCost.count / 2 )
+--                        end
+--                    end
+--                end
+--            end
+--        end
+--    end
+--
+--    EntityService:RemoveEntity( itemEntity )
+--
+--end)
