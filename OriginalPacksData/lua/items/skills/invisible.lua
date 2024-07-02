@@ -35,6 +35,7 @@ function invisible:OperateInvisibile()
 	if ( self.mode == true ) then
 		self.invisibilityFsm:ChangeState( "invisibility_enter" )
 	else
+		self.lastOwner = self.owner
 		self.invisibilityFsm:ChangeState( "invisibility_exit" )
 	end
 end
@@ -133,9 +134,9 @@ end
 
 function invisible:OnInvisibilityExitExit( state )
 	state:SetDurationLimit( 0.5 )
-	EffectService:DestroyEffectsByGroup( self.owner, "invisiblity" )
-	EntityService:RemoveMaterial( self.owner, "1_invisiblity" )
-	local children =  EntityService:GetChildren( self.owner, false )
+	EffectService:DestroyEffectsByGroup( self.lastOwner, "invisiblity" )
+	EntityService:RemoveMaterial( self.lastOwner, "1_invisiblity" )
+	local children =  EntityService:GetChildren( self.lastOwner, false )
 	for child in Iter(children) do
 		local itemType =ItemService:GetItemType(child);
 		if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "lift" and itemType ~= "" ) then
@@ -145,17 +146,20 @@ function invisible:OnInvisibilityExitExit( state )
 			end
 		end
 	end
+	self.lastOwner = self.owenr
 end
 
 function invisible:OnInvisibilityExitExecute( state )
 	local duration = state:GetDuration()
 	local durationLimit = state:GetDurationLimit()
-
+	if (self.lastOwner == nil ) then
+		self.lastOwner = self.owner
+	end
 	local factor = 1.0 - ( duration / durationLimit)
-	EntityService:SetGraphicsUniform( self.owner, "cDistortionFactor", factor )
-	EntityService:SetGraphicsUniform( self.owner, "cDissolveAmount", factor )
+	EntityService:SetGraphicsUniform( self.lastOwner, "cDistortionFactor", factor )
+	EntityService:SetGraphicsUniform( self.lastOwner, "cDissolveAmount", factor )
 
-	local children =  EntityService:GetChildren( self.owner, false )
+	local children =  EntityService:GetChildren( self.lastOwner, false )
 	for child in Iter(children) do
 		local itemType =ItemService:GetItemType(child);
 		if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "lift" and itemType ~= "") then

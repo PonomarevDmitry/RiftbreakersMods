@@ -19,6 +19,7 @@ function geothermal_powerplant:ClearGeothermalVent()
 	self.veins = BuildingService:GetResourceVeins( self.entity, "geothermal_vent")
 	for ent in Iter(self.veins ) do
 		EffectService:DestroyEffectsByGroup( ent, "steam")
+		EntityService:RemoveComponent(ent, "SelectableComponent")
 	end
 end
 
@@ -53,6 +54,7 @@ end
 function geothermal_powerplant:OnRemove()
 	for ent in Iter(self.veins ) do
 		EffectService:AttachEffects( ent, "steam")
+		QueueEvent("RecreateComponentFromBlueprintRequest", ent, "SelectableComponent" )
 	end
 end
 

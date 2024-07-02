@@ -19,6 +19,7 @@ function gas_extractor:ClearGasVent()
 		EffectService:DestroyEffectsByGroup( ent, "steam")
 		EntityService:RemoveComponent( ent, "GridMarkerComponent")
 		EntityService:RemoveComponent( ent, "MeshComponent")
+		EntityService:RemoveComponent( ent, "SelectableComponent")
 	end
 end
 
@@ -33,6 +34,7 @@ function gas_extractor:OnRemove()
 		EffectService:AttachEffects( ent, "steam")
 		QueueEvent("RecreateComponentFromBlueprintRequest", ent, "GridMarkerComponent" )
 		QueueEvent("RecreateComponentFromBlueprintRequest", ent, "MeshComponent" )
+		QueueEvent("RecreateComponentFromBlueprintRequest", ent, "SelectableComponent" )
 	end
 end
 

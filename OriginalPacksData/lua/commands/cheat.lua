@@ -136,8 +136,45 @@ ConsoleService:RegisterCommand( "cheat_set_player_invisibility", function( args 
     local entity = FindService:FindEntityByType( "player" )
     if args[ 1 ] == "1" then
 		ItemService:SetInvisible(entity, true)
+        EntityService:SetMaterial( entity, "player/mech_distortion", "1_invisiblity" )
+	    EffectService:AttachEffects( entity, "invisiblity" )
+        EntityService:SetGraphicsUniform( entity, "cDistortionFactor", 1.0 )
+        EntityService:SetGraphicsUniform( entity, "cDissolveAmount", 1.0 )
+	    local children = EntityService:GetChildren( entity, false )
+	    for child in Iter(children) do
+	    	local itemType =ItemService:GetItemType(child);
+	    	if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "lift" and itemType ~= "") then
+	    		local meshChildren =  EntityService:GetChildren( child, true )
+	    		for meshChild in Iter(meshChildren) do
+	    			if ( EntityService:IsSkinned( meshChild )) then
+	    				EntityService:SetMaterial( meshChild, "player/item_distortion_skinned", "1_invisiblity" )
+	    			else
+	    				EntityService:SetMaterial( meshChild, "player/item_distortion", "1_invisiblity" )
+	    			end
+                    
+				    EntityService:SetGraphicsUniform( meshChild, "cDistortionFactor", 1.0 )
+				    EntityService:SetGraphicsUniform( meshChild, "cDissolveAmount", 1.0 )
+	    		end
+	    	end
+	    end
     else
 		ItemService:SetInvisible(entity, false)
+        EffectService:DestroyEffectsByGroup( entity, "invisiblity" )
+        EntityService:RemoveMaterial( entity, "1_invisiblity" )
+        EntityService:SetGraphicsUniform( entity, "cDistortionFactor", 0.0 )
+        EntityService:SetGraphicsUniform( entity, "cDissolveAmount", 0.0 )
+        local children =  EntityService:GetChildren( entity, false )
+        for child in Iter(children) do
+            local itemType =ItemService:GetItemType(child);
+            if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "lift" and itemType ~= "" ) then
+                local meshChildren =  EntityService:GetChildren( child, true )
+                for meshChild in Iter(meshChildren) do
+                    EntityService:RemoveMaterial( meshChild, "1_invisiblity" )
+				EntityService:SetGraphicsUniform( meshChild, "cDistortionFactor", 0 )
+				EntityService:SetGraphicsUniform( meshChild, "cDissolveAmount", 0 )
+                end
+            end
+        end
     end
 end)
 
