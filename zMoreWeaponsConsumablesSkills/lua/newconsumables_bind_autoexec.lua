@@ -62,7 +62,3 @@ end)
 ConsoleService:ExecuteCommand('bind 9 "activate_slot_request USABLE_9"')
 
 ConsoleService:ExecuteCommand('bind 0 "activate_slot_request USABLE_10"')
-
-ConsoleService:ExecuteCommand('bind "-" "activate_slot_request USABLE_11"')
-
-ConsoleService:ExecuteCommand('bind "=" "activate_slot_request USABLE_12"')
