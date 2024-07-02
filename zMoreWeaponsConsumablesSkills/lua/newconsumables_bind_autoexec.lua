@@ -9,13 +9,19 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
     LogService:Log("ExecuteCommand activate_slot_request " .. tostring(slotName) )
 
     if ( PlayerService == nil or ItemService == nil ) then
+        LogService:Log("activate_slot_request " .. tostring(slotName) .. " PlayerService == nil or ItemService == nil" )
         return
     end
 
     local player = PlayerService:GetPlayerControlledEnt(0)
 
-    if ( player == nil ) then
-        LogService:Log("activate_slot_request " .. tostring(slotName) .. " player nil" )
+    if ( player == nil or player == INVALID_ID ) then
+        LogService:Log("activate_slot_request " .. tostring(slotName) .. " player == nil or player == INVALID_ID" )
+        return
+    end
+
+    if ( not EntityService:IsAlive( player ) ) then
+        LogService:Log("activate_slot_request " .. tostring(slotName) .. " not EntityService:IsAlive( player )" )
         return
     end
 
@@ -39,25 +45,11 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
 
 
     LogService:Log("activate_slot_request " .. tostring(slotName) .. " UseEquippedItem" )
+
     ItemService:UseEquippedItem( player, slotName )
     ItemService:StopUsingEquippedItem( player, slotName )
 
 end)
-
---JUMP_SKILL
---ConsoleService:ExecuteCommand('bind key_20 "activate_slot_request JUMP_SKILL"')
---ConsoleService:ExecuteCommand('bind #20 "activate_slot_request JUMP_SKILL"')
---ConsoleService:ExecuteCommand('bind 20 "activate_slot_request JUMP_SKILL"')
---ConsoleService:ExecuteCommand('bind capslock "activate_slot_request JUMP_SKILL"')
---ConsoleService:ExecuteCommand('bind caps "activate_slot_request JUMP_SKILL"')
---ConsoleService:ExecuteCommand('bind KEY_CAPSLOCK "activate_slot_request JUMP_SKILL"')
---ConsoleService:ExecuteCommand('bind KEY_CAPS "activate_slot_request JUMP_SKILL"')
-
---DODGE_ROLL_SKILL
---ConsoleService:ExecuteCommand('bind lcontrol "activate_slot_request DODGE_ROLL_SKILL"')
-
---TELEPORT_SKILL
---ConsoleService:ExecuteCommand('bind lalt "activate_slot_request TELEPORT_SKILL"')
 
 ConsoleService:ExecuteCommand('bind 9 "activate_slot_request USABLE_9"')
 
