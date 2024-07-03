@@ -171,6 +171,352 @@ local new_storage_values = {
 
         ["ai"] = "32",
     },
+
+
+
+    ["buildings/energy/plant_biomass_powerplant"] = {
+
+        ["energy"] = "400",
+    },
+
+    ["buildings/energy/plant_biomass_powerplant_lvl_2"] = {
+
+        ["energy"] = "600",
+    },
+
+    ["buildings/energy/plant_biomass_powerplant_lvl_3"] = {
+
+        ["energy"] = "800",
+    },
+
+
+
+    ["buildings/energy/nuclear_powerplant"] = {
+
+        ["energy"] = "6000",
+    },
+
+    ["buildings/energy/nuclear_powerplant_lvl_2"] = {
+
+        ["energy"] = "9000",
+    },
+
+    ["buildings/energy/nuclear_powerplant_lvl_3"] = {
+
+        ["energy"] = "12000",
+    },
+
+
+
+    ["buildings/energy/morphium_powerplant"] = {
+
+        ["energy"] = "2000",
+    },
+
+    ["buildings/energy/morphium_powerplant_lvl_2"] = {
+
+        ["energy"] = "3000",
+    },
+
+    ["buildings/energy/morphium_powerplant_lvl_3"] = {
+
+        ["energy"] = "4000",
+    },
+
+
+
+    ["buildings/energy/magma_powerplant"] = {
+
+        ["energy"] = "2000",
+    },
+
+    ["buildings/energy/magma_powerplant_lvl_2"] = {
+
+        ["energy"] = "3000",
+    },
+
+    ["buildings/energy/magma_powerplant_lvl_3"] = {
+
+        ["energy"] = "4000",
+    },
+
+
+
+    ["buildings/energy/geothermal_powerplant"] = {
+
+        ["energy"] = "800",
+        ["mud"] = "1600",
+    },
+
+    ["buildings/energy/geothermal_powerplant_lvl_2"] = {
+
+        ["energy"] = "1600",
+        ["mud"] = "2400",
+    },
+
+    ["buildings/energy/geothermal_powerplant_lvl_3"] = {
+
+        ["energy"] = "3200",
+        ["mud"] = "3200",
+    },
+
+
+
+    ["buildings/energy/gas_powerplant"] = {
+
+        ["energy"] = "2000",
+    },
+
+    ["buildings/energy/gas_powerplant_lvl_2"] = {
+
+        ["energy"] = "3000",
+    },
+
+    ["buildings/energy/gas_powerplant_lvl_3"] = {
+
+        ["energy"] = "4000",
+    },
+
+
+
+    ["buildings/energy/fusion_powerplant"] = {
+
+        ["energy"] = "14000",
+        ["plasma"] = "1600",
+    },
+
+    ["buildings/energy/fusion_powerplant_lvl_2"] = {
+
+        ["energy"] = "20000",
+        ["plasma"] = "2400",
+    },
+
+    ["buildings/energy/fusion_powerplant_lvl_3"] = {
+
+        ["energy"] = "28000",
+        ["plasma"] = "3200",
+    },
+
+
+
+    ["buildings/energy/energy_storage"] = {
+
+        ["energy"] = "40000",
+    },
+
+    ["buildings/energy/energy_storage_lvl_2"] = {
+
+        ["energy"] = "80000",
+    },
+
+    ["buildings/energy/energy_storage_lvl_3"] = {
+
+        ["energy"] = "160000",
+    },
+
+
+
+    ["buildings/energy/carbonium_powerplant"] = {
+
+        ["energy"] = "240",
+    },
+
+    ["buildings/energy/carbonium_powerplant_lvl_2"] = {
+
+        ["energy"] = "480",
+    },
+
+    ["buildings/energy/carbonium_powerplant_lvl_3"] = {
+
+        ["energy"] = "960",
+    },
+
+
+
+    ["buildings/energy/animal_biomass_powerplant"] = {
+
+        ["energy"] = "800",
+    },
+
+    ["buildings/energy/animal_biomass_powerplant_lvl_2"] = {
+
+        ["energy"] = "1200",
+    },
+
+    ["buildings/energy/animal_biomass_powerplant_lvl_3"] = {
+
+        ["energy"] = "1600",
+    },
+
+
+
+    ["buildings/resources/bio_condenser"] = {
+
+        ["sludge"] = "800",
+    },
+
+    ["buildings/resources/bio_condenser_lvl_2"] = {
+
+        ["sludge"] = "1600",
+    },
+
+    ["buildings/resources/bio_condenser_lvl_3"] = {
+
+        ["sludge"] = "2400",
+    },
+
+
+
+    ["buildings/resources/ammunition_storage"] = {
+
+        ["ammo_mech"] = "4",
+        ["ammo_tower"] = "4",
+    },
+
+    ["buildings/resources/ammunition_storage_lvl_2"] = {
+
+        ["ammo_mech"] = "8",
+        ["ammo_tower"] = "8",
+    },
+
+    ["buildings/resources/ammunition_storage_lvl_3"] = {
+
+        ["ammo_mech"] = "16",
+        ["ammo_tower"] = "16",
+    },
+
+
+
+    ["buildings/resources/bio_composter"] = {
+
+        ["flammable_gas"] = "400",
+    },
+
+    ["buildings/resources/bio_composter_lvl_2"] = {
+
+        ["flammable_gas"] = "800",
+    },
+
+    ["buildings/resources/bio_composter_lvl_3"] = {
+
+        ["flammable_gas"] = "1200",
+    },
+
+
+
+    ["buildings/resources/gas_extractor"] = {
+
+        ["flammable_gas"] = "1200",
+    },
+
+    ["buildings/resources/gas_extractor_lvl_2"] = {
+
+        ["flammable_gas"] = "1200",
+    },
+
+    ["buildings/resources/gas_extractor_lvl_3"] = {
+
+        ["flammable_gas"] = "1200",
+    },
+
+
+
+    ["buildings/resources/gas_filtering_plant"] = {
+
+        ["flammable_gas"] = "400",
+    },
+
+    ["buildings/resources/gas_filtering_plant_lvl_2"] = {
+
+        ["flammable_gas"] = "800",
+    },
+
+    ["buildings/resources/gas_filtering_plant_lvl_3"] = {
+
+        ["flammable_gas"] = "1200",
+    },
+
+
+
+    ["buildings/resources/ionizer"] = {
+
+        ["plasma"] = "400",
+    },
+
+
+
+    ["buildings/resources/plasma_converter"] = {
+
+        ["plasma_charged"] = "400",
+    },
+
+    ["buildings/resources/plasma_converter_lvl_2"] = {
+
+        ["plasma_charged"] = "800",
+    },
+
+    ["buildings/resources/plasma_converter_lvl_3"] = {
+
+        ["plasma_charged"] = "1200",
+    },
+
+
+
+    ["buildings/resources/supercoolant_refinery"] = {
+
+        ["supercoolant"] = "400",
+    },
+
+
+
+    ["buildings/resources/water_filtering_plant"] = {
+
+        ["water"] = "800",
+    },
+
+    ["buildings/resources/water_filtering_plant_lvl_2"] = {
+
+        ["water"] = "1200",
+    },
+
+    ["buildings/resources/water_filtering_plant_lvl_3"] = {
+
+        ["water"] = "1600",
+    },
+
+
+
+    ["buildings/resources/plant_biomass_powerplant"] = {
+
+        ["energy"] = "400",
+    },
+
+    ["buildings/resources/plant_biomass_powerplant_lvl_2"] = {
+
+        ["energy"] = "600",
+    },
+
+    ["buildings/resources/plant_biomass_powerplant_lvl_3"] = {
+
+        ["energy"] = "800",
+    },
+
+
+
+    ["buildings/resources/plant_biomass_powerplant"] = {
+
+        ["energy"] = "400",
+    },
+
+    ["buildings/resources/plant_biomass_powerplant_lvl_2"] = {
+
+        ["energy"] = "600",
+    },
+
+    ["buildings/resources/plant_biomass_powerplant_lvl_3"] = {
+
+        ["energy"] = "800",
+    },
 }
 
 InjectChangeListBlueprintStorageValues(new_storage_values)
