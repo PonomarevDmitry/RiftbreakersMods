@@ -443,6 +443,16 @@ local new_storage_values = {
         ["plasma"] = "400",
     },
 
+    ["buildings/resources/ionizer_lvl_2"] = {
+
+        ["plasma"] = "800",
+    },
+
+    ["buildings/resources/ionizer_lvl_3"] = {
+
+        ["plasma"] = "1600",
+    },
+
 
 
     ["buildings/resources/plasma_converter"] = {
@@ -465,6 +475,16 @@ local new_storage_values = {
     ["buildings/resources/supercoolant_refinery"] = {
 
         ["supercoolant"] = "400",
+    },
+
+    ["buildings/resources/supercoolant_refinery_lvl_2"] = {
+
+        ["supercoolant"] = "800",
+    },
+
+    ["buildings/resources/supercoolant_refinery_lvl_3"] = {
+
+        ["supercoolant"] = "1600",
     },
 
 
