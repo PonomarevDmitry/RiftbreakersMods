@@ -234,7 +234,7 @@ local new_resource_converter_values = {
 
 
 
-    ["buildings/energy/rare_element_mine"] = {
+    ["buildings/resources/rare_element_mine"] = {
         
         ["uranium_ore_vein"] = "0.1",
         ["titanium_vein"] = "0.1",
@@ -243,7 +243,7 @@ local new_resource_converter_values = {
         ["voidinite_ore_vein"] = "0.1",
     },
 
-    ["buildings/energy/rare_element_mine_lvl_2"] = {
+    ["buildings/resources/rare_element_mine_lvl_2"] = {
         
         ["uranium_ore_vein"] = "0.1",
         ["titanium_vein"] = "0.1",
@@ -252,7 +252,7 @@ local new_resource_converter_values = {
         ["voidinite_ore_vein"] = "0.1",
     },
 
-    ["buildings/energy/rare_element_mine_lvl_3"] = {
+    ["buildings/resources/rare_element_mine_lvl_3"] = {
         
         ["uranium_ore_vein"] = "0.1",
         ["titanium_vein"] = "0.1",
