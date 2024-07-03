@@ -156,6 +156,21 @@ local new_storage_values = {
 
         ["ai"] = "16",
     },
+
+    ["buildings/defense/ai_hub"] = {
+
+        ["ai"] = "8",
+    },
+
+    ["buildings/defense/ai_hub_lvl_2"] = {
+
+        ["ai"] = "16",
+    },
+
+    ["buildings/defense/ai_hub_lvl_3"] = {
+
+        ["ai"] = "32",
+    },
 }
 
 InjectChangeListBlueprintStorageValues(new_storage_values)
