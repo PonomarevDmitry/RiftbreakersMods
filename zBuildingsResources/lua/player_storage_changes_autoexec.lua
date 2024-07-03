@@ -1,4 +1,3 @@
-require("lua/utils/reflection.lua")
 -- test_log_blueprint player/player BlueprintComponent
 -- test_log_blueprint player/player EquipmentComponent
 -- test_log_blueprint player/player InventoryComponent
@@ -18,8 +17,6 @@ local InjectChangePlayerStorageValues = function(newStorageValues)
         return
     end
 
-    LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' " .. tostring(reflection_helper(resourceStorageComponent)) )
-
     local storagesArray = resourceStorageComponent:GetField("Storages"):ToContainer()
     if ( storagesArray == nil ) then
         LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' resourceStorageComponent:GetField('Storages'):ToContainer() NOT EXISTS.")
@@ -36,21 +33,28 @@ local InjectChangePlayerStorageValues = function(newStorageValues)
             goto continue
         end
 
-        local storageObjectRef = reflection_helper(storageObject)
-
-        if ( storageObjectRef.resource == nil ) then
-            LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' storageObjectRef.resource == nil")
-
-            goto continue
-        end
-
-        if ( storageObjectRef.resource.resource == nil ) then
-            LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' storageObjectRef.resource.resource == nil")
+        local storageObjectResource = storageObject:GetField("resource")
+        if ( storageObjectResource == nil ) then
+            LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' storageObjectResource == nil")
 
             goto continue
         end
 
-        local resourceId = storageObjectRef.resource.resource.id
+        local storageObjectResourceResource = storageObjectResource:GetField("resource")
+        if ( storageObjectResourceResource == nil ) then
+            LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' storageObjectResourceResource == nil")
+
+            goto continue
+        end
+
+        local storageObjectResourceResourceId = storageObjectResourceResource:GetField("id")
+        if ( storageObjectResourceResourceId == nil ) then
+            LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' storageObjectResourceResourceId == nil")
+
+            goto continue
+        end
+
+        local resourceId = storageObjectResourceResourceId:GetValue()
 
         if ( resourceId == nil or resourceId == "" ) then
             LogService:Log("InjectChangePlayerStorageValues Blueprint 'player/player' resourceId == nil or resourceId == ''")
