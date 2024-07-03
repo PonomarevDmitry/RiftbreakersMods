@@ -4,7 +4,7 @@ require("lua/utils/reflection.lua")
 -- test_log_blueprint player/player InventoryComponent
 -- test_log_blueprint player/player ResourceStorageComponent
 
-local InjectChangeBlueprintStorageValues = function(blueprintName, newStorageValues)
+local InjectChangeBlueprintStorageValues = function(blueprintName, newStorageValues, newStorageGroupsValues)
 
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
@@ -49,20 +49,41 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, newStorageVal
         end
 
         local resourceId = storageObjectRef.resource.resource.id
+        local groupId = storageObjectRef.group
 
-        if ( resourceId == nil or resourceId == "" ) then
-            LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId == nil or resourceId == ''")
+        LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "'   = " .. tostring(resourceId) .. " groupId = " .. tostring(groupId))
+
+        if ( resourceId ~= nil and resourceId ~= "" ) then
+
+            local resourceIdString = tostring(resourceId)
+
+            LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId ~= nil or resourceId ~= '' " .. resourceIdString)
+
+            if ( newStorageValues and newStorageValues[resourceIdString] ~= nil ) then
+                LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' newStorageValues[resourceId] ~= nil " .. tostring(newStorageValues[resourceIdString]))
+
+                storageObject:GetField("max"):SetValue(newStorageValues[resourceIdString])
+            end
 
             goto continue
         end
 
-        if ( newStorageValues[resourceId] == nil ) then
-            LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' newStorageValues[resourceId] == nil")
+        if ( groupId ~= nil and groupId ~= "" ) then
+
+            local groupIdString = tostring(groupId)
+
+            LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' groupId ~= nil or groupId ~= '' " .. groupIdString)
+
+            if ( newStorageGroupsValues and newStorageGroupsValues[groupIdString] ~= nil ) then
+                LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' newStorageGroupsValues[groupIdString] ~= nil " .. tostring(newStorageGroupsValues[groupIdString]))
+
+                storageObject:GetField("max"):SetValue(newStorageGroupsValues[groupIdString])
+            end
 
             goto continue
         end
 
-        storageObject:GetField("max"):SetValue(newStorageValues[resourceId])
+        LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId == nil and groupId == ''\n" .. tostring(storageObjectRef))
 
         ::continue::
     end
@@ -70,438 +91,725 @@ end
 
 local InjectChangeListBlueprintStorageValues = function(blueprintStorageValues)
 
-    for blueprintName, newStorageValues in pairs(blueprintStorageValues) do
+    for _, configObject in ipairs(blueprintStorageValues) do
 
-        InjectChangeBlueprintStorageValues(blueprintName, newStorageValues)
+        InjectChangeBlueprintStorageValues(configObject.name, configObject.storages, configObject.groups)
     end
 end
 
 local new_storage_values = {
 
-    ["player/player"] = {
+    {
+        ["name"] = "player/player",
+        ["storages"] = {
 
-        ["carbonium"] = "1200",
-        ["steel"] = "1200",
+            ["carbonium"] = "1200",
+            ["steel"] = "1200",
 
-        ["uranium_ore"] = "1200",
-        ["uranium"] = "1200",
-        ["palladium"] = "1200",
-        ["titanium"] = "1200",
-        ["cobalt"] = "1200",
+            ["uranium_ore"] = "1200",
+            ["uranium"] = "1200",
+            ["palladium"] = "1200",
+            ["titanium"] = "1200",
+            ["cobalt"] = "1200",
 
-        ["voidinite_ore"] = "1200",
-        ["rift_energy"] = "400",
+            ["voidinite_ore"] = "1200",
+            ["rift_energy"] = "400",
 
-        ["ammo_mech_low_caliber"] = "16",
-        ["ammo_mech_high_caliber"] = "16",
-        ["ammo_mech_liquid"] = "16",
-        ["ammo_mech_explosive"] = "16",
-        ["ammo_mech_energy_cell"] = "16",
+            ["ammo_mech_low_caliber"] = "16",
+            ["ammo_mech_high_caliber"] = "16",
+            ["ammo_mech_liquid"] = "16",
+            ["ammo_mech_explosive"] = "16",
+            ["ammo_mech_energy_cell"] = "16",
     
-        ["crystal_dna"] = "16",
-        ["ammo_mech_medium_caliber"] = "16",
-        ["ammo_mech_acid_cells"] = "16",
-        ["ammo_mech_cryo_cells"] = "16",
-        ["ammo_mech_gravity_matrix"] = "16",
-        ["ammo_mech_magma_cells"] = "16",
+            ["crystal_dna"] = "16",
+            ["ammo_mech_medium_caliber"] = "16",
+            ["ammo_mech_acid_cells"] = "16",
+            ["ammo_mech_cryo_cells"] = "16",
+            ["ammo_mech_gravity_matrix"] = "16",
+            ["ammo_mech_magma_cells"] = "16",
 
-        ["ammo_mech_morphium_canister"] = "16",
-        ["ammo_mech_plasma_cells"] = "16",
-        ["ammo_mech_radio_cells"] = "16",
-        ["ammo_mech_rift_charge"] = "16",
+            ["ammo_mech_morphium_canister"] = "16",
+            ["ammo_mech_plasma_cells"] = "16",
+            ["ammo_mech_radio_cells"] = "16",
+            ["ammo_mech_rift_charge"] = "16",
+        },
     },
+    
+    {
+        ["name"] = "buildings/main/headquarters",
+        ["storages"] = {
 
-    ["buildings/main/headquarters"] = {
+            ["energy"] = "4000",
 
-        ["energy"] = "4000",
+            ["carbonium"] = "200",
+            ["steel"] = "200",
 
-        ["carbonium"] = "200",
-        ["steel"] = "200",
+            ["uranium_ore"] = "200",
+            ["uranium"] = "200",
+            ["palladium"] = "200",
+            ["titanium"] = "200",
+            ["cobalt"] = "200",
 
-        ["uranium_ore"] = "200",
-        ["uranium"] = "200",
-        ["palladium"] = "200",
-        ["titanium"] = "200",
-        ["cobalt"] = "200",
+            ["voidinite_ore"] = "200",
 
-        ["voidinite_ore"] = "200",
+            ["ammo_tower_explosive"] = "4",
+            ["ammo_tower_liquid"] = "4",
+            ["ammo_tower_low_caliber"] = "4",
+            ["ammo_tower_high_caliber"] = "4",
 
-        ["ammo_tower_explosive"] = "4",
-        ["ammo_tower_liquid"] = "4",
-        ["ammo_tower_low_caliber"] = "4",
-        ["ammo_tower_high_caliber"] = "4",
+            ["ai"] = "16",
+        },
 
-        ["ai"] = "16",
+        ["groups"] = {
+
+            ["0"] = "200", -- global
+        },
     },
+    
+    {
+        ["name"] = "buildings/main/outpost",
+        ["storages"] = {
 
-    ["buildings/main/outpost"] = {
+            ["energy"] = "4000",
 
-        ["energy"] = "4000",
+            ["carbonium"] = "200",
+            ["steel"] = "200",
 
-        ["carbonium"] = "200",
-        ["steel"] = "200",
+            ["uranium_ore"] = "200",
+            ["uranium"] = "200",
+            ["palladium"] = "200",
+            ["titanium"] = "200",
+            ["cobalt"] = "200",
 
-        ["uranium_ore"] = "200",
-        ["uranium"] = "200",
-        ["palladium"] = "200",
-        ["titanium"] = "200",
-        ["cobalt"] = "200",
+            ["voidinite_ore"] = "200",
 
-        ["voidinite_ore"] = "200",
+            ["ammo_tower_explosive"] = "4",
+            ["ammo_tower_liquid"] = "4",
+            ["ammo_tower_low_caliber"] = "4",
+            ["ammo_tower_high_caliber"] = "4",
 
-        ["ammo_tower_explosive"] = "4",
-        ["ammo_tower_liquid"] = "4",
-        ["ammo_tower_low_caliber"] = "4",
-        ["ammo_tower_high_caliber"] = "4",
+            ["ai"] = "16",
+        },
 
-        ["ai"] = "16",
+        ["groups"] = {
+
+            ["0"] = "200", -- global
+        },
     },
+    
+    {
+        ["name"] = "buildings/defense/ai_hub",
+        ["storages"] = {
 
-    ["buildings/defense/ai_hub"] = {
-
-        ["ai"] = "8",
+            ["ai"] = "8",
+        },
     },
+    
+    {
+        ["name"] = "buildings/defense/ai_hub_lvl_2",
+        ["storages"] = {
 
-    ["buildings/defense/ai_hub_lvl_2"] = {
-
-        ["ai"] = "16",
+            ["ai"] = "16",
+        },
     },
+    
+    {
+        ["name"] = "buildings/defense/ai_hub_lvl_3",
+        ["storages"] = {
 
-    ["buildings/defense/ai_hub_lvl_3"] = {
-
-        ["ai"] = "32",
-    },
-
-
-
-    ["buildings/energy/plant_biomass_powerplant"] = {
-
-        ["energy"] = "400",
-    },
-
-    ["buildings/energy/plant_biomass_powerplant_lvl_2"] = {
-
-        ["energy"] = "600",
-    },
-
-    ["buildings/energy/plant_biomass_powerplant_lvl_3"] = {
-
-        ["energy"] = "800",
-    },
-
-
-
-    ["buildings/energy/nuclear_powerplant"] = {
-
-        ["energy"] = "6000",
-    },
-
-    ["buildings/energy/nuclear_powerplant_lvl_2"] = {
-
-        ["energy"] = "9000",
-    },
-
-    ["buildings/energy/nuclear_powerplant_lvl_3"] = {
-
-        ["energy"] = "12000",
+            ["ai"] = "32",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/plant_biomass_powerplant",
+        ["storages"] = {
 
-    ["buildings/energy/morphium_powerplant"] = {
-
-        ["energy"] = "2000",
+            ["energy"] = "400",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/plant_biomass_powerplant_lvl_2",
+        ["storages"] = {
 
-    ["buildings/energy/morphium_powerplant_lvl_2"] = {
-
-        ["energy"] = "3000",
+            ["energy"] = "600",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/plant_biomass_powerplant_lvl_3",
+        ["storages"] = {
 
-    ["buildings/energy/morphium_powerplant_lvl_3"] = {
-
-        ["energy"] = "4000",
-    },
-
-
-
-    ["buildings/energy/magma_powerplant"] = {
-
-        ["energy"] = "2000",
-    },
-
-    ["buildings/energy/magma_powerplant_lvl_2"] = {
-
-        ["energy"] = "3000",
-    },
-
-    ["buildings/energy/magma_powerplant_lvl_3"] = {
-
-        ["energy"] = "4000",
+            ["energy"] = "800",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/nuclear_powerplant",
+        ["storages"] = {
 
-    ["buildings/energy/geothermal_powerplant"] = {
-
-        ["energy"] = "800",
-        ["mud"] = "1600",
+            ["energy"] = "6000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/nuclear_powerplant_lvl_2",
+        ["storages"] = {
 
-    ["buildings/energy/geothermal_powerplant_lvl_2"] = {
-
-        ["energy"] = "1600",
-        ["mud"] = "2400",
+            ["energy"] = "9000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/nuclear_powerplant_lvl_3",
+        ["storages"] = {
 
-    ["buildings/energy/geothermal_powerplant_lvl_3"] = {
-
-        ["energy"] = "3200",
-        ["mud"] = "3200",
-    },
-
-
-
-    ["buildings/energy/gas_powerplant"] = {
-
-        ["energy"] = "2000",
-    },
-
-    ["buildings/energy/gas_powerplant_lvl_2"] = {
-
-        ["energy"] = "3000",
-    },
-
-    ["buildings/energy/gas_powerplant_lvl_3"] = {
-
-        ["energy"] = "4000",
+            ["energy"] = "12000",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/morphium_powerplant",
+        ["storages"] = {
 
-    ["buildings/energy/fusion_powerplant"] = {
-
-        ["energy"] = "14000",
-        ["plasma"] = "1600",
+            ["energy"] = "2000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/morphium_powerplant_lvl_2",
+        ["storages"] = {
 
-    ["buildings/energy/fusion_powerplant_lvl_2"] = {
-
-        ["energy"] = "20000",
-        ["plasma"] = "2400",
+            ["energy"] = "3000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/morphium_powerplant_lvl_3",
+        ["storages"] = {
 
-    ["buildings/energy/fusion_powerplant_lvl_3"] = {
-
-        ["energy"] = "28000",
-        ["plasma"] = "3200",
-    },
-
-
-
-    ["buildings/energy/energy_storage"] = {
-
-        ["energy"] = "40000",
-    },
-
-    ["buildings/energy/energy_storage_lvl_2"] = {
-
-        ["energy"] = "80000",
-    },
-
-    ["buildings/energy/energy_storage_lvl_3"] = {
-
-        ["energy"] = "160000",
+            ["energy"] = "4000",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/magma_powerplant",
+        ["storages"] = {
 
-    ["buildings/energy/carbonium_powerplant"] = {
-
-        ["energy"] = "240",
+            ["energy"] = "2000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/magma_powerplant_lvl_2",
+        ["storages"] = {
 
-    ["buildings/energy/carbonium_powerplant_lvl_2"] = {
-
-        ["energy"] = "480",
+            ["energy"] = "3000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/magma_powerplant_lvl_3",
+        ["storages"] = {
 
-    ["buildings/energy/carbonium_powerplant_lvl_3"] = {
-
-        ["energy"] = "960",
-    },
-
-
-
-    ["buildings/energy/animal_biomass_powerplant"] = {
-
-        ["energy"] = "800",
-    },
-
-    ["buildings/energy/animal_biomass_powerplant_lvl_2"] = {
-
-        ["energy"] = "1200",
-    },
-
-    ["buildings/energy/animal_biomass_powerplant_lvl_3"] = {
-
-        ["energy"] = "1600",
+            ["energy"] = "4000",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/geothermal_powerplant",
+        ["storages"] = {
 
-    ["buildings/resources/bio_condenser"] = {
-
-        ["sludge"] = "800",
+            ["energy"] = "800",
+            ["mud"] = "1600",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/geothermal_powerplant_lvl_2",
+        ["storages"] = {
 
-    ["buildings/resources/bio_condenser_lvl_2"] = {
-
-        ["sludge"] = "1600",
+            ["energy"] = "1600",
+            ["mud"] = "2400",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/geothermal_powerplant_lvl_3",
+        ["storages"] = {
 
-    ["buildings/resources/bio_condenser_lvl_3"] = {
-
-        ["sludge"] = "2400",
-    },
-
-
-
-    ["buildings/resources/ammunition_storage"] = {
-
-        ["ammo_mech"] = "4",
-        ["ammo_tower"] = "4",
-    },
-
-    ["buildings/resources/ammunition_storage_lvl_2"] = {
-
-        ["ammo_mech"] = "8",
-        ["ammo_tower"] = "8",
-    },
-
-    ["buildings/resources/ammunition_storage_lvl_3"] = {
-
-        ["ammo_mech"] = "16",
-        ["ammo_tower"] = "16",
+            ["energy"] = "3200",
+            ["mud"] = "3200",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/gas_powerplant",
+        ["storages"] = {
 
-    ["buildings/resources/bio_composter"] = {
-
-        ["flammable_gas"] = "400",
+            ["energy"] = "2000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/gas_powerplant_lvl_2",
+        ["storages"] = {
 
-    ["buildings/resources/bio_composter_lvl_2"] = {
-
-        ["flammable_gas"] = "800",
+            ["energy"] = "3000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/gas_powerplant_lvl_3",
+        ["storages"] = {
 
-    ["buildings/resources/bio_composter_lvl_3"] = {
-
-        ["flammable_gas"] = "1200",
-    },
-
-
-
-    ["buildings/resources/gas_extractor"] = {
-
-        ["flammable_gas"] = "1200",
-    },
-
-    ["buildings/resources/gas_extractor_lvl_2"] = {
-
-        ["flammable_gas"] = "1200",
-    },
-
-    ["buildings/resources/gas_extractor_lvl_3"] = {
-
-        ["flammable_gas"] = "1200",
+            ["energy"] = "4000",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/fusion_powerplant",
+        ["storages"] = {
 
-    ["buildings/resources/gas_filtering_plant"] = {
-
-        ["flammable_gas"] = "400",
+            ["energy"] = "14000",
+            ["plasma"] = "1600",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/fusion_powerplant_lvl_2",
+        ["storages"] = {
 
-    ["buildings/resources/gas_filtering_plant_lvl_2"] = {
-
-        ["flammable_gas"] = "800",
+            ["energy"] = "20000",
+            ["plasma"] = "2400",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/fusion_powerplant_lvl_3",
+        ["storages"] = {
 
-    ["buildings/resources/gas_filtering_plant_lvl_3"] = {
-
-        ["flammable_gas"] = "1200",
-    },
-
-
-
-    ["buildings/resources/ionizer"] = {
-
-        ["plasma"] = "400",
-    },
-
-    ["buildings/resources/ionizer_lvl_2"] = {
-
-        ["plasma"] = "800",
-    },
-
-    ["buildings/resources/ionizer_lvl_3"] = {
-
-        ["plasma"] = "1600",
+            ["energy"] = "28000",
+            ["plasma"] = "3200",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/energy_storage",
+        ["storages"] = {
 
-    ["buildings/resources/plasma_converter"] = {
-
-        ["plasma_charged"] = "400",
+            ["energy"] = "40000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/energy_storage_lvl_2",
+        ["storages"] = {
 
-    ["buildings/resources/plasma_converter_lvl_2"] = {
-
-        ["plasma_charged"] = "800",
+            ["energy"] = "80000",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/energy_storage_lvl_3",
+        ["storages"] = {
 
-    ["buildings/resources/plasma_converter_lvl_3"] = {
-
-        ["plasma_charged"] = "1200",
-    },
-
-
-
-    ["buildings/resources/supercoolant_refinery"] = {
-
-        ["supercoolant"] = "400",
-    },
-
-    ["buildings/resources/supercoolant_refinery_lvl_2"] = {
-
-        ["supercoolant"] = "800",
-    },
-
-    ["buildings/resources/supercoolant_refinery_lvl_3"] = {
-
-        ["supercoolant"] = "1600",
+            ["energy"] = "160000",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/carbonium_powerplant",
+        ["storages"] = {
 
-    ["buildings/resources/water_filtering_plant"] = {
+            ["energy"] = "240",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/energy/carbonium_powerplant_lvl_2",
+        ["storages"] = {
 
-        ["water"] = "800",
+            ["energy"] = "480",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/energy/carbonium_powerplant_lvl_3",
+        ["storages"] = {
+
+            ["energy"] = "960",
+        },
     },
 
-    ["buildings/resources/water_filtering_plant_lvl_2"] = {
 
-        ["water"] = "1200",
+    
+    {
+        ["name"] = "buildings/energy/animal_biomass_powerplant",
+        ["storages"] = {
+
+            ["energy"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/energy/animal_biomass_powerplant_lvl_2",
+        ["storages"] = {
+
+            ["energy"] = "1200",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/energy/animal_biomass_powerplant_lvl_3",
+        ["storages"] = {
+
+            ["energy"] = "1600",
+        },
     },
 
-    ["buildings/resources/water_filtering_plant_lvl_3"] = {
 
-        ["water"] = "1600",
+    
+    {
+        ["name"] = "buildings/resources/bio_condenser",
+        ["storages"] = {
+
+            ["sludge"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/bio_condenser_lvl_2",
+        ["storages"] = {
+
+            ["sludge"] = "1600",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/bio_condenser_lvl_3",
+        ["storages"] = {
+
+            ["sludge"] = "2400",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/ammunition_storage",
+        ["groups"] = {
+
+            ["9"] = "4", -- ammo_mech
+            ["10"] = "4", -- ammo_tower
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/ammunition_storage_lvl_2",
+        ["groups"] = {
+
+            ["9"] = "8", -- ammo_mech
+            ["10"] = "8", -- ammo_tower
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/ammunition_storage_lvl_3",
+        ["groups"] = {
+
+            ["9"] = "16", -- ammo_mech
+            ["10"] = "16", -- ammo_tower
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/bio_composter",
+        ["storages"] = {
+
+            ["flammable_gas"] = "400",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/bio_composter_lvl_2",
+        ["storages"] = {
+
+            ["flammable_gas"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/bio_composter_lvl_3",
+        ["storages"] = {
+
+            ["flammable_gas"] = "1200",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/gas_extractor",
+        ["storages"] = {
+
+            ["flammable_gas"] = "1200",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/gas_extractor_lvl_2",
+        ["storages"] = {
+
+            ["flammable_gas"] = "1200",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/gas_extractor_lvl_3",
+        ["storages"] = {
+
+            ["flammable_gas"] = "1200",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/gas_filtering_plant",
+        ["storages"] = {
+
+            ["flammable_gas"] = "400",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/gas_filtering_plant_lvl_2",
+        ["storages"] = {
+
+            ["flammable_gas"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/gas_filtering_plant_lvl_3",
+        ["storages"] = {
+
+            ["flammable_gas"] = "1200",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/ionizer",
+        ["storages"] = {
+
+            ["plasma"] = "400",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/ionizer_lvl_2",
+        ["storages"] = {
+
+            ["plasma"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/ionizer_lvl_3",
+        ["storages"] = {
+
+            ["plasma"] = "1600",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/plasma_converter",
+        ["storages"] = {
+
+            ["plasma_charged"] = "400",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/plasma_converter_lvl_2",
+        ["storages"] = {
+
+            ["plasma_charged"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/plasma_converter_lvl_3",
+        ["storages"] = {
+
+            ["plasma_charged"] = "1200",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/supercoolant_refinery",
+        ["storages"] = {
+
+            ["supercoolant"] = "400",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/supercoolant_refinery_lvl_2",
+        ["storages"] = {
+
+            ["supercoolant"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/supercoolant_refinery_lvl_3",
+        ["storages"] = {
+
+            ["supercoolant"] = "1600",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/water_filtering_plant",
+        ["storages"] = {
+
+            ["water"] = "800",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/water_filtering_plant_lvl_2",
+        ["storages"] = {
+
+            ["water"] = "1200",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/water_filtering_plant_lvl_3",
+        ["storages"] = {
+
+            ["water"] = "1600",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/liquid_decompressor",
+        ["groups"] = {
+
+            ["1"] = "200", -- local
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/liquid_decompressor_lvl_2",
+        ["groups"] = {
+
+            ["1"] = "600", -- local
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/liquid_decompressor_lvl_3",
+        ["groups"] = {
+
+            ["1"] = "800", -- local
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/liquid_material_storage",
+        ["groups"] = {
+
+            ["1"] = "12000", -- local
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/liquid_material_storage_lvl_2",
+        ["groups"] = {
+
+            ["1"] = "18000", -- local
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/liquid_material_storage_lvl_3",
+        ["groups"] = {
+
+            ["1"] = "24000", -- local
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/pipe_junction",
+        ["groups"] = {
+
+            ["1"] = "100", -- local
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/solid_material_storage",
+        ["groups"] = {
+
+            ["1"] = "800", -- local
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/solid_material_storage_lvl_2",
+        ["groups"] = {
+
+            ["1"] = "1600", -- local
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/solid_material_storage_lvl_3",
+        ["groups"] = {
+
+            ["1"] = "3200", -- local
+        },
     },
 }
 
