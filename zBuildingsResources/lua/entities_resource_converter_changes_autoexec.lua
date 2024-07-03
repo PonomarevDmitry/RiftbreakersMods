@@ -57,7 +57,7 @@ local InjectChangeBlueprintResourceConverterValues = function(blueprintName, new
         end
 
         if ( newResourceConverterValues[resourceId] == nil ) then
-            LogService:Log("InjectChangeBlueprintResourceConverterValues Blueprint '" .. blueprintName .. "' newResourceConverterValues[resourceId] == nil")
+            --LogService:Log("InjectChangeBlueprintResourceConverterValues Blueprint '" .. blueprintName .. "' newResourceConverterValues[resourceId] == nil " .. tostring(resourceId))
 
             goto continue
         end
@@ -70,246 +70,337 @@ end
 
 local InjectChangeListBlueprintResourceConverterValues = function(blueprintResourceConverterValues)
 
-    for blueprintName, newResourceConverterValues in pairs(blueprintResourceConverterValues) do
+    for _, configObject in ipairs(blueprintResourceConverterValues) do
 
-        InjectChangeBlueprintResourceConverterValues(blueprintName, newResourceConverterValues)
+        InjectChangeBlueprintResourceConverterValues(configObject.name, configObject.resource_converter)
     end
 end
 
 local new_resource_converter_values = {
+    
+    {
+        ["name"] = "buildings/energy/animal_biomass_powerplant",
+        ["resource_converter"] = {
 
-    ["buildings/energy/animal_biomass_powerplant"] = {
-
-        ["biomass_animal"] = "0.1",
+            ["biomass_animal"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/animal_biomass_powerplant_lvl_2",
+        ["resource_converter"] = {
 
-    ["buildings/energy/animal_biomass_powerplant_lvl_2"] = {
-
-        ["biomass_animal"] = "0.1",
+            ["biomass_animal"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/animal_biomass_powerplant_lvl_3",
+        ["resource_converter"] = {
 
-    ["buildings/energy/animal_biomass_powerplant_lvl_3"] = {
-
-        ["biomass_animal"] = "0.1",
-    },
-
-
-
-    ["buildings/energy/carbonium_powerplant"] = {
-
-        ["carbon_vein"] = "0.1",
-    },
-
-    ["buildings/energy/carbonium_powerplant_lvl_2"] = {
-
-        ["carbon_vein"] = "0.1",
-    },
-
-    ["buildings/energy/carbonium_powerplant_lvl_3"] = {
-
-        ["carbon_vein"] = "0.1",
+            ["biomass_animal"] = "0.1",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/carbonium_powerplant",
+        ["resource_converter"] = {
 
-    ["buildings/energy/nuclear_powerplant"] = {
-
-        ["uranium"] = "0.4",
+            ["carbon_vein"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/carbonium_powerplant_lvl_2",
+        ["resource_converter"] = {
 
-    ["buildings/energy/nuclear_powerplant_lvl_2"] = {
-
-        ["uranium"] = "0.4",
+            ["carbon_vein"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/carbonium_powerplant_lvl_3",
+        ["resource_converter"] = {
 
-    ["buildings/energy/nuclear_powerplant_lvl_3"] = {
-
-        ["uranium"] = "0.4",
-    },
-
-
-
-    ["buildings/energy/plant_biomass_powerplant"] = {
-
-        ["biomass_plant"] = "0.1",
-    },
-
-    ["buildings/energy/plant_biomass_powerplant_lvl_2"] = {
-
-        ["biomass_plant"] = "0.1",
-    },
-
-    ["buildings/energy/plant_biomass_powerplant_lvl_3"] = {
-
-        ["biomass_plant"] = "0.1",
+            ["carbon_vein"] = "0.1",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/nuclear_powerplant",
+        ["resource_converter"] = {
 
-    ["buildings/resources/bio_composter"] = {
-
-        ["biomass_plant"] = "0.1",
+            ["uranium"] = "0.4",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/nuclear_powerplant_lvl_2",
+        ["resource_converter"] = {
 
-    ["buildings/resources/bio_composter_lvl_2"] = {
-
-        ["biomass_plant"] = "0.1",
+            ["uranium"] = "0.4",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/nuclear_powerplant_lvl_3",
+        ["resource_converter"] = {
 
-    ["buildings/resources/bio_composter_lvl_3"] = {
-
-        ["biomass_plant"] = "0.1",
-    },
-
-
-
-    ["buildings/resources/carbonium_factory"] = {
-
-        ["carbon_vein"] = "0.1",
-    },
-
-    ["buildings/resources/carbonium_factory_lvl_2"] = {
-
-        ["carbon_vein"] = "0.1",
-    },
-
-    ["buildings/resources/carbonium_factory_lvl_3"] = {
-
-        ["carbon_vein"] = "0.1",
+            ["uranium"] = "0.4",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/energy/plant_biomass_powerplant",
+        ["resource_converter"] = {
 
-    ["buildings/resources/ionizer"] = {
-
-        ["titanium"] = "0.2",
-        ["palladium"] = "0.2",
+            ["biomass_plant"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/plant_biomass_powerplant_lvl_2",
+        ["resource_converter"] = {
 
-    ["buildings/resources/ionizer_lvl_2"] = {
-
-        ["titanium"] = "0.2",
-        ["palladium"] = "0.2",
+            ["biomass_plant"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/energy/plant_biomass_powerplant_lvl_3",
+        ["resource_converter"] = {
 
-    ["buildings/resources/ionizer_lvl_3"] = {
-
-        ["titanium"] = "0.2",
-        ["palladium"] = "0.2",
-    },
-
-
-
-    ["buildings/resources/liquid_compressor"] = {
-
-        ["energy"] = "50",
-    },
-
-    ["buildings/resources/liquid_compressor_lvl_2"] = {
-
-        ["energy"] = "75",
-    },
-
-    ["buildings/resources/liquid_compressor_lvl_3"] = {
-
-        ["energy"] = "100",
+            ["biomass_plant"] = "0.1",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/resources/bio_composter",
+        ["resource_converter"] = {
 
-    ["buildings/resources/liquid_compressor"] = {
+            ["biomass_plant"] = "0.1",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/bio_composter_lvl_2",
+        ["resource_converter"] = {
 
-        ["energy"] = "50",
+            ["biomass_plant"] = "0.1",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/bio_composter_lvl_3",
+        ["resource_converter"] = {
+
+            ["biomass_plant"] = "0.1",
+        },
     },
 
-    ["buildings/resources/liquid_compressor_lvl_2"] = {
 
-        ["energy"] = "75",
+    
+    {
+        ["name"] = "buildings/resources/carbonium_factory",
+        ["resource_converter"] = {
+
+            ["carbon_vein"] = "0.1",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/carbonium_factory_lvl_2",
+        ["resource_converter"] = {
+
+            ["carbon_vein"] = "0.1",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/carbonium_factory_lvl_3",
+        ["resource_converter"] = {
+
+            ["carbon_vein"] = "0.1",
+        },
     },
 
-    ["buildings/resources/liquid_compressor_lvl_3"] = {
 
-        ["energy"] = "100",
+    
+    {
+        ["name"] = "buildings/resources/ionizer",
+        ["resource_converter"] = {
+
+            ["titanium"] = "0.2",
+            ["palladium"] = "0.2",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/ionizer_lvl_2",
+        ["resource_converter"] = {
+
+            ["titanium"] = "0.2",
+            ["palladium"] = "0.2",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/ionizer_lvl_3",
+        ["resource_converter"] = {
+
+            ["titanium"] = "0.2",
+            ["palladium"] = "0.2",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/resources/liquid_compressor",
+        ["resource_converter"] = {
 
-    ["buildings/resources/rare_element_mine"] = {
+            ["energy"] = "50",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/liquid_compressor_lvl_2",
+        ["resource_converter"] = {
+
+            ["energy"] = "75",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/liquid_compressor_lvl_3",
+        ["resource_converter"] = {
+
+            ["energy"] = "100",
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/rare_element_mine",
+        ["resource_converter"] = {
         
-        ["uranium_ore_vein"] = "0.1",
-        ["titanium_vein"] = "0.1",
-        ["palladium_vein"] = "0.1",
-        ["cobalt_vein"] = "0.1",
-        ["voidinite_ore_vein"] = "0.1",
+            ["uranium_ore_vein"] = "0.1",
+            ["titanium_vein"] = "0.1",
+            ["palladium_vein"] = "0.1",
+            ["cobalt_vein"] = "0.1",
+            ["voidinite_ore_vein"] = "0.1",
+        },
     },
-
-    ["buildings/resources/rare_element_mine_lvl_2"] = {
+    
+    {
+        ["name"] = "buildings/resources/rare_element_mine_lvl_2",
+        ["resource_converter"] = {
         
-        ["uranium_ore_vein"] = "0.1",
-        ["titanium_vein"] = "0.1",
-        ["palladium_vein"] = "0.1",
-        ["cobalt_vein"] = "0.1",
-        ["voidinite_ore_vein"] = "0.1",
+            ["uranium_ore_vein"] = "0.1",
+            ["titanium_vein"] = "0.1",
+            ["palladium_vein"] = "0.1",
+            ["cobalt_vein"] = "0.1",
+            ["voidinite_ore_vein"] = "0.1",
+        },
     },
-
-    ["buildings/resources/rare_element_mine_lvl_3"] = {
+    
+    {
+        ["name"] = "buildings/resources/rare_element_mine_lvl_3",
+        ["resource_converter"] = {
         
-        ["uranium_ore_vein"] = "0.1",
-        ["titanium_vein"] = "0.1",
-        ["palladium_vein"] = "0.1",
-        ["cobalt_vein"] = "0.1",
-        ["voidinite_ore_vein"] = "0.1",
+            ["uranium_ore_vein"] = "0.1",
+            ["titanium_vein"] = "0.1",
+            ["palladium_vein"] = "0.1",
+            ["cobalt_vein"] = "0.1",
+            ["voidinite_ore_vein"] = "0.1",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/resources/steel_factory",
+        ["resource_converter"] = {
 
-    ["buildings/resources/steel_factory"] = {
-
-        ["iron_vein"] = "0.1",
+            ["iron_vein"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/resources/steel_factory_lvl_2",
+        ["resource_converter"] = {
 
-    ["buildings/resources/steel_factory_lvl_2"] = {
-
-        ["iron_vein"] = "0.1",
+            ["iron_vein"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/resources/steel_factory_lvl_3",
+        ["resource_converter"] = {
 
-    ["buildings/resources/steel_factory_lvl_3"] = {
-
-        ["iron_vein"] = "0.1",
-    },
-
-
-
-    ["buildings/resources/supercoolant_refinery"] = {
-
-        ["titanium"] = "0.2",
-    },
-
-    ["buildings/resources/supercoolant_refinery_lvl_2"] = {
-
-        ["titanium"] = "0.2",
-    },
-
-    ["buildings/resources/supercoolant_refinery_lvl_3"] = {
-
-        ["titanium"] = "0.2",
+            ["iron_vein"] = "0.1",
+        },
     },
 
 
+    
+    {
+        ["name"] = "buildings/resources/supercoolant_refinery",
+        ["resource_converter"] = {
 
-    ["buildings/resources/uranium_centrifuge"] = {
+            ["titanium"] = "0.2",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/supercoolant_refinery_lvl_2",
+        ["resource_converter"] = {
 
-        ["uranium_ore"] = "0.1",
+            ["titanium"] = "0.2",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/supercoolant_refinery_lvl_3",
+        ["resource_converter"] = {
+
+            ["titanium"] = "0.2",
+        },
     },
 
-    ["buildings/resources/uranium_centrifuge_lvl_2"] = {
 
-        ["uranium_ore"] = "0.1",
+    
+    {
+        ["name"] = "buildings/resources/uranium_centrifuge",
+        ["resource_converter"] = {
+
+            ["uranium_ore"] = "0.1",
+        },
     },
+    
+    {
+        ["name"] = "buildings/resources/uranium_centrifuge_lvl_2",
+        ["resource_converter"] = {
 
-    ["buildings/resources/uranium_centrifuge_lvl_3"] = {
+            ["uranium_ore"] = "0.1",
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/uranium_centrifuge_lvl_3",
+        ["resource_converter"] = {
 
-        ["uranium_ore"] = "0.1",
+            ["uranium_ore"] = "0.1",
+        },
     },
 }
 
