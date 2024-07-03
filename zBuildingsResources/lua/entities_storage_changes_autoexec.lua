@@ -90,7 +90,7 @@ local new_storage_values = {
         ["cobalt"] = "1200",
 
         ["voidinite_ore"] = "1200",
-        ["voidinite_ore"] = "400",
+        ["rift_energy"] = "400",
 
         ["ammo_mech_low_caliber"] = "16",
         ["ammo_mech_high_caliber"] = "16",
@@ -109,6 +109,52 @@ local new_storage_values = {
         ["ammo_mech_plasma_cells"] = "16",
         ["ammo_mech_radio_cells"] = "16",
         ["ammo_mech_rift_charge"] = "16",
+    },
+
+    ["buildings/main/headquarters"] = {
+
+        ["energy"] = "4000",
+
+        ["carbonium"] = "200",
+        ["steel"] = "200",
+
+        ["uranium_ore"] = "200",
+        ["uranium"] = "200",
+        ["palladium"] = "200",
+        ["titanium"] = "200",
+        ["cobalt"] = "200",
+
+        ["voidinite_ore"] = "200",
+
+        ["ammo_tower_explosive"] = "4",
+        ["ammo_tower_liquid"] = "4",
+        ["ammo_tower_low_caliber"] = "4",
+        ["ammo_tower_high_caliber"] = "4",
+
+        ["ai"] = "16",
+    },
+
+    ["buildings/main/outpost"] = {
+
+        ["energy"] = "4000",
+
+        ["carbonium"] = "200",
+        ["steel"] = "200",
+
+        ["uranium_ore"] = "200",
+        ["uranium"] = "200",
+        ["palladium"] = "200",
+        ["titanium"] = "200",
+        ["cobalt"] = "200",
+
+        ["voidinite_ore"] = "200",
+
+        ["ammo_tower_explosive"] = "4",
+        ["ammo_tower_liquid"] = "4",
+        ["ammo_tower_low_caliber"] = "4",
+        ["ammo_tower_high_caliber"] = "4",
+
+        ["ai"] = "16",
     },
 }
 
