@@ -483,40 +483,6 @@ local new_storage_values = {
 
         ["water"] = "1600",
     },
-
-
-
-    ["buildings/resources/plant_biomass_powerplant"] = {
-
-        ["energy"] = "400",
-    },
-
-    ["buildings/resources/plant_biomass_powerplant_lvl_2"] = {
-
-        ["energy"] = "600",
-    },
-
-    ["buildings/resources/plant_biomass_powerplant_lvl_3"] = {
-
-        ["energy"] = "800",
-    },
-
-
-
-    ["buildings/resources/plant_biomass_powerplant"] = {
-
-        ["energy"] = "400",
-    },
-
-    ["buildings/resources/plant_biomass_powerplant_lvl_2"] = {
-
-        ["energy"] = "600",
-    },
-
-    ["buildings/resources/plant_biomass_powerplant_lvl_3"] = {
-
-        ["energy"] = "800",
-    },
 }
 
 InjectChangeListBlueprintStorageValues(new_storage_values)
