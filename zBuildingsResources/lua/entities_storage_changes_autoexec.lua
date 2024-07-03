@@ -36,51 +36,56 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, newStorageVal
 
         local storageObjectRef = reflection_helper(storageObject)
 
-        if ( storageObjectRef.resource == nil ) then
-            LogService:Log("InjectChangeBlueprintStorageValues Blueprint 'player/player' storageObjectRef.resource == nil")
-
-            goto continue
-        end
-
-        if ( storageObjectRef.resource.resource == nil ) then
-            LogService:Log("InjectChangeBlueprintStorageValues Blueprint 'player/player' storageObjectRef.resource.resource == nil")
-
-            goto continue
-        end
-
-        local resourceId = storageObjectRef.resource.resource.id
         local groupId = storageObjectRef.group
 
-        LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "'   = " .. tostring(resourceId) .. " groupId = " .. tostring(groupId))
+        --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' groupId = " .. tostring(groupId))
 
-        if ( resourceId ~= nil and resourceId ~= "" ) then
+        if ( groupId == 12 ) then
 
-            local resourceIdString = tostring(resourceId)
+            if ( storageObjectRef.resource == nil ) then
+                --LogService:Log("InjectChangeBlueprintStorageValues Blueprint 'player/player' storageObjectRef.resource == nil")
 
-            LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId ~= nil or resourceId ~= '' " .. resourceIdString)
-
-            if ( newStorageValues and newStorageValues[resourceIdString] ~= nil ) then
-                LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' newStorageValues[resourceId] ~= nil " .. tostring(newStorageValues[resourceIdString]))
-
-                storageObject:GetField("max"):SetValue(newStorageValues[resourceIdString])
+                goto continue
             end
 
-            goto continue
-        end
+            if ( storageObjectRef.resource.resource == nil ) then
+                --LogService:Log("InjectChangeBlueprintStorageValues Blueprint 'player/player' storageObjectRef.resource.resource == nil")
 
-        if ( groupId ~= nil and groupId ~= "" ) then
-
-            local groupIdString = tostring(groupId)
-
-            LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' groupId ~= nil or groupId ~= '' " .. groupIdString)
-
-            if ( newStorageGroupsValues and newStorageGroupsValues[groupIdString] ~= nil ) then
-                LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' newStorageGroupsValues[groupIdString] ~= nil " .. tostring(newStorageGroupsValues[groupIdString]))
-
-                storageObject:GetField("max"):SetValue(newStorageGroupsValues[groupIdString])
+                goto continue
             end
 
-            goto continue
+            local resourceId = storageObjectRef.resource.resource.id
+
+            --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId  = " .. tostring(resourceId) .. " groupId = " .. tostring(groupId))
+
+            if ( resourceId ~= nil and resourceId ~= "" ) then
+
+                local resourceIdString = tostring(resourceId)
+
+                --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId ~= nil or resourceId ~= '' " .. resourceIdString)
+
+                if ( newStorageValues and newStorageValues[resourceIdString] ~= nil ) then
+                    --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' newStorageValues[resourceId] ~= nil " .. tostring(newStorageValues[resourceIdString]))
+
+                    storageObject:GetField("max"):SetValue(newStorageValues[resourceIdString])
+                end
+
+                goto continue
+            end
+        else
+
+            if ( groupId ~= nil and groupId ~= "" ) then
+
+                local groupIdString = tostring(groupId)
+
+                if ( newStorageGroupsValues and newStorageGroupsValues[groupIdString] ~= nil ) then
+                    --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' newStorageGroupsValues[groupIdString] ~= nil " .. tostring(newStorageGroupsValues[groupIdString]))
+
+                    storageObject:GetField("max"):SetValue(newStorageGroupsValues[groupIdString])
+                end
+
+                goto continue
+            end
         end
 
         LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId == nil and groupId == ''\n" .. tostring(storageObjectRef))
@@ -792,7 +797,7 @@ local new_storage_values = {
         ["name"] = "buildings/resources/solid_material_storage",
         ["groups"] = {
 
-            ["1"] = "800", -- local
+            ["0"] = "800", -- global
         },
     },
     
@@ -800,7 +805,7 @@ local new_storage_values = {
         ["name"] = "buildings/resources/solid_material_storage_lvl_2",
         ["groups"] = {
 
-            ["1"] = "1600", -- local
+            ["0"] = "1600", -- global
         },
     },
     
@@ -808,7 +813,7 @@ local new_storage_values = {
         ["name"] = "buildings/resources/solid_material_storage_lvl_3",
         ["groups"] = {
 
-            ["1"] = "3200", -- local
+            ["0"] = "3200", -- global
         },
     },
 }
