@@ -194,6 +194,42 @@ local new_equipment_slots = {
         },
     },
 
+    {
+        ["name"] = "UPGRADE_13",
+        ["subslots_count"] = "1",
+        ["allow_types"] = {
+
+            "upgrade",
+        },
+    },
+
+    {
+        ["name"] = "UPGRADE_14",
+        ["subslots_count"] = "1",
+        ["allow_types"] = {
+
+            "upgrade",
+        },
+    },
+
+    {
+        ["name"] = "UPGRADE_15",
+        ["subslots_count"] = "1",
+        ["allow_types"] = {
+
+            "upgrade",
+        },
+    },
+
+    {
+        ["name"] = "UPGRADE_16",
+        ["subslots_count"] = "1",
+        ["allow_types"] = {
+
+            "upgrade",
+        },
+    },
+
     
 }
 
