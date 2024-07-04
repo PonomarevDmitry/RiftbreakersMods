@@ -183,4 +183,4 @@ local supported_item_blueprints = {
     "items/skills/teleport_emergency_ice_extreme_item",
 }
 
-InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprints, "0.5")
+InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown(supported_item_blueprints, "0.5")
