@@ -117,11 +117,10 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     const uint lightIndexListAddress = linearTileIndex * TILED_DEFERRED_MAX_LIGHT_BUCKET_COUNT;
     const uint lastMaxLightIndex = cNumLights - 1;
     const uint lastLightBucket = min( lastMaxLightIndex / 32u, max( 0u, ( uint ) TILED_DEFERRED_MAX_LIGHT_BUCKET_COUNT - 1 ) );
-    [loop]
+
     for ( uint lightBucket = 0; lightBucket <= lastLightBucket; ++lightBucket )
     {    
         uint lightBits = LightIndexList[ lightIndexListAddress + lightBucket ];
-        [loop]
         while (lightBits != 0)
         {
             const uint lightBitIndex = firstbitlow( lightBits );
