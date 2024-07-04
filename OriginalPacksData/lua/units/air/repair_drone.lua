@@ -166,8 +166,9 @@ end
 
 function repair_drone:OnRepairEnter(state)
     local target = self:GetDroneActionTarget();
-    self.target_last_position = EntityService:GetPosition(target)
-	
+    if EntityService:IsAlive(target) then
+        self.target_last_position = EntityService:GetPosition(target)
+	end
 	self:OnRepairExecute(state)
 end
 

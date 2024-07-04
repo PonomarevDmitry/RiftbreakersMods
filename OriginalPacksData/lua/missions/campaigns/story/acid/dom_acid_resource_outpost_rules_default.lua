@@ -47,8 +47,8 @@ return function()
 		{ action = "boss_attack", type = "NEGATIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 4 },
 		{ action = "spawn_meteor_shower", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 4, logicFile="logic/weather/meteor_shower.logic" },
 		{ action = "spawn_meteor_shower", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, logicFile="logic/weather/meteor_shower.logic" },
-		{ action = "help_from_above", type = "POSITIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 4, time = 60, isTapTap = true },
-		{ action = "ammunition_support", type = "POSITIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 4, time = 60, isTapTap = true }	
+		--{ action = "help_from_above", type = "POSITIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 4, time = 60, isTapTap = true },
+		--{ action = "ammunition_support", type = "POSITIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 4, time = 60, isTapTap = true }	
 	}
 
 	rules.timeToNextDifficultyLevel = 

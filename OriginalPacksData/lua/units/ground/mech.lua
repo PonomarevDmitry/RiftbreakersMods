@@ -123,6 +123,13 @@ function mech:OnRevealHiddenEntityEvent( evt )
 
 end
 
+function mech:RecreateComponentsAfterLoad()
+	--ShadowCheckerComponent
+	self:OnLeaveShadowEvent()
+
+	QueueEvent("RecreateComponentFromBlueprintRequest", self.entity, "ShadowCheckerComponent" )
+end
+
 function mech:OnLoad()
 	day_cycle_machine.OnLoad( self )
 
@@ -134,6 +141,13 @@ function mech:OnLoad()
 		EntityService:RemoveGraphicsUniform( self.entity, 0,  "cDissolveAmount")
 		self.version = 1
 	end
+
+	if not self:HasEventHandler( self.entity, "EnterShadowEvent") then
+		self:RegisterHandler( self.entity, "EnterShadowEvent",  "OnEnterShadowEvent" )
+		self:RegisterHandler( self.entity, "LeaveShadowEvent",  "OnLeaveShadowEvent" )
+	end
+
+	self:RecreateComponentsAfterLoad()
 end
 
 -- deprecated

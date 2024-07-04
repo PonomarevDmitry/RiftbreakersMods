@@ -17,8 +17,9 @@ function skill_swarm:__OnDestroyRequest()
 end
 
 function skill_swarm:SetChildSpeed()
-	self.childSpeed = UnitService:GetMaxSpeed( EntityService:GetParent( self.entity ) )
-	self.childSpeed = self.childSpeed + ( self.childSpeed * 1.2 )
+	--self.childSpeed = UnitService:GetMaxSpeed( EntityService:GetParent( self.entity ) )
+	--self.childSpeed = self.childSpeed * 1.2
+	self.childSpeed = 10
 end
 
 function skill_swarm:OnUnitAggressiveStateEvent( evt )

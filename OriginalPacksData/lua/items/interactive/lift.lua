@@ -82,10 +82,10 @@ function lift:OnActivate()
 
 		self.interrupted = false 
 	else 
-		local currentState = self.sm:GetCurrentState()
-		if currentState == "holding" or currentState == "force_holding" then
-			self.sm:ChangeState("deactivation")
-		end
+		-- local currentState = self.sm:GetCurrentState()
+		-- if currentState == "holding" or currentState == "force_holding" then
+		-- 	self.sm:ChangeState("deactivation")
+		-- end
 	end
 end
 
@@ -258,10 +258,18 @@ function lift:ShowHolderItems()
 end
 
 function lift:HideHolderItems()
-	EntityService:FadeEntity( self.lastRightItemEnt, DD_FADE_IN, 0.75 )
-	EntityService:FadeEntity( self.lastLeftItemEnt, DD_FADE_IN, 0.75 )
-	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75 )
-	EntityService:FadeEntity( self.mirrorItem, DD_FADE_OUT, 0.75 )
+	if self.lastRightItemEnt ~= nil then
+		EntityService:FadeEntity( self.lastRightItemEnt, DD_FADE_IN, 0.75 )
+	end
+	if self.lastLeftItemEnt ~= nil then
+		EntityService:FadeEntity( self.lastLeftItemEnt, DD_FADE_IN, 0.75 )
+	end
+	if self.item ~= nil then
+		EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75 )
+	end
+	if self.mirrorItem ~= nil then
+		EntityService:FadeEntity( self.mirrorItem, DD_FADE_OUT, 0.75 )
+	end
 end
 
 function lift:CreateMirrorHolder( attachment )

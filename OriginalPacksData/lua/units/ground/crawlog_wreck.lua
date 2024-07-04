@@ -42,8 +42,14 @@ end
 function crawlog_wreck:OnExitResurrect( state )
 
 	if ( self.canResurrect == true ) then
+		local position = EntityService:GetPosition( self.entity );
+		if position.y > EnvironmentService:GetTerrainHeight(position) + 0.1 then
+			self.canResurrect = false
+			return
+		end
+
 		EntityService:RemoveComponent( self.entity, "PhysicsComponent" )
-		local entity = EntityService:SpawnEntity( self.data:GetString( "resurrect_bp" ), self.entity, "wave_enemy" )
+		local entity = EntityService:SpawnEntity( self.data:GetString( "resurrect_bp" ), position.x, position.y, position.z, "wave_enemy" )
 		UnitService:SetInitialState( entity, UNIT_RESSURECT );
 		EntityService:SetVisible( entity, false );
 
