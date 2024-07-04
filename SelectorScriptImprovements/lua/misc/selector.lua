@@ -37,6 +37,7 @@ function selector:InitializeValues()
     self.mode = SM_INVALID
     self.selector = INVALID_ID
     self.cameraCuller = INVALID_ID
+    self.actionTooltipEnt = INVALID_ID
     self.blueprint = ""
     self.ghostBlueprint = ""
     self.selectedEntities = {}
@@ -311,10 +312,12 @@ function selector:DeselectAllEntities()
         self:DeselectEntity( entity )
     end
     Clear( self.selectedEntities )
+    self:HideActionHint()
 end
 
 function selector:DeactivateEntity( entity )
     QueueEvent("DeactivateEntityRequest", entity, self.playerId  )
+    self:HideActionHint()
 end
 
 function selector:DeactivateAllEntities()
@@ -327,7 +330,23 @@ end
 function selector:SelectEntity( entity )
     QueueEvent("SelectEntityRequest", entity )
 
+    self:ShowActionHint( entity )
+
     ShowBuildingDisplayRadiusAround( self.entity, entity )
+end
+
+function selector:ShowActionHint( entity )
+    if ( entity ~= self.actionTooltipEnt ) then
+        self:HideActionHint()
+        self.actionTooltipEnt = EntityService:SpawnAndAttachEntity( "misc/interact_hint", entity )
+    end
+end
+
+function selector:HideActionHint()
+    if ( self.actionTooltipEnt ~= nil and self.actionTooltipEnt ~= INVALID_ID ) then
+        EntityService:RemoveEntity( self.actionTooltipEnt )
+        self.actionTooltipEnt = INVALID_ID
+    end
 end
 
 function selector:OperateSelection(selectedEntities, selectorComponent)
