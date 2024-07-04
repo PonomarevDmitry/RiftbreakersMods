@@ -26,7 +26,7 @@ end
 
 local supported_item_blueprints = {
 
-    "items/skills/time_warp",
+    "items/skills/time_warp_item",
 
     "items/skills/invisibility_item",
     "items/skills/invisibility_short_item",
