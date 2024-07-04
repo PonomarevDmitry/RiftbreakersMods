@@ -28,21 +28,31 @@ local InjectChangeBlueprintInventoryItemComponentCooldown = function(blueprintsL
 
         local blueprint = ResourceManager:GetBlueprint( blueprintName )
 
-        if ( blueprint ~= nil ) then
-
-            local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
-
-            if inventoryItemComponent ~= nil then
-    
-                inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
-            else
-                
-                LogService:Log("InjectChangeBlueprintInventoryItemComponentCooldown Blueprint " .. blueprintName .. " InventoryItemComponent NOT EXISTS.")
-            end
-        else
+        if ( blueprint == nil ) then
 
             LogService:Log("InjectChangeBlueprintInventoryItemComponentCooldown Blueprint " .. blueprintName .. " NOT EXISTS.")
+            goto continue
         end
+
+        local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
+        if inventoryItemComponent ~= nil then
+    
+            inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+        else
+                
+            LogService:Log("InjectChangeBlueprintInventoryItemComponentCooldown Blueprint " .. blueprintName .. " InventoryItemComponent NOT EXISTS.")
+        end
+
+        local inventoryItemRuntimeDataComponent = blueprint:GetComponent("InventoryItemRuntimeDataComponent")
+        if ( inventoryItemRuntimeDataComponent ~= nil ) then
+
+            inventoryItemRuntimeDataComponent:GetField("cooldown"):SetValue(cooldownValue)
+        else
+
+            LogService:Log("InjectChangeBlueprintInventoryItemComponentCooldown Blueprint " .. blueprintName .. " InventoryItemRuntimeDataComponent NOT EXISTS.")
+        end
+
+        ::continue::
     end
 end
 
