@@ -35,6 +35,9 @@ local InjectChangeBlueprintResourceConverterValues = function(blueprintName, new
         end
 
         local gameplayResourceObjectRef = reflection_helper(gameplayResourceObject)
+        if ( gameplayResourceObjectRef.group ~= 12 ) then
+            goto continue
+        end
 
         if ( gameplayResourceObjectRef.resource == nil ) then
             LogService:Log("InjectChangeBlueprintResourceConverterValues Blueprint 'player/player' gameplayResourceObjectRef.resource == nil")
