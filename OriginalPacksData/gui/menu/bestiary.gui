@@ -160,14 +160,14 @@ GuiRootGroupDef
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "categories.scroll_button_1"
 				navigable "0"
+				path "categories.scroll_button_1"
 			}
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "categories.scroll_button_2"
 				navigable "0"
+				path "categories.scroll_button_2"
 			}
 
 			GuiNavNodeDef "GuiScrollListDef"
@@ -184,14 +184,14 @@ GuiRootGroupDef
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "list.scroll_button_1"
 				navigable "0"
+				path "list.scroll_button_1"
 			}
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "list.scroll_button_2"
 				navigable "0"
+				path "list.scroll_button_2"
 			}
 
 			GuiNavNodeDef "GuiScrollListDef"
@@ -221,14 +221,14 @@ GuiRootGroupDef
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "types.scroll_button_1"
 				navigable "0"
+				path "types.scroll_button_1"
 			}
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "types.scroll_button_2"
 				navigable "0"
+				path "types.scroll_button_2"
 			}
 
 		}
@@ -325,6 +325,7 @@ GuiRootGroupDef
 												key "button_0"
 												value "GuiRadioButtonItemDef"
 												{
+													navigable "0"
 													children
 													{
 														Pair_String_GuiDef2
@@ -616,7 +617,6 @@ GuiRootGroupDef
 														y "50.000"
 													}
 
-													navigable "0"
 													z_order "154.000"
 												}
 
@@ -2046,62 +2046,156 @@ GuiRootGroupDef
 										{
 											Pair_String_GuiDef2
 											{
-												key "description"
-												value "GuiTextBoxDef"
+												key "desc_viewer"
+												value "GuiScrollViewerDef"
 												{
-													max_size
+													content
 													{
-														x "605.000"
-														y "250.000"
+														allow_overflow "1"
+														margin
+														{
+															w "0.000"
+															x "0.000"
+															y "0.000"
+															z "0.000"
+														}
+														
+														children 
+														{
+															Pair_String_GuiDef2
+															{
+																key "description"
+																value "GuiTextBoxDef"
+																{
+																	content "COMMON_Text_Line"
+																	style
+																	{
+																		char_height "26.000"
+																		df "1"
+																		font "Exo2_Bold_sdf"
+																		glow_color
+																		{
+																			w "0.000"
+																		}
+
+																		glow_size "0.000"
+																		glow_spread "0.000"
+																		shadow_angle "135.000"
+																		shadow_color
+																		{
+																			w "0.850"
+																		}
+
+																		shadow_distance "2.000"
+																		shadow_enabled "1"
+																		shadow_spread "0.000"
+																		space_size "7.000"
+																		stroke_position "0"
+																		stroke_size "0.000"
+																	}
+
+																	translate "1"
+																	bindings
+																	{
+																		content
+																		{
+																			model_field "description"
+																		}
+
+																	}
+
+																	id "description"
+																	max_size
+																	{
+																		x "580.000"
+																		y "99999.000"
+																		//y "235.000"
+																	}
+
+																	offset
+																	{
+																		//y "25.000"
+																	}
+
+																	z_order "21.000"
+																}
+
+															}
+														}
+
 													}
 
-													content "COMMON_Text_Line"
-													style
+													horizontal_scroll_bar
 													{
-														char_height "26.000"
-														df "1"
-														font "Exo2_Bold_sdf"
-														glow_color
+														path "simple_horizontal"
+														ref_gui_id "gui/template/scroll_bars"
+														margin
+														{
+															x "2.000"
+															z "2.000"
+														}
+
+														offset
+														{
+															y "237.000"
+														}
+
+														size
+														{
+															y "12.000"
+														}
+
+														size_mode_x "2"
+													}
+
+													cursor_on_drag "materials/scripts/pointer_drag.cursor"
+													vertical_scroll_bar
+													{
+														path "simple_vertical"
+														ref_gui_id "gui/template/scroll_bars"
+														margin
 														{
 															w "0.000"
 														}
 
-														glow_size "0.000"
-														glow_spread "0.000"
-														shadow_angle "135.000"
-														shadow_color
+														offset
 														{
-															w "0.850"
+															x "593.000"
 														}
 
-														shadow_distance "2.000"
-														shadow_enabled "1"
-														shadow_spread "0.000"
-														space_size "7.000"
-														stroke_position "0"
-														stroke_size "0.000"
-													}
-
-													translate "1"
-													bindings
-													{
-														content
+														size
 														{
-															model_field "description"
+															x "12.000"
 														}
 
+														size_mode_y "2"
 													}
-
-													id "description"
+													cursor_on_select "materials/scripts/pointer_hand.cursor"
+													allow_overflow "1"
 													offset
 													{
-														y "25.000"
+														x "0.000"
+														y "0.000"
+													}													
+													
+													margin
+													{
+														y "25.0"
+														//w "25.0"
 													}
 
-													z_order "21.000"
+													size
+													{
+														x "605.000"
+														y "260.000"
+													}
+													
+													horizontal_scroll_bar_visibility "2" // hidden
+													zoom_enabled "0"
+													id "desc_viewer"
+													z_order "91.000"
 												}
-
-											}
+											}										
 
 											Pair_String_GuiDef2
 											{
@@ -2152,11 +2246,9 @@ GuiRootGroupDef
 										size
 										{
 											x "605.000"
-											y "250.000"
+											y "265.000"
 										}
 
-										size_mode_x "1"
-										size_mode_y "1"
 										z_order "19.000"
 									}
 
@@ -6682,6 +6774,25 @@ GuiDataDefinitions
 	{
 		name "ScreenModel"
 		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "monster_description/bomogan"
+					}
+
+				}
+
+				key "description"
+			}
+
+		}
+
 		handle "[11085435-A688-4D98-B333-057E86FA294F]"
 	}
 
