@@ -40,7 +40,7 @@ function detector:OnActivate()
 	local ownerData = EntityService:GetDatabase( self.owner );
 	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
-		QueueEvent("FadeEntityOutRequest", self.lastItemEnt, 0.5)
+		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.5 )
 		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.5 )
 		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 		self.poseType = ownerData:GetStringOrDefault( "RIGHT_HAND_pose_type", "" )
@@ -68,8 +68,8 @@ function detector:OnDeactivate( forced )
 	if (forced == false and  self.lastItemEnt ~= nil and EntityService:IsAlive( self.lastItemEnt ) ) then
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.5 )
 	end
-
-	QueueEvent("FadeEntityOutRequest", self.item, 0.5)
+	
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.5 )
 
 	self.lastItemEnt = nil
 
