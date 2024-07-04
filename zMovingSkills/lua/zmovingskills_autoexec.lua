@@ -11,14 +11,22 @@ local InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown = function(
         end
 
         local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
+        if ( inventoryItemComponent ~= nil ) then
 
-        if inventoryItemComponent == nil then
+            inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+        else
 
             LogService:Log("InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown Blueprint " .. blueprintName .. " InventoryItemComponent NOT EXISTS.")
-            goto continue
         end
-    
-        inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+
+        local inventoryItemRuntimeDataComponent = blueprint:GetComponent("InventoryItemRuntimeDataComponent")
+        if ( inventoryItemRuntimeDataComponent ~= nil ) then
+
+            inventoryItemRuntimeDataComponent:GetField("cooldown"):SetValue(cooldownValue)
+        else
+
+            LogService:Log("InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown Blueprint " .. blueprintName .. " InventoryItemRuntimeDataComponent NOT EXISTS.")
+        end
 
         ::continue::
     end
@@ -33,6 +41,10 @@ local supported_item_blueprints = {
 
     "items/skills/teleport_item",
     "items/skills/teleport_short_item",
+
+    "items/skills/dash",
+
+    "items/skills/dodge_roll_item",
 
     "items/skills/dash_acid_item",
     "items/skills/dash_acid_advanced_item",
