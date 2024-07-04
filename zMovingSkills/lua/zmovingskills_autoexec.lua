@@ -76,9 +76,111 @@ local supported_item_blueprints = {
     "items/skills/jump_cryo_superior_item",
     "items/skills/jump_cryo_extreme_item",
 
+    "items/skills/dash_explosion_acid_standard_item",
+    "items/skills/dash_explosion_acid_advanced_item",
+    "items/skills/dash_explosion_acid_superior_item",
+    "items/skills/dash_explosion_acid_extreme_item",
+
+    "items/skills/dash_explosion_area_standard_item",
+    "items/skills/dash_explosion_area_advanced_item",
+    "items/skills/dash_explosion_area_superior_item",
+    "items/skills/dash_explosion_area_extreme_item",
+
+    "items/skills/dash_explosion_cryo_standard_item",
+    "items/skills/dash_explosion_cryo_advanced_item",
+    "items/skills/dash_explosion_cryo_superior_item",
+    "items/skills/dash_explosion_cryo_extreme_item",
+
+    "items/skills/dash_explosion_energy_standard_item",
+    "items/skills/dash_explosion_energy_advanced_item",
+    "items/skills/dash_explosion_energy_superior_item",
+    "items/skills/dash_explosion_energy_extreme_item",
+
+    "items/skills/dash_explosion_fire_standard_item",
+    "items/skills/dash_explosion_fire_advanced_item",
+    "items/skills/dash_explosion_fire_superior_item",
+    "items/skills/dash_explosion_fire_extreme_item",
 
 
 
+    "items/skills/teleport_attack_acid_standard_item",
+    "items/skills/teleport_attack_acid_advanced_item",
+    "items/skills/teleport_attack_acid_superior_item",
+    "items/skills/teleport_attack_acid_extreme_item",
+
+    "items/skills/teleport_attack_area_standard_item",
+    "items/skills/teleport_attack_area_advanced_item",
+    "items/skills/teleport_attack_area_superior_item",
+    "items/skills/teleport_attack_area_extreme_item",
+
+    "items/skills/teleport_attack_energy_standard_item",
+    "items/skills/teleport_attack_energy_advanced_item",
+    "items/skills/teleport_attack_energy_superior_item",
+    "items/skills/teleport_attack_energy_extreme_item",
+
+    "items/skills/teleport_attack_fire_standard_item",
+    "items/skills/teleport_attack_fire_advanced_item",
+    "items/skills/teleport_attack_fire_superior_item",
+    "items/skills/teleport_attack_fire_extreme_item",
+
+    "items/skills/teleport_attack_ice_standard_item",
+    "items/skills/teleport_attack_ice_advanced_item",
+    "items/skills/teleport_attack_ice_superior_item",
+    "items/skills/teleport_attack_ice_extreme_item",
+
+
+
+    "items/skills/teleport_combined_acid_standard_item",
+    "items/skills/teleport_combined_acid_advanced_item",
+    "items/skills/teleport_combined_acid_superior_item",
+    "items/skills/teleport_combined_acid_extreme_item",
+
+    "items/skills/teleport_combined_area_standard_item",
+    "items/skills/teleport_combined_area_advanced_item",
+    "items/skills/teleport_combined_area_superior_item",
+    "items/skills/teleport_combined_area_extreme_item",
+
+    "items/skills/teleport_combined_energy_standard_item",
+    "items/skills/teleport_combined_energy_advanced_item",
+    "items/skills/teleport_combined_energy_superior_item",
+    "items/skills/teleport_combined_energy_extreme_item",
+
+    "items/skills/teleport_combined_fire_standard_item",
+    "items/skills/teleport_combined_fire_advanced_item",
+    "items/skills/teleport_combined_fire_superior_item",
+    "items/skills/teleport_combined_fire_extreme_item",
+
+    "items/skills/teleport_combined_ice_standard_item",
+    "items/skills/teleport_combined_ice_advanced_item",
+    "items/skills/teleport_combined_ice_superior_item",
+    "items/skills/teleport_combined_ice_extreme_item",
+
+
+
+    "items/skills/teleport_emergency_acid_standard_item",
+    "items/skills/teleport_emergency_acid_advanced_item",
+    "items/skills/teleport_emergency_acid_superior_item",
+    "items/skills/teleport_emergency_acid_extreme_item",
+
+    "items/skills/teleport_emergency_area_standard_item",
+    "items/skills/teleport_emergency_area_advanced_item",
+    "items/skills/teleport_emergency_area_superior_item",
+    "items/skills/teleport_emergency_area_extreme_item",
+
+    "items/skills/teleport_emergency_energy_standard_item",
+    "items/skills/teleport_emergency_energy_advanced_item",
+    "items/skills/teleport_emergency_energy_superior_item",
+    "items/skills/teleport_emergency_energy_extreme_item",
+
+    "items/skills/teleport_emergency_fire_standard_item",
+    "items/skills/teleport_emergency_fire_advanced_item",
+    "items/skills/teleport_emergency_fire_superior_item",
+    "items/skills/teleport_emergency_fire_extreme_item",
+
+    "items/skills/teleport_emergency_ice_standard_item",
+    "items/skills/teleport_emergency_ice_advanced_item",
+    "items/skills/teleport_emergency_ice_superior_item",
+    "items/skills/teleport_emergency_ice_extreme_item",
 }
 
 InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprints, "0.5")
