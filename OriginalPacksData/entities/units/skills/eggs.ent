@@ -52,18 +52,74 @@ EntityBlueprint
 		defend_radius					"40"
 	}
 
-	LuaDesc
-	{
-		script "lua/units/skills/eggs.lua"
-		database
-		{
-
-		}			
-	}
-
 	NetReplicationDisabledComponent
 	{
 
+	}
+	
+	//SpeciesOverrideParams
+	//{
+	//	fungor_elite
+	//	{
+	//		UnitsSpawnerDesc.blueprint "units/ground/egg_elite_stickrid"
+	//	}
+	//	
+	//	gnerot_elite
+	//	{
+	//		UnitsSpawnerDesc.blueprint "units/ground/egg_elite_canoptrix"
+	//	}
+	//}
+}
+
+EntityBlueprint
+{
+	name "units/skills/eggs_lvl_2"
+	base_blueprint "units/skills/eggs"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/eggs_lvl_2"
+		description 	"gui/hud/enemy_skill_description/eggs"
+		icon 			"gui/menu/items_icons/consumables/grenade"
+	}
+	
+	UnitsSpawnerDesc
+	{
+		blueprint						"units/ground/egg_elite_canoptrix_alpha"
+		amount_on_single_spawn			"2"
+		max_spawn						"50"
+		time_to_spawn					"0.3"
+		unit_state_spawn				"1"  // do not touch
+		max_spawn_distance				"20"
+		spawn_type						"egg"
+		can_spawn_when_visible			"1"
+		defend_radius					"40"
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/eggs_lvl_3"
+	base_blueprint "units/skills/eggs"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/eggs_lvl_3"
+		description 	"gui/hud/enemy_skill_description/eggs"
+		icon 			"gui/menu/items_icons/consumables/grenade"
+	}
+	
+	UnitsSpawnerDesc
+	{
+		blueprint						"units/ground/egg_elite_canoptrix_ultra"
+		amount_on_single_spawn			"2"
+		max_spawn						"50"
+		time_to_spawn					"0.3"
+		unit_state_spawn				"1"  // do not touch
+		max_spawn_distance				"20"
+		spawn_type						"egg"
+		can_spawn_when_visible			"1"
+		defend_radius					"40"
 	}
 }
 
@@ -81,12 +137,12 @@ EntityBlueprint
 	
 	UnitsSpawnerDesc
 	{
-		blueprint						"units/ground/egg_elite_stickrid_ultra"
+		blueprint						"units/ground/egg_elite_canoptrix_ultra"
 		amount_on_single_spawn			"2"
-		max_spawn						"150"
-		time_to_spawn					"0.2"
+		max_spawn						"100"
+		time_to_spawn					"0.15"
 		unit_state_spawn				"1"  // do not touch
-		max_spawn_distance				"20"
+		max_spawn_distance				"25"
 		spawn_type						"egg"
 		can_spawn_when_visible			"1"
 		defend_radius					"40"
