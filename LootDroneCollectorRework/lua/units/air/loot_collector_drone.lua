@@ -176,11 +176,16 @@ function loot_collector_drone:FindActionTarget()
                 return false;
             end
 
-            if self:IsTargetLocked(entity, LOCK_TYPE_LOOT_DRONE) then
+            local target = EntityService:GetParent( entity )
+            if target == INVALID_ID then
                 return false
             end
 
-            return self:ValidateTarget( entity, pawn);
+            if self:IsTargetLocked(target, LOCK_TYPE_LOOT_DRONE) then
+                return false
+            end
+
+            return self:ValidateTarget( entity, pawn)
         end
     };
 
@@ -189,11 +194,10 @@ function loot_collector_drone:FindActionTarget()
     local entities = FindService:FindEntitiesByPredicateInRadius( pointEntity, self.search_radius, self.predicate );
 
     local item = FindFarthestEntity( owner, entities )
+
     local target = EntityService:GetParent( item )
     if target ~= INVALID_ID then
-        if item ~= INVALID_ID then
-            self:LockTarget( item, LOCK_TYPE_LOOT_DRONE )
-        end
+        self:LockTarget( target, LOCK_TYPE_LOOT_DRONE )
         self:EnableEffect()
     end
 
