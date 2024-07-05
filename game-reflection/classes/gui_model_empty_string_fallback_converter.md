@@ -1,0 +1,16 @@
+---
+layout: default
+title: GuiModelEmptyStringFallbackConverter
+has_children: false
+parent: Class
+grand_parent: Game Reflection
+---
+# GuiModelEmptyStringFallbackConverter( [ GuiModelConverter ](/riftbreaker-wiki/docs/game-reflection/classes/gui_model_converter/) )
+Description 
+
+## Fields
+
+| Type | Name |
+|:----------|:--------------|
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | fallback_value |
+
