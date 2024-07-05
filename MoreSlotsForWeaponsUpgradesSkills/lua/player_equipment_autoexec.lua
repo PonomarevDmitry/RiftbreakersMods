@@ -286,7 +286,7 @@ local player_equipment_autoexec = function(evt)
                     return
                 end
 
-                LogService:Log("player_equipment_autoexec Entity '" .. tostring(refEntity) .. "' EquipmentComponent " .. tostring(reflection_helper( equipmentComponent )))
+                --LogService:Log("player_equipment_autoexec Entity '" .. tostring(refEntity) .. "' EquipmentComponent " .. tostring(reflection_helper( equipmentComponent )))
 
                 equipment = equipmentComponent:GetField("equipment"):ToContainer()
                 if ( equipment == nil ) then
