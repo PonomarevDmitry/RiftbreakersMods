@@ -44,7 +44,7 @@ function equipment_quick_configurations_save_entity:init()
 
     local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo()
 
-    local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\r\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>\r\n'
+    local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>\n'
 
     for slotConfig in Iter( playerSlotsArrayEquipment ) do
 
@@ -58,7 +58,7 @@ function equipment_quick_configurations_save_entity:init()
 
                 if ( slotDesc ~= nil ) then
 
-                    confimMessage = confimMessage .. "\r\n" .. " " .. slotConfig.Name
+                    confimMessage = confimMessage .. "\n" .. " " .. slotConfig.Name
 
                     if ( slotConfig.SubSlotsCount > 1 ) then
                         confimMessage = confimMessage .. " "  .. tostring(subSlotNumber)
