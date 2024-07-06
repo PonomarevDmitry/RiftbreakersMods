@@ -42,11 +42,20 @@ function sell_all_map_cat_seller_tool:OnInit()
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
-        self.defaultModesArray = { self.modeSelect, self.modeSelectRuins, self.modeBuildingConnectors }
+        self.defaultModesArray = {
+
+            self.modeSelect,
+            self.modeSelectRuins,
+            self.modeBuildingConnectors,
+        }
 
         self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
     else
-        self.modeValuesArray = { self.modeSelect, self.modeSelectRuins, self.modeBuildingConnectors }
+        self.modeValuesArray = {
+            self.modeSelect,
+            self.modeSelectRuins,
+            self.modeBuildingConnectors,
+        }
     end
 
     self.selectedMode = self.modeSelect

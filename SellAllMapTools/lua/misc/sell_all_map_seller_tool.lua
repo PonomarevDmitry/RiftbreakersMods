@@ -54,7 +54,7 @@ function sell_all_map_seller_tool:OnInit()
 
             self.modeBuildingGroup,
             self.modeBuildingGroupRuins,
-            self.modeBuildingGroupConnectors
+            self.modeBuildingGroupConnectors,
         }
     end
 
