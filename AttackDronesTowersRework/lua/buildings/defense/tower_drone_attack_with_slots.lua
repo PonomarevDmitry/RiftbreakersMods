@@ -96,9 +96,11 @@ function tower_drone_attack_with_slots:SpawnDrones()
 
             UnitService:SetCurrentTarget( drone, "owner", attachment )
             if self.drones_visible then
-                QueueEvent( "FadeEntityInRequest", drone, DRONE_FADE_TIME )
+                --QueueEvent( "FadeEntityInRequest", drone, DRONE_FADE_TIME )
+                EntityService:FadeEntity( drone, DD_FADE_IN, DRONE_FADE_TIME )
             else
-                QueueEvent( "FadeEntityOutRequest", drone, 1 )
+                --QueueEvent( "FadeEntityOutRequest", drone, 1 )
+                EntityService:FadeEntity( drone, DD_FADE_OUT, 1 )
             end
 
             self:RegisterHandler( drone, "DroneLandingStartedEvent", "_OnDroneLandingStartedEvent" )
