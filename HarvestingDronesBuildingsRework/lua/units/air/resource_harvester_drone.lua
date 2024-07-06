@@ -576,7 +576,8 @@ function harvester_drone:OnOwnerDistanceCheckExecute()
         target_position.y = EntityService:GetPositionY(self.entity)
 
         EntityService:Teleport(self.entity, target_position)
-        QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+        --QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+        EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.3 )
     end
 
     local action_target = self:GetDroneActionTarget()
