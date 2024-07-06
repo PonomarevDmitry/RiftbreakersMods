@@ -76,7 +76,8 @@ function teleport_explosion:SpawnExplosion()
     ItemService:SetItemCreator( spawned, EntityService:GetBlueprintName(self.entity) )
     EntityService:PropagateEntityOwner( spawned, self.owner )
 
-    QueueEvent( "FadeEntityInRequest", spawned, 0.5 )
+    --QueueEvent( "FadeEntityInRequest", spawned, 0.5 )
+    EntityService:FadeEntity( spawned, DD_FADE_IN, 0.5 )
 
     if ( self.radiusBp ~= "" ) then
 
