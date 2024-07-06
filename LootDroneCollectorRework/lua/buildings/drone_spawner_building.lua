@@ -144,7 +144,8 @@ function drone_spawner_building:SpawnDrones()
 			if self.drones_visible then
 				EntityService:FadeEntity( drone, DD_FADE_IN, DRONE_FADE_TIME )
 			else
-				QueueEvent( "FadeEntityOutRequest", drone, 1 )
+				--QueueEvent( "FadeEntityOutRequest", drone, 1 )
+				EntityService:FadeEntity( drone, DD_FADE_OUT, 1 )
 			end
 
 			self:RegisterHandler( drone, "DroneLandingStartedEvent", "_OnDroneLandingStartedEvent" )
@@ -212,7 +213,8 @@ end
 
 function drone_spawner_building:_OnDroneLandingEndedEvent(evt)
 	if not self.drones_visible then
-		QueueEvent( "FadeEntityOutRequest", evt:GetEntity(), 1.0 )
+		--QueueEvent( "FadeEntityOutRequest", evt:GetEntity(), 1.0 )
+		EntityService:FadeEntity( evt:GetEntity(), DD_FADE_OUT, 1.0 )
 	end
 
 	self:OnDroneLandingEnded(evt:GetEntity())
