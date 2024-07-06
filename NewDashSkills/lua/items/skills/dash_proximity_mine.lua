@@ -82,7 +82,8 @@ function dash_proximity_mine:SpawnMine()
     ItemService:SetItemCreator( spawned, self.bp)
     EntityService:PropagateEntityOwner( spawned, self.owner )
 
-    QueueEvent( "FadeEntityInRequest", spawned, self.dissolveTime )
+    --QueueEvent( "FadeEntityInRequest", spawned, self.dissolveTime )
+    EntityService:FadeEntity( spawned, DD_FADE_IN, self.dissolveTime )
 end
 
 function dash_proximity_mine:FindAndCheckAimPosition()
