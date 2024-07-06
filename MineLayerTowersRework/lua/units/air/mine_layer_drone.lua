@@ -170,7 +170,8 @@ function mine_layer_drone:OnPlantExit()
         EntityService:SpawnAndAttachEntity(self.plant_marker, entity )
 
         self.is_visible = false
-        QueueEvent( "FadeEntityOutRequest", self.entity, 0.1 )
+        --QueueEvent( "FadeEntityOutRequest", self.entity, 0.1 )
+        EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.1 )
         EffectService:DestroyEffectsByGroup(self.entity, "fly");
 
         EntityService:RemoveEntity( target )
@@ -220,7 +221,8 @@ function mine_layer_drone:OnOwnerDistanceCheckExecute()
         target_position.y = EntityService:GetPositionY(self.entity)
 
         EntityService:Teleport(self.entity, target_position)
-        QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+        --QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+        EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.3 )
     end
 
     local action_target = self:GetDroneActionTarget()
