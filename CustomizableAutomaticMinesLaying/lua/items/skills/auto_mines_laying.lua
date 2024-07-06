@@ -341,7 +341,8 @@ function auto_mines_laying:SpawnMine(mineBlueprintName)
 
     local dissolveTime = database:GetFloatOrDefault( "dissolve", 0.3 )
 
-    QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
+    --QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
+    EntityService:FadeEntity( spawned, DD_FADE_IN, dissolveTime )
 end
 
 return auto_mines_laying
