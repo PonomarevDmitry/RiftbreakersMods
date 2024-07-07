@@ -1,0 +1,331 @@
+EntityBlueprint
+{
+	name  "items/weapons/auto_semi_auto"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/semi_auto"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "3"
+		}
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+				recoil_bone   "be_recoil_1"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+				recoil_bone   "be_recoil_2"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+				recoil_bone   "be_recoil_3"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+				recoil_bone   "be_recoil_4"
+				recoil_time   	"0.3"
+				recoil_offset   "0.4"
+			}
+		}
+
+		ammo_blueprint 				"mech/semi_auto_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_bullet/semi_auto_fire"
+
+		//burst_column_spacing 		"0.5"
+		burst_rate 					"0.08"
+		burst_column_angle 			"3"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/burst_rifle_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/semi_auto_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_big_bullet_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_semi_auto_advanced"
+
+	base_blueprint "items/weapons/auto_semi_auto"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto_advanced"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_semi_auto_superior"
+
+	base_blueprint "items/weapons/auto_semi_auto"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto_superior"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_semi_auto_extreme"
+
+	base_blueprint "items/weapons/auto_semi_auto"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto_extreme"
+	}
+
+	ShadowExcludeComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_semi_auto_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/auto_semi_auto"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_semi_auto"
+		icon		"gui/hud/items_icons/weapons/auto_semi_auto"
+		bigger_icon "gui/menu/items_icons/weapons/auto_semi_auto"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_semi_auto_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/auto_semi_auto"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_semi_auto_advanced"
+		icon		"gui/hud/items_icons/weapons/auto_semi_auto_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/auto_semi_auto_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_semi_auto_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/auto_semi_auto"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_semi_auto_superior"
+		icon		"gui/hud/items_icons/weapons/auto_semi_auto_superior"
+		bigger_icon "gui/menu/items_icons/weapons/auto_semi_auto_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/auto_semi_auto_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/auto_semi_auto"
+		holding_pose "range"
+		item_bp		"items/weapons/auto_semi_auto_extreme"
+		icon		"gui/hud/items_icons/weapons/auto_semi_auto_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/auto_semi_auto_extreme"
+		description "gui/menu/inventory/weapon_charge_description/auto_semi_auto"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,0"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
