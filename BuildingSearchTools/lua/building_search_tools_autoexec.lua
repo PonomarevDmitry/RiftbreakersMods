@@ -6,11 +6,8 @@ local LastSelectedBlueprintsListUtils = require("lua/utils/building_search_tools
 
 local building_search_tools_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
 
@@ -18,6 +15,11 @@ local building_search_tools_autoexec = function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/building_search_2_clear")
 end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    building_search_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
