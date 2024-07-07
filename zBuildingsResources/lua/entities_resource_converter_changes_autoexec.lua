@@ -4,7 +4,7 @@ require("lua/utils/reflection.lua")
 -- test_log_blueprint player/player InventoryComponent
 -- test_log_blueprint player/player ResourceStorageComponent
 
-local InjectChangeBlueprintResourceConverterValues = function(blueprintName, newResourceConverterValues)
+local InjectChangeBlueprintResourceConverterValues = function(blueprintName, direction, newResourceConverterValues)
 
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
@@ -18,9 +18,9 @@ local InjectChangeBlueprintResourceConverterValues = function(blueprintName, new
         return
     end
 
-    local inArray = resourceConverterDesc:GetField("in"):ToContainer()
+    local inArray = resourceConverterDesc:GetField(direction):ToContainer()
     if ( inArray == nil ) then
-        LogService:Log("InjectChangeBlueprintResourceConverterValues Blueprint '" .. blueprintName .. "' resourceConverterDesc:GetField('in'):ToContainer() NOT EXISTS.")
+        LogService:Log("InjectChangeBlueprintResourceConverterValues Blueprint '" .. blueprintName .. "' resourceConverterDesc:GetField('" .. direction .. "'):ToContainer() NOT EXISTS.")
         return
     end
         
@@ -71,11 +71,11 @@ local InjectChangeBlueprintResourceConverterValues = function(blueprintName, new
     end
 end
 
-local InjectChangeListBlueprintResourceConverterValues = function(blueprintResourceConverterValues)
+local InjectChangeListBlueprintResourceConverterValues = function(blueprintResourceConverterValues, direction)
 
     for _, configObject in ipairs(blueprintResourceConverterValues) do
 
-        InjectChangeBlueprintResourceConverterValues(configObject.name, configObject.resource_converter)
+        InjectChangeBlueprintResourceConverterValues(configObject.name, direction, configObject.resource_converter)
     end
 end
 
@@ -407,4 +407,17 @@ local new_resource_converter_values = {
     },
 }
 
-InjectChangeListBlueprintResourceConverterValues(new_resource_converter_values)
+InjectChangeListBlueprintResourceConverterValues(new_resource_converter_values, "in")
+
+local new_resource_converter_values = {
+    
+    {
+        ["name"] = "buildings/energy/carbonium_powerplant_lvl_3",
+        ["resource_converter"] = {
+
+            ["energy"] = "240",
+        },
+    },
+}
+
+InjectChangeListBlueprintResourceConverterValues(new_resource_converter_values, "out")
