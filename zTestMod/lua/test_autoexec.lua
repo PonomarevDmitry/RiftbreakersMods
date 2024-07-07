@@ -1,33 +1,38 @@
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
-    
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_1x1")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_2x2")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_3x3")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_4x4")
-    --
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_1x1")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_2x2")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_3x3")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_4x4")
-    --
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_1x1")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_2x2")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_3x3")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_4x4")
-    --
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_1x1")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_2x2")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_3x3")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_4x4")
-    --
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_1x1")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_2x2")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_3x3")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_4x4")
-    --
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_1x1")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_2x2")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_3x3")
-    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_4x4")
-end)
+--RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+--
+--    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+--    if ( buildingSystemCampaignInfoComponent == nil ) then
+--        return
+--    end
+--    
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_1x1")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_2x2")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_3x3")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_4x4")
+--    --
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_1x1")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_2x2")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_3x3")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_cryo_4x4")
+--    --
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_1x1")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_2x2")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_3x3")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_energy_4x4")
+--    --
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_1x1")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_2x2")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_3x3")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_fire_4x4")
+--    --
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_1x1")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_2x2")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_3x3")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_area_4x4")
+--    --
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_1x1")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_2x2")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_3x3")
+--    --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_physical_4x4")
+--end)
 
