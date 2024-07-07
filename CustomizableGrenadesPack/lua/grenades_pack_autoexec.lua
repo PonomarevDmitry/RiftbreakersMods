@@ -57,6 +57,11 @@ local grenades_pack_autoexec = function(evt)
     end
 end
 
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    grenades_pack_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     grenades_pack_autoexec(evt)
