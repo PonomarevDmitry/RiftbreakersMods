@@ -39,7 +39,7 @@ local flora_cultivator_drone_point_picker_tools_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     flora_cultivator_drone_point_picker_tools_autoexec(evt)
 end)
