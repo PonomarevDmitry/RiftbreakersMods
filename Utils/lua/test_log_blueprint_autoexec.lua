@@ -1,5 +1,6 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/database_utils.lua")
 
 --test_log_blueprint items/loot/saplings/crystal_metallic_red_item
 
@@ -122,11 +123,22 @@ ConsoleService:RegisterCommand( "test_log_blueprint", function( args )
 
             for i = 1, #tableNames do
 
-                local component = blueprint:GetComponent(tableNames[i])
+                local componentName = tableNames[i]
+
+                local component = blueprint:GetComponent(componentName)
 
                 local componentRef = reflection_helper(component)
 
                 LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " component " .. tostring(componentRef) )
+
+                if ( componentName == "DatabaseComponent" ) then
+
+                    local database = EntityService:GetBlueprintDatabase( blueprintName )
+
+                    local databaseDesc = GetDatabaseFullLog( database )
+
+                    LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " BlueprintDatabase" .. "\n" .. databaseDesc )
+                end
             end
         else
 
@@ -136,6 +148,14 @@ ConsoleService:RegisterCommand( "test_log_blueprint", function( args )
 
             LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " component " .. tostring(componentRef) )
 
+            if ( componentName == "DatabaseComponent" ) then
+
+                local database = EntityService:GetBlueprintDatabase( blueprintName )
+
+                local databaseDesc = GetDatabaseFullLog( database )
+
+                LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " BlueprintDatabase" .. "\n" .. databaseDesc )
+            end
         end
     end
 end)

@@ -16,7 +16,9 @@ function DatabaseConcatenate( database1, database2 )
     end
 end
 
-function DatabaseFullLog( database )
+function GetDatabaseFullLog( database )
+
+    local result = ""
 
     local stringKeys = database:GetStringKeys()
 
@@ -26,7 +28,7 @@ function DatabaseFullLog( database )
 
         local value = database:GetString(key)
 
-        LogService:Log("database.String[" .. key .. "] = " .. value )
+        result = result .. "database.String[" .. key .. "] = " .. value .. "\n"
     end
 
     local floatKeys = database:GetFloatKeys()
@@ -37,7 +39,7 @@ function DatabaseFullLog( database )
 
         local value = database:GetFloat(key)
 
-        LogService:Log("database.Float[" .. key .. "] = " .. tostring(value) )
+        result = result .. "database.Float[" .. key .. "] = " .. tostring(value) .. "\n"
     end
 
     local intKeys = database:GetIntKeys()
@@ -48,7 +50,16 @@ function DatabaseFullLog( database )
 
         local value = database:GetInt(key)
 
-        LogService:Log("database.Int[" .. key .. "] = " .. tostring(value) )
+        result = result .. "database.Int[" .. key .. "] = " .. tostring(value) .. "\n"
     end
+
+    return result
+end
+
+function DatabaseFullLog( database )
+
+    local text = GetDatabaseFullLog( database )
+
+    LogService:Log(text)
 end
 
