@@ -1,15 +1,6 @@
 local tower_drone_attack_drone_point_picker_tools_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
-        return
-    end
-
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
@@ -56,6 +47,11 @@ local tower_drone_attack_drone_point_picker_tools_autoexec = function(evt)
         BuildingService:UnlockBuilding("buildings/tools/tower_drone_attack_slots_replacer")
     end
 end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    tower_drone_attack_drone_point_picker_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
