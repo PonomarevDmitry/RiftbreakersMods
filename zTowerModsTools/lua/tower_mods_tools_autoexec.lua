@@ -1,5 +1,10 @@
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
-
-    --BuildingService:UnlockBuilding("buildings/tools/tower_mods_remover")
-    --BuildingService:UnlockBuilding("buildings/tools/sapling_replacer")
-end)
+--RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+--
+--    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+--    if ( buildingSystemCampaignInfoComponent == nil ) then
+--        return
+--    end
+--
+--    --BuildingService:UnlockBuilding("buildings/tools/tower_mods_remover")
+--    --BuildingService:UnlockBuilding("buildings/tools/sapling_replacer")
+--end)
