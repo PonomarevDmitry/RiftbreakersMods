@@ -57,7 +57,7 @@ local auto_mines_laying_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     auto_mines_laying_autoexec(evt)
 end)
