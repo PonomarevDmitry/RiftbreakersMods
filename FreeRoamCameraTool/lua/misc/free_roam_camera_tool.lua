@@ -46,9 +46,35 @@ function free_roam_camera_tool:InitializeValues()
 
     self.stepAngle = 5
     --self.stepAngle = 1
+    
+	self.stateMachine = self:CreateStateMachine()
+	self.stateMachine:AddState( "delay", { execute="OnDelayExecute", interval = 0.5 } )
+	self.stateMachine:AddState( "working", { execute="OnWorkExecute", interval = 0.1 } )
+end
+
+function free_roam_camera_tool:OnDelayExecute()
+
+    self.stateMachine:ChangeState("working")
+end
+
+function free_roam_camera_tool:OnWorkExecute()
+
+    if ( self.activated )  then
+        
+        self:ChangeCameraLocation()
+    end
 end
 
 function free_roam_camera_tool:OnActivateSelectorRequest()
+
+    self.activated = true
+
+    self:ChangeCameraLocation()
+
+    self.stateMachine:ChangeState("delay")
+end
+
+function free_roam_camera_tool:ChangeCameraLocation()
 
     local position = EntityService:GetPosition( self.entity )
 
@@ -62,6 +88,10 @@ function free_roam_camera_tool:OnActivateSelectorRequest()
 end
 
 function free_roam_camera_tool:OnDeactivateSelectorRequest()
+
+    self.activated = false
+
+    self.stateMachine:Deactivate()
 end
 
 function free_roam_camera_tool:OnRotateSelectorRequest( evt )
