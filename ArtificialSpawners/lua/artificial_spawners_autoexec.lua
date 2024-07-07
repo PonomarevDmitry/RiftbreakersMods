@@ -16,7 +16,7 @@ local artificial_spawners_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/artificial_spawner_activate_all_map")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     artificial_spawners_autoexec(evt)
 end)
