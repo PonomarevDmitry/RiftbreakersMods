@@ -1,4 +1,4 @@
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
     
     --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_1x1")
     --BuildingService:UnlockBuilding("buildings/decorations/attack_floor_acid_2x2")

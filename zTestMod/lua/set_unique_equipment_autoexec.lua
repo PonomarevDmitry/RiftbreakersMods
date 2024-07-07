@@ -1,4 +1,4 @@
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 --
 --    do
 --        return

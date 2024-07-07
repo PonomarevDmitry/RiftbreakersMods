@@ -467,7 +467,7 @@
 
 
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     local inventoryComponent = EntityService:GetSingletonComponent("InventorySystemDataComponent")
 
