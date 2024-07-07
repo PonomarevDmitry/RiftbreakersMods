@@ -12,7 +12,7 @@ local cultivator_sapling_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/sapling_replacer")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     cultivator_sapling_tools_autoexec(evt)
 end)
