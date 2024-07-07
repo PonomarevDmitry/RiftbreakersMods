@@ -57,7 +57,7 @@ local turrets_cluster_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     turrets_cluster_autoexec(evt)
 end)
