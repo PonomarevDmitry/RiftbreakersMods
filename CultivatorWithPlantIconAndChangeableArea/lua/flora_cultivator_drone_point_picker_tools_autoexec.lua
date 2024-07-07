@@ -1,15 +1,6 @@
 local flora_cultivator_drone_point_picker_tools_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
-        return
-    end
-
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
@@ -38,6 +29,11 @@ local flora_cultivator_drone_point_picker_tools_autoexec = function(evt)
         BuildingService:UnlockBuilding("buildings/tools/flora_cultivator_drone_point_picker")
     end
 end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    flora_cultivator_drone_point_picker_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
