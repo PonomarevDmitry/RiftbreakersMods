@@ -18,40 +18,60 @@ end
 
 function GetDatabaseFullLog( database )
 
-    local result = ""
+    local result = "{\n"
 
     local stringKeys = database:GetStringKeys()
+    if ( #stringKeys > 0 ) then
 
-    table.sort(stringKeys, function(a, b) return a:upper() < b:upper() end)
+        table.sort(stringKeys, function(a, b) return a:upper() < b:upper() end)
 
-    for key in Iter( stringKeys ) do
+        result = result .. "    Strings\n    {\n"
 
-        local value = database:GetString(key)
+        for key in Iter( stringKeys ) do
 
-        result = result .. "database.String[" .. key .. "] = " .. value .. "\n"
+            local value = database:GetString(key)
+
+            result = result .. "        [\"" .. key .. "\"] = \"" .. value .. "\"\n"
+        end
+
+        result = result .. "    }\n"
     end
 
     local floatKeys = database:GetFloatKeys()
+    if ( #floatKeys > 0 ) then
 
-    table.sort(floatKeys, function(a, b) return a:upper() < b:upper() end)
+        table.sort(floatKeys, function(a, b) return a:upper() < b:upper() end)
 
-    for key in Iter( floatKeys ) do
+        result = result .. "    Floats\n    {\n"
 
-        local value = database:GetFloat(key)
+        for key in Iter( floatKeys ) do
 
-        result = result .. "database.Float[" .. key .. "] = " .. tostring(value) .. "\n"
+            local value = database:GetFloat(key)
+
+            result = result .. "        [\"" .. key .. "\"] = " .. tostring(value) .. "\n"
+        end
+
+        result = result .. "    }\n"
     end
 
     local intKeys = database:GetIntKeys()
+    if ( #intKeys > 0 ) then
 
-    table.sort(intKeys, function(a, b) return a:upper() < b:upper() end)
+        table.sort(intKeys, function(a, b) return a:upper() < b:upper() end)
 
-    for key in Iter( intKeys ) do
+        result = result .. "    Ints\n    {\n"
 
-        local value = database:GetInt(key)
+        for key in Iter( intKeys ) do
 
-        result = result .. "database.Int[" .. key .. "] = " .. tostring(value) .. "\n"
+            local value = database:GetInt(key)
+
+            result = result .. "        [\"" .. key .. "\"] = " .. tostring(value) .. "\n"
+        end
+
+        result = result .. "    }\n"
     end
+
+    result = result .. "}"
 
     return result
 end
