@@ -1,10 +1,7 @@
 local artificial_spawners_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
 
@@ -15,6 +12,11 @@ local artificial_spawners_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/artificial_spawner_activate")
     BuildingService:UnlockBuilding("buildings/tools/artificial_spawner_activate_all_map")
 end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    artificial_spawners_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
