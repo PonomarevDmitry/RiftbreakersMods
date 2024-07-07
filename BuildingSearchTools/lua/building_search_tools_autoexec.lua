@@ -19,7 +19,7 @@ local building_search_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/building_search_2_clear")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     building_search_tools_autoexec(evt)
 end)
