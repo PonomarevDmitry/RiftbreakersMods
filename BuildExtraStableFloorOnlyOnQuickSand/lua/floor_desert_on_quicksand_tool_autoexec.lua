@@ -1,15 +1,6 @@
 local floor_desert_on_quicksand_tool_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
-        return
-    end
-
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
