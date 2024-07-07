@@ -11,7 +11,7 @@ local damage_buildings_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/damage_buildings")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     damage_buildings_tool_autoexec(evt)
 end)
