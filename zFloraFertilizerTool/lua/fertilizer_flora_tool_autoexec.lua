@@ -11,7 +11,7 @@ local fertilizer_flora_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/fertilizer_flora")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     fertilizer_flora_tool_autoexec(evt)
 end)
