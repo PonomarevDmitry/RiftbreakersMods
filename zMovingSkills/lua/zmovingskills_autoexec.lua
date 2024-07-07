@@ -66,7 +66,12 @@ local supported_item_blueprints = {
     "items/skills/dash_cryo_superior_item",
     "items/skills/dash_cryo_extreme_item",
 
+    
 
+    "items/skills/jump_splash_standard_item",
+    "items/skills/jump_splash_advanced_item",
+    "items/skills/jump_splash_superior_item",
+    "items/skills/jump_splash_extreme_item",
 
     "items/skills/jump_acid_item",
     "items/skills/jump_acid_advanced_item",
