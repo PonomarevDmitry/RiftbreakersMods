@@ -61,6 +61,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     base_lamp_trail_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    base_lamp_trail_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     base_lamp_trail_autoexec(evt)
