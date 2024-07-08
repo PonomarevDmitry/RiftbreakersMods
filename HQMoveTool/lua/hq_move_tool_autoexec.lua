@@ -1,10 +1,7 @@
 local hq_move_tool_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
 
@@ -12,6 +9,11 @@ local hq_move_tool_autoexec = function(evt)
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    hq_move_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     hq_move_tool_autoexec(evt)
 end)
