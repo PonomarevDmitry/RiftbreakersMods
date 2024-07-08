@@ -64,6 +64,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     rift_portal_skills_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    rift_portal_skills_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     rift_portal_skills_autoexec(evt)
