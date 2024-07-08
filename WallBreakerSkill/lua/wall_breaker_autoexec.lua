@@ -50,6 +50,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     wall_breaker_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    wall_breaker_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     wall_breaker_autoexec(evt)
