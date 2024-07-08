@@ -1,10 +1,7 @@
 local loot_collecting_tools_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
 
@@ -14,6 +11,11 @@ local loot_collecting_tools_autoexec = function(evt)
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    loot_collecting_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     loot_collecting_tools_autoexec(evt)
 end)
