@@ -18,6 +18,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     researches_unlock_custom_trees_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    researches_unlock_custom_trees_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     researches_unlock_custom_trees_autoexec(evt)
