@@ -6,11 +6,8 @@ local LastSelectedBlueprintsListUtils = require("lua/utils/replace_wall_tool_las
 
 local replace_wall_tool_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
 
@@ -30,6 +27,11 @@ local replace_wall_tool_autoexec = function(evt)
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    replace_wall_tool_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     replace_wall_tool_autoexec(evt)
 end)
