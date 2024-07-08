@@ -373,6 +373,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     player_equipment_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    player_equipment_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     player_equipment_autoexec(evt)
