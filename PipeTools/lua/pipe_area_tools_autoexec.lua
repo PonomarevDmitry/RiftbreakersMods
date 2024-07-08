@@ -1,15 +1,6 @@
 local pipe_area_tools_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
-        return
-    end
-
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
@@ -60,6 +51,11 @@ local pipe_area_tools_autoexec = function(evt)
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    pipe_area_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     pipe_area_tools_autoexec(evt)
 end)
