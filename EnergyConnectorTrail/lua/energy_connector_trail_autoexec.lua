@@ -50,6 +50,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     energy_connector_trail_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    energy_connector_trail_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     energy_connector_trail_autoexec(evt)
