@@ -7,11 +7,8 @@ local PowerUtils = require("lua/utils/power_utils.lua")
 
 local switch_all_map_tools_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
 
@@ -25,6 +22,11 @@ local switch_all_map_tools_autoexec = function(evt)
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    switch_all_map_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     switch_all_map_tools_autoexec(evt)
 end)
