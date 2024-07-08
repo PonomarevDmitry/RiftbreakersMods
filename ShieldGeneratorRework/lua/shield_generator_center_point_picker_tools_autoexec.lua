@@ -1,15 +1,6 @@
 local shield_generator_center_point_picker_tools_autoexec = function(evt)
 
-    local playerId = evt:GetPlayerId()
-
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
-
-    if ( player == nil or player == INVALID_ID ) then
-        return
-    end
-
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
@@ -40,6 +31,11 @@ local shield_generator_center_point_picker_tools_autoexec = function(evt)
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    shield_generator_center_point_picker_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
     shield_generator_center_point_picker_tools_autoexec(evt)
 end)
