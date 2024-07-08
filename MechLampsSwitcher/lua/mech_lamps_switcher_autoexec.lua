@@ -50,6 +50,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     mech_lamps_switcher_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    mech_lamps_switcher_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     mech_lamps_switcher_autoexec(evt)
