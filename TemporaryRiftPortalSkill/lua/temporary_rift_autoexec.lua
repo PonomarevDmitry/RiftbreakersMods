@@ -50,6 +50,11 @@ RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
     temporary_rift_autoexec(evt)
 end)
 
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    temporary_rift_autoexec(evt)
+end)
+
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
     temporary_rift_autoexec(evt)
