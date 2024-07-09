@@ -58,7 +58,7 @@ end
 local supported_item_blueprints = {
 
     {
-        ["name"] = "buildings/resources/short_range_radar_lvl_2",
+        ["name"] = "buildings/defense/short_range_radar_lvl_2",
         ["floats"] = {
 
             ["range"] = 240.0,
@@ -66,7 +66,7 @@ local supported_item_blueprints = {
     },
 
     {
-        ["name"] = "buildings/resources/short_range_radar_lvl_3",
+        ["name"] = "buildings/defense/short_range_radar_lvl_3",
         ["floats"] = {
 
             ["range"] = 320.0,
