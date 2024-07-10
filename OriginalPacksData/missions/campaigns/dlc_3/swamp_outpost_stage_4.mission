@@ -1,0 +1,230 @@
+MissionDef
+{
+    script          "lua/missions/campaigns/dlc_3/swamp_outpost.lua"
+	localization_id	"gui/menu/planetary_scanner/mission_swamp_outpost"
+	description		"gui/menu/planetary_scanner/mission_swamp_outpost_description"
+	detector_disabled "0"
+	find_not_reachable_navigation "0"
+
+    biomes          						"swamp"
+    map_size		8
+	    
+	failed_action   "remain"
+	success_action  "remain"
+
+	creature_volumes_min_distance   "128.0"
+	creature_volumes_density        "1"
+
+    threat  "0.5"
+    block_outpost_remove "1"
+
+    ambient_creature_species
+    {
+        ground
+        {     
+			max_count 50
+			spawn_rate 6
+			search_to_spawn_radius "2"
+			
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "lurkid"
+                }
+            }
+        }
+		air
+        {
+			max_count "15"
+			spawn_rate 2
+			search_to_spawn_radius "1"
+			
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "darnot"
+                }
+            }
+        }
+    }
+
+    creature_volumes_species
+    {
+        neutral_units
+        {         
+			CreatureVolume
+            {
+                creature_species    "poogret"
+            }
+        }
+
+        regular_units
+        {
+            CreatureVolume
+            {
+                creature_species    "stickrid"
+                volume_spawn_ratio  "2"
+            }  
+			
+			CreatureVolume
+            {
+                creature_species    "plutrodon"
+                volume_spawn_ratio  "1.5"
+            } 	  
+			
+			CreatureVolume
+            {
+                creature_species    "fungor"
+                volume_spawn_ratio  "1"
+            }
+			CreatureVolume
+            {
+                creature_species    "baxmoth"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "phirian"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "nurglax"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "canceroth"
+                volume_spawn_ratio  "0.25"
+            }
+        }
+		
+		liquid_units
+        {
+            CreatureVolume
+            {
+                creature_species    "stickrid"
+                volume_spawn_ratio  "2"
+            }  
+			
+			CreatureVolume
+            {
+                creature_species    "plutrodon"
+                volume_spawn_ratio  "1.5"
+            } 
+			
+			CreatureVolume
+            {
+                creature_species    "fungor"
+                volume_spawn_ratio  "1"
+            } 	
+			
+			CreatureVolume
+            {
+                creature_species    "mudroner"
+                volume_spawn_ratio  "1"
+            }
+			CreatureVolume
+            {
+                creature_species    "baxmoth"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "phirian"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "nurglax"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "poogret"
+                volume_spawn_ratio  "0.25"
+            }
+			CreatureVolume
+            {
+                creature_species    "canceroth"
+                volume_spawn_ratio  "0.25"
+            }
+        }
+
+        resource_units
+        {
+			CreatureVolume
+            {
+                creature_species    "phirian"
+                volume_spawn_ratio  "0.25"
+            }
+        }		
+    }
+	
+	mission_object_spawners
+	{
+        MarkerBlueprintSpawner
+        {
+            spawn_pool               "loot_containers"            
+            spawn_at_marker          "logic/spawn_objective"
+            
+            spawn_min_distance_from_pools
+            {
+                mission_objective       180				
+                loot_containers         80
+				loot_containers_small   20
+                underground_treasures   10
+				power_well				30
+				resource_volumes		10
+				poogret_plants			10
+				tower_plant				10
+				enemy					10
+            }
+
+            spawn_instances_minmax    3,3
+            spawn_blueprints
+            {
+                spawners/swamp_spawner_extreme                               
+            }
+        }
+		GridSpawner
+        {
+            spawn_pool                  "tower_plant"
+	        spawn_team                  "enemy"
+			spawn_min_free_cell_margin	3
+			spawn_within_destructible_volumes "0"
+	
+            spawn_min_distance_from_pools
+            {
+                player_spawn_point      120
+                loot_containers         8
+                loot_containers_small   8
+                underground_treasures   5
+				resource_volumes		5
+				poogret_plants			5
+				tower_plant				12
+				enemy					5
+            }
+			spawn_max_distance_from_pools
+            {                
+				loot_containers			20
+            }
+	
+            spawn_blueprints
+            {                  
+				units/ground/artigian
+                {
+					spawn_chance           0.25
+					spawn_culls_entities_around 1
+                } 
+				logic/position_marker
+                {
+					spawn_chance           0.75
+					spawn_culls_entities_around 0
+                }                  
+            }
+        }
+	}
+}
