@@ -12,7 +12,7 @@ TimeOfDayPreset
 			y "0.753"
 			w "0.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		fog_params
 		{
 			end "68.000"
@@ -51,7 +51,7 @@ TimeOfDayPreset
 			y "0.888"
 			w "14.364"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		fog_params
 		{
 			end "68.000"
@@ -90,7 +90,7 @@ TimeOfDayPreset
 			y "0.000"
 			w "0.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		fog_params
 		{
 			end "68.000"
@@ -120,7 +120,7 @@ TimeOfDayPreset
 			y "0.361"
 			w "0.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		fog_params
 		{
 			end "68.000"

@@ -56,7 +56,7 @@ TimeOfDayPreset
 			end "58.000"
 			density "0.300"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		light_color
 		{
 			w "12.000"

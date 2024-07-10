@@ -53,7 +53,7 @@ TimeOfDayPreset
 			end "68.000"
 			density "1.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		light_color
 		{
 			w "15.073"
@@ -110,7 +110,7 @@ TimeOfDayPreset
 			end "68.000"
 			density "1.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		light_color
 		{
 			w "30.000"
@@ -176,7 +176,7 @@ TimeOfDayPreset
 			end "68.000"
 			density "1.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		light_color
 		{
 			w "15.091"
@@ -233,7 +233,7 @@ TimeOfDayPreset
 			end "68.000"
 			density "1.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		light_color
 		{
 			w "15.091"

@@ -41,7 +41,7 @@ TimeOfDayPreset
 		}
 
 		weather_effect
-		light_size "0.000"
+		light_size "0.010"
 		fog_params
 		{
 			end "60.000"
@@ -110,7 +110,7 @@ TimeOfDayPreset
 		}
 
 		weather_effect
-		light_size "0.000"
+		light_size "0.010"
 		fog_params
 		{
 			end "60.000"
@@ -179,7 +179,7 @@ TimeOfDayPreset
 		}
 
 		weather_effect
-		light_size "0.000"
+		light_size "0.010"
 		fog_params
 		{
 			end "60.000"
@@ -238,7 +238,7 @@ TimeOfDayPreset
 		}
 
 		weather_effect
-		light_size "0.000"
+		light_size "0.010"
 		fog_params
 		{
 			end "60.000"

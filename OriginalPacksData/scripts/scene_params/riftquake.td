@@ -105,7 +105,7 @@ TimeOfDayPreset
 			y "0.784"
 			w "2.000"
 		}
-		light_size "0.0001"
+		light_size "0.010"
 		fog_params
 		{
 			end "58.000"
