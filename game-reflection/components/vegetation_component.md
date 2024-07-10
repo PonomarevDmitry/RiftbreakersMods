@@ -28,4 +28,5 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | bending_spring_damping |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | bending_spring_phases |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | bending_spring_slope_factor |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | can_be_destroyed_by_fire |
 

@@ -12,5 +12,6 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_player |
 | Container< [SkillLinkUnitComponent](/riftbreaker-wiki/docs/game-reflection/components/skill_link_unit_component/) > | skills |
 
