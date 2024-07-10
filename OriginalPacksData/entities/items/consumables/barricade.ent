@@ -23,8 +23,8 @@ EntityBlueprint
 	{
 		script "lua/items/consumables/item_creator_continuous.lua"
 
-        database
-        {
+		database
+		{
 			bp					string:"items/consumables/barricade_advanced"
 			ghost_bp			string:"items/consumables/barricade_ghost"
 			stat_bp				string:"items/consumables/barricade_advanced"
@@ -35,7 +35,7 @@ EntityBlueprint
 			create_at_aim_pos	int:"1"
 			dissolve_props		int:"1"
 			check_empty_spot	int:"1"
-        }
+		}
 	}
 
 	CostDesc
@@ -66,8 +66,8 @@ EntityBlueprint
 	{
 		script "lua/items/consumables/item_creator_continuous.lua"
 
-        database
-        {
+		database
+		{
 			bp					string:"items/consumables/barricade_extreme"
 			ghost_bp			string:"items/consumables/barricade_ghost"
 			stat_bp				string:"items/consumables/barricade_extreme"
@@ -78,7 +78,7 @@ EntityBlueprint
 			create_at_aim_pos	int:"1"
 			dissolve_props		int:"1"
 			check_empty_spot	int:"1"
-        }
+		}
 	}
 
 	CostDesc
@@ -109,8 +109,8 @@ EntityBlueprint
 	{
 		script "lua/items/consumables/item_creator_continuous.lua"
 
-        database
-        {
+		database
+		{
 			bp					string:"items/consumables/barricade"
 			ghost_bp			string:"items/consumables/barricade_ghost"
 			stat_bp				string:"items/consumables/barricade"
@@ -121,7 +121,7 @@ EntityBlueprint
 			create_at_aim_pos	int:"1"
 			dissolve_props		int:"1"
 			check_empty_spot	int:"1"
-        }
+		}
 	}
 
 	CostDesc
@@ -148,12 +148,12 @@ EntityBlueprint
 		continuous				"1"
 	}
 
-LuaDesc
+	LuaDesc
 	{
 		script "lua/items/consumables/item_creator_continuous.lua"
 
-        database
-        {
+		database
+		{
 			bp					string:"items/consumables/barricade_superior"
 			ghost_bp			string:"items/consumables/barricade_ghost"
 			stat_bp				string:"items/consumables/barricade_superior"
@@ -164,7 +164,7 @@ LuaDesc
 			create_at_aim_pos	int:"1"
 			dissolve_props		int:"1"
 			check_empty_spot	int:"1"
-        }
+		}
 	}
 
 	CostDesc
@@ -269,12 +269,12 @@ EntityBlueprint
 	{
 		Shapes
 		{
-   			PhysicsBoxShape
-   			{
-    			x	2.0
-    			y	4.0
-    			z	6.0
-   			}
+			PhysicsBoxShape
+			{
+				x	2.0
+				y	4.0
+				z	6.0
+			}
 		}
 	}
 
@@ -415,51 +415,155 @@ EntityBlueprint
 EntityBlueprint
 {
 	name "items/consumables/barricade_advanced"
-		base_blueprint "items/consumables/barricade"
+	base_blueprint "items/consumables/barricade"
+	
+	HealthDesc
+	{
+		max_health 					"1500"
+		health 						"1500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		update_health_uniform 		"1"
 
-		MeshDesc
+
+		DestructionLevels
 		{
-			mesh 				"meshes/items/consumables/barricade.mesh"
-			material		"items/consumables/barricade_lvl_2"
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
 		}
+	}		
 
-		SkeletonDesc
-		{
-			name "meshes/items/consumables/barricade"
-		}
-
+	MeshDesc
+	{
+		mesh 				"meshes/items/consumables/barricade.mesh"
+		material		"items/consumables/barricade_lvl_2"
 	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/barricade"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		70
+	}
+}
 
 EntityBlueprint
 {
 	name "items/consumables/barricade_superior"
-		base_blueprint "items/consumables/barricade"
+	base_blueprint "items/consumables/barricade"
 
-		MeshDesc
-		{
-			mesh 				"meshes/items/consumables/barricade.mesh"
-			material		"items/consumables/barricade_lvl_3"
-		}
+	HealthDesc
+	{
+		max_health 					"2000"
+		health 						"2000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		update_health_uniform 		"1"
 
-		SkeletonDesc
+
+		DestructionLevels
 		{
-			name "meshes/items/consumables/barricade"
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
 		}
 	}
+
+	MeshDesc
+	{
+		mesh 				"meshes/items/consumables/barricade.mesh"
+		material		"items/consumables/barricade_lvl_3"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/barricade"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		80
+	}	
+}
 
 EntityBlueprint
 {
 	name "items/consumables/barricade_extreme"
-		base_blueprint "items/consumables/barricade"
+	base_blueprint "items/consumables/barricade"
+	
+	HealthDesc
+	{
+		max_health 					"2500"
+		health 						"2500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		update_health_uniform 		"1"
 
-		MeshDesc
-		{
-			mesh 				"meshes/items/consumables/barricade.mesh"
-			material		"items/consumables/barricade_lvl_4"
-		}
 
-		SkeletonDesc
+		DestructionLevels
 		{
-			name "meshes/items/consumables/barricade"
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
 		}
-}
+	}		
+
+	MeshDesc
+	{
+		mesh 				"meshes/items/consumables/barricade.mesh"
+		material		"items/consumables/barricade_lvl_4"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/barricade"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		90
+	}	
+}
