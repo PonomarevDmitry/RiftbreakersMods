@@ -289,6 +289,7 @@ function selector:SelectEntity( entity )
     ShowBuildingDisplayRadiusAround( self.entity, entity )
 end
 
+
 function selector:ShowActionHint( entity )
     if ( entity ~= self.actionTooltipEnt ) then
         self:HideActionHint()

@@ -116,10 +116,12 @@ function lift:OnLiftingExit( state )
     if ( interactiveComponent ~= nil and self.interrupted == false ) then
         ItemService:InteractWithEntity( entity, self.owner )
         local itemBp = reflection_helper( interactiveComponent ).item
-		self.data:SetString("object_blueprint", itemBp )
         local inventoryItemComponent = EntityService:GetBlueprintComponent( itemBp, "InventoryItemComponent" )
-        self.bp = reflection_helper( inventoryItemComponent ).item_bp
-		self.sm:ChangeState("holding")
+        if inventoryItemComponent ~= nil then
+        	self.data:SetString("object_blueprint", itemBp )
+	        self.bp = reflection_helper( inventoryItemComponent ).item_bp
+			self.sm:ChangeState("holding")
+		end
     end 
 
 	local ownerData = EntityService:GetDatabase( self.owner );
