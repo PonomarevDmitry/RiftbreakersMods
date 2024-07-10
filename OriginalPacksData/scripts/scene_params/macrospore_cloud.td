@@ -164,9 +164,9 @@ TimeOfDayPreset
 			extinction_scale "0.750"
 			emissive
 			{
-				z "0.207"
-				x "0.209"
-				y "0.036"
+				z "0.988"
+				x "1.000"
+				y "0.000"
 				w "1.000"
 			}
 

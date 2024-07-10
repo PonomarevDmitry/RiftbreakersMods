@@ -108,6 +108,7 @@ system rift/comet_trail_spore
     }
     technique smoke_trail
     {
+        enabled                                 false
         visual_particle_quota                   150
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
@@ -205,7 +206,7 @@ system rift/comet_trail_spore
         }
         affector                                Scale 
         {
-            xyz_scale                           50
+            xyz_scale                           -50
         }
         affector                                Colour 
         {
@@ -286,12 +287,12 @@ system rift/comet_trail_spore
     }
     technique sparks_falling
     {
-        visual_particle_quota                   5000
+        visual_particle_quota                   2000
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/tree_parts_palm
+        material                                particles/spores
         renderer                                Billboard
         {
             texture_coords_columns              4
@@ -300,7 +301,7 @@ system rift/comet_trail_spore
         }
         emitter                                 SphereSurface 
         {
-            emission_rate                       1000
+            emission_rate                       250
             angle                               90
             time_to_live                        dyn_random
             {
@@ -354,6 +355,69 @@ system rift/comet_trail_spore
             bouncyness                          0
             collision_type                      none
             normal                              0 1 0
+        }
+    }
+    technique smoke_trail_1
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail
+        {
+            emission_rate                       50
+            angle                               45
+            time_to_live                        dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             100
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             100
+            }
+            position                            30 0 0
+            direction                           -1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Scale 
+        {
+            xyz_scale                           50
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.846975 0 1 0
+            time_colour                         0.104348  0.846975 0 1 0.295374
+            time_colour                         0.86087  0.804271 0 1 0.298932
+            time_colour                         1    0.804271 0 1 0
+        }
+        affector                                TextureRotator Affector186
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.1
+                max                             0.3
+            }
         }
     }
 }
