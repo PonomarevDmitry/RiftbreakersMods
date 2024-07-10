@@ -3,22 +3,13 @@ cbuffer CSConstantBuffer : register(b0)
 #if POSTPROCESS 
     float4              cPostProcessParams;     // x - desaturation, y - brightness, z - contrast, w - redTone
 #endif
-#if EXPONENTIAL_FOG
-    float4              cFogParams;             // x - density, y - linearStart, z - linearEnd, w - 1 / ( end - start )
-    float4              cFogColor;
-#endif
-#if EXPONENTIAL_HEIGHT_FOG
-    float4              cFogParams1;            // x - fogHeight, y - fogHeightFalloff, z - fogMaxOpacity, w - startDistance
-    float4              cFogParams2;            // xyz - fogColor, w - fogDensity
-    float4              cFogParams3;            // x - fogAtViewPosition, y - fogMinOpacity
-#endif
 #if VOLUMETRIC_FOG
     float4              cVolumetricFogParams1;   // x - scatteringDistribution, y - extinctionScale, z - maxDistance
 #endif   
-#if EXPONENTIAL_FOG || EXPONENTIAL_HEIGHT_FOG || VOLUMETRIC_FOG
+#if VOLUMETRIC_FOG
     float4              cNearFarClip;
 #endif
-#if REFLECTIONS || EXPONENTIAL_HEIGHT_FOG
+#if REFLECTIONS
     matrix              cInvViewProjMatrix;
     float3              cCameraWorldPos;
 #endif
@@ -46,7 +37,7 @@ cbuffer CSConstantBuffer : register(b0)
     Texture2D           tMain;
     SamplerState        sMain;
 
-#if EXPONENTIAL_FOG || EXPONENTIAL_HEIGHT_FOG || VOLUMETRIC_FOG || REFLECTIONS 
+#if VOLUMETRIC_FOG || REFLECTIONS 
     Texture2D           tDepth;
     SamplerState        sDepth;
 #endif
@@ -56,7 +47,7 @@ RWTexture2D< float4 >   OutputTexture : register(u0);
 #include "materials/programs/utils_light.hlsl"
 #include "materials/programs/utils_fog.hlsl"
 
-#if REFLECTIONS || EXPONENTIAL_HEIGHT_FOG 
+#if REFLECTIONS
 float3 GetWorldPos( float2 uv, float depth )
 {
     float4 projPos = float4( uv * float2( 2.0, -2.0 ) + float2( -1.0, 1.0 ), depth, 1.0 );
@@ -65,7 +56,7 @@ float3 GetWorldPos( float2 uv, float depth )
 }
 #endif
 
-#if EXPONENTIAL_FOG || EXPONENTIAL_HEIGHT_FOG || VOLUMETRIC_FOG 
+#if VOLUMETRIC_FOG 
 float GetLinearDepth( float depth )
 {
 #if INVERTED_DEPTH_RANGE
@@ -86,15 +77,15 @@ void main( uint2 dispatchThreadID : SV_DispatchThreadID )
     float3 output = tMain.Load( did ).xyz;
     const float2 screenUV = float2( did.xy ) / cViewportSize;
 
-#if EXPONENTIAL_FOG || EXPONENTIAL_HEIGHT_FOG || VOLUMETRIC_FOG || REFLECTIONS
+#if VOLUMETRIC_FOG || REFLECTIONS
     const float depth = tDepth.Load( did ).r;
 #endif
 
-#if EXPONENTIAL_FOG || EXPONENTIAL_HEIGHT_FOG || VOLUMETRIC_FOG
+#if VOLUMETRIC_FOG
     const float linearDepth = GetLinearDepth( depth );
 #endif
 
-#if EXPONENTIAL_HEIGHT_FOG || REFLECTIONS
+#if REFLECTIONS
     const float3 worldPos = GetWorldPos( screenUV.xy, depth );
 #endif
 
@@ -115,15 +106,6 @@ void main( uint2 dispatchThreadID : SV_DispatchThreadID )
     output += GetSkyboxSpecular( NdotV, N, roughness, specularLight, specularColor ) * occlusion;
 #endif 
 
-#if EXPONENTIAL_FOG
-    float4 fog = GetExponentialFog( linearDepth, cFogParams, cFogColor.xyz );
-    output = output * fog.a + fog.rgb;
-#endif
-#if EXPONENTIAL_HEIGHT_FOG
-    float3 cameraToPos = worldPos - cCameraWorldPos.xyz;
-    float4 fog = GetExponentialHeightFog( cameraToPos, 0.0f );
-    output = output * fog.a + fog.rgb;
-#endif
 #if VOLUMETRIC_FOG
     float4 fog = GetVolumetricFog( screenUV, linearDepth, cVolumetricFogParams1.z );
     output = output * fog.a + fog.rgb;

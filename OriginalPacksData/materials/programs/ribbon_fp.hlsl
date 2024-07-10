@@ -1,15 +1,16 @@
 cbuffer FPConstantBuffer : register(b0)
 {
-    float4  cFogParams;
-    float4  cFogColor;
 #if USE_UNIFORM
 	float4  cUniformColor;
 #endif
+    float   cGlowAmount;
+    float   cAlpha;
 #if USE_TEXTURE
     float   cUniformAlpha;
 #endif
-    float   cGlowAmount;
-    float   cAlpha;
+#if USE_FOG
+    float   cFogMaxDistance;
+#endif
 };
 
 struct VS_OUTPUT

@@ -78,7 +78,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 #endif
 
     float4 prev = tPreviousTex.SampleLevel( sPreviousTex, prevUv.xy, 0.0f ).xyzw;
-    float collisionFade = tPreviousTex.Load( int3( prevUv.xy * cViewportSize.xy, 0 ) ).z;
+    float collisionFade = tPreviousTex.Load( int3( saturate( prevUv.xy ) * cViewportSize.xy, 0 ) ).z;
     float2 offset = float2( cWaterDeltaUv, cWaterDeltaUv ) / cViewportSize.xy;
 
     float c1 = tPreviousTex.SampleLevel( sPreviousTex, prevUv.xy + float2( offset.x, 0 ), 0.0f ).x;
@@ -108,6 +108,8 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     {
         ripple -= prevCollision * 0.5f;
     }
+
+    ripple = min( ripple, 13.5 );
 
     collisionFade = max( 2.0f * ripple, collisionFade * cWaterFoamAttenuation );
 #endif

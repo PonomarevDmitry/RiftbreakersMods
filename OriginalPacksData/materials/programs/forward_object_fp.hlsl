@@ -1,17 +1,16 @@
 #if USE_FOG || USE_PARTICLE_EMISSIVE || USE_FRESNEL
 cbuffer FPConstantBuffer : register(b0)
 {
-#if USE_FOG
-    float4    cFogParams;
-    float4    cFogColor;
+#if USE_FRESNEL
+    float4    cFresnelParams;  // x - power, y - scale, z - bias
+    float4    cFresnelColor;
 #endif
 #if USE_PARTICLE_EMISSIVE
     float     cGlowAmount;
     float     cGlowFactor;
 #endif
-#if USE_FRESNEL
-    float4    cFresnelParams;  // x - power, y - scale, z - bias
-    float4    cFresnelColor;
+#if USE_FOG
+    float     cFogMaxDistance;
 #endif
 };
 #endif
