@@ -1,0 +1,692 @@
+//editor "scroll(260.00,-47.00)|zoom(0.40)"
+FlowGraphTemplate
+{
+	version "19"
+	editor "6180"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-445,441)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player.xml)|pos(-197,438)"
+			script "lua/graph/entity/entity_spawn_player.lua"
+			self_id "entity_spawn_player_0"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(344,-75)"
+			graph "logic/utility/music_adventure.logic"
+			self_id "event_graph_0"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(603,416)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "InitialSpawnEnded"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_global_variable.xml)|pos(3960,446)"
+			script "lua/graph/logic/logic_set_global_variable.lua"
+			self_id "logic_set_global_variable_0"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.swamp_freedom_complete"
+						value "true"
+					}
+
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(2324,-975)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_1"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_good_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_freedom_landing_good_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_bad_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_freedom_landing_good_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_good_02"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2991,257)"
+			self_id "logic_or_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(1391,-946)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.great_tree_saved"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1391,-679)"
+			key "true"
+			self_id "logic_if_global_variable_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1391,-650)"
+			key "false"
+			self_id "logic_if_global_variable_1###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(1398,847)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.great_tree_destroyed"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1398,1100)"
+			key "true"
+			self_id "logic_if_global_variable_2###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1398,1128)"
+			key "false"
+			self_id "logic_if_global_variable_2###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3285,251)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "300"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_end.xml)|pos(4534,231)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_end.lua"
+			self_id "mission_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(3966,219)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "value"
+						value "0.75"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "mode"
+						value "increment"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
+			self_id "mission_change_creature_difficulty_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_dom_resume.xml)|pos(3966,66)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "ResumeDOM"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "mission_dom_resume_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(3647,251)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(2181,645)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_2"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_bad_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_freedom_landing_bad_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_bad_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_freedom_landing_bad_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_bad_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_freedom_landing_bad_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_bad_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_freedom_landing_bad_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_freedom_landing_bad_05"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_remove.xml)|pos(2180,505)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_outpost"
+					}
+
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_remove.lua"
+			self_id "campaign_mission_remove_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(1904,1085)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(2190,264)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_3"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(3620,-235)"
+			graph "logic/event/spline_attack_swamp.logic"
+			self_id "event_graph_31"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3329,-197)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_9"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_item.xml)|pos(2167,1773)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/awards/campaign_swamp_award_giver_item"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_item.lua"
+			self_id "entity_add_item_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "entity_spawn_player_0"
+		entity_spawn_player_0 "event_graph_0|logic_wait_on_event_0"
+		interface_dialogue_show_group_1 "logic_or_1"
+		interface_dialogue_show_group_2 "logic_or_1"
+		logic_and_1 "logic_set_global_variable_0|mission_change_creature_difficulty_1|mission_dom_resume_0"
+		logic_and_2 "campaign_mission_remove_1|interface_dialogue_show_group_2"
+		logic_and_3 "logic_or_1"
+		logic_if_global_variable_1 "logic_if_global_variable_1###false|logic_if_global_variable_1###true"
+		logic_if_global_variable_1###false "logic_and_3"
+		logic_if_global_variable_1###true "interface_dialogue_show_group_1"
+		logic_if_global_variable_2 "logic_if_global_variable_2###false|logic_if_global_variable_2###true"
+		logic_if_global_variable_2###false "logic_and_3"
+		logic_if_global_variable_2###true "entity_add_item_1|logic_and_2"
+		logic_or_1 "logic_wait_3|logic_wait_9"
+		logic_set_global_variable_0 "mission_end_1"
+		logic_wait_3 "logic_and_1"
+		logic_wait_9 "event_graph_31"
+		logic_wait_on_event_0 "logic_if_global_variable_1|logic_if_global_variable_2"
+		mission_change_creature_difficulty_1 "mission_end_1"
+		mission_dom_resume_0 "mission_end_1"
+	}
+
+	GraphComments
+}
+

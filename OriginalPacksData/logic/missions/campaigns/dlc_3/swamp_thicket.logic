@@ -1,0 +1,3481 @@
+//editor "scroll(1464.57,1735.19)|zoom(0.27)"
+FlowGraphTemplate
+{
+	version "67"
+	editor "6180"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-98,451)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player.xml)|pos(184,453)"
+			script "lua/graph/entity/entity_spawn_player.lua"
+			self_id "entity_spawn_player_1"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(643,-95)"
+			graph "logic/utility/music_adventure.logic"
+			self_id "event_graph_0"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(637,421)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "InitialSpawnEnded"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_end.xml)|pos(11639,793)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_end.lua"
+			self_id "mission_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(1885,677)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_thicket"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(1466,421)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_thicket"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1466,525)"
+			key "true"
+			self_id "objective_exist_1###true"
+			value "objective_exist_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1466,553)"
+			key "false"
+			self_id "objective_exist_1###false"
+			value "objective_exist_0###false"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2674,541)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2359,691)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1247,429)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "8.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_4"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1323,-179)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_0"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_landing_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_landing_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_landing_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_landing_02"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(9735,769)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "CavernsEntranceActivated"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(10519,793)"
+			self_id "logic_or_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(9729,945)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/thicket/exit"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "exit"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(9731,1177)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "marker_radius"
+						value "64"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "marker_randomize_position"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					IntData
+					{
+						key "marker_name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "target_name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "logic/mission_exit_01"
+					}
+
+					StringData
+					{
+						key "marker_name"
+						value "exit_minimap"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "exit"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_show_zone_objective.lua"
+			self_id "interface_minimap_show_zone_objective_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_objective_marker.xml)|pos(9731,1365)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "1"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "exit"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "exit_marker"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "logic/mission_exit_01"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_objective_marker.lua"
+			self_id "entity_spawn_objective_marker_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(10977,907)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "exit_marker"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_type"
+						value
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_remove.lua"
+			self_id "entity_remove_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(10973,1275)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "exit"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(10975,1145)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "marker_name"
+						value "exit_minimap"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_hide_zone.lua"
+			self_id "interface_minimap_hide_zone_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3666,427)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "20.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/mission_exit_01"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3666,733)"
+			key "true"
+			self_id "logic_if_exist_entity_new_0###true"
+			value "logic_if_exist_entity_new_0###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(2962,483)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/thicket/explore"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "explore"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(10977,761)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "value"
+						value "0.25"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "mode"
+						value "increment"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
+			self_id "mission_change_creature_difficulty_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(4431,684)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "explore"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(4435,317)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "boss_entrance_marker"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_type"
+						value
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_remove.lua"
+			self_id "entity_remove_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(4432,555)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "marker_name"
+						value "boss_entrance_minimap"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_hide_zone.lua"
+			self_id "interface_minimap_hide_zone_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(9323,827)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(8717,781)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "CaveEntranceEnabled"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "logic_event_send_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(3694,943)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "marker_radius"
+						value "64"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "marker_randomize_position"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					IntData
+					{
+						key "marker_name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "target_name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "logic/mission_exit_01"
+					}
+
+					StringData
+					{
+						key "marker_name"
+						value "boss_entrance_minimap"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "explore"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_show_zone_objective.lua"
+			self_id "interface_minimap_show_zone_objective_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_objective_marker.xml)|pos(3694,1131)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "1"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "explore"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "boss_entrance_marker"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "logic/mission_exit_01"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_objective_marker.lua"
+			self_id "entity_spawn_objective_marker_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(647,-323)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "240.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_dom_resume.xml)|pos(898,-310)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "ResumeDOM"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "mission_dom_resume_0"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(2083,-561)"
+			global "0"
+			interrupt "1"
+			priority "1"
+			self_id "interface_dialogue_show_group_2"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_familiarity_drexolian_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_familiarity_drexolian_01"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(1483,-627)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "comparison_familiarity_level"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "true"
+					}
+
+					StringData
+					{
+						key "comparison_familiarity_name"
+						value "drexolian"
+					}
+
+					StringData
+					{
+						key "comparison_subspecies_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1483,-415)"
+			key "true"
+			self_id "logic_if_familiarity_level_1###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(2845,-559)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "50.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "ground_unit"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value "hostility"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2845,-237)"
+			key "true"
+			self_id "logic_if_alive_advanced_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2845,-207)"
+			key "false"
+			self_id "logic_if_alive_advanced_1###false"
+			value
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(3757,-529)"
+			global "0"
+			interrupt "1"
+			priority "1"
+			self_id "interface_dialogue_show_group_3"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_familiarity_drexolian_02"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_at_coordinates.xml)|pos(2047,2644)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "coord_x"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_y"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_z"
+						value "-750"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "logic/position_marker"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "map_edge_marker"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_at_coordinates.lua"
+			self_id "entity_spawn_at_coordinates_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2778,2963)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_3"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(3025,2841)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "300"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "progress_marker_A"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3025,3147)"
+			key "true"
+			self_id "logic_if_exist_entity_new_2###true"
+			value "logic_if_exist_entity_new_2###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(3920,2665)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_4"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_a_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_a_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_a_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_a_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_a_03"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_at_coordinates.xml)|pos(2047,2890)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "coord_x"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_y"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_z"
+						value "-100"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "logic/position_marker"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "progress_marker_A"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_at_coordinates.lua"
+			self_id "entity_spawn_at_coordinates_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_at_coordinates.xml)|pos(2039,3138)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "coord_x"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_y"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_z"
+						value "200"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "logic/position_marker"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "progress_marker_B"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_at_coordinates.lua"
+			self_id "entity_spawn_at_coordinates_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(1783,2973)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(2592,2975)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_6"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(4512,3558)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "300"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "progress_marker_B"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(4512,3864)"
+			key "true"
+			self_id "logic_if_exist_entity_new_5###true"
+			value "logic_if_exist_entity_new_2###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(6455,4763)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_7"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_b_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_b_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_b_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_b_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_b_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_b_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_b_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_b_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_b_05"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(7541,6039)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_5"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_ending_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_ending_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_ending_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_ending_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_ending_05"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2941,-905)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "20"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3457,-437)"
+			self_id "logic_or_1"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(2213,17)"
+			graph "logic/event/spline_attack_swamp.logic"
+			self_id "event_graph_31"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(644,-696)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_7"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(1112,-1149)"
+			graph "logic/event/spline_attack_swamp.logic"
+			self_id "event_graph_1"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_at_coordinates.xml)|pos(2031,3434)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "coord_x"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_y"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_z"
+						value "450"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "logic/position_marker"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "progress_marker_C"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_at_coordinates.lua"
+			self_id "entity_spawn_at_coordinates_3"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(5353,4830)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "300"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "progress_marker_C"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5353,5136)"
+			key "true"
+			self_id "logic_if_exist_entity_new_6###true"
+			value "logic_if_exist_entity_new_2###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(5695,3742)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_8"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_c_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_c_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_c_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_progress_c_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_progress_c_03"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(5785,565)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/meadow/stronghold_destroy"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "clear_enemies"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_5"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(6431,491)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "ground_unit"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/cave_entrance_marker_1"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value "hostility"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6431,797)"
+			key "true"
+			self_id "logic_if_alive_advanced_2###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(6431,825)"
+			key "false"
+			self_id "logic_if_alive_advanced_2###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(6853,773)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "clear_enemies"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(6445,228)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "marker_radius"
+						value "50"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "marker_randomize_position"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					IntData
+					{
+						key "marker_name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "target_name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "logic/mission_exit_01"
+					}
+
+					StringData
+					{
+						key "marker_name"
+						value "clear_enemies_marker"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "clear_enemies"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_show_zone_objective.lua"
+			self_id "interface_minimap_show_zone_objective_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(6961,268)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "marker_name"
+						value "clear_enemies_marker"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_minimap_hide_zone.lua"
+			self_id "interface_minimap_hide_zone_3"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(5071,579)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "2"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "ground_unit"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "logic/mission_exit_01"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value "hostility"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5071,885)"
+			key "true"
+			self_id "logic_if_alive_advanced_3###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(5071,913)"
+			key "false"
+			self_id "logic_if_alive_advanced_3###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(5821,1114)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(7464,881)"
+			self_id "logic_or_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(3411,3007)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "2"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "ground_unit"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value "hostility"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3411,3313)"
+			key "true"
+			self_id "logic_if_alive_advanced_4###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3411,3341)"
+			key "false"
+			self_id "logic_if_alive_advanced_4###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(4941,3728)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "2"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "ground_unit"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value "hostility"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(4941,4034)"
+			key "true"
+			self_id "logic_if_alive_advanced_5###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(4941,4062)"
+			key "false"
+			self_id "logic_if_alive_advanced_5###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(5851,5000)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "2"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "ground_unit"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value "hostility"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5851,5306)"
+			key "true"
+			self_id "logic_if_alive_advanced_6###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(5851,5334)"
+			key "false"
+			self_id "logic_if_alive_advanced_6###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_at_coordinates.xml)|pos(2032,3765)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "coord_x"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_y"
+						value "0"
+					}
+
+					IntData
+					{
+						key "coord_z"
+						value "700"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "logic/position_marker"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "progress_marker_D"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_at_coordinates.lua"
+			self_id "entity_spawn_at_coordinates_4"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(6447,5843)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "250"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "progress_marker_D"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_entity_new.lua"
+			self_id "logic_if_exist_entity_new_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6447,6149)"
+			key "true"
+			self_id "logic_if_exist_entity_new_7###true"
+			value "logic_if_exist_entity_new_2###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_alive_advanced.xml)|pos(6945,6013)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "30"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "2"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "ground_unit"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value "player"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "find_relationship"
+						value "hostility"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_alive_advanced.lua"
+			self_id "logic_if_alive_advanced_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6945,6319)"
+			key "true"
+			self_id "logic_if_alive_advanced_7###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(6945,6347)"
+			key "false"
+			self_id "logic_if_alive_advanced_7###false"
+			value
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(7935,636)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_6"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_ending_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_thicket_ending_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_thicket_ending_02"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "entity_spawn_player_1"
+		entity_spawn_at_coordinates_0 "logic_and_6"
+		entity_spawn_at_coordinates_1 "logic_and_6"
+		entity_spawn_at_coordinates_2 "logic_and_6"
+		entity_spawn_at_coordinates_3 "logic_and_6"
+		entity_spawn_at_coordinates_4 "logic_and_6"
+		entity_spawn_player_1 "event_graph_0|logic_and_7|logic_wait_10|logic_wait_on_event_0"
+		interface_dialogue_show_group_0 "event_graph_31"
+		interface_dialogue_show_group_2 "logic_if_alive_advanced_1|logic_wait_1"
+		interface_dialogue_show_group_6 "logic_event_send_1"
+		interface_minimap_show_zone_objective_4 "interface_minimap_hide_zone_3"
+		logic_and_1 "logic_or_2"
+		logic_and_2 "entity_spawn_objective_marker_3|interface_minimap_show_zone_objective_2|logic_wait_on_event_2|objective_generic_2"
+		logic_and_5 "entity_spawn_at_coordinates_0|entity_spawn_at_coordinates_1|entity_spawn_at_coordinates_2|entity_spawn_at_coordinates_3|entity_spawn_at_coordinates_4"
+		logic_and_6 "logic_wait_3"
+		logic_and_7 "event_graph_1"
+		logic_event_send_1 "logic_and_2"
+		logic_if_alive_advanced_1 "logic_if_alive_advanced_1###false|logic_if_alive_advanced_1###true"
+		logic_if_alive_advanced_1###true "logic_or_1"
+		logic_if_alive_advanced_2 "logic_if_alive_advanced_2###false|logic_if_alive_advanced_2###true"
+		logic_if_alive_advanced_2###true "interface_minimap_hide_zone_3|objective_finish_7"
+		logic_if_alive_advanced_3 "logic_if_alive_advanced_3###false|logic_if_alive_advanced_3###true"
+		logic_if_alive_advanced_3###false "logic_and_1"
+		logic_if_alive_advanced_3###true "objective_generic_5"
+		logic_if_alive_advanced_4 "logic_if_alive_advanced_4###false|logic_if_alive_advanced_4###true"
+		logic_if_alive_advanced_4###true "interface_dialogue_show_group_4|logic_if_exist_entity_new_5"
+		logic_if_alive_advanced_5 "logic_if_alive_advanced_5###false|logic_if_alive_advanced_5###true"
+		logic_if_alive_advanced_5###true "interface_dialogue_show_group_8|logic_if_exist_entity_new_6"
+		logic_if_alive_advanced_6 "logic_if_alive_advanced_6###false|logic_if_alive_advanced_6###true"
+		logic_if_alive_advanced_6###true "interface_dialogue_show_group_7|logic_if_exist_entity_new_7"
+		logic_if_alive_advanced_7 "logic_if_alive_advanced_7###false|logic_if_alive_advanced_7###true"
+		logic_if_alive_advanced_7###true "interface_dialogue_show_group_5"
+		logic_if_exist_entity_new_0 "logic_if_exist_entity_new_0###true"
+		logic_if_exist_entity_new_0###true "entity_remove_0|interface_minimap_hide_zone_0|objective_finish_3"
+		logic_if_exist_entity_new_2 "logic_if_exist_entity_new_2###true"
+		logic_if_exist_entity_new_2###true "logic_if_alive_advanced_4"
+		logic_if_exist_entity_new_5 "logic_if_exist_entity_new_5###true"
+		logic_if_exist_entity_new_5###true "logic_if_alive_advanced_5"
+		logic_if_exist_entity_new_6 "logic_if_exist_entity_new_6###true"
+		logic_if_exist_entity_new_6###true "logic_if_alive_advanced_6"
+		logic_if_exist_entity_new_7 "logic_if_exist_entity_new_7###true"
+		logic_if_exist_entity_new_7###true "logic_if_alive_advanced_7"
+		logic_if_familiarity_level_1 "logic_if_familiarity_level_1###true"
+		logic_if_familiarity_level_1###true "interface_dialogue_show_group_2"
+		logic_or_0 "objective_generic_4"
+		logic_or_1 "interface_dialogue_show_group_3"
+		logic_or_2 "interface_dialogue_show_group_6"
+		logic_or_4 "entity_remove_1|interface_minimap_hide_zone_1|mission_change_creature_difficulty_1|objective_finish_4"
+		logic_wait_1 "logic_or_1"
+		logic_wait_10 "mission_dom_resume_0"
+		logic_wait_3 "logic_if_exist_entity_new_2"
+		logic_wait_4 "objective_exist_1"
+		logic_wait_5 "logic_or_0"
+		logic_wait_on_event_0 "interface_dialogue_show_group_0|logic_and_5|logic_if_familiarity_level_1|logic_wait_4"
+		logic_wait_on_event_2 "logic_or_4"
+		mission_change_creature_difficulty_1 "mission_end_0"
+		objective_exist_1 "objective_exist_1###false|objective_exist_1###true"
+		objective_exist_1###false "logic_or_0"
+		objective_exist_1###true "objective_finish_0"
+		objective_finish_0 "logic_wait_5"
+		objective_finish_3 "logic_if_alive_advanced_3"
+		objective_finish_7 "logic_or_2"
+		objective_generic_4 "entity_spawn_objective_marker_1|interface_minimap_show_zone_objective_1|logic_if_exist_entity_new_0"
+		objective_generic_5 "interface_minimap_show_zone_objective_4|logic_if_alive_advanced_2"
+	}
+
+	GraphComments
+}
+

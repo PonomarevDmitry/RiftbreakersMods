@@ -1,0 +1,1707 @@
+//editor "scroll(-4241.23,-338.78)|zoom(0.47)"
+FlowGraphTemplate
+{
+	version "51"
+	editor "6180"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-5963,264)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(-2883,387)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_outpost"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_3/swamp_outpost"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-3607,374)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_outpost_travel"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_travel"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(-1210,534)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_harvest"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_3/swamp_harvest"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(-613,493)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "swamp_harvest"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(-613,665)"
+			key "win"
+			self_id "logic_if_mission_status_0###win"
+			value "logic_if_mission_status_0###win"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_global_variable.xml)|pos(-5717,188)"
+			script "lua/graph/logic/logic_set_global_variable.lua"
+			self_id "logic_set_global_variable_2"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.swamp_start"
+						value "true"
+					}
+
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(-5051,158)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.swamp_encounter"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-5051,411)"
+			key "true"
+			self_id "logic_if_global_variable_2###true"
+			value "logic_if_global_variable_2###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(-2316,307)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.swamp_outpost_stage_1_complete"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2316,560)"
+			key "true"
+			self_id "logic_if_global_variable_3###true"
+			value "logic_if_global_variable_3###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-1857,528)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_poogret_harvest"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_poogret_harvest"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-78,617)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_outpost_stage_2"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_stage_2"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(-4509,379)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_main"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_9"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(579,556)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.swamp_outpost_stage_2_complete"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(579,809)"
+			key "true"
+			self_id "logic_if_global_variable_7###true"
+			value "logic_if_global_variable_4###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(1910,736)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_thicket"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_3/swamp_thicket"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(1263,730)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_thicket"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_thicket"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(2835,757)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_thicket_exit"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_thicket_exit"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(3475,771)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_meadow"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_3/swamp_meadow"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(3893,739)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "swamp_meadow"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(3893,911)"
+			key "win"
+			self_id "logic_if_mission_status_2###win"
+			value "logic_if_mission_status_2###win"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_change.xml)|pos(3899,593)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_meadow"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_change.lua"
+			self_id "campaign_mission_change_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(2317,703)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "swamp_thicket"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(2317,875)"
+			key "win"
+			self_id "logic_if_mission_status_3###win"
+			value "logic_if_mission_status_0###win"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(5023,808)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.swamp_outpost_stage_3_complete"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_8"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5023,1061)"
+			key "true"
+			self_id "logic_if_global_variable_8###true"
+			value "logic_if_global_variable_4###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(4366,869)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_outpost_stage_3"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_stage_3"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(6203,932)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_forest"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_3/swamp_forest"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(5556,926)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_forest"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_forest"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_6"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(7781,963)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.swamp_outpost_stage_4_complete"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(7781,1216)"
+			key "true"
+			self_id "logic_if_global_variable_9###true"
+			value "logic_if_global_variable_4###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(6651,893)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "swamp_forest"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(6651,1065)"
+			key "win"
+			self_id "logic_if_mission_status_4###win"
+			value "logic_if_mission_status_2###win"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(7123,1023)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/dlc_3/campaign/global.swamp_outpost_stage_4"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_stage_4"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.swamp_main"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_change.xml)|pos(7557,701)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_forest_cave"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_change.lua"
+			self_id "campaign_mission_change_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_unlock.xml)|pos(7169,691)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_forest_cave"
+					}
+
+					StringData
+					{
+						key "mission_def"
+						value "campaigns/dlc_3/swamp_forest_cave"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_unlock.lua"
+			self_id "campaign_mission_unlock_6"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(6647,468)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.swamp_forest_cave_start"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6647,721)"
+			key "true"
+			self_id "logic_if_global_variable_4###true"
+			value "logic_if_global_variable_2###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_mission_status.xml)|pos(8018,530)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "wait_on_status"
+						value "true"
+					}
+
+					StringData
+					{
+						key "mission_id"
+						value "swamp_forest_cave"
+					}
+
+					StringData
+					{
+						key "status_name"
+						value "win"
+					}
+
+					StringData
+					{
+						key "mission_exists"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_mission_status.lua"
+			self_id "logic_if_mission_status_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_mission_status.xml)|pos(8018,702)"
+			key "win"
+			self_id "logic_if_mission_status_5###win"
+			value "logic_if_mission_status_2###win"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_global_variable.xml)|pos(8525,636)"
+			script "lua/graph/logic/logic_set_global_variable.lua"
+			self_id "logic_set_global_variable_1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.swamp_forest_cave_end"
+						value "true"
+					}
+
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_mission_change.xml)|pos(9160,670)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_name"
+						value "swamp_forest"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/campaign/state/mission_change.lua"
+			self_id "campaign_mission_change_4"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-5028,765)"
+			graph "logic/missions/campaigns/dlc_3/swamp_familiarity.logic"
+			self_id "event_graph_12"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		campaign_mission_change_3 "logic_if_mission_status_5"
+		campaign_mission_unlock_0 "logic_if_global_variable_3"
+		campaign_mission_unlock_1 "campaign_mission_change_2|logic_if_mission_status_2"
+		campaign_mission_unlock_2 "logic_if_mission_status_0"
+		campaign_mission_unlock_3 "logic_if_mission_status_3"
+		campaign_mission_unlock_4 "logic_if_global_variable_4|logic_if_mission_status_4"
+		campaign_mission_unlock_6 "campaign_mission_change_3"
+		campaign_objective_generic_0 "campaign_mission_unlock_0"
+		campaign_objective_generic_1 "campaign_mission_unlock_2"
+		campaign_objective_generic_2 "logic_if_global_variable_7"
+		campaign_objective_generic_3 "campaign_mission_unlock_3"
+		campaign_objective_generic_4 "logic_if_global_variable_8"
+		campaign_objective_generic_5 "campaign_mission_unlock_1"
+		campaign_objective_generic_6 "campaign_mission_unlock_4"
+		campaign_objective_generic_7 "logic_if_global_variable_9"
+		campaign_objective_generic_9 "campaign_objective_generic_0"
+		default "logic_set_global_variable_2"
+		logic_if_global_variable_2 "logic_if_global_variable_2###true"
+		logic_if_global_variable_2###true "campaign_objective_generic_9"
+		logic_if_global_variable_3 "logic_if_global_variable_3###true"
+		logic_if_global_variable_3###true "campaign_objective_generic_1"
+		logic_if_global_variable_4 "logic_if_global_variable_4###true"
+		logic_if_global_variable_4###true "campaign_mission_unlock_6"
+		logic_if_global_variable_7 "logic_if_global_variable_7###true"
+		logic_if_global_variable_7###true "campaign_objective_generic_3"
+		logic_if_global_variable_8 "logic_if_global_variable_8###true"
+		logic_if_global_variable_8###true "campaign_objective_generic_6"
+		logic_if_global_variable_9 "logic_if_global_variable_9###true"
+		logic_if_mission_status_0 "logic_if_mission_status_0###win"
+		logic_if_mission_status_0###win "campaign_objective_generic_2"
+		logic_if_mission_status_2 "logic_if_mission_status_2###win"
+		logic_if_mission_status_2###win "campaign_objective_generic_4"
+		logic_if_mission_status_3 "logic_if_mission_status_3###win"
+		logic_if_mission_status_3###win "campaign_objective_generic_5"
+		logic_if_mission_status_4 "logic_if_mission_status_4###win"
+		logic_if_mission_status_4###win "campaign_objective_generic_7"
+		logic_if_mission_status_5 "logic_if_mission_status_5###win"
+		logic_if_mission_status_5###win "logic_set_global_variable_1"
+		logic_set_global_variable_1 "campaign_mission_change_4"
+		logic_set_global_variable_2 "event_graph_12|logic_if_global_variable_2"
+	}
+
+	GraphComments
+}
+

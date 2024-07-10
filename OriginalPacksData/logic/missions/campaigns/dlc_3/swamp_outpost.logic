@@ -1,0 +1,3082 @@
+//editor "scroll(8431.17,855.63)|zoom(0.47)"
+FlowGraphTemplate
+{
+	version "103"
+	editor "6180"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(9103,1813)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player.xml)|pos(9373,1809)"
+			script "lua/graph/entity/entity_spawn_player.lua"
+			self_id "entity_spawn_player_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(9825,1777)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "InitialSpawnEnded"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_0"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(10415,1307)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_0"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_outpost_stage_1_landing_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_outpost_stage_1_landing_01"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(11063,2033)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_travel"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(10425,1785)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "8.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(11537,2047)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_5"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(10643,1777)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_travel"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(10643,1881)"
+			key "true"
+			self_id "objective_exist_0###true"
+			value "objective_exist_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(10643,1909)"
+			key "false"
+			self_id "objective_exist_0###false"
+			value "objective_exist_0###false"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(11850,1919)"
+			self_id "logic_or_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(13868,1914)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_stage_2"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(13868,2019)"
+			key "true"
+			self_id "objective_exist_7###true"
+			value "objective_exist_7###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(13868,2047)"
+			key "false"
+			self_id "objective_exist_7###false"
+			value "objective_exist_7###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(13955,1626)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_18"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(15346,1978)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_stage_3"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_8"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(15346,2083)"
+			key "true"
+			self_id "objective_exist_8###true"
+			value "objective_exist_7###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(15346,2111)"
+			key "false"
+			self_id "objective_exist_8###false"
+			value "objective_exist_7###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(15433,1690)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_19"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(17204,2029)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.swamp_outpost_stage_4"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(17204,2133)"
+			key "true"
+			self_id "objective_exist_9###true"
+			value "objective_exist_7###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(17204,2161)"
+			key "false"
+			self_id "objective_exist_9###false"
+			value "objective_exist_7###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(17291,1741)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_20"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(12925,1874)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_1.logic"
+			self_id "event_graph_2"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(14505,1950)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_2.logic"
+			self_id "event_graph_3"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(16205,2001)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_3.logic"
+			self_id "event_graph_4"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(17884,2072)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_4.logic"
+			self_id "event_graph_5"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(18596,2071)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_5.logic"
+			self_id "event_graph_6"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_end.xml)|pos(11263,1397)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "show_credits"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "outro"
+						value "dlc_3_tree_reveal"
+					}
+
+					StringData
+					{
+						key "action"
+						value "REMAIN"
+					}
+
+					StringData
+					{
+						key "next_mission"
+						value
+					}
+
+					StringData
+					{
+						key "mission_result"
+						value "in_progress"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/campaign_end.lua"
+			self_id "campaign_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(11063,1431)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_6"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(12921,1610)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_2.logic"
+			self_id "event_graph_7"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(9841,1167)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(11603,1432)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure_swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(11935,1431)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "230"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(12131,1431)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_0"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(12922,1348)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_3.logic"
+			self_id "event_graph_8"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(12913,1083)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_4.logic"
+			self_id "event_graph_9"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(10193,1171)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/silence"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_generic.xml)|pos(9854,870)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "min_life_time"
+						value "90"
+					}
+
+					IntData
+					{
+						key "max_life_time"
+						value "90"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "weather_blueprint"
+						value "weather/fog_swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/weather_generic.lua"
+			self_id "weather_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_time_rewind.xml)|pos(9852,729)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "time_of_day"
+						value "day"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_time_rewind.lua"
+			self_id "mission_time_rewind_1"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(13552,1083)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_stage_5.logic"
+			self_id "event_graph_10"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(11683,926)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_1"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_outpost_stage_1_landing_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/dlc_3/mech_outpost_stage_1_landing_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/dlc_3/ashley_outpost_stage_1_landing_03"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(14503,2203)"
+			graph "logic/event/spline_attack_swamp.logic"
+			self_id "event_graph_31"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(14499,2402)"
+			graph "logic/missions/campaigns/dlc_3/swamp_outpost_resin_encounter.logic"
+			self_id "event_graph_11"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_world_bounds.xml)|pos(12919,928)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "minX"
+						value "-4"
+					}
+
+					IntData
+					{
+						key "minY"
+						value "-4"
+					}
+
+					IntData
+					{
+						key "maxX"
+						value "3"
+					}
+
+					IntData
+					{
+						key "maxY"
+						value "3"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_change_world_bounds.lua"
+			self_id "mission_change_world_bounds_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(12656,1919)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(9750,3110)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/evil_root_big_01"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/evil_root_big_01_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(9067,4849)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(10385,3109)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/evil_root_big_02"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/evil_root_big_02_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(11029,3112)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/evil_root_big_03"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/evil_root_big_03_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(9751,3585)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/evil_root_bloob_01"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/evil_root_bloob_01_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(9741,4131)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/evil_root_small_01"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/evil_root_small_01_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(10377,4129)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/evil_root_small_02"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/evil_root_small_02_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(11020,4133)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/evil_root_small_03"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/evil_root_small_03_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_9"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(9740,4659)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/parasite_bulb_big"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/parasite_bulb_big_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(10385,4657)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/parasite_bulb_medium"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/parasite_bulb_medium_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_11"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(9745,5149)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/parasite_nest_01"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "parasite"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/parasite_nest_01_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_12"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(10381,5147)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/parasite_nest_02"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "parasite"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/parasite_nest_02_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_13"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(9758,5677)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "units/ground/parabian"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "parasite"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "units/ground/parabian_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_14"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(9480,5582)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(11370,2667)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(11556,2491)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/flower_big"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "flower"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/flower_big_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_15"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(12188,2489)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/flower_medium"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "flower"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/flower_medium_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_16"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_single.xml)|pos(12812,2489)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "props/special/great_tree/flower_small"
+					}
+
+					StringData
+					{
+						key "team"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value "flower"
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "props/special/great_tree/flower_small_logic_marker"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_single.lua"
+			self_id "entity_spawn_single_17"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(9447,4037)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(10061,2741)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "parasite"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_remove.lua"
+			self_id "entity_remove_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(9815,2797)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "20"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(10462,2527)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_group"
+						value "darkthorn"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_remove.lua"
+			self_id "entity_remove_9"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(10074,2581)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(11022,2643)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_generic.xml)|pos(10233,430)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "min_life_time"
+						value "20"
+					}
+
+					IntData
+					{
+						key "max_life_time"
+						value "20"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "weather_blueprint"
+						value "weather/time_of_day_fog"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/weather_generic.lua"
+			self_id "weather_generic_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_generic.xml)|pos(10620,437)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "min_life_time"
+						value "90"
+					}
+
+					IntData
+					{
+						key "max_life_time"
+						value "90"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "weather_blueprint"
+						value "weather/blooming_air"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/weather_generic.lua"
+			self_id "weather_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_meteor_shower.xml)|pos(9804,358)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "spawn_time"
+						value "0.5"
+					}
+
+					FloatData
+					{
+						key "delay"
+						value "0.5"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "duration"
+						value "50"
+					}
+
+					IntData
+					{
+						key "radius"
+						value "10"
+					}
+
+					IntData
+					{
+						key "meteors_in_one_spawn"
+						value "3"
+					}
+
+					IntData
+					{
+						key "duration_max"
+						value "50"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "weather/firestorm"
+					}
+
+					StringData
+					{
+						key "type"
+						value "follow_player"
+					}
+
+					StringData
+					{
+						key "warning_bp"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/meteor_shower.lua"
+			self_id "weather_meteor_shower_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_adaptive_music_system_1 "audio_music_change_playlist_2"
+		audio_music_change_playlist_1 "logic_wait_0"
+		campaign_end_0 "audio_music_change_playlist_1|interface_dialogue_show_group_1"
+		default "entity_spawn_player_0|logic_and_5|mission_time_rewind_1|weather_generic_1"
+		entity_remove_9 "logic_wait_3"
+		entity_spawn_player_0 "audio_adaptive_music_system_1|logic_wait_on_event_0"
+		entity_spawn_single_10 "entity_spawn_single_11"
+		entity_spawn_single_12 "entity_spawn_single_13"
+		entity_spawn_single_15 "entity_spawn_single_16"
+		entity_spawn_single_16 "entity_spawn_single_17"
+		entity_spawn_single_3 "entity_spawn_single_4"
+		entity_spawn_single_4 "entity_spawn_single_5"
+		entity_spawn_single_7 "entity_spawn_single_8"
+		entity_spawn_single_8 "entity_spawn_single_9"
+		event_graph_2 "objective_exist_7"
+		event_graph_3 "objective_exist_8"
+		event_graph_4 "objective_exist_9"
+		event_graph_5 "event_graph_6"
+		event_graph_9 "event_graph_10"
+		interface_dialogue_show_group_0 "logic_wait_6"
+		logic_and_4 "event_graph_2"
+		logic_and_5 "logic_and_6|logic_and_8"
+		logic_and_6 "entity_spawn_single_12|entity_spawn_single_14"
+		logic_and_7 "entity_spawn_single_15"
+		logic_and_8 "entity_spawn_single_10|entity_spawn_single_3|entity_spawn_single_6|entity_spawn_single_7"
+		logic_or_0 "logic_and_4"
+		logic_wait_0 "audio_adaptive_music_system_0"
+		logic_wait_1 "entity_remove_8|logic_wait_2"
+		logic_wait_18 "objective_exist_7"
+		logic_wait_19 "objective_exist_8"
+		logic_wait_2 "entity_remove_9"
+		logic_wait_20 "objective_exist_9"
+		logic_wait_3 "logic_and_7"
+		logic_wait_4 "objective_exist_0"
+		logic_wait_5 "logic_or_0"
+		logic_wait_6 "campaign_end_0"
+		logic_wait_on_event_0 "interface_dialogue_show_group_0|logic_wait_4"
+		objective_exist_0 "objective_exist_0###false|objective_exist_0###true"
+		objective_exist_0###false "logic_or_0"
+		objective_exist_0###true "objective_finish_0"
+		objective_exist_7 "objective_exist_7###false|objective_exist_7###true"
+		objective_exist_7###false "logic_wait_18"
+		objective_exist_7###true "event_graph_11|event_graph_3|event_graph_31"
+		objective_exist_8 "objective_exist_8###false|objective_exist_8###true"
+		objective_exist_8###false "logic_wait_19"
+		objective_exist_8###true "event_graph_4"
+		objective_exist_9 "objective_exist_9###false|objective_exist_9###true"
+		objective_exist_9###false "logic_wait_20"
+		objective_exist_9###true "event_graph_5"
+		objective_finish_0 "logic_wait_5"
+		weather_generic_2 "weather_generic_0"
+		weather_meteor_shower_0 "weather_generic_2"
+	}
+
+	GraphComments
+}
+
