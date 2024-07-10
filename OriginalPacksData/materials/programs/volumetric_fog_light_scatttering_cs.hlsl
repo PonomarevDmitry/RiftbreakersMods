@@ -52,40 +52,31 @@ StructuredBuffer<Shadow>    Shadows;
 RWTexture3D<float4>         LightScattering : register( u0 );
 
 inline void ComputeSpotLightScattering( in float3 worldPos, in Light light, in float2 uv, inout float3 output )
-{
+{    
+    const float3 toLightVec = worldPos - light.WorldPos.xyz;
+    const float dotVector = dot( toLightVec,toLightVec );
+    const float rcpVectorlength = rsqrt( dotVector );
+    const float3 L = -toLightVec * rcpVectorlength;
+
+    float attenuation = GetAngleAttenuation( L, light.WorldDir, light.GetSpotLightAngleScale(), light.GetSpotLightAngleOffset() );
 #if SHADOW_MAP
-    float shadow = 1.0f;
     [branch]
-    if ( light.ShadowIntensity > 0.0f )
+    if ( light.ShadowIntensity > 0.0f && attenuation > 0.0f )
     {
-        shadow = GetSpotLightShadow( float4( worldPos, 1.0f ), Shadows[ light.ShadowDataOffset ] );
-        shadow += ( 1.0f - light.ShadowIntensity );
+        attenuation *= GetSpotLightShadow( float4( worldPos, 1.0f ), Shadows[ light.ShadowDataOffset ] );
+        attenuation += ( 1.0f - light.ShadowIntensity );
     }
+#endif
 
     [branch]
-    if ( shadow > 0.0f )
-#endif
+    if ( attenuation > 0.0f )
     {
-        const float3 toLightVec = worldPos - light.WorldPos.xyz;
-        const float dotVector = dot( toLightVec,toLightVec );
-        const float rcpVectorlength = rsqrt( dotVector );
-        const float3 L = -toLightVec * rcpVectorlength;
+        const float distanceToLight = rcpVectorlength * dotVector;
+        attenuation *= GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
+        attenuation *= saturate( distanceToLight / 5.0f );
 
-        float attenuation = GetAngleAttenuation( L, light.WorldDir, light.GetSpotLightAngleScale(), light.GetSpotLightAngleOffset() );
-        if ( attenuation > 0.0f ) 
-        {
-            const float distanceToLight = rcpVectorlength * dotVector;
-            attenuation *= GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
-            attenuation *= saturate( distanceToLight / 5.0f );
-
-            const float3 V = normalize( cCameraWorldPos.xyz - worldPos.xyz );
-                    
-#if SHADOW_MAP
-            output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, -V ) ) * attenuation * shadow * light.ScatteringIntensity );
-#else
-            output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, -V ) ) * attenuation * light.ScatteringIntensity );
-#endif
-        }
+        const float3 V = normalize( cCameraWorldPos.xyz - worldPos.xyz );
+        output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, -V ) ) * attenuation * light.ScatteringIntensity );
     }
 }
 
@@ -96,67 +87,48 @@ inline void ComputePointLightScattering( in float3 worldPos, in Light light, in 
     const float rcpVectorlength = rsqrt( dotVector );
     const float distanceToLight = rcpVectorlength * dotVector;
 
+    float attenuation = GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
 #if SHADOW_MAP
-    float shadow = 1.0f;
     [branch]
-    if ( light.ShadowIntensity > 0.0f )
+    if ( light.ShadowIntensity > 0.0f && attenuation > 0.0f )
     {
-        shadow = GetPointLightShadow( toLightVec, Shadows[ light.ShadowDataOffset ] );
-        shadow += ( 1.0f - light.ShadowIntensity );
+        attenuation *= GetPointLightShadow( toLightVec, Shadows[ light.ShadowDataOffset ] );
+        attenuation += ( 1.0f - light.ShadowIntensity );
     }
+#endif
 
     [branch]
-    if ( shadow > 0.0f )
-#endif
+    if ( attenuation > 0.0f )
     {
-        const float attenuation = GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
-        if ( attenuation > 0.0f )
-        {
-            const float3 L = -toLightVec * rcpVectorlength;
-            const float3 V = normalize( cCameraWorldPos.xyz - worldPos.xyz );
-
-#if SHADOW_MAP
-            output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, -V ) ) * attenuation * shadow * light.ScatteringIntensity );
-#else
-            output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, -V ) ) * attenuation * light.ScatteringIntensity );
-#endif 
-        }
+        const float3 L = -toLightVec * rcpVectorlength;
+        const float3 V = normalize( cCameraWorldPos.xyz - worldPos.xyz );
+        output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, -V ) ) * attenuation * light.ScatteringIntensity );
     }
 }
 
 inline void ComputeDirectionalLightScattering( in float3 worldPos, in Light light, in float2 uv, inout float3 output )
 {
-#if SHADOW_MAP
-    float shadow = 1.0f;
-    [branch]
-    if ( light.ShadowIntensity > 0.0f )
-    {
-        shadow = GetDirectionalShadow( float4( worldPos, 1.0f ), Shadows[ light.ShadowDataOffset ] );
-    }
-
-    [branch]
-    if ( shadow > 0.0f )
+    float attenuation = 1.0f;
+#if CLOUDS
+    attenuation *= GetCloudsAttenuation( worldPos.xyz, light.WorldDir, cTime, cCloudsParams.x, cCloudsParams.zw );
 #endif
+#if LIGHT_MASK
+    attenuation *= tLightMaskTex.SampleLevel( sBilinearClamp, mul( Shadows[ 0 ].GetShadowViewProjMatrix(), float4( worldPos.xyz, 1.0f ) ).xy, 0.0f ).x;
+#endif
+
+#if SHADOW_MAP
+    [branch]
+    if ( light.ShadowIntensity > 0.0f && attenuation > 0.0f )
+    {
+        attenuation *= GetDirectionalShadow( float4( worldPos, 1.0f ), Shadows[ light.ShadowDataOffset ] );
+    }
+#endif
+
+    if ( attenuation > 0.0f )
     {    
         const float3 L = -light.WorldDir.xyz;
         const float3 V = normalize( cCameraWorldPos.xyz - worldPos.xyz );
-
-        float attenuation = 1.0f;
-    #if CLOUDS
-        attenuation *= GetCloudsAttenuation( worldPos.xyz, light.WorldDir, cTime, cCloudsParams.x, cCloudsParams.zw );
-    #endif
-    #if LIGHT_MASK
-        attenuation *= tLightMaskTex.SampleLevel( sBilinearClamp, mul( Shadows[ 0 ].GetShadowViewProjMatrix(), float4( worldPos.xyz, 1.0f ) ).xy, 0.0f ).x;
-    #endif
-
-        if ( attenuation > 0.0f )
-        {
-#if SHADOW_MAP
-            output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, V ) ) * attenuation * shadow * light.ScatteringIntensity );
-#else
-            output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, V ) ) * attenuation * light.ScatteringIntensity );
-#endif 
-        }
+        output += light.LightColor * ( HenyeyGreensteinPhase( cVolumetricFogParams1.x, dot( L, V ) ) * attenuation * light.ScatteringIntensity );
     }
 }
 

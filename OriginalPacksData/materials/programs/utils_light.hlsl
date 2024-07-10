@@ -229,96 +229,89 @@ inline void ComputePBRTerms( in Surface surface, in float3 N, in float3 L, in fl
 
 inline void ComputeSpotLight( in Surface surface, in Light light, in float2 uv, inout Lighting lighting )
 {   
-    float shadow = 1.0f;
+    const float3 toLightVec = surface.WorldPos.xyz - light.WorldPos.xyz;
+    const float dotVector = dot( toLightVec,toLightVec );
+    const float rcpVectorlength = rsqrt( dotVector );
+    const float3 L = -toLightVec * rcpVectorlength;
+    const float distanceToLight = rcpVectorlength * dotVector;
+
+    float attenuation = GetAngleAttenuation( L, light.WorldDir, light.GetSpotLightAngleScale(), light.GetSpotLightAngleOffset() );
+    attenuation *= GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
+
 #if SHADOW_MAP
     [branch]
-    if ( light.ShadowIntensity > 0.0f )
+    if ( light.ShadowIntensity > 0.0f && attenuation > 0.0f )
     {
-        shadow = GetSpotLightShadow( surface.WorldPos, Shadows[ light.ShadowDataOffset ] );
+        float shadow = GetSpotLightShadow( surface.WorldPos, Shadows[ light.ShadowDataOffset ] );
         shadow = saturate( shadow + ( 1.0f - light.ShadowIntensity ) );
+        attenuation *= shadow;
     }
+#endif
 
     [branch]
-    if ( shadow > 0.0f )
-#endif
+    if ( attenuation > 0.0f )
     {
-        const float3 toLightVec = surface.WorldPos.xyz - light.WorldPos.xyz;
-        const float dotVector = dot( toLightVec,toLightVec );
-        const float rcpVectorlength = rsqrt( dotVector );
-        const float3 L = -toLightVec * rcpVectorlength;
+        const float3 N = surface.Normal;
+        const float3 V = normalize( cCameraWorldPos.xyz - surface.WorldPos.xyz );
+        const float3 H = normalize( L + V );
 
-        float attenuation = GetAngleAttenuation( L, light.WorldDir, light.GetSpotLightAngleScale(), light.GetSpotLightAngleOffset() );
-        if ( attenuation > 0.0f ) 
+        Lighting instanceLighting;
+        ComputePBRTerms( surface, N, L, H, V, instanceLighting );
+
+        if ( surface.SubSurface.x > 0.0f )
         {
-            const float distanceToLight = rcpVectorlength * dotVector;
-            const float3 N = surface.Normal;
-            const float3 V = normalize( cCameraWorldPos.xyz - surface.WorldPos.xyz );
-            const float3 H = normalize( L + V );
-
-            attenuation *= GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
-
-            Lighting instanceLighting;
-            ComputePBRTerms( surface, N, L, H, V, instanceLighting );
-
-            if ( surface.SubSurface.x > 0.0f )
-            {
-                const float inScatter = pow( saturate( dot( L, -V ) ), 3 );
-                const float normalContribution = saturate( dot( N, H ) );
-                const float backScatter = ( 1 - surface.Occlusion ) * normalContribution / ( 3.14f * 2 );
-                instanceLighting.Diffuse += surface.Albedo * ( lerp( backScatter, 1, inScatter ) * surface.SubSurface.x );
-            }
-
-            const float3 lightColor = light.LightColor * ( attenuation * shadow );
-            lighting.Diffuse += lightColor * instanceLighting.Diffuse;
-            lighting.Specular += lightColor * instanceLighting.Specular;
+            const float inScatter = pow( saturate( dot( L, -V ) ), 3 );
+            const float normalContribution = saturate( dot( N, H ) );
+            const float backScatter = ( 1 - surface.Occlusion ) * normalContribution / ( 3.14f * 2 );
+            instanceLighting.Diffuse += surface.Albedo * ( lerp( backScatter, 1, inScatter ) * surface.SubSurface.x );
         }
+
+        const float3 lightColor = light.LightColor * attenuation;
+        lighting.Diffuse += lightColor * instanceLighting.Diffuse;
+        lighting.Specular += lightColor * instanceLighting.Specular;
     }
 }
 
 inline void ComputePointLight( in Surface surface, in Light light, in float2 uv, inout Lighting lighting )
 {
     const float3 toLightVec = surface.WorldPos.xyz - light.WorldPos.xyz;
+    const float dotVector = dot( toLightVec,toLightVec );
+    const float rcpVectorlength = rsqrt( dotVector );
+    const float distanceToLight = rcpVectorlength * dotVector;
 
-    float shadow = 1.0f;
+    float attenuation = GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
 #if SHADOW_MAP
     [branch]
-    if ( light.ShadowIntensity > 0.0f )
+    if ( light.ShadowIntensity > 0.0f && attenuation > 0.0f )
     {
-        shadow = GetPointLightShadow( toLightVec, Shadows[ light.ShadowDataOffset ] );
+        float shadow = GetPointLightShadow( toLightVec, Shadows[ light.ShadowDataOffset ] );
         shadow = saturate( shadow + ( 1.0f - light.ShadowIntensity ) );
+        attenuation *= shadow;
     }
+#endif
 
     [branch]
-    if ( shadow > 0.0f )
-#endif
+    if ( attenuation > 0.0f )
     {
-        const float dotVector = dot( toLightVec,toLightVec );
-        const float rcpVectorlength = rsqrt( dotVector );
-        const float distanceToLight = rcpVectorlength * dotVector;
+        const float3 N = surface.Normal;
+        const float3 L = -toLightVec * rcpVectorlength;
+        const float3 V = normalize( cCameraWorldPos.xyz - surface.WorldPos.xyz );
+        const float3 H = normalize( L + V );
 
-        const float attenuation = GetDistanceAttenuation( distanceToLight, light.LightInvSquareRadius );
-        if ( attenuation > 0.0f )
+        Lighting instanceLighting;
+        ComputePBRTerms( surface, N, L, H, V, instanceLighting );
+
+        if ( surface.SubSurface.x > 0.0f )
         {
-            const float3 N = surface.Normal;
-            const float3 L = -toLightVec * rcpVectorlength;
-            const float3 V = normalize( cCameraWorldPos.xyz - surface.WorldPos.xyz );
-            const float3 H = normalize( L + V );
-
-            Lighting instanceLighting;
-            ComputePBRTerms( surface, N, L, H, V, instanceLighting );
-
-            if ( surface.SubSurface.x > 0.0f )
-            {
-                const float inScatter = pow( saturate( dot( L, -V ) ), 6 );
-                const float normalContribution = saturate( dot( N, H ) );
-                const float backScatter = ( 1 - surface.Occlusion ) * normalContribution / ( 3.14f * 2 );
-                instanceLighting.Diffuse += surface.Albedo * ( lerp( backScatter, 1, inScatter ) * surface.SubSurface.x );
-            }
-
-            const float3 lightColor = light.LightColor * ( attenuation * shadow );
-            lighting.Diffuse += lightColor * instanceLighting.Diffuse;
-            lighting.Specular += lightColor * instanceLighting.Specular;
+            const float inScatter = pow( saturate( dot( L, -V ) ), 6 );
+            const float normalContribution = saturate( dot( N, H ) );
+            const float backScatter = ( 1 - surface.Occlusion ) * normalContribution / ( 3.14f * 2 );
+            instanceLighting.Diffuse += surface.Albedo * ( lerp( backScatter, 1, inScatter ) * surface.SubSurface.x );
         }
+
+        const float3 lightColor = light.LightColor * attenuation;
+        lighting.Diffuse += lightColor * instanceLighting.Diffuse;
+        lighting.Specular += lightColor * instanceLighting.Specular;
     }
 }
 
@@ -327,50 +320,48 @@ inline void ComputeDirectionalLight( in Surface surface, in Light light, in floa
     const float3 N = surface.Normal;
     const float3 V = normalize( cCameraWorldPos.xyz - surface.WorldPos.xyz );
 
-    float shadow = 1.0f;
+    float attenuation = 1.0f;
+
+#if LIGHT_MASK
+    attenuation *= tLightMaskTex.SampleLevel( sBilinearClamp, mul( Shadows[ 0 ].GetShadowViewProjMatrix(), surface.WorldPos ).xy, 0.0f ).x;
+#endif
+
+#if CLOUDS
+    attenuation *= GetCloudsAttenuation( surface.WorldPos.xyz, light.WorldDir, cTime, cCloudsParams.x, cCloudsParams.zw );
+#endif
+
 #if SHADOW_MAP || SHADOW_BUFFER
     [branch]
-    if ( light.ShadowIntensity > 0.0f )
+    if ( light.ShadowIntensity > 0.0f && attenuation > 0.0f )
     {
 #if SHADOW_BUFFER
-        shadow = tRaytracedShadowsTex.SampleLevel( sBilinearClamp, uv.xy, 0.0f  ).y;
+        attenuation *= tRaytracedShadowsTex.SampleLevel( sBilinearClamp, uv.xy, 0.0f  ).y;
 #elif SHADOW_MAP
-        shadow = GetDirectionalShadow( surface.WorldPos, Shadows[ light.ShadowDataOffset ] );
+        attenuation *= GetDirectionalShadow( surface.WorldPos, Shadows[ light.ShadowDataOffset ] );
 #endif
     }
+#endif
 
     [branch]
-    if ( shadow > 0.0f )
-#endif
+    if ( attenuation > 0.0f )
     {
         const float3 L = -light.WorldDir.xyz;
         const float3 H = normalize( L + V );
 
-        float attenuation = 1.0f;
-    #if CLOUDS
-        attenuation *= GetCloudsAttenuation( surface.WorldPos.xyz, light.WorldDir, cTime, cCloudsParams.x, cCloudsParams.zw );
-    #endif
-    #if LIGHT_MASK
-        attenuation *= tLightMaskTex.SampleLevel( sBilinearClamp, mul( Shadows[ 0 ].GetShadowViewProjMatrix(), surface.WorldPos ).xy, 0.0f ).x;
-    #endif
+        Lighting instanceLighting;
+        ComputePBRTerms( surface, N, L, H, V, instanceLighting );
 
-        if ( attenuation > 0.0f )
+        if ( surface.SubSurface.x > 0.0f )
         {
-            Lighting instanceLighting;
-            ComputePBRTerms( surface, N, L, H, V, instanceLighting );
-
-            if ( surface.SubSurface.x > 0.0f )
-            {
-                const float inScatter = saturate( ( 1.5 + dot( L, -V ) ) / 2.0 ) * surface.SubSurface.y;
-                const float normalContribution = saturate( dot( N, H ) );
-                const float backScatter = ( 1 - surface.Occlusion ) * normalContribution / ( 3.14f * 2 );
-                instanceLighting.Diffuse += surface.Albedo * ( lerp( backScatter, 1, inScatter ) * surface.SubSurface.x );
-            }
-
-            const float3 lightColor = light.LightColor * ( attenuation * shadow );
-            lighting.Diffuse += lightColor * instanceLighting.Diffuse;
-            lighting.Specular += lightColor * instanceLighting.Specular;
+            const float inScatter = saturate( ( 1.5 + dot( L, -V ) ) / 2.0 ) * surface.SubSurface.y;
+            const float normalContribution = saturate( dot( N, H ) );
+            const float backScatter = ( 1 - surface.Occlusion ) * normalContribution / ( 3.14f * 2 );
+            instanceLighting.Diffuse += surface.Albedo * ( lerp( backScatter, 1, inScatter ) * surface.SubSurface.x );
         }
+
+        const float3 lightColor = light.LightColor * attenuation ;
+        lighting.Diffuse += lightColor * instanceLighting.Diffuse;
+        lighting.Specular += lightColor * instanceLighting.Specular;
     }
 }
 
