@@ -8,9 +8,14 @@ ConsoleService:RegisterCommand( "test_log_resource", function( args )
 
     local resouceName = args[1]
 
+    if ( not ResourceManager:ResourceExists( "GameplayResourceDef", resouceName ) ) then
+        LogService:Log("test_log_resource GameplayResourceDef NOT EXISTS " .. resouceName )
+        return
+    end
+
     local resourceDef = ResourceManager:GetResource("GameplayResourceDef", resouceName)
     if ( resourceDef == nil ) then
-        LogService:Log("test_log_resource EntityBlueprint NOT EXISTS " .. resouceName )
+        LogService:Log("test_log_resource GameplayResourceDef NOT EXISTS " .. resouceName )
         return
     end
 
