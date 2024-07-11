@@ -45,4 +45,4 @@ local new_resource_values = {
     },
 }
 
---InjectChangeListGameplayResourceDefValues(new_resource_values)
+InjectChangeListGameplayResourceDefValues(new_resource_values)
