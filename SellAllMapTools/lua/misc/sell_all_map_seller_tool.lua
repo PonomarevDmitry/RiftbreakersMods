@@ -132,7 +132,7 @@ function sell_all_map_seller_tool:UpdateMarker()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/sell_all_map/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/sell_all_map/last_building} " .. tostring(indexBuilding + 1) .. ":\n${" .. buildingDescRef.localization_id .. "}"
         end
 
     elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
@@ -166,7 +166,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/place_ruins}: " .. messageText
+            messageText = "${gui/hud/sell_all_map/place_ruins}:\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/place_ruins}"
@@ -178,7 +178,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/place_connectors}: " .. messageText
+            messageText = "${gui/hud/sell_all_map/place_connectors}:\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/place_connectors}"
@@ -190,7 +190,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/building_group}: " .. messageText
+            messageText = "${gui/hud/sell_all_map/building_group}:\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/building_group}"
@@ -202,7 +202,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/building_group_place_ruins}: " .. messageText
+            messageText = "${gui/hud/sell_all_map/building_group_place_ruins}:\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/building_group_place_ruins}"
@@ -214,7 +214,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/building_group_place_connectors}: " .. messageText
+            messageText = "${gui/hud/sell_all_map/building_group_place_connectors}:\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/building_group_place_connectors}"
@@ -247,18 +247,37 @@ function sell_all_map_seller_tool:GetBuildinsDescription()
 
     local buildingsIcons = ""
 
+    local lineLength = 0
+    local maxLineLength = 40
+
     for menuIcon in Iter( listIconsNames ) do
 
         local count = hashIconsCount[menuIcon]
 
         if ( count > 0 ) then
 
-            if ( string.len(buildingsIcons) > 0 ) then
+            if ( lineLength > 0 ) then
 
-                buildingsIcons = buildingsIcons .. ", "
+                lineLength = lineLength + 1
+                buildingsIcons = buildingsIcons .. ","
             end
 
-            buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. tostring(count)
+            local countString = tostring(count)
+            local countStringLen = string.len(countString) + 2
+
+            if ( lineLength + countStringLen + 1 > maxLineLength ) then
+
+                buildingsIcons = buildingsIcons .. "\n"
+                lineLength = 0
+
+            else
+                buildingsIcons = buildingsIcons .. " "
+                lineLength = lineLength + 1
+            end
+
+            lineLength = lineLength + countStringLen
+
+            buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">x' .. countString
         end
     end
 
@@ -269,18 +288,18 @@ function sell_all_map_seller_tool:GetIconsData()
 
     self.selectedEntities = self.selectedEntities or {}
 
-    local upgradeCostsEntities = {}
+    local sellCostsEntities = {}
 
     local listIconsNames = {}
     local hashIconsCount = {}
 
     for entity in Iter( self.selectedEntities ) do
 
-        if ( upgradeCostsEntities[entity] ~= nil ) then
+        if ( sellCostsEntities[entity] ~= nil ) then
             goto continue
         end
 
-        upgradeCostsEntities[entity] = true
+        sellCostsEntities[entity] = true
 
         if ( not BuildingService:IsBuildingFinished( entity ) ) then
             goto continue
