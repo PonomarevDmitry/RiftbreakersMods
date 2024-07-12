@@ -45,18 +45,18 @@ function sell_all_map_seller_tool:OnInit()
         self.modeBuildingGroupRuins
     }
 
-    if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) and self.selectedBuildingBlueprint ~= "buildings/energy/energy_connector" ) then
-
-        self.defaultModesArray = {
-            self.modeBuilding,
-            self.modeBuildingRuins,
-            self.modeBuildingConnectors,
-
-            self.modeBuildingGroup,
-            self.modeBuildingGroupRuins,
-            self.modeBuildingGroupConnectors,
-        }
-    end
+    --if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) and self.selectedBuildingBlueprint ~= "buildings/energy/energy_connector" ) then
+    --
+    --    self.defaultModesArray = {
+    --        self.modeBuilding,
+    --        self.modeBuildingRuins,
+    --        self.modeBuildingConnectors,
+    --
+    --        self.modeBuildingGroup,
+    --        self.modeBuildingGroupRuins,
+    --        self.modeBuildingGroupConnectors,
+    --    }
+    --end
 
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
 

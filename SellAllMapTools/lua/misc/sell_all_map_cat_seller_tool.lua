@@ -46,7 +46,7 @@ function sell_all_map_cat_seller_tool:OnInit()
 
             self.modeSelect,
             self.modeSelectRuins,
-            self.modeBuildingConnectors,
+            --self.modeBuildingConnectors,
         }
 
         self.modeValuesArray = self:FillLastCategoriesList(self.defaultModesArray, self.modeSelectLast, self.selector)
@@ -54,7 +54,7 @@ function sell_all_map_cat_seller_tool:OnInit()
         self.modeValuesArray = {
             self.modeSelect,
             self.modeSelectRuins,
-            self.modeBuildingConnectors,
+            --self.modeBuildingConnectors,
         }
     end
 
