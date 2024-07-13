@@ -28,7 +28,7 @@ local InjectChangeScannerTurretValues = function(blueprintName, rangeMax, aiming
     --aim_volumeFieldRef.range_max = rangeMax
     --aim_volumeFieldRef.aiming_range = aimingRange
 
-    LogService:Log("InjectChangeScannerTurretValues Blueprint '" .. blueprintName .. "' turretDesc:GetField('aim_volume') " .. tostring(reflection_helper(aim_volumeField)))
+    --LogService:Log("InjectChangeScannerTurretValues Blueprint '" .. blueprintName .. "' turretDesc:GetField('aim_volume') " .. tostring(reflection_helper(aim_volumeField)))
 end
 
 local InjectChangeListScannerTurretValues = function(blueprintStorageValues)
