@@ -155,6 +155,14 @@ local new_values = {
     },
 
     {
+        ["name"] = "units/drones/drone_player_loot_collector_superior",
+
+        ["acceleration"] = "50",
+        ["deacceleration"] = "50",
+        ["max_speed"] = "250",
+    },
+
+    {
         ["name"] = "units/drones/drone_player_loot_collector_extreme",
 
         ["acceleration"] = "50",
@@ -163,7 +171,7 @@ local new_values = {
     },
 
     {
-        ["name"] = "units/drones/drone_loot_collector_picker",
+        ["name"] = "units/drones/drone_loot_collector",
 
         ["acceleration"] = "50",
         ["deacceleration"] = "50",
