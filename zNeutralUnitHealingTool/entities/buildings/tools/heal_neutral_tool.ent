@@ -1,0 +1,57 @@
+EntityBlueprint
+{
+	name					"buildings/tools/heal_neutral_tool"
+
+	BuildingDesc
+	{
+		name				"heal_neutral_tool"
+		bp					"buildings/tools/heal_neutral_tool"
+		ghost_bp			"buildings/tools/heal_neutral_tool_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/heal_neutral_tool"
+		description			"gui/hud/building_description/heal_neutral_tool"
+		menu_icon			"gui/hud/tools_icons/heal_neutral_tool"
+
+		order				"80"
+		type				"heal_neutral_tool"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/heal_neutral_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"heal_neutral_tool_ghost"
+		buildable			"0"
+		type				"heal_neutral_tool"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/heal_neutral_tool.lua"
+
+		database
+		{
+			action			string:"heal_neutral_tool"
+			heal_effect		string:"effects/buildings_generic/building_repair_big"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
