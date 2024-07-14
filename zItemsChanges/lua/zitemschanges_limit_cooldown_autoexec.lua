@@ -253,6 +253,16 @@ local supported_item_blueprints = {
     ["items/skills/orbital_laser_advanced_item"] = "10",
     ["items/skills/orbital_laser_superior_item"] = "10",
     ["items/skills/orbital_laser_extreme_item"] = "10",
+
+    ["items/skills/tornado_item"] = "10",
+    ["items/skills/tornado_advanced_item"] = "10",
+    ["items/skills/tornado_superior_item"] = "10",
+    ["items/skills/tornado_extreme_item"] = "10",
+
+    ["items/skills/tornado_acid_item"] = "10",
+    ["items/skills/tornado_acid_advanced_item"] = "10",
+    ["items/skills/tornado_acid_superior_item"] = "10",
+    ["items/skills/tornado_acid_extreme_item"] = "10",
 }
 
 InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprints)
