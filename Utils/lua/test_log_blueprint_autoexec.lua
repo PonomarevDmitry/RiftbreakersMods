@@ -131,6 +131,21 @@ ConsoleService:RegisterCommand( "test_log_blueprint", function( args )
 
                 LogService:Log("test_log_blueprint " .. blueprintName .. " " .. componentName .. " " .. tostring(componentRef) )
 
+                --if ( componentName == "DatabaseComponent" and componentRef.database ~= nil ) then
+                --
+                --    local database = componentRef.database
+                --
+                --    LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " DatabaseComponent.database" .. " " .. tostring(type( database )) .. " " .. tostring(database) )
+                --
+                --    local databasePtr = rawget(database, "__ptr")
+                --
+                --    LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " DatabaseComponent.database" .. " " .. tostring(type( databasePtr )) .. " " .. tostring(databasePtr) )
+                --
+                --    local databaseDesc = GetDatabaseFullLog( databasePtr )
+                --
+                --    LogService:Log("test_log_blueprint blueprint " .. blueprintName .. " DatabaseComponent.database" .. "\n" .. databaseDesc )
+                --end
+
                 if ( componentName == "DatabaseComponent" ) then
 
                     local database = EntityService:GetBlueprintDatabase( blueprintName )
