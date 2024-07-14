@@ -31,6 +31,11 @@ local InjectChangeResourceBuildingBlueprintDatabaseComponent = function(blueprin
 
             for fieldName,fieldValue in pairs(configObject.floats) do
 
+                if ( not blueprintDatabase:HasFloat(fieldName) ) then
+
+                    LogService:Log("InjectChangeResourceBuildingBlueprintDatabaseComponent Blueprint " .. blueprintName .. " blueprintDatabase Float '" .. fieldName .. "' NEW in blueprintDatabase.")
+                end
+
                 blueprintDatabase:SetFloat(fieldName, tonumber( fieldValue ))
             end
         end
@@ -39,6 +44,11 @@ local InjectChangeResourceBuildingBlueprintDatabaseComponent = function(blueprin
 
             for fieldName,fieldValue in pairs(configObject.strings) do
 
+                if ( not blueprintDatabase:HasString(fieldName) ) then
+
+                    LogService:Log("InjectChangeResourceBuildingBlueprintDatabaseComponent Blueprint " .. blueprintName .. " blueprintDatabase String '" .. fieldName .. "' NEW in blueprintDatabase.")
+                end
+
                 blueprintDatabase:SetString(fieldName, tostring( fieldValue ))
             end
         end
@@ -46,6 +56,11 @@ local InjectChangeResourceBuildingBlueprintDatabaseComponent = function(blueprin
         if ( configObject.ints ) then
 
             for fieldName,fieldValue in pairs(configObject.ints) do
+
+                if ( not blueprintDatabase:HasInt(fieldName) ) then
+
+                    LogService:Log("InjectChangeResourceBuildingBlueprintDatabaseComponent Blueprint " .. blueprintName .. " blueprintDatabase Int '" .. fieldName .. "' NEW in blueprintDatabase.")
+                end
 
                 blueprintDatabase:SetInt(fieldName, tonumber( fieldValue ))
             end
