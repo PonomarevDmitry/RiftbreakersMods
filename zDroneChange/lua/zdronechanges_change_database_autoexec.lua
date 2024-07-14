@@ -72,6 +72,58 @@ local supported_item_blueprints = {
             ["harvest_storage"] = 150.0,
         },
     },
+
+
+
+    {
+        ["name"] = "items/upgrades/scanner_equipment_advanced_item",
+        ["ints"] = {
+
+            ["drone_count"] = 2,
+        },
+    },
+
+    {
+        ["name"] = "items/upgrades/scanner_equipment_superior_item",
+        ["ints"] = {
+
+            ["drone_count"] = 4,
+        },
+    },
+
+    {
+        ["name"] = "items/upgrades/scanner_equipment_extreme_item",
+        ["ints"] = {
+
+            ["drone_count"] = 8,
+        },
+    },
+
+
+
+    {
+        ["name"] = "items/upgrades/detector_equipment_advanced_item",
+        ["ints"] = {
+
+            ["drone_count"] = 2,
+        },
+    },
+
+    {
+        ["name"] = "items/upgrades/detector_equipment_superior_item",
+        ["ints"] = {
+
+            ["drone_count"] = 3,
+        },
+    },
+
+    {
+        ["name"] = "items/upgrades/detector_equipment_extreme_item",
+        ["ints"] = {
+
+            ["drone_count"] = 4,
+        },
+    },
 }
 
 InjectChangeResourceBuildingBlueprintDatabaseComponent(supported_item_blueprints)
