@@ -491,9 +491,9 @@ function ghost_building_trapsconstruction:OnRotateSelectorRequest(evt)
 
     local newIndex = index + change
     if ( newIndex > maxIndex ) then
-        newIndex = 1
-    elseif( newIndex == 0 ) then
         newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
     end
 
     local newValue = scaleWallGaps[newIndex]
