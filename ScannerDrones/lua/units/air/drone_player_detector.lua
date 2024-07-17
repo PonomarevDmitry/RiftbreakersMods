@@ -444,7 +444,9 @@ function drone_player_detector:OnHarvestExecute(state, dt)
 		return state:Exit()
 	end
 
-	if ( state:GetDuration() >= duration ) then
+	local instantDestruction = ( mod_scanner_drone_instant_mushrooms_destruction ~= nil and mod_scanner_drone_instant_mushrooms_destruction == 1 )
+
+	if ( instantDestruction or state:GetDuration() >= duration ) then
 
 		local owner = self:GetDroneOwnerTarget()
 			
