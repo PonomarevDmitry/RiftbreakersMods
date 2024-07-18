@@ -95,6 +95,7 @@ function buildings_builder_mass_tool:InitializeValues()
 
     self.markerGapsConfig = -1
     self.currentMarkerGaps = nil
+    self.currentMarkerGapsMinus = nil
 end
 
 function buildings_builder_mass_tool:SpawnBuildinsTemplates()
@@ -421,10 +422,28 @@ function buildings_builder_mass_tool:OnUpdate()
             self.currentMarkerGaps = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_gaps_count_" .. tostring( cellGapsCount )
+        local markerBlueprint = "misc/marker_selector_gaps_count_" .. tostring( math.abs( cellGapsCount ) )
 
         self.currentMarkerGaps = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
         EntityService:SetPosition( self.currentMarkerGaps, 0, 0, -2 )
+
+
+        if ( cellGapsCount < 0 ) then
+
+            if (self.currentMarkerGapsMinus == nil) then
+
+                self.currentMarkerGapsMinus = EntityService:SpawnAndAttachEntity( "misc/marker_selector_gaps_minus", self.selector )
+                EntityService:SetPosition( self.currentMarkerGapsMinus, 0, 0, -2 )
+            end
+
+        else
+
+            if (self.currentMarkerGapsMinus ~= nil) then
+
+                EntityService:RemoveEntity(self.currentMarkerGapsMinus)
+                self.currentMarkerGapsMinus = nil
+            end
+        end
 
         self.markerGapsConfig = cellGapsCount
     end
@@ -726,8 +745,19 @@ function buildings_builder_mass_tool:FindPositionsToBuildLine(buildStartPosition
 
     local xSign, zSign = self:GetXZSigns(buildStartPosition, buildEndPosition)
 
-    local deltaX = (gridSize.x + cellGapsCount * 2) * xSign
-    local deltaZ = (gridSize.z + cellGapsCount * 2) * zSign
+    local deltaX = gridSize.x + cellGapsCount * 2
+    local deltaZ = gridSize.z + cellGapsCount * 2
+
+    if ( deltaX <= 0 ) then
+        deltaX = 2
+    end
+
+    if ( deltaZ <= 0 ) then
+        deltaZ = 2
+    end
+
+    deltaX = deltaX * xSign
+    deltaZ = deltaZ * zSign
 
     local smallDeltaX = (gridSize.x * xSign) / 4
     local smallDeltaZ = (gridSize.z * zSign) / 4
@@ -1300,9 +1330,9 @@ function buildings_builder_mass_tool:ChangeCellsGapsCount(evt)
 
     local newIndex = index + change
     if ( newIndex > maxIndex ) then
-        newIndex = 1
-    elseif( newIndex == 0 ) then
         newIndex = maxIndex
+    elseif( newIndex < 1 ) then
+        newIndex = 1
     end
 
     local newValue = scaleWallGaps[newIndex]
@@ -1336,6 +1366,12 @@ function buildings_builder_mass_tool:GetGapsConfigArray()
     if ( self.scaleWallGaps == nil ) then
 
         self.scaleWallGaps = {
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
             0,
             1,
             2,
@@ -1389,6 +1425,12 @@ function buildings_builder_mass_tool:OnRelease()
 
         EntityService:RemoveEntity(self.currentMarkerGaps)
         self.currentMarkerGaps = nil
+    end
+
+    if (self.currentMarkerGapsMinus ~= nil) then
+
+        EntityService:RemoveEntity(self.currentMarkerGapsMinus)
+        self.currentMarkerGapsMinus = nil
     end
 end
 
