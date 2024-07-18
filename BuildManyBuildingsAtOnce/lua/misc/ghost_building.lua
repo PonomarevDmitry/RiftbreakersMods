@@ -53,6 +53,11 @@ function ghost_building:OnInit()
         end
     end
 
+    local lowName = BuildingService:FindLowUpgrade( self.blueprint )
+    if ( lowName == "repair_facility" ) then
+        typeName = "tower"
+    end
+
     self.isBuildingWithGaps = false
 
     local buildWithGaps = ( typeName == "tower" and mod_build_towers_with_gaps ~= nil and mod_build_towers_with_gaps == 1 ) or ( typeName == "trap" and mod_build_traps_with_gaps ~= nil and mod_build_traps_with_gaps == 1 )
@@ -62,8 +67,6 @@ function ghost_building:OnInit()
         self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
 
         self.isBuildingWithGaps = true
-
-        local lowName = BuildingService:FindLowUpgrade( self.blueprint )
 
         self.configNameCellGaps = "$" .. typeName .. "s_" .. lowName .. "_construction_cell_count"
 
