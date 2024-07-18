@@ -5,6 +5,7 @@ local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_con
 globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
 
 mod_quick_equipment_mode_save = 0
+mod_quick_equipment_mode_announcements = 1
 
 
 
@@ -66,6 +67,25 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
         local loadResult, slotsHash = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( "left_hand,right_hand", "weapon", configName, true )
 
         EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound(loadResult, "weapon", configName, slotsHash)
+    end
+end)
+
+
+
+ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", function( args )
+
+    mod_quick_equipment_mode_announcements = mod_quick_equipment_mode_announcements or 1
+
+    mod_quick_equipment_mode_announcements = 1 - mod_quick_equipment_mode_announcements
+
+    if ( mod_quick_equipment_mode_announcements == 1 ) then
+
+        SoundService:Play( "items/weapons/bullet/small_machinegun_equipped" )
+        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_configurations_announcement_on", 0 )
+    else
+
+        SoundService:Play( "items/weapons/energy/blaster_equipped" )
+        SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_configurations_announcement_off", 0 )
     end
 end)
 

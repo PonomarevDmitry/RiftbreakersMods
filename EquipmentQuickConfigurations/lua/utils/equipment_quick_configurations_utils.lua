@@ -654,17 +654,22 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( loadRes
         sound = "gui/cannot_use_item"
     end
 
-    SoundService:Play( sound )
-    SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+    mod_quick_equipment_mode_announcements = mod_quick_equipment_mode_announcements or 1
 
-    if ( loadResult == LOAD_RESULT_SUCCESS ) then
+    if ( mod_quick_equipment_mode_announcements == 1 ) then
 
-        if ( slotsHash ) then
+        SoundService:Play( sound )
+        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
 
-            local slotsIcons = EquipmentQuickConfigurationsUtils:GetSlotsIcons(slotsHash)
+        if ( loadResult == LOAD_RESULT_SUCCESS ) then
 
-            if ( slotsIcons ~= "" ) then
-                SoundService:PlayAnnouncement( slotsIcons, 0 )
+            if ( slotsHash ) then
+
+                local slotsIcons = EquipmentQuickConfigurationsUtils:GetSlotsIcons(slotsHash)
+
+                if ( slotsIcons ~= "" ) then
+                    SoundService:PlayAnnouncement( slotsIcons, 0 )
+                end
             end
         end
     end

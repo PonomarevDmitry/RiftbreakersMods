@@ -15,3 +15,5 @@ ConsoleService:ExecuteCommand('bind num_2 "operate_quick_equipment usable QuickC
 ConsoleService:ExecuteCommand('bind num_3 "operate_quick_equipment usable QuickConfig03"')
 
 ConsoleService:ExecuteCommand('bind num_0 "change_quick_equipment_mode_save"')
+
+ConsoleService:ExecuteCommand('bind . "change_quick_equipment_mode_announcement"')
