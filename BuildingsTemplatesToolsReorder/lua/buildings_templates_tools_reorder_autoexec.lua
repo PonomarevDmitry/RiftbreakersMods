@@ -153,4 +153,4 @@ local new_values = {
     },
 }
 
-InjectChangeListBuildingsTemplatesToolsBuildingDescValues(new_values)
+--InjectChangeListBuildingsTemplatesToolsBuildingDescValues(new_values)
