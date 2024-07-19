@@ -151,8 +151,6 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
     -- Split by "|" blueprints groups
     local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
 
-    local currentBiome = MissionService:GetCurrentBiomeName()
-
     for template in Iter( blueprintsGroupsArray ) do
 
         -- Split by ":" blueprint template
