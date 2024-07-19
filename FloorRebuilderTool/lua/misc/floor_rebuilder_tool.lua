@@ -160,9 +160,11 @@ function floor_rebuilder_tool:RebuildFloor()
         return
     end
 
-    local hashGridsToErase = self:GetHashGridsToErase()
+    local hashGridsToErase, hashGridsCellIndexes = self:GetHashGridsToErase()
 
     local frequentBlueprintName = self:FindFrequentBlueprint(hashGridsToErase)
+
+    local rebuildBlueprintName = self:FindBlueprint(frequentBlueprintName)
 
     local toRecreate = {}
 
@@ -194,22 +196,46 @@ function floor_rebuilder_tool:RebuildFloor()
         end
 
         local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
+        
+        local gridEntities = {}
 
         local freeGrids = {}
+
+        local entityToSellCellIndexes = {}
 
         local indexes = gridCullerComponentHelper.terrain_cell_entities
         for i=indexes.count,1,-1 do
 
             local idx = indexes[i].id
 
-            if ( hashGridsToErase[idx] == nil ) then
+            Insert( entityToSellCellIndexes, idx )
 
+            if ( hashGridsToErase[idx] ~= nil ) then
+                
+                if ( IndexOf( gridEntities, hashGridsToErase[idx] ) == nil ) then
+
+                    Insert( gridEntities, hashGridsToErase[idx] )
+                end
+            else
                 Insert( freeGrids, idx )
             end
         end
 
         if ( #freeGrids > 0 ) then
             Insert( toRecreate, { ["bp"] = entityBlueprint, ["indexes"] = freeGrids } )
+        else
+
+            if ( rebuildBlueprintName == entityBlueprint and #gridEntities == 1 ) then
+
+                local gridEntity = gridEntities[1]
+
+                local gridEntityCellIndexes = hashGridsCellIndexes[gridEntity]
+
+                if ( self:ArraysEquals(gridEntityCellIndexes, entityToSellCellIndexes) ) then
+
+                    goto continue
+                end
+            end
         end
 
         if ( IndexOf( listSelledEntities, entityToSell ) == nil ) then
@@ -233,8 +259,6 @@ function floor_rebuilder_tool:RebuildFloor()
         self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
     end
 
-    local rebuildBlueprintName = self:FindBlueprint(frequentBlueprintName)
-
     for xIndex=1,#self.gridEntities do
 
         local gridEntitiesZ = self.gridEntities[xIndex]
@@ -254,6 +278,27 @@ function floor_rebuilder_tool:RebuildFloor()
             end
         end
     end
+end
+
+function floor_rebuilder_tool:ArraysEquals(array1, array2)
+
+    for idx in Iter( array1 ) do
+        
+        if ( IndexOf( array2, idx ) == nil ) then
+
+            return false
+        end
+    end
+
+    for idx in Iter( array2 ) do
+        
+        if ( IndexOf( array1, idx ) == nil ) then
+
+            return false
+        end
+    end
+
+    return true
 end
 
 function floor_rebuilder_tool:GetCellsToRebuild(entity, frequentBlueprintName, hashOccupiedCells)
@@ -427,6 +472,7 @@ end
 function floor_rebuilder_tool:GetHashGridsToErase()
 
     local hashGridsToErase = {}
+    local hashGridsCellIndexes = {}
 
     for xIndex=1,#self.gridEntities do
 
@@ -436,6 +482,8 @@ function floor_rebuilder_tool:GetHashGridsToErase()
 
             local entity = gridEntitiesZ[zIndex]
 
+            local list = {}
+
             local gridToErase = FindService:GetEntityCellIndexes( entity )
 
             for i = 1,#gridToErase do
@@ -443,11 +491,15 @@ function floor_rebuilder_tool:GetHashGridsToErase()
                 local idx = gridToErase[i]
 
                 hashGridsToErase[idx] = entity
+
+                Insert(list, idx)
             end
+
+            hashGridsCellIndexes[entity] = list
         end
     end
 
-    return hashGridsToErase
+    return hashGridsToErase, hashGridsCellIndexes
 end
 
 function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
