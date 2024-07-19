@@ -46,6 +46,10 @@ function picker_tool:FillSelectedBlueprints()
 
     self.resourceVolumeBluprintsNames = {
 
+        "carbonium_factory",
+        "steel_factory",
+        "rare_element_mine",
+
         "geothermal_powerplant",
         "gas_extractor",
     }
