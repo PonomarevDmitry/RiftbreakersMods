@@ -1,1 +1,1 @@
-mod_changeable_area_invert_rotation = 1
+--mod_changeable_area_invert_rotation = 1
