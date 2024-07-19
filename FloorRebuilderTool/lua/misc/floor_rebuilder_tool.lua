@@ -160,35 +160,13 @@ function floor_rebuilder_tool:RebuildFloor()
         return
     end
 
-    local hashGridsToErase = {}
+    local hashGridsToErase = self:GetHashGridsToErase()
 
-    for xIndex=1,#self.gridEntities do
-
-        local gridEntitiesZ = self.gridEntities[xIndex]
-
-        for zIndex=1,#gridEntitiesZ do
-
-            local entity = gridEntitiesZ[zIndex]
-
-            if ( EntityService:IsAlive( entity ) ) then
-
-                local gridToErase = FindService:GetEntityCellIndexes( entity )
-
-                for i = 1,#gridToErase do
-
-                    local idx = gridToErase[i]
-
-                    hashGridsToErase[idx] = true
-                end
-            end
-        end
-    end
+    local frequentBlueprintName = self:FindFrequentBlueprint(hashGridsToErase)
 
     local toRecreate = {}
 
     local listSelledEntities = {}
-
-    local entitiesBlueprints = {}
 
     local hashOccupiedCells = {}
 
@@ -219,29 +197,16 @@ function floor_rebuilder_tool:RebuildFloor()
 
         local freeGrids = {}
 
-        local countCells = 0
-
         local indexes = gridCullerComponentHelper.terrain_cell_entities
         for i=indexes.count,1,-1 do
 
             local idx = indexes[i].id
 
-            hashOccupiedCells[idx] = true
-
-            if ( hashGridsToErase[idx] ) then
-
-                countCells = countCells + 1
-            else
+            if ( hashGridsToErase[idx] == nil ) then
 
                 Insert( freeGrids, idx )
             end
         end
-
-        local blueprintNameNormilized = self:GetNormilizedBlueprintName(entityBlueprint)
-
-        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] or 0
-
-        entitiesBlueprints[blueprintNameNormilized] = entitiesBlueprints[blueprintNameNormilized] + countCells
 
         if ( #freeGrids > 0 ) then
             Insert( toRecreate, { ["bp"] = entityBlueprint, ["indexes"] = freeGrids } )
@@ -252,6 +217,13 @@ function floor_rebuilder_tool:RebuildFloor()
             QueueEvent( "SellBuildingRequest", entityToSell, self.playerId, false )
 
             Insert( listSelledEntities, entityToSell )
+
+            for i=indexes.count,1,-1 do
+
+                local idx = indexes[i].id
+
+                hashOccupiedCells[idx] = true
+            end
         end
 
         ::continue::
@@ -261,9 +233,7 @@ function floor_rebuilder_tool:RebuildFloor()
         self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
     end
 
-    local frequentBlueptinName = self:FindFrequentBlueptint(entitiesBlueprints)
-
-    local rebuildBlueptinName = self:FindBlueprint(frequentBlueptinName)
+    local rebuildBlueprintName = self:FindBlueprint(frequentBlueprintName)
 
     for xIndex=1,#self.gridEntities do
 
@@ -275,24 +245,24 @@ function floor_rebuilder_tool:RebuildFloor()
 
             if ( EntityService:IsAlive( ghostEntity ) ) then
 
-                local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueptinName, hashOccupiedCells)
+                local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueprintName, hashOccupiedCells)
 
                 if ( #cellsToBuild > 0 ) then
 
-                    self:FillWithFloors( rebuildBlueptinName, cellsToBuild )
+                    self:FillWithFloors( rebuildBlueprintName, cellsToBuild )
                 end
             end
         end
     end
 end
 
-function floor_rebuilder_tool:GetCellsToRebuild(entity, frequentBlueptinName, hashOccupiedCells)
+function floor_rebuilder_tool:GetCellsToRebuild(entity, frequentBlueprintName, hashOccupiedCells)
 
     local result = {}
 
     local entityTransform = EntityService:GetWorldTransform( entity )
 
-    local test = BuildingService:CheckGhostFloorStatus( self.playerId, entity, entityTransform, frequentBlueptinName )
+    local test = BuildingService:CheckGhostFloorStatus( self.playerId, entity, entityTransform, frequentBlueprintName )
 
     if ( test == nil ) then
 
@@ -359,65 +329,7 @@ function floor_rebuilder_tool:FindBlueprint(baseBlueprintName)
     return baseBlueprintName
 end
 
-function floor_rebuilder_tool:FindFrequentBlueptint( entitiesBlueprints )
-
-    local result = nil
-    local resultCount = 0
-
-    for blueprintName, count in pairs( entitiesBlueprints ) do
-
-        if ( result == nil or count > resultCount ) then
-            result = blueprintName
-            resultCount = count
-        end
-    end
-
-    return result
-end
-
-function floor_rebuilder_tool:GetNormilizedBlueprintName( blueprintName )
-
-    local toReplace = 1
-
-    if string.find( blueprintName, "4" ) then
-        toReplace = 4
-    elseif string.find( blueprintName, "3" ) then
-        toReplace = 3
-    elseif string.find( blueprintName, "2" ) then
-        toReplace = 2
-    end
-
-    local currentBlueprint = string.gsub( blueprintName, tostring(toReplace), "1" )
-
-    return currentBlueprint
-end
-
-function floor_rebuilder_tool:GetFreequentBlueptint()
-
-    if ( #self.selectedEntities == 0 ) then
-        return ""
-    end
-
-    local hashGridsToErase = {}
-
-    for xIndex=1,#self.gridEntities do
-
-        local gridEntitiesZ = self.gridEntities[xIndex]
-
-        for zIndex=1,#gridEntitiesZ do
-
-            local entity = gridEntitiesZ[zIndex]
-
-            local gridToErase = FindService:GetEntityCellIndexes( entity )
-
-            for i = 1,#gridToErase do
-
-                local idx = gridToErase[i]
-
-                hashGridsToErase[idx] = true
-            end
-        end
-    end
+function floor_rebuilder_tool:FindFrequentBlueprint( hashGridsToErase )
 
     local entitiesBlueprints = {}
 
@@ -453,7 +365,7 @@ function floor_rebuilder_tool:GetFreequentBlueptint()
 
             local idx = indexes[i].id
 
-            if ( hashGridsToErase[idx] ) then
+            if ( hashGridsToErase[idx] ~= nil ) then
 
                 countCells = countCells + 1
             end
@@ -468,9 +380,74 @@ function floor_rebuilder_tool:GetFreequentBlueptint()
         ::continue::
     end
 
-    local frequentBlueptinName = self:FindFrequentBlueptint(entitiesBlueprints)
+    local result = nil
+    local resultCount = 0
 
-    return frequentBlueptinName
+    for blueprintName, count in pairs( entitiesBlueprints ) do
+
+        if ( result == nil or count > resultCount ) then
+            result = blueprintName
+            resultCount = count
+        end
+    end
+
+    return result
+end
+
+function floor_rebuilder_tool:GetNormilizedBlueprintName( blueprintName )
+
+    local toReplace = 1
+
+    if string.find( blueprintName, "4" ) then
+        toReplace = 4
+    elseif string.find( blueprintName, "3" ) then
+        toReplace = 3
+    elseif string.find( blueprintName, "2" ) then
+        toReplace = 2
+    end
+
+    local currentBlueprint = string.gsub( blueprintName, tostring(toReplace), "1" )
+
+    return currentBlueprint
+end
+
+function floor_rebuilder_tool:GetFreequentBlueprint()
+
+    if ( #self.selectedEntities == 0 ) then
+        return ""
+    end
+
+    local hashGridsToErase = self:GetHashGridsToErase()
+
+    local frequentBlueprintName = self:FindFrequentBlueprint(hashGridsToErase)
+
+    return frequentBlueprintName
+end
+
+function floor_rebuilder_tool:GetHashGridsToErase()
+
+    local hashGridsToErase = {}
+
+    for xIndex=1,#self.gridEntities do
+
+        local gridEntitiesZ = self.gridEntities[xIndex]
+
+        for zIndex=1,#gridEntitiesZ do
+
+            local entity = gridEntitiesZ[zIndex]
+
+            local gridToErase = FindService:GetEntityCellIndexes( entity )
+
+            for i = 1,#gridToErase do
+
+                local idx = gridToErase[i]
+
+                hashGridsToErase[idx] = entity
+            end
+        end
+    end
+
+    return hashGridsToErase
 end
 
 function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
@@ -701,7 +678,7 @@ function floor_rebuilder_tool:OnUpdate()
             end
         end
 
-        local blueprintName = self:GetFreequentBlueptint()
+        local blueprintName = self:GetFreequentBlueprint()
 
         if ( blueprintName ~= "" ) then
 
