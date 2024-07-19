@@ -154,7 +154,7 @@ function mass_disassembly_equal_and_lower:GetModsToDisassebly()
 
 
 
-                local additionalBlueprints = self:GetAdditionalBlueptints(itemBlueprintName)
+                local additionalBlueprints = self:GetAdditionalBlueprints(itemBlueprintName)
 
                 for addBlueprintName in Iter(additionalBlueprints) do
 
@@ -167,7 +167,7 @@ function mass_disassembly_equal_and_lower:GetModsToDisassebly()
     return hashItems, hasItems
 end
 
-function mass_disassembly_equal_and_lower:GetAdditionalBlueptints(itemBlueprint)
+function mass_disassembly_equal_and_lower:GetAdditionalBlueprints(itemBlueprint)
 
     local result = {}
 
