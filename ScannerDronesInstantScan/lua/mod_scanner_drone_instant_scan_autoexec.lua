@@ -1,1 +1,0 @@
-mod_scanner_drone_instant_scan = 1

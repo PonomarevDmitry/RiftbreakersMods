@@ -1,1 +1,0 @@
-mod_changeable_area_invert_rotation = 1
