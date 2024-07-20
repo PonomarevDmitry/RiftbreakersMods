@@ -654,7 +654,15 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( loadRes
         sound = "gui/cannot_use_item"
     end
 
-    mod_quick_equipment_mode_announcements = mod_quick_equipment_mode_announcements or 1
+    local mod_quick_equipment_mode_announcements = 1
+
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase ~= nil ) then
+
+        local configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
+
+        mod_quick_equipment_mode_announcements = campaignDatabase:GetIntOrDefault(configKey, 1) or 1
+    end
 
     if ( mod_quick_equipment_mode_announcements == 1 ) then
 

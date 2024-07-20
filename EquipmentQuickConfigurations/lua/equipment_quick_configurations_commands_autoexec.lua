@@ -5,7 +5,6 @@ local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_con
 globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
 
 mod_quick_equipment_mode_save = 0
-mod_quick_equipment_mode_announcements = 1
 
 
 
@@ -74,9 +73,18 @@ end)
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", function( args )
 
-    mod_quick_equipment_mode_announcements = mod_quick_equipment_mode_announcements or 1
+    local campaignDatabase = CampaignService:GetCampaignData()
+    if ( campaignDatabase == nil ) then
+        return
+    end
+
+    local configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
+
+    local mod_quick_equipment_mode_announcements = campaignDatabase:GetIntOrDefault(configKey, 1) or 1
 
     mod_quick_equipment_mode_announcements = 1 - mod_quick_equipment_mode_announcements
+
+    campaignDatabase:SetInt(configKey, mod_quick_equipment_mode_announcements)
 
     if ( mod_quick_equipment_mode_announcements == 1 ) then
 
