@@ -63,15 +63,34 @@ function rift_portal_tool:SpawnPortal(blueprintName)
         return
     end
 
-    local entities = FindService:FindEntitiesByBlueprint( blueprintName )
-
-    for i=1,#entities do
-        QueueEvent( "DissolveEntityRequest", entities[i], 0.2, 0 )
-    end
+    self:DissolveRirtPortalEntities(blueprintName)
 
     local team = EntityService:GetTeam( self.entity )
 
     local newPortal = EntityService:SpawnEntity( blueprintName, position, team )
+
+    local playerReferenceComponentRef = reflection_helper(EntityService:CreateComponent(newPortal, "PlayerReferenceComponent"))
+    playerReferenceComponentRef.player_id = self.playerId
+    playerReferenceComponentRef.reference_type.internal_enum = 3
+end
+
+function rift_portal_tool:DissolveRirtPortalEntities(blueprintName)
+
+    local entities = FindService:FindEntitiesByBlueprint( blueprintName )
+
+    for entity in Iter( entities ) do
+
+        local playerReferenceComponent = EntityService:GetComponent( entity, "PlayerReferenceComponent" )
+        if (playerReferenceComponent) then
+
+            local playerReferenceComponentRef = reflection_helper(playerReferenceComponent)
+
+            if (playerReferenceComponentRef and playerReferenceComponentRef.player_id == self.playerId) then
+
+                QueueEvent( "DissolveEntityRequest", entity, 0.2, 0 )
+            end
+        end
+    end
 end
 
 return rift_portal_tool
