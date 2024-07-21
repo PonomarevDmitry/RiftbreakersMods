@@ -184,14 +184,20 @@ function floor_rebuilder_tool:RebuildFloor()
         return
     end
 
+
+
     local hashGridsToErase = self:GetHashGridsToErase()
 
-    local frequentBlueprintName,hashOccupiedCells = self:FindFrequentBlueprint(hashGridsToErase)
+    local hashOccupiedCells = self:GetHashOccupiedCells(hashGridsToErase)
+
+
+
+    local frequentBlueprintName = self:FindFrequentBlueprint()
 
     local rebuildBlueprintName = self:FindBlueprint(frequentBlueprintName)
 
     local toReplace = self:GetToReplaceSize( rebuildBlueprintName )
-
+    
 
     local hashGridsCellIndexes = {}
     local hashGridsCellKeys = {}
@@ -248,9 +254,9 @@ function floor_rebuilder_tool:RebuildFloor()
 
 
 
+    
 
-
-    local hashOccupiedCells = {}
+    local realHashOccupiedCells = {}
 
     local toRecreate = {}
 
@@ -338,7 +344,7 @@ function floor_rebuilder_tool:RebuildFloor()
 
                 local idx = indexes[i].id
 
-                hashOccupiedCells[idx] = true
+                realHashOccupiedCells[idx] = true
             end
         end
 
@@ -359,7 +365,7 @@ function floor_rebuilder_tool:RebuildFloor()
 
             if ( EntityService:IsAlive( ghostEntity ) ) then
 
-                local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueprintName, hashOccupiedCells)
+                local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueprintName, realHashOccupiedCells)
 
                 if ( #cellsToBuild > 0 ) then
 
@@ -464,7 +470,9 @@ function floor_rebuilder_tool:FindBlueprint(baseBlueprintName)
     return baseBlueprintName
 end
 
-function floor_rebuilder_tool:FindFrequentBlueprint( hashGridsToErase )
+function floor_rebuilder_tool:FindFrequentBlueprint()
+
+    local hashGridsToErase = self:GetHashGridsToErase()
 
     local entitiesBlueprints = {}
 
@@ -548,9 +556,7 @@ function floor_rebuilder_tool:GetFreequentBlueprint()
         return ""
     end
 
-    local hashGridsToErase = self:GetHashGridsToErase()
-
-    local frequentBlueprintName = self:FindFrequentBlueprint(hashGridsToErase)
+    local frequentBlueprintName = self:FindFrequentBlueprint()
 
     return frequentBlueprintName
 end
@@ -583,6 +589,52 @@ function floor_rebuilder_tool:GetHashGridsToErase()
     end
 
     return hashGridsToErase
+end
+
+function floor_rebuilder_tool:GetHashOccupiedCells(hashGridsToErase)
+
+    local hashOccupiedCells = {}
+
+    for i = 1, #self.selectedEntities do
+
+        local entityToSell = self.selectedEntities[i]
+
+        if (entityToSell == nil or not EntityService:IsAlive( entityToSell ) ) then
+            goto continue
+        end
+
+        local buildingComponent = EntityService:GetComponent( entityToSell, "BuildingComponent" )
+
+        if ( buildingComponent ~= nil ) then
+            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+            if ( mode >= BM_SELLING ) then
+                goto continue
+            end
+        end
+
+        local gridCullerComponent = EntityService:GetComponent( entityToSell, "GridCullerComponent")
+        local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
+        if( gridCullerComponent == nil or entityBlueprint == "" ) then
+            goto continue
+        end
+
+        local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
+
+        local indexes = gridCullerComponentHelper.terrain_cell_entities
+        for i=indexes.count,1,-1 do
+
+            local idx = indexes[i].id
+
+            if ( hashGridsToErase[idx] ~= nil ) then
+
+                hashOccupiedCells[idx] = true
+            end
+        end
+
+        ::continue::
+    end
+
+    return hashOccupiedCells
 end
 
 function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
