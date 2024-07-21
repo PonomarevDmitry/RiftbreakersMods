@@ -476,8 +476,6 @@ function floor_rebuilder_tool:FindFrequentBlueprint()
 
     local entitiesBlueprints = {}
 
-    local hashOccupiedCells = {}
-
     for i = 1, #self.selectedEntities do
 
         local entityToSell = self.selectedEntities[i]
@@ -513,8 +511,6 @@ function floor_rebuilder_tool:FindFrequentBlueprint()
             if ( hashGridsToErase[idx] ~= nil ) then
 
                 countCells = countCells + 1
-
-                hashOccupiedCells[idx] = true
             end
         end
 
@@ -538,7 +534,7 @@ function floor_rebuilder_tool:FindFrequentBlueprint()
         end
     end
 
-    return result, hashOccupiedCells
+    return result
 end
 
 function floor_rebuilder_tool:GetNormilizedBlueprintName( blueprintName )
