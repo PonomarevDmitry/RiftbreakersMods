@@ -38,7 +38,7 @@ function floor_rebuilder_tool:SpawnCornerBlueprint()
     end
 end
 
-function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
+function floor_rebuilder_tool:GetToReplaceSize( blueprint )
 
     local toReplace = 1
 
@@ -49,6 +49,11 @@ function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
     elseif string.find( blueprint, "2" ) then
         toReplace = 2
     end
+
+    return toReplace
+end
+
+function floor_rebuilder_tool:GetCreateArray( toReplace, indexes )
 
     local idxToPos = {}
     local storage = {}
@@ -113,6 +118,7 @@ function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
                 if( toCreate[s] == nil ) then toCreate[s] = {} end
 
                 table.insert(toCreate[s], toUse)
+
                 for idx in Iter(toUse) do
                     idxToPos[idx] = nil
                 end
@@ -124,15 +130,32 @@ function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
         end
     end
 
+    return storage, toCreate
+end
+
+function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
+
+    local toReplace = self:GetToReplaceSize( blueprint )
+
+    local storage, toCreate = self:GetCreateArray( toReplace, indexes )
+
     local transform = EntityService:GetWorldTransform(self.entity)
     transform.scale = {x=1,y=1,z=1}
 
     for replaced = 1,toReplace do
+
         local data = toCreate[replaced]
-        if ( data == nil ) then goto continue2 end
+
+        if ( data == nil ) then
+            goto continue
+        end
+
         local currentBlueprint = string.gsub( blueprint, tostring(toReplace), tostring(replaced) )
+
         for vIdx = 1,#data do
+
             local v = data[vIdx]
+
             local infoPos = storage[v[1]]
 
             if ( replaced == 1 ) then
@@ -148,9 +171,10 @@ function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
                 position = VectorAdd(position, {x=3,y=0,z=3})
                 transform.position = position
             end
+
             QueueEvent( "BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
-        ::continue2::
+        ::continue::
     end
 end
 
@@ -160,17 +184,77 @@ function floor_rebuilder_tool:RebuildFloor()
         return
     end
 
-    local hashGridsToErase, hashGridsCellIndexes = self:GetHashGridsToErase()
+    local hashGridsToErase = self:GetHashGridsToErase()
 
-    local frequentBlueprintName = self:FindFrequentBlueprint(hashGridsToErase)
+    local frequentBlueprintName,hashOccupiedCells = self:FindFrequentBlueprint(hashGridsToErase)
 
     local rebuildBlueprintName = self:FindBlueprint(frequentBlueprintName)
+
+    local toReplace = self:GetToReplaceSize( rebuildBlueprintName )
+
+
+    local hashGridsCellIndexes = {}
+    local hashGridsCellKeys = {}
+
+    for xIndex=1,#self.gridEntities do
+
+        local gridEntitiesZ = self.gridEntities[xIndex]
+
+        for zIndex=1,#gridEntitiesZ do
+
+            local ghostEntity = gridEntitiesZ[zIndex]
+
+            local cellsToBuild = self:GetCellsToRebuild(ghostEntity, frequentBlueprintName, hashOccupiedCells)
+
+            if ( #cellsToBuild > 0 ) then
+
+                local storage, toCreate = self:GetCreateArray( toReplace, cellsToBuild )
+
+                for replaced = 1,toReplace do
+
+                    local data = toCreate[replaced]
+
+                    if ( data == nil ) then
+                        goto continueReplaced
+                    end
+
+                    for vIdx = 1,#data do
+
+                        local key = tostring(ghostEntity) .. "_" .. tostring(replaced) .. "_" .. tostring(vIdx)
+
+                        local vIdxArray = data[vIdx]
+
+                        hashGridsCellKeys[key] = {
+                            ["key"] = key,
+
+                            ["ghostEntity"] = ghostEntity,
+
+                            ["replaced"] = replaced,
+                            ["vIdx"] = vIdx,
+                            ["vIdxArray"] = vIdxArray,
+                        }
+
+                        for idx in Iter( vIdxArray ) do
+
+                            hashGridsCellIndexes[idx] = key
+                        end
+                    end
+
+                    ::continueReplaced::
+                end
+            end
+        end
+    end
+
+
+
+
+
+    local hashOccupiedCells = {}
 
     local toRecreate = {}
 
     local listSelledEntities = {}
-
-    local hashOccupiedCells = {}
 
     for i = 1, #self.selectedEntities do
 
@@ -196,8 +280,8 @@ function floor_rebuilder_tool:RebuildFloor()
         end
 
         local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-        
-        local gridEntities = {}
+
+        local gridEntitiesKeys = {}
 
         local freeGrids = {}
 
@@ -211,10 +295,12 @@ function floor_rebuilder_tool:RebuildFloor()
             Insert( entityToSellCellIndexes, idx )
 
             if ( hashGridsToErase[idx] ~= nil ) then
-                
-                if ( IndexOf( gridEntities, hashGridsToErase[idx] ) == nil ) then
 
-                    Insert( gridEntities, hashGridsToErase[idx] )
+                local key = hashGridsCellIndexes[idx]
+
+                if ( IndexOf( gridEntitiesKeys, key ) == nil ) then
+
+                    Insert( gridEntitiesKeys, key )
                 end
             else
                 Insert( freeGrids, idx )
@@ -225,13 +311,17 @@ function floor_rebuilder_tool:RebuildFloor()
             Insert( toRecreate, { ["bp"] = entityBlueprint, ["indexes"] = freeGrids } )
         else
 
-            if ( rebuildBlueprintName == entityBlueprint and #gridEntities == 1 ) then
+            if ( #gridEntitiesKeys == 1 ) then
 
-                local gridEntity = gridEntities[1]
+                local key = gridEntitiesKeys[1]
 
-                local gridEntityCellIndexes = hashGridsCellIndexes[gridEntity]
+                local toCreateObject = hashGridsCellKeys[key]
 
-                if ( self:ArraysEquals(gridEntityCellIndexes, entityToSellCellIndexes) ) then
+                local gridEntityCellIndexes = toCreateObject.vIdxArray
+
+                local newBlueprint = string.gsub( rebuildBlueprintName, tostring(toReplace), tostring(toCreateObject.replaced) )
+
+                if ( newBlueprint == entityBlueprint and self:ArraysEquals(gridEntityCellIndexes, entityToSellCellIndexes) ) then
 
                     goto continue
                 end
@@ -283,7 +373,7 @@ end
 function floor_rebuilder_tool:ArraysEquals(array1, array2)
 
     for idx in Iter( array1 ) do
-        
+
         if ( IndexOf( array2, idx ) == nil ) then
 
             return false
@@ -291,7 +381,7 @@ function floor_rebuilder_tool:ArraysEquals(array1, array2)
     end
 
     for idx in Iter( array2 ) do
-        
+
         if ( IndexOf( array1, idx ) == nil ) then
 
             return false
@@ -378,6 +468,8 @@ function floor_rebuilder_tool:FindFrequentBlueprint( hashGridsToErase )
 
     local entitiesBlueprints = {}
 
+    local hashOccupiedCells = {}
+
     for i = 1, #self.selectedEntities do
 
         local entityToSell = self.selectedEntities[i]
@@ -413,6 +505,8 @@ function floor_rebuilder_tool:FindFrequentBlueprint( hashGridsToErase )
             if ( hashGridsToErase[idx] ~= nil ) then
 
                 countCells = countCells + 1
+
+                hashOccupiedCells[idx] = true
             end
         end
 
@@ -436,20 +530,12 @@ function floor_rebuilder_tool:FindFrequentBlueprint( hashGridsToErase )
         end
     end
 
-    return result
+    return result, hashOccupiedCells
 end
 
 function floor_rebuilder_tool:GetNormilizedBlueprintName( blueprintName )
 
-    local toReplace = 1
-
-    if string.find( blueprintName, "4" ) then
-        toReplace = 4
-    elseif string.find( blueprintName, "3" ) then
-        toReplace = 3
-    elseif string.find( blueprintName, "2" ) then
-        toReplace = 2
-    end
+    local toReplace = self:GetToReplaceSize( blueprintName )
 
     local currentBlueprint = string.gsub( blueprintName, tostring(toReplace), "1" )
 
@@ -472,7 +558,6 @@ end
 function floor_rebuilder_tool:GetHashGridsToErase()
 
     local hashGridsToErase = {}
-    local hashGridsCellIndexes = {}
 
     for xIndex=1,#self.gridEntities do
 
@@ -494,12 +579,10 @@ function floor_rebuilder_tool:GetHashGridsToErase()
 
                 Insert(list, idx)
             end
-
-            hashGridsCellIndexes[entity] = list
         end
     end
 
-    return hashGridsToErase, hashGridsCellIndexes
+    return hashGridsToErase
 end
 
 function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
