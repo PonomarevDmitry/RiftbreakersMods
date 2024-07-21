@@ -569,8 +569,6 @@ function floor_rebuilder_tool:GetHashGridsToErase()
 
             local entity = gridEntitiesZ[zIndex]
 
-            local list = {}
-
             local gridToErase = FindService:GetEntityCellIndexes( entity )
 
             for i = 1,#gridToErase do
@@ -578,8 +576,6 @@ function floor_rebuilder_tool:GetHashGridsToErase()
                 local idx = gridToErase[i]
 
                 hashGridsToErase[idx] = entity
-
-                Insert(list, idx)
             end
         end
     end
