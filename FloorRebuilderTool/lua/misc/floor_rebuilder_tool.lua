@@ -83,9 +83,9 @@ function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
     local right = {x=2,y=0,z=0}
     local down = {x=0,y=0,z=2}
 
-    local toCreate = {{}}
+    local toCreate = {}
 
-    for s=toReplace,0,-1 do
+    for s=toReplace,1,-1 do
         local i = 1
         while i <= indexesCount do
 
