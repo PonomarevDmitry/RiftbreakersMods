@@ -472,7 +472,57 @@ end
 
 function floor_rebuilder_tool:FindFrequentBlueprint()
 
+    local entity = self.gridEntities[1][1]
+
+    local hashGridsToErase = {}
+    self:FillEntityHashGridsToErase(hashGridsToErase, entity)
+
+    local result = self:PerformFindFrequentBlueprint( hashGridsToErase )
+    if ( result ~= "" ) then
+
+        return result
+    end
+
+
+    local gridEntitiesZ = self.gridEntities[#self.gridEntities]
+
+    local entity = gridEntitiesZ[#gridEntitiesZ]
+
+    local hashGridsToErase = {}
+    self:FillEntityHashGridsToErase(hashGridsToErase, entity)
+
+    local result = self:PerformFindFrequentBlueprint( hashGridsToErase )
+    if ( result ~= "" ) then
+
+        return result
+    end
+
+    
+
     local hashGridsToErase = self:GetHashGridsToErase()
+
+    local result = self:PerformFindFrequentBlueprint(hashGridsToErase)
+
+    if ( result ~= "" ) then
+
+        return result
+    end
+
+    return ""
+end
+
+function floor_rebuilder_tool:FillEntityHashGridsToErase(hashGridsToErase, entity)
+
+    local gridToErase = FindService:GetEntityCellIndexes( entity )
+    for i = 1,#gridToErase do
+
+        local idx = gridToErase[i]
+
+        hashGridsToErase[idx] = entity
+    end
+end
+
+function floor_rebuilder_tool:PerformFindFrequentBlueprint(hashGridsToErase)
 
     local entitiesBlueprints = {}
 
@@ -569,14 +619,7 @@ function floor_rebuilder_tool:GetHashGridsToErase()
 
             local entity = gridEntitiesZ[zIndex]
 
-            local gridToErase = FindService:GetEntityCellIndexes( entity )
-
-            for i = 1,#gridToErase do
-
-                local idx = gridToErase[i]
-
-                hashGridsToErase[idx] = entity
-            end
+            self:FillEntityHashGridsToErase(hashGridsToErase, entity)
         end
     end
 
