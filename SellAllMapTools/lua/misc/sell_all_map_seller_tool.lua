@@ -132,7 +132,7 @@ function sell_all_map_seller_tool:UpdateMarker()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/sell_all_map/last_building} " .. tostring(indexBuilding + 1) .. ":\n${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/sell_all_map/last_building} " .. tostring(indexBuilding + 1) .. "\n${" .. buildingDescRef.localization_id .. "}"
         end
 
     elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
@@ -166,7 +166,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/place_ruins}:\n" .. messageText
+            messageText = "${gui/hud/sell_all_map/place_ruins}\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/place_ruins}"
@@ -178,7 +178,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/place_connectors}:\n" .. messageText
+            messageText = "${gui/hud/sell_all_map/place_connectors}\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/place_connectors}"
@@ -190,7 +190,7 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/building_group}:\n" .. messageText
+            messageText = "${gui/hud/sell_all_map/building_group}\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/building_group}"
@@ -202,10 +202,10 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/building_group_place_ruins}:\n" .. messageText
+            messageText = "${gui/hud/sell_all_map/place_ruins}\n${gui/hud/sell_all_map/building_group}\n" .. messageText
         else
 
-            messageText = "${gui/hud/sell_all_map/building_group_place_ruins}"
+            messageText = "${gui/hud/sell_all_map/place_ruins}\n${gui/hud/sell_all_map/building_group}"
         end
 
     elseif ( self.selectedMode == self.modeBuildingGroupConnectors ) then
@@ -214,10 +214,10 @@ function sell_all_map_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/building_group_place_connectors}:\n" .. messageText
+            messageText = "${gui/hud/sell_all_map/place_connectors}\n${gui/hud/sell_all_map/building_group}\n" .. messageText
         else
 
-            messageText = "${gui/hud/sell_all_map/building_group_place_connectors}"
+            messageText = "${gui/hud/sell_all_map/place_connectors}\n${gui/hud/sell_all_map/building_group}"
         end
     end
 
