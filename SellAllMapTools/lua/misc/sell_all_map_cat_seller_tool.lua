@@ -203,7 +203,7 @@ function sell_all_map_cat_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/place_ruins}:\n" .. messageText
+            messageText = "${gui/hud/sell_all_map/place_ruins}\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/place_ruins}"
@@ -215,7 +215,7 @@ function sell_all_map_cat_seller_tool:UpdateMarker()
 
         if (string.len(messageText) > 0) then
 
-            messageText = "${gui/hud/sell_all_map/place_connectors}:\n" .. messageText
+            messageText = "${gui/hud/sell_all_map/place_connectors}\n" .. messageText
         else
 
             messageText = "${gui/hud/sell_all_map/place_connectors}"
