@@ -97,6 +97,9 @@ function replace_wall_picker_tool:SetBuildingIcon()
     end
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
+    if ( markerDB == nil ) then
+        return
+    end
 
     markerDB:SetInt("wall_icon_visible", buildingIconVisible)
     markerDB:SetString("wall_icon", buildingIcon)
