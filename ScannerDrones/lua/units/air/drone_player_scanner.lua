@@ -324,7 +324,7 @@ function drone_player_scanner:FindBestEntity( owner, entities )
 
             local scansCount = drone_player_scanner:GetScansCount( entity )
 
-            local distance = EntityService:GetDistanceBetween( owner, entity )
+            local distance = EntityService:GetDistanceBetween( self.entity, entity )
 
             if ( best.entity == INVALID_ID or scansCount > best.scansCount ) then
 
@@ -343,7 +343,7 @@ function drone_player_scanner:FindBestEntity( owner, entities )
         return best.entity
 
     else
-        return FindClosestEntity( owner, entities )
+        return FindClosestEntity( self.entity, entities )
     end
 end
 
