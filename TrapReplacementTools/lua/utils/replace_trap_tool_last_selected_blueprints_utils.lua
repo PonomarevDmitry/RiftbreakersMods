@@ -24,7 +24,9 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
 
     local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorDB, campaignDatabase)
 
-    LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(currentListArray, blueprintName)
+    local firstLevelBlueprint = LastSelectedBlueprintsListUtils:GetFirstLevelBuilding(blueprintName)
+
+    LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(currentListArray, firstLevelBlueprint)
 
 
     Insert( currentListArray, blueprintName )
@@ -80,38 +82,77 @@ function LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, selector
     end
 end
 
-function LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(currentListArray, blueprintName)
+function LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(list, blueprintName, seenBlueprintList)
 
-    if ( IndexOf( currentListArray, blueprintName ) ~= nil ) then
-        Remove( currentListArray, blueprintName )
+    if ( IndexOf( list, blueprintName ) ~= nil ) then
+        Remove( list, blueprintName )
     end
 
-    local firstLevelBlueprint = LastSelectedBlueprintsListUtils:GetFirstLevelBuilding(blueprintName)
+    seenBlueprintList = seenBlueprintList or {}
 
-    if ( ResourceManager:ResourceExists( "EntityBlueprint", firstLevelBlueprint )  ) then
+    if ( seenBlueprintList[blueprintName] == true ) then
+        return
+    end
 
-        local firstBuildingDesc = BuildingService:GetBuildingDesc( firstLevelBlueprint )
-        if ( firstBuildingDesc ~= nil ) then
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc ~= nil ) then
 
-            local varBuildingDescRef = reflection_helper(firstBuildingDesc)
+        local buildingDescRef = reflection_helper( buildingDesc )
 
-            while ( varBuildingDescRef ~= nil ) do
+        LastSelectedBlueprintsListUtils:RemoveFromListByBuildingDescRef( list, buildingDescRef )
 
-                if ( IndexOf( currentListArray, varBuildingDescRef.bp ) ~= nil ) then
-                    Remove( currentListArray, varBuildingDescRef.bp )
-                end
+        seenBlueprintList[blueprintName] = true
 
-                local upgradeBlueprintName = varBuildingDescRef.upgrade
-                varBuildingDescRef = nil
+        if ( buildingDescRef.upgrade ~= "" and buildingDescRef.upgrade ~= nil ) then
 
-                if ( upgradeBlueprintName ~= "" and upgradeBlueprintName ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", upgradeBlueprintName )  ) then
+            self:RemoveBuildingAndUpgradesFromList( list, buildingDescRef.upgrade, seenBlueprintList )
+        end
 
-                    local upgradeBuildingDesc = BuildingService:GetBuildingDesc( upgradeBlueprintName )
-                    if ( upgradeBuildingDesc ~= nil ) then
+        local buildingDescRef = reflection_helper( buildingDesc )
 
-                        varBuildingDescRef = reflection_helper(upgradeBuildingDesc)
-                    end
-                end
+        for i=1,buildingDescRef.connect.count do
+
+            local connectRecord = buildingDescRef.connect[i]
+
+            for j=1,connectRecord.value.count do
+
+                local connectBlueprintName = connectRecord.value[j]
+
+                self:RemoveBuildingAndUpgradesFromList( list, connectBlueprintName, seenBlueprintList )
+            end
+        end
+    end
+
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if (baseBuildingDesc ~= nil ) then
+
+        local baseBuildingDescRef = reflection_helper(baseBuildingDesc)
+
+        if ( baseBuildingDescRef.bp ~= blueprintName ) then
+
+            self:RemoveBuildingAndUpgradesFromList( list, baseBuildingDescRef.bp, seenBlueprintList )
+        end
+    end
+end
+
+function LastSelectedBlueprintsListUtils:RemoveFromListByBuildingDescRef( list, buildingDescRef )
+
+    if ( IndexOf( list, buildingDescRef.bp ) ~= nil ) then
+
+        Remove( list, buildingDescRef.bp )
+    end
+
+    for i=1,buildingDescRef.connect.count do
+
+        local connectRecord = buildingDescRef.connect[i]
+
+        for j=1,connectRecord.value.count do
+
+            local connectBlueprintName = connectRecord.value[j]
+
+            if ( IndexOf( list, connectBlueprintName ) ~= nil ) then
+
+                Remove( list, connectBlueprintName )
             end
         end
     end
