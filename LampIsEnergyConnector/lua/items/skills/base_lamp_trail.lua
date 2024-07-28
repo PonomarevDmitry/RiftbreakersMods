@@ -235,9 +235,12 @@ function base_lamp_trail:HasDistributionRadius( resourceStorageRef )
 
             local storage = resourceStorageRef.Storages[i]
 
-            if ( tostring(storage.group) == "10" and storage.distribution_radius >= 1 ) then
+            if ( tostring(storage.group) == "12" and storage.distribution_radius >= 1 ) then
 
-                return true
+                if ( storage.resource and storage.resource.resource and storage.resource.resource.id and storage.resource.resource.id == "energy" ) then
+
+                    return true
+                end
             end
         end
     end
