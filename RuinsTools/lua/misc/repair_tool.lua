@@ -108,11 +108,13 @@ function repair_tool:OnUpdate()
         local ruinsBlueprint = ""
         local canRepair = true
         local database = EntityService:GetDatabase( entity )
+        local toRepair = true
 
         if ( buildingComponent ~= nil ) then
 
             local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
             if ( mode ~= BM_COMPLETED ) then
+                toRepair = false
                 canRepair = false
             end
 
@@ -135,35 +137,37 @@ function repair_tool:OnUpdate()
             end
         end
 
-        if ( canRepair and ((( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) or ruins ) and not EntityService:IsAlive(child)) ) )  then
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
+        if ( toRepair ) then
+            if ( canRepair and ((( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) or ruins ) and not EntityService:IsAlive(child)) ) )  then
+                if ( skinned ) then
+                    EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
+                else
+                    EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
+                end
             else
-                EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-            end
-        else
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
-            end
-        end
-
-        if ( canRepair and not EntityService:IsAlive(child) ) then
-
-            if ( ruins ) then
-                list = BuildingService:GetBuildCosts( ruinsBlueprint, self.playerId )
-            else
-                list = BuildingService:GetRepairCosts( entity )
+                if ( skinned ) then
+                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
+                else
+                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+                end
             end
 
-            for resourceCost in Iter( list ) do
+            if ( canRepair and not EntityService:IsAlive(child) ) then
 
-                if ( self.repairCosts[resourceCost.first] == nil ) then
-                   self.repairCosts[resourceCost.first] = 0
+                if ( ruins ) then
+                    list = BuildingService:GetBuildCosts( ruinsBlueprint, self.playerId )
+                else
+                    list = BuildingService:GetRepairCosts( entity )
                 end
 
-                self.repairCosts[resourceCost.first] = self.repairCosts[resourceCost.first] + resourceCost.second
+                for resourceCost in Iter( list ) do
+
+                    if ( self.repairCosts[resourceCost.first] == nil ) then
+                       self.repairCosts[resourceCost.first] = 0
+                    end
+
+                    self.repairCosts[resourceCost.first] = self.repairCosts[resourceCost.first] + resourceCost.second
+                end
             end
         end
     end
