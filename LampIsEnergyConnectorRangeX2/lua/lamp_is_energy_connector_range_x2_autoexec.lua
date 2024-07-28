@@ -95,4 +95,4 @@ local new_storage_list = {
     "buildings/decorations/crystal_lamp_yellow",
 }
 
-InjectChangeListBlueprintDistributionRadiusValues(new_storage_list)
+--InjectChangeListBlueprintDistributionRadiusValues(new_storage_list)
