@@ -485,6 +485,27 @@ local player_equipment_autoexec = function(evt)
         else
 
             slotItem:GetField("subslots_count"):SetValue(subslotsCount)
+
+            local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
+
+            for _,typeName in ipairs(allowTypes) do
+
+                for j=0,allowTypesArray:GetItemCount()-1 do
+
+                    local tempObject = allowTypesArray:GetItem(j)
+            
+                    if ( tempObject:GetValue() == typeName ) then
+
+                        goto continue
+                    end
+                end
+
+                local allowTypesObject = allowTypesArray:CreateItem()
+
+                allowTypesObject:SetValue(typeName)
+
+                ::continue::
+            end
         end
     end 
 end
