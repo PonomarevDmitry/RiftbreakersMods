@@ -86,7 +86,7 @@ function portal:OnDestroy()
 	playerReferenceComponentRef.reference_type.internal_enum = 3
 
 	local selfPlayerReferenceComponent = EntityService:GetComponent(self.entity, "PlayerReferenceComponent")
-	if ( selfPlayerReferenceComponent )  then
+	if ( selfPlayerReferenceComponent ) then
 
 		playerReferenceComponentRef.player_id = reflection_helper( selfPlayerReferenceComponent ).player_id
 	else
