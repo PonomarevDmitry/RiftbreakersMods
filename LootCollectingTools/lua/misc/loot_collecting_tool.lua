@@ -68,19 +68,17 @@ function loot_collecting_tool:FindEntitiesToSelect( selectorComponent )
         ::continue::
     end
 
-    local selectorPosition = selectorComponent.position
+    local distances = {}
 
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition( lhs )
-        local p2 = EntityService:GetPosition( rhs )
-        local d1 = Distance( selectorPosition, p1 )
-        local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2
+    for entity in Iter( possibleSelectedEnts ) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
     end
 
-    table.sort(possibleSelectedEnts, function(a,b)
-        return sorter(possibleSelectedEnts, a, b)
-    end)
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
+    end
+
+    table.sort(possibleSelectedEnts, sorter)
 
     return possibleSelectedEnts
 end

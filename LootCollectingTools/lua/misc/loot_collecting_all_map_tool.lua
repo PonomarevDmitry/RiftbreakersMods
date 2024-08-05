@@ -15,9 +15,6 @@ function loot_collecting_all_map_tool:OnInit()
     }
 
     self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
-
-    self.currentTick = 0
-    self.tickMod = 10
 end
 
 function loot_collecting_all_map_tool:GetScaleFromDatabase()
@@ -30,21 +27,54 @@ function loot_collecting_all_map_tool:SpawnCornerBlueprint()
     end
 end
 
+function loot_collecting_all_map_tool:OnUpdate()
+
+    if ( self.activated ) then
+        
+        self:CollectlAllLoot()
+    end
+end
+
 function loot_collecting_all_map_tool:FindEntitiesToSelect( selectorComponent )
 
-    local performFind = (self.currentTick % self.tickMod) == 0
+    return {}
+end
 
-    if ( performFind ) then
+function loot_collecting_all_map_tool:ValidateTarget( entity, pawn )
 
-        self.currentTick = 0
+    if ( not EntityService:IsAlive(entity) ) then
+        return false
     end
 
-    self.currentTick = self.currentTick + 1
-
-    if ( not performFind ) then
-
-        return self.selectedEntities
+    local test_entity = EntityService:GetParent( entity )
+    if test_entity == INVALID_ID then
+        test_entity = entity
     end
+
+    if EntityService:GetComponent( test_entity, "PhysicsComponent") == nil then
+        return false
+    end
+
+    return ItemService:CanFitResourceGiver( pawn, test_entity )
+end
+
+function loot_collecting_all_map_tool:AddedToSelection( entity )
+end
+
+function loot_collecting_all_map_tool:RemovedFromSelection( entity )
+end
+
+function loot_collecting_all_map_tool:OnRotate()
+end
+
+function loot_collecting_all_map_tool:OnActivateSelectorRequest()
+
+    self.activated = true
+
+    self:CollectlAllLoot()
+end
+
+function loot_collecting_all_map_tool:CollectlAllLoot()
 
     local predicate = {
 
@@ -86,53 +116,19 @@ function loot_collecting_all_map_tool:FindEntitiesToSelect( selectorComponent )
         ::continue::
     end
 
-    local selectorPosition = selectorComponent.position
+    local distances = {}
 
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition( lhs )
-        local p2 = EntityService:GetPosition( rhs )
-        local d1 = Distance( selectorPosition, p1 )
-        local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2
+    for entity in Iter( possibleSelectedEnts ) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
     end
 
-    table.sort(possibleSelectedEnts, function(a,b)
-        return sorter(possibleSelectedEnts, a, b)
-    end)
-
-    return possibleSelectedEnts
-end
-
-function loot_collecting_all_map_tool:ValidateTarget( entity, pawn )
-
-    if ( not EntityService:IsAlive(entity) ) then
-        return false
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
     end
 
-    local test_entity = EntityService:GetParent( entity )
-    if test_entity == INVALID_ID then
-        test_entity = entity
-    end
+    table.sort(possibleSelectedEnts, sorter)
 
-    if EntityService:GetComponent( test_entity, "PhysicsComponent") == nil then
-        return false
-    end
-
-    return ItemService:CanFitResourceGiver( pawn, test_entity )
-end
-
-function loot_collecting_all_map_tool:AddedToSelection( entity )
-end
-
-function loot_collecting_all_map_tool:RemovedFromSelection( entity )
-end
-
-function loot_collecting_all_map_tool:OnRotate()
-end
-
-function loot_collecting_all_map_tool:OnActivateSelectorRequest()
-
-    for entity in Iter( self.selectedEntities ) do
+    for entity in Iter( possibleSelectedEnts ) do
 
         if ( self:ValidateTarget( entity, self.player ) ) then
 
