@@ -748,6 +748,17 @@ function flora_cultivator:OnUpdateProductionExecute()
                 "ferdonite"
             }
 
+            local resourceList = PlayerService:GetGlobalResourcesList()
+
+            for i = 1, #resourceList, 1 do
+
+                local resourceName = resourceList[i]
+
+                if ( IndexOf( resourceNamesList, resourceName ) == nil ) then
+                    Insert( resourceNamesList, resourceName )
+                end
+            end
+
             for resourceName in Iter( resourceNamesList ) do
 
                 if ( self:IsResourceInGatherable( resourceName, gatherCompRef.resources.resource ) ) then
