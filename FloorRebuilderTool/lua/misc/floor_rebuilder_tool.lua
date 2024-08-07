@@ -29,7 +29,10 @@ function floor_rebuilder_tool:OnInit()
     self.nowBuildingLine = false
     self.buildStartPosition = nil
     self.gridEntities = {}
+
     self.currentSize = 0
+    self.currentSizeMarker = nil
+    self.currentSizeMarkerBlueprint = ""
 end
 
 function floor_rebuilder_tool:SpawnCornerBlueprint()
@@ -766,6 +769,25 @@ function floor_rebuilder_tool:OnUpdate()
         self.currentSize = currentScale
 
         self:StopBuildingGhosts()
+
+        local markerBlueprint = "misc/marker_selector_floor_size_" .. currentScale
+
+        if ( currentScale > 16 ) then
+            markerBlueprint = "misc/marker_selector_floor_size_g16"
+        end
+
+        if ( self.currentSizeMarkerBlueprint ~= markerBlueprint or self.currentSizeMarker == nil ) then
+
+            -- Destroy old marker
+            if (self.currentSizeMarker ~= nil) then
+
+                EntityService:RemoveEntity(self.currentSizeMarker)
+                self.currentSizeMarker = nil
+            end
+
+            self.currentSizeMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+            EntityService:SetPosition( self.currentSizeMarker, 2, 0, 0)
+        end
     end
 
     self.buildCost = {}
@@ -1064,6 +1086,13 @@ function floor_rebuilder_tool:OnRelease()
     self.buildStartPosition = nil
 
     self.currentSize = 0
+    self.currentSizeMarkerBlueprint = ""
+
+    if (self.currentSizeMarker ~= nil) then
+
+        EntityService:RemoveEntity(self.currentSizeMarker)
+        self.currentSizeMarker = nil
+    end
 
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
