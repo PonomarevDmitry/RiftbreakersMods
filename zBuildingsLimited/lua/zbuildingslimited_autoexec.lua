@@ -5,23 +5,9 @@ local supported_item_blueprints = {
      "buildings/defense/trap_energy",
      "buildings/defense/trap_fire",
      "buildings/defense/trap_physical",
-}
 
-for _,blueprint_name in ipairs(supported_item_blueprints) do
+     "buildings/main/outpost",
 
-    local blueprint = ResourceManager:GetBlueprint( blueprint_name )
-
-    local building_component = blueprint:GetComponent("BuildingDesc")
-
-    if building_component ~= nil then
-
-        building_component:GetField("limit"):SetValue("1425")
-    end
-end
-
-
-
-local supported_item_blueprints = {
      "buildings/main/armory",
      "buildings/main/armory_lvl_2",
      "buildings/main/armory_lvl_3",
@@ -40,8 +26,6 @@ local supported_item_blueprints = {
      "buildings/main/laboratory_lvl_4",
      "buildings/main/laboratory_lvl_5",
 
-     "buildings/main/outpost",
-
      "buildings/resources/ammunition_storage",
      "buildings/resources/ammunition_storage_lvl_2",
      "buildings/resources/ammunition_storage_lvl_3",
@@ -54,9 +38,26 @@ for _,blueprint_name in ipairs(supported_item_blueprints) do
     local building_component = blueprint:GetComponent("BuildingDesc")
 
     if building_component ~= nil then
-    
-        building_component:GetField("map_limit"):SetValue("0")
-        building_component:GetField("limit"):SetValue("0")
-        building_component:GetField("limit_name"):SetValue("")
+
+        building_component:GetField("limit"):SetValue("10000")
     end
 end
+
+
+
+--local supported_item_blueprints = {
+--}
+--
+--for _,blueprint_name in ipairs(supported_item_blueprints) do
+--
+--    local blueprint = ResourceManager:GetBlueprint( blueprint_name )
+--
+--    local building_component = blueprint:GetComponent("BuildingDesc")
+--
+--    if building_component ~= nil then
+--    
+--        building_component:GetField("map_limit"):SetValue("0")
+--        building_component:GetField("limit"):SetValue("0")
+--        building_component:GetField("limit_name"):SetValue("")
+--    end
+--end
