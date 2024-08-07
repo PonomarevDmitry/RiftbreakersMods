@@ -239,7 +239,7 @@ function switch_all_map_cat_picker_tool:ChangeSelector(category)
             lowName = nextToolBuildingDescRef.name
         end
 
-        BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+        BuildingService:SetBuildingLastLevel( self.playerId, lowName, nextToolBuildingDescRef.name )
 
         QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
     end

@@ -238,7 +238,7 @@ function cultivator_sapling_picker_tool:ChangeSelector(modItemBlueprintName)
             lowName = nextToolBuildingDescRef.name
         end
 
-        BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+        BuildingService:SetBuildingLastLevel( self.playerId, lowName, nextToolBuildingDescRef.name )
 
         QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
     end

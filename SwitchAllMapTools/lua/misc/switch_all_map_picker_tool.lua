@@ -228,7 +228,7 @@ function switch_all_map_picker_tool:ChangeSelector(blueprintName)
             lowName = nextToolBuildingDescRef.name
         end
 
-        BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+        BuildingService:SetBuildingLastLevel( self.playerId, lowName, nextToolBuildingDescRef.name )
 
         QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
     end

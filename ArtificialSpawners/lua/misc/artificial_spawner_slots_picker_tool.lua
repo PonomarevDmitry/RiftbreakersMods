@@ -364,7 +364,7 @@ function artificial_spawner_slots_picker_tool:ChangeSelector(slotsValues)
             lowName = nextToolBuildingDescRef.name
         end
 
-        BuildingService:SetBuildingLastLevel( lowName, nextToolBuildingDescRef.name )
+        BuildingService:SetBuildingLastLevel( self.playerId, lowName, nextToolBuildingDescRef.name )
 
         QueueEvent( "ChangeBuildingRequest", self.selector, lowName )
     end

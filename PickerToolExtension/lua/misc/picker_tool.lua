@@ -681,7 +681,7 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
         lowName = buildingDescHelper.name
     end
 
-    BuildingService:SetBuildingLastLevel( lowName, buildingDescHelper.name )
+    BuildingService:SetBuildingLastLevel( self.playerId, lowName, buildingDescHelper.name )
 
     QueueEvent("ChangeBuildingRequest", self.selector, lowName )
 
