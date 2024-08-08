@@ -127,11 +127,7 @@ end
 
 function lamp_base_tool:FindMinDistance()
 
-    self.radius = BuildingService:FindEnergyRadius( self.lampBlueprintName )
-
-    if ( self.radius == nil ) then
-        self.radius = 16
-    end
+    self.radius = 40
 end
 
 function lamp_base_tool:FillLampBuildingDesc(lampBlueprintName)

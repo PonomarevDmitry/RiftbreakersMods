@@ -20,7 +20,7 @@ function lamp_tool:OnInit()
 
     self.type = self.data:GetIntOrDefault("type", 1)
 
-    self.defaultRadius = math.ceil( (self.radius - 1) / 2 )
+    self.defaultRadius = 6
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -129,13 +129,6 @@ function lamp_tool:FindPositionsType1(currentSize)
 
     newPosition = {}
     newPosition.y = 0
-    newPosition.x = 0
-    newPosition.z = 0
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
     newPosition.x = delta
     newPosition.z = delta
 
@@ -172,13 +165,6 @@ function lamp_tool:FindPositionsType2(currentSize)
     local delta = currentSize * 2
 
     local newPosition = nil
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = 0
-    newPosition.z = 0
-
-    Insert( result, newPosition )
 
     newPosition = {}
     newPosition.y = 0
@@ -225,15 +211,18 @@ function lamp_tool:FindPositionsType3(currentSize)
 
             local newPosition = nil
 
-            newPosition = {}
-            newPosition.y = 0
-            newPosition.x = indexX * delta
-            newPosition.z = indexZ * delta
+            if ( indexX ~= 0 or indexZ ~= 0 ) then
 
-            newPosition.maxIndex = maxIndex
-            newPosition.totalIndex = totalIndex
+                newPosition = {}
+                newPosition.y = 0
+                newPosition.x = indexX * delta
+                newPosition.z = indexZ * delta
 
-            Insert( result, newPosition )
+                newPosition.maxIndex = maxIndex
+                newPosition.totalIndex = totalIndex
+
+                Insert( result, newPosition )
+            end
 
             if ( indexZ ~= 0 ) then
 
