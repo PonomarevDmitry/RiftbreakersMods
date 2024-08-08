@@ -348,11 +348,11 @@ function lamp_tool:OnUpdate()
 
         local currentPosition = EntityService:GetWorldTransform( self.entity )
 
-        local spots = BuildingService:FindSpotsByDistance( self.buildPosition, currentPosition, self.radius, self.lampBlueprintName )
+        local currentSize = self:CheckSizeExists(self.currentSize)
+
+        local spots = BuildingService:FindSpotsByDistance( self.buildPosition, currentPosition, (currentSize + 2) * 2, self.lampBlueprintName )
 
         for spot in Iter( spots ) do
-
-            local currentSize = self:CheckSizeExists(self.currentSize)
             local newPositions = self:FindPositionsToBuildLine( currentSize )
 
             for i=1,#newPositions do
