@@ -130,7 +130,7 @@ function replace_lamp_replacer_from_to_tool:SetBuildingIcon()
         if ( menuIcon ~= "" ) then
 
             markerDB:SetString("lamp_1_icon", menuIcon)
-            markerDB:SetString("lamp_1_name", buildingDescRef.localization_id)
+            markerDB:SetString("lamp_1_name", "")
         else
 
             markerDB:SetString("lamp_1_icon", "gui/menu/research/icons/missing_icon_big")
@@ -151,7 +151,7 @@ function replace_lamp_replacer_from_to_tool:SetBuildingIcon()
         if ( menuIcon ~= "" ) then
 
             markerDB:SetString("lamp_2_icon", menuIcon)
-            markerDB:SetString("lamp_2_name", buildingDescRef.localization_id)
+            markerDB:SetString("lamp_2_name", "")
         else
 
             markerDB:SetString("lamp_2_icon", "gui/menu/research/icons/missing_icon_big")

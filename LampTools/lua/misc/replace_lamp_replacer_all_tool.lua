@@ -127,7 +127,7 @@ function replace_lamp_replacer_all_tool:SetBuildingIcon()
 
         if ( menuIcon ~= "" ) then
 
-            markerDB:SetString("lamp_name", buildingDescRef.localization_id)
+            markerDB:SetString("lamp_name", "")
 
             markerDB:SetString("lamp_icon", menuIcon)
         else

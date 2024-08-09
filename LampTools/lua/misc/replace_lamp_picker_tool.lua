@@ -80,7 +80,7 @@ function replace_lamp_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/messages/replace_lamp_tool/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/messages/replace_lamp_tool/last_building} " .. tostring(indexBuilding + 1)
         end
 
     elseif ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
@@ -92,7 +92,7 @@ function replace_lamp_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/messages/replace_lamp_tool/current_building} ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/messages/replace_lamp_tool/current_building}"
         end
     end
 
