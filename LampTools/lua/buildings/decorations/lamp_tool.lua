@@ -21,6 +21,7 @@ function lamp_tool:OnInit()
     self.type = self.data:GetIntOrDefault("type", 1)
 
     self.defaultRadius = 6
+    self.maxRadius = 40
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -40,8 +41,8 @@ function lamp_tool:CheckSizeExists( currentSize )
 
     if ( currentSize < 1) then
         currentSize = 1
-    elseif ( currentSize > self.radius) then
-        currentSize = self.radius
+    elseif ( currentSize > self.maxRadius) then
+        currentSize = self.maxRadius
     end
 
     return currentSize
@@ -350,7 +351,9 @@ function lamp_tool:OnUpdate()
 
         local currentSize = self:CheckSizeExists(self.currentSize)
 
-        local spots = BuildingService:FindSpotsByDistance( self.buildPosition, currentPosition, (currentSize + 2) * 2, self.lampBlueprintName )
+        local radius = currentSize * 4
+
+        local spots = BuildingService:FindSpotsByDistance( self.buildPosition, currentPosition, radius, self.lampBlueprintName )
 
         for spot in Iter( spots ) do
             local newPositions = self:FindPositionsToBuildLine( currentSize )
@@ -407,8 +410,8 @@ function lamp_tool:OnRotateSelectorRequest(evt)
 
     if ( newValue < 1 ) then
         newValue = 1
-    elseif ( newValue > self.radius ) then
-        newValue = self.radius
+    elseif ( newValue > self.maxRadius ) then
+        newValue = self.maxRadius
     end
 
     self.currentSize = newValue

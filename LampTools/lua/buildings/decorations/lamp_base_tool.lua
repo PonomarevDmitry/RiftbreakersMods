@@ -64,8 +64,6 @@ function lamp_base_tool:InitializeValues()
     self.lampBlueprintName = self:GetLampBlueprintName( selectorDB )
 
     self:FillLampBuildingDesc( self.lampBlueprintName )
-
-    self:FindMinDistance()
 end
 
 function lamp_base_tool:CreateInfoChild()
@@ -123,11 +121,6 @@ function lamp_base_tool:GetLampBlueprintName( selectorDB )
     end
 
     return blueprintName
-end
-
-function lamp_base_tool:FindMinDistance()
-
-    self.radius = 40
 end
 
 function lamp_base_tool:FillLampBuildingDesc(lampBlueprintName)
