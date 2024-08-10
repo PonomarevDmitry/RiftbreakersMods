@@ -316,9 +316,28 @@ function replace_lamp_replacer_all_tool:OnActivateEntity( entity )
         return
     end
 
+
+
+
+    local team = EntityService:GetTeam( entity )
+
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, lampBlueprintName, transform, true )
+    local position = transform.position
+    local orientation = transform.orientation
+
+
+    local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_lamp_replacer_tool/script", position, team )
+
+    local database = EntityService:GetDatabase( buildAfterSellScript )
+
+    database:SetInt( "target_entity", entity )
+    database:SetInt( "player_id", self.playerId )
+    database:SetString( "building_blueprintname", lampBlueprintName )
+
+
+
+    QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
 end
 
 function replace_lamp_replacer_all_tool:GetLampBlueprintName( level )
