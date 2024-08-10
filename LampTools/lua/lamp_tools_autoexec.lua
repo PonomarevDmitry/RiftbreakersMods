@@ -17,6 +17,8 @@ local lamp_tools_autoexec = function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/replace_lamp_all_picker")
     BuildingService:UnlockBuilding("buildings/tools/replace_lamp_all_replacer")
+    BuildingService:UnlockBuilding("buildings/tools/replace_lamp_all_replacer_base")
+    BuildingService:UnlockBuilding("buildings/tools/replace_lamp_all_replacer_crystal")
 
     BuildingService:UnlockBuilding("buildings/tools/replace_lamp_picker_1")
     BuildingService:UnlockBuilding("buildings/tools/replace_lamp_picker_2")

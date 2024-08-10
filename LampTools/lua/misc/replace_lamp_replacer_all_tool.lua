@@ -25,8 +25,9 @@ function replace_lamp_replacer_all_tool:OnInit()
     self.lampBluprintsArray = {}
     self.lampBluprintsResearch = {}
     self.cacheBuildCosts = {}
-
+    
     self.template_name = self.data:GetStringOrDefault("template_name", "") or ""
+    self.low_name = self.data:GetStringOrDefault("low_name", "") or ""
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -209,6 +210,14 @@ function replace_lamp_replacer_all_tool:IsEntityApproved( entity )
     local lowName = BuildingService:FindLowUpgrade( blueprintName )
     if ( lowName ~= "base_lamp" and lowName ~= "crystal_lamp" ) then
         return false
+    end
+
+    if ( self.low_name and self.low_name ~= "" ) then
+
+        if ( self.low_name ~= lowName ) then
+
+            return false
+        end
     end
 
     local buildingRef = reflection_helper( buildingDesc )
