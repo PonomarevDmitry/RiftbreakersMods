@@ -37,6 +37,8 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
 
     LogService:Log("Start Global Description")
 
+    local result = "\r\n"
+
     for keyObj in Iter(keysNames) do
 
         local value = _G[keyObj.name]
@@ -49,7 +51,7 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
 
         local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. string.rep(" ", maxLenType - string.len(typeString)) .. "        value " .. valueString
 
-        LogService:Log(message)
+        result = result .. message .. "\r\n"
     end
 
     for keyObj in Iter(keysNames) do
@@ -70,7 +72,7 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
 
         local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. "\r\n" .. debug_serialize_utils:SerializeObject(value)
 
-        LogService:Log(message)
+        result = result .. message .. "\r\n"
 
         ::continue::
     end
@@ -99,10 +101,12 @@ ConsoleService:RegisterCommand( "test_log_global", function( args )
     --
     --    local message = "Global key " .. keyString .. string.rep(" ", maxLenKey - string.len(keyString)) .. "        type " .. typeString .. "\r\n" .. tostring(valueRef)
     --
-    --    LogService:Log(message)
+    --    result = result .. message .. "\r\n"
     --
     --    ::continue::
     --end
+
+    LogService:Log(result)
 
     LogService:Log("End Global Description")
 end)
