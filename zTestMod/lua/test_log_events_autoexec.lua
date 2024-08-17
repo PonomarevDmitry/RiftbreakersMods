@@ -476,15 +476,18 @@
 --
 --        local targetEntity = evt:GetTargetEntity()
 --
---        local turrentName = evt:GetTurrentName()
---
 --        local turretStatus = evt:GetTurretStatus()
 --
 --        text = text .. "\n" .. "turretEntityBlueprintName " .. tostring(EntityService:GetBlueprintName( turretEntity )) .. " turretEntity " .. tostring(turretEntity)
 --
 --        text = text .. "\n" .. "targetEntityBlueprintName " .. tostring(EntityService:GetBlueprintName( targetEntity )) .. " targetEntity " .. tostring(targetEntity)
 --
---        text = text .. "\n" .. "turrentName " .. tostring(turrentName)
+--        if ( evt.GetTurrentName ) then
+--
+--            local turrentName = evt:GetTurrentName()
+--
+--            text = text .. "\n" .. "turrentName " .. tostring(turrentName)
+--        end
 --
 --        text = text .. "\n" .. "turretStatus " .. tostring(turretStatus)
 --
