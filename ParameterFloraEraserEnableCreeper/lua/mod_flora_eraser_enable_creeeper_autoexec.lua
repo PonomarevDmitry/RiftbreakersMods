@@ -1,0 +1,1 @@
+mod_flora_eraser_enable_creeper = 1
