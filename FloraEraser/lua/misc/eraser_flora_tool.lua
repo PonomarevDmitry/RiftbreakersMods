@@ -34,20 +34,39 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
     local predicate = {
 
-        signature="TypeComponent",
+        signature = "TypeComponent",
 
         filter = function(entity)
 
-            if ( not EntityService:CompareType( entity, "flora" ) ) then
-                return false
-            end
-
             local blueprintName = EntityService:GetBlueprintName(entity)
+
             if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
                 return false
             end
 
-            return true
+            if ( EntityService:CompareType( entity, "flora" ) ) then
+                return true
+            end
+
+            if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
+
+                return true
+            end
+
+            if ( mod_flora_eraser_enable_creeper and mod_flora_eraser_enable_creeper == 1 ) then
+
+                if ( string.find(blueprintName, "units/ground/crystal_creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+
+                if ( string.find(blueprintName, "units/ground/creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+            end
+
+            return false
         end
     }
 
@@ -62,15 +81,6 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
         end
 
         if ( IndexOf( result, entity ) ~= nil ) then
-            goto continue
-        end
-
-        if ( not EntityService:CompareType( entity, "flora" ) ) then
-            goto continue
-        end
-
-        local blueprintName = EntityService:GetBlueprintName(entity)
-        if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
             goto continue
         end
 
