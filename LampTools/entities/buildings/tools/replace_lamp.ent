@@ -1,5 +1,148 @@
 EntityBlueprint
 {
+	name					"buildings/tools/replace_lamp_to_1_crystal"
+
+	BuildingDesc
+	{
+		name				"replace_lamp_to_1_crystal"
+		bp					"buildings/tools/replace_lamp_to_1_crystal"
+		ghost_bp			"buildings/tools/replace_lamp_to_1_crystal_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/replace_lamp_to_crystal_tool"
+		description			"gui/hud/building_description/replace_lamp_to_crystal_tool"
+		menu_icon			"gui/hud/tools_icons/replace_lamp_to_crystal_tool"
+
+		require				"headquarters"
+		order				"90"
+		type				"replace_lamp_to_crystal"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_lamp_to_1_crystal_ghost"
+
+	BuildingDesc
+	{
+		name				"replace_lamp_to_1_crystal_ghost"
+		buildable			"0"
+		type				"replace_lamp_to_crystal"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/replace_lamp_tool.lua"
+		database
+		{
+			action			string:"replace_lamp_to_crystal"
+			marker_name		string:"misc/marker_selector_replace_lamp_tool"
+
+			low_name		string:"base_lamp"
+
+			icon_from		string:"buildings/decorations/base_lamp_blue"
+			icon_to			string:"buildings/decorations/crystal_lamp_blue"
+
+			replace_from	string:"base_lamp"
+			replace_to		string:"crystal_lamp"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_lamp_to_2_base"
+
+	BuildingDesc
+	{
+		name				"replace_lamp_to_2_base"
+		bp					"buildings/tools/replace_lamp_to_2_base"
+		ghost_bp			"buildings/tools/replace_lamp_to_2_base_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/replace_lamp_to_base_tool"
+		description			"gui/hud/building_description/replace_lamp_to_base_tool"
+		menu_icon			"gui/hud/tools_icons/replace_lamp_to_base_tool"
+
+		require				"headquarters"
+		order				"90"
+		type				"replace_lamp_to_base"
+
+		building_group		"replace_lamp_to_1_crystal"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/replace_lamp_to_2_base_ghost"
+
+	BuildingDesc
+	{
+		name				"replace_lamp_to_2_base_ghost"
+		buildable			"0"
+		type				"replace_lamp_to_base"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/replace_lamp_tool.lua"
+		database
+		{
+			action			string:"replace_lamp_to_base"
+			marker_name		string:"misc/marker_selector_replace_lamp_tool"
+
+			low_name		string:"crystal_lamp"
+
+			icon_from		string:"buildings/decorations/crystal_lamp_blue"
+			icon_to			string:"buildings/decorations/base_lamp_blue"
+
+			replace_from	string:"crystal_lamp"
+			replace_to		string:"base_lamp"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
 	name					"buildings/tools/replace_lamp_all_picker"
 
 	BuildingDesc
