@@ -72,7 +72,7 @@ function tower_hcm:OnTurretEvent( evt )
    local targetEnt = WeaponService:GetTurretTarget( self.entity )
 
    if ( status == TurretStatus.TS_ON_WEAPON_AIM and targetEnt ~= INVALID_ID ) then
-		BuildingService:AddConverterCostModifier( self.entity, 1, "working_coeff" )
+		BuildingService:AddConverterCostModifier( self.entity, 1, "working_coefficient" )
    end 
 end
 
@@ -142,9 +142,9 @@ function tower_hcm:OnWorkingExecute( state )
 
 	local targetEnt = WeaponService:GetTurretTarget( self.entity )
 	if ( targetEnt ~= INVALID_ID ) then
-		BuildingService:AddConverterCostModifier( self.entity, 1, "working_coeff" )
+		BuildingService:AddConverterCostModifier( self.entity, 1, "working_coefficient" )
 	else
-		BuildingService:AddConverterCostModifier( self.entity, 0.004, "working_coeff" )
+		BuildingService:AddConverterCostModifier( self.entity, 0.004, "working_coefficient" )
 	end
 
 	self:UpdateMuzzles()
@@ -152,7 +152,7 @@ end
 
 function tower_hcm:OnCooldownEnter( state )
 
-	BuildingService:AddConverterCostModifier( self.entity, 1, "working_coeff" )
+	BuildingService:AddConverterCostModifier( self.entity, 1, "working_coefficient" )
 
 	state:SetDurationLimit( 1.0 )
 end

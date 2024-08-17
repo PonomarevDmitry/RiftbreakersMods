@@ -67,9 +67,9 @@ function tower_heavy_artillery:ChangeWorkingCoefficient()
 
     local targetEnt = WeaponService:GetTurretTarget( self.entity )
     if ( targetEnt ~= INVALID_ID ) then
-        BuildingService:AddConverterCostModifier( self.entity, 1, "working_coeff" )
+        BuildingService:AddConverterCostModifier( self.entity, 1, "working_coefficient" )
     else
-        BuildingService:AddConverterCostModifier( self.entity, 0.004, "working_coeff" )
+        BuildingService:AddConverterCostModifier( self.entity, 0.004, "working_coefficient" )
     end
 end
 
