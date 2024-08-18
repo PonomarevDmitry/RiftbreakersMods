@@ -48,12 +48,12 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
                 return true
             end
 
-            if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
-
-                return true
-            end
-
             if ( mod_flora_eraser_enable_creeper and mod_flora_eraser_enable_creeper == 1 ) then
+
+                if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
 
                 if ( string.find(blueprintName, "units/ground/crystal_creeper_branch" ) ~= nil ) then
 
