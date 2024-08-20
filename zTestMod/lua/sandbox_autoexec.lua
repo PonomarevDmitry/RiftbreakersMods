@@ -41,9 +41,9 @@ if not cheat_init then --Make all one-time
 
         RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-            for i=1,5 do
+            local playerId = evt:GetPlayerId()
 
-                local playerId = evt:GetPlayerId()
+            for i=1,5 do
 
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_extreme_item")
                 --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_cluster_projectiles_enable_extreme_item")
@@ -227,6 +227,9 @@ if not cheat_init then --Make all one-time
                 PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_standard_item")
                 --PlayerService:AddItemToInventory(playerId, "items/loot/weapon_mods/mod_damage_over_time_enable_standard_item")
             end
+
+            -- for end
+
         end)
     end
         
