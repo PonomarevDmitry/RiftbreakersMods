@@ -48,6 +48,8 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
 
 
+    local hasItems = false
+
     local inventoryItems = inventoryComponentRef.inventory.items
 
     for itemNumber=1,inventoryItems.count do
@@ -90,7 +92,13 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
         Insert(hashByRarity[itemBlueprintName], itemEntity.id)
 
+        hasItems = true
+
         ::continue::
+    end
+
+    if ( hasItems == false ) then
+        return
     end
 
     local resourcesValues = {}
@@ -120,9 +128,7 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
                                     local sum = (researchCost.count / 2) * #itemList
 
-                                    resourcesValues[researchCost.resource] = resourcesValues[researchCost.resource] or 0
-
-                                    resourcesValues[researchCost.resource] = resourcesValues[researchCost.resource] + sum
+                                    resourcesValues[researchCost.resource] = ( resourcesValues[researchCost.resource] or 0 ) + sum
                                 end
                             end
                         end
@@ -164,33 +170,17 @@ function mass_disassembly_by_rarity:GetModsToDisassebly()
 
                 local blueprintName = EntityService:GetBlueprintName(modItem)
 
-                LogService:Log("GetModsToDisassebly " .. slot.name .. " blueprintName " .. tostring(blueprintName) .. " modItem " .. tostring(modItem))
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
 
-                local weaponModComponent = EntityService:GetComponent(modItem, "WeaponModComponent")
-                if ( weaponModComponent ~= nil ) then
+                if ( blueprintDatabase and blueprintDatabase:HasInt("rarity") ) then
 
-                    local weaponModComponentRef = reflection_helper( weaponModComponent )
+                    local rarity = blueprintDatabase:GetInt("rarity")
 
-                    LogService:Log("GetModsToDisassebly " .. tostring(weaponModComponentRef))
+                    hashRarityBlueprint[rarity] = hashRarityBlueprint[rarity] or {}
 
-                    if ( weaponModComponentRef.mod_data ~= nil ) then
+                    local hashByRarity = hashRarityBlueprint[rarity]
 
-                        local rarity = weaponModComponentRef.mod_data.rarity
-
-                        hashRarityBlueprint[rarity] = hashRarityBlueprint[rarity] or {}
-
-                        local hashByRarity = hashRarityBlueprint[rarity]
-
-                        hashByRarity[blueprintName] = hashByRarity[blueprintName] or {}
-                    
-
-
-                        hasItems = true
-
-                        Insert(hashByRarity[blueprintName], modItem)
-
-                        QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
-                    end
+                    hasItems = true
                 end
             end
         end
