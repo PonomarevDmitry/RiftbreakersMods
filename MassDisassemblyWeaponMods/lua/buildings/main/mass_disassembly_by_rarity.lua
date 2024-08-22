@@ -168,13 +168,13 @@ function mass_disassembly_by_rarity:GetModsToDisassebly()
             local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-                local blueprintName = EntityService:GetBlueprintName(modItem)
+                local inventoryItemComponent = EntityService:GetConstComponent( modItem, "InventoryItemComponent" )
 
-                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
+                if ( inventoryItemComponent ~= nil ) then
 
-                if ( blueprintDatabase and blueprintDatabase:HasInt("rarity") ) then
+                    local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
 
-                    local rarity = blueprintDatabase:GetInt("rarity")
+                    local rarity = inventoryItemComponentRef.rarity
 
                     hashRarityBlueprint[rarity] = hashRarityBlueprint[rarity] or {}
 
