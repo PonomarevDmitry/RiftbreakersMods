@@ -1,4 +1,5 @@
 require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
 
 g_reflection_number_types = {
     CalcHash("int8"),
