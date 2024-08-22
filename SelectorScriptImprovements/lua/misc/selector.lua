@@ -169,15 +169,16 @@ function selector:ChangeBlueprint( blueprintName, ghostBlueprint )
     self.category = BuildingService:GetBuildingCategory( self.blueprint )
     self.type = BuildingService:GetBuildingType( self.selector )
 
-    local typeName = ""
-    local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
-    if( buildingDesc ~= nil ) then
-        local buildingDescHelper = reflection_helper(buildingDesc)
-        typeName = buildingDescHelper.type
+    if ( self.type == nil or self.type == "" ) then
+
+        local buildingDesc = BuildingService:GetBuildingDesc( self.blueprint )
+        if( buildingDesc ~= nil ) then
+            self.type = reflection_helper(buildingDesc).type
+        end
     end
 
     -- Loading one common size for all floors
-    if ( self.category == "decorations" and typeName == "floor" ) then
+    if ( self.type == "floor" and (self.category == "decorations" or self.category == "tools") ) then
 
         if ( self.resizeScale ~= nil and self.resizeScale["Floors"] ~= nil ) then
 
@@ -190,7 +191,7 @@ function selector:ChangeBlueprint( blueprintName, ghostBlueprint )
     end
 
     -- Loading one common size for all Tools
-    if ( self.category == "tools" and typeName ~= "picker" and typeName ~= "sell" ) then
+    if ( self.category == "tools" and self.type ~= "picker" and self.type ~= "sell" and self.type ~= "floor" ) then
 
         if ( self.resizeScale ~= nil and self.resizeScale["Tools"] ~= nil ) then
 
@@ -456,16 +457,15 @@ function selector:OnBuildInProgress()
         self.resizeScale[self.blueprint] = self.transform.scale
 
         -- Saving resizeScale for all Tools except picker (uses size only 1x1) and sell (does not load saved value)
-        if (self.category == "tools" and self.type ~= "picker" and self.type ~= "sell") then
+        if (self.category == "tools" and self.type ~= "picker" and self.type ~= "sell" and self.type ~= "floor") then
 
             self.resizeScale["Tools"] = self.transform.scale
         end
 
         -- Saving resizeScale for all floors
-        if (self.category == "decorations" and self.type == "floor" ) then
+        if ( self.type == "floor" and (self.category == "decorations" or self.category == "tools")) then
 
             self.resizeScale["Floors"] = self.transform.scale
-
         end
     end
 end
