@@ -8,7 +8,11 @@ function lamp_tool_sell:__init()
 end
 
 function lamp_tool_sell:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_lamp_tool_sell", self.entity)
+
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
+
+    self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
 
     self.previousMarkedRuins = {}
     -- Radius from player to highlight
@@ -66,38 +70,59 @@ function lamp_tool_sell:FindEntitiesToSelect( selectorComponent )
     local min = VectorSub(position, scaleVector)
     local max = VectorAdd(position, scaleVector)
 
-    local findedRuins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
-
     local ruins = {}
 
-    for ruinEntity in Iter( findedRuins ) do
+    if ( self.placeRuins == false ) then
 
-        if ( IndexOf( ruins, ruinEntity ) ~= nil ) then
-            goto continue
+        local findedRuins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
+
+        for ruinEntity in Iter( findedRuins ) do
+
+            if ( IndexOf( ruins, ruinEntity ) ~= nil ) then
+                goto continue
+            end
+
+            local database = EntityService:GetDatabase( ruinEntity )
+            if ( database == nil ) then
+                goto continue
+            end
+
+            if ( not database:HasString("blueprint") ) then
+                goto continue
+            end
+
+            local ruinsBlueprint = database:GetString("blueprint")
+            if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
+                goto continue
+            end
+
+            local lowName = BuildingService:FindLowUpgrade( ruinsBlueprint )
+            if ( lowName ~= "base_lamp" and lowName ~= "crystal_lamp" ) then
+                goto continue
+            end
+
+            Insert( ruins, ruinEntity )
+
+            ::continue::
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
-        if ( database == nil ) then
-            goto continue
+        for entity in Iter( ruins ) do
+
+            if ( IndexOf( self.selectedEntities, entity ) == nil ) then
+
+                if ( EntityService:IsSkinned(entity ) ) then
+                    EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
+                else
+                    EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+                end
+
+                if ( self.activated ) then
+                    self:OnActivateEntity( entity )
+                end
+            end
         end
 
-        if ( not database:HasString("blueprint") ) then
-            goto continue
-        end
-
-        local ruinsBlueprint = database:GetString("blueprint")
-        if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
-            goto continue
-        end
-
-        local lowName = BuildingService:FindLowUpgrade( ruinsBlueprint )
-        if ( lowName ~= "base_lamp" and lowName ~= "crystal_lamp" ) then
-            goto continue
-        end
-
-        Insert( ruins, ruinEntity )
-
-        ::continue::
+        ConcatUnique( selectedItems, ruins )
     end
 
     for entity in Iter( self.selectedEntities ) do
@@ -105,24 +130,6 @@ function lamp_tool_sell:FindEntitiesToSelect( selectorComponent )
             EntityService:RemoveMaterial( entity, "selected" )
         end
     end
-
-    for entity in Iter( ruins ) do
-
-        if ( IndexOf( self.selectedEntities, entity ) == nil ) then
-
-            if ( EntityService:IsSkinned(entity ) ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
-
-            if ( self.activated ) then
-                self:OnActivateEntity( entity )
-            end
-        end
-    end
-
-    ConcatUnique( selectedItems, ruins )
 
     return selectedItems
 end
@@ -203,6 +210,41 @@ function lamp_tool_sell:OnActivateEntity( entity )
         BuildingService:BlinkBuilding(entity)
         QueueEvent( "DissolveEntityRequest", entity, 1.0, 0 )
     else
+
+        if ( self.placeRuins ) then
+
+            local blueprintName = EntityService:GetBlueprintName( entity )
+
+            local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+            if ( buildingDesc ~= nil ) then
+
+                local buildingDescRef = reflection_helper( buildingDesc )
+                if ( buildingDescRef ~= nil and buildingDescRef.build_cost ~= nil and buildingDescRef.build_cost.resource ~= nil and buildingDescRef.build_cost.resource.count ~= nil and buildingDescRef.build_cost.resource.count > 0 ) then
+
+                    local ruinsBlueprintName = blueprintName .. "_ruins"
+
+                    if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
+
+                        local team = EntityService:GetTeam( entity )
+
+                        local transform = EntityService:GetWorldTransform( entity )
+
+                        local position = transform.position
+                        local orientation = transform.orientation
+
+
+                        local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
+
+                        local database = EntityService:GetDatabase( placeRuinScript )
+
+                        database:SetInt( "player_id", self.playerId )
+                        database:SetInt( "target_entity", entity )
+                        database:SetString( "ruins_blueprint", ruinsBlueprintName )
+                    end
+                end
+            end
+        end
+
         QueueEvent( "SellBuildingRequest", entity, self.playerId, false )
     end
 end

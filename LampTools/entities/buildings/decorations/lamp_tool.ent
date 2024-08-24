@@ -203,7 +203,7 @@ EntityBlueprint
 
 		localization_id		"gui/hud/building_name/lamp_tool_sell"
 		description			"gui/hud/building_description/lamp_tool_sell"
-		menu_icon			"gui/hud/tools_icons/lamp_tool_4_sell"
+		menu_icon			"gui/hud/tools_icons/lamp_tool_sell"
 
 		order				"0.1"
 		type				"lamp_tool_4_sell"
@@ -239,7 +239,74 @@ EntityBlueprint
 		database
 		{
 			action			string:"lamp_tool_4_sell"
-			type			int:"3"
+			marker_name		string:"misc/marker_selector_lamp_tool_sell"
+			place_ruins		int:"0"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/decorations/lamp_tool_5_sell_place_ruins"
+
+	BuildingDesc
+	{
+		name				"lamp_tool_5_sell_place_ruins"
+		bp					"buildings/decorations/lamp_tool_5_sell_place_ruins"
+		ghost_bp			"buildings/decorations/lamp_tool_5_sell_place_ruins_ghost"
+		category			"decorations"
+
+		localization_id		"gui/hud/building_name/lamp_tool_sell_place_ruins"
+		description			"gui/hud/building_description/lamp_tool_sell_place_ruins"
+		menu_icon			"gui/hud/tools_icons/lamp_tool_sell_place_ruins"
+
+		order				"0.1"
+		type				"lamp_tool_5_sell_place_ruins"
+		require				"headquarters"
+
+		building_group		"lamp_tool_1"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/decorations/lamp_tool_5_sell_place_ruins_ghost"
+
+	BuildingDesc
+	{
+		name				"lamp_tool_5_sell_place_ruins_ghost"
+		buildable			"0"
+		type				"lamp_tool_5_sell_place_ruins"
+		category			"decorations"
+	}
+
+	LuaDesc
+	{
+		script				"lua/buildings/decorations/lamp_tool_sell.lua"
+		database
+		{
+			action			string:"lamp_tool_5_sell_place_ruins"
+			marker_name		string:"misc/marker_selector_lamp_tool_sell_place_ruins"
+			place_ruins		int:"1"
 		}
 	}
 
