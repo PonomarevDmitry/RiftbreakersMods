@@ -248,6 +248,8 @@ function ghost_building:OnUpdate()
 
         local idCheckBuildable = 1
 
+        local countBuildable = 0
+
         for xNumber=1,#arrayX do
 
             positionX = arrayX[xNumber]
@@ -278,21 +280,30 @@ function ghost_building:OnUpdate()
                 idCheckBuildable = idCheckBuildable + 1
 
                 if ( testBuildable ~= nil) then
+
                     self:AddToEntitiesToSellList(testBuildable)
+
+                    if ( testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_OVERRIDES ) then
+
+                        countBuildable = countBuildable + 1
+                    end
                 end
 
                 BuildingService:CheckAndFixBuildingConnection(lineEnt)
             end
         end
 
-        local list = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
-        for resourceCost in Iter(list) do
+        if ( countBuildable > 0 ) then
 
-            if ( self.buildCost[resourceCost.first] == nil ) then
-               self.buildCost[resourceCost.first] = 0
+            local list = BuildingService:GetBuildCosts( self.blueprint, self.playerId )
+            for resourceCost in Iter(list) do
+
+                if ( self.buildCost[resourceCost.first] == nil ) then
+                   self.buildCost[resourceCost.first] = 0
+                end
+
+                self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * countBuildable )
             end
-
-            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #arrayX * #arrayZ )
         end
     else
 
