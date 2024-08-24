@@ -155,9 +155,7 @@ function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
 
     local deltaFromLast = currentTime - self.lastRotateTime
 
-    if ( self.oldChange == change and deltaFromLast < maxDeltaTime ) then
-
-        self.countToSpeedUp = self.countToSpeedUp + 1
+    if ( deltaFromLast < maxDeltaTime ) then
 
         if ( self.countToSpeedUp > maxCountToSwithTo10k ) then
 
@@ -173,6 +171,14 @@ function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
 
             delta = delta * 10
             trimValue = 1000
+        end
+
+        if ( self.oldChange == change ) then
+
+            self.countToSpeedUp = self.countToSpeedUp + 1
+        else
+
+            self.countToSpeedUp = 0
         end
     else
 
