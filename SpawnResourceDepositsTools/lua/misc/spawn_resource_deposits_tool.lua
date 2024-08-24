@@ -173,21 +173,13 @@ function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
             trimValue = 1000
         end
 
-        if ( self.oldChange == change ) then
-
-            self.countToSpeedUp = self.countToSpeedUp + 1
-        else
-
-            self.countToSpeedUp = 0
-        end
+        self.countToSpeedUp = self.countToSpeedUp + 1
     else
 
         self.countToSpeedUp = 0
     end
 
     self.lastRotateTime = currentTime
-
-    self.oldChange = change
 
     local newValue = self.currentValue + delta
 
