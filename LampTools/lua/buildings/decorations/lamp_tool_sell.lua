@@ -25,8 +25,8 @@ function lamp_tool_sell:SpawnCornerBlueprint()
     end
 end
 
-function lamp_tool_sell:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
+function lamp_tool_sell:OnPreInit()
+    self.initialScale = { x=8, y=1, z=8 }
 end
 
 function lamp_tool_sell:AddedToSelection( entity )
