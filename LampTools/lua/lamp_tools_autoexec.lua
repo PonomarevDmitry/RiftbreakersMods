@@ -14,6 +14,7 @@ local lamp_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/decorations/lamp_tool_1")
     BuildingService:UnlockBuilding("buildings/decorations/lamp_tool_2")
     BuildingService:UnlockBuilding("buildings/decorations/lamp_tool_3")
+    BuildingService:UnlockBuilding("buildings/decorations/lamp_tool_4_sell")
 
     BuildingService:UnlockBuilding("buildings/tools/replace_lamp_to_1_crystal")
     BuildingService:UnlockBuilding("buildings/tools/replace_lamp_to_2_base")

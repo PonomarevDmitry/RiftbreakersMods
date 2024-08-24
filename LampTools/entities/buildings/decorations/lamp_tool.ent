@@ -185,3 +185,68 @@ EntityBlueprint
 		flags				"2"
 	}
 }
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/decorations/lamp_tool_4_sell"
+
+	BuildingDesc
+	{
+		name				"lamp_tool_4_sell"
+		bp					"buildings/decorations/lamp_tool_4_sell"
+		ghost_bp			"buildings/decorations/lamp_tool_4_sell_ghost"
+		category			"decorations"
+
+		localization_id		"gui/hud/building_name/lamp_tool_sell"
+		description			"gui/hud/building_description/lamp_tool_sell"
+		menu_icon			"gui/hud/tools_icons/lamp_tool_4_sell"
+
+		order				"0.1"
+		type				"lamp_tool_4_sell"
+		require				"headquarters"
+
+		building_group		"lamp_tool_1"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/decorations/lamp_tool_4_sell_ghost"
+
+	BuildingDesc
+	{
+		name				"lamp_tool_4_sell_ghost"
+		buildable			"0"
+		type				"lamp_tool_4_sell"
+		category			"decorations"
+	}
+
+	LuaDesc
+	{
+		script				"lua/buildings/decorations/lamp_tool_sell.lua"
+		database
+		{
+			action			string:"lamp_tool_4_sell"
+			type			int:"3"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
