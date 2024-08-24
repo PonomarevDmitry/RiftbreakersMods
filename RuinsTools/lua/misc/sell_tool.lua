@@ -1,4 +1,4 @@
-local tool = require("lua/misc/tool_highlight_ruins.lua")
+local tool_highlight_ruins = require("lua/misc/tool_highlight_ruins.lua")
 require("lua/utils/reflection.lua")
 
 class 'sell_tool' ( tool_highlight_ruins )
@@ -50,7 +50,7 @@ function sell_tool:AddedToSelection( entity )
 end
 
 function sell_tool:FindEntitiesToSelect( selectorComponent )
-    local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
+    local selectedItems = tool_highlight_ruins.FindEntitiesToSelect( self, selectorComponent )
 
     local position = selectorComponent.position
 
