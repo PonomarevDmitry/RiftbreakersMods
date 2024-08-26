@@ -86,7 +86,7 @@ function buildings_builder_mass_tool:InitializeValues()
     self.nowBuildingLine = false
     self.gridEntities = {}
 
-    self.configNameCellGaps = "$buildings_builder_mass_tool_cell_count"
+    self.configNameCellGaps = "$buildings_builder_mass_tool_cell_count_" .. self.marker
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
