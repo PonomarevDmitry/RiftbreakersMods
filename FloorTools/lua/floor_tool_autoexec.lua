@@ -4,7 +4,8 @@ local floor_tool_autoexec = function(evt)
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
     end
-
+    
+    BuildingService:UnlockBuilding("buildings/decorations/floor_center_tool")
     BuildingService:UnlockBuilding("buildings/decorations/floor_tool_1")
     BuildingService:UnlockBuilding("buildings/decorations/floor_tool_2")
     BuildingService:UnlockBuilding("buildings/decorations/floor_tool_3")

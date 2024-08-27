@@ -1,0 +1,63 @@
+EntityBlueprint
+{
+	name					"buildings/decorations/floor_center_tool"
+
+	BuildingDesc
+	{
+		name				"floor_center_tool"
+		bp					"buildings/decorations/floor_center_tool"
+		ghost_bp			"buildings/decorations/floor_center_tool_ghost"
+		category			"decorations"
+
+		localization_id		"gui/hud/building_name/floor_center_tool"
+		description			"gui/hud/building_description/floor_center_tool"
+		menu_icon			"gui/hud/tools_icons/floor_center_tool"
+
+		require				"headquarters"
+
+		order				"0.1"
+		type				"floor_center_tool"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/decorations/floor_center_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"floor_center_tool_ghost"
+		buildable			"0"
+		type				"floor_center_tool"
+		category			"decorations"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/floor_center_tool.lua"
+
+		database
+		{
+			action			string:"floor_center_tool"
+
+			lowName			string:"floor_1x1"
+			defaultFloor	string:"buildings/decorations/floor_1x1"
+
+			size			int:"4"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}

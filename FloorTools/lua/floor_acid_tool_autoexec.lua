@@ -45,7 +45,8 @@ local floor_acid_tool_autoexec = function(evt)
     end
 
     if (hasBuilding) then
-
+    
+        BuildingService:UnlockBuilding("buildings/decorations/floor_acid_center_tool")
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_1")
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_2")
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_3")
@@ -73,7 +74,8 @@ RegisterGlobalEventHandler("NewAwardEvent", function(evt)
     local awardName = evt:GetName()
 
     if ( awardName == "buildings/decorations/floor_acid_1x1" ) then
-
+    
+        BuildingService:UnlockBuilding("buildings/decorations/floor_acid_center_tool")
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_1")
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_2")
         BuildingService:UnlockBuilding("buildings/decorations/floor_acid_tool_3")
