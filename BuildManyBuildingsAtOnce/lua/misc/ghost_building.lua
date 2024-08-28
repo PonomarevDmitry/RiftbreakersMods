@@ -283,7 +283,7 @@ function ghost_building:OnUpdate()
 
                     self:AddToEntitiesToSellList(testBuildable)
 
-                    if ( testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_OVERRIDES ) then
+                    if ( testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_OVERRIDES or ( testBuildable.missing_resources and testBuildable.missing_resources.count > 0 ) ) then
 
                         countBuildable = countBuildable + 1
                     end
