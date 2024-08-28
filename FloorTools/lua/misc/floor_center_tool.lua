@@ -63,6 +63,9 @@ function floor_center_tool:InitializeValues()
 
     self.linesEntities = {}
 
+    self.buildStartTransform = nil
+    self.positionCenterMarker = nil
+
     self.configNameSize = "$floor_center_tool_size"
 
     self.currentSize = selectorDB:GetIntOrDefault(self.configNameSize, 4)
@@ -225,7 +228,17 @@ function floor_center_tool:OnRotateSelectorRequest(evt)
 
     self:ClearGridEntities()
     self.buildStartTransform = nil
-    self.nowBuildingLine = false;
+    self.nowBuildingLine = false
+
+    self:DestroyPositionCenterMarker()
+end
+
+function floor_center_tool:DestroyPositionCenterMarker()
+
+    if ( self.positionCenterMarker ~= nil ) then
+        EntityService:RemoveEntity( self.positionCenterMarker )
+        self.positionCenterMarker = nil
+    end
 end
 
 function floor_center_tool:CreateInfoChild()
@@ -665,7 +678,9 @@ function floor_center_tool:FinishLineBuild()
 
     self.linesEntities = {}
     self.buildStartTransform = nil
-    self.nowBuildingLine = false;
+    self.nowBuildingLine = false
+
+    self:DestroyPositionCenterMarker()
 end
 
 function floor_center_tool:GetAllEntities()
@@ -848,6 +863,8 @@ function floor_center_tool:OnActivateSelectorRequest()
         self.buildStartTransform = transform
         EntityService:SetVisible( self.entity , false )
 
+        self.positionCenterMarker = EntityService:SpawnEntity( "effects/multilayeredwalls_markers/objective_marker", self.buildStartTransform.position, EntityService:GetTeam(self.entity) )
+
         self:OnWorkExecute()
     else
         self:FinishLineBuild()
@@ -875,6 +892,8 @@ function floor_center_tool:OnRelease()
 
     self.currentMarkerSize = 0
     self.currentMarkerBlueprint = ""
+
+    self:DestroyPositionCenterMarker()
 
     if ( self.infoChild ~= nil ) then
         EntityService:RemoveEntity(self.infoChild)
