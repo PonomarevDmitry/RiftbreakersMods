@@ -62,6 +62,8 @@ function floor_center_tool:InitializeValues()
     end
 
     self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
 
     self.buildStartTransform = nil
     self.positionCenterMarker = nil
@@ -112,41 +114,75 @@ function floor_center_tool:OnWorkExecute()
 
         local buildEndPosition = currentTransform.position
 
-        local newPositions = self:FindPositionsToBuildLine( self.buildStartTransform.position, buildEndPosition, currentSize )
+        local newPositionsArray, hashPositions = self:FindPositionsToBuildLine( self.buildStartTransform.position, buildEndPosition, currentSize )
 
-        if ( #self.linesEntities > #newPositions ) then
+        local oldLinesEntities = self.linesEntities
+        local oldLinesEntityInfo = self.linesEntityInfo
+        local oldGridEntities = self.gridEntities
 
-            for i=#self.linesEntities,#newPositions + 1,-1 do
-                local lineEnt = self.linesEntities[i]
-                EntityService:RemoveEntity(lineEnt)
-                self.linesEntities[i] = nil
+        local newLinesEntities = {}
+        local newLinesEntityInfo = {}
+        local newGridEntities = {}
+
+        for i=1,#newPositionsArray do
+
+            local newPosition = newPositionsArray[i]
+
+            local lineEnt = self:GetEntityFromGrid( oldGridEntities, newPosition.x, newPosition.z )
+
+            if ( lineEnt == nil ) then
+
+                lineEnt = self:SpawnGhostFloorEntity(newPosition, orientation, currentSize, team)
             end
 
-        elseif ( #self.linesEntities < #newPositions ) then
+            Insert( newLinesEntities, lineEnt )
 
-            for i=#self.linesEntities + 1 ,#newPositions do
+            self:InsertEntityToGrid( newGridEntities, lineEnt, newPosition.x, newPosition.z  )
 
-                local lineEnt = self:SpawnGhostFloorEntity(newPositions[i], orientation, currentSize, team)
+            local entityInfo = {}
 
-                Insert( self.linesEntities, lineEnt )
+            entityInfo.position = newPosition
+            entityInfo.entity = lineEnt
+
+            Insert( newLinesEntityInfo, entityInfo )
+        end
+
+        for i=#oldLinesEntityInfo,1,-1 do
+
+            local entityInfo = oldLinesEntityInfo[i]
+
+            local lineEnt = entityInfo.entity
+
+            local lineEntPosition = entityInfo.position
+
+            if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
+
+                EntityService:RemoveEntity( lineEnt )
+                oldLinesEntityInfo[i] = nil
             end
         end
 
-        Assert(#self.linesEntities == #newPositions, "ERROR: something wrong with line positioning: " .. tostring(#self.linesEntities) .. "/" .. tostring(#newPositions))
+        self.linesEntities = newLinesEntities
+        self.linesEntityInfo = newLinesEntityInfo
+        self.gridEntities = newGridEntities
+
+        Assert(#self.linesEntities == #newPositionsArray, "ERROR: something wrong with line positioning: " .. tostring(#self.linesEntities) .. "/" .. tostring(#newPositionsArray))
 
         local id = 1
 
-        for i=1,#newPositions do
+        for i=1,#newPositionsArray do
 
             local transform = {}
 
+            local newPosition = newPositionsArray[i]
+
             transform.scale = {x=1,y=1,z=1}
             transform.orientation = orientation
-            transform.position = newPositions[i]
+            transform.position = newPosition
 
             local lineEnt = self.linesEntities[i]
 
-            EntityService:SetPosition( lineEnt, newPositions[i])
+            EntityService:SetPosition( lineEnt, newPosition)
             EntityService:SetOrientation( lineEnt, orientation )
             EntityService:SetScale( lineEnt, currentSize, 1.0, currentSize )
 
@@ -179,6 +215,47 @@ function floor_center_tool:OnWorkExecute()
     else
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
+end
+
+function floor_center_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
+
+    if ( gridEntities[newPositionX] == nil) then
+
+        return nil
+    end
+
+    local arrayXPosition = gridEntities[newPositionX]
+
+    return arrayXPosition[newPositionZ]
+end
+
+function floor_center_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
+
+    if ( gridEntities[newPositionX] == nil) then
+
+        gridEntities[newPositionX] = {}
+    end
+
+    local arrayXPosition = gridEntities[newPositionX]
+
+    arrayXPosition[newPositionZ] = lineEnt
+end
+
+function floor_center_tool:HashContains( hashPositions, newPositionX, newPositionZ )
+
+    if ( hashPositions[newPositionX] == nil) then
+
+        return false
+    end
+
+    local hashXPosition = hashPositions[newPositionX]
+
+    if ( hashXPosition[newPositionZ] == nil ) then
+
+        return false
+    end
+
+    return true
 end
 
 function floor_center_tool:CheckSize( size )
@@ -516,7 +593,16 @@ function floor_center_tool:FindPositionsToBuildLine( buildCenterPoint, buildSele
 
     table.sort(result, sorter)
 
-    return result
+    local hashPositions = {}
+
+    for position in Iter(result) do
+
+        hashPositions[position.x] = hashPositions[position.x] or {}
+
+        hashPositions[position.x][position.z] = true
+    end
+
+    return result, hashPositions
 end
 
 function floor_center_tool:GetXZSigns(positionStart, positionEnd)
@@ -677,6 +763,8 @@ function floor_center_tool:FinishLineBuild()
     end
 
     self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
     self.buildStartTransform = nil
     self.nowBuildingLine = false
 
@@ -884,6 +972,8 @@ function floor_center_tool:ClearGridEntities()
         end
     end
     self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
 end
 
 function floor_center_tool:OnRelease()
