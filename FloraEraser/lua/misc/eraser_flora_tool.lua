@@ -32,7 +32,7 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
     local minVector = VectorSub(selectorPosition, scaleVector)
     local maxVector = VectorAdd(selectorPosition, scaleVector)
 
-    local predicate = {
+    self.predicateType = self.predicateType or {
 
         signature = "TypeComponent",
 
@@ -70,7 +70,7 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
         end
     }
 
-    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, self.predicateType )
 
     local result = {}
 
@@ -90,11 +90,11 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
     end
 
 
-    predicate = {
+    self.predicateVegetationLifecycle = self.predicateVegetationLifecycle or {
         signature = "VegetationLifecycleEnablerComponent"
     }
 
-    tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
+    tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, self.predicateVegetationLifecycle )
 
     for entity in Iter( tempCollection ) do
 
