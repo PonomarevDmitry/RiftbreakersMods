@@ -175,7 +175,7 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
         self.popupShown = true
 
-        GuiService:OpenPopup(self.entity, "gui/popup/mass_disassembly_popup_ingame_2buttons", confimMessage)
+        GuiService:OpenPopup(self.entity, "gui/popup/mass_disassembly_popup_ingame_buttons", confimMessage)
     else
 
         self:DestroyAllWeaponMods()
