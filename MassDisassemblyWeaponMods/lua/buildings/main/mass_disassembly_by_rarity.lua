@@ -1,6 +1,7 @@
 local mass_disassembly_base = require("lua/buildings/main/mass_disassembly_base.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
 
 class 'mass_disassembly_by_rarity' ( mass_disassembly_base )
 
@@ -27,6 +28,12 @@ function mass_disassembly_by_rarity:OnLoad()
 end
 
 function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
+
+    self.popupShown = self.popupShown or false
+
+    if ( self.popupShown ) then
+        return
+    end
 
     local player = event:GetOwner()
 
@@ -97,13 +104,15 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
         local itemBlueprintName = EntityService:GetBlueprintName(itemEntity.id)
 
-        hashByRarity[itemBlueprintName] = hashByRarity[itemBlueprintName] or {}
+        local weaponModKey = self:GetWeaponModKey(itemBlueprintName, itemEntity.id)
 
-        if ( IndexOf( hashByRarity[itemBlueprintName], itemEntity.id ) ~= nil ) then
+        hashByRarity[weaponModKey] = hashByRarity[weaponModKey] or {}
+
+        if ( IndexOf( hashByRarity[weaponModKey], itemEntity.id ) ~= nil ) then
             goto continue
         end
 
-        Insert(hashByRarity[itemBlueprintName], itemEntity.id)
+        Insert(hashByRarity[weaponModKey], itemEntity.id)
 
         hasItems = true
 
@@ -118,7 +127,11 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
     for rarity, blueprintList in pairs( hashRarityBlueprint ) do
 
-        for itemBlueprintName, itemList in pairs( blueprintList ) do
+        for weaponModKey, itemList in pairs( blueprintList ) do
+
+            local firstItemId = itemList[1]
+
+            local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
 
             local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
             if ( blueprint ~= nil ) then
@@ -148,6 +161,42 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
                     end
                 end
             end
+        end
+    end
+
+    self.hashRarityBlueprint = hashRarityBlueprint
+    self.resourcesValues = resourcesValues
+
+    local hasOverride, confimMessage = self:HasOverride(resourcesValues)
+
+    if ( hasOverride ) then
+
+        
+
+        for resource, sum in pairs( resourcesValues ) do
+
+            local currentValue = PlayerService:GetResourceAmount( resource )
+            local limitValue = PlayerService:GetResourceLimit( resource )
+
+            
+        end
+
+        self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventResult")
+
+        self.popupShown = true
+
+        GuiService:OpenPopup(self.entity, "gui/popup/mass_disassembly_popup_ingame_2buttons", confimMessage)
+    else
+
+        self:DestroyAllWeaponMods()
+    end
+end
+
+function mass_disassembly_by_rarity:DestroyAllWeaponMods()
+
+    for rarity, blueprintList in pairs( self.hashRarityBlueprint ) do
+
+        for itemBlueprintName, itemList in pairs( blueprintList ) do
 
             for itemEntity in Iter(itemList) do
                 EntityService:RemoveEntity( itemEntity )
@@ -155,12 +204,87 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
         end
     end
 
-    for resource, sum in pairs( resourcesValues ) do
+    for resource, addValue in pairs( self.resourcesValues ) do
 
-        PlayerService:AddResourceAmount( resource, sum )
+        PlayerService:AddResourceAmount( resource, addValue )
     end
 
     EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
+end
+
+function mass_disassembly_by_rarity:OnGuiPopupResultEventResult( evt)
+
+    self.popupShown = false
+
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventResult")
+
+    local eventResult = evt:GetResult()
+
+    if ( eventResult == "button_all" ) then
+
+        self:DestroyAllWeaponMods()
+    end
+end
+
+function mass_disassembly_by_rarity:HasOverride(resourcesValues)
+
+    local result = false
+
+    local confimMessage = '<style="build_info_header_blue">${gui/menu/inventory/you_receive}</style>\n\n'
+
+    local resourceArray = {}
+    
+    for resourceName, _ in pairs( resourcesValues ) do
+
+        Insert(resourceArray, resourceName)
+    end
+
+    table.sort(resourceArray, function(a, b) return a:upper() < b:upper() end)
+    
+    for resourceName in Iter( resourceArray ) do
+
+        local addValue = resourcesValues[resourceName]
+
+        local currentValue = PlayerService:GetResourceAmount( resourceName )
+        local limitValue = PlayerService:GetResourceLimit( resourceName )
+
+        local addValueStyle = "resource_green"
+
+        if ( currentValue + addValue > limitValue ) then
+            confimMessage = confimMessage .. '<style="resource_red">${gui/menu/inventory/storage_limit_exceeded}</style>\n'
+            result = true
+
+            addValueStyle = "resource_red"
+        end
+
+        LogService:Log(" resource " .. tostring(resourceName) .. " " .. tostring(currentValue) .. "/" .. tostring(limitValue) .. " + " .. tostring(addValue) )
+
+        if ( ResourceManager:ResourceExists( "GameplayResourceDef", resourceName ) ) then
+
+            local resourceDef = ResourceManager:GetResource("GameplayResourceDef", resourceName)
+
+            if ( resourceDef ~= nil ) then
+
+                local resourceDefRef = reflection_helper( resourceDef )
+
+                LogService:Log(" resource " .. tostring(resourceName) .. " " .. tostring(resourceDefRef) )
+
+                local resourceIcon = resourceDefRef.icon
+
+                confimMessage = confimMessage .. '<img="' .. resourceIcon .. '">'
+
+                confimMessage = confimMessage .. ' <style="inventory_description_yellow">${'.. resourceDefRef.localization_id .. '}</style>'
+
+                confimMessage = confimMessage .. ' <style="resource_value">' .. tostring(currentValue) .. '</style> <style="resource_max">/ ' .. tostring(limitValue) .. '</style> <style="' .. addValueStyle .. '">+' .. tostring(addValue) .. '</style>'
+
+                confimMessage = confimMessage .. '\n\n'
+            end
+        end
+    end
+
+    confimMessage = confimMessage .. '<style="build_info_header_blue">Disassembly Weapon Mods?</style>'
+
+    return result, confimMessage
 end
 
 function mass_disassembly_by_rarity:GetModsToDisassebly()
