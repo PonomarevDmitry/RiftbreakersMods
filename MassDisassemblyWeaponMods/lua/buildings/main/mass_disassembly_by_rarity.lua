@@ -1,16 +1,29 @@
-local building = require("lua/buildings/building.lua")
+local mass_disassembly_base = require("lua/buildings/main/mass_disassembly_base.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/string_utils.lua")
 
-class 'mass_disassembly_by_rarity' ( building )
+class 'mass_disassembly_by_rarity' ( mass_disassembly_base )
 
 function mass_disassembly_by_rarity:__init()
-    building.__init(self,self)
+    mass_disassembly_base.__init(self,self)
 end
 
 function mass_disassembly_by_rarity:OnInit()
 
-    self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
+    if ( mass_disassembly_base.OnInit ) then
+        mass_disassembly_base.OnInit(self)
+    end
+
+    self.data:SetString("action_icon", "gui/menu/inventory/stat_icons/quality_icon" )
+end
+
+function mass_disassembly_by_rarity:OnLoad()
+
+    if ( mass_disassembly_base.OnLoad ) then
+        mass_disassembly_base.OnLoad(self)
+    end
+
+    self.data:SetString("action_icon", "gui/menu/inventory/stat_icons/quality_icon" )
 end
 
 function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
@@ -187,6 +200,76 @@ function mass_disassembly_by_rarity:GetModsToDisassebly()
     end
 
     return hashRarityBlueprint, hasItems
+end
+
+function mass_disassembly_by_rarity:PopulateSpecialActionInfo()
+
+    local menuEntity = self.menuEntity
+    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
+        return
+    end
+
+    local menuDB = EntityService:GetDatabase( menuEntity )
+    if ( menuDB == nil ) then
+        return
+    end
+
+    menuDB:SetInt("slot_visible_1", 0)
+    menuDB:SetInt("slot_visible_2", 0)
+    menuDB:SetInt("slot_visible_3", 0)
+
+    menuDB:SetString("slot_icon_1", "")
+    menuDB:SetString("slot_icon_2", "")
+    menuDB:SetString("slot_icon_3", "")
+
+    menuDB:SetString("slot_name_1", "")
+    menuDB:SetString("slot_name_2", "")
+    menuDB:SetString("slot_name_3", "")
+
+    menuDB:SetInt("slot_rarity_1", 0)
+    menuDB:SetInt("slot_rarity_2", 0)
+    menuDB:SetInt("slot_rarity_3", 0)
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent == nil ) then
+        menuDB:SetInt("menu_visible", 0)
+        return
+    end
+
+    local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+    local slotsCount = 1
+
+    local slots = equipment.slots
+    for i=1,slots.count do
+
+        local slot = slots[i]
+
+        local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+
+            local blueprintName = EntityService:GetBlueprintName( modItem )
+
+            local blueprint = ResourceManager:GetBlueprint( blueprintName )
+            if ( blueprint ~= nil ) then
+
+                local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
+                if ( inventoryItemComponent ~= nil ) then
+
+                    local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
+
+                    menuDB:SetInt("slot_visible_" .. tostring(slotsCount), 1)
+                    menuDB:SetString("slot_icon_" .. tostring(slotsCount), inventoryItemComponentRef.icon)
+                    menuDB:SetString("slot_name_" .. tostring(slotsCount), inventoryItemComponentRef.name)
+                    menuDB:SetInt("slot_rarity_" .. tostring(slotsCount), inventoryItemComponentRef.rarity)
+
+                    slotsCount = slotsCount + 1
+                end
+            end
+        end
+    end
+
+    self:SetMenuVisible(menuEntity)
 end
 
 return mass_disassembly_by_rarity
