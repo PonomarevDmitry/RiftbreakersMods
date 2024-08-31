@@ -171,16 +171,6 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
     if ( hasOverride ) then
 
-        
-
-        for resource, sum in pairs( resourcesValues ) do
-
-            local currentValue = PlayerService:GetResourceAmount( resource )
-            local limitValue = PlayerService:GetResourceLimit( resource )
-
-            
-        end
-
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventResult")
 
         self.popupShown = true
@@ -192,11 +182,33 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
     end
 end
 
+function mass_disassembly_by_rarity:OnGuiPopupResultEventResult( evt)
+
+    self.popupShown = false
+
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventResult")
+
+    local eventResult = evt:GetResult()
+
+    if ( eventResult == "button_all" ) then
+
+        self:DestroyAllWeaponMods()
+
+    elseif ( eventResult == "button_before_storage_limit" ) then
+
+        self:DestroyBeforeStorageLimit()
+
+    elseif ( eventResult == "button_fill_storages" ) then
+
+        self:DestroyFillStorageLimit()
+    end
+end
+
 function mass_disassembly_by_rarity:DestroyAllWeaponMods()
 
     for rarity, blueprintList in pairs( self.hashRarityBlueprint ) do
 
-        for itemBlueprintName, itemList in pairs( blueprintList ) do
+        for weaponModKey, itemList in pairs( blueprintList ) do
 
             for itemEntity in Iter(itemList) do
                 EntityService:RemoveEntity( itemEntity )
@@ -212,18 +224,209 @@ function mass_disassembly_by_rarity:DestroyAllWeaponMods()
     EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
 end
 
-function mass_disassembly_by_rarity:OnGuiPopupResultEventResult( evt)
+function mass_disassembly_by_rarity:DestroyBeforeStorageLimit()
 
-    self.popupShown = false
+    local resourceCurrentValue = {}
+    local resourceLimit = {}
+    local resourceAddValues = {}
+    
+    for resourceName, _ in pairs( self.resourcesValues ) do
 
-    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventResult")
-
-    local eventResult = evt:GetResult()
-
-    if ( eventResult == "button_all" ) then
-
-        self:DestroyAllWeaponMods()
+        resourceCurrentValue[resourceName] = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
+        resourceLimit[resourceName] = PlayerService:GetResourceLimit( resourceName )
     end
+    
+    local entitiesToDestroy = {}
+
+    for rarity=0,3 do
+
+        if ( self.hashRarityBlueprint[rarity] ) then
+
+            local blueprintList = self.hashRarityBlueprint[rarity]
+
+            for weaponModKey, itemList in pairs( blueprintList ) do
+
+                self:SortWeaponsMods(itemList)
+
+                local firstItemId = itemList[1]
+
+                local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+
+                local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                if ( blueprint ~= nil ) then
+
+                    local costDesc = blueprint:GetComponent("CostDesc")
+                    if ( costDesc ~= nil ) then
+
+                        local costDescRef = reflection_helper(costDesc)
+                        if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+
+                            local account = costDescRef.account
+
+                            if ( account.count > 0 ) then
+
+                                local resourcesValuesForOne = {}
+
+                                for i = 1,account.count do
+
+                                    local researchCost = account[i]
+
+                                    if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+
+                                        local sum = researchCost.count / 2
+
+                                        resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                    end
+                                end
+                
+                                for i=1,#itemList do
+
+                                    local newCurrent = {}
+    
+                                    for resourceName, _ in pairs( resourceLimit ) do
+
+                                        newCurrent[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                    end
+
+                                    if ( self:IsAnyCurrentValueOverride(newCurrent, resourceLimit) ) then
+
+                                        goto end_selecting_entiites
+                                    end
+
+                                    local itemId = itemList[i]
+
+                                    Insert(entitiesToDestroy, itemId)
+    
+                                    for resourceName, _ in pairs( resourceLimit ) do
+
+                                        resourceCurrentValue[resourceName] = (newCurrent[resourceName] or 0)
+
+                                        resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    ::end_selecting_entiites::
+
+    if ( #entitiesToDestroy == 0 ) then
+        return
+    end
+
+    for itemEntityId in Iter(entitiesToDestroy) do
+        EntityService:RemoveEntity( itemEntityId )
+    end
+
+    for resource, addValue in pairs( resourceAddValues ) do
+
+        PlayerService:AddResourceAmount( resource, addValue )
+    end
+
+    EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
+end
+
+function mass_disassembly_by_rarity:DestroyFillStorageLimit()
+
+    local resourceCurrentValue = {}
+    local resourceLimit = {}
+    local resourceAddValues = {}
+    
+    for resourceName, _ in pairs( self.resourcesValues ) do
+
+        resourceCurrentValue[resourceName] = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
+        resourceLimit[resourceName] = PlayerService:GetResourceLimit( resourceName )
+    end
+    
+    local entitiesToDestroy = {}
+
+    for rarity=0,3 do
+
+        if ( self.hashRarityBlueprint[rarity] ) then
+
+            local blueprintList = self.hashRarityBlueprint[rarity]
+
+            for weaponModKey, itemList in pairs( blueprintList ) do
+
+                self:SortWeaponsMods(itemList)
+
+                local firstItemId = itemList[1]
+
+                local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+
+                local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                if ( blueprint ~= nil ) then
+
+                    local costDesc = blueprint:GetComponent("CostDesc")
+                    if ( costDesc ~= nil ) then
+
+                        local costDescRef = reflection_helper(costDesc)
+                        if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+
+                            local account = costDescRef.account
+
+                            if ( account.count > 0 ) then
+
+                                local resourcesValuesForOne = {}
+
+                                for i = 1,account.count do
+
+                                    local researchCost = account[i]
+
+                                    if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+
+                                        local sum = researchCost.count / 2
+
+                                        resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                    end
+                                end
+                
+                                for i=1,#itemList do
+
+                                    if ( self:IsAllCurrentValueOverride(resourceCurrentValue, resourceLimit) ) then
+
+                                        goto end_selecting_entiites
+                                    end
+
+                                    local itemEntityId = itemList[i]
+
+                                    Insert(entitiesToDestroy, itemEntityId)
+    
+                                    for resourceName, _ in pairs( resourceLimit ) do
+
+                                        resourceCurrentValue[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+
+                                        resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    ::end_selecting_entiites::
+
+    if ( #entitiesToDestroy == 0 ) then
+        return
+    end
+
+    for itemEntityId in Iter(entitiesToDestroy) do
+        EntityService:RemoveEntity( itemEntityId )
+    end
+
+    for resource, addValue in pairs( resourceAddValues ) do
+
+        PlayerService:AddResourceAmount( resource, addValue )
+    end
+
+    EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
 end
 
 function mass_disassembly_by_rarity:HasOverride(resourcesValues)
@@ -245,7 +448,7 @@ function mass_disassembly_by_rarity:HasOverride(resourcesValues)
 
         local addValue = resourcesValues[resourceName]
 
-        local currentValue = PlayerService:GetResourceAmount( resourceName )
+        local currentValue = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
         local limitValue = PlayerService:GetResourceLimit( resourceName )
 
         local addValueStyle = "resource_green"
@@ -282,9 +485,65 @@ function mass_disassembly_by_rarity:HasOverride(resourcesValues)
         end
     end
 
-    confimMessage = confimMessage .. '<style="build_info_header_blue">Disassembly Weapon Mods?</style>'
+    confimMessage = confimMessage .. '<style="build_info_header_blue">Disassemble Weapon Mods?</style>'
 
     return result, confimMessage
+end
+
+function mass_disassembly_by_rarity:IsAnyCurrentValueOverride(resourceCurrentValue, resourceLimit)
+
+    for resourceName, _ in pairs( resourceLimit ) do
+
+        local currentValue = resourceCurrentValue[resourceName] or 0
+        local limitValue = resourceLimit[resourceName] or 0
+
+        if ( currentValue > limitValue ) then
+
+            return true
+        end
+    end
+
+    return false
+end
+
+function mass_disassembly_by_rarity:IsAllCurrentValueOverride(resourceCurrentValue, resourceLimit)
+
+    for resourceName, _ in pairs( resourceLimit ) do
+
+        local currentValue = resourceCurrentValue[resourceName] or 0
+        local limitValue = resourceLimit[resourceName] or 0
+
+        if ( currentValue < limitValue ) then
+
+            return false
+        end
+    end
+
+    return true
+end
+
+function mass_disassembly_by_rarity:SortWeaponsMods(itemList)
+
+    local statValue = {}
+
+    for itemEntityId in Iter(itemList) do
+
+        local weaponModComponent = EntityService:GetComponent(itemEntityId, "WeaponModComponent")
+
+        local weaponModComponentRef = reflection_helper( weaponModComponent )
+        
+        statValue[itemEntityId] = tonumber( weaponModComponentRef.mod_data.value )
+    end
+
+    local sorter = function( lh, rh )
+
+        local lhStatValue = statValue[lh]
+        local rhStatValue = statValue[rh]
+
+        return lhStatValue < rhStatValue
+    end
+
+    table.sort(itemList, sorter)
 end
 
 function mass_disassembly_by_rarity:GetModsToDisassebly()
