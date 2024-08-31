@@ -2,6 +2,7 @@ local building = require("lua/buildings/building.lua")
 
 require("lua/utils/reflection.lua")
 require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
 
 class 'mass_disassembly_base' ( building )
 
@@ -184,6 +185,33 @@ function mass_disassembly_base:CreateMenuEntity()
 end
 
 function mass_disassembly_base:PopulateSpecialActionInfo()
+end
+
+function mass_disassembly_base:GetWeaponModKey(blueprintName, entityId)
+
+    if ( string.find(blueprintName, "items/loot/weapon_mods/mod_damage_over_time_") ~= nil
+
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_standard_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_advanced_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_superior_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_extreme_item") ~= nil
+    ) then
+
+        local weaponModComponent = EntityService:GetComponent(entityId, "WeaponModComponent")
+        if ( weaponModComponent ~= nil ) then
+
+            local weaponModComponentRef = reflection_helper( weaponModComponent )
+
+            if ( weaponModComponentRef.mod_data and weaponModComponentRef.mod_data.damage_type ) then
+        
+                local keyResult = blueprintName .. "_" .. tostring(weaponModComponentRef.mod_data.damage_type)
+
+                return keyResult
+            end
+        end
+    end
+
+    return blueprintName
 end
 
 return mass_disassembly_base
