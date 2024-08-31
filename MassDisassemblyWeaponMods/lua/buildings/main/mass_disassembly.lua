@@ -63,22 +63,29 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
         end
 
         local itemBlueprintName = EntityService:GetBlueprintName(itemEntity.id)
-        if ( hashItems[itemBlueprintName] == nil ) then
+
+        local weaponModKey = self:GetWeaponModKey(itemBlueprintName, itemEntity.id)
+
+        if ( hashItems[weaponModKey] == nil ) then
             goto continue
         end
 
-        if ( IndexOf( hashItems[itemBlueprintName], itemEntity.id ) ~= nil ) then
+        if ( IndexOf( hashItems[weaponModKey], itemEntity.id ) ~= nil ) then
             goto continue
         end
 
-        Insert(hashItems[itemBlueprintName], itemEntity.id)
+        Insert(hashItems[weaponModKey], itemEntity.id)
 
         ::continue::
     end
 
     local resourcesValues = {}
 
-    for itemBlueprintName, itemList in pairs( hashItems ) do
+    for weaponModKey, itemList in pairs( hashItems ) do
+
+        local firstItemId = itemList[1]
+
+        local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
 
         local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
         if ( blueprint ~= nil ) then
@@ -144,11 +151,13 @@ function mass_disassembly:GetModsToDisassebly()
 
                 local blueprintName = EntityService:GetBlueprintName(modItem)
 
-                hashItems[blueprintName] = hashItems[blueprintName] or {}
+                local weaponModKey = self:GetWeaponModKey(blueprintName, modItem)
+
+                hashItems[weaponModKey] = hashItems[weaponModKey] or {}
 
                 hasItems = true
 
-                Insert(hashItems[blueprintName], modItem)
+                Insert(hashItems[weaponModKey], modItem)
 
                 QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
             end
@@ -156,6 +165,33 @@ function mass_disassembly:GetModsToDisassebly()
     end
 
     return hashItems, hasItems
+end
+
+function mass_disassembly:GetWeaponModKey(blueprintName, entityId)
+
+    if ( string.find(blueprintName, "items/loot/weapon_mods/mod_damage_over_time_") ~= nil
+
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_standard_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_advanced_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_superior_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_extreme_item") ~= nil
+    ) then
+
+        local weaponModComponent = EntityService:GetComponent(entityId, "WeaponModComponent")
+        if ( weaponModComponent ~= nil ) then
+
+            local weaponModComponentRef = reflection_helper( weaponModComponent )
+
+            if ( weaponModComponentRef.mod_data and weaponModComponentRef.mod_data.damage_type ) then
+        
+                local keyResult = blueprintName .. "_" .. tostring(weaponModComponentRef.mod_data.damage_type)
+
+                return keyResult
+            end
+        end
+    end
+
+    return blueprintName
 end
 
 return mass_disassembly
