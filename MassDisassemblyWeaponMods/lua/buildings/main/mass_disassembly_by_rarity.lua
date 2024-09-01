@@ -129,32 +129,35 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
         for weaponModKey, itemList in pairs( blueprintList ) do
 
-            local firstItemId = itemList[1]
+            if ( #itemList > 0 ) then
 
-            local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+                local firstItemId = itemList[1]
 
-            local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
-            if ( blueprint ~= nil ) then
+                local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
 
-                local costDesc = blueprint:GetComponent("CostDesc")
-                if ( costDesc ~= nil ) then
+                local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                if ( blueprint ~= nil ) then
 
-                    local costDescRef = reflection_helper(costDesc)
-                    if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+                    local costDesc = blueprint:GetComponent("CostDesc")
+                    if ( costDesc ~= nil ) then
 
-                        local account = costDescRef.account
+                        local costDescRef = reflection_helper(costDesc)
+                        if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
 
-                        if ( account.count > 0 ) then
+                            local account = costDescRef.account
 
-                            for i = 1,account.count do
+                            if ( account.count > 0 ) then
 
-                                local researchCost = account[i]
+                                for i = 1,account.count do
 
-                                if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+                                    local researchCost = account[i]
 
-                                    local sum = (researchCost.count / 2) * #itemList
+                                    if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
 
-                                    resourcesValues[researchCost.resource] = ( resourcesValues[researchCost.resource] or 0 ) + sum
+                                        local sum = (researchCost.count / 2) * #itemList
+
+                                        resourcesValues[researchCost.resource] = ( resourcesValues[researchCost.resource] or 0 ) + sum
+                                    end
                                 end
                             end
                         end
@@ -210,9 +213,7 @@ function mass_disassembly_by_rarity:DestroyAllWeaponMods()
 
         for weaponModKey, itemList in pairs( blueprintList ) do
 
-            for itemEntity in Iter(itemList) do
-                EntityService:RemoveEntity( itemEntity )
-            end
+            self:DestroyEntitiesList(itemList)
         end
     end
 
@@ -246,62 +247,65 @@ function mass_disassembly_by_rarity:DestroyBeforeStorageLimit()
 
             for weaponModKey, itemList in pairs( blueprintList ) do
 
-                self:SortWeaponsMods(itemList)
+                if ( #itemList > 0 ) then
 
-                local firstItemId = itemList[1]
+                    self:SortWeaponsMods(itemList)
 
-                local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+                    local firstItemId = itemList[1]
 
-                local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
-                if ( blueprint ~= nil ) then
+                    local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
 
-                    local costDesc = blueprint:GetComponent("CostDesc")
-                    if ( costDesc ~= nil ) then
+                    local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                    if ( blueprint ~= nil ) then
 
-                        local costDescRef = reflection_helper(costDesc)
-                        if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+                        local costDesc = blueprint:GetComponent("CostDesc")
+                        if ( costDesc ~= nil ) then
 
-                            local account = costDescRef.account
+                            local costDescRef = reflection_helper(costDesc)
+                            if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
 
-                            if ( account.count > 0 ) then
+                                local account = costDescRef.account
 
-                                local resourcesValuesForOne = {}
+                                if ( account.count > 0 ) then
 
-                                for i = 1,account.count do
+                                    local resourcesValuesForOne = {}
 
-                                    local researchCost = account[i]
+                                    for i = 1,account.count do
 
-                                    if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+                                        local researchCost = account[i]
 
-                                        local sum = researchCost.count / 2
+                                        if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
 
-                                        resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                            local sum = researchCost.count / 2
+
+                                            resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                        end
                                     end
-                                end
                 
-                                for i=1,#itemList do
+                                    for i=1,#itemList do
 
-                                    local newCurrent = {}
+                                        local newCurrent = {}
     
-                                    for resourceName, _ in pairs( resourceLimit ) do
+                                        for resourceName, _ in pairs( resourceLimit ) do
 
-                                        newCurrent[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
-                                    end
+                                            newCurrent[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                        end
 
-                                    if ( self:IsAnyCurrentValueOverride(newCurrent, resourceLimit) ) then
+                                        if ( self:IsAnyCurrentValueOverride(newCurrent, resourceLimit) ) then
 
-                                        goto end_selecting_entiites
-                                    end
+                                            goto end_selecting_entiites
+                                        end
 
-                                    local itemId = itemList[i]
+                                        local itemId = itemList[i]
 
-                                    Insert(entitiesToDestroy, itemId)
+                                        Insert(entitiesToDestroy, itemId)
     
-                                    for resourceName, _ in pairs( resourceLimit ) do
+                                        for resourceName, _ in pairs( resourceLimit ) do
 
-                                        resourceCurrentValue[resourceName] = (newCurrent[resourceName] or 0)
+                                            resourceCurrentValue[resourceName] = (newCurrent[resourceName] or 0)
 
-                                        resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                            resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                        end
                                     end
                                 end
                             end
@@ -318,9 +322,7 @@ function mass_disassembly_by_rarity:DestroyBeforeStorageLimit()
         return
     end
 
-    for itemEntityId in Iter(entitiesToDestroy) do
-        EntityService:RemoveEntity( itemEntityId )
-    end
+    self:DestroyEntitiesList(entitiesToDestroy)
 
     for resource, addValue in pairs( resourceAddValues ) do
 
@@ -352,55 +354,58 @@ function mass_disassembly_by_rarity:DestroyFillStorageLimit()
 
             for weaponModKey, itemList in pairs( blueprintList ) do
 
-                self:SortWeaponsMods(itemList)
+                if ( #itemList > 0 ) then
 
-                local firstItemId = itemList[1]
+                    self:SortWeaponsMods(itemList)
 
-                local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+                    local firstItemId = itemList[1]
 
-                local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
-                if ( blueprint ~= nil ) then
+                    local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
 
-                    local costDesc = blueprint:GetComponent("CostDesc")
-                    if ( costDesc ~= nil ) then
+                    local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                    if ( blueprint ~= nil ) then
 
-                        local costDescRef = reflection_helper(costDesc)
-                        if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+                        local costDesc = blueprint:GetComponent("CostDesc")
+                        if ( costDesc ~= nil ) then
 
-                            local account = costDescRef.account
+                            local costDescRef = reflection_helper(costDesc)
+                            if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
 
-                            if ( account.count > 0 ) then
+                                local account = costDescRef.account
 
-                                local resourcesValuesForOne = {}
+                                if ( account.count > 0 ) then
 
-                                for i = 1,account.count do
+                                    local resourcesValuesForOne = {}
 
-                                    local researchCost = account[i]
+                                    for i = 1,account.count do
 
-                                    if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+                                        local researchCost = account[i]
 
-                                        local sum = researchCost.count / 2
+                                        if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
 
-                                        resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                            local sum = researchCost.count / 2
+
+                                            resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                        end
                                     end
-                                end
                 
-                                for i=1,#itemList do
+                                    for i=1,#itemList do
 
-                                    if ( self:IsAllCurrentValueOverride(resourceCurrentValue, resourceLimit) ) then
+                                        if ( self:IsAllCurrentValueOverride(resourceCurrentValue, resourceLimit) ) then
 
-                                        goto end_selecting_entiites
-                                    end
+                                            goto end_selecting_entiites
+                                        end
 
-                                    local itemEntityId = itemList[i]
+                                        local itemEntityId = itemList[i]
 
-                                    Insert(entitiesToDestroy, itemEntityId)
+                                        Insert(entitiesToDestroy, itemEntityId)
     
-                                    for resourceName, _ in pairs( resourceLimit ) do
+                                        for resourceName, _ in pairs( resourceLimit ) do
 
-                                        resourceCurrentValue[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                            resourceCurrentValue[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
 
-                                        resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                            resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                        end
                                     end
                                 end
                             end
@@ -417,9 +422,7 @@ function mass_disassembly_by_rarity:DestroyFillStorageLimit()
         return
     end
 
-    for itemEntityId in Iter(entitiesToDestroy) do
-        EntityService:RemoveEntity( itemEntityId )
-    end
+    self:DestroyEntitiesList(entitiesToDestroy)
 
     for resource, addValue in pairs( resourceAddValues ) do
 
@@ -427,6 +430,18 @@ function mass_disassembly_by_rarity:DestroyFillStorageLimit()
     end
 
     EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
+end
+
+function mass_disassembly_by_rarity:DestroyEntitiesList(entitiesToDestroy)
+
+    if ( #entitiesToDestroy == 0 ) then
+        return
+    end
+
+    for itemEntityId in Iter(entitiesToDestroy) do
+
+        EntityService:RemoveEntity( itemEntityId )
+    end
 end
 
 function mass_disassembly_by_rarity:HasOverride(resourcesValues)
