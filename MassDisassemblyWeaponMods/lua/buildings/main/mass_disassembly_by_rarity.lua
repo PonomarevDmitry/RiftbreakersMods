@@ -293,7 +293,7 @@ function mass_disassembly_by_rarity:DestroyBeforeStorageLimit()
 
                                         if ( self:IsAnyCurrentValueOverride(newCurrent, resourceLimit) ) then
 
-                                            goto end_selecting_entiites
+                                            goto end_selecting_entities
                                         end
 
                                         local itemId = itemList[i]
@@ -316,7 +316,7 @@ function mass_disassembly_by_rarity:DestroyBeforeStorageLimit()
         end
     end
 
-    ::end_selecting_entiites::
+    ::end_selecting_entities::
 
     if ( #entitiesToDestroy == 0 ) then
         return
@@ -393,7 +393,7 @@ function mass_disassembly_by_rarity:DestroyFillStorageLimit()
 
                                         if ( self:IsAllCurrentValueOverride(resourceCurrentValue, resourceLimit) ) then
 
-                                            goto end_selecting_entiites
+                                            goto end_selecting_entities
                                         end
 
                                         local itemEntityId = itemList[i]
@@ -416,7 +416,7 @@ function mass_disassembly_by_rarity:DestroyFillStorageLimit()
         end
     end
 
-    ::end_selecting_entiites::
+    ::end_selecting_entities::
 
     if ( #entitiesToDestroy == 0 ) then
         return
