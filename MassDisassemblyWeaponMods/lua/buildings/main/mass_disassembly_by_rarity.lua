@@ -460,8 +460,6 @@ function mass_disassembly_by_rarity:HasOverride(resourcesValues)
             addValueStyle = "resource_red"
         end
 
-        LogService:Log(" resource " .. tostring(resourceName) .. " " .. tostring(currentValue) .. "/" .. tostring(limitValue) .. " + " .. tostring(addValue) )
-
         if ( ResourceManager:ResourceExists( "GameplayResourceDef", resourceName ) ) then
 
             local resourceDef = ResourceManager:GetResource("GameplayResourceDef", resourceName)
@@ -469,8 +467,6 @@ function mass_disassembly_by_rarity:HasOverride(resourcesValues)
             if ( resourceDef ~= nil ) then
 
                 local resourceDefRef = reflection_helper( resourceDef )
-
-                LogService:Log(" resource " .. tostring(resourceName) .. " " .. tostring(resourceDefRef) )
 
                 local resourceIcon = resourceDefRef.icon
 
