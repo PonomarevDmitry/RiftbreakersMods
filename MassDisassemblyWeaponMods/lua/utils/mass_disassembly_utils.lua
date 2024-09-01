@@ -1,5 +1,6 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
 
 local mass_disassembly_utils = {}
 
@@ -26,7 +27,7 @@ function mass_disassembly_utils:GetModsResources(hashRarityBlueprint)
 
                 for resourceName, sum in pairs( resourcesValuesForOne ) do
 
-                    resourcesValues[resourceName] = ( resourcesValues[resourceName] or 0 ) + sum
+                    resourcesValues[resourceName] = ( resourcesValues[resourceName] or 0 ) + sum * #itemList
                 end
             end
 
@@ -301,6 +302,30 @@ function mass_disassembly_utils:HasOverride(resourcesValues)
 
     local result = false
 
+    local overrideResource = {}
+    local resourceCurrentValue = {}
+    local resourceLimit = {}
+    
+    for resourceName, addValue in pairs( resourcesValues ) do
+
+        local currentValue = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
+        local limitValue = PlayerService:GetResourceLimit( resourceName )
+
+        resourceCurrentValue[resourceName] = currentValue
+        resourceLimit[resourceName] = limitValue
+
+        if ( currentValue + addValue > limitValue ) then
+            result = true
+
+            overrideResource[resourceName] = true
+        end
+    end
+
+    if ( result == false ) then
+
+        return result, ""
+    end
+
     local confimMessage = '<style="build_info_header_blue">${gui/menu/inventory/you_receive}</style>\n\n'
 
     local resourceArray = {}
@@ -316,14 +341,13 @@ function mass_disassembly_utils:HasOverride(resourcesValues)
 
         local addValue = resourcesValues[resourceName]
 
-        local currentValue = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
-        local limitValue = PlayerService:GetResourceLimit( resourceName )
+        local currentValue = resourceCurrentValue[resourceName] or 0
+        local limitValue = resourceLimit[resourceName] or 0
 
         local addValueStyle = "resource_green"
 
-        if ( currentValue + addValue > limitValue ) then
+        if ( overrideResource[resourceName] == true ) then
             confimMessage = confimMessage .. '<style="resource_red">${gui/menu/inventory/storage_limit_exceeded}</style>\n'
-            result = true
 
             addValueStyle = "resource_red"
         end
@@ -410,58 +434,27 @@ function mass_disassembly_utils:SortWeaponsMods(itemList)
     table.sort(itemList, sorter)
 end
 
-function mass_disassembly_utils:GetModsToDisassebly(entity)
+function mass_disassembly_utils:GetAdditionalBlueprints(itemBlueprint)
 
-    local hasItems = false
-    local hashRarityBlueprint = {}
-    local hashInsertedMods = {}
+    local result = {}
 
-    local equipmentComponent = EntityService:GetComponent(entity, "EquipmentComponent")
-    if ( equipmentComponent ) then
+    if string.find(itemBlueprint, "advanced") then
 
-        local equipment = reflection_helper( equipmentComponent ).equipment[1]
+        Insert( result, string.gsub( itemBlueprint, "advanced", "standard" ) )
 
-        local slots = equipment.slots
-        for i=1,slots.count do
+    elseif string.find(itemBlueprint, "superior") then
+    
+        Insert( result, string.gsub( itemBlueprint, "superior", "standard" ) )
+        Insert( result, string.gsub( itemBlueprint, "superior", "advanced" ) )
 
-            local slot = slots[i]
+    elseif string.find(itemBlueprint, "extreme") then
 
-            local modItem = ItemService:GetEquippedItem( entity, slot.name )
-            if ( modItem ~= nil and modItem ~= INVALID_ID ) then
-
-                local weaponModComponent = EntityService:GetComponent(modItem, "WeaponModComponent")
-                if ( weaponModComponent ~= nil ) then
-
-                    local weaponModComponentRef = reflection_helper( weaponModComponent )
-
-                    local rarity = weaponModComponentRef.mod_data.rarity
-
-                    hashRarityBlueprint[rarity] = hashRarityBlueprint[rarity] or {}
-
-                    local hashByRarity = hashRarityBlueprint[rarity]
-
-
-
-                    local itemBlueprintName = EntityService:GetBlueprintName(modItem)
-
-                    local weaponModKey = mass_disassembly_utils:GetWeaponModKey(itemBlueprintName, modItem)
-
-                    hashByRarity[weaponModKey] = hashByRarity[weaponModKey] or {}
-
-
-
-
-                    hasItems = true
-
-                    Insert(hashByRarity[weaponModKey], modItem)
-
-                    hashInsertedMods[modItem] = slot.name
-                end
-            end
-        end
+        Insert( result, string.gsub( itemBlueprint, "extreme", "standard" ) )
+        Insert( result, string.gsub( itemBlueprint, "extreme", "advanced" ) )
+        Insert( result, string.gsub( itemBlueprint, "extreme", "superior" ) )
     end
 
-    return hashRarityBlueprint, hashInsertedMods, hasItems
+    return result
 end
 
 function mass_disassembly_utils:GetWeaponModKey(blueprintName, entityId)
