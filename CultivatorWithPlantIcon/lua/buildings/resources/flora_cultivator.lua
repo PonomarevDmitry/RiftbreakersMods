@@ -660,6 +660,7 @@ function flora_cultivator:OnUpdateProductionExecute()
         return
     end
 
+    local rowNumber = 1
     local productionGroupContent = ""
 
     local inventoryComp = blueprint:GetComponent("InventoryItemComponent")
@@ -669,11 +670,15 @@ function flora_cultivator:OnUpdateProductionExecute()
 
         if ( inventoryCompRef ~= nil ) then
 
-            productionGroupContent = "plant"
+            local rowName = "row" .. tostring(rowNumber)
 
-            self.data:SetString("production_group.rows.plant.name", inventoryCompRef.name )
-            self.data:SetString("production_group.rows.plant.icon", "gui/hud/tools_icons/sapling" )
-            self.data:SetString("production_group.rows.plant.value",  "" )
+            productionGroupContent = rowName
+
+            self.data:SetString("production_group.rows." .. rowName .. ".name", inventoryCompRef.name )
+            self.data:SetString("production_group.rows." .. rowName .. ".icon", "gui/hud/tools_icons/sapling" )
+            self.data:SetString("production_group.rows." .. rowName .. ".value",  "" )
+
+            rowNumber = rowNumber + 1
         end
     end
 
@@ -721,7 +726,18 @@ function flora_cultivator:OnUpdateProductionExecute()
 
                 if ( self:IsResourceInGatherable( resourceName, gatherCompRef.resources.resource ) ) then
 
-                    productionGroupContent = self:AddResourceToProductionGroup(resourceName, productionGroupContent)
+                    local rowName = self:AddResourceToProductionGroup(resourceName, rowNumber)
+
+                    if ( rowName and rowName ~= nil and rowName ~= "" ) then
+
+                        if ( string.len(productionGroupContent) > 0 ) then
+                            productionGroupContent = productionGroupContent .. ","
+                        end
+
+                        productionGroupContent = productionGroupContent .. rowName
+
+                        rowNumber = rowNumber + 1
+                    end
                 end
             end
         end
@@ -731,43 +747,27 @@ function flora_cultivator:OnUpdateProductionExecute()
     self.data:SetString("production_group.rows", productionGroupContent )
 end
 
-function flora_cultivator:AddResourceToProductionGroup( resourceName, productionGroupContent )
+function flora_cultivator:AddResourceToProductionGroup( resourceName, rowNumber )
 
-    local resourceBlueprintName = ItemService:GetResourceBlueprint( resourceName )
-    if ( resourceBlueprintName == "" or resourceBlueprintName == nil ) then
-        return productionGroupContent
+    if ( not ResourceManager:ResourceExists( "GameplayResourceDef", resourceName ) ) then
+
+        return ""
     end
 
-    if ( not ResourceManager:ResourceExists( "EntityBlueprint", resourceBlueprintName ) ) then
-        return productionGroupContent
+    local resourceDef = ResourceManager:GetResource("GameplayResourceDef", resourceName)
+    if ( resourceDef == nil ) then
+        return ""
     end
 
-    local resourceBlueprint = ResourceManager:GetBlueprint( resourceBlueprintName )
-    if ( resourceBlueprint == nil ) then
-        return productionGroupContent
-    end
+    local resourceDefRef = reflection_helper( resourceDef )
 
-    local resourceInventoryComp = resourceBlueprint:GetComponent( "InventoryItemComponent" )
-    if ( resourceInventoryComp == nil ) then
-        return productionGroupContent
-    end
+    local rowName = "row" .. tostring(rowNumber)
 
-    local resourceInventoryCompRef = reflection_helper( resourceInventoryComp )
-    if ( resourceInventoryCompRef == nil ) then
-        return productionGroupContent
-    end
+    self.data:SetString("production_group.rows." .. rowName .. ".name", resourceDefRef.localization_id )
+    self.data:SetString("production_group.rows." .. rowName .. ".icon", resourceDefRef.icon )
+    self.data:SetString("production_group.rows." .. rowName .. ".value",  "" )
 
-    if ( string.len(productionGroupContent) > 0 ) then
-        productionGroupContent = productionGroupContent .. ","
-    end
-
-    productionGroupContent = productionGroupContent .. resourceName
-
-    self.data:SetString("production_group.rows." .. resourceName .. ".name", resourceInventoryCompRef.name )
-    self.data:SetString("production_group.rows." .. resourceName .. ".icon", resourceInventoryCompRef.icon )
-    self.data:SetString("production_group.rows." .. resourceName .. ".value",  "" )
-
-    return productionGroupContent
+    return rowName
 end
 
 function flora_cultivator:IsResourceInGatherable( resourceName, resourceList )
