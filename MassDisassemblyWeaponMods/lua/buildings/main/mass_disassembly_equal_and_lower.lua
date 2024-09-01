@@ -15,9 +15,15 @@ end
 
 function mass_disassembly_equal_and_lower:OnInteractWithEntityRequest( event )
 
+    self.popupShown = self.popupShown or false
+
+    if ( self.popupShown ) then
+        return
+    end
+
     local player = event:GetOwner()
 
-    local hashItems,hasItems = self:GetModsToDisassebly()
+    local hashRarityBlueprint,hashInsertedMods,hasItems = self:GetModsToDisassebly()
     if ( hasItems == false ) then
         return
     end
@@ -62,79 +68,490 @@ function mass_disassembly_equal_and_lower:OnInteractWithEntityRequest( event )
             goto continue
         end
 
+        local weaponModComponent = EntityService:GetComponent(itemEntity.id, "WeaponModComponent")
+        if ( weaponModComponent == nil ) then
+            goto continue
+        end
+
+        local weaponModComponentRef = reflection_helper( weaponModComponent )
+        if ( weaponModComponentRef.mod_data == nil ) then
+            goto continue
+        end
+
+        local rarity = weaponModComponentRef.mod_data.rarity
+
+        if ( hashRarityBlueprint[rarity] == nil ) then
+            goto continue
+        end
+
+        local hashByRarity = hashRarityBlueprint[rarity]
+
         local itemBlueprintName = EntityService:GetBlueprintName(itemEntity.id)
 
         local weaponModKey = self:GetWeaponModKey(itemBlueprintName, itemEntity.id)
 
-        if ( hashItems[weaponModKey] == nil ) then
+        if ( hashByRarity[weaponModKey] == nil ) then
             goto continue
         end
 
-        if ( IndexOf( hashItems[weaponModKey], itemEntity.id ) ~= nil ) then
+        if ( IndexOf( hashByRarity[weaponModKey], itemEntity.id ) ~= nil ) then
             goto continue
         end
 
-        Insert(hashItems[weaponModKey], itemEntity.id)
+        Insert(hashByRarity[weaponModKey], itemEntity.id)
 
         ::continue::
     end
 
     local resourcesValues = {}
 
-    for weaponModKey, itemList in pairs( hashItems ) do
+    for rarity, blueprintList in pairs( hashRarityBlueprint ) do
 
-        local firstItemId = itemList[1]
+        for weaponModKey, itemList in pairs( blueprintList ) do
 
-        local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+            if ( #itemList > 0 ) then
 
-        local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
-        if ( blueprint ~= nil ) then
+                local firstItemId = itemList[1]
 
-            local costDesc = blueprint:GetComponent("CostDesc")
-            if ( costDesc ~= nil ) then
+                local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
 
-                local costDescRef = reflection_helper(costDesc)
-                if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+                local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                if ( blueprint ~= nil ) then
 
-                    local account = costDescRef.account
+                    local costDesc = blueprint:GetComponent("CostDesc")
+                    if ( costDesc ~= nil ) then
 
-                    if ( account.count > 0 ) then
+                        local costDescRef = reflection_helper(costDesc)
+                        if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
 
-                        for i = 1,account.count do
+                            local account = costDescRef.account
 
-                            local researchCost = account[i]
+                            if ( account.count > 0 ) then
 
-                            if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+                                for i = 1,account.count do
 
-                                local sum = (researchCost.count / 2) * #itemList
+                                    local researchCost = account[i]
 
-                                resourcesValues[researchCost.resource] = resourcesValues[researchCost.resource] or 0
+                                    if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
 
-                                resourcesValues[researchCost.resource] = resourcesValues[researchCost.resource] + sum
+                                        local sum = (researchCost.count / 2) * #itemList
+
+                                        resourcesValues[researchCost.resource] = ( resourcesValues[researchCost.resource] or 0 ) + sum
+                                    end
+                                end
                             end
                         end
                     end
                 end
             end
         end
+    end
 
-        for itemEntity in Iter(itemList) do
-            EntityService:RemoveEntity( itemEntity )
+    self.hashRarityBlueprint = hashRarityBlueprint
+    self.resourcesValues = resourcesValues
+    self.hashInsertedMods = hashInsertedMods
+
+    local hasOverride, confimMessage = self:HasOverride(resourcesValues)
+
+    if ( hasOverride ) then
+
+        self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventResult")
+
+        self.popupShown = true
+
+        GuiService:OpenPopup(self.entity, "gui/popup/mass_disassembly_popup_ingame_buttons", confimMessage)
+    else
+
+        self:DestroyAllWeaponMods()
+    end
+end
+
+function mass_disassembly_equal_and_lower:OnGuiPopupResultEventResult( evt)
+
+    self.popupShown = false
+
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventResult")
+
+    local eventResult = evt:GetResult()
+
+    if ( eventResult == "button_all" ) then
+
+        self:DestroyAllWeaponMods()
+
+    elseif ( eventResult == "button_before_storage_limit" ) then
+
+        self:DestroyBeforeStorageLimit()
+
+    elseif ( eventResult == "button_fill_storages" ) then
+
+        self:DestroyFillStorageLimit()
+    end
+end
+
+function mass_disassembly_equal_and_lower:DestroyAllWeaponMods()
+
+    for rarity, blueprintList in pairs( self.hashRarityBlueprint ) do
+
+        for weaponModKey, itemList in pairs( blueprintList ) do
+
+            self:DestroyEntitiesList(itemList)
         end
     end
 
-    for resource, sum in pairs( resourcesValues ) do
+    for resource, addValue in pairs( self.resourcesValues ) do
 
-        PlayerService:AddResourceAmount( resource, sum )
+        PlayerService:AddResourceAmount( resource, addValue )
     end
 
     EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
 end
 
+function mass_disassembly_equal_and_lower:DestroyBeforeStorageLimit()
+
+    local resourceCurrentValue = {}
+    local resourceLimit = {}
+    local resourceAddValues = {}
+    
+    for resourceName, _ in pairs( self.resourcesValues ) do
+
+        resourceCurrentValue[resourceName] = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
+        resourceLimit[resourceName] = PlayerService:GetResourceLimit( resourceName )
+        resourceAddValues[resourceName] = 0
+    end
+    
+    local entitiesToDestroy = {}
+
+    for rarity=0,3 do
+
+        if ( self.hashRarityBlueprint[rarity] ) then
+
+            local blueprintList = self.hashRarityBlueprint[rarity]
+
+            for weaponModKey, itemList in pairs( blueprintList ) do
+
+                if ( #itemList > 0 ) then
+
+                    self:SortWeaponsMods(itemList)
+
+                    local firstItemId = itemList[1]
+
+                    local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+
+                    local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                    if ( blueprint ~= nil ) then
+
+                        local costDesc = blueprint:GetComponent("CostDesc")
+                        if ( costDesc ~= nil ) then
+
+                            local costDescRef = reflection_helper(costDesc)
+                            if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+
+                                local account = costDescRef.account
+
+                                if ( account.count > 0 ) then
+
+                                    local resourcesValuesForOne = {}
+
+                                    for i = 1,account.count do
+
+                                        local researchCost = account[i]
+
+                                        if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+
+                                            local sum = researchCost.count / 2
+
+                                            resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                        end
+                                    end
+                
+                                    for i=1,#itemList do
+
+                                        local newCurrent = {}
+    
+                                        for resourceName, _ in pairs( resourceLimit ) do
+
+                                            newCurrent[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                        end
+
+                                        if ( self:IsAnyCurrentValueOverride(newCurrent, resourceLimit) ) then
+
+                                            goto end_selecting_entities
+                                        end
+
+                                        local itemId = itemList[i]
+
+                                        Insert(entitiesToDestroy, itemId)
+    
+                                        for resourceName, _ in pairs( resourceLimit ) do
+
+                                            resourceCurrentValue[resourceName] = (newCurrent[resourceName] or 0)
+
+                                            resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    ::end_selecting_entities::
+
+    if ( #entitiesToDestroy == 0 ) then
+        return
+    end
+
+    self:DestroyEntitiesList(entitiesToDestroy)
+
+    for resource, addValue in pairs( resourceAddValues ) do
+
+        PlayerService:AddResourceAmount( resource, addValue )
+    end
+
+    EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
+end
+
+function mass_disassembly_equal_and_lower:DestroyFillStorageLimit()
+
+    local resourceCurrentValue = {}
+    local resourceLimit = {}
+    local resourceAddValues = {}
+    
+    for resourceName, _ in pairs( self.resourcesValues ) do
+
+        resourceCurrentValue[resourceName] = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
+        resourceLimit[resourceName] = PlayerService:GetResourceLimit( resourceName )
+        resourceAddValues[resourceName] = 0
+    end
+    
+    local entitiesToDestroy = {}
+
+    for rarity=0,3 do
+
+        if ( self.hashRarityBlueprint[rarity] ) then
+
+            local blueprintList = self.hashRarityBlueprint[rarity]
+
+            for weaponModKey, itemList in pairs( blueprintList ) do
+
+                if ( #itemList > 0 ) then
+
+                    self:SortWeaponsMods(itemList)
+
+                    local firstItemId = itemList[1]
+
+                    local itemBlueprintName = EntityService:GetBlueprintName(firstItemId)
+
+                    local blueprint = ResourceManager:GetBlueprint( itemBlueprintName )
+                    if ( blueprint ~= nil ) then
+
+                        local costDesc = blueprint:GetComponent("CostDesc")
+                        if ( costDesc ~= nil ) then
+
+                            local costDescRef = reflection_helper(costDesc)
+                            if ( costDescRef ~= nil and costDescRef.account ~= nil ) then
+
+                                local account = costDescRef.account
+
+                                if ( account.count > 0 ) then
+
+                                    local resourcesValuesForOne = {}
+
+                                    for i = 1,account.count do
+
+                                        local researchCost = account[i]
+
+                                        if ( researchCost ~= nil and researchCost.resource ~= nil and researchCost.resource ~= "" and researchCost.count ~= nil and researchCost.count > 0 ) then
+
+                                            local sum = researchCost.count / 2
+
+                                            resourcesValuesForOne[researchCost.resource] = ( resourcesValuesForOne[researchCost.resource] or 0 ) + sum
+                                        end
+                                    end
+                
+                                    for i=1,#itemList do
+
+                                        if ( self:IsAllCurrentValueOverride(resourceCurrentValue, resourceLimit) ) then
+
+                                            goto end_selecting_entities
+                                        end
+
+                                        local itemEntityId = itemList[i]
+
+                                        Insert(entitiesToDestroy, itemEntityId)
+    
+                                        for resourceName, _ in pairs( resourceLimit ) do
+
+                                            resourceCurrentValue[resourceName] = (resourceCurrentValue[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+
+                                            resourceAddValues[resourceName] = (resourceAddValues[resourceName] or 0) + (resourcesValuesForOne[resourceName] or 0)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    ::end_selecting_entities::
+
+    if ( #entitiesToDestroy == 0 ) then
+        return
+    end
+
+    self:DestroyEntitiesList(entitiesToDestroy)
+
+    for resource, addValue in pairs( resourceAddValues ) do
+
+        PlayerService:AddResourceAmount( resource, addValue )
+    end
+
+    EffectService:SpawnEffect(self.entity, "effects/enemies_lesigian/lightning_explosion")
+end
+
+function mass_disassembly_equal_and_lower:DestroyEntitiesList(entitiesToDestroy)
+
+    if ( #entitiesToDestroy == 0 ) then
+        return
+    end
+
+    for itemEntityId in Iter(entitiesToDestroy) do
+
+        if ( self.hashInsertedMods[itemEntityId] ~= nil ) then
+
+            local slotName = self.hashInsertedMods[itemEntityId]
+
+            QueueEvent( "EquipmentChangeRequest", self.entity, slotName, 0, INVALID_ID )
+        end
+
+        EntityService:RemoveEntity( itemEntityId )
+    end
+end
+
+function mass_disassembly_equal_and_lower:HasOverride(resourcesValues)
+
+    local result = false
+
+    local confimMessage = '<style="build_info_header_blue">${gui/menu/inventory/you_receive}</style>\n\n'
+
+    local resourceArray = {}
+    
+    for resourceName, _ in pairs( resourcesValues ) do
+
+        Insert(resourceArray, resourceName)
+    end
+
+    table.sort(resourceArray, function(a, b) return a:upper() < b:upper() end)
+    
+    for resourceName in Iter( resourceArray ) do
+
+        local addValue = resourcesValues[resourceName]
+
+        local currentValue = math.floor(PlayerService:GetResourceAmount( resourceName ) + 0.5)
+        local limitValue = PlayerService:GetResourceLimit( resourceName )
+
+        local addValueStyle = "resource_green"
+
+        if ( currentValue + addValue > limitValue ) then
+            confimMessage = confimMessage .. '<style="resource_red">${gui/menu/inventory/storage_limit_exceeded}</style>\n'
+            result = true
+
+            addValueStyle = "resource_red"
+        end
+
+        if ( ResourceManager:ResourceExists( "GameplayResourceDef", resourceName ) ) then
+
+            local resourceDef = ResourceManager:GetResource("GameplayResourceDef", resourceName)
+
+            if ( resourceDef ~= nil ) then
+
+                local resourceDefRef = reflection_helper( resourceDef )
+
+                local resourceIcon = resourceDefRef.icon
+
+                confimMessage = confimMessage .. '<img="' .. resourceIcon .. '">'
+
+                confimMessage = confimMessage .. ' <style="inventory_description_yellow">${'.. resourceDefRef.localization_id .. '}</style>'
+
+                confimMessage = confimMessage .. ' <style="resource_value">' .. tostring(currentValue) .. '</style> <style="resource_max">/ ' .. tostring(limitValue) .. '</style> <style="' .. addValueStyle .. '">+' .. tostring(addValue) .. '</style>'
+
+                confimMessage = confimMessage .. '\n\n'
+            end
+        end
+    end
+
+    confimMessage = confimMessage .. '<style="build_info_header_blue">Disassemble Weapon Mods?</style>'
+
+    return result, confimMessage
+end
+
+function mass_disassembly_equal_and_lower:IsAnyCurrentValueOverride(resourceCurrentValue, resourceLimit)
+
+    for resourceName, _ in pairs( resourceLimit ) do
+
+        local currentValue = resourceCurrentValue[resourceName] or 0
+        local limitValue = resourceLimit[resourceName] or 0
+
+        if ( currentValue > limitValue ) then
+
+            return true
+        end
+    end
+
+    return false
+end
+
+function mass_disassembly_equal_and_lower:IsAllCurrentValueOverride(resourceCurrentValue, resourceLimit)
+
+    for resourceName, _ in pairs( resourceLimit ) do
+
+        local currentValue = resourceCurrentValue[resourceName] or 0
+        local limitValue = resourceLimit[resourceName] or 0
+
+        if ( currentValue < limitValue ) then
+
+            return false
+        end
+    end
+
+    return true
+end
+
+function mass_disassembly_equal_and_lower:SortWeaponsMods(itemList)
+
+    local statValue = {}
+
+    for itemEntityId in Iter(itemList) do
+
+        local weaponModComponent = EntityService:GetComponent(itemEntityId, "WeaponModComponent")
+
+        local weaponModComponentRef = reflection_helper( weaponModComponent )
+        
+        statValue[itemEntityId] = tonumber( weaponModComponentRef.mod_data.value )
+    end
+
+    local sorter = function( lh, rh )
+
+        local lhStatValue = statValue[lh]
+        local rhStatValue = statValue[rh]
+
+        return lhStatValue < rhStatValue
+    end
+
+    table.sort(itemList, sorter)
+end
+
 function mass_disassembly_equal_and_lower:GetModsToDisassebly()
 
     local hasItems = false
-    local hashItems = {}
+    local hashRarityBlueprint = {}
+    local hashInsertedMods = {}
 
     local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
     if ( equipmentComponent ) then
@@ -149,31 +566,70 @@ function mass_disassembly_equal_and_lower:GetModsToDisassebly()
             local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-                local itemBlueprintName = EntityService:GetBlueprintName(modItem)
+                local weaponModComponent = EntityService:GetComponent(modItem, "WeaponModComponent")
+                if ( weaponModComponent ~= nil ) then
 
-                local weaponModKey = self:GetWeaponModKey(itemBlueprintName, modItem)
+                    local weaponModComponentRef = reflection_helper( weaponModComponent )
 
-                hashItems[weaponModKey] = hashItems[weaponModKey] or {}
+                    local rarity = weaponModComponentRef.mod_data.rarity
 
-                hasItems = true
+                    hashRarityBlueprint[rarity] = hashRarityBlueprint[rarity] or {}
 
-                Insert(hashItems[weaponModKey], modItem)
-
-                QueueEvent( "EquipmentChangeRequest", self.entity, slot.name, 0, INVALID_ID )
-
+                    local hashByRarity = hashRarityBlueprint[rarity]
 
 
-                local additionalWeaponModKeys = self:GetAdditionalBlueprints(weaponModKey)
 
-                for addWeaponModKey in Iter(additionalWeaponModKeys) do
+                    local itemBlueprintName = EntityService:GetBlueprintName(modItem)
 
-                    hashItems[addWeaponModKey] = hashItems[addWeaponModKey] or {}
+                    local weaponModKey = self:GetWeaponModKey(itemBlueprintName, modItem)
+
+                    hashByRarity[weaponModKey] = hashByRarity[weaponModKey] or {}
+
+
+
+
+                    hasItems = true
+
+                    Insert(hashByRarity[weaponModKey], modItem)
+
+                    hashInsertedMods[modItem] = slot.name
+
+
+
+                    local additionalWeaponModBlueprints = self:GetAdditionalBlueprints(itemBlueprintName)
+
+                    for addBlueprintName in Iter(additionalWeaponModBlueprints) do
+
+                        local blueprint = ResourceManager:GetBlueprint( addBlueprintName )
+                        if ( blueprint ~= nil ) then
+
+                            local weaponModDesc = blueprint:GetComponent("WeaponModDesc")
+                            if ( weaponModDesc ~= nil ) then
+
+                                local weaponModDescRef = reflection_helper(weaponModDesc)
+
+                                if ( weaponModDescRef ~= nil and weaponModDescRef.rarity ~= nil ) then
+
+                                    local rarity = weaponModDescRef.rarity
+
+                                    hashRarityBlueprint[rarity] = hashRarityBlueprint[rarity] or {}
+
+                                    local hashByRarity = hashRarityBlueprint[rarity]
+
+                                    local addWeaponModKey = self:GetWeaponModKey(addBlueprintName, modItem)
+
+
+                                    hashByRarity[addWeaponModKey] = hashByRarity[addWeaponModKey] or {}
+                                end
+                            end
+                        end
+                    end
                 end
             end
         end
     end
 
-    return hashItems, hasItems
+    return hashRarityBlueprint, hashInsertedMods, hasItems
 end
 
 function mass_disassembly_equal_and_lower:GetAdditionalBlueprints(itemBlueprint)
