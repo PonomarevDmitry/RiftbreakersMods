@@ -106,7 +106,7 @@ function mass_disassembly_by_rarity:OnInteractWithEntityRequest( event )
 
         local itemBlueprintName = EntityService:GetBlueprintName(itemEntity.id)
 
-        local weaponModKey = self:GetWeaponModKey(itemBlueprintName, itemEntity.id)
+        local weaponModKey = mass_disassembly_utils:GetWeaponModKey(itemBlueprintName, itemEntity.id)
 
         hashByRarity[weaponModKey] = hashByRarity[weaponModKey] or {}
 
