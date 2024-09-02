@@ -222,6 +222,10 @@ function mass_disassembly_by_rarity:PopulateSpecialActionInfo()
     menuDB:SetInt("slot_visible_2", 0)
     menuDB:SetInt("slot_visible_3", 0)
 
+    menuDB:SetInt("slot_time_visible_1", 0)
+    menuDB:SetInt("slot_time_visible_2", 0)
+    menuDB:SetInt("slot_time_visible_3", 0)
+
     menuDB:SetString("slot_icon_1", "")
     menuDB:SetString("slot_icon_2", "")
     menuDB:SetString("slot_icon_3", "")
