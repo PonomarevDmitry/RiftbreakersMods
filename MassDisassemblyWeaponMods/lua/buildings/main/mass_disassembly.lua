@@ -1,19 +1,14 @@
-local building = require("lua/buildings/building.lua")
+local mass_disassembly_base = require("lua/buildings/main/mass_disassembly_base.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 
 local mass_disassembly_utils = require("lua/utils/mass_disassembly_utils.lua")
 
-class 'mass_disassembly' ( building )
+class 'mass_disassembly' ( mass_disassembly_base )
 
 function mass_disassembly:__init()
-    building.__init(self,self)
-end
-
-function mass_disassembly:OnInit()
-
-    self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
+    mass_disassembly_base.__init(self,self)
 end
 
 function mass_disassembly:OnInteractWithEntityRequest( event )
@@ -24,13 +19,13 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
         return
     end
 
-    local player = event:GetOwner()
-
     local hashRarityBlueprint,hashInsertedMods,hasItems = self:GetModsToDisassebly()
     if ( hasItems == false ) then
         return
     end
 
+
+    local player = event:GetOwner()
 
     local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
     if ( inventoryComponent == nil ) then
@@ -124,6 +119,8 @@ function mass_disassembly:OnInteractWithEntityRequest( event )
     else
 
         mass_disassembly_utils:DestroyAllWeaponMods(self.entity, self.hashRarityBlueprint, self.resourcesValues, self.hashInsertedMods)
+
+        self:PopulateSpecialActionInfo()
     end
 end
 
@@ -147,6 +144,8 @@ function mass_disassembly:OnGuiPopupResultEventResult( evt)
 
         mass_disassembly_utils:DestroyFillStorageLimit(self.entity, self.hashRarityBlueprint, self.resourcesValues, self.hashInsertedMods)
     end
+
+    self:PopulateSpecialActionInfo()
 end
 
 function mass_disassembly:GetModsToDisassebly()
@@ -201,6 +200,130 @@ function mass_disassembly:GetModsToDisassebly()
     end
 
     return hashRarityBlueprint, hashInsertedMods, hasItems
+end
+
+function mass_disassembly:PopulateSpecialActionInfo()
+
+    local menuEntity = self.menuEntity
+    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
+        return
+    end
+
+    local menuDB = EntityService:GetDatabase( menuEntity )
+    if ( menuDB == nil ) then
+        return
+    end
+
+    menuDB:SetInt("slot_visible_1", 0)
+    menuDB:SetInt("slot_visible_2", 0)
+    menuDB:SetInt("slot_visible_3", 0)
+
+    menuDB:SetInt("slot_time_visible_1", 0)
+    menuDB:SetInt("slot_time_visible_2", 0)
+    menuDB:SetInt("slot_time_visible_3", 0)
+
+    menuDB:SetString("slot_icon_1", "")
+    menuDB:SetString("slot_icon_2", "")
+    menuDB:SetString("slot_icon_3", "")
+
+    menuDB:SetString("slot_name_1", "")
+    menuDB:SetString("slot_name_2", "")
+    menuDB:SetString("slot_name_3", "")
+
+    menuDB:SetInt("slot_rarity_1", 0)
+    menuDB:SetInt("slot_rarity_2", 0)
+    menuDB:SetInt("slot_rarity_3", 0)
+
+    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
+    if ( equipmentComponent == nil ) then
+        menuDB:SetInt("menu_visible", 0)
+        return
+    end
+
+    local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+    local slotsCount = 1
+
+    local slots = equipment.slots
+    for i=1,slots.count do
+
+        local slot = slots[i]
+
+        local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
+        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+
+            local blueprintName = EntityService:GetBlueprintName( modItem )
+
+            local weaponModComponent = EntityService:GetComponent(modItem, "WeaponModComponent")
+            if ( weaponModComponent ~= nil ) then
+
+                local weaponModComponentRef = reflection_helper( weaponModComponent )
+
+                local rarity = weaponModComponentRef.mod_data.rarity
+
+                menuDB:SetInt("slot_visible_" .. tostring(slotsCount), 1)
+
+                menuDB:SetInt("slot_rarity_" .. tostring(slotsCount), rarity)
+
+                local iconName = ""
+                local slotName = ""
+
+                if ( mass_disassembly_utils:IsDamageOverTimeWeaponMod(blueprintName) ) then
+
+                    menuDB:SetInt("slot_time_visible_" .. tostring(slotsCount), 1)
+
+                    local damageType = tostring(weaponModComponentRef.mod_data.damage_type)
+
+                    iconName = "gui/menu/inventory/stat_icons/" .. damageType .. "_damage_icon" .. "_bigger"
+                    slotName = "gui/menu/inventory/stat_name/damage_over_time_" .. damageType
+
+                elseif ( mass_disassembly_utils:IsDamageWeaponMod(blueprintName) ) then
+
+                    local damageType = tostring(weaponModComponentRef.mod_data.damage_type)
+
+                    iconName = "gui/menu/inventory/stat_icons/" .. damageType .. "_damage_icon" .. "_bigger"
+                    slotName = "gui/menu/inventory/stat_name/damage_type_" .. damageType
+                else
+
+                    local inventoryItemComponent = EntityService:GetConstComponent( modItem, "InventoryItemComponent" )
+                    if ( inventoryItemComponent ~= nil ) then
+
+                        local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
+
+                        iconName = inventoryItemComponentRef.bigger_icon
+                    end
+
+                    local statName = mass_disassembly_utils:GetStatName(tonumber(weaponModComponentRef.mod_data.stat_type))
+
+                    if ( statName ~= nil ) then
+
+                        slotName = "gui/menu/inventory/stat_name/" .. statName
+
+                        if ( tonumber(weaponModComponentRef.mod_data.stat_type) == 16 ) then
+
+                            slotName = "${" .. slotName .. "}"
+
+                            if (tonumber(weaponModComponentRef.mod_data.function_type) == 1) then
+
+                                slotName = slotName .. " +"
+
+                            elseif (tonumber(weaponModComponentRef.mod_data.function_type) == 2) then
+
+                                slotName = slotName .. " -"
+                            end
+                        end
+                    end
+                end
+
+                menuDB:SetString("slot_icon_" .. tostring(slotsCount), iconName)
+                menuDB:SetString("slot_name_" .. tostring(slotsCount), slotName)
+
+                slotsCount = slotsCount + 1
+            end
+        end
+    end
+
+    self:SetMenuVisible(menuEntity)
 end
 
 return mass_disassembly

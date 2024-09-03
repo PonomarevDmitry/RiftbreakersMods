@@ -484,4 +484,113 @@ function mass_disassembly_utils:GetWeaponModKey(blueprintName, entityId)
     return blueprintName
 end
 
+function mass_disassembly_utils:IsDamageWeaponMod(blueprintName)
+
+    if ( string.find(blueprintName, "items/loot/weapon_mods/mod_damage_standard_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_advanced_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_superior_item") ~= nil
+        or string.find(blueprintName, "items/loot/weapon_mods/mod_damage_extreme_item") ~= nil
+    ) then
+
+        return true
+    end
+
+    return false
+end
+
+function mass_disassembly_utils:IsDamageOverTimeWeaponMod(blueprintName)
+
+    if ( string.find(blueprintName, "items/loot/weapon_mods/mod_damage_over_time_") ~= nil ) then
+
+        return true
+    end
+
+    return false
+end
+
+function mass_disassembly_utils:GetStatName(statNumber)
+
+    if ( statNumber == 1 ) then
+
+        return "fire_rate"
+    end
+
+    if ( statNumber == 2 ) then
+
+        return "fire_per_burst"
+    end
+
+    if ( statNumber == 3 ) then
+
+        return "fire_per_shot"
+    end
+
+    if ( statNumber == 4 ) then
+
+        return "damage_type"
+    end
+
+    if ( statNumber == 6 ) then
+
+        return "critical_chance"
+    end
+
+    if ( statNumber == 8 ) then
+
+        return "damage_over_time"
+    end
+
+    if ( statNumber == 10 ) then
+
+        return "splash_damage"
+    end
+
+    if ( statNumber == 11 ) then
+
+        return "hp_per_hit"
+    end
+
+    if ( statNumber == 12 ) then
+
+        return "damage_penetration"
+    end
+
+    if ( statNumber == 13 ) then
+
+        return "ammo_stun"
+    end
+
+    if ( statNumber == 15 ) then
+
+        return "ammo_cost"
+    end
+
+    if ( statNumber == 16 ) then
+
+        return "ammo_spread"
+    end
+
+    if ( statNumber == 17 ) then
+
+        return "ammo_autoaim"
+    end
+
+    if ( statNumber == 19 ) then
+
+        return "ammo_cluster"
+    end
+
+    if ( statNumber == 21 ) then
+
+        return "ammo_angle_speed"
+    end
+
+    if ( statNumber == 22 ) then
+
+        return "beam_range"
+    end
+
+    return nil
+end
+
 return mass_disassembly_utils
