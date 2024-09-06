@@ -384,7 +384,7 @@ function floor_center_tool:RescaleChild()
     local scale = EntityService:GetScale( self.entity )
 
     scale.x = 1.0 / scale.x
-    scale.z  = 1.0 / scale.z
+    scale.z = 1.0 / scale.z
 
     if ( self.corners ~= nil ) then
         EntityService:SetScale( self.corners,  scale.x, scale.y, scale.z )
