@@ -249,7 +249,12 @@ end
 
 function switch_all_map_cat_picker_tool:FillLastCategoriesList(defaultModesArray, modeSelectLast, selector)
 
-    local campaignDatabase = CampaignService:GetCampaignData()
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
     local selectorDB = EntityService:GetDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)

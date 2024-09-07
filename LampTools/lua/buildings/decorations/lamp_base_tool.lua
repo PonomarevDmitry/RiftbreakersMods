@@ -88,9 +88,13 @@ function lamp_base_tool:GetLampBlueprintName( selectorDB )
     end
 
     if ( blueprintName == "" ) then
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultLamp)
+
+        if ( CampaignService.GetCampaignData ) then
+        
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+                blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultLamp)
+            end
         end
     end
 

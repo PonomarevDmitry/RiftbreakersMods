@@ -238,7 +238,12 @@ end
 
 function switch_all_map_picker_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSelected, selector)
 
-    local campaignDatabase = CampaignService:GetCampaignData()
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
     local selectorDB = EntityService:GetDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)

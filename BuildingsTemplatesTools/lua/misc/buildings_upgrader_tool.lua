@@ -56,6 +56,12 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
+    if ( CampaignService.GetCampaignData == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
@@ -238,6 +244,10 @@ function buildings_upgrader_tool:GetTemplatesArray()
 end
 
 function buildings_upgrader_tool:OnActivateSelectorRequest()
+
+    if ( CampaignService.GetCampaignData == nil ) then
+        return
+    end
 
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then

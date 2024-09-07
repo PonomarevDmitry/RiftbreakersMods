@@ -203,6 +203,10 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( s
         return LOAD_RESULT_INVALID, slotsHash
     end
 
+    if ( CampaignService.GetCampaignData == nil ) then
+        return LOAD_RESULT_INVALID, slotsHash
+    end
+
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
         return LOAD_RESULT_INVALID, slotsHash
@@ -578,6 +582,10 @@ function EquipmentQuickConfigurationsUtils:SaveSettingKeyName( slotLocalizationN
     --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
     --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContentString " .. configContentString )
 
+    if ( CampaignService.GetCampaignData == nil ) then
+        return LOAD_RESULT_INVALID
+    end
+
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
         return LOAD_RESULT_INVALID
@@ -656,12 +664,15 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( loadRes
 
     local mod_quick_equipment_mode_announcements = 1
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase ~= nil ) then
+    if ( CampaignService.GetCampaignData ) then
 
-        local configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase ~= nil ) then
 
-        mod_quick_equipment_mode_announcements = campaignDatabase:GetIntOrDefault(configKey, 1) or 1
+            local configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
+
+            mod_quick_equipment_mode_announcements = campaignDatabase:GetIntOrDefault(configKey, 1) or 1
+        end
     end
 
     if ( mod_quick_equipment_mode_announcements == 1 ) then

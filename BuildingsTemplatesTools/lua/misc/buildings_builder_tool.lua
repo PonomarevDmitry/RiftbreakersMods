@@ -101,6 +101,12 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
     local markerDB = EntityService:GetDatabase( self.markerEntity )
 
+    if ( CampaignService.GetCampaignData == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")

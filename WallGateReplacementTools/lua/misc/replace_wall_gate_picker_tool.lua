@@ -247,7 +247,12 @@ end
 
 function replace_wall_gate_picker_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSelected, selector)
 
-    local campaignDatabase = CampaignService:GetCampaignData()
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
     local selectorDB = EntityService:GetDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)

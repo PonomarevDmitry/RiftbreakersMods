@@ -31,6 +31,12 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
+    if ( CampaignService.GetCampaignData == nil ) then
+        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetInt("message_visible", 1)
+        return
+    end
+
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
@@ -449,9 +455,12 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
 
         self.currentTemplateString = ""
 
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase ~= nil ) then
-            campaignDatabase:SetString( self.template_name, "" )
+        if ( CampaignService.GetCampaignData ) then
+
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase ~= nil ) then
+                campaignDatabase:SetString( self.template_name, "" )
+            end
         end
     end
 end
@@ -498,6 +507,10 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
     -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
 
     if ( self.templateEntities == nil or #self.templateEntities == 0 ) then
+        return
+    end
+
+    if ( CampaignService.GetCampaignData == nil ) then
         return
     end
 

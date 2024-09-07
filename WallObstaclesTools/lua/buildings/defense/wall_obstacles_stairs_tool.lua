@@ -51,9 +51,13 @@ function wall_obstacles_stairs_tool:GetStairsBlueprintName( selectorDB )
     end
 
     if ( blueprintName == "" ) then
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultStairs)
+
+        if ( CampaignService.GetCampaignData ) then
+        
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+                blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultStairs)
+            end
         end
     end
 

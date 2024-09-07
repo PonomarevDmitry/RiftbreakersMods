@@ -22,8 +22,11 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         end
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( parameterName, blueprintName )
+    if ( CampaignService.GetCampaignData ) then
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase ) then
+            campaignDatabase:SetString( parameterName, blueprintName )
+        end
     end
 end)

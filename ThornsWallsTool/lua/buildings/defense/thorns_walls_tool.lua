@@ -105,9 +105,13 @@ function thorns_walls_tool:GetWallBlueprint( selectorDB )
     end
 
     if ( blueprintName == "" ) then
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultWall)
+
+        if ( CampaignService.GetCampaignData ) then
+        
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+                blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultWall)
+            end
         end
     end
 

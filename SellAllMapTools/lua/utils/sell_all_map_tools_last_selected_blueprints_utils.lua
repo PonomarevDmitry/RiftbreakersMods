@@ -15,7 +15,12 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
 
 
 
-    local campaignDatabase = CampaignService:GetCampaignData()
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
     local selectorDB = nil
     if (selector) then
         selectorDB = EntityService:GetDatabase( selector )
@@ -201,7 +206,12 @@ function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector
 
 
 
-    local campaignDatabase = CampaignService:GetCampaignData()
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
     local selectorDB = nil
     if (selector) then
         selectorDB = EntityService:GetDatabase( selector )

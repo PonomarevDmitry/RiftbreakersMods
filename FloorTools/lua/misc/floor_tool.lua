@@ -139,9 +139,13 @@ function floor_tool:GetFloorBlueprintName( selectorDB, parameterName, defaultFlo
     end
 
     if ( blueprintName == "" ) then
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultFloor)
+
+        if ( CampaignService.GetCampaignData ) then
+
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+                blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultFloor)
+            end
         end
     end
 

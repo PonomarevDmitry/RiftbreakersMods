@@ -999,9 +999,13 @@ function picker_tool:GetLastMudVeinExtractor()
     end
 
     if ( lowName == "" ) then
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            lowName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
+
+        if ( CampaignService.GetCampaignData ) then
+        
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+                lowName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
+            end
         end
     end
 
@@ -1019,9 +1023,12 @@ function picker_tool:SetLastMudVeinExtractor(lowName)
         selectorDB:SetString(parameterName, lowName)
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( parameterName, lowName )
+    if ( CampaignService.GetCampaignData ) then
+    
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase ) then
+            campaignDatabase:SetString( parameterName, lowName )
+        end
     end
 end
 

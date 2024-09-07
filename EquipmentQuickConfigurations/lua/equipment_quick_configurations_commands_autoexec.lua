@@ -73,6 +73,10 @@ end)
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", function( args )
 
+    if ( CampaignService.GetCampaignData == nil ) then
+        return
+    end
+
     local campaignDatabase = CampaignService:GetCampaignData()
     if ( campaignDatabase == nil ) then
         return

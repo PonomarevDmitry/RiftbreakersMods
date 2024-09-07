@@ -61,9 +61,13 @@ function base_lamp_trail:GetLampBlueprint()
     end
 
     if ( blueprintName == "" ) then
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultBlueprint)
+
+        if ( CampaignService.GetCampaignData ) then
+        
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+                blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultBlueprint)
+            end
         end
     end
 
