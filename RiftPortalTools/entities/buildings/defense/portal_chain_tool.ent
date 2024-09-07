@@ -1,0 +1,63 @@
+EntityBlueprint
+{
+	name					"buildings/defense/portal_chain_tool"
+
+	BuildingDesc
+	{
+		name				"portal_chain_tool"
+		bp					"buildings/defense/portal_chain_tool"
+		ghost_bp			"buildings/defense/portal_chain_tool_ghost"
+		category			"defense"
+
+		localization_id		"gui/hud/building_name/portal_chain_tool"
+		description			"gui/hud/building_description/portal_chain_tool"
+		menu_icon			"gui/hud/tools_icons/portal_chain_tool"
+
+		min_radius			"40"
+		radius_name			"portal"
+
+		order				"3"
+		type				"sell"
+		require				"headquarters"
+
+		building_group		"portal"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/defense/portal_chain_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"portal_chain_tool_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"defense"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/portal_chain_tool.lua"
+
+		database
+		{
+			action			string:"portal_chain_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
