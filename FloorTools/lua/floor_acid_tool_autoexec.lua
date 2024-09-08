@@ -11,6 +11,7 @@ local floor_acid_tool_autoexec = function(evt)
     local hasFloor2 = false
     local hasFloor3 = false
     local hasFloor4 = false
+    local hasFloorCenter = false
     local hasBuilding = false
 
     local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
@@ -35,12 +36,16 @@ local floor_acid_tool_autoexec = function(evt)
             hasFloor4 = true
         end
 
+        if ( unlocked == "floor_acid_center_tool" ) then
+            hasFloorCenter = true
+        end
+
         if ( unlocked == "floor_acid_1x1" ) then
             hasBuilding = true
         end
     end
 
-    if ( hasFloor1 and hasFloor2 and hasFloor3 and hasFloor4 ) then
+    if ( hasFloor1 and hasFloor2 and hasFloor3 and hasFloor4 and hasFloorCenter ) then
         return
     end
 
