@@ -119,20 +119,30 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
 
     local markerDB = EntityService:GetDatabase( self.markerEntity )
 
-    if ( CampaignService.GetCampaignData == nil ) then
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ~= nil ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
-        return
+    local templateString = ""
+
+    if ( templateString == "" and campaignDatabase ) then
+        templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
     end
 
-    local templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" )
+    if ( templateString == "" and selectorDB ) then
+        templateString = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
+    end
+
     templateString = templateString or ""
 
     if ( templateString == "" ) then

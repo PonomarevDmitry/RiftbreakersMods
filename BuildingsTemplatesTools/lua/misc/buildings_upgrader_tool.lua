@@ -56,14 +56,15 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    if ( CampaignService.GetCampaignData == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
-        return
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ~= nil ) then
+        campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
@@ -79,7 +80,18 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+            local templateString = ""
+
+            if ( templateString == "" and campaignDatabase ) then
+                templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+            end
+
+            if ( templateString == "" and selectorDB ) then
+                templateString = selectorDB:GetStringOrDefault( templateName, "" ) or ""
+            end
+
+            templateString = templateString or ""
+
             if ( templateString ~= nil and templateString ~= "" ) then
 
                 allIsEmpty = false
@@ -121,7 +133,18 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
-        local templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+        local templateString = ""
+
+        if ( templateString == "" and campaignDatabase ) then
+            templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+        end
+
+        if ( templateString == "" and selectorDB ) then
+            templateString = selectorDB:GetStringOrDefault( templateName, "" ) or ""
+        end
+
+        templateString = templateString or ""
+
         if ( templateString == "" ) then
 
             local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
@@ -245,12 +268,15 @@ end
 
 function buildings_upgrader_tool:OnActivateSelectorRequest()
 
-    if ( CampaignService.GetCampaignData == nil ) then
-        return
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ~= nil ) then
+        campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    if ( campaignDatabase == nil and selectorDB == nil ) then
         return
     end
 
@@ -260,28 +286,45 @@ function buildings_upgrader_tool:OnActivateSelectorRequest()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase)
+            self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase, selectorDB)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase)
+        self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase, selectorDB)
     end
 
     self:FillMarkerMessage()
 end
 
-function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase)
+function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase, selectorDB)
 
-    local currentTemplateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+    local currentTemplateString = ""
+
+    if ( currentTemplateString == "" and campaignDatabase ) then
+        currentTemplateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+    end
+
+    if ( currentTemplateString == "" and selectorDB ) then
+        currentTemplateString = selectorDB:GetStringOrDefault( templateName, "" ) or ""
+    end
+
+    currentTemplateString = currentTemplateString or ""
+
     if ( currentTemplateString == "" ) then
         return
     end
 
     local templateString = self:UpgradeBlueprintsInTemplate(currentTemplateString)
 
-    campaignDatabase:SetString( templateName, templateString )
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( templateName, templateString )
+    end
+
+    if ( selectorDB ) then
+        selectorDB:SetString( templateName, templateString )
+    end
 end
 
 function buildings_upgrader_tool:OnRelease()

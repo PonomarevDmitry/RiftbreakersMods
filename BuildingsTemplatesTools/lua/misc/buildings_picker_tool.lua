@@ -31,20 +31,31 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    if ( CampaignService.GetCampaignData == nil ) then
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ~= nil ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    
+    if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
-        return
+    self.currentTemplateString = ""
+
+    if ( self.currentTemplateString == "" and campaignDatabase ) then
+        self.currentTemplateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
     end
 
-    self.currentTemplateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
+    if ( self.currentTemplateString == "" and selectorDB ) then
+        self.currentTemplateString = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
+    end
+
+    self.currentTemplateString = self.currentTemplateString or ""
 
     if ( self.currentTemplateString == "" ) then
 
@@ -455,12 +466,20 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
 
         self.currentTemplateString = ""
 
-        if ( CampaignService.GetCampaignData ) then
+        local campaignDatabase = nil
 
-            local campaignDatabase = CampaignService:GetCampaignData()
-            if ( campaignDatabase ~= nil ) then
-                campaignDatabase:SetString( self.template_name, "" )
-            end
+        if ( CampaignService.GetCampaignData ~= nil ) then
+            campaignDatabase = CampaignService:GetCampaignData()
+        end
+
+        local selectorDB = EntityService:GetDatabase( self.selector )
+
+        if ( campaignDatabase ) then
+            campaignDatabase:SetString( self.template_name, "" )
+        end
+
+        if ( selectorDB ) then
+            selectorDB:SetString( self.template_name, "" )
         end
     end
 end
@@ -510,12 +529,15 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         return
     end
 
-    if ( CampaignService.GetCampaignData == nil ) then
-        return
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ~= nil ) then
+        campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    
+    if ( campaignDatabase == nil and selectorDB == nil ) then
         return
     end
 
@@ -608,7 +630,14 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     local templateString = table.concat( templateStringArray )
 
-    campaignDatabase:SetString( self.template_name, templateString )
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( self.template_name, templateString )
+    end
+
+    if ( selectorDB ) then
+        selectorDB:SetString( self.template_name, templateString )
+    end
+
 
     self.currentTemplateString = templateString
 
