@@ -870,6 +870,11 @@ end
 
 function ghost_building:OnRotateSelectorRequest(evt)
 
+    if ( ghost.OnRotateSelectorRequest ) then
+
+        ghost.OnRotateSelectorRequest(self, evt)
+    end
+
     if ( not self.isBuildingWithGaps ) then
         return
     end
