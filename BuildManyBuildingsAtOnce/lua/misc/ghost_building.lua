@@ -871,13 +871,13 @@ end
 function ghost_building:OnRotateSelectorRequest(evt)
 
     if ( not self.isBuildingWithGaps ) then
-        return;
+        return
     end
 
     self.nowBuildingLine = self.nowBuildingLine or false
 
     if ( not self.nowBuildingLine ) then
-        return;
+        return
     end
 
     local degree = evt:GetDegree()
