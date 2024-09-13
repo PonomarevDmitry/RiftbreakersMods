@@ -78,6 +78,11 @@ function ghost_building:OnInit()
         self.markerGapsConfig = -1
         self.currentMarkerGaps = nil
     end
+
+    self.isBuildingGate = false
+    if ( lowName == "wall_gate" and mod_building_gateconstruction ~= nil and mod_building_gateconstruction == 1 ) then
+        self.isBuildingGate = true
+    end
 end
 
 function ghost_building:OnBuildingStartEvent( evt )
@@ -246,6 +251,12 @@ function ghost_building:OnUpdate()
             end
         end
 
+        local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+        local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+        local exitVector = self:GetExitVector( entityOrientation )
+
         local idCheckBuildable = 1
 
         local countBuildable = 0
@@ -266,14 +277,30 @@ function ghost_building:OnUpdate()
                 newPosition.y = positionY
                 newPosition.z = positionZ
 
+                local orientation = entityOrientation
+
+                if ( self.isBuildingGate ) then
+
+                    local min = VectorSub(newPosition, vectorBounds)
+                    local max = VectorAdd(newPosition, vectorBounds)
+
+                    local possibleSelectedEnts = self:GetPosibleWalls( min, max )
+
+                    local invertTransform = self:IsInvertTransform( exitVector, possibleSelectedEnts, positionX, positionZ )
+
+                    if ( invertTransform ) then
+                        orientation = self:GetInvertedOrientation( exitVector.x, exitVector.z )
+                    end
+                end
+
                 local transform = {}
                 transform.scale = currentTransform.scale
-                transform.orientation = entityOrientation
+                transform.orientation = orientation
                 transform.position = newPosition
 
                 local lineEnt = gridEntitiesZ[zNumber]
                 EntityService:SetPosition( lineEnt, newPosition)
-                EntityService:SetOrientation( lineEnt, entityOrientation )
+                EntityService:SetOrientation( lineEnt, orientation )
 
                 local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, idCheckBuildable, false, true )
 
@@ -335,6 +362,199 @@ function ghost_building:OnUpdate()
     else
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
+end
+
+function ghost_building:IsInvertTransform( exitVector, possibleSelectedEnts, positionX, positionZ )
+
+    local diffs = { 1, -1 }
+
+    local wallPlacement = {}
+
+    for diffX in Iter( diffs ) do
+
+        wallPlacement[diffX] = wallPlacement[diffX] or {}
+
+        for diffZ in Iter( diffs ) do
+
+            wallPlacement[diffX][diffZ] = false
+        end
+    end
+
+    for entity in Iter( possibleSelectedEnts ) do
+
+        local entityPosition = EntityService:GetPosition( entity )
+
+        local diffX = entityPosition.x - positionX
+        local diffZ = entityPosition.z - positionZ
+
+        wallPlacement[diffX] = wallPlacement[diffX] or {}
+
+        wallPlacement[diffX][diffZ] = true
+    end
+
+    for diffX in Iter( diffs ) do
+
+        for diffZ in Iter( diffs ) do
+
+            local mult = diffX * exitVector.x + diffZ * exitVector.z
+
+            if ( mult > 0 and wallPlacement[diffX][diffZ] ) then
+
+                return false
+            end
+        end
+    end
+
+    for diffX in Iter( diffs ) do
+
+        for diffZ in Iter( diffs ) do
+
+            local mult = diffX * exitVector.x + diffZ * exitVector.z
+
+            if ( mult < 0 and wallPlacement[diffX][diffZ] ) then
+
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+function ghost_building:GetPosibleWalls( min, max )
+
+    self.suffixGhost = self.suffixGhost or "ghost"
+
+    local result = {}
+
+    local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
+
+    for entity in Iter( possibleSelectedEnts ) do
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto continue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        if ( blueprintName:sub(-#self.suffixGhost) == self.suffixGhost ) then
+            goto continue
+        end
+
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        if ( lowName == "wall_small_floor" ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingRef = reflection_helper(buildingDesc)
+
+        if ( buildingRef.type ~= "wall" or buildingRef.category == "decorations" ) then
+            goto continue
+        end
+
+        Insert( result, entity )
+
+        ::continue::
+    end
+
+    return result
+end
+
+function ghost_building:GetInvertedOrientation( vectorX, vectorZ )
+
+    self.cacheInverted = self.cacheInverted or {}
+
+    self.cacheInverted[vectorX] = self.cacheInverted[vectorX] or {}
+
+    if ( self.cacheInverted[vectorX][vectorZ] ) then
+
+        return self.cacheInverted[vectorX][vectorZ]
+    end
+
+    local result = {}
+    result.x = 0
+    result.z = 0
+
+    -- GetExitVector    exitVector.x   1    exitVector.z   0      orientation.y 2.0861625671387e-07     orientation.w -1.0000001192093
+    -- GetExitVector    exitVector.x  -1    exitVector.z   0      orientation.y 1.0000001192093         orientation.w 2.3841857910156e-07
+
+    -- GetExitVector    exitVector.x   0    exitVector.z   1      orientation.y 0.70710700750351        orientation.w -0.70710670948029
+    -- GetExitVector    exitVector.x   0    exitVector.z  -1      orientation.y -0.70710676908493       orientation.w -0.70710694789886
+
+    -- GetExitVector    exitVector.x   1    exitVector.z   0      orientation.y 0                       orientation.w -1
+    -- GetExitVector    exitVector.x  -1    exitVector.z   0      orientation.y 1                       orientation.w 0
+
+    -- GetExitVector    exitVector.x   0    exitVector.z   1      orientation.y 0.707107                orientation.w -0.707107
+    -- GetExitVector    exitVector.x   0    exitVector.z  -1      orientation.y -0.707107               orientation.w -0.707107
+
+
+    if ( vectorX == 1 ) then
+
+        result.y = 1
+        result.w = 0
+
+    elseif ( vectorX == -1 ) then
+
+        result.y = 0
+        result.w = -1
+
+    elseif ( vectorZ == 1 ) then
+
+        result.y = -0.707107
+        result.w = -0.707107
+
+    elseif ( vectorZ == -1 ) then
+
+        result.y = 0.707107
+        result.w = -0.707107
+    end
+
+    self.cacheInverted[vectorX][vectorZ] = result
+
+    return result
+end
+
+function ghost_building:GetExitVector( orientation )
+
+    local result = { x = 1, z = 0 }
+
+    if ( -0.01 <= orientation.y and orientation.y <= 0.01 ) then
+
+        result = { x = 1, z = 0 }
+
+    elseif ( -0.01 <= orientation.w and orientation.w <= 0.01 ) then
+
+        result = { x = -1, z = 0 }
+
+    elseif ( 0.5 <= orientation.y ) then
+
+        if ( 0 < orientation.w ) then
+
+            result = { x = 0, z = -1 }
+
+        elseif ( orientation.w < 0 ) then
+
+            result = { x = 0, z = 1 }
+        end
+
+    elseif ( orientation.y <= -0.5 ) then
+
+        if ( 0 < orientation.w ) then
+
+            result = { x = 0, z = 1 }
+
+        elseif ( orientation.w < 0 ) then
+
+            result = { x = 0, z = -1 }
+        end
+    end
+
+    return result
 end
 
 function ghost_building:CreateNewEntity(newPosition, orientation, team)
