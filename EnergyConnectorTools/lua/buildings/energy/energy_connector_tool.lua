@@ -3,6 +3,7 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
+require("lua/utils/numeric_utils.lua")
 
 class 'energy_connector_tool' ( energy_connector_base_tool )
 
@@ -19,6 +20,7 @@ function energy_connector_tool:OnInit()
     self.configNameSize = "$energy_connector_tool_size"
 
     self.type = self.data:GetIntOrDefault("type", 1)
+    self.createChain = (self.data:GetIntOrDefault("create_chain", 0) == 1)
 
     self.defaultRadius = math.ceil( (self.radius - 1) / 2 )
 
@@ -355,11 +357,11 @@ function energy_connector_tool:OnUpdate()
 
 
 
-    if ( self.activated and self.buildPosition ~= nil ) then
+    if ( self.activated and self.buildTransform ~= nil ) then
 
-        local currentPosition = EntityService:GetWorldTransform( self.entity )
+        local currentTransform = EntityService:GetWorldTransform( self.entity )
 
-        local spots = BuildingService:FindSpotsByDistance( self.buildPosition, currentPosition, self.radius, self.connectorBlueprintName )
+        local spots = BuildingService:FindSpotsByDistance( self.buildTransform, currentTransform, self.radius, self.connectorBlueprintName )
 
         for spot in Iter( spots ) do
 
@@ -384,7 +386,7 @@ function energy_connector_tool:OnUpdate()
                 self:BuildEntity(lineEnt, transform, true)
             end
 
-            self.buildPosition = spot
+            self.buildTransform = spot
         end
     end
 end
@@ -393,13 +395,147 @@ function energy_connector_tool:OnActivateSelectorRequest()
 
     self:FinishLineBuild()
 
-    self.buildPosition = EntityService:GetWorldTransform( self.entity )
+    self.buildTransform = EntityService:GetWorldTransform( self.entity )
     self.activated = true
+end
+
+function energy_connector_tool:FinishLineBuild()
+
+    if ( not self.createChain ) then
+
+        local count = #self.linesEntities
+
+        for i=1,count do
+
+            local ghostEntity = self.linesEntities[i]
+
+            local transform = EntityService:GetWorldTransform( ghostEntity )
+
+            self:BuildEntity(ghostEntity, transform, true)
+        end
+
+        return
+    end
+
+    local buildingsTransformsArray = {}
+
+    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
+
+    for entity in Iter( entitiesBuildings ) do
+
+        local resourceStorageComponent = EntityService:GetComponent( entity, "ResourceStorageComponent")
+        if ( resourceStorageComponent == nil ) then
+            goto continue
+        end
+
+        local resourceStorageRef = reflection_helper( resourceStorageComponent )
+        if ( not self:HasDistributionRadius( resourceStorageRef ) ) then
+            goto continue
+        end
+
+        local transform = EntityService:GetWorldTransform( entity )
+
+        Insert( buildingsTransformsArray, transform )
+
+        ::continue::
+    end
+
+
+
+    local selfTransform = EntityService:GetWorldTransform( self.entity )
+
+    local nearestSpotTransform = self:GetNearestSpot(selfTransform.position, buildingsTransformsArray)
+    if ( nearestSpotTransform == nil ) then
+        return
+    end
+
+    local spots = BuildingService:FindSpotsByDistance( nearestSpotTransform, selfTransform, self.radius, self.connectorBlueprintName )
+
+    for spot in Iter( spots ) do
+
+        local currentSize = self:CheckSizeExists(self.currentSize)
+        local newPositions = self:FindPositionsToBuildLine( currentSize )
+
+        for i=1,#newPositions do
+
+            local newPosition = newPositions[i]
+
+            local transform = {}
+            transform.scale = spot.scale
+            transform.orientation = spot.orientation
+
+            transform.position = {}
+            transform.position.x = spot.position.x + newPosition.x
+            transform.position.y = spot.position.y + newPosition.y
+            transform.position.z = spot.position.z + newPosition.z
+
+            local lineEnt = self.linesEntities[i]
+
+            self:BuildEntity(lineEnt, transform, true)
+        end
+    end
+end
+
+function energy_connector_tool:HasDistributionRadius( resourceStorageRef )
+
+    if ( resourceStorageRef ~= nil and resourceStorageRef.Storages ~= nil ) then
+
+        local count = resourceStorageRef.Storages.count
+
+        for i=1,count do
+
+            local storage = resourceStorageRef.Storages[i]
+
+            if ( tostring(storage.group) == "12" and storage.distribution_radius >= 1 ) then
+
+                if ( storage.resource and storage.resource.resource and storage.resource.resource.id and storage.resource.resource.id == "energy" ) then
+
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+function energy_connector_tool:GetNearestSpot( entityPosition, buildingsTransformsArray )
+
+    local currentSpot = nil
+    local currentDistance = nil
+
+    for spot in Iter( buildingsTransformsArray ) do
+
+        local distance = Distance( entityPosition, spot.position )
+
+        if currentSpot == nil or distance < currentDistance then
+
+            currentSpot = spot;
+            currentDistance = distance
+
+            local lineDistance = self:GetDistance( entityPosition, spot.position )
+
+            if ( lineDistance <= self.radius ) then
+
+                return currentSpot
+            end
+        end
+    end
+
+    return currentSpot
+end
+
+function energy_connector_tool:GetDistance( position1, position2 )
+
+    local dx = math.abs(position1.x - position2.x)
+    local dz = math.abs(position1.z - position2.z)
+
+    return math.max(dx, dz)
 end
 
 function energy_connector_tool:OnDeactivateSelectorRequest()
 
-    self.buildPosition = nil
+    self.buildTransform = nil
     self.activated = false
 end
 
@@ -428,20 +564,6 @@ function energy_connector_tool:OnRotateSelectorRequest(evt)
     selectorDB:SetInt(self.configNameSize, newValue)
 
     self:SpawnGhostConnectorEntities()
-end
-
-function energy_connector_tool:FinishLineBuild()
-
-    local count = #self.linesEntities
-
-    for i=1,count do
-
-        local ghostEntity = self.linesEntities[i]
-
-        local transform = EntityService:GetWorldTransform( ghostEntity )
-
-        self:BuildEntity(ghostEntity, transform, true)
-    end
 end
 
 function energy_connector_tool:OnRelease()
