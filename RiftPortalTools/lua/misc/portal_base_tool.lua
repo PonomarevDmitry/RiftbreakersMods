@@ -58,7 +58,7 @@ function portal_base_tool:InitializeValues()
 
     self.portalBlueprintName = "buildings/defense/portal"
 
-    self:FillConnectorBuildingDesc( self.portalBlueprintName )
+    self:FillPortalBuildingDesc( self.portalBlueprintName )
 
     self:FindMinDistance()
 end
@@ -73,7 +73,7 @@ function portal_base_tool:FindMinDistance()
     end
 end
 
-function portal_base_tool:FillConnectorBuildingDesc(portalBlueprintName)
+function portal_base_tool:FillPortalBuildingDesc(portalBlueprintName)
 
     local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( portalBlueprintName ) )
 
@@ -81,7 +81,7 @@ function portal_base_tool:FillConnectorBuildingDesc(portalBlueprintName)
     self.buildingDesc = buildingDesc
 end
 
-function portal_base_tool:SpawnGhostConnectorEntity(position, orientation)
+function portal_base_tool:SpawnGhostPortalEntity(position, orientation)
 
     local buildingEntity = EntityService:SpawnAndAttachEntity( self.ghostBlueprintName, self.selector )
 

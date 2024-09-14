@@ -23,7 +23,7 @@ function portal_chain_tool:OnInit()
     position.y = 0
     position.z = 0
     
-    self.ghostPortal = self:SpawnGhostConnectorEntity(position, transform.orientation)
+    self.ghostPortal = self:SpawnGhostPortalEntity(position, transform.orientation)
 end
 
 function portal_chain_tool:OnUpdate()
