@@ -109,7 +109,11 @@ end
 
 function energy_connector_tool:FindPositionsToBuildLine(currentSize)
 
-    if ( self.type == 2 ) then
+    if ( self.type == 1 ) then
+
+        return self:FindPositionsType1(currentSize)
+
+    elseif ( self.type == 2 ) then
 
         return self:FindPositionsType2(currentSize)
 
@@ -118,7 +122,18 @@ function energy_connector_tool:FindPositionsToBuildLine(currentSize)
         return self:FindPositionsType3(currentSize)
     end
 
-    return self:FindPositionsType1(currentSize)
+    local result = {}
+
+    local newPosition = nil
+
+    newPosition = {}
+    newPosition.y = 0
+    newPosition.x = 0
+    newPosition.z = 0
+
+    Insert( result, newPosition )
+
+    return result
 end
 
 function energy_connector_tool:FindPositionsType1(currentSize)
@@ -305,6 +320,10 @@ end
 
 function energy_connector_tool:UpdateMarker(currentSize)
 
+    if ( self.type == 0 ) then
+        return
+    end
+
     if ( self.currentMarkerSize ~= currentSize ) then
 
         self.currentMarkerSize = currentSize
@@ -441,6 +460,9 @@ function energy_connector_tool:FinishLineBuild()
     end
 
 
+    if ( #buildingsTransformsArray == 0 ) then
+        return
+    end
 
     local selfTransform = EntityService:GetWorldTransform( self.entity )
 
