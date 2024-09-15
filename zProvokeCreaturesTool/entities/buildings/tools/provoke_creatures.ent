@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name					"buildings/tools/provoke_creatures"
+
+	BuildingDesc
+	{
+		name				"provoke_creatures"
+		bp					"buildings/tools/provoke_creatures"
+		ghost_bp			"buildings/tools/provoke_creatures_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/provoke_creatures"
+		description			"gui/hud/building_description/provoke_creatures"
+		menu_icon			"gui/hud/tools_icons/provoke_creatures_tool"
+
+		order				"80"
+		type				"sell"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/provoke_creatures_ghost"
+
+	BuildingDesc
+	{
+		name				"provoke_creatures_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/provoke_creatures_tool.lua"
+
+		database
+		{
+			action			string:"provoke_creatures"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
