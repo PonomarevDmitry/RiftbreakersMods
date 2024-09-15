@@ -466,34 +466,44 @@ function energy_connector_tool:FinishLineBuild()
 
     local selfTransform = EntityService:GetWorldTransform( self.entity )
 
-    local nearestSpotTransform = self:GetNearestSpot(selfTransform.position, buildingsTransformsArray)
-    if ( nearestSpotTransform == nil ) then
-        return
-    end
+    while ( #buildingsTransformsArray > 0 ) do
 
-    local spots = BuildingService:FindSpotsByDistance( nearestSpotTransform, selfTransform, self.radius, self.connectorBlueprintName )
+        local nearestSpotTransform = self:GetNearestSpot(selfTransform.position, buildingsTransformsArray)
+        if ( nearestSpotTransform == nil ) then
+            return
+        end
 
-    for spot in Iter( spots ) do
+        Remove( buildingsTransformsArray, nearestSpotTransform )
 
-        local currentSize = self:CheckSizeExists(self.currentSize)
-        local newPositions = self:FindPositionsToBuildLine( currentSize )
+        local spots = BuildingService:FindSpotsByDistance( nearestSpotTransform, selfTransform, self.radius, self.connectorBlueprintName )
 
-        for i=1,#newPositions do
+        if ( #spots > 0 ) then
 
-            local newPosition = newPositions[i]
+            for spot in Iter( spots ) do
 
-            local transform = {}
-            transform.scale = spot.scale
-            transform.orientation = spot.orientation
+                local currentSize = self:CheckSizeExists(self.currentSize)
+                local newPositions = self:FindPositionsToBuildLine( currentSize )
 
-            transform.position = {}
-            transform.position.x = spot.position.x + newPosition.x
-            transform.position.y = spot.position.y + newPosition.y
-            transform.position.z = spot.position.z + newPosition.z
+                for i=1,#newPositions do
 
-            local lineEnt = self.linesEntities[i]
+                    local newPosition = newPositions[i]
 
-            self:BuildEntity(lineEnt, transform, true)
+                    local transform = {}
+                    transform.scale = spot.scale
+                    transform.orientation = spot.orientation
+
+                    transform.position = {}
+                    transform.position.x = spot.position.x + newPosition.x
+                    transform.position.y = spot.position.y + newPosition.y
+                    transform.position.z = spot.position.z + newPosition.z
+
+                    local lineEnt = self.linesEntities[i]
+
+                    self:BuildEntity(lineEnt, transform, true)
+                end
+            end
+
+            return
         end
     end
 end
