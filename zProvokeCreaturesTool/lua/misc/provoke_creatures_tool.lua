@@ -14,7 +14,17 @@ function provoke_creatures_tool:OnInit()
         1,
     }
 
-    self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
+    self.currentValue = 100
+    self.stepValue = 5
+
+    self.configName = "$provoke_creatures_tool_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    if ( selectorDB ) then
+        self.currentValue = selectorDB:GetIntOrDefault(self.configName, self.currentValue)
+    end
+
+    self:UpdateMarker()
 end
 
 function provoke_creatures_tool:GetScaleFromDatabase()
@@ -38,14 +48,49 @@ end
 function provoke_creatures_tool:RemovedFromSelection( entity )
 end
 
-function provoke_creatures_tool:OnRotate()
+function provoke_creatures_tool:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -change
+    end
+
+    local delta = change * self.stepValue
+
+    local newValue = self.currentValue + delta
+
+    if( newValue <= self.stepValue ) then
+        newValue = self.stepValue
+    end
+
+    self.currentValue = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+    if ( selectorDB ) then
+        selectorDB:SetInt(self.configName, newValue)
+    end
+
+    self:UpdateMarker()
+end
+
+function provoke_creatures_tool:UpdateMarker()    
+
+    local markerDB = EntityService:GetDatabase( self.childEntity )
+    if ( markerDB == nil ) then
+        return
+    end
+
+    markerDB:SetString("message_text", tostring(self.currentValue))
+    markerDB:SetInt("message_visible", 1)
 end
 
 function provoke_creatures_tool:OnActivateSelectorRequest()
 
     EffectService:SpawnEffect( self.entity, "effects/enemies_generic/wave_start" )
 
-    EntityService:ChangeAIGroupsToAggressive( self.entity, 100, false )
+    EntityService:ChangeAIGroupsToAggressive( self.entity, self.currentValue, false )
 end
 
 return provoke_creatures_tool
