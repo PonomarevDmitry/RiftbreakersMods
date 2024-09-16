@@ -78,12 +78,25 @@ end
 function provoke_creatures_tool:UpdateMarker()    
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
-    if ( markerDB == nil ) then
+    if ( markerDB ~= nil ) then
+        markerDB:SetString("message_text", tostring(self.currentValue))
+        markerDB:SetInt("message_visible", 1)
+    end
+
+    EntityService:RemoveComponent( self.childEntity, "DisplayRadiusComponent" )
+
+    local displayRadiusComponent = EntityService:CreateComponent(self.childEntity, "DisplayRadiusComponent")
+    if ( displayRadiusComponent == nil ) then
         return
     end
 
-    markerDB:SetString("message_text", tostring(self.currentValue))
-    markerDB:SetInt("message_visible", 1)
+    local displayRadiusComponentRef = reflection_helper( displayRadiusComponent )
+    displayRadiusComponentRef.minimap_display = 1
+    displayRadiusComponentRef.min_radius = 0
+    displayRadiusComponentRef.max_radius = self.currentValue
+    displayRadiusComponentRef.max_radius_blueprint = "effects/decals/range_circle"
+
+    
 end
 
 function provoke_creatures_tool:OnActivateSelectorRequest()
