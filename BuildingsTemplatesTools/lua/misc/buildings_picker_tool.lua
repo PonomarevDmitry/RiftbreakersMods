@@ -1,6 +1,7 @@
 local buildings_tool_base = require("lua/misc/buildings_tool_base.lua")
 require("lua/utils/table_utils.lua")
 local TemplatesSerializeUtils = require("lua/misc/buildings_serialize_utils.lua")
+local BuildingsTemplatesUtils = require("lua/misc/buildings_templates_utils.lua")
 
 class 'buildings_picker_tool' ( buildings_tool_base )
 
@@ -31,13 +32,7 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
     if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
@@ -45,17 +40,7 @@ function buildings_picker_tool:FillMarkerMessage()
         return
     end
 
-    self.currentTemplateString = ""
-
-    if ( self.currentTemplateString == "" and campaignDatabase ) then
-        self.currentTemplateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
-    end
-
-    if ( self.currentTemplateString == "" and selectorDB ) then
-        self.currentTemplateString = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
-    end
-
-    self.currentTemplateString = self.currentTemplateString or ""
+    self.currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, campaignDatabase, selectorDB)
 
     if ( self.currentTemplateString == "" ) then
 
@@ -466,13 +451,7 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
 
         self.currentTemplateString = ""
 
-        local campaignDatabase = nil
-
-        if ( CampaignService.GetCampaignData ~= nil ) then
-            campaignDatabase = CampaignService:GetCampaignData()
-        end
-
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
         if ( campaignDatabase ) then
             campaignDatabase:SetString( self.template_name, "" )
@@ -529,13 +508,7 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         return
     end
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
     if ( campaignDatabase == nil and selectorDB == nil ) then
         return

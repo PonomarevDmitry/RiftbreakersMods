@@ -1,5 +1,6 @@
 local buildings_tool_base = require("lua/misc/buildings_tool_base.lua")
 require("lua/utils/table_utils.lua")
+local BuildingsTemplatesUtils = require("lua/misc/buildings_templates_utils.lua")
 
 class 'buildings_upgrader_tool' ( buildings_tool_base )
 
@@ -56,13 +57,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
@@ -80,17 +75,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            local templateString = ""
-
-            if ( templateString == "" and campaignDatabase ) then
-                templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
-            end
-
-            if ( templateString == "" and selectorDB ) then
-                templateString = selectorDB:GetStringOrDefault( templateName, "" ) or ""
-            end
-
-            templateString = templateString or ""
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -133,17 +118,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
-        local templateString = ""
-
-        if ( templateString == "" and campaignDatabase ) then
-            templateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
-        end
-
-        if ( templateString == "" and selectorDB ) then
-            templateString = selectorDB:GetStringOrDefault( templateName, "" ) or ""
-        end
-
-        templateString = templateString or ""
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
 
         if ( templateString == "" ) then
 
@@ -268,13 +243,7 @@ end
 
 function buildings_upgrader_tool:OnActivateSelectorRequest()
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
         return
@@ -300,18 +269,7 @@ end
 
 function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, campaignDatabase, selectorDB)
 
-    local currentTemplateString = ""
-
-    if ( currentTemplateString == "" and campaignDatabase ) then
-        currentTemplateString = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
-    end
-
-    if ( currentTemplateString == "" and selectorDB ) then
-        currentTemplateString = selectorDB:GetStringOrDefault( templateName, "" ) or ""
-    end
-
-    currentTemplateString = currentTemplateString or ""
-
+    local currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
     if ( currentTemplateString == "" ) then
         return
     end

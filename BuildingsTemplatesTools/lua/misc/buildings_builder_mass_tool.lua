@@ -3,6 +3,7 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 local TemplatesSerializeUtils = require("lua/misc/buildings_serialize_utils.lua")
+local BuildingsTemplatesUtils = require("lua/misc/buildings_templates_utils.lua")
 
 class 'buildings_builder_mass_tool' ( LuaEntityObject )
 
@@ -119,13 +120,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
 
     local markerDB = EntityService:GetDatabase( self.markerEntity )
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
@@ -133,17 +128,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
         return
     end
 
-    local templateString = ""
-
-    if ( templateString == "" and campaignDatabase ) then
-        templateString = campaignDatabase:GetStringOrDefault( self.template_name, "" ) or ""
-    end
-
-    if ( templateString == "" and selectorDB ) then
-        templateString = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
-    end
-
-    templateString = templateString or ""
+    local templateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, campaignDatabase, selectorDB)
 
     if ( templateString == "" ) then
 
