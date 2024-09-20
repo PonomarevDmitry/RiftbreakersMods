@@ -65,6 +65,8 @@ function buildings_upgrader_tool:FillMarkerMessage()
         return
     end
 
+    self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
+
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
         local templatesStr = ""
@@ -122,7 +124,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
         if ( templateString == "" ) then
 
-            local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
+            local markerText = "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
 
             markerDB:SetString("message_text", markerText)
         else
@@ -191,9 +193,9 @@ function buildings_upgrader_tool:OnRotateSelectorRequest(evt)
 
     local newIndex = index + change
     if ( newIndex > maxIndex ) then
-        newIndex = 1
-    elseif( newIndex == 0 ) then
         newIndex = maxIndex
+    elseif( newIndex < 1 ) then
+        newIndex = 1
     end
 
     local newValue = templatesArray[newIndex]
@@ -214,7 +216,7 @@ function buildings_upgrader_tool:CheckTemplateExists( selectedTemplate )
 
     selectedTemplate = selectedTemplate or templatesArray[1]
 
-    local index = IndexOf(templatesArray, selectedTemplate )
+    local index = IndexOf( templatesArray, selectedTemplate )
 
     if ( index == nil ) then
 
@@ -226,19 +228,33 @@ end
 
 function buildings_upgrader_tool:GetTemplatesArray()
 
-    if ( self.templatesArray == nil ) then
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-        self.templatesArray = { self.allTemplatesName }
+    local result = { self.allTemplatesName }
+
+    if ( campaignDatabase ~= nil or selectorDB ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
-            local templateName = string.format( "%02d", number )
+            local templateSuffix = string.format( "%02d", number )
 
-            Insert( self.templatesArray, templateName )
+            local templateName = self.templateFormat .. templateSuffix
+
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+
+            if ( templateString ~= nil and templateString ~= "" ) then
+
+                allIsEmpty = false
+
+                if ( self:CanUpgradeTemplate(templateString) ) then
+
+                    Insert( result, templateSuffix )
+                end
+            end
         end
     end
 
-    return self.templatesArray
+    return result
 end
 
 function buildings_upgrader_tool:OnActivateSelectorRequest()
