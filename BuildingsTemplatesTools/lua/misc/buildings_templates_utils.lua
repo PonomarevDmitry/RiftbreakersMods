@@ -38,4 +38,34 @@ function BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabas
     return result
 end
 
+function BuildingsTemplatesUtils:GetPersistentDatabase()
+
+    local result = PlayerService:GetOrCreateGlobalDatabase("BuildingsTemplatesTools")
+
+    return result
+end
+
+function BuildingsTemplatesUtils:IsTemplateEquals(templateString1, templateString2)
+
+    templateString1 = templateString1 or ""
+    templateString2 = templateString2 or ""
+
+    if ( templateString1 == "" and templateString2 == "" ) then
+
+        return true
+    end
+
+    if ( templateString1 ~= "" and templateString2 == "" ) then
+
+        return false
+    end
+
+    if ( templateString1 == "" and templateString2 ~= "" ) then
+
+        return false
+    end
+
+    return false
+end
+
 return BuildingsTemplatesUtils

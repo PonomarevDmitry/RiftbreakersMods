@@ -1,0 +1,62 @@
+EntityBlueprint
+{
+	name					"buildings/tools/buildings_importer"
+
+	BuildingDesc
+	{
+		name				"buildings_importer"
+		bp					"buildings/tools/buildings_importer"
+		ghost_bp			"buildings/tools/buildings_importer_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/buildings_importer_tool"
+		description			"gui/hud/building_description/buildings_importer_tool"
+		menu_icon			"gui/hud/tools_icons/buildings_importer_tool"
+
+		order				"50.5"
+		type				"picker"
+
+		building_group		"buildings_exporter"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/buildings_importer_ghost"
+
+	BuildingDesc
+	{
+		name				"buildings_importer_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/buildings_importer_tool.lua"
+		database
+		{
+			action			string:"buildings_importer_tool"
+			template_format	string:"$buildings_picker.BuildingsTemplate_"
+
+			number_from		int:"1"
+			number_to		int:"24"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
