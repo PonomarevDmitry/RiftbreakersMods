@@ -67,6 +67,8 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
     self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
 
+    self:UpdateMarker()
+
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
         local templatesStr = ""
