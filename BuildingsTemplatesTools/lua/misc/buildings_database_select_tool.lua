@@ -14,7 +14,7 @@ function buildings_database_select_tool:OnInit()
         1,
     }
 
-    self.modeCurrentDatabase = "current_database"
+    self.modeCurrentDatabase = "current"
 
     self.selectedMode = self.modeCurrentDatabase
 
