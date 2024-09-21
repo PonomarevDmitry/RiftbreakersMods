@@ -244,8 +244,6 @@ function buildings_upgrader_tool:GetTemplatesArray()
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
-                allIsEmpty = false
-
                 if ( self:CanUpgradeTemplate(templateString) ) then
 
                     Insert( result, templateSuffix )
