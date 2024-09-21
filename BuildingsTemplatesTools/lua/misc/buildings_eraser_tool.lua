@@ -24,6 +24,11 @@ function buildings_eraser_tool:OnInit()
     self.numberTo = self.data:GetInt("number_to")
     self.templateFormat = self.data:GetString("template_format")
 
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.selectedDatabaseNumber = selectorDB:GetIntOrDefault("$buildings_database_select_config", 1)
+    self.selectedDatabaseCaption = "${gui/hud/building_templates/database_" .. string.format( "%02d", self.selectedDatabaseNumber ) .. "}"
+
     self.currentChildTemplate = ""
     self.childEntity = nil
 
@@ -57,7 +62,7 @@ function buildings_eraser_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase()
+    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
 
     if ( persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
@@ -68,6 +73,8 @@ function buildings_eraser_tool:FillMarkerMessage()
     self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
 
     self:UpdateMarker()
+
+    local markerText = self.selectedDatabaseCaption .. "\n"
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
@@ -92,13 +99,13 @@ function buildings_eraser_tool:FillMarkerMessage()
 
         if ( string.len(templatesStr) > 0 ) then
 
-            local markerText = "${gui/hud/building_templates/templates_can_be_erased}:\n" .. templatesStr
-
-            markerDB:SetString("message_text", markerText)
+            markerText = markerText .. "${gui/hud/building_templates/templates_can_be_erased}:\n" .. templatesStr
         else
 
-            markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_empty")
+            markerText = markerText .. "${gui/hud/messages/building_templates/all_templates_empty}"
         end
+
+        markerDB:SetString("message_text", markerText)
 
         markerDB:SetInt("message_visible", 1)
 
@@ -114,17 +121,15 @@ function buildings_eraser_tool:FillMarkerMessage()
 
         if ( persistentTemplateString == "" ) then
 
-            local markerText = "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
-
-            markerDB:SetString("message_text", markerText)
+            markerText = markerText .. "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
         else
 
             local buildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
 
-            local markerText = "${" .. templateEraseCaption .. "}:\n" .. buildingsIcons
-
-            markerDB:SetString("message_text", markerText)
+            markerText = markerText .. "${" .. templateEraseCaption .. "}:\n" .. buildingsIcons
         end
+
+        markerDB:SetString("message_text", markerText)
 
         markerDB:SetInt("message_visible", 1)
     end
@@ -201,7 +206,7 @@ end
 
 function buildings_eraser_tool:GetTemplatesArray()
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase()
+    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
 
     local result = { self.allTemplatesName }
 
@@ -232,7 +237,7 @@ function buildings_eraser_tool:OnActivateSelectorRequest()
         return
     end
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase()
+    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
 
     if ( persistentDatabase == nil ) then
         return
@@ -284,7 +289,7 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
 
     self.popupShown = false
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase()
+    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
 
     if ( persistentDatabase == nil ) then
         return
@@ -306,7 +311,7 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
 
     self.popupShown = false
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase()
+    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
 
     if ( persistentDatabase == nil ) then
         return

@@ -38,9 +38,11 @@ function BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabas
     return result
 end
 
-function BuildingsTemplatesUtils:GetPersistentDatabase()
+function BuildingsTemplatesUtils:GetPersistentDatabase(selectedDatabaseNumber)
 
-    local result = PlayerService:GetOrCreateGlobalDatabase("BuildingsTemplatesTools")
+    local databaseName = "BuildingsTemplatesTools_" .. string.format( "%02d", selectedDatabaseNumber )
+
+    local result = PlayerService:GetOrCreateGlobalDatabase(databaseName)
 
     return result
 end
