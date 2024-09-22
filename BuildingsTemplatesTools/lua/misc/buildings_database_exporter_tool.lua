@@ -130,15 +130,13 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        local templateExportCaption = "gui/hud/building_templates/export_template_" .. self.selectedTemplate
-
-        local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
-
         local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
 
         local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
         if ( templateString == "" ) then
+
+            local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
             local markerText = "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
 
@@ -147,15 +145,19 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
             local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
 
+            local templateExportCaption = "gui/hud/building_templates/export_template_" .. self.selectedTemplate
+
             local markerText = "${" .. templateExportCaption .. "}:\n" .. buildingsIcons
 
             if ( persistentTemplateString ~= "" ) then
 
                 local persistentBuildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
 
-                markerText = markerText .. "\n" .. self.selectedDatabaseCaption 
+                markerText = markerText .. "\n" .. self.selectedDatabaseCaption
 
-                markerText = markerText .. "\n${gui/hud/building_templates/persistent} ${" .. templateCaption .. "}:\n" .. persistentBuildingsIcons
+                local templateCaption = "gui/hud/building_templates/persistent_template_" .. self.selectedTemplate
+
+                markerText = markerText .. "\n${" .. templateCaption .. "}:\n" .. persistentBuildingsIcons
             end
 
             markerDB:SetString("message_text", markerText)

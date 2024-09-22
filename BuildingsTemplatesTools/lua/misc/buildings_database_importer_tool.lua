@@ -130,15 +130,13 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        local templateImportCaption = "gui/hud/building_templates/import_template_" .. self.selectedTemplate
-
-        local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
-
         local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
 
         local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
         if ( persistentTemplateString == "" ) then
+
+            local templateCaption = "gui/hud/building_templates/persistent_template_" .. self.selectedTemplate
 
             local markerText = "${gui/hud/building_templates/persistent} ${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
 
@@ -149,11 +147,15 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
             local markerText = self.selectedDatabaseCaption
 
+            local templateImportCaption = "gui/hud/building_templates/import_template_" .. self.selectedTemplate
+
             markerText = markerText .. "\n${" .. templateImportCaption .. "}:\n" .. persistentBuildingsIcons
 
             if ( templateString ~= "" ) then
 
                 local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
+
+                local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
                 markerText = markerText .. "\n${" .. templateCaption .. "}:\n" .. buildingsIcons
             end
