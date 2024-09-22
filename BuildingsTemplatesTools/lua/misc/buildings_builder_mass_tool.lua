@@ -171,9 +171,9 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
-        if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
-            goto continue
-        end
+        --if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        --    goto continue
+        --end
 
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
@@ -189,10 +189,10 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
             goto continue
         end
 
-        local list = BuildingService:GetBuildCosts( blueprintName, self.playerId )
-        if ( #list == 0 ) then
-            goto continue
-        end
+        local buildCosts = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+        --if ( #buildCosts == 0 ) then
+        --    goto continue
+        --end
 
         -- Do not create cubes for building_mode "line"
         local createCube = not ( buildingDescRef.building_mode == "line" )
@@ -202,7 +202,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
 
         for entityString in Iter( entitiesCoordinatesArray ) do
 
-            self:CreateSingleBuildingTemplate( blueprintName, buildingDescRef, createCube, entityString, list, delimiterBetweenCoordinates )
+            self:CreateSingleBuildingTemplate( blueprintName, buildingDescRef, createCube, entityString, buildCosts, delimiterBetweenCoordinates )
         end
 
         ::continue::
@@ -269,7 +269,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
     end
 end
 
-function buildings_builder_mass_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, list, delimiterBetweenCoordinates )
+function buildings_builder_mass_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, buildCosts, delimiterBetweenCoordinates )
 
     -- Split coordinates by ","
     local valuesArray = Split( entityString, delimiterBetweenCoordinates )
@@ -297,7 +297,7 @@ function buildings_builder_mass_tool:CreateSingleBuildingTemplate( blueprintName
     buildingTemplate.blueprint = blueprintName
     buildingTemplate.databaseInfo = databaseInfo
 
-    for resourceCost in Iter( list ) do
+    for resourceCost in Iter( buildCosts ) do
 
         if ( self.buildCostOriginal[resourceCost.first] == nil ) then
             self.buildCostOriginal[resourceCost.first] = 0
@@ -944,7 +944,7 @@ function buildings_builder_mass_tool:FilterLimitedAndUnimited(allTemplates)
 
         local testBuildable = self:CheckEntityBuildable( entity, transform, buildingTemplate.blueprint )
 
-        local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
+        local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES or testBuildable.flag == CBF_REPAIR)
 
         if ( canBuild ) then
 
