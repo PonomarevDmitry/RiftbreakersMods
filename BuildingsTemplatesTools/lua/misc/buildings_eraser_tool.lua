@@ -2,13 +2,13 @@ local buildings_tool_base = require("lua/misc/buildings_tool_base.lua")
 require("lua/utils/table_utils.lua")
 local BuildingsTemplatesUtils = require("lua/misc/buildings_templates_utils.lua")
 
-class 'buildings_eraser_tool' ( buildings_tool_base )
+class 'buildings_database_eraser_tool' ( buildings_tool_base )
 
-function buildings_eraser_tool:__init()
+function buildings_database_eraser_tool:__init()
     buildings_tool_base.__init(self,self)
 end
 
-function buildings_eraser_tool:OnInit()
+function buildings_database_eraser_tool:OnInit()
 
     self.scaleMap = {
         1,
@@ -37,7 +37,7 @@ function buildings_eraser_tool:OnInit()
     self:FillMarkerMessage()
 end
 
-function buildings_eraser_tool:UpdateMarker()
+function buildings_database_eraser_tool:UpdateMarker()
 
     if ( self.currentChildTemplate ~= self.selectedTemplate or self.childEntity == nil) then
 
@@ -48,7 +48,7 @@ function buildings_eraser_tool:UpdateMarker()
             self.childEntity = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_buildings_eraser_tool_" .. self.selectedTemplate
+        local markerBlueprint = "misc/marker_selector_buildings_database_eraser_tool_" .. self.selectedTemplate
 
         -- Create new marker
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
@@ -58,7 +58,7 @@ function buildings_eraser_tool:UpdateMarker()
     end
 end
 
-function buildings_eraser_tool:FillMarkerMessage()
+function buildings_database_eraser_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
@@ -135,21 +135,21 @@ function buildings_eraser_tool:FillMarkerMessage()
     end
 end
 
-function buildings_eraser_tool:AddedToSelection( entity )
+function buildings_database_eraser_tool:AddedToSelection( entity )
 end
 
-function buildings_eraser_tool:RemovedFromSelection( entity )
+function buildings_database_eraser_tool:RemovedFromSelection( entity )
 end
 
-function buildings_eraser_tool:OnUpdate()
+function buildings_database_eraser_tool:OnUpdate()
 end
 
-function buildings_eraser_tool:FindEntitiesToSelect( selectorComponent )
+function buildings_database_eraser_tool:FindEntitiesToSelect( selectorComponent )
 
     return {}
 end
 
-function buildings_eraser_tool:OnRotateSelectorRequest(evt)
+function buildings_database_eraser_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
@@ -188,7 +188,7 @@ function buildings_eraser_tool:OnRotateSelectorRequest(evt)
     self:FillMarkerMessage()
 end
 
-function buildings_eraser_tool:CheckTemplateExists( selectedTemplate )
+function buildings_database_eraser_tool:CheckTemplateExists( selectedTemplate )
 
     local templatesArray = self:GetTemplatesArray()
 
@@ -204,7 +204,7 @@ function buildings_eraser_tool:CheckTemplateExists( selectedTemplate )
     return selectedTemplate
 end
 
-function buildings_eraser_tool:GetTemplatesArray()
+function buildings_database_eraser_tool:GetTemplatesArray()
 
     local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
 
@@ -230,7 +230,7 @@ function buildings_eraser_tool:GetTemplatesArray()
     return result
 end
 
-function buildings_eraser_tool:OnActivateSelectorRequest()
+function buildings_database_eraser_tool:OnActivateSelectorRequest()
 
     if( self.popupShown ) then
 
@@ -266,7 +266,7 @@ function buildings_eraser_tool:OnActivateSelectorRequest()
     end
 end
 
-function buildings_eraser_tool:DatabaseHasTemplate( persistentDatabase )
+function buildings_database_eraser_tool:DatabaseHasTemplate( persistentDatabase )
 
     for number=self.numberFrom,self.numberTo do
 
@@ -283,7 +283,7 @@ function buildings_eraser_tool:DatabaseHasTemplate( persistentDatabase )
     return false
 end
 
-function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
+function buildings_database_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
 
     self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate" )
 
@@ -305,7 +305,7 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
     end
 end
 
-function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
+function buildings_database_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
 
     self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates" )
 
@@ -332,7 +332,7 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
     end
 end
 
-function buildings_eraser_tool:OnRelease()
+function buildings_database_eraser_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
@@ -344,4 +344,4 @@ function buildings_eraser_tool:OnRelease()
     end
 end
 
-return buildings_eraser_tool
+return buildings_database_eraser_tool
