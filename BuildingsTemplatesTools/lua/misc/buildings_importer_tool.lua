@@ -2,13 +2,13 @@ local buildings_tool_base = require("lua/misc/buildings_tool_base.lua")
 require("lua/utils/table_utils.lua")
 local BuildingsTemplatesUtils = require("lua/misc/buildings_templates_utils.lua")
 
-class 'buildings_importer_tool' ( buildings_tool_base )
+class 'buildings_database_importer_tool' ( buildings_tool_base )
 
-function buildings_importer_tool:__init()
+function buildings_database_importer_tool:__init()
     buildings_tool_base.__init(self,self)
 end
 
-function buildings_importer_tool:OnInit()
+function buildings_database_importer_tool:OnInit()
 
     self.scaleMap = {
         1,
@@ -37,7 +37,7 @@ function buildings_importer_tool:OnInit()
     self:FillMarkerMessage()
 end
 
-function buildings_importer_tool:UpdateMarker()
+function buildings_database_importer_tool:UpdateMarker()
 
     if ( self.currentChildTemplate ~= self.selectedTemplate or self.childEntity == nil) then
 
@@ -48,7 +48,7 @@ function buildings_importer_tool:UpdateMarker()
             self.childEntity = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_buildings_importer_tool_" .. self.selectedTemplate
+        local markerBlueprint = "misc/marker_selector_buildings_database_importer_tool_" .. self.selectedTemplate
 
         -- Create new marker
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
@@ -58,7 +58,7 @@ function buildings_importer_tool:UpdateMarker()
     end
 end
 
-function buildings_importer_tool:FillMarkerMessage()
+function buildings_database_importer_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
@@ -165,21 +165,21 @@ function buildings_importer_tool:FillMarkerMessage()
     end
 end
 
-function buildings_importer_tool:AddedToSelection( entity )
+function buildings_database_importer_tool:AddedToSelection( entity )
 end
 
-function buildings_importer_tool:RemovedFromSelection( entity )
+function buildings_database_importer_tool:RemovedFromSelection( entity )
 end
 
-function buildings_importer_tool:OnUpdate()
+function buildings_database_importer_tool:OnUpdate()
 end
 
-function buildings_importer_tool:FindEntitiesToSelect( selectorComponent )
+function buildings_database_importer_tool:FindEntitiesToSelect( selectorComponent )
 
     return {}
 end
 
-function buildings_importer_tool:OnRotateSelectorRequest(evt)
+function buildings_database_importer_tool:OnRotateSelectorRequest(evt)
 
     local degree = evt:GetDegree()
 
@@ -218,7 +218,7 @@ function buildings_importer_tool:OnRotateSelectorRequest(evt)
     self:FillMarkerMessage()
 end
 
-function buildings_importer_tool:CheckTemplateExists( selectedTemplate )
+function buildings_database_importer_tool:CheckTemplateExists( selectedTemplate )
 
     local templatesArray = self:GetTemplatesArray()
 
@@ -234,7 +234,7 @@ function buildings_importer_tool:CheckTemplateExists( selectedTemplate )
     return selectedTemplate
 end
 
-function buildings_importer_tool:GetTemplatesArray()
+function buildings_database_importer_tool:GetTemplatesArray()
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
@@ -267,7 +267,7 @@ function buildings_importer_tool:GetTemplatesArray()
     return result
 end
 
-function buildings_importer_tool:OnActivateSelectorRequest()
+function buildings_database_importer_tool:OnActivateSelectorRequest()
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
@@ -298,7 +298,7 @@ function buildings_importer_tool:OnActivateSelectorRequest()
     self:FillMarkerMessage()
 end
 
-function buildings_importer_tool:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, persistentDatabase)
+function buildings_database_importer_tool:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, persistentDatabase)
 
     local currentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
     if ( currentTemplateString == "" ) then
@@ -316,7 +316,7 @@ function buildings_importer_tool:ImportTemplateToToDatabase(templateName, campai
     end
 end
 
-function buildings_importer_tool:OnRelease()
+function buildings_database_importer_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
@@ -328,4 +328,4 @@ function buildings_importer_tool:OnRelease()
     end
 end
 
-return buildings_importer_tool
+return buildings_database_importer_tool
