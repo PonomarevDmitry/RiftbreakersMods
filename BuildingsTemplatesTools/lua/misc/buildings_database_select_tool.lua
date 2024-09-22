@@ -46,7 +46,7 @@ function buildings_database_select_tool:UpdateMarker()
             self.markerEntity = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_buildings_database_select_tool_current"-- .. self.selectedMode
+        local markerBlueprint = "misc/marker_selector_buildings_database_select_tool_" .. self.selectedMode
 
         -- Create new marker
         self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
