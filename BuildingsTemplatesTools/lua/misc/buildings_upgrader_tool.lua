@@ -64,7 +64,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
@@ -103,7 +103,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
             if ( string.len(templatesStr) > 0 ) then
 
-                local markerText = "${gui/hud/building_templates/templates_can_be_upgraded}:\n" .. templatesStr
+                local markerText = "${gui/hud/messages/building_templates/templates_can_be_upgraded}:\n" .. templatesStr
 
                 markerDB:SetString("message_text", markerText)
             else
@@ -126,7 +126,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
         if ( templateString == "" ) then
 
-            local markerText = "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
+            local markerText = "${" .. templateCaption .. "}:\n${gui/hud/messages/building_templates/empty_template}"
 
             markerDB:SetString("message_text", markerText)
         else
@@ -145,7 +145,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
                     markerText = "${" .. templateCaption .. "}:\n" .. upgradedList
 
                     if ( string.len(toUpgradeList) > 0 ) then
-                        markerText = markerText .. "\n${gui/hud/building_templates/can_be_upgraded}:\n" .. toUpgradeList
+                        markerText = markerText .. "\n${gui/hud/messages/building_templates/can_be_upgraded}:\n" .. toUpgradeList
                     end
                 else
                     markerText = "${" .. templateUpgradeCaption .. "}:\n" .. toUpgradeList

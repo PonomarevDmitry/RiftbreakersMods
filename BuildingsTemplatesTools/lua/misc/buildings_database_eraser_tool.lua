@@ -69,7 +69,7 @@ function buildings_database_eraser_tool:FillMarkerMessage()
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     if ( self.persistentDatabase == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
@@ -121,7 +121,7 @@ function buildings_database_eraser_tool:FillMarkerMessage()
 
         if ( persistentTemplateString == "" ) then
 
-            markerText = markerText .. "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
+            markerText = markerText .. "${" .. templateCaption .. "}:\n${gui/hud/messages/building_templates/empty_template}"
         else
 
             local buildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
@@ -249,7 +249,7 @@ function buildings_database_eraser_tool:OnActivateSelectorRequest()
 
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates")
 
-        GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/buildings_picker_tool/clear_all_templates_confirm")
+        GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/building_templates/clear_all_templates_confirm")
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
@@ -265,7 +265,7 @@ function buildings_database_eraser_tool:OnActivateSelectorRequest()
 
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate")
 
-        GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/buildings_picker_tool/clear_template_confirm")
+        GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/building_templates/clear_template_confirm")
     end
 end
 

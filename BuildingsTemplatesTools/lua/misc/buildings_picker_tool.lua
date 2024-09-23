@@ -35,7 +35,7 @@ function buildings_picker_tool:FillMarkerMessage()
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
     if ( campaignDatabase == nil and selectorDB == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
@@ -425,7 +425,7 @@ function buildings_picker_tool:ClearTemplate()
 
                 self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
 
-                GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/buildings_picker_tool/clear_template_confirm")
+                GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/building_templates/clear_template_confirm")
 
                 self.clickCount = 0
                 self.clickLastTime = 0

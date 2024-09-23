@@ -42,7 +42,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     if ( self.persistentDatabase == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
@@ -67,7 +67,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
 
         if ( persistentTemplateString == "" ) then
 
-            markerText = markerText .. "\n${gui/hud/messages/buildings_picker_tool/empty_template}"
+            markerText = markerText .. "\n${gui/hud/messages/building_templates/empty_template}"
         else
 
             local buildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
@@ -87,7 +87,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
 
         if ( persistentTemplateString == "" ) then
 
-            markerText = markerText .. "\n${gui/hud/messages/buildings_picker_tool/empty_template}"
+            markerText = markerText .. "\n${gui/hud/messages/building_templates/empty_template}"
         else
 
             local buildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)

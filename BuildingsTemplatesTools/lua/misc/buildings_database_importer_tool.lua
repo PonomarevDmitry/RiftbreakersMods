@@ -67,13 +67,13 @@ function buildings_database_importer_tool:FillMarkerMessage()
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
 
     if ( self.persistentDatabase == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
@@ -135,7 +135,7 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
             local templateCaption = "gui/hud/building_templates/persistent_template_" .. self.selectedTemplate
 
-            markerText = markerText .. "\n${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
+            markerText = markerText .. "\n${" .. templateCaption .. "}:\n${gui/hud/messages/building_templates/empty_template}"
         else
 
             local persistentBuildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)

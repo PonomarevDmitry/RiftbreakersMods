@@ -123,7 +123,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
@@ -134,7 +134,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.marker
 
-        local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/buildings_picker_tool/empty_template}"
+        local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/building_templates/empty_template}"
 
         markerDB:SetString("message_text", markerText)
         markerDB:SetInt("message_visible", 1)
@@ -264,7 +264,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
         self.blockGridSize.x = maxX - minX
         self.blockGridSize.z = maxZ - minZ
     else
-        markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/building_impossible")
+        markerDB:SetString("message_text", "gui/hud/messages/building_templates/building_impossible")
         markerDB:SetInt("message_visible", 1)
     end
 end
