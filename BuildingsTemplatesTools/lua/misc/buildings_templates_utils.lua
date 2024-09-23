@@ -67,6 +67,11 @@ function BuildingsTemplatesUtils:IsTemplateEquals(templateString1, templateStrin
         return false
     end
 
+    if ( templateString1 == templateString2 ) then
+
+        return true
+    end
+
     return false
 end
 
