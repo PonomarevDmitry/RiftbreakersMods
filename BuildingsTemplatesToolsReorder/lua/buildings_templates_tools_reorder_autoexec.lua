@@ -147,9 +147,22 @@ local new_values = {
     {
         ["list"] = {
             "buildings/tools/buildings_upgrader",
+            "buildings/tools/buildings_swap_templates",
         },
 
         ["order"] = "4.3",
+    },
+
+    {
+        ["list"] = {
+            "buildings/tools/buildings_database_select",
+            "buildings/tools/buildings_database_exporter",
+            "buildings/tools/buildings_database_importer",
+            "buildings/tools/buildings_database_eraser",
+            "buildings/tools/buildings_database_swap_templates",
+        },
+
+        ["order"] = "4.4",
     },
 }
 
