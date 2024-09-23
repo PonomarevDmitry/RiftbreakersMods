@@ -62,6 +62,10 @@ end
 
 function buildings_database_eraser_tool:FillMarkerMessage()
 
+    self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
+
+    self:UpdateMarker()
+
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     if ( self.persistentDatabase == nil ) then
@@ -69,10 +73,6 @@ function buildings_database_eraser_tool:FillMarkerMessage()
         markerDB:SetInt("message_visible", 1)
         return
     end
-
-    self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
-
-    self:UpdateMarker()
 
     local markerText = self.selectedDatabaseCaption .. "\n"
 
