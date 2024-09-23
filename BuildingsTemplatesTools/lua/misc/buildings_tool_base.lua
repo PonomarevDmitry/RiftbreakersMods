@@ -325,7 +325,7 @@ function buildings_tool_base:CanUpgradeTemplate(templateString)
 
 
         local maxUpgradeBlueprintName = self:GetMaxAvailableLevel( blueprintName )
-        if ( maxUpgradeBlueprint == "" ) then
+        if ( maxUpgradeBlueprintName == "" ) then
             goto continue
         end
 
@@ -476,7 +476,7 @@ function buildings_tool_base:UpgradeBlueprintsInTemplate(currentTemplateString)
 
 
         local maxUpgradeBlueprintName = self:GetMaxAvailableLevel( blueprintName )
-        if ( maxUpgradeBlueprint == "" ) then
+        if ( maxUpgradeBlueprintName == "" ) then
             goto continue
         end
 
