@@ -307,7 +307,7 @@ function buildings_database_importer_tool:ImportTemplateToToDatabase(templateNam
         return
     end
 
-    local templateString = currentTemplateString
+    local templateString = self:GetAvailableBlueprintsInTemplate(currentTemplateString)
 
     if ( campaignDatabase ) then
         campaignDatabase:SetString( templateName, templateString )
@@ -316,6 +316,160 @@ function buildings_database_importer_tool:ImportTemplateToToDatabase(templateNam
     if ( selectorDB ) then
         selectorDB:SetString( templateName, templateString )
     end
+end
+
+function buildings_database_importer_tool:GetAvailableBlueprintsInTemplate(currentTemplateString)
+
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
+        return
+    end
+
+    local buildingSystemCampaignInfoComponentRef = reflection_helper( buildingSystemCampaignInfoComponent )
+
+    local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
+
+    local unlockedHash = {}
+
+    for i=1,unlocks.count do
+
+        local unlocked = unlocks[i]
+
+        unlockedHash[unlocked] = true
+    end
+
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
+    -- templateString format:
+    -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
+
+    -- Delimiter between blueprints groups: "|"
+    -- Delimiter between blueprint name and array of entities coordinates: ":"
+    -- Delimiter between entities in array of entities coordinates: ";"
+    -- Delimiter between coordinates for single entity: ","
+    -- blueprint1, blueprint2 - blueprints names
+
+    -- ent1PosX, ent2PosX, ent3PosX, ent4PosX - entities relative position.x
+    -- ent1PosZ, ent2PosZ, ent3PosZ, ent4PosZ - entities relative position.z
+
+    -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
+    -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
+
+
+
+    local blueprintsGroupsArray = Split( currentTemplateString, delimiterBlueprintsGroups )
+
+
+    local hashBlueprints = {}
+    local listBlueprintsNames = {}
+
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+
+
+
+        local availableBlueprintName = self:GetUnlockedOrMaxAvailableLevel( blueprintName, unlockedHash )
+        if ( availableBlueprintName == "" ) then
+            goto continue
+        end
+
+        if ( hashBlueprints[availableBlueprintName] == nil ) then
+
+            Insert( listBlueprintsNames, availableBlueprintName )
+
+            hashBlueprints[availableBlueprintName] = {}
+        end
+
+        local entitiesCoordinatesStringArray = hashBlueprints[availableBlueprintName]
+
+        if ( #entitiesCoordinatesStringArray > 0 ) then
+            Insert( entitiesCoordinatesStringArray, delimiterEntitiesArray )
+        end
+
+        Insert( entitiesCoordinatesStringArray, entitiesCoordinatesString )
+
+        ::continue::
+    end
+
+
+
+    local templateStringArray = {}
+
+    for entityBlueprint in Iter( listBlueprintsNames ) do
+
+        if ( #templateStringArray > 0 ) then
+            Insert( templateStringArray, delimiterBlueprintsGroups )
+        end
+
+        Insert( templateStringArray, entityBlueprint )
+        Insert( templateStringArray, delimiterBlueprintName )
+
+        local entitiesCoordinates = hashBlueprints[entityBlueprint]
+
+        for str in Iter( entitiesCoordinates ) do
+            Insert( templateStringArray, str )
+        end
+    end
+
+    local templateString = table.concat( templateStringArray )
+
+    return templateString
+end
+
+function buildings_database_importer_tool:GetUnlockedOrMaxAvailableLevel( blueprintName, unlockedHash )
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return ""
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    if ( unlockedHash[buildingDescRef.name] == true ) then
+        return blueprintName
+    end
+
+    local firstLevelBlueprintName = self:GetFirstLevelBuilding(blueprintName)
+
+    return self:GetMaxAvailableLevel(firstLevelBlueprintName)
 end
 
 function buildings_database_importer_tool:OnRelease()

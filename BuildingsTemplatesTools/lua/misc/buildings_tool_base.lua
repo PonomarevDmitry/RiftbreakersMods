@@ -608,4 +608,39 @@ function buildings_tool_base:CalculateResearchForUpgrade( blueprintName )
     return ""
 end
 
+function buildings_tool_base:GetFirstLevelBuilding(blueprintName)
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+
+        return blueprintName
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef.level == 1 ) then
+
+        return buildingDescRef.bp
+    end
+
+    blueprintName = buildingDescRef.bp
+
+    local suffix = "_lvl_" .. tostring(buildingDescRef.level)
+
+    if ( blueprintName:sub(-#suffix) == suffix ) then
+
+        local result = blueprintName:sub(1,-#suffix-1)
+
+        if ( ResourceManager:ResourceExists( "EntityBlueprint", result )  ) then
+
+            local buildingDesc = BuildingService:GetBuildingDesc( result )
+            if ( buildingDesc ~= nil ) then
+
+                return result
+            end
+        end
+    end
+
+    return blueprintName
+end
+
 return buildings_tool_base
