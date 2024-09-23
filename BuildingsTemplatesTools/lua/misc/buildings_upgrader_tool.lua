@@ -55,6 +55,10 @@ end
 
 function buildings_upgrader_tool:FillMarkerMessage()
 
+    self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
+
+    self:UpdateMarker()
+
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
@@ -64,10 +68,6 @@ function buildings_upgrader_tool:FillMarkerMessage()
         markerDB:SetInt("message_visible", 1)
         return
     end
-
-    self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
-
-    self:UpdateMarker()
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
