@@ -29,6 +29,8 @@ function buildings_database_importer_tool:OnInit()
     self.selectedDatabaseNumber = selectorDB:GetIntOrDefault("$buildings_database_select_config", 1)
     self.selectedDatabaseCaption = "${gui/hud/building_templates/database_" .. string.format( "%02d", self.selectedDatabaseNumber ) .. "}"
 
+    self.persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
+
     self.currentChildTemplate = ""
     self.childEntity = nil
 
@@ -70,12 +72,13 @@ function buildings_database_importer_tool:FillMarkerMessage()
         return
     end
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-    if ( persistentDatabase == nil ) then
+    if ( self.persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
     end
+
+    local markerText = self.selectedDatabaseCaption
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
@@ -89,7 +92,7 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
             local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
 
-            local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+            local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
             if ( persistentTemplateString ~= nil and persistentTemplateString ~= "" ) then
 
@@ -108,49 +111,40 @@ function buildings_database_importer_tool:FillMarkerMessage()
         end
 
         if ( allIsEmpty ) then
-            markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_empty")
+            markerText = markerText .. "\n${gui/hud/messages/building_templates/all_templates_empty}"
         else
-
-            local markerText = self.selectedDatabaseCaption
 
             if ( string.len(templatesStr) > 0 ) then
 
-                markerText = markerText .. "\n${gui/hud/building_templates/templates_can_be_imported}:\n" .. templatesStr
+                markerText = markerText .. "\n${gui/hud/messages/building_templates/templates_can_be_imported}:\n" .. templatesStr
             else
 
                 markerText = markerText .. "\n${gui/hud/messages/building_templates/all_templates_imported}"
             end
-
-                markerDB:SetString("message_text", markerText)
         end
-
-        markerDB:SetInt("message_visible", 1)
 
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+        local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
-        local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+        local markerText = self.selectedDatabaseCaption
 
         if ( persistentTemplateString == "" ) then
 
             local templateCaption = "gui/hud/building_templates/persistent_template_" .. self.selectedTemplate
 
-            local markerText = "${gui/hud/building_templates/persistent} ${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
-
-            markerDB:SetString("message_text", markerText)
+            markerText = markerText .. "\n${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
         else
 
             local persistentBuildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
-
-            local markerText = self.selectedDatabaseCaption
 
             local templateImportCaption = "gui/hud/building_templates/import_template_" .. self.selectedTemplate
 
             markerText = markerText .. "\n${" .. templateImportCaption .. "}:\n" .. persistentBuildingsIcons
 
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
             if ( templateString ~= "" ) then
 
                 local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
@@ -159,12 +153,11 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
                 markerText = markerText .. "\n${" .. templateCaption .. "}:\n" .. buildingsIcons
             end
-
-            markerDB:SetString("message_text", markerText)
         end
-
-        markerDB:SetInt("message_visible", 1)
     end
+
+    markerDB:SetString("message_text", markerText)
+    markerDB:SetInt("message_visible", 1)
 end
 
 function buildings_database_importer_tool:AddedToSelection( entity )
@@ -240,11 +233,9 @@ function buildings_database_importer_tool:GetTemplatesArray()
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-
     local result = { self.allTemplatesName }
 
-    if ( ( campaignDatabase ~= nil or selectorDB ~= nil ) and persistentDatabase ~= nil ) then
+    if ( ( campaignDatabase ~= nil or selectorDB ~= nil ) and self.persistentDatabase ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
@@ -252,7 +243,7 @@ function buildings_database_importer_tool:GetTemplatesArray()
 
             local templateName = self.templateFormat .. templateSuffix
 
-            local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+            local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
             if ( persistentTemplateString ~= nil and persistentTemplateString ~= "" ) then
 
@@ -277,8 +268,7 @@ function buildings_database_importer_tool:OnActivateSelectorRequest()
         return
     end
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-    if ( persistentDatabase == nil ) then
+    if ( self.persistentDatabase == nil ) then
         return
     end
 
@@ -288,13 +278,13 @@ function buildings_database_importer_tool:OnActivateSelectorRequest()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            self:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, persistentDatabase)
+            self:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        self:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, persistentDatabase)
+        self:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
     end
 
     self:FillMarkerMessage()

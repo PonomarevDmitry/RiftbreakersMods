@@ -30,6 +30,8 @@ function buildings_database_swap_templates_tool:OnInit()
     self.selectedDatabaseNumber = selectorDB:GetIntOrDefault("$buildings_database_select_config", 1)
     self.selectedDatabaseCaption = "${gui/hud/building_templates/database_" .. string.format( "%02d", self.selectedDatabaseNumber ) .. "}"
 
+    self.persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
+
     self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
 
     self:FillMarkerMessage()
@@ -39,9 +41,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-
-    if ( persistentDatabase == nil ) then
+    if ( self.persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
@@ -63,7 +63,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
 
         markerText = markerText .. "\n${" .. templateCaption .. "}:"
 
-        local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+        local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
         if ( persistentTemplateString == "" ) then
 
@@ -81,7 +81,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/persistent_template_" .. self.selectedTemplateTo
 
-        local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+        local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
         markerText = markerText .. "\n${" .. templateCaption .. "}:"
 
@@ -206,8 +206,7 @@ end
 
 function buildings_database_swap_templates_tool:OnActivateSelectorRequest()
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-    if ( persistentDatabase == nil ) then
+    if ( self.persistentDatabase == nil ) then
         return
     end
 
@@ -216,14 +215,14 @@ function buildings_database_swap_templates_tool:OnActivateSelectorRequest()
     end
 
     local templateNameFrom = self.templateFormat .. self.selectedTemplateFrom
-    local persistentTemplateStringFrom = persistentDatabase:GetStringOrDefault( templateNameFrom, "" ) or ""
+    local persistentTemplateStringFrom = self.persistentDatabase:GetStringOrDefault( templateNameFrom, "" ) or ""
 
     local templateNameTo = self.templateFormat .. self.selectedTemplateTo
-    local persistentTemplateStringTo = persistentDatabase:GetStringOrDefault( templateNameTo, "" ) or ""
+    local persistentTemplateStringTo = self.persistentDatabase:GetStringOrDefault( templateNameTo, "" ) or ""
 
-    persistentDatabase:SetString(templateNameFrom, persistentTemplateStringTo)
+    self.persistentDatabase:SetString(templateNameFrom, persistentTemplateStringTo)
 
-    persistentDatabase:SetString(templateNameTo, persistentTemplateStringFrom)
+    self.persistentDatabase:SetString(templateNameTo, persistentTemplateStringFrom)
 
     self:FillMarkerMessage()
 end

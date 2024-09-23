@@ -29,6 +29,8 @@ function buildings_database_exporter_tool:OnInit()
     self.selectedDatabaseNumber = selectorDB:GetIntOrDefault("$buildings_database_select_config", 1)
     self.selectedDatabaseCaption = "${gui/hud/building_templates/database_" .. string.format( "%02d", self.selectedDatabaseNumber ) .. "}"
 
+    self.persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
+
     self.currentChildTemplate = ""
     self.childEntity = nil
 
@@ -70,8 +72,7 @@ function buildings_database_exporter_tool:FillMarkerMessage()
         return
     end
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-    if ( persistentDatabase == nil ) then
+    if ( self.persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/buildings_picker_tool/database_unavailable")
         markerDB:SetInt("message_visible", 1)
         return
@@ -89,7 +90,7 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
             local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
 
-            local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+            local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -107,23 +108,24 @@ function buildings_database_exporter_tool:FillMarkerMessage()
             end
         end
 
+        local markerText = ""
+
         if ( allIsEmpty ) then
-            markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_empty")
+            markerText = "${gui/hud/messages/building_templates/all_templates_empty}"
         else
 
             if ( string.len(templatesStr) > 0 ) then
 
-                local markerText = "${gui/hud/building_templates/templates_can_be_exported}:\n" .. templatesStr
-
-                markerText = markerText .. "\n" .. self.selectedDatabaseCaption
-
-                markerDB:SetString("message_text", markerText)
+                markerText = "${gui/hud/messages/building_templates/templates_can_be_exported}:\n" .. templatesStr
             else
 
-                markerDB:SetString("message_text", "gui/hud/messages/building_templates/all_templates_exported")
+                markerText = "${gui/hud/messages/building_templates/all_templates_exported}"
             end
         end
 
+        markerText = markerText .. "\n" .. self.selectedDatabaseCaption
+
+        markerDB:SetString("message_text", markerText)
         markerDB:SetInt("message_visible", 1)
 
     else
@@ -132,37 +134,37 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
         local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
 
-        local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+        local markerText = ""
 
         if ( templateString == "" ) then
 
             local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
-            local markerText = "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
+            markerText = "${" .. templateCaption .. "}:\n${gui/hud/messages/buildings_picker_tool/empty_template}"
 
-            markerDB:SetString("message_text", markerText)
+            markerText = markerText .. "\n" .. self.selectedDatabaseCaption
         else
 
             local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
 
             local templateExportCaption = "gui/hud/building_templates/export_template_" .. self.selectedTemplate
 
-            local markerText = "${" .. templateExportCaption .. "}:\n" .. buildingsIcons
+            markerText = "${" .. templateExportCaption .. "}:\n" .. buildingsIcons
 
+            markerText = markerText .. "\n" .. self.selectedDatabaseCaption
+
+            local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
             if ( persistentTemplateString ~= "" ) then
 
                 local persistentBuildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
-
-                markerText = markerText .. "\n" .. self.selectedDatabaseCaption
 
                 local templateCaption = "gui/hud/building_templates/persistent_template_" .. self.selectedTemplate
 
                 markerText = markerText .. "\n${" .. templateCaption .. "}:\n" .. persistentBuildingsIcons
             end
-
-            markerDB:SetString("message_text", markerText)
         end
-
+        
+        markerDB:SetString("message_text", markerText)
         markerDB:SetInt("message_visible", 1)
     end
 end
@@ -240,11 +242,9 @@ function buildings_database_exporter_tool:GetTemplatesArray()
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-
     local result = { self.allTemplatesName }
 
-    if ( ( campaignDatabase ~= nil or selectorDB ~= nil ) and persistentDatabase ~= nil ) then
+    if ( ( campaignDatabase ~= nil or selectorDB ~= nil ) and self.persistentDatabase ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
@@ -256,7 +256,7 @@ function buildings_database_exporter_tool:GetTemplatesArray()
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
-                local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+                local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
                 if ( not BuildingsTemplatesUtils:IsTemplateEquals(templateString, persistentTemplateString) ) then
 
@@ -277,8 +277,7 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
         return
     end
 
-    local persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
-    if ( persistentDatabase == nil ) then
+    if ( self.persistentDatabase == nil ) then
         return
     end
 
@@ -288,13 +287,13 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            self:ExportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, persistentDatabase)
+            self:ExportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        self:ExportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, persistentDatabase)
+        self:ExportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
     end
 
     self:FillMarkerMessage()
