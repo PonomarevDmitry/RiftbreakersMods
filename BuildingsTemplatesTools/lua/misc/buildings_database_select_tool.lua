@@ -58,11 +58,11 @@ end
 
 function buildings_database_select_tool:FillMarkerMessage()
 
-    local markerDB = EntityService:GetDatabase( self.markerEntity )
-
     self.selectedMode = self:CheckTemplateExists(self.selectedMode)
 
     self:UpdateMarker()
+
+    local markerDB = EntityService:GetDatabase( self.markerEntity )
 
     if ( self.selectedMode == self.modeCurrentDatabase ) then
 
@@ -162,9 +162,12 @@ function buildings_database_select_tool:GetTemplatesArray()
 
     for number=self.numberFrom,self.numberTo do
 
-        local databaseSuffix = string.format( "%02d", number )
+        if ( number ~= self.selectedDatabaseNumber ) then
 
-        Insert( result, databaseSuffix )
+            local databaseSuffix = string.format( "%02d", number )
+
+            Insert( result, databaseSuffix )
+        end
     end
 
     return result
