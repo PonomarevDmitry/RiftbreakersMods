@@ -55,7 +55,9 @@ end
 
 function buildings_upgrader_tool:FillMarkerMessage()
 
-    self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
+    local templatesArray = self:GetTemplatesArray()
+
+    self.selectedTemplate = self:CheckTemplateExists( self.selectedTemplate, templatesArray )
 
     self:UpdateMarker()
 
@@ -182,9 +184,9 @@ function buildings_upgrader_tool:OnRotateSelectorRequest(evt)
         change = -1
     end
 
-    local currentTemplate = self:CheckTemplateExists(self.selectedTemplate)
-
     local templatesArray = self:GetTemplatesArray()
+
+    local currentTemplate = self:CheckTemplateExists( self.selectedTemplate, templatesArray )
 
     local index = IndexOf( templatesArray, currentTemplate )
     if ( index == nil ) then
@@ -212,20 +214,56 @@ function buildings_upgrader_tool:OnRotateSelectorRequest(evt)
     self:FillMarkerMessage()
 end
 
-function buildings_upgrader_tool:CheckTemplateExists( selectedTemplate )
+function buildings_upgrader_tool:CheckTemplateExists( selectedTemplate, templatesArray )
 
-    local templatesArray = self:GetTemplatesArray()
-
-    selectedTemplate = selectedTemplate or templatesArray[1]
-
-    local index = IndexOf( templatesArray, selectedTemplate )
-
-    if ( index == nil ) then
+    if ( selectedTemplate == nil ) then
 
         return templatesArray[1]
     end
 
-    return selectedTemplate
+    local index = IndexOf( templatesArray, selectedTemplate )
+    if ( index ~= nil ) then
+        
+        return selectedTemplate
+    end
+
+    local selectedTemplateNumber = tonumber( selectedTemplate )
+
+    if ( selectedTemplateNumber ~= nil ) then
+
+        for number=self.numberFrom,self.numberTo do
+
+            local newNumber = selectedTemplateNumber - number
+
+            if ( self.numberFrom <= newNumber and newNumber <= self.numberTo ) then
+
+                local templateSuffix = string.format( "%02d", newNumber )
+
+                local index = IndexOf( templatesArray, templateSuffix )
+
+                if ( index ~= nil ) then
+        
+                    return templatesArray[index]
+                end
+            end
+
+            local newNumber = selectedTemplateNumber + number
+
+            if ( self.numberFrom <= newNumber and newNumber <= self.numberTo ) then
+
+                local templateSuffix = string.format( "%02d", newNumber )
+
+                local index = IndexOf( templatesArray, templateSuffix )
+
+                if ( index ~= nil ) then
+        
+                    return templatesArray[index]
+                end
+            end
+        end
+    end
+
+    return templatesArray[1]
 end
 
 function buildings_upgrader_tool:GetTemplatesArray()
