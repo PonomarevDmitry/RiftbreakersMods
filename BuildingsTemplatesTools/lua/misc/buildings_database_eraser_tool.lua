@@ -259,7 +259,7 @@ function buildings_database_eraser_tool:OnActivateSelectorRequest()
             return
         end
 
-        self.templateNameForErase = self.selectedTemplate
+        self.templateNameForErase = templateName
 
         self.popupShown = true
 
@@ -300,9 +300,7 @@ function buildings_database_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt
         return
     end
 
-    local templateName = self.templateFormat .. tostring(self.templateNameForErase)
-
-    self.persistentDatabase:SetString( templateName, "" )
+    self.persistentDatabase:SetString( self.templateNameForErase, "" )
 
     self:UpdateMarker()
 
