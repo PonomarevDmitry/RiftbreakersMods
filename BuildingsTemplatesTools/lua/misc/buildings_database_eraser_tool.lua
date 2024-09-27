@@ -192,16 +192,54 @@ function buildings_database_eraser_tool:CheckTemplateExists( selectedTemplate )
 
     local templatesArray = self:GetTemplatesArray()
 
-    selectedTemplate = selectedTemplate or templatesArray[1]
-
-    local index = IndexOf( templatesArray, selectedTemplate )
-
-    if ( index == nil ) then
+    if ( selectedTemplate == nil ) then
 
         return templatesArray[1]
     end
 
-    return selectedTemplate
+    local index = IndexOf( templatesArray, selectedTemplate )
+    if ( index ~= nil ) then
+        
+        return selectedTemplate
+    end
+
+    local selectedTemplateNumber = tonumber( selectedTemplate )
+
+    if ( selectedTemplateNumber ~= nil ) then
+
+        for number=self.numberFrom,self.numberTo do
+
+            local newNumber = selectedTemplateNumber - number
+
+            if ( self.numberFrom <= newNumber and newNumber <= self.numberTo ) then
+
+                local templateSuffix = string.format( "%02d", newNumber )
+
+                local index = IndexOf( templatesArray, templateSuffix )
+
+                if ( index ~= nil ) then
+        
+                    return templatesArray[index]
+                end
+            end
+
+            local newNumber = selectedTemplateNumber + number
+
+            if ( self.numberFrom <= newNumber and newNumber <= self.numberTo ) then
+
+                local templateSuffix = string.format( "%02d", newNumber )
+
+                local index = IndexOf( templatesArray, templateSuffix )
+
+                if ( index ~= nil ) then
+        
+                    return templatesArray[index]
+                end
+            end
+        end
+    end
+    
+    return templatesArray[1]
 end
 
 function buildings_database_eraser_tool:GetTemplatesArray()
