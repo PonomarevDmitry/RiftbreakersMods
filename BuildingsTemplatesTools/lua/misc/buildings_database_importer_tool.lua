@@ -129,7 +129,7 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
         local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
-        local markerText = self.selectedDatabaseCaption
+        markerText = self.selectedDatabaseCaption
 
         if ( persistentTemplateString == "" ) then
 
