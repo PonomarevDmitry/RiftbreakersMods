@@ -143,7 +143,7 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
             local persistentBuildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
 
-            local templateImportCaption = "gui/hud/building_templates/import_template_" .. self.selectedTemplate
+            local templateImportCaption = "gui/hud/building_templates/import_persistent_template_" .. self.selectedTemplate
 
             markerText = markerText .. "\n${" .. templateImportCaption .. "}:\n" .. persistentBuildingsIcons
 

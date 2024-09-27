@@ -113,7 +113,7 @@ function buildings_database_eraser_tool:FillMarkerMessage()
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        local templateEraseCaption = "gui/hud/building_templates/erase_template_" .. self.selectedTemplate
+        local templateEraseCaption = "gui/hud/building_templates/erase_persistent_template_" .. self.selectedTemplate
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
