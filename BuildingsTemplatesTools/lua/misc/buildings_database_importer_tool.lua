@@ -90,22 +90,25 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
-
             local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
             if ( persistentTemplateString ~= nil and persistentTemplateString ~= "" ) then
 
                 allIsEmpty = false
 
+                local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+
                 if ( not BuildingsTemplatesUtils:IsTemplateEquals(templateString, persistentTemplateString) ) then
 
-                    if ( string.len(templatesStr) > 0 ) then
+                    if ( not self:IsTemplateEqualsToImport(templateString, persistentTemplateString) ) then
 
-                        templatesStr = templatesStr .. ", "
+                        if ( string.len(templatesStr) > 0 ) then
+
+                            templatesStr = templatesStr .. ", "
+                        end
+
+                        templatesStr = templatesStr .. tostring(number)
                     end
-
-                    templatesStr = templatesStr .. tostring(number)
                 end
             end
         end
@@ -146,6 +149,11 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
             local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
             if ( templateString ~= "" ) then
+
+                if ( self:IsTemplateEqualsToImport(templateString, persistentTemplateString) ) then
+
+                    markerText = markerText .. "\n${gui/hud/messages/building_templates/equals_except_levels}"
+                end
 
                 local buildingsIcons = self:GetTemplateBuildingsIcons(templateString)
 
@@ -262,6 +270,11 @@ end
 
 function buildings_database_importer_tool:OnActivateSelectorRequest()
 
+    if( self.popupShown ) then
+
+        return
+    end
+
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
@@ -274,30 +287,162 @@ function buildings_database_importer_tool:OnActivateSelectorRequest()
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
-        for number=self.numberFrom,self.numberTo do
+        if ( not self:DatabaseHasTemplate() ) then
+            return
+        end
 
-            local templateName = self.templateFormat .. string.format( "%02d", number )
+        if ( self:DatabaseHasOverrideTemplate(campaignDatabase, selectorDB) ) then
 
-            self:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
+            self.popupShown = true
+
+            self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates")
+
+            GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/building_templates/import_all_templates_confirm")
+
+        else
+
+            self:ImportAllTemplatesToToDatabase(campaignDatabase, selectorDB)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
+        local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+        if ( persistentTemplateString == "" ) then
+            return
+        end
+
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+
+        if ( templateString == "" ) then
+
+            self:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
+
+            self:UpdateMarker()
+
+            self:FillMarkerMessage()
+        else
+
+            self.templateNameForImport = templateName
+            
+            self.popupShown = true
+
+            self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate")
+
+            GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/building_templates/import_template_confirm")
+        end
+    end
+end
+
+function buildings_database_importer_tool:DatabaseHasTemplate()
+
+    for number=self.numberFrom,self.numberTo do
+
+        local templateName = self.templateFormat .. string.format( "%02d", number )
+
+        local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+
+        if ( persistentTemplateString ~= nil and persistentTemplateString ~= "" ) then
+
+            return true
+        end
+    end
+
+    return false
+end
+
+function buildings_database_importer_tool:DatabaseHasOverrideTemplate(campaignDatabase, selectorDB)
+
+    for number=self.numberFrom,self.numberTo do
+
+        local templateName = self.templateFormat .. string.format( "%02d", number )
+
+        local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+
+        if ( persistentTemplateString ~= nil and persistentTemplateString ~= "" ) then
+
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+            if ( templateString ~= "" ) then
+
+                if ( not BuildingsTemplatesUtils:IsTemplateEquals(templateString, persistentTemplateString) ) then
+
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+function buildings_database_importer_tool:OnGuiPopupResultEventAllTemplates( evt )
+
+    self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates" )
+
+    self.popupShown = false
+
+    if ( evt:GetResult() ~= "button_yes" ) then
+        return
+    end
+
+    if ( self.persistentDatabase == nil ) then
+        return
+    end
+
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+
+    self:ImportAllTemplatesToToDatabase(campaignDatabase, selectorDB)
+end
+
+function buildings_database_importer_tool:OnGuiPopupResultEventSingleTemplate( evt )
+
+    self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate" )
+
+    self.popupShown = false
+
+    if ( evt:GetResult() ~= "button_yes" ) then
+        return
+    end
+
+    if ( self.persistentDatabase == nil ) then
+        return
+    end
+
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+
+    self:ImportTemplateToToDatabase(self.templateNameForImport, campaignDatabase, selectorDB, self.persistentDatabase)
+
+    self:UpdateMarker()
+
+    self:FillMarkerMessage()
+end
+
+function buildings_database_importer_tool:ImportAllTemplatesToToDatabase(campaignDatabase, selectorDB)
+
+    if ( self.persistentDatabase == nil ) then
+        return
+    end
+
+    for number=self.numberFrom,self.numberTo do
+
+        local templateName = self.templateFormat .. string.format( "%02d", number )
+
         self:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
     end
+
+    self:UpdateMarker()
 
     self:FillMarkerMessage()
 end
 
 function buildings_database_importer_tool:ImportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, persistentDatabase)
 
-    local currentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
-    if ( currentTemplateString == "" ) then
+    local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+    if ( persistentTemplateString == "" ) then
         return
     end
 
-    local templateString = self:GetAvailableBlueprintsInTemplate(currentTemplateString)
+    local templateString = self:GetAvailableBlueprintsInTemplate(persistentTemplateString)
 
     if ( campaignDatabase ) then
         campaignDatabase:SetString( templateName, templateString )
@@ -460,6 +605,13 @@ function buildings_database_importer_tool:GetUnlockedOrMaxAvailableLevel( bluepr
     local firstLevelBlueprintName = self:GetFirstLevelBuilding(blueprintName)
 
     return self:GetMaxAvailableLevel(firstLevelBlueprintName)
+end
+
+function buildings_database_importer_tool:IsTemplateEqualsToImport(templateString, persistentTemplateString)
+
+    local newTemplateString = self:GetAvailableBlueprintsInTemplate(persistentTemplateString)
+
+    return BuildingsTemplatesUtils:IsTemplateEquals(templateString, newTemplateString)
 end
 
 function buildings_database_importer_tool:OnRelease()
