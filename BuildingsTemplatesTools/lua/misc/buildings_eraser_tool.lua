@@ -337,11 +337,11 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
     end
 
     if ( campaignDatabase ) then
-        campaignDatabase:SetString( templateName, "" )
+        campaignDatabase:SetString( self.templateNameForErase, "" )
     end
 
     if ( selectorDB ) then
-        selectorDB:SetString( templateName, "" )
+        selectorDB:SetString( self.templateNameForErase, "" )
     end
 
     self:UpdateMarker()
