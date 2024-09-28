@@ -158,6 +158,11 @@ function buildings_database_exporter_tool:FillMarkerMessage()
             local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
             if ( persistentTemplateString ~= "" ) then
 
+                if ( self:IsTemplateEqualsToImport(templateString, persistentTemplateString) ) then
+
+                    markerText = markerText .. "\n${gui/hud/messages/building_templates/equals_except_levels}"
+                end
+
                 local persistentBuildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
 
                 local templateCaption = "gui/hud/building_templates/persistent_template_" .. self.selectedTemplate
@@ -484,6 +489,13 @@ function buildings_database_exporter_tool:ExportTemplateToToDatabase(templateNam
     if ( persistentDatabase ) then
         persistentDatabase:SetString( templateName, currentTemplateString )
     end
+end
+
+function buildings_database_exporter_tool:IsTemplateEqualsToImport(templateString, persistentTemplateString)
+
+    local newTemplateString = self:GetAvailableBlueprintsInTemplate(persistentTemplateString)
+
+    return BuildingsTemplatesUtils:IsTemplateEquals(templateString, newTemplateString)
 end
 
 function buildings_database_exporter_tool:OnRelease()
