@@ -288,7 +288,7 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
-        if ( not self:DatabaseHasTemplate() ) then
+        if ( not self:DatabaseHasTemplate(campaignDatabase, selectorDB) ) then
             return
         end
 
