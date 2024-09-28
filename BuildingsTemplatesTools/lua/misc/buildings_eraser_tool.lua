@@ -175,9 +175,6 @@ function buildings_eraser_tool:OnRotateSelectorRequest(evt)
 
     self.selectedTemplate = newValue
 
-    --local selectorDB = EntityService:GetDatabase( self.selector )
-    --selectorDB:SetInt(self.configNameCellGaps, newValue)
-
     self:UpdateMarker()
 
     self:FillMarkerMessage()
