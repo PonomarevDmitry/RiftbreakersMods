@@ -24,12 +24,10 @@ function buildings_database_exporter_tool:OnInit()
     self.numberTo = self.data:GetInt("number_to")
     self.templateFormat = self.data:GetString("template_format")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectedDatabaseNumber = BuildingsTemplatesUtils:GetCurrentPersistentDatabase(self.selector)
+    self.selectedDatabaseCaption = "${gui/hud/building_templates/database_" .. string.format( "%02d", selectedDatabaseNumber ) .. "}"
 
-    self.selectedDatabaseNumber = selectorDB:GetIntOrDefault("$buildings_database_select_config", 1)
-    self.selectedDatabaseCaption = "${gui/hud/building_templates/database_" .. string.format( "%02d", self.selectedDatabaseNumber ) .. "}"
-
-    self.persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(self.selectedDatabaseNumber)
+    self.persistentDatabase = BuildingsTemplatesUtils:GetPersistentDatabase(selectedDatabaseNumber)
 
     self.currentChildTemplate = ""
     self.childEntity = nil
@@ -213,9 +211,6 @@ function buildings_database_exporter_tool:OnRotateSelectorRequest(evt)
     local newValue = templatesArray[newIndex]
 
     self.selectedTemplate = newValue
-
-    --local selectorDB = EntityService:GetDatabase( self.selector )
-    --selectorDB:SetInt(self.configNameCellGaps, newValue)
 
     self:UpdateMarker()
 

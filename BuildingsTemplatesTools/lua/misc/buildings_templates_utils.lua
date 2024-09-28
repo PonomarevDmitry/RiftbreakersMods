@@ -25,11 +25,11 @@ function BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabas
 
     local result = ""
 
-    if ( result == "" and campaignDatabase ) then
+    if ( result == "" and campaignDatabase and campaignDatabase:HasString( templateName ) ) then
         result = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
     end
 
-    if ( result == "" and selectorDB ) then
+    if ( result == "" and selectorDB and selectorDB:HasString( templateName ) ) then
         result = selectorDB:GetStringOrDefault( templateName, "" ) or ""
     end
 
@@ -73,6 +73,54 @@ function BuildingsTemplatesUtils:IsTemplateEquals(templateString1, templateStrin
     end
 
     return false
+end
+
+function BuildingsTemplatesUtils:GetCurrentPersistentDatabase(selector)
+
+    local configName = "$buildings_database_select_config"
+
+    local result = nil
+
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+
+    if ( result == nil and campaignDatabase and campaignDatabase:HasInt( configName ) ) then
+        result = campaignDatabase:GetIntOrDefault( configName, 1 )
+    end
+
+    if ( result == nil and selectorDB and selectorDB:HasInt( configName ) ) then
+        result = selectorDB:GetIntOrDefault( configName, 1 )
+    end
+
+    result = result or 1
+
+
+
+    if ( campaignDatabase ) then
+        campaignDatabase:SetInt( configName, result )
+    end
+
+    if ( selectorDB ) then
+        selectorDB:SetInt( configName, result )
+    end
+
+
+
+    return result
+end
+
+function BuildingsTemplatesUtils:SetCurrentPersistentDatabase(selector, selectedDatabaseNumber)
+
+    local configName = "$buildings_database_select_config"
+
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+
+    if ( campaignDatabase ) then
+        campaignDatabase:SetInt( configName, selectedDatabaseNumber )
+    end
+
+    if ( selectorDB ) then
+        selectorDB:SetInt( configName, selectedDatabaseNumber )
+    end
 end
 
 return BuildingsTemplatesUtils

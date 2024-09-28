@@ -21,11 +21,7 @@ function buildings_database_select_tool:OnInit()
     self.numberFrom = self.data:GetInt("number_from")
     self.numberTo = self.data:GetInt("number_to")
 
-    self.configName = "$buildings_database_select_config"
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
-
-    self.selectedDatabaseNumber = selectorDB:GetIntOrDefault(self.configName, 1)
+    self.selectedDatabaseNumber = BuildingsTemplatesUtils:GetCurrentPersistentDatabase(self.selector)
 
     self.markerMode = ""
     self.markerEntity = nil
@@ -132,9 +128,6 @@ function buildings_database_select_tool:OnRotateSelectorRequest(evt)
 
     self.selectedMode = newValue
 
-    --local selectorDB = EntityService:GetDatabase( self.selector )
-    --selectorDB:SetInt(self.configNameCellGaps, newValue)
-
     self:UpdateMarker()
 
     self:FillMarkerMessage()
@@ -182,10 +175,7 @@ function buildings_database_select_tool:OnActivateSelectorRequest()
 
     local databaseNumber = tonumber(self.selectedMode)
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
-    if ( selectorDB ) then
-        selectorDB:SetInt(self.configName, databaseNumber)
-    end
+    BuildingsTemplatesUtils:SetCurrentPersistentDatabase(self.selector, databaseNumber)
 
     self.selectedDatabaseNumber = databaseNumber
 
