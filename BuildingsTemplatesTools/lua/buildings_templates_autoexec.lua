@@ -99,6 +99,7 @@ local buildings_templates_autoexec = function(evt)
 
 
     BuildingService:UnlockBuilding("buildings/tools/buildings_upgrader")
+    BuildingService:UnlockBuilding("buildings/tools/buildings_eraser")
     BuildingService:UnlockBuilding("buildings/tools/buildings_swap_templates")
     
     BuildingService:UnlockBuilding("buildings/tools/buildings_database_select")
