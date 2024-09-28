@@ -271,6 +271,11 @@ end
 
 function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
+    if( self.popupShown ) then
+
+        return
+    end
+
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
@@ -283,18 +288,151 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
-        for number=self.numberFrom,self.numberTo do
+        if ( not self:DatabaseHasTemplate() ) then
+            return
+        end
 
-            local templateName = self.templateFormat .. string.format( "%02d", number )
+        if ( self:DatabaseHasOverrideTemplate(campaignDatabase, selectorDB) ) then
 
-            self:ExportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
+            self.popupShown = true
+
+            self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates")
+
+            GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/building_templates/export_all_templates_confirm")
+
+        else
+
+            self:ExportAllTemplatesToToDatabase(campaignDatabase, selectorDB)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
+        
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+        if ( templateString == "" ) then
+            return
+        end
+
+        local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+
+        if ( persistentTemplateString == "" ) then
+
+            self:ExportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
+
+            self:UpdateMarker()
+
+            self:FillMarkerMessage()
+        else
+
+            self.templateNameForExport = templateName
+            
+            self.popupShown = true
+
+            self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate")
+
+            GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/messages/building_templates/export_template_confirm")
+        end
+    end
+end
+
+function buildings_database_exporter_tool:DatabaseHasTemplate(campaignDatabase, selectorDB)
+
+    for number=self.numberFrom,self.numberTo do
+
+        local templateName = self.templateFormat .. string.format( "%02d", number )
+
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+
+        if ( templateString ~= nil and templateString ~= "" ) then
+
+            return true
+        end
+    end
+
+    return false
+end
+
+function buildings_database_exporter_tool:DatabaseHasOverrideTemplate(campaignDatabase, selectorDB)
+
+    for number=self.numberFrom,self.numberTo do
+
+        local templateName = self.templateFormat .. string.format( "%02d", number )
+
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+
+        if ( templateString ~= nil and templateString ~= "" ) then
+        
+            local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
+            
+            if ( persistentTemplateString ~= "" ) then
+
+                if ( not BuildingsTemplatesUtils:IsTemplateEquals(templateString, persistentTemplateString) ) then
+
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+function buildings_database_exporter_tool:OnGuiPopupResultEventAllTemplates( evt )
+
+    self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates" )
+
+    self.popupShown = false
+
+    if ( evt:GetResult() ~= "button_yes" ) then
+        return
+    end
+
+    if ( self.persistentDatabase == nil ) then
+        return
+    end
+
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+
+    self:ExportAllTemplatesToToDatabase(campaignDatabase, selectorDB)
+end
+
+function buildings_database_exporter_tool:ExportAllTemplatesToToDatabase(campaignDatabase, selectorDB)
+
+    if ( self.persistentDatabase == nil ) then
+        return
+    end
+
+    for number=self.numberFrom,self.numberTo do
+
+        local templateName = self.templateFormat .. string.format( "%02d", number )
 
         self:ExportTemplateToToDatabase(templateName, campaignDatabase, selectorDB, self.persistentDatabase)
     end
+
+    self:UpdateMarker()
+
+    self:FillMarkerMessage()
+end
+
+function buildings_database_exporter_tool:OnGuiPopupResultEventSingleTemplate( evt )
+
+    self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate" )
+
+    self.popupShown = false
+
+    if ( evt:GetResult() ~= "button_yes" ) then
+        return
+    end
+
+    if ( self.persistentDatabase == nil ) then
+        return
+    end
+
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+
+    self:ExportTemplateToToDatabase(self.templateNameForExport, campaignDatabase, selectorDB, self.persistentDatabase)
+
+    self:UpdateMarker()
 
     self:FillMarkerMessage()
 end
