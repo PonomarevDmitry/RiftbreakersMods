@@ -147,6 +147,7 @@ local new_values = {
     {
         ["list"] = {
             "buildings/tools/buildings_upgrader",
+            "buildings/tools/buildings_eraser",
             "buildings/tools/buildings_swap_templates",
         },
 
