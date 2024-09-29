@@ -1,0 +1,359 @@
+system rift/mech_acidgenic_atomizer
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0125
+    scale                                       0.0125 0.0125 0.0125
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 10
+    technique alpha_smoke_start
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/green_vortex_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box alpha_flame
+        {
+            emission_rate                       350
+            angle                               60
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
+            velocity                            dyn_random
+            {
+                min                             1500
+                max                             3000
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            direction                           1 0 0
+            end_texture_coords_range            31
+            box_width                           1
+            box_height                          1
+            box_depth                           1
+        }
+        affector                                Colour
+        {
+            time_colour                         0    0.498039 1 1 0
+            time_colour                         0.5  0.498039 1 1 0.498039
+            time_colour                         1    0.498039 1 1 0
+        }
+        affector                                TextureAnimator Affector7
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                TextureRotator Affector10
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+    }
+    technique alpha_smoke
+    {
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/green_vortex_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box alpha_flame
+        {
+            emission_rate                       350
+            angle                               4
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.5
+            }
+            velocity                            dyn_random
+            {
+                min                             1500
+                max                             3000
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            position                            200 0 0
+            direction                           1 0 0
+            end_texture_coords_range            31
+            box_width                           200
+            box_height                          200
+            box_depth                           400
+        }
+        affector                                Colour
+        {
+            time_colour                         0    0.498039 1 1 0
+            time_colour                         0.5  0.498039 1 1 0.498039
+            time_colour                         1    0.498039 1 1 0
+        }
+        affector                                Scale
+        {
+            xyz_scale                           600
+        }
+        affector                                TextureAnimator Affector7
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                TextureRotator Affector10
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+    }
+    technique sparks_start
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box sparks
+        {
+            emission_rate                       100
+            angle                               60
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
+            velocity                            dyn_random
+            {
+                min                             1500
+                max                             3000
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             7
+            }
+            direction                           1 0 0
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                Scale Affector14
+        {
+            xyz_scale                           -1
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box sparks
+        {
+            emission_rate                       100
+            angle                               10
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             1500
+                max                             3000
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             7
+            }
+            position                            100 0 0
+            direction                           1 0 0
+            box_width                           200
+            box_height                          200
+            box_depth                           500
+        }
+        affector                                Colour
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                Scale Affector14
+        {
+            xyz_scale                           -1
+        }
+    }
+    technique sparksgravity
+    {
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_rectangle_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface DebrisEmitter
+        {
+            emission_rate                       200
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             200
+            }
+            particle_width                      dyn_random
+            {
+                min                             4
+                max                             6
+            }
+            particle_height                     dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            start_colour_range                  1 1 1 1
+            radius                              100
+        }
+        affector                                Colour
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Gravity Affector70
+        {
+            mass_affector                       10000
+            gravity                             20
+        }
+    }
+    technique green_vortex_01
+    {
+        visual_particle_quota                   40
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/green_vortex_01
+        renderer                                Billboard
+        {
+            render_queue_group                  60
+            texture_coords_rows                 9
+            texture_coords_columns              10
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 SphereSurface flash2
+        {
+            emission_rate                       25
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             25
+                max                             50
+            }
+            radius                              100
+        }
+        affector                                Colour
+        {
+            time_colour                         0    0.498039 1 1 0
+            time_colour                         0.5  0.498039 1 1 0.498039
+            time_colour                         1    0.498039 1 1 0
+        }
+        affector                                TextureRotator Affector120
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+        }
+        affector                                Scale Affector121
+        {
+            xyz_scale                           dyn_random
+            {
+                min                             50
+                max                             100
+            }
+        }
+        affector                                TextureAnimator Affector256
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+    }
+}

@@ -1,0 +1,203 @@
+system rift/time_damage_cosmic
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.01 0.01 0.01
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 150
+    technique fire_alpha2
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/explosion_and_smoke_cosmo_anim
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box fire_alpha
+        {
+            emission_rate                       5
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             2
+                max                             3
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             100
+            }
+            position                            0 75 0
+            direction                           0.5 1 0
+            box_width                           150
+            box_height                          150
+            box_depth                           150
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.2  0.298039 0.298039 0.298039 0.498039
+            time_colour                         0.804348  0.298039 0.298039 0.298039 0.498039
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector15
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0
+                max                             1
+            }
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                LinearForce Affector2
+        {
+            force_vector                        0 50 0
+            force_application                   average
+        }
+    }
+    technique fire_alpha3
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/explosion_fire_cosmo_anim
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box fire_alpha
+        {
+            emission_rate                       5
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             2
+                max                             3
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            position                            0 75 0
+            direction                           0.5 1 0
+            box_width                           150
+            box_height                          150
+            box_depth                           150
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.145652  0.3 0.3 0.3 1
+            time_colour                         0.806522  0.3 0.3 0.3 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector15
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0
+                max                             2
+            }
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                LinearForce Affector25
+        {
+            force_vector                        0 50 0
+            force_application                   average
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box sparks
+        {
+            emission_rate                       5
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             3
+                max                             4
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             4
+                max                             8
+            }
+            position                            0 100 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           200
+            box_height                          200
+            box_depth                           200
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.606522  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                LinearForce Affector2525
+        {
+            force_vector                        0 50 0
+            force_application                   average
+        }
+    }
+}

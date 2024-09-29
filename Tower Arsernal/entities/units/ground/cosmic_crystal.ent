@@ -1,0 +1,237 @@
+EntityBlueprint
+{
+	name  "units/ground/cosmic_crystal_branch"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_crystal_branch_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_crystal_branch_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_crystal_branch_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_crystal_branch_01"
+
+	base_blueprint "units/ground/cosmic_crystal_branch_base"
+
+	MeshDesc
+	{
+		material "props/crystals/entvined_01_set_skin3"
+		mesh "meshes/props/crystals/entvined_small_01.mesh"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_crystal_branch_02"
+
+	base_blueprint "units/ground/cosmic_crystal_branch_base"
+
+	MeshDesc
+	{
+		material "props/crystals/entvined_02_set_skin3"
+		mesh "meshes/props/crystals/entvined_small_02.mesh"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_crystal_branch_03"
+
+	base_blueprint "units/ground/cosmic_crystal_branch_base"
+
+	MeshDesc
+	{
+		material "props/crystals/entvined_03_set_skin3"
+		mesh "meshes/props/crystals/entvined_small_03.mesh"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_crystal_branch_base"
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"130"
+		health 					"130"
+	}
+
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"5"
+		physical		"1.5"
+		fire			"0.0"
+		acid			"0.0"
+		energy			"1.0"
+		cryo			"0.0"
+		area			"1.0"
+		gravity			"0.0"
+		plasmoid		"2"
+	}
+
+	MeshDesc
+	{
+		material "props/crystals/entvined_01_set_skin3"
+		mesh "meshes/props/crystals/entvined_small_01.mesh"
+	}
+
+	TypeDesc
+	{
+		type "flora"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position 
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_violet"	
+					explosion_effect_scale 	"0.4"
+					part_material	 		"props/crystals/entvined_01_set_skin3"
+					part_prefix 			"meshes/props/crystals/entvined_small_01"
+					//part_effect 			"effects/destructibles/mushroom_part_trail"
+					part_physics_material   "debris_heavy"
+
+				}
+			}		
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_green_small_no_damage"	
+					
+					part_material	 		"units/ground/crystal_creeper_branch_set_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_small_01"
+					part_effect 			"effects/destructibles/acid_bulb_part_trail_green_medium"
+					part_lifetime "3"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					offset "0.2 0.1 -0.5"
+					scale "1 0.8 1"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cosmic"
+					offset "0.2 0.1 -0.5"
+					scale "1 0.8 1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/comsic_crystal_creeper"
+					offset "0 0 0"
+					scale "0.3 0.4 0.3"
+				}
+			}
+		}		
+	}
+}
+

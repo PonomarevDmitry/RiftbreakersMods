@@ -1,0 +1,84 @@
+EntityBlueprint
+{
+	name  "units/drones/drone_base"
+
+	TypeDesc
+	{
+		type "drones"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"1000"
+		unit_soft_radius				"2.0"
+	  	dominance_group				    "10"
+		is_only_separation				"1"
+		ignore_cost_mask				"building|prop|path_blocker|height_path_blocker"
+	}
+    
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"5"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"5"
+		}
+		
+		max_speed
+		{
+			base 	"20"
+		}
+	}
+
+    TargetDesc
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"2500.0"
+		bending_radius	"2.0"
+	}
+    
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		additional_z_order	"9"
+		visibility			"always"
+	}
+    
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_trail"								
+				}
+			}
+		}
+	}
+}

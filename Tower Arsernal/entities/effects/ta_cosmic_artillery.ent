@@ -1,0 +1,75 @@
+EntityBlueprint
+{
+	name effects/tower_cosmic_artillery_explosion
+	
+	base_blueprints
+	{
+		lights/point/explosion_violet_medium
+		effects/default
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/anoryxian_projectile_explosion"
+	}
+	
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_big"
+	}
+	
+	GridMarkerComponent
+	{
+		terrain_type	"mech_cosmo_trail"
+		mode			"bounds"
+		extend			"4"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_violet_glowing_random"
+		scale
+		{
+			x		4
+			y		4
+			z		4
+		}
+	}
+	
+	LifeTimeDesc
+	{
+		time 		6
+	}		
+	
+	BurningComponent
+	{
+		spread_radius 			"0.1"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+	
+		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+	}		
+}
+

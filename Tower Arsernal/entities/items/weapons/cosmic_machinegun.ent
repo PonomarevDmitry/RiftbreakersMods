@@ -1,0 +1,391 @@
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_machinegun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/small_machinegun.mesh"
+		material 	"items/weapons/cosmic_machinegun"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}			
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/small_machinegun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "8"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"mech/cosmic_machinegun_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/cosmic_machinegun_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/small_machinegun_fire_loop"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/small_machinegun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_small_bullet_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer_violet"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "item_deactivated"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/small_machinegun_fire_stop"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_machinegun_advanced"
+
+	base_blueprint "items/weapons/cosmic_machinegun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/small_machinegun.mesh"
+		material 	"items/weapons/cosmic_machinegun_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_machinegun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/cosmic_machinegun"
+		holding_pose "range"
+		item_bp		"items/weapons/cosmic_machinegun_advanced"
+		icon		"gui/hud/items_icons/weapons/cosmic_machinegun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_machinegun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_machinegun_demo_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/cosmic_machinegun"
+		holding_pose "range"
+		item_bp		"items/weapons/cosmic_machinegun"
+		icon		"gui/hud/items_icons/weapons/cosmic_machinegun"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_machinegun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_machinegun_extreme"
+
+	base_blueprint "items/weapons/cosmic_machinegun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/small_machinegun.mesh"
+		material 	"items/weapons/cosmic_machinegun_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_machinegun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/cosmic_machinegun"
+		holding_pose "range"
+		item_bp		"items/weapons/cosmic_machinegun_extreme"
+		icon		"gui/hud/items_icons/weapons/cosmic_machinegun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_machinegun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_machinegun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/cosmic_machinegun"
+		holding_pose "range"
+		item_bp		"items/weapons/cosmic_machinegun"
+		icon		"gui/hud/items_icons/weapons/cosmic_machinegun"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_machinegun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_machinegun_superior"
+
+	base_blueprint "items/weapons/cosmic_machinegun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/small_machinegun.mesh"
+		material 	"items/weapons/cosmic_machinegun_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_machinegun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"low_caliber"
+		name 		"gui/menu/inventory/weapon_name/cosmic_machinegun"
+		holding_pose "range"
+		item_bp		"items/weapons/cosmic_machinegun_superior"
+		icon		"gui/hud/items_icons/weapons/cosmic_machinegun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_machinegun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,100"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "mech/cosmic_machinegun_projectile"
+
+	base_blueprint "effects/cosmic_machinegun_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/cosmo_gun_hit"
+		on_world_hit_effect 		"effects/cosmo_gun_hit"
+		//on_resisted_hit_effect		"effects/cosmo_gun_hit"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_explosion_violet"
+		}			
+	}
+	
+
+	LifeTimeDesc
+	{
+		time 		0.2
+		type 		"camera"
+	}
+}
+

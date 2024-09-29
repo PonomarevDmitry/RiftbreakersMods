@@ -1,0 +1,313 @@
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_comet_trail
+
+	base_blueprints
+	{
+		lights/point/fire_violet_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_comet_trail"
+	}
+
+	SoundDesc
+	{
+		name "ambient/comet"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_meteor_trail
+
+	base_blueprints
+	{
+		lights/point/fire_violet_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_resurrect_hands"
+	}
+
+	SoundDesc
+	{
+		name "ambient/comet"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic
+
+	base_blueprints
+	{
+		lights/point/fire_violet_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_resurrect_hands"
+	}
+}
+
+EntityBlueprint
+{
+	base_blueprints 
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	name effects/weapons_bullet/cosmic_railgun_projectile
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/purp_laser_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_energy/cosmic_railgun_fire_charged
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/violet_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_resurrect_hands"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.5"
+		falloff_radius 	"3"
+		radius   		"25"
+		frequency 		"10"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/railgun_fire_charged"
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_generic/cosmic_weapon_charging_lvl1
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_blaster_charging_lvl1"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/generic/weapon_charging"
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_generic/cosmic_weapon_charged_lvl1
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_blaster_charged_lvl1"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/generic/weapon_charged_up"
+	}
+
+		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_generic/cosmic_weapon_charging_maximum
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_resurrect_hands"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/generic/weapon_charging_maximum"
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/tower_gravity_portal_bomb_projectile
+
+	base_blueprints 
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_portal_bomb_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/tower_gravity_portal_bomb_explosion
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"30"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_portal_bomb_explosion"
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"items/consumables/gravity_hole_standard"
+	
+		DamagePattern
+		{
+			area_damage_radius	"8"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"gravity"
+					}
+				}
+			}
+		}
+	}
+	
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+		}
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "15 15 15"
+				}
+			}
+		}			
+	}
+}
+

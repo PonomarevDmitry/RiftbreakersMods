@@ -1,0 +1,51 @@
+<node_layout id="LuaBehaviourNode">
+  <value id="script" value="lua/graph/weather/tornado_cosmic_spawn.lua"/>
+  <value id="database.Strings.StringData[0].key" value="tornado_cosmic_blueprint"/>
+  <value id="database.Strings.StringData[1].key" value="type"/>
+  <value id="database.Strings.StringData[2].key" value="spawn_place"/>
+
+  <value id="database.Integers.IntData[0].key" value="count"/>
+  <value id="database.Integers.IntData[1].key" value="outside_radius_distance"/>
+  <value id="database.Integers.IntData[2].key" value="min_life_time"/>
+  <value id="database.Integers.IntData[3].key" value="max_life_time"/>
+
+  <row bgcolor="#42f4f4">
+    <text value="WEATHER TORNADO COSMIC SPAWN" width="300" align="center" font_weight="extra_bold"  />
+  </row>
+  <row bgcolor="#42f4f4">
+    <text value="Id:" width="30" align="left" font_weight="bold" />
+    <input id="self_id" width="270" font_weight="bold" />
+  </row>
+  <row bgcolor="#FFFFFF" height="1"/>
+  <row bgcolor="#000000" height="3"/>
+  <row bgcolor="#FFFFFF" height="1"/>
+
+  <row>
+    <text value="Tornado Cosmic Blueprint:" width="130" align="left" font_weight="bold" />
+    <input text="tornado_cosmic_blueprint" width="170" id="database.Strings.StringData[0].value" value="" font_weight="bold" valid_rule="not_empty" />
+  </row>
+  <row>
+    <text value="Tornado Cosmic Type:" width="130" align="left" font_weight="bold" />
+    <list text="type" width="170" id="database.Strings.StringData[1].value" source="no_target,target_precalculated,target_player" value="no_target" font_weight="bold" valid_rule="not_empty" />
+  </row>
+  <row>
+    <text value="Spawn Place" width="130" align="left" font_weight="bold" />
+    <list text="spawn_place" width="170" id="database.Strings.StringData[2].value" source="near_player,near_base" value="near_player" font_weight="bold" valid_rule="not_empty" />
+  </row>
+  <row>
+    <text value="Count:" width="130" align="left" font_weight="bold" />
+    <input text="count" width="170" id="database.Integers.IntData[0].value" value="1" font_weight="bold" valid_rule="not_empty" />
+  </row>
+  <row>
+    <text value="Outside radius distance:" width="130" font_weight="bold"/>
+    <input text="outside_radius_distance" id="database.Integers.IntData[1].value" width="170" valid_rule="not_empty" value="100" font_weight="bold"/>
+  </row>
+  <row>
+    <text value="Min life time:" width="130" font_weight="bold"/>
+    <input text="min_life_time" id="database.Integers.IntData[2].value" width="170" valid_rule="not_empty" value="10" font_weight="bold"/>
+  </row>
+  <row>
+    <text value="Max life time:" width="130" font_weight="bold"/>
+    <input text="max_life_time" id="database.Integers.IntData[3].value" width="170" valid_rule="not_empty" value="20" font_weight="bold"/>
+  </row>
+</node_layout>

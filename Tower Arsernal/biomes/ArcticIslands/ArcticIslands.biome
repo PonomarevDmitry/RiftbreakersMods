@@ -1,0 +1,196 @@
+BiomeDef
+{
+	base_materials
+	{
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_1"
+			value
+			{
+				String "ground/misc/biome_material_1"
+				String "ground/snow/snow_fresh_01"
+			}
+
+		}
+
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_0"
+			value
+			{
+				String "ground/misc/biome_material_0"
+				String "ground/snow/snow_rough_01"
+			}
+
+		}
+
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_2"
+			value
+			{
+				String "ground/misc/biome_material_2"
+				String "ground/magma/magma_lava_fine"
+			}
+
+		}
+
+	}
+
+	default_liquid_resource "water_vein"
+	icon "gui/menu/biomes_prev/ArcticIslands"
+	loading "gui/loading/ArcticIslands_bg"
+	resources "geothermal_vent,flammable_gas_vent,carbon_vein,iron_vein,uranium_ore_vein,titanium_vein,palladium_vein,cobalt_vein,water_vein,mud_vein,sludge_vein,voidinite_ore_vein,cosmonite_ore_vein,supercoolant_vent,magma_vent,acid_vent"
+	root_template
+	{
+		children
+		{
+			EntityTemplate
+			{
+				components
+				{
+					IdComponent
+					{
+						name "skybox"
+					}
+
+					LocalAabbDesc
+					{
+						local_aabb
+						{
+							min
+							{
+								x "-5.100"
+								y "-5.100"
+								z "-5.100"
+							}
+
+							max
+							{
+								x "5.100"
+								y "5.100"
+								z "5.100"
+							}
+
+						}
+
+					}
+
+					MeshDesc
+					{
+						material "pbr/skybox"
+						mesh "meshes/skybox.mesh"
+						renderable_custom_parameters
+						{
+							Params
+						}
+
+					}
+
+				}
+
+			}
+
+			EntityTemplate
+			{
+				components
+				{
+					IdComponent
+					{
+						name "main_light"
+					}
+
+					LightDesc
+					{
+						is_shadow_caster "1"
+						light_color
+						{
+							w "3.150"
+							x "0.000"
+							z "0.516"
+						}
+
+						light_size "0.071"
+					}
+
+				}
+
+			}
+
+		}
+
+		components
+		{
+			BiomeModificatorComponent
+			DirectionalWindComponent
+			{
+				position_frequency_factor "0.001"
+				power_frequency "0.200"
+				power_max "500.000"
+				power_min "100.000"
+				random_rotation_time_deviation "0.040"
+				rotation_frequency "0.100"
+				rotation_max "10.000"
+			}
+
+			SceneParamsDesc
+			{
+				bloom_params
+				{
+					max_exposure "0.495"
+				}
+
+				fog_params
+				{
+					color
+					{
+						w "0.502"
+						y "1.000"
+						z "0.328"
+					}
+
+					density "0.010"
+					end "1.000"
+					start "2.000"
+				}
+
+				shadow_params
+				{
+					intensity "1.000"
+				}
+
+				skybox_params
+				{
+					diffuse_intensity "0.600"
+					sun_roll "22.311"
+					sun_yaw "-180.000"
+				}
+
+				skybox_procedural_params
+				{
+					sun_convergence "0.496"
+					sun_size "1.002"
+					time "0.098"
+				}
+
+			}
+
+			TimeOfDayComponent
+			{
+				timeofday_presets
+				{
+					TimeOfDayPresetHolder
+					{
+						resource_name "scripts/scene_params/ArcticIslands_aurora.td"
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+

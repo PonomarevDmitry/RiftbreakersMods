@@ -1,0 +1,89 @@
+EntityBlueprint 
+{	
+		name "weather/cosmic_spore_comet_flying"
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/great_tree/evil_spore.mesh"
+		material "props/special/great_tree/evil_spore"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+	
+	SkeletonDesc
+	{
+		name "meshes/props/special/great_tree/evil_spore"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "idle_1"
+				animTime "0.0"
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_comet"
+		visibility		"always"
+		additional_z_order	"60"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"60"
+		power   		"0.1"
+		falloff_radius 	"30"
+		radius   		"60"
+		frequency 		"20"
+		group			"special"
+	}
+
+	SoundDesc
+	{
+		name 		"ambient/earthquake"
+	}
+
+	LifeTimeDesc
+	{
+		time 		"999"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/comet_trail_spore"
+				}
+			}
+		}
+	}
+
+	PointWindDesc
+	{
+		power_frequency		"1.5"
+		power_max			"-3000"
+		power_min			"-1500"
+		radius				"70"
+	}
+}
+

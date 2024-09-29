@@ -1,0 +1,69 @@
+EntityBlueprint 
+{	
+	name "weather/cosmic_hedroner_boss_impact_place"
+	//base_blueprint "units/volume_mudroner_boss_acid_spawner"	
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_hedroner_boss_easy"
+		time_to_hatch			"0.1"
+		unit_state_spawn		"state_aggressive" // do not touch
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/building_destroyed_blue"
+		visibility		"always"
+		additional_z_order	"60"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		effect_intesity_distance				"10"
+		size									"as_radius"
+		radius									"25"
+		local_effects							"effects/world/alien_comet_impact_place"
+		local_effects_random_offset				"2"
+		minimum_distance_per_local_effect		"3"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-2"
+				y "0"
+				z "-2"
+			}
+			max
+			{
+				x "2"
+				y "2"
+				z "2"
+			}	
+		}
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/luna_crater_01"
+		scale
+		{
+			x		6.0
+			y		6.0
+			z		6.0
+		
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		"60"
+	}
+}
+

@@ -1,0 +1,60 @@
+EntityBlueprint 
+{	
+	name "weather/invasion_normal_1_impact_place"
+	//base_blueprint "units/ground/magmoth_boss"
+
+	EggDesc
+	{
+		blueprint					"units/ground/cosmic_hedroner_boss_easy"
+		time_to_hatch				"0.2"
+		unit_state_spawn			"state_aggressive" // do not touch
+	}
+
+	UnitsSpawnerDesc
+	{
+		blueprint						"units/ground/cosmic_canoptrix_crystal_alpha"
+		amount_on_single_spawn			"35"
+		max_spawn						"35"
+		time_to_spawn					"30"
+		unit_state_spawn				"state_aggressive"  // do not touch
+		max_spawn_distance				"20"
+		defend_radius					"5"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/building_destroyed_blue"
+		visibility		"always"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		effect_intesity_distance				"10"
+		size									"as_radius"
+		radius									"15"
+		local_effects							"effects/world/alien_comet_impact_place"
+		local_effects_random_offset				"2"
+		minimum_distance_per_local_effect		"3"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/luna_crater_01"
+		scale
+		{
+			x		6.0
+			y		6.0
+			z		6.0
+		
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		"60"
+	}
+}
+

@@ -1,0 +1,99 @@
+import * from "materials/scripts/pbr.material"
+
+material weapons_beam/gravity_laser_ring
+{
+    
+    render_group 63
+
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+
+            glow 1
+            emissive 5 0 3 10
+
+            vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_alpha_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 1
+
+				param_named cBlendColor1 float4 5 0 2 1
+				param_named cBlendColor2 float4 2 0 1 0.5
+
+				param_named cAlpha       float   1.0
+			}
+        }
+    }
+}
+
+material weapons_beam/gravity_laser_beam_2
+{
+    
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 200
+            emissive 3 3 3 5
+
+            vertex_program_ref unlit_fresnel_vp
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+
+				param_named cBlendColor1 float4 0 0 0 1
+				param_named cBlendColor2 float4 0.2 0 2 0.5
+			}
+        }
+    }
+}
+
+material weapons_beam/gravity_laser_ring_2
+{
+    
+    render_group 63
+
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+
+            glow 1
+            emissive 6 0 4 10
+
+            vertex_program_ref unlit_fresnel_vp 
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_alpha_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 1
+
+				param_named cBlendColor1 float4 6 0 3 1
+				param_named cBlendColor2 float4 3 0 2 0.5
+
+				param_named cAlpha       float   1.0
+			}
+        }
+    }
+}

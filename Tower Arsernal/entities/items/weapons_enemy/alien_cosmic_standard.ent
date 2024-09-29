@@ -1,0 +1,97 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_cosmic_standard"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/alien_acid_elite"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			//{
+			//	attachment "att_muzzle_2"
+			//}
+			//WeaponMuzzle
+			//{
+			//	attachment "att_muzzle_3"
+			//}
+			//WeaponMuzzle
+			//{
+			//	attachment "att_muzzle_4"
+			//}
+			//WeaponMuzzle
+			//{
+			//	attachment "att_muzzle_5"
+			//}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_cosmic_standard_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/enemies_arachnoid/cosmic_spit_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/alien_cosmic_standard_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"alien_cosmic_standard"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/alien_cosmic_standard"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+		name						"alien_cosmic_standard"
+		damage_type					"gravity"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons_enemy/alien_cosmic_standard_projectile"
+
+	base_blueprint "effects/enemies_arachnoid/cosmic_sentinal_projectile"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_boss_projectile.mesh"
+		material    "projectiles/laser_violet"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 	"effects/enemies_cosmic_sentinal_projectile_explosion"
+		on_world_hit_effect 	"effects/enemies_cosmic_sentinal_projectile_explosion"			
+
+		friendly_fire				"pass"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_2d 				"ground_unit|hitbox"
+	}
+}
+

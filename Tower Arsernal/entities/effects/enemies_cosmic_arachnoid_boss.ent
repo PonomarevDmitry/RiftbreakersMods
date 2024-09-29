@@ -1,0 +1,128 @@
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/cosmic_projectile_boss"
+
+	base_blueprints 
+	{
+		lights/point/explosion_violet_medium
+		effects/default
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_arachnoid_projectile_trail"
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 6 1"
+				}
+			}
+		}		
+	}	
+}
+
+EntityBlueprint
+{
+	name  "effects/enemies_arachnoid/cosmic_spit"
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_big
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/cosmic_arachnoid_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/arachnoid/acid_spit"
+	}
+
+	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_cosmic_arachnoid/projectile_explosion"
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1500"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_arachnoid_projectile_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_spit"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_cosmic_arachnoid/boss_light"
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_medium
+		 effects/default
+	}
+}

@@ -1,0 +1,234 @@
+EntityBlueprint
+{
+	name 					"buildings/defense/tower_cryo_minigun_lvl_2"
+
+	base_blueprint 			"buildings/defense/tower_cryo_minigun"
+
+	BuildingDesc
+	{
+		name 				"tower_cryo_minigun_lvl_2"
+		bp   				"buildings/defense/tower_cryo_minigun_lvl_2"
+		category 			"defense_modd"
+		localization_id		"gui/hud/building_name/tower_cryo_minigun"
+		description			"gui/hud/building_description/tower_cryo_minigun"
+		menu_icon			"gui/hud/building_icons/tower_cryo_minigun_lvl2"
+		require 			"headquarters"
+		order				"12"
+		buildable			"0"
+		type				"tower"
+		overrides			"tower,wall"
+		upgrade				"buildings/defense/tower_cryo_minigun_lvl_3"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"600"
+					steel 		"300"
+					ferdonite	"150"
+				}
+			}		
+		}		
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"1"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_minigun_lvl_2.mesh"
+		material "buildings/defense/tower_cryo_minigun_lvl_2"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_minigun_lvl_2"
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}	
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "working"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings/cryo_building_atmosphere"
+					bone "body"
+					scale  "0.2 0.2 0.2"
+				}
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "be_turret"
+					scale  "0.2 0.2 0.2"
+				}
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cryo"
+					bone "att_tipp_1"
+					scale "0.1 0.1 0.1"
+				}
+			}
+		}	
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_cryo_minigun_projectile"
+
+	base_blueprints "buildings/defense/cryo_sentry_projectile"
+	{
+		lights/point/blue_very_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
+		material    "projectiles/magmoth_projectile_cryo"
+	}
+
+	ProjectileAmmoComponent
+	{
+		//distribution 			"dissipation"
+		//dissipation_count 	"5"
+		cluster_enemy_spread    "160"
+		cluster_world_spread	"160"
+		cluster_life_time_min   "0.01"
+		cluster_life_time_max   "0.2"
+
+		cluster_scale
+		{
+			x "0.8"
+			y "0.5"
+			z "0.5"
+		}
+
+		on_enemy_hit_effect 	"effects/weapons_bullet/crystal_gun_hit"
+		on_world_hit_effect 	"effects/weapons_bullet/crystal_gun_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
+	}
+		friendly_fire			"pass"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility			"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/blood_trail_animated_cryo"
+	}
+
+	SoundDesc
+	{
+		name 		"items/weapons/crystal_gun"
+	}
+
+	LifeTimeDesc
+	{
+		time 		1.6
+		//type 		"camera"
+	}
+

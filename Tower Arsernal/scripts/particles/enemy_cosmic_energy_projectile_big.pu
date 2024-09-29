@@ -1,0 +1,207 @@
+system rift/enemy_cosmic_energy_projectile_big
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.015
+    scale                                       0.015 0.015 0.015
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 20
+    technique lightning_single
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_2x2_purple_02
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       200
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
+            all_particle_dimensions             400
+            direction                           1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.498039 0.498039 0.498039 1
+            time_colour                         0.156522  1 1 1 1
+            time_colour                         1    0 0 0 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation_speed                      0
+        }
+    }
+    technique lightning_trail
+    {
+        visual_particle_quota                   25
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_2x2_purple_02
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 4
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       50
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             25
+                max                             50
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+            colour                              0.262745 0.937255 0.870588 1
+            box_width                           75
+            box_height                          75
+            box_depth                           75
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.498039 0.498039 0.498039 1
+            time_colour                         0.16087  0.498039 0.498039 0.498039 1
+            time_colour                         1    0.498039 0.498039 0.498039 0
+        }
+        affector                                TextureRotator Affector331
+        {
+            use_own_rotation                    true
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+    }
+    technique lightning_big
+    {
+        keep_local                              true
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_4x4_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 4
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       4
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             200
+                max                             300
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+            box_width                           50
+            box_height                          50
+            box_depth                           50
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.5 0.5 0.5 1
+            time_colour                         0.156522  0.5 0.5 0.5 1
+            time_colour                         1    0.5 0.5 0.5 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation_speed                      0
+        }
+    }
+    technique lightning_small
+    {
+        keep_local                              true
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_4x4_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 4
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            direction                           1 0 0
+            end_texture_coords_range            3
+            box_width                           50
+            box_height                          50
+            box_depth                           50
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.5 0.5 0.5 1
+            time_colour                         0.143478  0.5 0.5 0.5 1
+            time_colour                         1    0.5 0.5 0.5 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation_speed                      0
+        }
+    }
+}

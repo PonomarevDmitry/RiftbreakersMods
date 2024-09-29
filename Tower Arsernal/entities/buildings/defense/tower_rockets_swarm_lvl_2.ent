@@ -1,0 +1,298 @@
+EntityBlueprint
+{
+	name "buildings/defense/tower_rockets_swarm_lvl_2"
+
+	base_blueprint 			"buildings/defense/tower_rockets_swarm"
+
+	BuildingDesc
+	{
+		name 				"tower_rockets_swarm_lvl_2"
+		bp   				"buildings/defense/tower_rockets_swarm_lvl_2"
+		ghost_bp   			"buildings/defense/tower_rockets_swarm_lvl_2_ghost"
+		category 			"defense_modd"
+		localization_id		"gui/hud/building_name/tower_rockets_swarm"
+		description			"gui/hud/building_description/tower_rockets_swarm"
+		menu_icon			"gui/hud/building_icons/tower_rockets_swarm_lvl_2"
+		require 			"headquarters"
+		order				"21"
+		buildable			"0"
+		type				"tower"
+		overrides			"tower,wall"
+		upgrade				"buildings/defense/tower_rockets_swarm_lvl_3"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"800"
+					steel 		"500"
+					titanium	"240"
+					ferdonite "240"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"4"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 3
+	}
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_2.mesh"
+		material "buildings/defense/tower_rocket_launcher_swarm_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_rocket_launcher_lvl_2"
+	}
+
+	WeaponItemDesc
+	{
+		ammo_storage "ammo_tower_explosive"
+		damage_type "area"
+		rarity "SUPERIOR"
+		stat_def_vec
+		{
+			WeaponStatDef
+			{
+				max_value "50.000"
+				min_value "50.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "DAMAGE_VALUE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "5.000"
+				min_value "5.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "FIRE_RATE"
+			}
+
+			WeaponStatDef
+			{
+				default_value "2.000"
+				max_value "3.000"
+				min_value "3.000"
+				stat_features "BASE_DEFAULT|MODABLE"
+				stat_type "DAMAGE_CRITICAL_CHANCE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "10.000"
+				min_value "10.000"
+				stat_features "MODABLE"
+				stat_type "DAMAGE_OVER_TIME"
+			}
+
+			WeaponStatDef
+			{
+				max_value "1.800"
+				min_value "1.800"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "DAMAGE_SPLASH"
+			}
+
+			WeaponStatDef
+			{
+				max_value "700.000"
+				min_value "700.000"
+				stat_features "BASE_MINMAX|HIDDEN"
+				stat_type "DAMAGE_CRITICAL_FACTOR"
+			}
+
+			WeaponStatDef
+			{
+				max_value "5.000"
+				min_value "5.000"
+				stat_features "BASE_MINMAX|HIDDEN"
+				stat_type "DAMAGE_OVER_TIME_LENGTH"
+			}
+
+			WeaponStatDef
+			{
+				max_value "64.000"
+				min_value "64.000"
+				stat_features "BASE_MINMAX"
+				stat_type "AMMO_SPEED"
+			}
+
+			WeaponStatDef
+			{
+				max_value "180.000"
+				min_value "180.000"
+				stat_features "MODABLE"
+				stat_type "AMMO_ANGLE_SPEED"
+			}
+
+			WeaponStatDef
+			{
+				max_value "0.200"
+				min_value "0.200"
+				stat_features "MODABLE"
+				stat_type "DAMAGE_PENETRATION"
+			}
+
+			WeaponStatDef
+			{
+				max_value "0.160"
+				min_value "0.160"
+				stat_features "MODABLE"
+				stat_type "DAMAGE_LIFESTEAL"
+			}
+
+			WeaponStatDef
+			{
+				default_value "1.000"
+				max_value "1.200"
+				min_value "1.200"
+				stat_features "BASE_DEFAULT|MODABLE"
+				stat_type "FIRE_PER_BURST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "3.300"
+				min_value "3.300"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "FIRE_PER_SHOT"
+			}
+
+			WeaponStatDef
+			{
+				max_value "11.000"
+				min_value "11.000"
+				stat_features "MODABLE"
+				stat_type "AMMO_STUN"
+			}
+
+			WeaponStatDef
+			{
+				max_value "3.000"
+				min_value "3.000"
+				stat_features "BASE_MINMAX|HIDDEN"
+				stat_type "AMMO_STUN_LENGTH"
+			}
+
+			WeaponStatDef
+			{
+				default_value "0.400"
+				max_value "0.310"
+				min_value "0.310"
+				stat_features "BASE_DEFAULT|MODABLE"
+				stat_type "AMMO_COST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "20.000"
+				min_value "20.000"
+				stat_features "BASE_MINMAX|MODABLE|HIDDEN"
+				stat_type "AMMO_SPREAD"
+			}
+
+			WeaponStatDef
+			{
+				max_value "20.000"
+				min_value "20.000"
+				stat_features "MODABLE"
+				stat_type "AMMO_AUTOAIM"
+			}
+
+			WeaponStatDef
+			{
+				max_value "100.000"
+				min_value "100.000"
+				stat_features "BASE_MINMAX"
+				stat_type "AMMO_HOMING"
+			}
+
+			WeaponStatDef
+			{
+				max_value "0.200"
+				min_value "0.200"
+				stat_features "MODABLE"
+				stat_type "AMMO_CLUSTER"
+			}
+
+			WeaponStatDef
+			{
+				max_value "0.900"
+				min_value "0.900"
+				stat_features "BASE_MINMAX"
+				stat_type "WEAPON_SCALE"
+			}
+
+		}
+
+	}
+
+	TowerDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_rockets_swarm_lvl_2_ghost"
+
+	base_blueprint 			"buildings/defense/tower_rockets_swarm_ghost"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_2.mesh"
+		material "selector/hologram_blue"
+	}
+}

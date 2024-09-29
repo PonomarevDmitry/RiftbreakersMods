@@ -1,0 +1,190 @@
+system rift/plasma_luna_laser_hit
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.02
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 300
+    technique sparks
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_4x4_purple_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface add_flame_blue
+        {
+            emission_rate                       dyn_curved_linear
+            {
+                control_point                   0 1
+                control_point                   3 350
+            }
+            angle                               50
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.7
+            }
+            velocity                            dyn_random
+            {
+                min                             750
+                max                             1200
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             4
+                max                             6
+            }
+            direction                           -1 0 0
+            radius                              20
+        }
+        affector                                Colour Affector197
+        {
+            time_colour                         0    0.3 0.3 0.3 1
+            time_colour                         1    0.3 0.3 0.3 0
+        }
+        affector                                LinearForce Affector191
+        {
+            force_vector                        0 -900 0
+        }
+        affector                                Scale Affector192
+        {
+            y_scale                             dyn_curved_linear
+            {
+                control_point                   0 100
+                control_point                   1 -100
+            }
+        }
+    }
+    technique sparksball
+    {
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/cosmo_plasma_explosion_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface add_flame_blue
+        {
+            emission_rate                       300
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             75
+                max                             120
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             100
+            }
+            direction                           -1 0 0
+            radius                              25
+        }
+        affector                                Colour Affector197
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale Affector63
+        {
+            mass_affector                       10
+            affect_specialisation               special_ttl_decrease
+            xyz_scale                           -100
+        }
+    }
+    technique lightning_directional_1
+    {
+        visual_particle_quota                   40
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_4x4_purple_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box add_flame_blue
+        {
+            emission_rate                       dyn_curved_linear
+            {
+                control_point                   0 8
+                control_point                   3 40
+            }
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            0.1
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             150
+            }
+            keep_local                          true
+            direction                           -1 0 0
+            end_texture_coords_range            3
+            colour                              0 1 1 1
+            box_width                           40
+            box_height                          40
+            box_depth                           40
+        }
+        affector                                TextureRotator Affector168
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -2.2
+                max                             -4
+            }
+            rotation_speed                      0
+        }
+        affector                                Colour Affector197
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.104348  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale Affector9
+        {
+            x_scale                             dyn_random
+            {
+                min                             500
+                max                             1000
+            }
+            y_scale                             dyn_random
+            {
+                min                             500
+                max                             1000
+            }
+        }
+    }
+}

@@ -1,0 +1,544 @@
+EntityBlueprint
+{
+	name  "buildings/defense/tower_laser_tripleshoot"
+
+	BuildingDesc
+	{
+		name 				"tower_laser_tripleshoot"
+		bp   				"buildings/defense/tower_laser_tripleshoot"
+		ghost_bp   			"buildings/defense/tower_laser_tripleshoot_ghost"
+		category 			"defense_modd"
+		localization_id		"gui/hud/building_name/tower_laser_tripleshoot"
+		description			"gui/hud/building_description/tower_laser_tripleshoot"
+		menu_icon			"gui/hud/building_icons/tower_laser_tripleshoot"
+		require 			"headquarters"
+		order				"9"
+		type				"tower"
+		overrides			"tower,wall"
+		upgrade				"buildings/defense/tower_laser_tripleshoot_lvl_2"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"250"
+					steel 		"175"
+					cosmonite_ore	"80"
+					ai			"1"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"45"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 3
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_1x1"
+			cone_effect_sell	string:"sell_small"
+			time_machine		int:"0"
+		}
+
+	}
+
+	HealthDesc
+	{
+		max_health 					"500"
+		health 						"500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_laser_lvl_1.mesh"
+		material "buildings/defense/tower_laser_tripleshoot_lvl_1"
+	}
+
+	TypeDesc
+	{
+		type "building|defense|tower"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_laser_lvl_1"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "4"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "2"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0.5"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility			"discovered"
+	}
+
+	FogOfWarRevealerComponentDesc
+	{
+		radius "40"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"2000"
+		explosion_min_power 	"1000"
+	}
+
+	WeaponItemDesc
+	{
+		ammo_storage "energy"
+		damage_type "fire"
+		rarity "ADVANCED"
+		stat_def_vec
+		{
+			WeaponStatDef
+			{
+				max_value "0.800"
+				min_value "0.800"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "FIRE_RATE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "3.000"
+				min_value "3.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "FIRE_PER_BURST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "1.000"
+				min_value "1.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "FIRE_PER_SHOT"
+			}
+
+			WeaponStatDef
+			{
+				max_value "35.000"
+				min_value "35.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "DAMAGE_VALUE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "2.500"
+				min_value "2.500"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "DAMAGE_SPLASH"
+			}
+
+			WeaponStatDef
+			{
+				max_value "8.000"
+				min_value "8.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "DAMAGE_PENETRATION"
+			}
+
+			WeaponStatDef
+			{
+				max_value "100.000"
+				min_value "100.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "AMMO_COST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "60.000"
+				min_value "60.000"
+				stat_features "BASE_MINMAX"
+				stat_type "AMMO_SPEED"
+			}
+
+			WeaponStatDef
+			{
+				max_value "1.000"
+				min_value "1.000"
+				stat_features "BASE_MINMAX"
+				stat_type "WEAPON_SCALE"
+			}
+
+		}
+
+	}
+
+	TowerDesc
+	{
+	}
+
+	TurretDesc
+	{
+		target "ground_unit_large|ground_unit_medium|ground_unit"
+		target_ignore "invisible"
+		speed "150"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "33"
+			aiming_range "40"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "be_barrel"
+		yaw "be_turret"
+		check_target_visibility "1"
+		fog_of_war_filtering "1"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_laser_tripleshoot1_projectile"
+
+		muzzle_flash_effect 		"effects/weapons_energy/laser_tripleshot_gun_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	DestroyDesc
+	{
+
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_lifetime "3"
+				}
+
+				key "default"
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_lifetime "3"
+				}
+
+				key "quicksand"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_small_base"
+		}
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "lamp"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					bone "att_muzzle"
+					random_delay "3"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/tower_laser_tripleshoot1_projectile"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"projectiles/laser_red"
+	}
+
+	ParticleDesc
+	{
+		name    "exor/triple_alien_laser_muzzle"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"33"
+
+		on_enemy_hit_effect 			"effects/weapons_energy/redtrip_laser_hit"
+		on_world_hit_effect 			"effects/weapons_energy/redtrip_laser_hit"
+		on_resisted_hit_effect 			"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
+		collision_block 			"world|world_blocker"
+
+        damage_factor_max       "9.0"
+        damage_factor_increase  "5"
+        damage_factor_decrease  "10.0"
+        damage_max_beam_scale 	"5.0"
+		damage_max_beam_glow 	"6.5"
+	}
+
+
+	SoundDesc
+	{
+		name 		"items/weapons/energy/laser_small_loop"
+		start_name 	"items/weapons/energy/laser_small_start"
+		end_name 	"items/weapons/energy/laser_small_stop"
+	}
+}
+EntityBlueprint
+{
+	name  "buildings/defense/tower_laser_tripleshoot_ghost"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_laser_lvl_1.mesh"
+		material "selector/hologram_blue"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ghost_building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+							x	2
+							y	2
+							z	2
+					}
+				}
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}
+		}
+	}
+
+	DisplayRadiusDesc
+	{
+		max_radius 40
+	}
+}
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/power_jump_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"8"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"energy"
+				}
+			}
+		}
+	}
+}

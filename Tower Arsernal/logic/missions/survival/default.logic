@@ -1,0 +1,5655 @@
+//editor "scroll(-2982.95,-1308.23)|zoom(0.53)"
+FlowGraphTemplate
+{
+	version "50"
+	editor "6217"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-12939,-272)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-9549,-209)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "observer_2_1_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player.xml)|pos(-11849,-279)"
+			script "lua/graph/entity/entity_spawn_player.lua"
+			self_id "entity_spawn_player_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-12656,-286)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_timer.xml)|pos(-7154,153)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "time_max"
+						value "3600"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value "lua/objectives/generic_timer.lua"
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/survival/main_objective"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "Survive"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "objective_state"
+						value "silent_remove"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_timer_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-8443,-207)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_resource.xml)|pos(-11069,325)"
+			script "lua/graph/entity/entity_add_resource.lua"
+			self_id "entity_add_resource_0"
+			database
+			{
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)|pos(0,0)"
+						key "steel"
+						value "300.00"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)|pos(0,0)"
+						key "carbonium"
+						value "300.00"
+					}
+
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-11378,400)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.70"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-10023,-291)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "sandbox"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-10022,-176)"
+			key "false"
+			self_id "logic_check_difficulty_0###false"
+			value "logic_check_difficulty_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-10022,-146)"
+			key "true"
+			self_id "logic_check_difficulty_0###true"
+			value
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-7227,1638)"
+			graph "logic/objectives/build_hq.logic"
+			self_id "event_graph_1"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-5381,1631)"
+			graph "logic/objectives/build_carbonium_factory.logic"
+			self_id "event_graph_3"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-5664,1655)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-4661,1657)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_4"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-4410,1629)"
+			graph "logic/objectives/build_power_plant.logic"
+			self_id "event_graph_4"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-5650,2163)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "780.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_5"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-4628,2374)"
+			graph "logic/objectives/upgrade_hq.logic"
+			self_id "event_graph_5"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-3776,2265)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "300.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_7"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3075,2526)"
+			graph "logic/objectives/build_communication_hub.logic"
+			self_id "event_graph_7"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-5693,3007)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "300.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_8"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-4637,3220)"
+			graph "logic/objectives/build_armory.logic"
+			self_id "event_graph_8"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2959,-9870)"
+			graph "logic/missions/survival/final_wave_easy.logic"
+			self_id "event_graph_9"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(-11085,-599)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "InitialSpawnEnded"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_0"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-5678,2592)"
+			graph "logic/objectives/build_ai_hub.logic"
+			self_id "event_graph_18"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-3800,3126)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "300.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_25"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-4083,3138)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(-3569,3110)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "StartCraftingTutorial"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "logic_event_send_1"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-5381,1871)"
+			graph "logic/objectives/tutorial_research.logic"
+			self_id "event_graph_27"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(-2054,2423)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "StartResearchTutorial"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "logic_event_send_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-4098,2275)"
+			self_id "logic_or_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-2604,2451)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-2312,2437)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "180.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_6"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_console_var.xml)|pos(-8146,1562)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "console_var"
+						value "g_enable_tutorials"
+					}
+
+					StringData
+					{
+						key "value"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_console_var.lua"
+			self_id "logic_if_console_var_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-8146,1686)"
+			key "true"
+			self_id "logic_if_console_var_0###true"
+			value "logic_if_console_var_0###true"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1007,1995)"
+			self_id "logic_or_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-2292,2071)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_26"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-240,2156)"
+			graph "logic/objectives/tutorial_ammunition.logic"
+			self_id "event_graph_6"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-6602,-145)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3300"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_27"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(-5332,2099)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/main/headquarters_lvl_2"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-5332,2302)"
+			key "false"
+			self_id "logic_if_exist_building_0###false"
+			value "logic_if_exist_building_0###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-5332,2330)"
+			key "true"
+			self_id "logic_if_exist_building_0###true"
+			value "logic_if_exist_building_0###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(-3483,2199)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/main/communications_hub"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3482,2402)"
+			key "false"
+			self_id "logic_if_exist_building_1###false"
+			value "logic_if_exist_building_1###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3482,2430)"
+			key "true"
+			self_id "logic_if_exist_building_1###true"
+			value "logic_if_exist_building_1###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(-1644,2061)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/defense/tower_artillery"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-1644,2265)"
+			key "true"
+			self_id "logic_if_exist_building_2###true"
+			value "logic_if_exist_building_2###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(-1664,1660)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/defense/tower_artillery"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-1664,1864)"
+			key "true"
+			self_id "logic_if_exist_building_3###true"
+			value "logic_if_exist_building_3###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(-680,1926)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/resources/tower_ammunition_factory"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-680,2130)"
+			key "true"
+			self_id "logic_if_exist_building_4###true"
+			value "logic_if_exist_building_4###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(-5399,2940)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value "buildings/main/armory"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-5398,3144)"
+			key "false"
+			self_id "logic_if_exist_building_5###false"
+			value "logic_if_exist_building_5###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-5398,3172)"
+			key "true"
+			self_id "logic_if_exist_building_5###true"
+			value "logic_if_exist_building_5###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if.xml)|pos(-7710,-246)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "value1"
+						value "0"
+					}
+
+					StringData
+					{
+						key "value2"
+						value "0"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if.lua"
+			self_id "logic_if_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-7710,-110)"
+			key "true"
+			self_id "logic_if_0###true"
+			value "logic_if_0###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-9159,-245)"
+			graph "logic/missions/survival/warmup.logic"
+			self_id "event_graph_19"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3458,-9948)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3458,-9834)"
+			key "true"
+			self_id "logic_check_difficulty_1###true"
+			value "logic_check_difficulty_1###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3458,-9803)"
+			key "false"
+			self_id "logic_check_difficulty_1###false"
+			value "logic_check_difficulty_1###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2946,-10121)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2946,-10006)"
+			key "false"
+			self_id "logic_check_difficulty_2###false"
+			value "logic_check_difficulty_2###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2946,-9976)"
+			key "true"
+			self_id "logic_check_difficulty_2###true"
+			value "logic_check_difficulty_2###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2486,-10064)"
+			graph "logic/missions/survival/final_wave.logic"
+			self_id "event_graph_2"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2482,-10361)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2482,-10246)"
+			key "false"
+			self_id "logic_check_difficulty_3###false"
+			value "logic_check_difficulty_3###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2482,-10216)"
+			key "true"
+			self_id "logic_check_difficulty_3###true"
+			value "logic_check_difficulty_3###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-1960,-10296)"
+			graph "logic/missions/survival/final_wave_hard.logic"
+			self_id "event_graph_10"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-1928,-10552)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-1928,-10438)"
+			key "false"
+			self_id "logic_check_difficulty_4###false"
+			value "logic_check_difficulty_4###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-1928,-10407)"
+			key "true"
+			self_id "logic_check_difficulty_4###true"
+			value "logic_check_difficulty_4###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-1443,-10488)"
+			graph "logic/missions/survival/final_wave_brutal.logic"
+			self_id "event_graph_11"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-1427,-10812)"
+			graph "logic/missions/survival/final_wave.logic"
+			self_id "event_graph_12"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-5676,2406)"
+			graph "logic/objectives/tutorial_crafting.logic"
+			self_id "event_graph_13"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-11082,-949)"
+			graph "logic/utility/music_adventure.logic"
+			self_id "event_graph_14"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_resource.xml)|pos(-10036,1145)"
+			script "lua/graph/entity/entity_add_resource.lua"
+			self_id "entity_add_resource_1"
+			database
+			{
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)|pos(0,0)"
+						key "titanium"
+						value "100.00"
+					}
+
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-11076,1095)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "magma"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-11076,1198)"
+			key "true"
+			self_id "logic_if_biome_3###true"
+			value "logic_if_biome_3###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-11076,1226)"
+			key "false"
+			self_id "logic_if_biome_3###false"
+			value "logic_if_biome_3###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-11072,1483)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "desert"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-11072,1586)"
+			key "true"
+			self_id "logic_if_biome_4###true"
+			value "logic_if_biome_4###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-11072,1614)"
+			key "false"
+			self_id "logic_if_biome_4###false"
+			value "logic_if_biome_4###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-11077,1833)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "acid"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-11077,1937)"
+			key "true"
+			self_id "logic_if_biome_5###true"
+			value "logic_if_biome_5###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-11077,1965)"
+			key "false"
+			self_id "logic_if_biome_5###false"
+			value "logic_if_biome_5###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4849,-8659)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "desert"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4849,-8544)"
+			key "true"
+			self_id "logic_if_biome_6###true"
+			value "logic_if_biome_6###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4849,-8514)"
+			key "false"
+			self_id "logic_if_biome_6###false"
+			value "logic_if_biome_6###false"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2101,-9457)"
+			graph "logic/missions/survival/final_wave_desert.logic"
+			self_id "event_graph_1500"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2117,-9133)"
+			graph "logic/missions/survival/final_wave_desert_brutal.logic"
+			self_id "event_graph_1600"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3164,-8689)"
+			graph "logic/missions/survival/final_wave_desert.logic"
+			self_id "event_graph_1700"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3624,-8746)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3624,-8631)"
+			key "false"
+			self_id "logic_check_difficulty_5###false"
+			value "logic_check_difficulty_5###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3624,-8601)"
+			key "true"
+			self_id "logic_check_difficulty_5###true"
+			value "logic_check_difficulty_5###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-4136,-8573)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4136,-8458)"
+			key "false"
+			self_id "logic_check_difficulty_6###false"
+			value "logic_check_difficulty_6###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4136,-8428)"
+			key "true"
+			self_id "logic_check_difficulty_6###true"
+			value "logic_check_difficulty_6###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3637,-8495)"
+			graph "logic/missions/survival/final_wave_desert_easy.logic"
+			self_id "event_graph_1800"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2602,-9197)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2602,-9082)"
+			key "false"
+			self_id "logic_check_difficulty_7###false"
+			value "logic_check_difficulty_7###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2602,-9052)"
+			key "true"
+			self_id "logic_check_difficulty_7###true"
+			value "logic_check_difficulty_7###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2634,-8941)"
+			graph "logic/missions/survival/final_wave_desert_hard.logic"
+			self_id "event_graph_1900"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3156,-9006)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_8"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3156,-8891)"
+			key "false"
+			self_id "logic_check_difficulty_8###false"
+			value "logic_check_difficulty_8###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3156,-8861)"
+			key "true"
+			self_id "logic_check_difficulty_8###true"
+			value "logic_check_difficulty_8###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4883,-7164)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "acid"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4882,-7050)"
+			key "false"
+			self_id "logic_if_biome_7###false"
+			value "logic_if_biome_7###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4882,-7019)"
+			key "true"
+			self_id "logic_if_biome_7###true"
+			value "logic_if_biome_7###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4931,-5940)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "magma"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_8"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4930,-5826)"
+			key "false"
+			self_id "logic_if_biome_8###false"
+			value "logic_if_biome_8###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4930,-5795)"
+			key "true"
+			self_id "logic_if_biome_8###true"
+			value "logic_if_biome_8###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4842,-9941)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "jungle"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4842,-9826)"
+			key "false"
+			self_id "logic_if_biome_9###false"
+			value "logic_if_biome_9###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4842,-9796)"
+			key "true"
+			self_id "logic_if_biome_9###true"
+			value "logic_if_biome_9###true"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-4102,-9898)"
+			self_id "logic_or_3"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2147,-8071)"
+			graph "logic/missions/survival/final_wave_acid.logic"
+			self_id "event_graph_15"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3683,-7109)"
+			graph "logic/missions/survival/final_wave_acid_easy.logic"
+			self_id "event_graph_16"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-4182,-7187)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4182,-7072)"
+			key "false"
+			self_id "logic_check_difficulty_9###false"
+			value "logic_check_difficulty_9###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4182,-7042)"
+			key "true"
+			self_id "logic_check_difficulty_9###true"
+			value "logic_check_difficulty_9###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3670,-7360)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_10"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3670,-7246)"
+			key "false"
+			self_id "logic_check_difficulty_10###false"
+			value "logic_check_difficulty_10###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3670,-7215)"
+			key "true"
+			self_id "logic_check_difficulty_10###true"
+			value "logic_check_difficulty_10###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3210,-7303)"
+			graph "logic/missions/survival/final_wave_acid.logic"
+			self_id "event_graph_17"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3202,-7620)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_11"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3202,-7506)"
+			key "false"
+			self_id "logic_check_difficulty_11###false"
+			value "logic_check_difficulty_11###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3202,-7475)"
+			key "true"
+			self_id "logic_check_difficulty_11###true"
+			value "logic_check_difficulty_11###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2680,-7555)"
+			graph "logic/missions/survival/final_wave_acid_hard.logic"
+			self_id "event_graph_18111"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2648,-7811)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_12"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2648,-7696)"
+			key "false"
+			self_id "logic_check_difficulty_12###false"
+			value "logic_check_difficulty_12###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2648,-7666)"
+			key "true"
+			self_id "logic_check_difficulty_12###true"
+			value "logic_check_difficulty_12###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2163,-7747)"
+			graph "logic/missions/survival/final_wave_acid_brutal.logic"
+			self_id "event_graph_191111"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2242,-6741)"
+			graph "logic/missions/survival/final_wave_magma.logic"
+			self_id "event_graph_20"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3778,-5779)"
+			graph "logic/missions/survival/final_wave_magma_easy.logic"
+			self_id "event_graph_21"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-4277,-5857)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_13"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4277,-5742)"
+			key "false"
+			self_id "logic_check_difficulty_13###false"
+			value "logic_check_difficulty_13###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4277,-5712)"
+			key "true"
+			self_id "logic_check_difficulty_13###true"
+			value "logic_check_difficulty_13###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3765,-6030)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_14"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3765,-5915)"
+			key "false"
+			self_id "logic_check_difficulty_14###false"
+			value "logic_check_difficulty_14###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3765,-5885)"
+			key "true"
+			self_id "logic_check_difficulty_14###true"
+			value "logic_check_difficulty_14###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3305,-5973)"
+			graph "logic/missions/survival/final_wave_magma.logic"
+			self_id "event_graph_22"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3297,-6290)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_15"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3297,-6175)"
+			key "false"
+			self_id "logic_check_difficulty_15###false"
+			value "logic_check_difficulty_15###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3297,-6145)"
+			key "true"
+			self_id "logic_check_difficulty_15###true"
+			value "logic_check_difficulty_15###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2775,-6225)"
+			graph "logic/missions/survival/final_wave_magma_hard.logic"
+			self_id "event_graph_23"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2743,-6481)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_16"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2742,-6366)"
+			key "false"
+			self_id "logic_check_difficulty_16###false"
+			value "logic_check_difficulty_16###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2742,-6336)"
+			key "true"
+			self_id "logic_check_difficulty_16###true"
+			value "logic_check_difficulty_16###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2258,-6417)"
+			graph "logic/missions/survival/final_wave_magma_brutal.logic"
+			self_id "event_graph_24"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-4320,-9657)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_10"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-7683,1647)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "jungle"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_10"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-7682,1750)"
+			key "true"
+			self_id "logic_if_biome_10###true"
+			value "logic_if_biome_10###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_dom_resume.xml)|pos(-7987,-547)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "ResumeDOM"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "mission_dom_resume_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_dom_finish.xml)|pos(-6279,-151)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "FinishSurvival"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "mission_dom_finish_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-9163,103)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "desert"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_11"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-9162,206)"
+			key "true"
+			self_id "logic_if_biome_11###true"
+			value "logic_if_biome_11###true"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-10231,-690)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_0"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/generic/mech_rift_jump_successful_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/generic/ashley_rift_jump_successful_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-8548,69)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_1"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/survival/ashley_desert_entry_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/survival/mech_desert_entry_01"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-808,-10172)"
+			self_id "logic_or_4"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1381,-8604)"
+			self_id "logic_or_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_end.xml)|pos(1933,-8377)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_end.lua"
+			self_id "mission_end_2"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1382,-7248)"
+			self_id "logic_or_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1723,-8381)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_13"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1480,-5967)"
+			self_id "logic_or_8"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-6229,-473)"
+			graph "logic/missions/survival/final_wave_entry.logic"
+			self_id "event_graph_25"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-199,-8406)"
+			graph "logic/missions/survival/final_wave_exit.logic"
+			self_id "event_graph_26"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-396,-8363)"
+			self_id "logic_or_9"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(1509,-8364)"
+			self_id "logic_or_10"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(-5553,-526)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "less_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "headquarters"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-5553,-301)"
+			key "true"
+			self_id "logic_if_exist_building_6###true"
+			value "logic_if_exist_building_6###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_end.xml)|pos(-4835,-320)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "lose"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_end.lua"
+			self_id "mission_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_fade.xml)|pos(-5052,-515)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "3000000000.00"
+					}
+
+					FloatData
+					{
+						key "fade_in"
+						value "0.00"
+					}
+
+					FloatData
+					{
+						key "fade_out"
+						value "2.00"
+					}
+
+					FloatData
+					{
+						key "color_r"
+						value "255"
+					}
+
+					FloatData
+					{
+						key "color_g"
+						value "255"
+					}
+
+					FloatData
+					{
+						key "color_b"
+						value "255"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_fade.lua"
+			self_id "interface_fade_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-5050,-322)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_11"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(-6282,-37)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/survival/final_attack_survive"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "final_attack_survive"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(-204,-8563)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "final_attack_survive"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-11075,728)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "jungle"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_16"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-11074,832)"
+			key "true"
+			self_id "logic_if_biome_16###true"
+			value "logic_if_biome_16###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-11074,860)"
+			key "false"
+			self_id "logic_if_biome_16###false"
+			value "logic_if_biome_16###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-11072,2194)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "metallic"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_17"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-11072,2298)"
+			key "true"
+			self_id "logic_if_biome_17###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-11072,2326)"
+			key "false"
+			self_id "logic_if_biome_17###false"
+			value "logic_if_biome_17###false"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2770,-4985)"
+			graph "logic/missions/survival/metallic/final_wave_metallic_hard.logic"
+			self_id "event_graph_28"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1476,-4727)"
+			self_id "logic_or_11"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4926,-4700)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "metallic"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_19"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4926,-4586)"
+			key "false"
+			self_id "logic_if_biome_19###false"
+			value "logic_if_biome_19###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4926,-4555)"
+			key "true"
+			self_id "logic_if_biome_19###true"
+			value "logic_if_biome_19###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3273,-4736)"
+			graph "logic/missions/survival/metallic/final_wave_metallic.logic"
+			self_id "event_graph_281"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3292,-5050)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_19"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3292,-4935)"
+			key "false"
+			self_id "logic_check_difficulty_19###false"
+			value "logic_check_difficulty_19###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3292,-4905)"
+			key "true"
+			self_id "logic_check_difficulty_19###true"
+			value "logic_check_difficulty_19###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3784,-4787)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_18"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3784,-4672)"
+			key "false"
+			self_id "logic_check_difficulty_18###false"
+			value "logic_check_difficulty_18###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3784,-4642)"
+			key "true"
+			self_id "logic_check_difficulty_18###true"
+			value "logic_check_difficulty_18###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2253,-5177)"
+			graph "logic/missions/survival/metallic/final_wave_metallic_brutal.logic"
+			self_id "event_graph_282"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2237,-5501)"
+			graph "logic/missions/survival/metallic/final_wave_metallic.logic"
+			self_id "event_graph_283"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2738,-5241)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_20"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2738,-5126)"
+			key "false"
+			self_id "logic_check_difficulty_20###false"
+			value "logic_check_difficulty_20###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2738,-5096)"
+			key "true"
+			self_id "logic_check_difficulty_20###true"
+			value "logic_check_difficulty_20###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3773,-4539)"
+			graph "logic/missions/survival/metallic/final_wave_metallic_easy.logic"
+			self_id "event_graph_284"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-4272,-4617)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_17"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4272,-4502)"
+			key "false"
+			self_id "logic_check_difficulty_17###false"
+			value "logic_check_difficulty_17###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4272,-4472)"
+			key "true"
+			self_id "logic_check_difficulty_17###true"
+			value "logic_check_difficulty_17###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-10585,931)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-10332,833)"
+			self_id "logic_or_12"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-10335,1197)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-10334,1583)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-10395,1932)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-10471,2296)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_5"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-11066,2563)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "caverns"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_20"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-11066,2666)"
+			key "true"
+			self_id "logic_if_biome_20###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-11066,2694)"
+			key "false"
+			self_id "logic_if_biome_20###false"
+			value "logic_if_biome_17###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_resource.xml)|pos(-10031,2600)"
+			script "lua/graph/entity/entity_add_resource.lua"
+			self_id "entity_add_resource_6"
+			database
+			{
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_resource.xml)|pos(0,0)"
+						key "cobalt"
+						value "100.00"
+					}
+
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-10450,2653)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_6"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2801,-3749)"
+			graph "logic/missions/survival/caverns/final_wave_caverns_hard.logic"
+			self_id "event_graph_29"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1507,-3491)"
+			self_id "logic_or_13"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4957,-3464)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "caverns"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_21"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4957,-3350)"
+			key "false"
+			self_id "logic_if_biome_21###false"
+			value "logic_if_biome_19###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4957,-3319)"
+			key "true"
+			self_id "logic_if_biome_21###true"
+			value "logic_if_biome_19###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3305,-3500)"
+			graph "logic/missions/survival/caverns/final_wave_caverns.logic"
+			self_id "event_graph_285"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3323,-3814)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_21"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3322,-3699)"
+			key "false"
+			self_id "logic_check_difficulty_21###false"
+			value "logic_check_difficulty_19###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3322,-3669)"
+			key "true"
+			self_id "logic_check_difficulty_21###true"
+			value "logic_check_difficulty_19###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2769,-4005)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_22"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2769,-3890)"
+			key "false"
+			self_id "logic_check_difficulty_22###false"
+			value "logic_check_difficulty_20###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2769,-3860)"
+			key "true"
+			self_id "logic_check_difficulty_22###true"
+			value "logic_check_difficulty_20###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2269,-4265)"
+			graph "logic/missions/survival/caverns/final_wave_caverns.logic"
+			self_id "event_graph_286"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2285,-3941)"
+			graph "logic/missions/survival/caverns/final_wave_caverns_brutal.logic"
+			self_id "event_graph_287"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3815,-3551)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_23"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3814,-3436)"
+			key "false"
+			self_id "logic_check_difficulty_23###false"
+			value "logic_check_difficulty_18###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3814,-3406)"
+			key "true"
+			self_id "logic_check_difficulty_23###true"
+			value "logic_check_difficulty_18###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-4303,-3381)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_24"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4302,-3266)"
+			key "false"
+			self_id "logic_check_difficulty_24###false"
+			value "logic_check_difficulty_17###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4302,-3236)"
+			key "true"
+			self_id "logic_check_difficulty_24###true"
+			value "logic_check_difficulty_17###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3805,-3303)"
+			graph "logic/missions/survival/caverns/final_wave_caverns_easy.logic"
+			self_id "event_graph_288"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_set_console_var.xml)|pos(-12197,72)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "console_var"
+						value "time_of_day_hour"
+					}
+
+					StringData
+					{
+						key "value"
+						value "8"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_set_console_var.lua"
+			self_id "logic_set_console_var_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-12688,2)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "caverns"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_23"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-12688,106)"
+			key "true"
+			self_id "logic_if_biome_23###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-12688,134)"
+			key "false"
+			self_id "logic_if_biome_23###false"
+			value "logic_if_biome_17###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_grant_current_mission_awards.xml)|pos(844,-8356)"
+			script "lua/graph/mission_state/mission_grant_current_mission_awards.lua"
+			self_id "mission_grant_current_mission_awards_1"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2577,-2483)"
+			graph "logic/missions/survival/swamp/final_wave_swamp_hard.logic"
+			self_id "event_graph_30"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1283,-2225)"
+			self_id "logic_or_14"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4934,-2175)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_22"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4934,-2060)"
+			key "false"
+			self_id "logic_if_biome_22###false"
+			value "logic_if_biome_19###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4934,-2030)"
+			key "true"
+			self_id "logic_if_biome_22###true"
+			value "logic_if_biome_19###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3081,-2233)"
+			graph "logic/missions/survival/swamp/final_wave_swamp.logic"
+			self_id "event_graph_289"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3099,-2547)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_25"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3098,-2432)"
+			key "false"
+			self_id "logic_check_difficulty_25###false"
+			value "logic_check_difficulty_19###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3098,-2402)"
+			key "true"
+			self_id "logic_check_difficulty_25###true"
+			value "logic_check_difficulty_19###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2545,-2739)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_26"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2545,-2624)"
+			key "false"
+			self_id "logic_check_difficulty_26###false"
+			value "logic_check_difficulty_20###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2545,-2594)"
+			key "true"
+			self_id "logic_check_difficulty_26###true"
+			value "logic_check_difficulty_20###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2045,-2999)"
+			graph "logic/missions/survival/swamp/final_wave_swamp.logic"
+			self_id "event_graph_290"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2061,-2675)"
+			graph "logic/missions/survival/swamp/final_wave_swamp_brutal.logic"
+			self_id "event_graph_291"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3591,-2285)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_27"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3590,-2170)"
+			key "false"
+			self_id "logic_check_difficulty_27###false"
+			value "logic_check_difficulty_18###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3590,-2140)"
+			key "true"
+			self_id "logic_check_difficulty_27###true"
+			value "logic_check_difficulty_18###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-4079,-2115)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_28"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4078,-2000)"
+			key "false"
+			self_id "logic_check_difficulty_28###false"
+			value "logic_check_difficulty_17###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4078,-1970)"
+			key "true"
+			self_id "logic_check_difficulty_28###true"
+			value "logic_check_difficulty_17###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3581,-2037)"
+			graph "logic/missions/survival/swamp/final_wave_swamp_easy.logic"
+			self_id "event_graph_292"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-8557,-843)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_24"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-8557,-728)"
+			key "true"
+			self_id "logic_if_biome_24###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-8557,-698)"
+			key "false"
+			self_id "logic_if_biome_24###false"
+			value "logic_if_biome_17###false"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-7677,-1019)"
+			graph "logic/event/spline_attack_swamp.logic"
+			self_id "event_graph_31"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-7968,-980)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_9"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3136,-1228)"
+			graph "logic/missions/survival/final_wave_ArcticIslands.logic"
+			self_id "event_graph_32"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2616,-1402)"
+			graph "logic/missions/survival/final_wave_hard_ArcticIslands.logic"
+			self_id "event_graph_33"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-4110,-1152)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "easy"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_29"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4110,-1038)"
+			key "true"
+			self_id "logic_check_difficulty_29###true"
+			value "logic_check_difficulty_1###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4110,-1007)"
+			key "false"
+			self_id "logic_check_difficulty_29###false"
+			value "logic_check_difficulty_1###false"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-1993,-1802)"
+			graph "logic/missions/survival/final_wave_ArcticIslands.logic"
+			self_id "event_graph_34"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2549,-1784)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "brutal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_30"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2549,-1670)"
+			key "false"
+			self_id "logic_check_difficulty_30###false"
+			value "logic_check_difficulty_4###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2549,-1639)"
+			key "true"
+			self_id "logic_check_difficulty_30###true"
+			value "logic_check_difficulty_4###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-2970,-1664)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "hard"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_31"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-2970,-1550)"
+			key "false"
+			self_id "logic_check_difficulty_31###false"
+			value "logic_check_difficulty_3###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-2970,-1519)"
+			key "true"
+			self_id "logic_check_difficulty_31###true"
+			value "logic_check_difficulty_3###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-3682,-1026)"
+			graph "logic/missions/survival/final_wave_easy_ArcticIslands.logic"
+			self_id "event_graph_35"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-4953,-1397)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "ArcticIslands"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_12"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-4953,-1282)"
+			key "false"
+			self_id "logic_if_biome_12###false"
+			value "logic_if_biome_9###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-4953,-1252)"
+			key "true"
+			self_id "logic_if_biome_12###true"
+			value "logic_if_biome_9###true"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_check_difficulty.xml)|pos(-3562,-1486)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "difficulty"
+						value "normal"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_check_difficulty.lua"
+			self_id "logic_check_difficulty_32"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-3562,-1371)"
+			key "false"
+			self_id "logic_check_difficulty_32###false"
+			value "logic_check_difficulty_2###false"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-3562,-1341)"
+			key "true"
+			self_id "logic_check_difficulty_32###true"
+			value "logic_check_difficulty_2###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(-2005,-1514)"
+			graph "logic/missions/survival/final_wave_brutal_ArcticIslands.logic"
+			self_id "event_graph_36"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(binding_float.xml)|pos(0,0)"
+						key "end_timer"
+						value "300.00"
+					}
+
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(-1281,-1037)"
+			self_id "logic_or_16"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(-11068,2902)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "ArcticIslands"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_25"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-11068,3006)"
+			key "true"
+			self_id "logic_if_biome_25###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-11068,3034)"
+			key "false"
+			self_id "logic_if_biome_25###false"
+			value "logic_if_biome_17###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-10474,2961)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_7"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_if_biome_23|logic_wait_3"
+		entity_spawn_player_0 "event_graph_14|logic_check_difficulty_0|logic_wait_1|logic_wait_on_event_0"
+		event_graph_1 "event_graph_13|event_graph_18|event_graph_27|logic_wait_2|logic_wait_5|logic_wait_8"
+		event_graph_10 "logic_or_4"
+		event_graph_11 "logic_or_4"
+		event_graph_12 "logic_or_4"
+		event_graph_15 "logic_or_6"
+		event_graph_1500 "logic_or_5"
+		event_graph_16 "logic_or_6"
+		event_graph_1600 "logic_or_5"
+		event_graph_17 "logic_or_6"
+		event_graph_1700 "logic_or_5"
+		event_graph_1800 "logic_or_5"
+		event_graph_18111 "logic_or_6"
+		event_graph_19 "logic_if_biome_24|logic_wait_0"
+		event_graph_1900 "logic_or_5"
+		event_graph_191111 "logic_or_6"
+		event_graph_2 "logic_or_4"
+		event_graph_20 "logic_or_8"
+		event_graph_21 "logic_or_8"
+		event_graph_22 "logic_or_8"
+		event_graph_23 "logic_or_8"
+		event_graph_24 "logic_or_8"
+		event_graph_25 "logic_if_biome_12|logic_if_biome_19|logic_if_biome_21|logic_if_biome_22|logic_if_biome_6|logic_if_biome_7|logic_if_biome_8|logic_if_biome_9|logic_if_exist_building_6"
+		event_graph_26 "mission_grant_current_mission_awards_1"
+		event_graph_28 "logic_or_11"
+		event_graph_281 "logic_or_11"
+		event_graph_282 "logic_or_11"
+		event_graph_283 "logic_or_11"
+		event_graph_284 "logic_or_11"
+		event_graph_285 "logic_or_13"
+		event_graph_286 "logic_or_13"
+		event_graph_287 "logic_or_13"
+		event_graph_288 "logic_or_13"
+		event_graph_289 "logic_or_14"
+		event_graph_29 "logic_or_13"
+		event_graph_290 "logic_or_14"
+		event_graph_291 "logic_or_14"
+		event_graph_292 "logic_or_14"
+		event_graph_3 "logic_wait_4"
+		event_graph_30 "logic_or_14"
+		event_graph_32 "logic_or_16"
+		event_graph_33 "logic_or_16"
+		event_graph_34 "logic_or_16"
+		event_graph_35 "logic_or_16"
+		event_graph_36 "logic_or_16"
+		event_graph_5 "logic_or_2"
+		event_graph_7 "logic_or_1"
+		event_graph_8 "logic_or_0"
+		event_graph_9 "logic_or_4"
+		interface_dialogue_show_group_0 "observer_2_1_0"
+		logic_and_1 "logic_or_12"
+		logic_and_2 "entity_add_resource_1"
+		logic_and_6 "entity_add_resource_6"
+		logic_check_difficulty_0 "logic_check_difficulty_0###false|logic_check_difficulty_0###true"
+		logic_check_difficulty_0###false "observer_2_1_0"
+		logic_check_difficulty_1 "logic_check_difficulty_1###false|logic_check_difficulty_1###true"
+		logic_check_difficulty_1###false "logic_check_difficulty_2"
+		logic_check_difficulty_1###true "event_graph_9"
+		logic_check_difficulty_10 "logic_check_difficulty_10###false|logic_check_difficulty_10###true"
+		logic_check_difficulty_10###false "logic_check_difficulty_11"
+		logic_check_difficulty_10###true "event_graph_17"
+		logic_check_difficulty_11 "logic_check_difficulty_11###false|logic_check_difficulty_11###true"
+		logic_check_difficulty_11###false "logic_check_difficulty_12"
+		logic_check_difficulty_11###true "event_graph_18111"
+		logic_check_difficulty_12 "logic_check_difficulty_12###false|logic_check_difficulty_12###true"
+		logic_check_difficulty_12###false "event_graph_15"
+		logic_check_difficulty_12###true "event_graph_191111"
+		logic_check_difficulty_13 "logic_check_difficulty_13###false|logic_check_difficulty_13###true"
+		logic_check_difficulty_13###false "logic_check_difficulty_14"
+		logic_check_difficulty_13###true "event_graph_21"
+		logic_check_difficulty_14 "logic_check_difficulty_14###false|logic_check_difficulty_14###true"
+		logic_check_difficulty_14###false "logic_check_difficulty_15"
+		logic_check_difficulty_14###true "event_graph_22"
+		logic_check_difficulty_15 "logic_check_difficulty_15###false|logic_check_difficulty_15###true"
+		logic_check_difficulty_15###false "logic_check_difficulty_16"
+		logic_check_difficulty_15###true "event_graph_23"
+		logic_check_difficulty_16 "logic_check_difficulty_16###false|logic_check_difficulty_16###true"
+		logic_check_difficulty_16###false "event_graph_20"
+		logic_check_difficulty_16###true "event_graph_24"
+		logic_check_difficulty_17 "logic_check_difficulty_17###false|logic_check_difficulty_17###true"
+		logic_check_difficulty_17###false "logic_check_difficulty_18"
+		logic_check_difficulty_17###true "event_graph_284"
+		logic_check_difficulty_18 "logic_check_difficulty_18###false|logic_check_difficulty_18###true"
+		logic_check_difficulty_18###false "logic_check_difficulty_19"
+		logic_check_difficulty_18###true "event_graph_281"
+		logic_check_difficulty_19 "logic_check_difficulty_19###false|logic_check_difficulty_19###true"
+		logic_check_difficulty_19###false "logic_check_difficulty_20"
+		logic_check_difficulty_19###true "event_graph_28"
+		logic_check_difficulty_2 "logic_check_difficulty_2###false|logic_check_difficulty_2###true"
+		logic_check_difficulty_2###false "logic_check_difficulty_3"
+		logic_check_difficulty_2###true "event_graph_2"
+		logic_check_difficulty_20 "logic_check_difficulty_20###false|logic_check_difficulty_20###true"
+		logic_check_difficulty_20###false "event_graph_283"
+		logic_check_difficulty_20###true "event_graph_282"
+		logic_check_difficulty_21 "logic_check_difficulty_21###false|logic_check_difficulty_21###true"
+		logic_check_difficulty_21###false "logic_check_difficulty_22"
+		logic_check_difficulty_21###true "event_graph_29"
+		logic_check_difficulty_22 "logic_check_difficulty_22###false|logic_check_difficulty_22###true"
+		logic_check_difficulty_22###false "event_graph_286"
+		logic_check_difficulty_22###true "event_graph_287"
+		logic_check_difficulty_23 "logic_check_difficulty_23###false|logic_check_difficulty_23###true"
+		logic_check_difficulty_23###false "logic_check_difficulty_21"
+		logic_check_difficulty_23###true "event_graph_285"
+		logic_check_difficulty_24 "logic_check_difficulty_24###false|logic_check_difficulty_24###true"
+		logic_check_difficulty_24###false "logic_check_difficulty_23"
+		logic_check_difficulty_24###true "event_graph_288"
+		logic_check_difficulty_25 "logic_check_difficulty_25###false|logic_check_difficulty_25###true"
+		logic_check_difficulty_25###false "logic_check_difficulty_26"
+		logic_check_difficulty_25###true "event_graph_30"
+		logic_check_difficulty_26 "logic_check_difficulty_26###false|logic_check_difficulty_26###true"
+		logic_check_difficulty_26###false "event_graph_290"
+		logic_check_difficulty_26###true "event_graph_291"
+		logic_check_difficulty_27 "logic_check_difficulty_27###false|logic_check_difficulty_27###true"
+		logic_check_difficulty_27###false "logic_check_difficulty_25"
+		logic_check_difficulty_27###true "event_graph_289"
+		logic_check_difficulty_28 "logic_check_difficulty_28###false|logic_check_difficulty_28###true"
+		logic_check_difficulty_28###false "logic_check_difficulty_27"
+		logic_check_difficulty_28###true "event_graph_292"
+		logic_check_difficulty_29 "logic_check_difficulty_29###false|logic_check_difficulty_29###true"
+		logic_check_difficulty_29###false "logic_check_difficulty_32"
+		logic_check_difficulty_29###true "event_graph_35"
+		logic_check_difficulty_3 "logic_check_difficulty_3###false|logic_check_difficulty_3###true"
+		logic_check_difficulty_3###false "logic_check_difficulty_4"
+		logic_check_difficulty_3###true "event_graph_10"
+		logic_check_difficulty_30 "logic_check_difficulty_30###false|logic_check_difficulty_30###true"
+		logic_check_difficulty_30###false "event_graph_34"
+		logic_check_difficulty_30###true "event_graph_36"
+		logic_check_difficulty_31 "logic_check_difficulty_31###false|logic_check_difficulty_31###true"
+		logic_check_difficulty_31###false "logic_check_difficulty_30"
+		logic_check_difficulty_31###true "event_graph_33"
+		logic_check_difficulty_32 "logic_check_difficulty_32###false|logic_check_difficulty_32###true"
+		logic_check_difficulty_32###false "logic_check_difficulty_31"
+		logic_check_difficulty_32###true "event_graph_32"
+		logic_check_difficulty_4 "logic_check_difficulty_4###false|logic_check_difficulty_4###true"
+		logic_check_difficulty_4###false "event_graph_12"
+		logic_check_difficulty_4###true "event_graph_11"
+		logic_check_difficulty_5 "logic_check_difficulty_5###false|logic_check_difficulty_5###true"
+		logic_check_difficulty_5###false "logic_check_difficulty_8"
+		logic_check_difficulty_5###true "event_graph_1700"
+		logic_check_difficulty_6 "logic_check_difficulty_6###false|logic_check_difficulty_6###true"
+		logic_check_difficulty_6###false "logic_check_difficulty_5"
+		logic_check_difficulty_6###true "event_graph_1800"
+		logic_check_difficulty_7 "logic_check_difficulty_7###false|logic_check_difficulty_7###true"
+		logic_check_difficulty_7###false "event_graph_1500"
+		logic_check_difficulty_7###true "event_graph_1600"
+		logic_check_difficulty_8 "logic_check_difficulty_8###false|logic_check_difficulty_8###true"
+		logic_check_difficulty_8###false "logic_check_difficulty_7"
+		logic_check_difficulty_8###true "event_graph_1900"
+		logic_check_difficulty_9 "logic_check_difficulty_9###false|logic_check_difficulty_9###true"
+		logic_check_difficulty_9###false "logic_check_difficulty_10"
+		logic_check_difficulty_9###true "event_graph_16"
+		logic_if_0 "logic_if_0###true"
+		logic_if_0###true "logic_wait_27|objective_generic_timer_0"
+		logic_if_biome_10 "logic_if_biome_10###true"
+		logic_if_biome_10###true "event_graph_1"
+		logic_if_biome_11 "logic_if_biome_11###true"
+		logic_if_biome_11###true "interface_dialogue_show_group_1"
+		logic_if_biome_12 "logic_if_biome_12###false|logic_if_biome_12###true"
+		logic_if_biome_12###false "logic_wait_10"
+		logic_if_biome_12###true "logic_check_difficulty_29"
+		logic_if_biome_16 "logic_if_biome_16###false|logic_if_biome_16###true"
+		logic_if_biome_16###false "logic_and_1"
+		logic_if_biome_16###true "logic_or_12"
+		logic_if_biome_17 "logic_if_biome_17###false|logic_if_biome_17###true"
+		logic_if_biome_17###false "logic_and_1"
+		logic_if_biome_17###true "logic_and_5"
+		logic_if_biome_19 "logic_if_biome_19###false|logic_if_biome_19###true"
+		logic_if_biome_19###false "logic_wait_10"
+		logic_if_biome_19###true "logic_check_difficulty_17"
+		logic_if_biome_20 "logic_if_biome_20###false|logic_if_biome_20###true"
+		logic_if_biome_20###false "logic_and_1"
+		logic_if_biome_20###true "logic_and_6"
+		logic_if_biome_21 "logic_if_biome_21###false|logic_if_biome_21###true"
+		logic_if_biome_21###false "logic_wait_10"
+		logic_if_biome_21###true "logic_check_difficulty_24"
+		logic_if_biome_22 "logic_if_biome_22###false|logic_if_biome_22###true"
+		logic_if_biome_22###false "logic_wait_10"
+		logic_if_biome_22###true "logic_check_difficulty_28"
+		logic_if_biome_23 "logic_if_biome_23###false|logic_if_biome_23###true"
+		logic_if_biome_23###true "logic_set_console_var_0"
+		logic_if_biome_24 "logic_if_biome_24###false|logic_if_biome_24###true"
+		logic_if_biome_24###true "logic_wait_9"
+		logic_if_biome_25 "logic_if_biome_25###false|logic_if_biome_25###true"
+		logic_if_biome_25###false "logic_and_1"
+		logic_if_biome_25###true "logic_and_7"
+		logic_if_biome_3 "logic_if_biome_3###false|logic_if_biome_3###true"
+		logic_if_biome_3###false "logic_and_1"
+		logic_if_biome_3###true "logic_and_2"
+		logic_if_biome_4 "logic_if_biome_4###false|logic_if_biome_4###true"
+		logic_if_biome_4###false "logic_and_1"
+		logic_if_biome_4###true "logic_and_3"
+		logic_if_biome_5 "logic_if_biome_5###false|logic_if_biome_5###true"
+		logic_if_biome_5###false "logic_and_1"
+		logic_if_biome_5###true "logic_and_4"
+		logic_if_biome_6 "logic_if_biome_6###false|logic_if_biome_6###true"
+		logic_if_biome_6###false "logic_wait_10"
+		logic_if_biome_6###true "logic_check_difficulty_6"
+		logic_if_biome_7 "logic_if_biome_7###false|logic_if_biome_7###true"
+		logic_if_biome_7###false "logic_wait_10"
+		logic_if_biome_7###true "logic_check_difficulty_9"
+		logic_if_biome_8 "logic_if_biome_8###false|logic_if_biome_8###true"
+		logic_if_biome_8###false "logic_wait_10"
+		logic_if_biome_8###true "logic_check_difficulty_13"
+		logic_if_biome_9 "logic_if_biome_9###false|logic_if_biome_9###true"
+		logic_if_biome_9###false "logic_wait_10"
+		logic_if_biome_9###true "logic_or_3"
+		logic_if_console_var_0 "logic_if_console_var_0###true"
+		logic_if_console_var_0###true "logic_if_biome_10"
+		logic_if_exist_building_0 "logic_if_exist_building_0###false|logic_if_exist_building_0###true"
+		logic_if_exist_building_0###false "logic_or_2"
+		logic_if_exist_building_0###true "event_graph_5"
+		logic_if_exist_building_1 "logic_if_exist_building_1###false|logic_if_exist_building_1###true"
+		logic_if_exist_building_1###false "logic_or_1"
+		logic_if_exist_building_1###true "event_graph_7"
+		logic_if_exist_building_2 "logic_if_exist_building_2###true"
+		logic_if_exist_building_2###true "logic_or_7"
+		logic_if_exist_building_3 "logic_if_exist_building_3###true"
+		logic_if_exist_building_3###true "logic_or_7"
+		logic_if_exist_building_4 "logic_if_exist_building_4###true"
+		logic_if_exist_building_4###true "event_graph_6"
+		logic_if_exist_building_5 "logic_if_exist_building_5###false|logic_if_exist_building_5###true"
+		logic_if_exist_building_5###false "logic_or_0"
+		logic_if_exist_building_5###true "event_graph_8"
+		logic_if_exist_building_6 "logic_if_exist_building_6###true"
+		logic_if_exist_building_6###true "interface_fade_1|logic_wait_11"
+		logic_or_0 "logic_wait_25"
+		logic_or_1 "logic_wait_26|logic_wait_6"
+		logic_or_10 "logic_wait_13"
+		logic_or_11 "logic_or_9"
+		logic_or_13 "logic_or_9"
+		logic_or_14 "logic_or_9"
+		logic_or_16 "logic_or_9"
+		logic_or_2 "logic_wait_7"
+		logic_or_3 "logic_check_difficulty_1"
+		logic_or_4 "logic_or_9"
+		logic_or_5 "logic_or_9"
+		logic_or_6 "logic_or_9"
+		logic_or_7 "logic_if_exist_building_4"
+		logic_or_8 "logic_or_9"
+		logic_or_9 "event_graph_26|objective_finish_0"
+		logic_wait_0 "logic_if_0|mission_dom_resume_0"
+		logic_wait_1 "entity_add_resource_0|logic_if_biome_16|logic_if_biome_17|logic_if_biome_20|logic_if_biome_3|logic_if_biome_4|logic_if_biome_5"
+		logic_wait_10 "logic_or_3"
+		logic_wait_11 "mission_end_1"
+		logic_wait_13 "mission_end_2"
+		logic_wait_2 "event_graph_3"
+		logic_wait_25 "logic_event_send_1"
+		logic_wait_26 "logic_if_exist_building_2|logic_if_exist_building_3"
+		logic_wait_27 "event_graph_25|mission_dom_finish_0|objective_generic_0"
+		logic_wait_3 "entity_spawn_player_0"
+		logic_wait_4 "event_graph_4"
+		logic_wait_5 "logic_if_exist_building_0"
+		logic_wait_6 "logic_event_send_2"
+		logic_wait_7 "logic_if_exist_building_1"
+		logic_wait_8 "logic_if_exist_building_5"
+		logic_wait_9 "event_graph_31"
+		logic_wait_on_event_0 "interface_dialogue_show_group_0"
+		mission_grant_current_mission_awards_1 "logic_or_10"
+		observer_2_1_0 "event_graph_19|logic_if_biome_11"
+	}
+
+	GraphComments
+}
+

@@ -1,0 +1,263 @@
+EntityBlueprint
+{
+	name  					"buildings/defense/shield_generator_cryo_lvl_2"
+	base_blueprint 			"buildings/defense/shield_generator_cryo"
+
+	BuildingDesc
+	{
+		name 				"shield_generator_cryo_lvl_2"
+		bp   				"buildings/defense/shield_generator_cryo_lvl_2"
+		category 			"defense"
+		localization_id		"gui/hud/building_name/shield_generator_cryo"
+		description			"gui/hud/building_description/shield_generator_cryo"
+		menu_icon			"gui/hud/building_icons/shield_generator_cryo_lvl2"
+		require 			"headquarters"
+		order				"18"
+		type				"pipe"		
+		upgrade				"buildings/defense/shield_generator_cryo_lvl_3"
+		buildable			"0"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 10
+				building_cost
+				{
+					carbonium 	"1000"
+					steel 		"500"
+				}
+			}		
+		}			
+	}
+
+	ResourceConverterDesc
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 			"energy"
+				value			 	"50"
+			}
+			GameplayResource
+			{
+				resource 	"water"
+				value 		"10"
+				attachment	"att_in_1"
+			}			
+			
+		}
+		priority 6
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/reflection_shield_generator.lua"
+		
+		database
+		{
+			cone_effect				string:"build_cone_3x3"
+			cone_effect_sell		string:"sell_big"
+			range					float:"22"
+			interval				float:"1"
+			shield_bp				string:"buildings/defense/shield_generator_plasma/shield_cryo_lvl_2"
+			display_radius_group	string:"shield_generator"
+			display_radius_blueprint string:"effects/decals/range_circle_shield"
+		}
+	}
+	
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+		
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/defense/shield_generator_cryo"
+		}	
+
+		EffectGroup
+		{
+			group "level"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/level_2"
+					bone "att_level"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/shield_generator_plasma/shield_cryo_lvl_2"
+
+	IdDesc
+	{
+		name "_shield_"
+	}
+
+	HealthDesc
+	{
+		max_health 					"2000"
+		health 						"1"
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	LuaDesc
+	{
+		database
+		{
+			//How much faster the shield decays when unpowered than it regenerates when powered.
+			//Must be positive, or the shield will regenerate when unpowered.
+			//"0" means "no decay", "1" means "equal rate"
+			decay_multiplier 	float:"2.0"
+		}
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	ReflectDamageComponent
+	{
+		reflect_type	"flat_damage"	// health_ratio, damage_ratio, flat_damage
+		damage_value	"15"
+		damage_type		"cryo"	// optional, if not provided damage type will be set to "reflect"
+
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	ReflectHighlightComponent
+	{
+		submesh_idx 	2
+		glow_factor 	100
+		flash_time		0.2		//Optional.
+	}
+
+	//Required. The Reflection script sources data from this, and will crash if it is missing.
+	RegenerationComponent
+	{
+		//I recommend a regen rate of 5% max HP per second, with a long cooldown of 7-10 seconds.
+		regeneration 				"200"	//50
+		regeneration_cooldown 		"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "shield_down"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/shield_plasma_down"
+				}
+			}
+		}
+	}
+
+	ShieldComponent
+	{
+		owner	"custom"
+		highlight_material	"highlight/shield_plasma"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/shield_generator_cryo_ghost"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/shield_generator.mesh"
+		material "selector/hologram_blue"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/shield_generator"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ghost_building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "1.45"
+	
+						position 
+						{
+							x "0.0"
+							y "1.0"
+							z "0.0"
+						}
+					}			
+				}
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	4
+    				y	4
+    				z	4
+   			}			
+		}
+	}
+
+	DisplayRadiusDesc
+	{
+		max_radius 30
+	}
+		
+}
+

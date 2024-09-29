@@ -1,0 +1,512 @@
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_heavy_plasma"
+
+	MeshDesc
+	{
+	mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
+	material 	"items/weapons/cosmic_heavy_plasma"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/spitter"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.35"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "1.2"
+		}
+
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 			"items/weapons/cosmic_heavy_plasma_projectile"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_fire"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 				"0.3"
+		//burst_column_angle 		"5"
+	}
+
+	ChargeWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "2"
+		}			
+        ChargeLevels
+        {
+            ChargeLevel
+            {
+				name 						"charge_level_1"
+	
+				//charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                //charging_effect          	"items/weapons/heavy_plasma_shield"
+                //charged_effect        	"items/weapons/heavy_plasma_shield"
+                //charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_muzzle_flash_effect  "effects/weapons_energy/cosmo_gun_fire"
+	
+                charge_time_start           "0.2"
+                charge_time_end             "0.25"
+                charge_muzzle_idx           "0"
+	
+                ammo_blueprint 				"items/weapons/cosmic_heavy_plasma_projectile"
+	
+				burst_rate_factor				"0.5"
+				burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+            }
+        }
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_fluid/spitter_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_fluid/empty_fluid_weapon_no_loop"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer_violet"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 						"items/weapons/cosmic_heavy_plasma_advanced"
+	base_blueprint 			"items/weapons/cosmic_heavy_plasma"
+
+	MeshDesc
+	{
+		mesh 					"meshes/items/weapons/heavy_plasma_gun.mesh"
+		material 				"items/weapons/cosmic_heavy_plasma_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_heavy_plasma_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"liquid"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/cosmic_heavy_plasma"
+		item_bp			"items/weapons/cosmic_heavy_plasma_advanced"
+		icon			"gui/hud/items_icons/weapons/cosmic_heavy_plasma_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmic_heavy_plasma_advanced"
+		//description 	"gui/menu/inventory/weapon_charge_description/cryo_spitter"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/heavy_plasma_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 					"items/weapons/cosmic_heavy_plasma_extreme"
+	base_blueprint 		"items/weapons/cosmic_heavy_plasma"
+
+	MeshDesc
+	{
+		mesh 				"meshes/items/weapons/heavy_plasma_gun.mesh"
+		material 			"items/weapons/cosmic_heavy_plasma_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_heavy_plasma_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"liquid"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/cosmic_heavy_plasma"
+		item_bp			"items/weapons/cosmic_heavy_plasma_extreme"
+		icon			"gui/hud/items_icons/weapons/cosmic_heavy_plasma_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmic_heavy_plasma_extreme"
+		//description 	"gui/menu/inventory/weapon_charge_description/cryo_spitter"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/heavy_plasma_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_heavy_plasma_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"liquid"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/cosmic_heavy_plasma"
+		item_bp			"items/weapons/cosmic_heavy_plasma"
+		icon			"gui/hud/items_icons/weapons/cosmic_heavy_plasma"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmic_heavy_plasma"
+		//description 	"gui/menu/inventory/weapon_charge_description/cryo_spitter"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/heavy_plasma_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 						"items/weapons/cosmic_heavy_plasma_superior"
+	base_blueprint 			"items/weapons/cosmic_heavy_plasma"
+
+	MeshDesc
+	{
+		mesh 					"meshes/items/weapons/heavy_plasma_gun.mesh"
+		material 				"items/weapons/cosmic_heavy_plasma_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/cosmic_heavy_plasma_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"liquid"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/cosmic_heavy_plasma"
+		item_bp			"items/weapons/cosmic_heavy_plasma_superior"
+		icon			"gui/hud/items_icons/weapons/cosmic_heavy_plasma_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmic_heavy_plasma_superior"
+		//description 	"gui/menu/inventory/weapon_charge_description/cryo_spitter"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/heavy_plasma_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,4"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  					"items/weapons/cosmic_heavy_plasma_projectile"
+
+	base_blueprints 		"buildings/defense/tower_photon_blaster_projectile"
+
+	MeshDesc
+	{
+		mesh 				"meshes/projectiles/corrosive_gun_projectile.mesh"
+		material 			"projectiles/laser_violet"
+	}
+
+	SoundDesc
+	{
+		name 			"items/weapons/energy/heavy_plasma_fire"
+	}
+	//ParticleDesc
+	//{
+	//	name    "rift/blood_trail_animated_violet"
+	//}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/cosmo_heavy_plasma_explosion_hit"
+		on_world_hit_effect 		"effects/cosmo_heavy_plasma_explosion_hit"
+		on_resisted_hit_effect 		"effects/cosmo_heavy_plasma_explosion_hit"
+		on_shield_hit_effect		"effects/cosmo_heavy_plasma_explosion_hit"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.3
+		type 		"camera"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/melee_slash_violet
+				update_bounds 		1
+				fade_out_time		0.5
+				uv_scroll			"0 -2.5"
+				tiling_distance 	"0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+				}
+			}
+		}	
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/grenade_projectile"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_explosive/grenade_throw"
+				}
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{	
+	name  						"items/weapons/cosmic_plasma_shield"
+
+	base_blueprints 			"items/weapons/heavy_plasma_shield"
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	LuaDesc
+	{
+		script "lua/items/shields/heavy_plasma_shield.lua"
+
+		database
+		{
+			blink_speed 			float:"3"
+        	glow_factor			float:"10.0"
+        	delta_scale			float:"0.1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/heavy_plasma_shield.mesh"
+        material 	"items/weapons/heavy_plasma_shield"
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/mech_blaster_charging_lvl1"
+	//}
+
+	SoundDesc
+	{
+		start_name 	"items/weapons/energy/heavy_plasma_shield_on"
+		name 			"items/weapons/energy/heavy_plasma_shield_idle"
+		end_name 		"items/weapons/energy/heavy_plasma_shield_off"
+	}
+
+	TypeDesc
+	{
+		type 			"shield"
+	}
+
+	PhysicsDesc
+    {
+    	objects
+    	{
+    		PhysicsObjectDesc
+    		{
+                group_id    "shield"
+                type        "kinematic"
+                
+                Shapes
+                {
+					PhysicsMeshShape
+                    {
+                        mesh "meshes/items/weapons/heavy_plasma_shield_c1.nxs"
+                    }
+                }
+            }
+        }
+    }
+
+}

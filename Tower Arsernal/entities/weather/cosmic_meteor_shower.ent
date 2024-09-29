@@ -1,0 +1,36 @@
+EntityBlueprint
+{
+	name  "weather/cosmic_meteor_shower"
+
+	LuaDesc
+	{
+		script "lua/weather/meteor_shower.lua"
+	}
+
+	DatabaseDesc
+	{
+		meteor_blueprint		string:"weather/cosmic_meteor_small"
+		type					string:"in_place"
+		warning_bp				string:""
+		spawn_time				float:"0.1"
+		meteor_delay			float:"0.0"
+		meteors_in_one_spawn	int:"3" 
+		duration				int:"80"
+		radius					int:"60"
+	}
+
+	SceneEditorDesc
+    {
+        mesh "meshes/effect.mesh"
+    }
+
+	TimeOfDayEmitterComponentDesc
+	{
+		timeofday_preset
+		{
+			resource_name "scripts/scene_params/tornado_cosmic.td"
+		}
+
+		timeofday_weight "1.0"
+	}
+}

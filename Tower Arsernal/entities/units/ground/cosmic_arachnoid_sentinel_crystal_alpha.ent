@@ -1,0 +1,169 @@
+EntityBlueprint
+{
+	name  "units/ground/cosmic_arachnoid_sentinel_crystal_alpha"
+
+	//RandomBlueprintDesc
+	//{
+	//	Blueprint
+	//	{
+	//		blueprint "units/ground/arachnoid_sentinel_alpha_1"
+	//	}			
+	//	Blueprint
+	//	{
+	//		blueprint "units/ground/arachnoid_sentinel_alpha_2"
+	//	}
+	//	Blueprint
+	//	{
+	//		blueprint "units/ground/arachnoid_sentinel_alpha_3"
+	//	}		
+	//}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_arachnoid_sentinel_crystal_alpha"
+
+	base_blueprint units/ground/cosmic_arachnoid_sentinel_crystal_alpha_base
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/arachnoid_sentinel_crystal.mesh"
+		material 	"units/ground/cosmic_arachnoid_sentinel_crystal_alpha"
+	}
+	children
+	{
+		EntityBlueprint
+		{
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_arachnoid/attack"
+						attack_start_time			"0.83"
+						attack_end_time				"0.93"
+						attack_duration 			"1.00"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_small"
+							on_world_hit_effect 	"effects/enemies_generic/world_hit"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"30.0"
+										type 	"acid"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsSphereShape
+					{
+						r "0.9"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_arachnoid_sentinel_crystal_alpha_base"
+
+	base_blueprint units/ground/cosmic_arachnoid_sentinel_crystal_base
+
+	LuaDesc
+	{
+		script "lua/units/ground/arachnoid_sentinel_base.lua"
+		database
+		{
+			min_scale	float:"1.25"
+			max_scale	float:"1.3"
+						
+			STING_item_type string:"enemy_range_weapon"
+			STING_pose_type string:"range"
+
+			
+			items 		string:"items/weapons_enemy/alien_cosmic_alpha_item" 			
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"330"
+		health 						"330"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"200"
+		unit_soft_radius				"1.4"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "1"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_arachnoid_sentinel_crystal_alpha"
+		can_activate 0
+	}
+}
+

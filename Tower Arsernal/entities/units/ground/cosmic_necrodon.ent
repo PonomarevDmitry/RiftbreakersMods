@@ -1,0 +1,770 @@
+EntityBlueprint
+{
+	name 				"units/ground/cosmic_necrodon"
+	base_blueprint 	"units/ground/cosmic_necrodon_base"
+
+	StateMachineDesc
+	{
+		template_name "necrodon"
+		params
+		{
+			aggressive_speed					float:"6"
+			aggressive_acceleration				float:"12"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			evade_speed							float:"10"
+			evade_acceleration					float:"20"
+			rotate_speed						float:"350"
+			shoot_rotate_speed					float:"50"
+			charge_time							float:"0.1"	
+			priority_target						string:"headquarters|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			search_corpses_distance				float:"50"
+			evade_from							string:"player"
+			evade_check_distance				float:"16"
+			evade_escape_distance				float:"35"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/necrodon.lua"
+		database
+		{
+			min_scale	float:"1.30"
+			max_scale	float:"1.30"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	RegenerationComponent
+	{
+		regeneration 				"100"
+		regeneration_cooldown 		"3"
+		regeneration_effect			"effects/enemies_necrodon/healing"
+		regeneration_end_effect     "effects/enemies_necrodon/healing_finished"
+	}
+
+	HealthDesc
+	{
+		max_health 					"500"
+		health 						"500"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"340"
+		unit_soft_radius				"1.4"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/necrodon.mesh"
+		material 	"units/ground/cosmic_necrodon"
+	}
+
+	TurretDesc
+	{
+		name   "range"
+		target "ground_unit|building"
+		target_ignore "wall|invisible"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "10"
+			range_max "36"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	ResurrectUnitDesc
+	{
+		pool					   "1700"
+		pool_regeneration		   "250"
+		resurrect_time			   "9.0"
+		resurrect_radius		   "6"
+		summon_time				   "4.0"
+		summon_radius			   "6"
+		body_ressurect_effect	   "effects/enemies_necrodon/resurrect_body"
+		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
+		summon_effect			   "effects/enemies_necrodon/resurrect_body"
+		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
+		summon_bp				   "units/ground/cosmic_kermon"
+		max_summon_counter	       "4"
+		dome_effect				   "units/ground/necrodon_dome_effect"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"units/ground/necrodon/laser"
+
+		fire_effect 				"effects/enemies_necrodon/laser_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/necrodon/interact"
+
+			SkeletonDesc
+			{
+				name "meshes/units/ground/necrodon"
+			}
+
+			TeamInheritanceDesc
+			{
+
+			}
+
+			TurretDesc
+			{
+				name   			"interact"
+				target 			"player|ground_unit|building"
+				target_ignore 	"wall|invisible"
+				speed 			"20000"
+				aim_volume 		"SphericalAimVolume"
+				{
+					range_min 	"0"
+					range_max 	"50"
+				}
+
+				aiming_cooldown 		"1"
+				aiming_target_time 		"2"
+				aiming_idle_angle 		"20"
+				pitch 					"att_muzzle"
+				yaw 					"att_muzzle"
+				check_target_visibility "0"
+				use_IK 					"0"
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/necrodon/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_necrodon/attack_start"
+						attack_start_time			"0.35"
+						attack_end_time				"0.83"
+						attack_duration 			"1.43"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_necrodon/attack_start"
+						attack_start_time			"0.44"
+						attack_end_time				"0.96"
+						attack_duration 			"1.39"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.5"
+						y "4.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/necrodon/trigger"
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				team		"hostility"
+				check_parent "1"
+			}
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "3"
+				y "4"
+				z "3"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/necrodon/laser"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"items/weapons/lightning_necrodon_ressurect_beam"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"26"
+	
+		on_enemy_hit_effect 	"effects/enemies_necrodon/laser_hit"
+		on_world_hit_effect 	"effects/enemies_necrodon/laser_hit"
+		on_shield_hit_effect	"effects/enemies_necrodon/laser_hit"
+	
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		friendly_fire			"pass"
+		collision_block 		"world|world_blocker"
+	
+        damage_factor_max       "1.0"
+        damage_factor_increase  "1"
+        damage_factor_decrease  "1.0"
+        damage_max_beam_scale 	"1.0"
+		damage_max_beam_glow 	"1.0"
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"1.0"
+		beam_min_width 			"0.05"
+		beam_max_width 			"0.1"
+		beam_count 				"6"
+	}
+	
+	//SoundDesc
+	//{
+	//	name 		"enemies/bradron/laser_muzzle"
+	//	//start_name 	"items/weapons/fluid/flamer_start"
+	//	//end_name 	"items/weapons/fluid/flamer_stop"
+	//}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_necrodon_base"
+
+	ResistanceComponent
+	{
+		physical		"1.5"
+		fire			"1.0"
+		acid			"2.0"
+		energy			"0.0"
+		cryo			"0.0"
+		area			"3.0"
+		gravity			"0.0"
+		plasmoid		"2.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.05"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit_artillery|ground_unit|ground_unit_medium"
+	}
+
+	TeamDesc
+	{
+		team "necrodon"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/necrodon"
+	}
+
+	AIUnitGroupNonPackableComponent
+	{
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "necrodon"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/necrodon_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_necrodon"
+		visibility 		"radar"		
+	}		
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"1000"
+		explosion_min_power 	"500"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_necrodon"
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_neutral/poogret_death"	
+					part_prefix 			"meshes/units/ground/cosmic_necrodon"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		
+		//EffectGroup
+		//{			
+		//	group "leech"
+		//	enabled "0"		
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/buildings_defense/morphium_tower_energy"
+		//		}
+		//	}
+		//}
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/idle"
+				}
+			}
+		}
+		
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/run"
+				}
+			}
+		}		
+
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}	
+		
+		EffectGroup
+		{
+			group 	"resurrect_effect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_hands"
+					bone "resurrect_effect"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"summon_effect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_hands"
+					bone "resurrect_effect"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_violet"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_violet_glowing"	
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_violet"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 5 0"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/necrodon_resurrect_beam"
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"0.50" 	// lightning branching, step in meters
+		beam_min_width 			"0.02"
+		beam_max_width 			"0.07"
+		beam_count 				"3"
+		update_bounds			"1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/necrodon_dome_effect"
+
+	DisplayRadiusComponent
+	{
+		min_radius 				"0"
+		max_radius 				"10"
+		max_radius_blueprint    "effects/decals/necrodon_resurrect"
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/necrodon_resurrect_spot"
+	}	
+}

@@ -1,0 +1,68 @@
+system rift/magma_building_ambient
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.05
+    scale                                       0.65 0.65 0.65
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    technique smoke
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box
+        {
+            angle                               25
+            time_to_live                        dyn_random
+            {
+                min                             2
+                max                             3
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             15
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             30
+                max                             90
+            }
+            position                            0 45 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           15
+            box_height                          15
+            box_depth                           15
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.504348  1 1 1 0.247059
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             2
+                max                             -2
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -0.5
+                max                             0.5
+            }
+        }
+    }
+}

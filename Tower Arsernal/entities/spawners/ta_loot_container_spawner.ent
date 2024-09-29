@@ -1,0 +1,190 @@
+EntityBlueprint
+{ 
+	name "spawners/loot_container_spawner"
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay	float:"0.2"
+		}
+	}
+
+	InteractiveComponent 
+	{
+		slot 			"HARVESTER"
+		radius 			"7"
+		remove_entity 	"0"
+	}
+
+	IdDesc
+	{
+		group "loot_container"
+	}
+	
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/treasure"
+		visibility 				"discovered"
+		unknown_until_visible 	"1"
+		additional_z_order 		"1"
+	}
+	
+	//GridCullerDesc
+	//{
+	//	type 8
+	//
+	//	Shapes
+	//	{
+	//		PhysicsSphereShape
+	//		{
+	//			r "16.0"
+	//		}
+	//	}	
+	//}
+	
+}
+
+EntityBlueprint
+{ 
+	name "spawners/loot_container_spawner_with_marker"
+	base_blueprints
+	{
+		 effects/messages_and_markers/treasure_finder_x_spot
+		 spawners/loot_container_spawner
+	}
+
+	InteractiveComponent 
+	{
+		slot 			"DRILL"
+		radius 			"6"
+		remove_entity 	"0"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "0"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "0.1"
+				z "1"
+			}	
+		}
+	}	
+
+}
+
+EntityBlueprint
+{
+	name "spawners/cosmic_spawner_standard"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_standard
+		props/special/loot_containers/loot_container_cosmic_standard
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"60"
+			wave_logic_file		string:"logic/bioanomaly/cosmic_standard.logic"
+			wave_logic_file_mul int:"2"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "spawners/cosmic_spawner_advanced"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_advanced	
+		props/special/loot_containers/loot_container_cosmic_advanced
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"70"
+			wave_logic_file		string:"logic/bioanomaly/cosmic_advanced.logic"
+			wave_logic_file_mul int:"2"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "spawners/cosmic_spawner_superior"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_superior
+		props/special/loot_containers/loot_container_cosmic_superior
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"80"
+			wave_logic_file		string:"logic/bioanomaly/cosmic_superior.logic"
+			wave_logic_file_mul int:"2"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "spawners/cosmic_spawner_extreme"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_extreme
+		props/special/loot_containers/loot_container_cosmic_extreme
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"90"
+			wave_logic_file		string:"logic/bioanomaly/cosmic_extreme.logic"
+			wave_logic_file_mul int:"3"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"
+		}
+	}
+}

@@ -1,0 +1,680 @@
+EntityBlueprint
+{
+	name "buildings/main/rift_station"
+
+	IdDesc
+	{
+		name "_rift_station_"
+	}
+
+	BuildingDesc
+	{
+		name 				"rift_station"
+		bp   				"buildings/main/rift_station"
+		category 			"main"
+		type				"pipe"
+		localization_id		"gui/hud/building_name/rift_station"
+		description			"gui/hud/building_description/rift_station"
+		menu_icon			"gui/hud/building_icons/rift_station"
+		order				"9"
+		limit			    "1"
+		limit_name			"rift_station"
+		require 			"headquarters_lvl_2"
+		//upgrade				"buildings/main/"rift_station_lvl_2"
+		menu_action			"rift_enable"
+		mission_mode		"1"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+		//sellable			"0"
+		condition			"LIMIT"	
+		is_shortcut_bindable	"0"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 180
+				building_cost
+				{
+					carbonium 	"1000"
+					steel 		"1000"
+				}
+			}		
+		}
+	}
+
+	ResourceConverterDesc
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 			"energy"
+				value			 	"10000"
+			}
+
+			GameplayResource
+			{
+				resource 			"water"
+				value			 	"100"
+				attachment			"att_in_2"
+				family				"coolant"
+			}
+
+			GameplayResource
+			{
+				resource 			"supercoolant"
+				value			 	"50"
+				attachment			"att_in_2"
+				family				"coolant"
+			}
+
+			GameplayResource
+			{
+				resource 			"plasma_charged"
+				value			 	"50"
+				attachment			"att_in_1"
+			}
+		}
+
+		disableable 0
+		priority 8
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/main/rift_station.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_5x5"
+			cone_effect_sell	string:"sell_big"
+
+			energy_amount			float:"1000000"
+			stabilizators_radius	float:"35"
+			activation_time			float:"360"
+			disable_time			float:"360"
+			protection_time			float:"2"
+
+			stabilizators_count		int:"4"
+			alien_stablizators_factor	int:"1"
+		}
+	}
+
+    InteractiveComponent 
+	{
+		slot 			"ACTIVATOR"
+		radius 			"6"
+		remove_entity 	 "0"
+		remove_component "0"
+		recreate_component "1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"2000"
+		health 						"2000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health "90"
+				destroy_state_change_effect_group "80_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "generic_destroy"
+				destroyed_state_effect_group "80_state"
+				destrucion_level_name "90"
+			}
+			DestructionLevel
+			{
+				health "80"
+				destroy_state_change_effect_group "80_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "80_destroy"
+				destroyed_state_effect_group "80_state"
+				destrucion_level_name "80"
+			}
+			DestructionLevel
+			{
+				health "70"
+				destroy_state_change_effect_group "60_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "generic_destroy"
+				destroyed_state_effect_group "60_state"
+				destrucion_level_name "70"
+			}
+			DestructionLevel
+			{
+				health "60"
+				destroy_state_change_effect_group "60_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "60_destroy"
+				destroyed_state_effect_group "60_state"
+				destrucion_level_name "60"
+			}
+			DestructionLevel
+			{
+				health "50"
+				destroy_state_change_effect_group "40_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "generic_destroy"
+				destroyed_state_effect_group "40_state"
+				destrucion_level_name "50"
+			}
+			DestructionLevel
+			{
+				health "40"
+				destroy_state_change_effect_group "40_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "40_destroy"
+				destroyed_state_effect_group "40_state"
+				destrucion_level_name "40"
+			}
+			DestructionLevel
+			{
+				health "30"
+				destroy_state_change_effect_group "40_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "generic_destroy"
+				destroyed_state_effect_group "40_state"
+				destrucion_level_name "30"
+			}
+			DestructionLevel
+			{
+				health "20"
+				destroy_state_change_effect_group "20_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "20_destroy"
+				destroyed_state_effect_group "20_state"
+				destrucion_level_name "20"
+			}
+			DestructionLevel
+			{
+				health "10"
+				destroy_state_change_effect_group "20_transition"
+				destroy_comp_delay "0.6"
+				destroy_comp_event "generic_destroy"
+				destroyed_state_effect_group "20_state"
+				destrucion_level_name "10"
+			}
+			DestructionLevel
+			{
+				health "0"
+				destroy_state_change_effect_group "0_transition"
+				destroy_comp_delay "0.7"
+				destroy_comp_event "default"
+				destrucion_level_name "0"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/main/rift_station.mesh"
+
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "buildings/main/rift_station_base"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "buildings/main/rift_station_base_screen_off"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|main"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/main/rift_station"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "buildings/rift_station"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c1.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c2.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c3.nxs"
+					}
+
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c4.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c5.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c6.nxs"
+					}
+
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c7.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c8.nxs"
+					}
+					PhysicsMeshShape
+					{
+						mesh "meshes/buildings/main/rift_station_c9.nxs"
+					}
+
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	16
+				y	16
+				z	16
+			}
+		}
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"floor"	
+		extend  		"0.0"
+	}		
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/rift_station"
+		additional_z_order 1
+		visibility			"always"		
+	}
+
+	FogOfWarRevealerComponentDesc
+	{
+		radius "16"
+	}
+
+	HealthBarDesc
+	{
+		type "2"
+		mode "1"
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"2000"
+		explosion_min_power 	"1000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "generic_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_lifetime 			"3"
+				}
+			}
+
+			Pair
+			{
+				key "80_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_lifetime 			"3"
+				}
+			}
+
+			Pair
+			{
+				key "60_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_lifetime 			"3"
+				}
+			}
+			Pair
+			{
+				key "40_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_lifetime 			"3"
+				}
+			}
+			Pair
+			{
+				key "20_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_big_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_lifetime 			"3"
+				}
+			}
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					//explosion_effect 		"effects/buildings_generic/explosion_building_big_01"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_very_large_parts_generic"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_very_large_parts_generic"
+					part_lifetime "3"
+				}
+
+				key "quicksand"
+			}
+		}
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"buildings/effects_big_base"
+		}
+		////////////////////////Destruction level 0 transition effects/////////////////////////
+		EffectGroup
+		{
+			group "0_transition"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_generic/explosion_medium_random"
+					bone "att_smoke_1"
+					delay "0"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_generic/explosion_medium_random"
+					bone "att_smoke_2"
+					delay "0.15"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_generic/explosion_medium_random"
+					bone "att_smoke_3"
+					delay "0.25"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_generic/explosion_medium_random"
+					bone "att_smoke_4"
+					delay "0.3"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_generic/explosion_big_random"
+					bone "att_smoke_5"
+					delay "0.4"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_generic/explosion_big_random"
+					bone "att_smoke_6"
+					delay "0.45"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_generic/explosion_big_random"
+					bone "att_smoke_7"
+					delay "0.5"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/explosion_building_hq"
+					delay "0.6"
+				}
+			}
+		}
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			group "idle"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_ready_rings"
+					bone "att_platform"
+				}							
+			}
+		}		
+		EffectGroup
+		{
+			group "working"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_cosmic_dust"
+					bone "att_platform"
+				}			
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_lightning"
+					bone "att_arm_left"
+				}		
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_arm_lightning"
+					bone "att_arm_right"
+				}		
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_start_shockwave"
+				}	
+				Effect
+				{
+					blueprint "weather/riftquake"
+				}					
+			}
+		}
+		EffectGroup
+		{
+			group "portal_opened"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_portal_opened"
+					bone "att_portal_center"
+				}
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_light"
+					bone "att_light"
+				}	
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_start_shockwave"
+				}					
+				Effect
+				{
+					blueprint "weather/riftquake_strong"
+				}				
+			}
+		}		
+
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_1_arrow"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_2"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_2_arrow"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "portal_activated"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_entered"
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "interrupt"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_main/rift_interrupted"
+				}
+			}
+		}	
+	}
+}

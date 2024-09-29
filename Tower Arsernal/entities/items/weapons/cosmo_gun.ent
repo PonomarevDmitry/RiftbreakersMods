@@ -1,0 +1,309 @@
+EntityBlueprint
+{
+	name  			"items/weapons/cosmo_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/plasma_gun.mesh"
+		material 	"items/weapons/cosmo_gun"
+	}
+
+	SkeletonDesc
+	{
+		name 		"meshes/items/weapons/plasma_gun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.5"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment 		"att_muzzle"
+				recoil_bone   	"be_recoil"
+				recoil_time   	"0.1"
+				recoil_offset	"0.3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time 		"0.35"
+			emissive_factor 	"5"
+		}
+
+		ammo_blueprint 			"items/weapons/cosmos_gun_blast"
+
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_fire"
+		bone 						"att_muzzle"
+
+		burst_column_spacing 		"0.15"
+		burst_rate 					"0.6"
+		//burst_column_angle 		"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/plasma_gun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer_violet"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 				"items/weapons/cosmo_gun_advanced"
+	base_blueprint 	"items/weapons/cosmo_gun"
+
+	MeshDesc
+	{
+		mesh 			"meshes/items/weapons/plasma_gun.mesh"
+		material 		"items/weapons/cosmo_gun_advanced"
+	}
+}
+
+EntityBlueprint
+{
+	name  				"items/weapons/cosmo_gun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"energy"
+		name 			"Cosmo Gun Advanced"
+		holding_pose 	"range"
+		item_bp			"items/weapons/cosmo_gun_advanced"
+		icon			"gui/hud/items_icons/weapons/cosmo_gun_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmo_gun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name 				"items/weapons/cosmo_gun_superior"
+	base_blueprint	"items/weapons/cosmo_gun"
+
+	MeshDesc
+	{
+		mesh 			"meshes/items/weapons/plasma_gun.mesh"
+		material 		"items/weapons/cosmo_gun_superior"
+	}
+}
+
+EntityBlueprint
+{
+	name  				"items/weapons/cosmo_gun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"energy"
+		name 			"Cosmo Gun Superior"
+		holding_pose 	"range"
+		item_bp			"items/weapons/cosmo_gun_superior"
+		icon			"gui/hud/items_icons/weapons/cosmo_gun_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmo_gun_superior"
+	}
+
+	LuaDesc
+	{
+		script 		"lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name 				"items/weapons/cosmo_gun_extreme"
+	base_blueprint 	"items/weapons/cosmo_gun"
+
+	MeshDesc
+	{
+		mesh 			"meshes/items/weapons/plasma_gun.mesh"
+		material 		"items/weapons/cosmo_gun_extreme"
+	}
+}
+
+EntityBlueprint
+{
+	name  			"items/weapons/cosmo_gun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"energy"
+		name 			"Cosmo Gun Extreme"
+		holding_pose 	"range"
+		item_bp			"items/weapons/cosmo_gun_extreme"
+		icon			"gui/hud/items_icons/weapons/cosmo_gun_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmo_gun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  				"items/weapons/cosmo_gun_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"energy"
+		name 			"Cosmo Gun"
+		holding_pose 	"range"
+		item_bp			"items/weapons/cosmo_gun"
+		icon			"gui/hud/items_icons/weapons/cosmo_gun"
+		bigger_icon 	"gui/menu/items_icons/weapons/cosmo_gun"
+	}
+
+	LuaDesc
+	{
+		script 		"lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,2,20"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  						"items/weapons/cosmos_gun_blast"
+
+	base_blueprint 			"buildings/defense/cosmo_plasma_projectile"
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/cosmo_gun_hit"
+		on_world_hit_effect 		"effects/cosmo_gun_hit"
+		on_resisted_hit_effect	"effects/cosmo_gun_hit"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 					0.9
+		type 					"camera"
+	}
+}
+

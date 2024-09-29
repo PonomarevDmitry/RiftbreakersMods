@@ -1,0 +1,30 @@
+import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/loot.material"
+
+//----------------------START----------------------\\
+
+material loot/resources/shard_cosmonite : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/shard_cosmonite_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/shard_ferdonite_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/shard_ferdonite_packed.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 130 8
+
+	technique
+	{
+		pass
+		{
+			glow 1
+
+			fragment_program_ref deferred_resource_vein_fp
+			{
+        		param_named      	cGlowFactor     float 0.5
+				param_named 		cFresnelColor 	float4 0 0 3 1
+				param_named 		cFresnelScale   float 2
+				param_named 		cFresnelPower   float 1
+			}
+		}
+	}
+}
+
+//----------------------END----------------------\\

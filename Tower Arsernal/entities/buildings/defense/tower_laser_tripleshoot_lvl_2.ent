@@ -1,0 +1,198 @@
+EntityBlueprint
+{
+	name  					"buildings/defense/tower_laser_tripleshoot_lvl_2"
+
+	base_blueprint 			"buildings/defense/tower_laser_tripleshoot"
+
+	BuildingDesc
+	{
+		name 				"tower_laser_tripleshoot_lvl_2"
+		bp   				"buildings/defense/tower_laser_tripleshoot_lvl_2"
+		ghost_bp   			"buildings/defense/tower_laser_tripleshoot_lvl_2_ghost"
+		category 			"defense_modd"
+		localization_id		"gui/hud/building_name/tower_laser_tripleshoot"
+		description			"gui/hud/building_description/tower_laser_tripleshoot"
+		menu_icon			"gui/hud/building_icons/tower_laser_tripleshoot_lvl_2"
+		require 			"headquarters"
+		order				"9"
+		buildable			"0"
+		type				"tower"
+		overrides			"tower,wall"
+		upgrade				"buildings/defense/tower_laser_tripleshoot_lvl_3"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name "default"
+				building_time 2.5
+				building_cost
+				{
+					carbonium 	"300"
+					steel 		"250"
+					cosmonite_ore	"250"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"65"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 3
+	}
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_laser_lvl_2.mesh"
+		material "buildings/defense/tower_laser_tripleshoot_lvl_2"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_laser_lvl_2"
+	}
+
+	WeaponItemDesc
+	{
+		ammo_storage "energy"
+		damage_type "fire"
+		rarity "ADVANCED"
+		stat_def_vec
+		{
+			WeaponStatDef
+			{
+				max_value "0.900"
+				min_value "0.900"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "FIRE_RATE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "3.000"
+				min_value "3.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "FIRE_PER_BURST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "1.000"
+				min_value "1.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "FIRE_PER_SHOT"
+			}
+
+			WeaponStatDef
+			{
+				max_value "70.000"
+				min_value "70.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "DAMAGE_VALUE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "3.000"
+				min_value "3.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "DAMAGE_SPLASH"
+			}
+
+			WeaponStatDef
+			{
+				max_value "8.000"
+				min_value "8.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "DAMAGE_PENETRATION"
+			}
+
+			WeaponStatDef
+			{
+				max_value "100.000"
+				min_value "100.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "AMMO_COST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "60.000"
+				min_value "60.000"
+				stat_features "BASE_MINMAX"
+				stat_type "AMMO_SPEED"
+			}
+
+			WeaponStatDef
+			{
+				max_value "1.250"
+				min_value "1.250"
+				stat_features "BASE_MINMAX"
+				stat_type "WEAPON_SCALE"
+			}
+
+		}
+
+	}
+
+	TowerDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/tower_laser_tripleshoot_lvl_2_ghost"
+
+	base_blueprint 			"buildings/defense/tower_laser_tripleshoot_ghost"
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_laser_lvl_2.mesh"
+		material "selector/hologram_blue"
+	}
+}

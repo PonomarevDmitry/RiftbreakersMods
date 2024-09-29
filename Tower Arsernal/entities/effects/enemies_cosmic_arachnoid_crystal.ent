@@ -1,0 +1,184 @@
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/cosmic_sentinal_projectile"
+
+	base_blueprints 
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_arachnoid_projectile_trail"
+	}
+
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_spit"
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 6 1"
+				}
+			}
+		}		
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_cosmic_sentinal_projectile_explosion"
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/default
+	}
+	//ShockWaveDesc
+	//{
+	//	power 	"10"
+	//	speed 	"20"
+	//	radius 	"20"
+	//}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_arachnoid_sentinal_projectile_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"0.1"
+		falloff_radius 	"2"
+		radius   		"0"
+		frequency 		"0"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_spit"
+	}
+}
+
+EntityBlueprint
+{
+
+	name "effects/enemies_arachnoid/cosmic_spit_muzzle"
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_arachnoid_muzzle"
+	}
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_spit"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/cosmic_sentinal_alpha_projectile"
+
+	base_blueprints 
+	{
+		lights/point/violet_very_small
+		effects/default
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_arachnoid_projectile_trail"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"mech_cosmo_trail"	
+		extend  		"2"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		4
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 6 1"
+				}
+			}
+		}		
+	}	
+}
+

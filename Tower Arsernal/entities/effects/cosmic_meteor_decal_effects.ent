@@ -1,0 +1,171 @@
+EntityBlueprint
+{
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	name "effects/buildings/magma_building_atmosphere"
+
+	GridMarkerComponent
+	{
+		mode			"origin"
+		terrain_type  	"magma_ground"
+		extend  		"2"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magma_building_ambient"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_big_cosmic_01"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		"60"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/decals/explosion_hole_big_cosmic_01
+
+	MeshDesc
+	{
+		mesh 			"meshes/cube.mesh"
+		material 		"decals/explosion_hole_big_cosmic_01"
+		render_group	189
+	}
+
+	DecalDesc
+	{
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+
+		}
+
+		min_height 10.0
+	}
+
+	LifeTimeDesc
+	{
+		time 		10
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_trail
+	
+	base_blueprints
+	{
+		 lights/point/explosion_violet_big
+		 effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"4"
+		frequency 		"2"
+		group			"explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/luna_crater_01"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/melee_slash_violet
+				update_bounds 		1
+				fade_out_time		0.5
+				uv_scroll			"0 -2.5"
+				tiling_distance 	"0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/world/resource_comet_impact_place_boss
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_big
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fire_ambient_blue_big"
+	}	
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/luna_crater_01"
+		scale
+		{
+			x		7.0
+			y		7.0
+			z		7.0
+		}
+	}
+	
+	LifeTimeDesc
+	{
+		time 		"30"
+	}	
+}
+
