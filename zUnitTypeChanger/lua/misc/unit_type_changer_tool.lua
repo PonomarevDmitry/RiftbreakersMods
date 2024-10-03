@@ -40,6 +40,10 @@ function unit_type_changer_tool:FindEntitiesToSelect( selectorComponent )
 
             local blueprintName = EntityService:GetBlueprintName(entity)
 
+            if ( EntityService:CompareType( entity, "player" ) ) then
+                return false
+            end
+
             if ( EntityService:CompareType( entity, "ground_unit" ) ) then
                 return true
             end
@@ -97,9 +101,17 @@ function unit_type_changer_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function unit_type_changer_tool:AddedToSelection( entity )
+
+    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+        QueueEvent( "SelectEntityRequest", entity )
+    end
 end
 
 function unit_type_changer_tool:RemovedFromSelection( entity )
+
+    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+        QueueEvent( "DeselectEntityRequest", entity )
+    end
 end
 
 function unit_type_changer_tool:OnRotate()
