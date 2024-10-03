@@ -1,0 +1,56 @@
+EntityBlueprint
+{
+	name					"buildings/tools/unit_type_changer"
+
+	BuildingDesc
+	{
+		name				"unit_type_changer"
+		bp					"buildings/tools/unit_type_changer"
+		ghost_bp			"buildings/tools/unit_type_changer_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/unit_type_changer"
+		description			"gui/hud/building_description/unit_type_changer"
+		menu_icon			"gui/hud/tools_icons/unit_type_changer_tool"
+
+		order				"61"
+		type				"unit_type_changer"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/unit_type_changer_ghost"
+
+	BuildingDesc
+	{
+		name				"unit_type_changer_ghost"
+		buildable			"0"
+		type				"unit_type_changer"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/unit_type_changer_tool.lua"
+
+		database
+		{
+			action			string:"unit_type_changer"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_active"
+		flags				"2"
+	}
+}
